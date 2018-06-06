@@ -1,7 +1,10 @@
 # Set your variables here
 
 # Default user name to create as admin with services
-main_user_name: (required)
+default_user_name: (required)
+
+# Default password to go with the default user
+default_password: (required)
 
 # User name used to connect via ssh. Must have passwordless sudo.
 ansible_ssh_user: (required)
