@@ -21,6 +21,10 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Dynamic DNS Support (Coming Soon)
 * Automated Apple Health Import (Coming Soon)
 
+## Demo
+
+![demo.gif](demo.gif)
+
 ## Included Software
 
 * [Chronograf](https://www.influxdata.com/time-series-platform/chronograf/) - More pretty graphs. Easy data exploration
