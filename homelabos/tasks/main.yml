@@ -19,10 +19,14 @@
     - pihole
     - pihole/config
     - pihole/dnsmasq.d
+    - sonerezh/thumbnails
+    - sonerezh_db
     - telegraf
     - traefik
-    - utorrent
-    - utorrent/settings
+    - transmission
+    - transmission/config
+    - transmission/downloads
+    - transmission/watch
 
 - name: Configure Telegraf.
   template: src=telegraf.conf dest=/var/homelabos/telegraf/telegraf.conf

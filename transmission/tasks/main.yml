@@ -1,0 +1,4 @@
+---
+
+- name: Configure Transmission
+  template: src=settings.json dest=/var/homelabos/transmission/config/settings.json

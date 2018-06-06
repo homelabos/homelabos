@@ -24,6 +24,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 ## Included Software
 
 * [Chronograf](https://www.influxdata.com/time-series-platform/chronograf/) - More pretty graphs. Easy data exploration
+* [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
 * [Dashboard](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * Documentation - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
@@ -34,6 +35,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, LDAP, etc.
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
+* [Sonerezh](https://www.sonerezh.bzh/) - Music streaming and library management
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 * [Terminal](georgeyord/butterfly-web-terminal) - Web based terminal access
 
@@ -41,10 +43,9 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 * BitWarden - Password manager
 * BulletNotes - Note taking knowledgebase with kanban and calendar functionality.
-* IRC Bouncer - https://github.com/Kickball/awesome-selfhosted/blob/master/README.md#irc
 * OwnTracksRecorder - https://github.com/owntracks/recorder
-* Transmission - BitTorrent
 * Paperless - Document management https://paperless.readthedocs.io/en/latest/setup.html#installation-configuration
+* [Transmission](https://transmissionbt.com/) - BitTorrent client via [https://github.com/haugene/docker-transmission-openvpn](https://github.com/haugene/docker-transmission-openvpn)
 
 ## Requirements
 
