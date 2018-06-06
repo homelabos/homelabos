@@ -17,6 +17,17 @@ services:
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=8888"
 
+  convos:
+    image: nordaaker/convos
+    restart: always
+    ports:
+      - 8033:3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:irc.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=3000"
+
   darksky-influx:
     image: erwinsteffens/darksky-influxdb:latest
     restart: always
@@ -56,6 +67,17 @@ services:
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=8096"
 
+  freshrss:
+    image: linuxserver/freshrss
+    ports:
+      - 8084:80
+    volumes:
+      - /var/homelabos/freshrss:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:rss.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=80"
 
   gitea:
     image: gitea/gitea:latest
@@ -75,6 +97,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:git.{{ domain }}"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://dash.{{ domain }}"
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=3000"
 
@@ -151,6 +174,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:nextcloud.{{ domain }}"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://dash.{{ domain }}"
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=80"
 
@@ -165,12 +189,39 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
 
+  organizr:
+    image: lsiocommunity/organizr
+    restart: always
+    ports:
+      - 8083:80
+    volumes:
+      - /var/homelabos/organizr:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=80"
+
+  paperless:
+    image: danielquinn/paperless
+    restart: always
+    ports:
+      - 8085:8000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:paperless.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=8000"
+
   pihole:
     image: diginc/pi-hole:latest
     restart: always
-    volumes:
-      - /var/homelabos/pihole/config:/etc/pihole/
-      - /var/homelabos/pihole/dnsmasq.d:/etc/dnsmasq.d/"
+    # volumes:
+    #   - /var/homelabos/pihole/config:/etc/pihole/
+    #   - /var/homelabos/pihole/dnsmasq.d:/etc/dnsmasq.d/"
+    environment:
+      - WEBPASSWORD={{ default_password }}
+      - VIRTUAL_HOST=pihole.{{ domain }}
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:pihole.{{ domain }}"
@@ -186,6 +237,17 @@ services:
     links:
       - influxdb
 
+  terminal:
+    image: georgeyord/butterfly-web-terminal
+    restart: always
+    ports:
+      - 2233:2233
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:terminal.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=2233"
+
   traefik:
     image: traefik # The official Traefik docker image
     restart: always
@@ -194,33 +256,31 @@ services:
       - "80:80"     # The HTTP port
       - "443:443" # HTTPS
       - "8080:8080" # The Web UI (enabled by --api)
-    labels:
-      - "traefik.frontend.rule=Host:{{ domain }}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/homelabos/traefik/acme.json:/etc/traefik/acme.json
 
-  utorrent:
-    image: ekho/utorrent:latest
-    volumes:
-      - /var/homelabos/downloads:/utorrent/data
-      - /var/homelabos/utorrent/settings:/utorrent/settings
-      # - /var/homelabos/utorrent/utserver.conf:/utorrent/utserver.conf
-    environment:
-      HOST_UID: 1002
-      HOST_GID: 1002
-    ports:
-      - 8082:8080
-      - 6881:6881
-    restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:utorrent.{{ domain }}"
-      - "traefik.admin.protocol=http"
-      - "traefik.admin.port=8080"
+  # utorrent:
+  #   image: ekho/utorrent:latest
+  #   volumes:
+  #     - /var/homelabos/downloads:/utorrent/data
+  #     - /var/homelabos/utorrent/settings:/utorrent/settings
+  #     # - /var/homelabos/utorrent/utserver.conf:/utorrent/utserver.conf
+  #   environment:
+  #     HOST_UID: 1002
+  #     HOST_GID: 1002
+  #   ports:
+  #     - 8082:8080
+  #     - 6881:6881
+  #   restart: always
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:utorrent.{{ domain }}"
+  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.port=8080"

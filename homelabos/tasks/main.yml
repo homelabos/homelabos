@@ -15,6 +15,7 @@
     - influxdb
     - nextcloud
     - nextcloud_db
+    - organizr
     - pihole
     - pihole/config
     - pihole/dnsmasq.d

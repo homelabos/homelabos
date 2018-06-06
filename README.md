@@ -24,6 +24,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 ## Included Software
 
 * [Chronograf](https://www.influxdata.com/time-series-platform/chronograf/) - More pretty graphs. Easy data exploration
+* [Dashboard](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * Documentation - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 * [Emby](https://emby.media/) - Media player
@@ -34,11 +35,16 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, LDAP, etc.
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
-* [uTorrent](https://www.utorrent.com/) - BitTorrent client (You wouldn't download a car..)
+* [Terminal](georgeyord/butterfly-web-terminal) - Web based terminal access
 
 ### Coming Soon
 
+* BitWarden - Password manager
 * BulletNotes - Note taking knowledgebase with kanban and calendar functionality.
+* IRC Bouncer - https://github.com/Kickball/awesome-selfhosted/blob/master/README.md#irc
+* OwnTracksRecorder - https://github.com/owntracks/recorder
+* Transmission - BitTorrent
+* Paperless - Document management https://paperless.readthedocs.io/en/latest/setup.html#installation-configuration
 
 ## Requirements
 
