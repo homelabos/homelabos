@@ -97,7 +97,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:git.{{ domain }}"
-      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://dash.{{ domain }}"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=3000"
 
@@ -174,7 +174,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:nextcloud.{{ domain }}"
-      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://dash.{{ domain }}"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=80"
 
@@ -202,31 +202,56 @@ services:
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=80"
 
-  paperless:
-    image: danielquinn/paperless
-    restart: always
-    ports:
-      - 8085:8000
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:paperless.{{ domain }}"
-      - "traefik.admin.protocol=http"
-      - "traefik.admin.port=8000"
+  # paperless:
+  #   image: danielquinn/paperless
+  #   restart: always
+  #   ports:
+  #     - 8085:8000
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:paperless.{{ domain }}"
+  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.port=8000"
 
-  pihole:
-    image: diginc/pi-hole:latest
-    restart: always
-    # volumes:
-    #   - /var/homelabos/pihole/config:/etc/pihole/
-    #   - /var/homelabos/pihole/dnsmasq.d:/etc/dnsmasq.d/"
-    environment:
-      - WEBPASSWORD={{ default_password }}
-      - VIRTUAL_HOST=pihole.{{ domain }}
+  # pihole:
+  #   image: diginc/pi-hole:latest
+  #   restart: always
+  #   # volumes:
+  #   #   - /var/homelabos/pihole/config:/etc/pihole/
+  #   #   - /var/homelabos/pihole/dnsmasq.d:/etc/dnsmasq.d/"
+  #   environment:
+  #     - WEBPASSWORD={{ default_password }}
+  #     - VIRTUAL_HOST=pihole.{{ domain }}
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:pihole.{{ domain }}"
+  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.port=80"
+
+  sonerezh:
+    image: sonerezh/sonerezh:latest
+    links:
+      - sonerezh_db
+    volumes:
+      - /var/homelabos/music:/music
+      - /var/homelabos/sonerezh/thumbnails:/thmubnails
+    ports:
+      - 8089:80
     labels:
       - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:pihole.{{ domain }}"
+      - "traefik.admin.frontend.rule=Host:music.{{ domain }}"
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=80"
+
+  sonerezh_db:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=motdepasse
+      - MYSQL_USER=sonerezh
+      - MYSQL_PASSWORD=motdepasse
+      - MYSQL_DATABASE=sonerezh
+    volumes:
+      - /var/homelabos/sonerezh_db:/var/lib/mysql
 
   telegraf:
     image: telegraf
@@ -240,6 +265,8 @@ services:
   terminal:
     image: georgeyord/butterfly-web-terminal
     restart: always
+    environment:
+      - PASSWORD={{ default_password }}
     ports:
       - 2233:2233
     labels:
@@ -261,26 +288,21 @@ services:
       - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/homelabos/traefik/acme.json:/etc/traefik/acme.json
 
-  # utorrent:
-  #   image: ekho/utorrent:latest
+  # transmission:
+  #   image: linuxserver/transmission
   #   volumes:
-  #     - /var/homelabos/downloads:/utorrent/data
-  #     - /var/homelabos/utorrent/settings:/utorrent/settings
-  #     # - /var/homelabos/utorrent/utserver.conf:/utorrent/utserver.conf
+  #     - /var/homelabos/transmission/config:/config
+  #     - /var/homelabos/transmission/downloads:/downloads
+  #     - /var/homelabos/transmission/watch:/watch
   #   environment:
-  #     HOST_UID: 1002
-  #     HOST_GID: 1002
+  #     - PGID=<gid>
+  #     - PUID=<uid>
+  #     - TZ=<timezone>
   #   ports:
-  #     - 8082:8080
-  #     - 6881:6881
-  #   restart: always
-  #   logging:
-  #     driver: "json-file"
-  #     options:
-  #       max-size: "10m"
-  #       max-file: "3"
+  #     - 9091:9091
+  #     - 51413:51413
   #   labels:
   #     - "traefik.enable=true"
-  #     - "traefik.admin.frontend.rule=Host:utorrent.{{ domain }}"
+  #     - "traefik.admin.frontend.rule=Host:torrent.{{ domain }}"
   #     - "traefik.admin.protocol=http"
-  #     - "traefik.admin.port=8080"
+  #     - "traefik.admin.port=9091"
