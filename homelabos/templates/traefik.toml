@@ -1,7 +1,7 @@
 debug = false
 
 logLevel = "ERROR"
-defaultEntryPoints = ["http"]
+defaultEntryPoints = ["http", "https"]
 
 [entryPoints]
   [entryPoints.http]
@@ -14,16 +14,18 @@ defaultEntryPoints = ["http"]
 
 [retry]
 
-[docker]
-endpoint = "unix:///var/run/docker.sock"
-domain = "{{domain}}"
-watch = true
-exposedByDefault = false
+[api]
+
+[Docker]
+  endpoint = "unix:///var/run/docker.sock"
+  domain = "{{domain}}"
+  watch = true
+  exposedByDefault = false
 
 [acme]
-email = "nickabusey@gmail.com"
-storage = "acme.json"
-entryPoint = "https"
-onHostRule = true
-[acme.httpChallenge]
-entryPoint = "http"
+  email = "nickabusey@gmail.com"
+  storage = "acme.json"
+  entryPoint = "https"
+  onHostRule = true
+  [acme.httpChallenge]
+    entryPoint = "http"
