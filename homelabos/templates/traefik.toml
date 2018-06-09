@@ -6,11 +6,11 @@ defaultEntryPoints = ["http"]
 [entryPoints]
   [entryPoints.http]
   address = ":80"
-  #   [entryPoints.http.redirect]
-  #   entryPoint = "https"
-  # [entryPoints.https]
-  # address = ":443"
-  # [entryPoints.https.tls]
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
 
 [retry]
 
@@ -20,10 +20,10 @@ domain = "{{domain}}"
 watch = true
 exposedByDefault = false
 
-# [acme]
-# email = "nickabusey@gmail.com"
-# storage = "acme.json"
-# entryPoint = "https"
-# onHostRule = true
-# [acme.httpChallenge]
-# entryPoint = "http"
+[acme]
+email = "nickabusey@gmail.com"
+storage = "acme.json"
+entryPoint = "https"
+onHostRule = true
+[acme.httpChallenge]
+entryPoint = "http"

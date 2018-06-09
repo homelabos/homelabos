@@ -17,3 +17,7 @@ HomelabOS is a collection of various separate services. You can find links to th
 ### [Home Assistant](http://homeassistant.{{ domain }}/)
 
 [Home Assistant Documentation](https://www.home-assistant.io/docs/)
+
+### [Transmission](http://torrent.{{ domain }}/)
+
+Login with your default username and password `transmission`

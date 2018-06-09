@@ -1,0 +1,59 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "HomelabOS\n\n\nWelcome to HomelabOS! Your very own offline-first open-source data-center!\n\n\nGetting Started\n\n\nHomelabOS is a collection of various separate services. You can find links to them below. Several have their own native mobile apps available for integration. Simply point them at the URLs below and they will work.\n\n\nChronograf\n\n\nEmby\n\n\nGitea\n\n\nGrafana\n\n\nHome Assistant\n\n\nHome Assistant Documentation\n\n\nTransmission\n\n\nLogin with your default username and password \ntransmission", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#homelabos", 
+            "text": "Welcome to HomelabOS! Your very own offline-first open-source data-center!", 
+            "title": "HomelabOS"
+        }, 
+        {
+            "location": "/#getting-started", 
+            "text": "HomelabOS is a collection of various separate services. You can find links to them below. Several have their own native mobile apps available for integration. Simply point them at the URLs below and they will work.", 
+            "title": "Getting Started"
+        }, 
+        {
+            "location": "/#chronograf", 
+            "text": "", 
+            "title": "Chronograf"
+        }, 
+        {
+            "location": "/#emby", 
+            "text": "", 
+            "title": "Emby"
+        }, 
+        {
+            "location": "/#gitea", 
+            "text": "", 
+            "title": "Gitea"
+        }, 
+        {
+            "location": "/#grafana", 
+            "text": "", 
+            "title": "Grafana"
+        }, 
+        {
+            "location": "/#home-assistant", 
+            "text": "Home Assistant Documentation", 
+            "title": "Home Assistant"
+        }, 
+        {
+            "location": "/#transmission", 
+            "text": "Login with your default username and password  transmission", 
+            "title": "Transmission"
+        }, 
+        {
+            "location": "/setup/", 
+            "text": "Setup\n\n\nSetup info here.", 
+            "title": "Setup"
+        }, 
+        {
+            "location": "/setup/#setup", 
+            "text": "Setup info here.", 
+            "title": "Setup"
+        }
+    ]
+}

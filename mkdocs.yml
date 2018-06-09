@@ -4,4 +4,4 @@ theme:
   name: 'material'
 
 pages:
-    - Home: index.md
+  - Home: index.md
