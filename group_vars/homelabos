@@ -22,3 +22,6 @@ darksky_key:
 # Your location
 latitude: 
 longitude: 
+
+# Change to https to enable LetsEncrypt
+protocol: http

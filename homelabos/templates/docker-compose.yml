@@ -20,20 +20,20 @@ services:
   #     - "traefik.enable=true"
   #     - "traefik.admin.frontend.rule=Host:chronograf.{{ domain }}"
   #     - "traefik.admin.frontend.basicAuth=[\"test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/\"]"
-  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.protocol={{ protocol }}"
   #     - "traefik.admin.port=8888"
 
   convos:
     image: nordaaker/convos
     restart: always
     volumes:
-     - /var/homelabos/convos:/var/convos
+     - /var/homelabos/convos:/data
     ports:
       - 8033:3000
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:irc.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=3000"
 
   darksky-influx:
@@ -57,7 +57,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:docs.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=80"
 
   emby:
@@ -71,7 +71,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:emby.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=8096"
 
   firefly_iii_app:
@@ -94,7 +94,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:money.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=80"
 
   firefly_iii_db:
@@ -116,7 +116,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:rss.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=80"
 
   gitea:
@@ -137,8 +137,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:git.{{ domain }}"
-      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM {{ protocol }}://{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=3000"
 
   gitea_db:
@@ -167,7 +167,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:grafana.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=3000"
 
   homeassistant:
@@ -187,7 +187,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:homeassistant.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=8123"
 
 
@@ -214,8 +214,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:nextcloud.{{ domain }}"
-      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM {{ protocol }}://{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=80"
 
   nextcloud_db:
@@ -239,7 +239,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=80"
 
   paperless:
@@ -262,8 +262,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:paperless.{{ domain }}"
-      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM {{ protocol }}://{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=8000"
 
   paperless_consumer:
@@ -297,7 +297,7 @@ services:
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.admin.frontend.rule=Host:pihole.{{ domain }}"
-  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.protocol={{ protocol }}"
   #     - "traefik.admin.port=80"
 
   portainer:
@@ -310,7 +310,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:docker.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=9000"
 
   sonerezh:
@@ -330,7 +330,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:music.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=80"
 
   sonerezh_db:
@@ -362,13 +362,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:terminal.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=2233"
 
   traefik:
     image: traefik # The official Traefik docker image
     restart: always
-    command: --api --docker # Enables the web UI and tells Træfik to listen to docker
     ports:
       - "80:80"     # The HTTP port
       - "443:443" # HTTPS
@@ -404,7 +403,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:torrent.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=9091"
   
   urbackup:
@@ -421,5 +420,5 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"
-      - "traefik.admin.protocol=http"
+      - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=55414"

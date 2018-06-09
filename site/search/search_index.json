@@ -44,16 +44,6 @@
             "location": "/#transmission", 
             "text": "Login with your default username and password  transmission", 
             "title": "Transmission"
-        }, 
-        {
-            "location": "/setup/", 
-            "text": "Setup\n\n\nSetup info here.", 
-            "title": "Setup"
-        }, 
-        {
-            "location": "/setup/#setup", 
-            "text": "Setup info here.", 
-            "title": "Setup"
         }
     ]
 }
