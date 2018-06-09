@@ -2,24 +2,32 @@ version: '3'
 
 services:
 
-  chronograf:
-    image: chronograf
-    restart: always
-    links:
-      - influxdb
-    ports:
-      - 8888:8888
-    environment:
-      - influxdb-url=http://influxdb:8086
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:chronograf.{{ domain }}"
-      - "traefik.admin.protocol=http"
-      - "traefik.admin.port=8888"
+# Commented out until we can lock it down.
+# There is no auth, you can do too much through the interface.
+  # chronograf:
+  #   image: chronograf
+  #   restart: always
+  #   links:
+  #     - influxdb
+  #   ports:
+  #     - 8888:8888
+  #   volumes:
+  #     - /var/homelabos/chronograf/:/var/lib/chronograf
+  #   entrypoint: 'chronograf --influxdb-url=http://influxdb:8086'
+  #   environment:
+  #     - influxdb-url=http://influxdb:8086
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:chronograf.{{ domain }}"
+  #     - "traefik.admin.frontend.basicAuth=[\"test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/\"]"
+  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.port=8888"
 
   convos:
     image: nordaaker/convos
     restart: always
+    volumes:
+     - /var/homelabos/convos:/var/convos
     ports:
       - 8033:3000
     labels:
@@ -43,22 +51,21 @@ services:
       - DARKSKY_LONGITUDE={{ longitude }}
 
   docs:
-    image: squidfunk/mkdocs-material
+    image: kyma/docker-nginx
     volumes:
-      - /var/homelabos/docs:/docs
-    ports:
-      - 8000:8000
+      - /var/homelabos/docs/site:/var/www
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:docs.{{ domain }}"
       - "traefik.admin.protocol=http"
-      - "traefik.admin.port=8000"
+      - "traefik.admin.port=80"
 
   emby:
     image: emby/embyserver:latest
     restart: always
     volumes:
       - /var/homelabos/emby:/config
+      - /mnt/Gangsternas:/mnt/Gangsternas
     ports:
       - 8096:8096
     labels:
@@ -66,6 +73,39 @@ services:
       - "traefik.admin.frontend.rule=Host:emby.{{ domain }}"
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=8096"
+
+  firefly_iii_app:
+    environment:
+      - FF_DB_HOST=firefly_iii_db
+      - FF_DB_NAME=firefly_db
+      - FF_DB_USER=firefly_db
+      - FF_DB_PASSWORD=firefly_db_secret
+      - FF_APP_KEY=S0m3R@nd0mStr1ngOf32Ch@rsEx@ctly
+      - FF_APP_ENV=local
+      - TZ=America/Denver
+    image: jc5x/firefly-iii
+    links:
+      - firefly_iii_db
+    ports:
+      - "8555:80"
+    volumes:
+      - /var/homelabos/firefly/export:/var/www/firefly-iii/storage/export
+      - /var/homelabos/firefly/upload:/var/www/firefly-iii/storage/upload
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:money.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=80"
+
+  firefly_iii_db:
+    environment:
+      - MYSQL_DATABASE=firefly_db
+      - MYSQL_USER=firefly_db
+      - MYSQL_PASSWORD=firefly_db_secret
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    image: "mariadb:latest"
+    volumes:
+      - "/var/homelabos/firefly/db:/var/lib/mysql"
 
   freshrss:
     image: linuxserver/freshrss
@@ -202,41 +242,91 @@ services:
       - "traefik.admin.protocol=http"
       - "traefik.admin.port=80"
 
-  # paperless:
-  #   image: danielquinn/paperless
-  #   restart: always
-  #   ports:
-  #     - 8085:8000
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.admin.frontend.rule=Host:paperless.{{ domain }}"
-  #     - "traefik.admin.protocol=http"
-  #     - "traefik.admin.port=8000"
+  paperless:
+    image: danielquinn/paperless
+    restart: always
+    ports:
+      - "8325:8000"
+    healthcheck:
+      test: ["CMD", "curl" , "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - /var/homelabos/paperless/data:/usr/src/paperless/data
+      - /var/homelabos/paperless/media:/usr/src/paperless/media
+    environment:
+      - PAPERLESS_OCR_LANGUAGES=
+      - PAPERLESS_PASSPHRASE=homelabos
+    command: ["runserver", "--insecure", "--noreload", "0.0.0.0:8000"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:paperless.{{ domain }}"
+      - "traefik.admin.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=8000"
+
+  paperless_consumer:
+    image: danielquinn/paperless
+    restart: always
+    depends_on:
+      - paperless
+    volumes:
+      - /var/homelabos/paperless/data:/usr/src/paperless/data
+      - /var/homelabos/paperless/media:/usr/src/paperless/media
+      - /mnt/Privatenas/Documents/consume:/consume
+      - /mnt/Privatenas/Documents/export:/export
+    environment:
+      - PAPERLESS_PASSPHRASE=homelabos
+    command: ["document_consumer"]
 
   # pihole:
   #   image: diginc/pi-hole:latest
   #   restart: always
-  #   # volumes:
-  #   #   - /var/homelabos/pihole/config:/etc/pihole/
-  #   #   - /var/homelabos/pihole/dnsmasq.d:/etc/dnsmasq.d/"
+  #   volumes:
+  #     - /var/homelabos/pihole/config/:/etc/pihole/
+  #     - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/"
   #   environment:
   #     - WEBPASSWORD={{ default_password }}
   #     - VIRTUAL_HOST=pihole.{{ domain }}
+  #     - ServerIP="${IP}"
+  #     - ServerIPv6="${IPv6}"
+  #   ports:
+  #     - 53:53/tcp
+  #     - 53:53/udp
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.admin.frontend.rule=Host:pihole.{{ domain }}"
   #     - "traefik.admin.protocol=http"
   #     - "traefik.admin.port=80"
 
+  portainer:
+    image: portainer/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/homelabos/portainer:/data
+    ports:
+      - 9000:9000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:docker.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=9000"
+
   sonerezh:
     image: sonerezh/sonerezh:latest
     links:
-      - sonerezh_db
+      - sonerezh_db:mysql
     volumes:
-      - /var/homelabos/music:/music
+      - /mnt/music:/music
       - /var/homelabos/sonerezh/thumbnails:/thmubnails
     ports:
       - 8089:80
+    environment:
+      - SONEREZH_DB_PORT_3306_TCP_ADDR=mysql
+      - SONEREZH_DB_ENV_MYSQL_DATABASE=sonerezh
+      - SONEREZH_DB_ENV_MYSQL_USER=sonerezh
+      - SONEREZH_DB_ENV_MYSQL_PASSWORD=motdepasse
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:music.{{ domain }}"
@@ -287,22 +377,49 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/homelabos/traefik/acme.json:/etc/traefik/acme.json
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
 
-  # transmission:
-  #   image: linuxserver/transmission
-  #   volumes:
-  #     - /var/homelabos/transmission/config:/config
-  #     - /var/homelabos/transmission/downloads:/downloads
-  #     - /var/homelabos/transmission/watch:/watch
-  #   environment:
-  #     - PGID=<gid>
-  #     - PUID=<uid>
-  #     - TZ=<timezone>
-  #   ports:
-  #     - 9091:9091
-  #     - 51413:51413
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.admin.frontend.rule=Host:torrent.{{ domain }}"
-  #     - "traefik.admin.protocol=http"
-  #     - "traefik.admin.port=9091"
+  transmission:
+    image: linuxserver/transmission
+    volumes:
+      - /var/homelabos/transmission/config:/config
+      - /var/homelabos/transmission/downloads:/downloads
+      - /var/homelabos/transmission/watch:/watch
+    environment:
+      - PGID=<gid>
+      - PUID=<uid>
+      - TZ=<timezone>
+    ports:
+      - 9091:9091
+      - 51413:51413
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:torrent.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=9091"
+  
+  urbackup:
+    image: cfstras/urbackup
+    ports:
+      - 55413
+      - 55414
+      - 55415
+      - 35622
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/homelabos/urbackup/db/:/var/urbackup
+      - /mnt/Gangsternas/Backups/urbackup/:/backup
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=55414"

@@ -15,11 +15,15 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 ## Features
 
 * One command depyloment
-* Automated HTTPS endpoints (Coming Soon)
-* Automated Backups (Coming Soon)
-* Easy Restore (Coming Soon)
-* Dynamic DNS Support (Coming Soon)
-* Automated Apple Health Import (Coming Soon)
+
+## Planned Features
+
+* Automated HTTPS endpoints
+* Automated Backups
+* Easy Restore
+* Dynamic DNS Support
+* Automated Apple Health Import
+* Automated LDAP Sync
 
 ## Demo
 
@@ -33,23 +37,25 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * Documentation - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 * [Emby](https://emby.media/) - Media player
+* [Firefly III](https://firefly-iii.org/) - Money management budgeting app
 * [Gitea](https://gitea.io/en-US/) - Git hosting
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Aatomation
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
-* [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, LDAP, etc.
+* [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
+* [Paperless](https://github.com/danielquinn/paperless) - Document management
+* [Portainer](https://www.portainer.io/) - Easy Docker management
 * [Sonerezh](https://www.sonerezh.bzh/) - Music streaming and library management
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 * [Terminal](georgeyord/butterfly-web-terminal) - Web based terminal access
+* [Transmission](https://transmissionbt.com/) - BitTorrent client
 
 ### Coming Soon
 
 * BitWarden - Password manager
 * BulletNotes - Note taking knowledgebase with kanban and calendar functionality.
 * OwnTracksRecorder - https://github.com/owntracks/recorder
-* Paperless - Document management https://paperless.readthedocs.io/en/latest/setup.html#installation-configuration
-* [Transmission](https://transmissionbt.com/) - BitTorrent client via [https://github.com/haugene/docker-transmission-openvpn](https://github.com/haugene/docker-transmission-openvpn)
 
 ## Requirements
 
@@ -63,7 +69,9 @@ Ansible version 2.5+ installed on your computer (not the server).
 
 ## Installation
 
-From your computer (not the server) run `ansible-playbook -i hosts homelabos.yml`.
+Set your settings in `host_vars/myserver`. You can find the default settings in `group_vars/homelabos`.
+
+From your computer (not the server) simply run `make`.
 
 ## Contributing
 
@@ -73,4 +81,6 @@ Please do!
 
 Follow the [MkDocs Material Theme setup directions](https://squidfunk.github.io/mkdocs-material/getting-started/).
 
-Then run `mkdocs serve`
+Then run `mkdocs serve`.
+
+To build changes to the docs run `make build`.

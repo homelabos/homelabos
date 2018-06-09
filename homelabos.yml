@@ -4,10 +4,10 @@
 - hosts: all
   become: True
   gather_facts: True
-  tags: docker
+  tags: common
 
   roles:
-    - docker
+    - common
 
 - hosts: all
   become: True
@@ -16,4 +16,4 @@
 
   roles:
     - homelabos
-    # - transmission
+    - transmission
