@@ -41,6 +41,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [Gitea](https://gitea.io/en-US/) - Git hosting
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Aatomation
+* [Huginn](https://github.com/huginn/huginn) - Open Source IFTTT replacement. Create agents that monitor and act on your behalf
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Pi-hole](https://pi-hole.net/) - Ad blocking

@@ -1,34 +1,8 @@
 ---
-- name: Make HomelabOS data directories.
+- name: Make HomelabOS data directory.
   file:
-    path: "/var/homelabos/{{ item }}"
+    path: /var/homelabos
     state: directory
-  loop:
-    - chronograf
-    - docker
-    - docs
-    - docs/docs
-    - downloads
-    - emby
-    - gitea_db
-    - grafana
-    - homeassistant
-    - influxdb
-    - nextcloud
-    - nextcloud_db
-    - organizr
-    - pihole
-    - pihole/config
-    - pihole/dnsmasq.d
-    - portainer
-    - sonerezh/thumbnails
-    - sonerezh_db
-    - telegraf
-    - traefik
-    - transmission
-    - transmission/config
-    - transmission/downloads
-    - transmission/watch
 
 - name: Configure docs
   copy: src=site dest=/var/homelabos/docs
@@ -72,4 +46,4 @@
     msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started."
 
 - debug:
-    msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues or join us on irc.freenode.net #HomelabOS"
+    msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"

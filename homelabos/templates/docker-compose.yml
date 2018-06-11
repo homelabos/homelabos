@@ -2,26 +2,76 @@ version: '3'
 
 services:
 
-# Commented out until we can lock it down.
-# There is no auth, you can do too much through the interface.
-  # chronograf:
-  #   image: chronograf
+  # bitwarden_mssql:
+  #   image: bitwarden/mssql:1.16.0
+  #   container_name: bitwarden-mssql
   #   restart: always
-  #   links:
-  #     - influxdb
-  #   ports:
-  #     - 8888:8888
   #   volumes:
-  #     - /var/homelabos/chronograf/:/var/lib/chronograf
-  #   entrypoint: 'chronograf --influxdb-url=http://influxdb:8086'
-  #   environment:
-  #     - influxdb-url=http://influxdb:8086
+  #     - ../mssql/data:/var/opt/mssql/data
+  #     - ../mssql/backups:/etc/bitwarden/mssql/backups
+  #   env_file:
+  #     - mssql.env
+  #     - ../env/mssql.override.env
+
+  # bitwarden_web:
+  #   image: bitwarden/web:1.22.0
+  #   container_name: bitwarden-web
+  #   restart: always
+  #   volumes:
+  #     - ../web:/etc/bitwarden/web
   #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.admin.frontend.rule=Host:chronograf.{{ domain }}"
-  #     - "traefik.admin.frontend.basicAuth=[\"test:$apr1$H6uskkkW$IgXLP6ewTrSuBkTrqE8wj/\"]"
-  #     - "traefik.admin.protocol={{ protocol }}"
-  #     - "traefik.admin.port=8888"
+  #     traefik.frontend.rule: 'Host:warden.example.com;Path: /'
+  #     traefik.enable: 'true'
+  #     traefik.port: 80
+
+  # bitwarden_attachments:
+  #   image: bitwarden/attachments:1.16.0
+  #   container_name: bitwarden-attachments
+  #   restart: always
+  #   volumes:
+  #     - ../core/attachments:/etc/bitwarden/core/attachments
+  #   labels:
+  #     traefik.frontend.rule: 'Host:warden.example.com;PathPrefix: /attachments'
+  #     traefik.enable: 'true'
+  #     traefik.port: 80
+
+  # bitwarden_api:
+  #   image: bitwarden/api:1.16.0
+  #   container_name: bitwarden-api
+  #   restart: always
+  #   volumes:
+  #     - ../core:/etc/bitwarden/core
+  #   env_file:
+  #     - global.env
+  #     - ../env/global.override.env
+  #   labels:
+  #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /api'
+  #     traefik.enable: 'true'
+  #     traefik.port: 80
+
+  # bitwarden_identity:
+  #   image: bitwarden/identity:1.16.0
+  #   container_name: bitwarden-identity
+  #   restart: always
+  #   volumes:
+  #     - ../identity:/etc/bitwarden/identity
+  #     - ../core:/etc/bitwarden/core
+  #   env_file:
+  #     - global.env
+  #     - ../env/global.override.env
+  #   labels:
+  #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /identity'
+  #     traefik.enable: 'true'
+  #     traefik.port: 80
+
+  # bitwarden_icons:
+  #   image: bitwarden/icons:1.16.0
+  #   container_name: bitwarden-icons
+  #   restart: always
+  #   labels:
+  #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /icons'
+  #     traefik.enable: 'true'
+  #     traefik.port: 80
 
   convos:
     image: nordaaker/convos
@@ -35,6 +85,22 @@ services:
       - "traefik.admin.frontend.rule=Host:irc.{{ domain }}"
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=3000"
+
+  couchpotato:
+    image: "couchpotato/couchpotato"
+    volumes:
+      - /var/homelabos/couchpotato/data:/datadir
+      - /mnt/Gangsternas/Movies:/media
+    ports:
+      - "5050:5050"
+    restart: always
+    links:
+      - "transmission"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:couchpotato.{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
+      - "traefik.admin.port=5050"
 
   darksky-influx:
     image: erwinsteffens/darksky-influxdb:latest
@@ -80,9 +146,10 @@ services:
       - FF_DB_NAME=firefly_db
       - FF_DB_USER=firefly_db
       - FF_DB_PASSWORD=firefly_db_secret
-      - FF_APP_KEY=S0m3R@nd0mStr1ngOf32Ch@rsEx@ctly
+      - FF_APP_KEY=S0m3R@nd0mStr1ngOf31Ch@rsEx@ctly
       - FF_APP_ENV=local
-      - TZ=America/Denver
+      - TZ={{ timezone }}
+      - ServerName=money.{{ domain }}
     image: jc5x/firefly-iii
     links:
       - firefly_iii_db
@@ -190,6 +257,32 @@ services:
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=8123"
 
+  huginn:
+    image: huginn/huginn
+    links:
+      - huginn_db:mysql
+    ports:
+      - 3132:3000
+    environment:
+      - HUGINN_DATABASE_NAME=huginn
+      - HUGINN_DATABASE_USERNAME=huginn
+      - HUGINN_DATABASE_PASSWORD=somethingsecret
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:huginn.{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
+      - "traefik.admin.port=3000"
+
+  huginn_db:
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/homelabos/huginn_db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=huginn
+      - MYSQL_PASSWORD=somethingsecret
+      - MYSQL_DATABASE=huginn
+      - MYSQL_USER=huginn
 
   influxdb:
     image: influxdb
@@ -198,8 +291,6 @@ services:
       - /var/homelabos/influxdb:/var/lib/influxdb
     ports:
       - 8086:8086
-
-
 
   nextcloud:
     image: nextcloud
@@ -285,12 +376,11 @@ services:
   #   restart: always
   #   volumes:
   #     - /var/homelabos/pihole/config/:/etc/pihole/
-  #     - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/"
+  #     - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/
   #   environment:
   #     - WEBPASSWORD={{ default_password }}
   #     - VIRTUAL_HOST=pihole.{{ domain }}
-  #     - ServerIP="${IP}"
-  #     - ServerIPv6="${IPv6}"
+  #     - ServerIP={{ ansible_ssh_host }}
   #   ports:
   #     - 53:53/tcp
   #     - 53:53/udp
@@ -312,6 +402,25 @@ services:
       - "traefik.admin.frontend.rule=Host:docker.{{ domain }}"
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=9000"
+
+  sonarr:
+    image: linuxserver/sonarr
+    ports:
+      - 8989:8989
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ={{ timezone }}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/homelabos/sonarr/config:/config
+      - /mnt/Gangsternas/TV:/tv
+      - /var/homelabos/sonarr/downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:sonarr.{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
+      - "traefik.admin.port=8989"
 
   sonerezh:
     image: sonerezh/sonerezh:latest
@@ -376,30 +485,37 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/homelabos/traefik/acme.json:/etc/traefik/acme.json
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - node.role == manager
-      update_config:
-        parallelism: 1
-        delay: 10s
-      restart_policy:
-        condition: on-failure
 
   transmission:
-    image: linuxserver/transmission
+    image: haugene/transmission-openvpn
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: always
+    ports:
+      - "9091:9091"
+      - "8888:8888"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/homelabos/transmission/data:/data
       - /var/homelabos/transmission/config:/config
-      - /var/homelabos/transmission/downloads:/downloads
+      - /mnt/Gangsternas/Downloads:/downloads
       - /var/homelabos/transmission/watch:/watch
     environment:
-      - PGID=<gid>
-      - PUID=<uid>
-      - TZ=<timezone>
-    ports:
-      - 9091:9091
-      - 51413:51413
+      - OPENVPN_PROVIDER=PIA
+      - OPENVPN_USERNAME={{ openvpn_username }}
+      - OPENVPN_PASSWORD={{ openvpn_password }}
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - PGID=1000
+      - PUID=1000
+      - TZ={{ timezone }}
+      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+      - TRANSMISSION_RPC_PASSWORD="{62b16db87b89a91dd49a5110a7cafc06d20eb4f2wtK6kqPj"
+      - TRANSMISSION_RPC_USERNAME={{ default_username }}
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:torrent.{{ domain }}"

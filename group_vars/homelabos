@@ -23,5 +23,12 @@ darksky_key:
 latitude: 
 longitude: 
 
+timezone: America/Denver
+
 # Change to https to enable LetsEncrypt
 protocol: http
+
+# VPN For Transmission to use for Downloads
+openvpn_provider: PIA
+openvpn_username: username
+openvpn_password: password
