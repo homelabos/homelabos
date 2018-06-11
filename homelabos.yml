@@ -1,14 +1,18 @@
 ---
-# This is the top-level playbook that defines our entire infrastructure.
 
+# Configure the server itslef
 - hosts: all
   become: True
   gather_facts: True
   tags: common
 
   roles:
+    # Install Docker, configure basic server settings
     - common
+    # Configure a TOR hidden service for remote access without a public IP
+    - { role: systemli.hidden-service }
 
+# Install and configure HomelabOS services
 - hosts: all
   become: True
   gather_facts: True
@@ -16,4 +20,3 @@
 
   roles:
     - homelabos
-    - transmission

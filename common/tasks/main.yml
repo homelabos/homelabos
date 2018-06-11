@@ -1,4 +1,10 @@
 ---
+- debug:
+    msg: "Thank you for trying out HomelabOS! We will now provision your server with everything you need."
+
+- debug:
+    msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"
+
 - name: Update apt cache
   apt: update_cache=yes
   tags:
