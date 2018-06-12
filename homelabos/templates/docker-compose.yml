@@ -73,6 +73,16 @@ services:
   #     traefik.enable: 'true'
   #     traefik.port: 80
 
+  backups:
+    image: lobaro/restic-backup-docker:v1.0
+    environment:
+      - RESTIC_REPOSITORY={{ s3_path }}
+      - AWS_ACCESS_KEY_ID={{ s3_access_key }}
+      - AWS_SECRET_ACCESS_KEY={{ s3_secret_key }}
+      - RESTIC_PASSWORD={{ default_password }}
+    volumes:
+      - /var/homelabos:/data:ro
+
   convos:
     image: nordaaker/convos
     restart: always
