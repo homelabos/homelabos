@@ -10,7 +10,7 @@
     # Install Docker, configure basic server settings
     - common
     # Configure a TOR hidden service for remote access without a public IP
-    - { role: systemli.hidden-service }
+    # - { role: systemli.hidden-service }
 
 # Install and configure HomelabOS services
 - hosts: all
