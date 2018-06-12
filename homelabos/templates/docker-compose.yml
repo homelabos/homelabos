@@ -77,9 +77,11 @@ services:
     image: lobaro/restic-backup-docker:v1.0
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}
-      - AWS_ACCESS_KEY_ID={{ s3_access_key }}
-      - AWS_SECRET_ACCESS_KEY={{ s3_secret_key }}
-      - RESTIC_PASSWORD={{ default_password }}
+      - AWS_ACCESS_KEY_ID={{ s3_access_code }}
+      - AWS_SECRET_ACCESS_KEY={{ s3_secret_code }}
+      - RESTIC_PASSWORD={{ s3_backup_password }}
+      - BACKUP_CRON={{ s3_backup_cron }}
+      - HOSTNAME={{ domain }}
     volumes:
       - /var/homelabos:/data:ro
 
@@ -100,12 +102,13 @@ services:
     image: "couchpotato/couchpotato"
     volumes:
       - /var/homelabos/couchpotato/data:/datadir
-      - /mnt/Gangsternas/Movies:/media
+      - {{ nas_movies }}:/media
     ports:
       - "5050:5050"
     restart: always
     links:
-      - "transmission"
+      - transmission
+      - jackett
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:couchpotato.{{ domain }}"
@@ -141,7 +144,8 @@ services:
     restart: always
     volumes:
       - /var/homelabos/emby:/config
-      - /mnt/Gangsternas:/mnt/Gangsternas
+      - {{ nas_tv }}:/mnt/tv
+      - {{ nas_movies }}:/mnt/movies
     ports:
       - 8096:8096
     labels:
@@ -229,7 +233,6 @@ services:
     volumes:
       - /var/homelabos/gitea_db:/var/lib/mysql
 
-
   grafana:
     image: grafana/grafana
     restart: always
@@ -302,6 +305,18 @@ services:
     ports:
       - 8086:8086
 
+  jackett:
+    image: linuxserver/jackett
+    restart: always
+    volumes: 
+      - /var/homelabos/jackett/config:/config
+      - /var/homelabos/jackett/downloads:/downloads
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ={{ timezone }}
+    ports:
+      - 9117:9117
+
   nextcloud:
     image: nextcloud
     restart: always
@@ -329,6 +344,21 @@ services:
       - MYSQL_PASSWORD=nextcloud
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+
+  nzbget:
+    image: linuxserver/nzbget
+    ports:
+      - 6789:6789
+    environment:
+      - TZ={{ timezone }}
+    volumes:
+      - /var/homelabos/nzbget:/config
+      - {{ nas_downloads }}:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:nzbget.{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
+      - "traefik.admin.port=6789"
 
   organizr:
     image: lsiocommunity/organizr
@@ -421,10 +451,13 @@ services:
       - PGID=1000
       - PUID=1000
       - TZ={{ timezone }}
+    links:
+      - jackett
+      - transmission
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/sonarr/config:/config
-      - /mnt/Gangsternas/TV:/tv
+      - {{ nas_tv }}:/tv
       - /var/homelabos/sonarr/downloads:/downloads
     labels:
       - "traefik.enable=true"
@@ -485,12 +518,12 @@ services:
       - "traefik.admin.port=2233"
 
   traefik:
-    image: traefik # The official Traefik docker image
+    image: traefik
     restart: always
     ports:
-      - "80:80"     # The HTTP port
-      - "443:443" # HTTPS
-      - "8080:8080" # The Web UI (enabled by --api)
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
@@ -513,7 +546,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/transmission/data:/data
       - /var/homelabos/transmission/config:/config
-      - /mnt/Gangsternas/Downloads:/downloads
+      - {{ nas_downloads }}:/downloads
       - /var/homelabos/transmission/watch:/watch
     environment:
       - OPENVPN_PROVIDER=PIA
@@ -524,6 +557,7 @@ services:
       - PUID=1000
       - TZ={{ timezone }}
       - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+      # Password = `transmission`
       - TRANSMISSION_RPC_PASSWORD="{62b16db87b89a91dd49a5110a7cafc06d20eb4f2wtK6kqPj"
       - TRANSMISSION_RPC_USERNAME={{ default_username }}
     labels:
@@ -542,7 +576,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/urbackup/db/:/var/urbackup
-      - /mnt/Gangsternas/Backups/urbackup/:/backup
+      - {{ nas_backups }}:/backup
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"

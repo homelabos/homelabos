@@ -8,7 +8,7 @@ Your very own offline-first open-source data-center!
 
 ## Summary
 
-A set of Ansible scripts to configure a Docker based Homelab server with all sorts of goodies.
+A set of Ansible scripts to configure a Docker based Homelab server with all sorts of goodies. Following the unix philosophy we gather together many specific tools to build the exact end result desired.
 
 ## Goals
 
@@ -17,12 +17,12 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 ## Features
 
 * One command depyloment
+* Automated Backups
+* Easy Restore
 
 ## Planned Features
 
 * Automated HTTPS endpoints
-* Automated Backups
-* Easy Restore
 * Dynamic DNS Support
 * Automated Apple Health Import
 * Automated LDAP Sync
@@ -46,7 +46,6 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [Huginn](https://github.com/huginn/huginn) - Open Source IFTTT replacement. Create agents that monitor and act on your behalf
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
-* [Pi-hole](https://pi-hole.net/) - Ad blocking
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
 * [Portainer](https://www.portainer.io/) - Easy Docker management
 * [Sonerezh](https://www.sonerezh.bzh/) - Music streaming and library management
@@ -58,6 +57,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 * BitWarden - Password manager
 * BulletNotes - Note taking knowledgebase with kanban and calendar functionality.
+* [Pi-hole](https://pi-hole.net/) - Ad blocking
 * OwnTracksRecorder - https://github.com/owntracks/recorder
 
 ## Requirements

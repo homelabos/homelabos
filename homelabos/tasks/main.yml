@@ -4,7 +4,7 @@
     path: /var/homelabos
     state: directory
 
-- name: Configure docs
+- name: Configure HomelabOS Documentation.
   copy: src=site dest=/var/homelabos/docs
 
 - name: Configure Telegraf.
@@ -13,24 +13,13 @@
 - name: Configure Traefik.
   template: src=traefik.toml dest=/var/homelabos/traefik/traefik.toml
 
-- name: Configure HomelabOS Documentation
-  template: src=mkdocs.yml dest=/var/homelabos/docs/mkdocs.yml
-
-- name: Configure HomelabOS Documentation
-  template:
-    src: '{{ item.src }}'
-    dest: /var/homelabos/docs/docs/{{ item.path }}
-    force: yes
-  with_filetree: docs/
-  when: item.state == 'file'
-
 - name: Configure HomelabOS systemd service.
   template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
     src: docker-compose.yml
-    dest: /var/homelabos/docker/docker-compose.yml
+    dest: /var/homelabos/docker-compose.yml
 
 - name: Pull latest HomelabOS service docker images. (This could take a while the first time, it has to download quite a bit.)
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull

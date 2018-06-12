@@ -1,0 +1,32 @@
+---
+- name: Be sure HomelabOS is not running.
+  systemd:
+    name: homelabos
+    state: stopped
+
+- name: Clear old HomelabOS local backup if it exists.
+  file:
+    path: /var/homelabos.bak
+    state: absent
+
+- name: Create local backup of HomelabOS data (just in case).
+  command: mv /var/homelabos /var/homelabos.bak
+
+- name: Create a new HomelabOS folder.
+  file:
+    path: /var/homelabos
+    state: directory
+
+- name: Copy HomelabOS restore.yml file into place.
+  template:
+    src: restore.yml
+    dest: /var/homelabos_restore.yml
+
+- name: Spin up restore utility.
+  command: "docker-compose -f /var/homelabos_restore.yml -p homelabos_restore up -d"
+
+- name: Restore HomelabOS data. (This could take quite a while depending on how much data you have.)
+  command: "docker exec homelabosrestore_restore_1 restic restore latest --target /"
+
+- name: Stop restore utility.
+  command: "docker-compose -f /var/homelabos_restore.yml -p homelabos_restore down"

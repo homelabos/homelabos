@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  restore:
+    image: lobaro/restic-backup-docker:v1.0
+    environment:
+      - RESTIC_REPOSITORY={{ s3_path }}
+      - AWS_ACCESS_KEY_ID={{ s3_access_code }}
+      - AWS_SECRET_ACCESS_KEY={{ s3_secret_code }}
+      - RESTIC_PASSWORD={{ s3_backup_password }}
+      - BACKUP_CRON={{ s3_backup_cron }}
+      - HOSTNAME={{ domain }}
+    volumes:
+      - /var/homelabos:/data
