@@ -23,7 +23,6 @@ darksky_key:
 latitude: 
 longitude: 
 
-<<<<<<< Updated upstream
 timezone: America/Denver
 
 # Change to https to enable LetsEncrypt
@@ -33,9 +32,19 @@ protocol: http
 openvpn_provider: PIA
 openvpn_username: username
 openvpn_password: password
-=======
-# S3 Server Information
+
+# NAS Stores
+nas_backups:
+nas_music:
+nas_movies:
+nas_tv:
+nas_downloads:
+nas_documents:
+
+# S3 Backup Server Information (More information can be found in the Backups section of the HomelabOS Documentation)
 s3_path:
 s3_access_key:
 s3_secret_key:
->>>>>>> Stashed changes
+s3_backup_password:
+# Backup every day at 4:00 AM
+s3_backup_cron: 0 4 * * *
