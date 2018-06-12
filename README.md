@@ -1,5 +1,3 @@
-# **THIS PROJECT HAS MOVED** It now lives at [https://gitlab.com/NickBusey/HomelabOS](https://gitlab.com/NickBusey/HomelabOS)
-
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1894/badge)](https://bestpractices.coreinfrastructure.org/projects/1894)
 
 # HomelabOS
