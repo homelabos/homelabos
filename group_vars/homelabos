@@ -23,6 +23,7 @@ darksky_key:
 latitude: 
 longitude: 
 
+<<<<<<< Updated upstream
 timezone: America/Denver
 
 # Change to https to enable LetsEncrypt
@@ -32,3 +33,9 @@ protocol: http
 openvpn_provider: PIA
 openvpn_username: username
 openvpn_password: password
+=======
+# S3 Server Information
+s3_path:
+s3_access_key:
+s3_secret_key:
+>>>>>>> Stashed changes
