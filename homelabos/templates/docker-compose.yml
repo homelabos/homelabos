@@ -134,8 +134,7 @@ services:
   dasher:
     image: hijinx/dasher
     restart: always
-    links:
-      - homeassistant
+    network_mode: host
     volumes:
       - /var/homelabos/dasher/config.json:/usr/src/app/config/config.json
 
