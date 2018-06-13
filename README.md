@@ -4,6 +4,8 @@
 
 Your very own offline-first open-source data-center!
 
+## [Documentation](https://nickbusey.gitlab.io/HomelabOS/)
+
 ## Summary
 
 A set of Ansible scripts to configure a Docker based Homelab server with all sorts of goodies. Following the unix philosophy we gather together many specific tools to build the exact end result desired.
