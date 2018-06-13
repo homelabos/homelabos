@@ -1,9 +1,9 @@
 # These are the default settings. Copy this file to `host_vars/myserver` then in that file set the values to match your setup.
 
-# REQUIRED
+### REQUIRED ### These values are REQUIRED for HomelabOS to work.
 
 # Default user name to create as admin with services
-default_user_name: (required)
+default_username: (required)
 
 # Default password to go with the default user
 default_password: (required)
@@ -21,9 +21,9 @@ common_timezone: 'Etc/UTC'
 # Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
 domain: yourserver.com
 
-# END REQUIRED
-
-# OPTIONAL
+### END REQUIRED ###
+ 
+### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
 
 # Your DarkSky API Key. Get one at http://darksky.net/dev
 darksky_key: 
