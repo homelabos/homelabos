@@ -36,7 +36,7 @@
 - name: Configure HomelabOS hosts file. You can find it at /tmp/homelabos_hosts on your machine.
   lineinfile:
     path: /tmp/homelab_hosts
-    line: '{{ ansible_host }} {{ item }}.{{ domain }}'
+    line: '{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}'
   delegate_to: localhost
   loop:
     - irc
