@@ -1,5 +1,7 @@
 # These are the default settings. Copy this file to `host_vars/myserver` then in that file set the values to match your setup.
 
+# REQUIRED
+
 # Default user name to create as admin with services
 default_user_name: (required)
 
@@ -18,6 +20,10 @@ common_timezone: 'Etc/UTC'
 # Domain that will be used to point at the server
 # Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
 domain: yourserver.com
+
+# END REQUIRED
+
+# OPTIONAL
 
 # Your DarkSky API Key. Get one at http://darksky.net/dev
 darksky_key: 
@@ -51,3 +57,6 @@ s3_secret_key:
 s3_backup_password:
 # Backup every day at 4:00 AM
 s3_backup_cron: 0 4 * * *
+
+# Home Assitant API Key
+homeassistant_api_key: 
