@@ -1,23 +1,9 @@
 # HomelabOS
 
-Welcome to HomelabOS! Your very own offline-first open-source data-center!
+Welcome to HomelabOS version 0.1! Your very own offline-first open-source data-center!
 
-## Getting Started
+HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.
 
-HomelabOS is a collection of various separate services. You can find links to them below. Several have their own native mobile apps available for integration. Simply point them at the URLs below and they will work.
+## Getting Help
 
-### [Chronograf](http://chronograf.{{ domain }}/)
-
-### [Emby](http://emby.{{ domain }}/)
-
-### [Gitea](http://git.{{ domain }}/)
-
-### [Grafana](http://grafana.{{ domain }}/)
-
-### [Home Assistant](http://homeassistant.{{ domain }}/)
-
-[Home Assistant Documentation](https://www.home-assistant.io/docs/)
-
-### [Transmission](http://torrent.{{ domain }}/)
-
-Login with your default username and password `transmission`
+If you are having problems you can [file an issue on GitLab](https://gitlab.com/NickBusey/HomelabOS/issues).

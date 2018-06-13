@@ -20,10 +20,12 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ## Planned Features
 
+* Access from anywhere via TOR
 * Automated HTTPS endpoints
 * Dynamic DNS Support
 * Automated Apple Health Import
 * Automated LDAP Sync
+* Self Updating
 
 ## Demo
 
@@ -31,7 +33,6 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ## Included Software
 
-* [Chronograf](https://www.influxdata.com/time-series-platform/chronograf/) - More pretty graphs. Easy data exploration
 * [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
 * [Dashboard](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
@@ -41,7 +42,6 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [Gitea](https://gitea.io/en-US/) - Git hosting
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
-* [Huginn](https://github.com/huginn/huginn) - Open Source IFTTT replacement. Create agents that monitor and act on your behalf
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
@@ -55,8 +55,16 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 * BitWarden - Password manager
 * BulletNotes - Note taking knowledgebase with kanban and calendar functionality.
-* [Pi-hole](https://pi-hole.net/) - Ad blocking
+* Chronograf
+* Couchpotato
+* FreshRSS
+* Jackett
+* NZBGet
 * OwnTracksRecorder - https://github.com/owntracks/recorder
+* [Pi-hole](https://pi-hole.net/) - Ad blocking
+* Sonarr
+* SynchThing
+* urBackup
 
 ## Requirements
 

@@ -270,32 +270,32 @@ services:
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=8123"
 
-  huginn:
-    image: huginn/huginn
-    links:
-      - huginn_db:mysql
-    ports:
-      - 3132:3000
-    environment:
-      - HUGINN_DATABASE_NAME=huginn
-      - HUGINN_DATABASE_USERNAME=huginn
-      - HUGINN_DATABASE_PASSWORD=somethingsecret
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:huginn.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=3000"
+  # huginn:
+  #   image: huginn/huginn
+  #   links:
+  #     - huginn_db:mysql
+  #   ports:
+  #     - 3132:3000
+  #   environment:
+  #     - HUGINN_DATABASE_NAME=huginn
+  #     - HUGINN_DATABASE_USERNAME=huginn
+  #     - HUGINN_DATABASE_PASSWORD=somethingsecret
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:huginn.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=3000"
 
-  huginn_db:
-    image: mariadb
-    restart: always
-    volumes:
-      - /var/homelabos/huginn_db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=huginn
-      - MYSQL_PASSWORD=somethingsecret
-      - MYSQL_DATABASE=huginn
-      - MYSQL_USER=huginn
+  # huginn_db:
+  #   image: mariadb
+  #   restart: always
+  #   volumes:
+  #     - /var/homelabos/huginn_db:/var/lib/mysql
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=huginn
+  #     - MYSQL_PASSWORD=somethingsecret
+  #     - MYSQL_DATABASE=huginn
+  #     - MYSQL_USER=huginn
 
   influxdb:
     image: influxdb
@@ -576,7 +576,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/urbackup/db/:/var/urbackup
-      - {{ nas_backups }}:/backup
+      - {{ nas_backups }}:/backup:rw
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"
