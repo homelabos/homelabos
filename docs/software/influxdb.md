@@ -4,4 +4,6 @@
 
 It can also take data from [Home Assistant](/software/homeassistant) and many other sources.
 
+## Access
+
 There is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host `influxdb`.

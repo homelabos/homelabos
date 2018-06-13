@@ -2,47 +2,207 @@
     "docs": [
         {
             "location": "/", 
-            "text": "HomelabOS\n\n\nWelcome to HomelabOS! Your very own offline-first open-source data-center!\n\n\nGetting Started\n\n\nHomelabOS is a collection of various separate services. You can find links to them below. Several have their own native mobile apps available for integration. Simply point them at the URLs below and they will work.\n\n\nChronograf\n\n\nEmby\n\n\nGitea\n\n\nGrafana\n\n\nHome Assistant\n\n\nHome Assistant Documentation\n\n\nTransmission\n\n\nLogin with your default username and password \ntransmission", 
+            "text": "HomelabOS\n\n\nWelcome to HomelabOS version 0.1! Your very own offline-first open-source data-center!\n\n\nHomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.\n\n\nGetting Help\n\n\nIf you are having problems you can \nfile an issue on GitLab\n.", 
             "title": "Home"
         }, 
         {
             "location": "/#homelabos", 
-            "text": "Welcome to HomelabOS! Your very own offline-first open-source data-center!", 
+            "text": "Welcome to HomelabOS version 0.1! Your very own offline-first open-source data-center!  HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.", 
             "title": "HomelabOS"
         }, 
         {
-            "location": "/#getting-started", 
-            "text": "HomelabOS is a collection of various separate services. You can find links to them below. Several have their own native mobile apps available for integration. Simply point them at the URLs below and they will work.", 
+            "location": "/#getting-help", 
+            "text": "If you are having problems you can  file an issue on GitLab .", 
+            "title": "Getting Help"
+        }, 
+        {
+            "location": "/setup/installation/", 
+            "text": "Installation\n\n\nClone the repository if you have git \ngit clone git@gitlab.com:NickBusey/HomelabOS.git\n or \ndownload it from GitLab\n.\n\n\nMake sure you have Ansible 2.5+ installed.\n\n\nCopy \ngroup_vars/homelabos\n to \nhost_vars/myserver\n and change the settings to match your setup.\n\n\nOnce you have set at a very minimum the required fields in that file, you can begin the installation.\n\n\nNow from inside the HomelabOS folder execute the terminal command \nmake\n.\n\n\nYou can always change settings and re-run \nmake\n to update the server with these settings.\n\n\nNetwork Configuration\n\n\nIt is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in \n.local\n and enter that as your domain in \nhost_vars/myserver\n.\n\n\nWhen HomelabOS \nmake\n command completes, it creates a file on the computer which ran make \n/tmp/homelabos_hosts\n. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/setup/installation/#installation", 
+            "text": "Clone the repository if you have git  git clone git@gitlab.com:NickBusey/HomelabOS.git  or  download it from GitLab .  Make sure you have Ansible 2.5+ installed.  Copy  group_vars/homelabos  to  host_vars/myserver  and change the settings to match your setup.  Once you have set at a very minimum the required fields in that file, you can begin the installation.  Now from inside the HomelabOS folder execute the terminal command  make .  You can always change settings and re-run  make  to update the server with these settings.", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/setup/installation/#network-configuration", 
+            "text": "It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in  .local  and enter that as your domain in  host_vars/myserver .  When HomelabOS  make  command completes, it creates a file on the computer which ran make  /tmp/homelabos_hosts . You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.", 
+            "title": "Network Configuration"
+        }, 
+        {
+            "location": "/setup/gettingstarted/", 
+            "text": "Getting Started\n\n\nAlright once you are all setup and ready to go you should be able to load Organizr at \nhttp://{{ domain }}/\n.\n\n\nIf you see \n{ domain }\n in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.\n\n\nUsing Organizr\n\n\nYou can click the \nSettings\n link, then \nEdit Tabs\n to be able to add links to all the various HomelabOS services.\n\n\nIn the very near future, HomelabOS will provision these tab links for you automatically.\n\n\nThe URLs for all the services can be found in their individual documentation section.", 
             "title": "Getting Started"
         }, 
         {
-            "location": "/#chronograf", 
-            "text": "", 
-            "title": "Chronograf"
+            "location": "/setup/gettingstarted/#getting-started", 
+            "text": "Alright once you are all setup and ready to go you should be able to load Organizr at  http://{{ domain }}/ .  If you see  { domain }  in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.", 
+            "title": "Getting Started"
         }, 
         {
-            "location": "/#emby", 
-            "text": "", 
+            "location": "/setup/gettingstarted/#using-organizr", 
+            "text": "You can click the  Settings  link, then  Edit Tabs  to be able to add links to all the various HomelabOS services.  In the very near future, HomelabOS will provision these tab links for you automatically.  The URLs for all the services can be found in their individual documentation section.", 
+            "title": "Using Organizr"
+        }, 
+        {
+            "location": "/setup/backups/", 
+            "text": "HomelabOS Backups\n\n\nHomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using \nRestic\n.\n\n\nThis is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.\n\n\nGet access to an S3 Bucket\n\n\nIdeally you want your backups to be offsite, so an S3 bucket is not set up by default for you on your HomlabOS machine. Since we use encrypted backups, you can easily have a friend or enemy host an S3 server for you, and as long as they don't get your backup password, everything will be safe. We recommend generating a very secure password for your backup password.\n\n\nOr you could pay Amazon and use their S3 service, if you're into that sort of thing.\n\n\nSet up your own S3\n\n\nWe recommend Minio.\n\n\nbrew install minio/stable/minio\nminio server /data\n\n\n\n\nCreate a bucket called \nhomelabos\n.\n\n\nOf course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.\n\n\nConfigure the Backup Service\n\n\nSet your S3 path and keys in \nhost_vars/myserver\n.\n\n\nIf you use minio for your S3 hosting, your s3_path should look something like \ns3:http://192.168.1.212:9000/homelabos/\n\n\nOnce these are set, HomelabOS will back up all it's core data every night at 4 AM.\n\n\nRestoring Backups\n\n\nLet's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run \nmake restore\n. Then proceed with the normal install step of running \nmake\n and boom, you have all your data back with a fully working HomelabOS setup.", 
+            "title": "Backups"
+        }, 
+        {
+            "location": "/setup/backups/#homelabos-backups", 
+            "text": "HomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using  Restic .  This is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.", 
+            "title": "HomelabOS Backups"
+        }, 
+        {
+            "location": "/setup/backups/#get-access-to-an-s3-bucket", 
+            "text": "Ideally you want your backups to be offsite, so an S3 bucket is not set up by default for you on your HomlabOS machine. Since we use encrypted backups, you can easily have a friend or enemy host an S3 server for you, and as long as they don't get your backup password, everything will be safe. We recommend generating a very secure password for your backup password.  Or you could pay Amazon and use their S3 service, if you're into that sort of thing.", 
+            "title": "Get access to an S3 Bucket"
+        }, 
+        {
+            "location": "/setup/backups/#set-up-your-own-s3", 
+            "text": "We recommend Minio.  brew install minio/stable/minio\nminio server /data  Create a bucket called  homelabos .  Of course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.", 
+            "title": "Set up your own S3"
+        }, 
+        {
+            "location": "/setup/backups/#configure-the-backup-service", 
+            "text": "Set your S3 path and keys in  host_vars/myserver .  If you use minio for your S3 hosting, your s3_path should look something like  s3:http://192.168.1.212:9000/homelabos/  Once these are set, HomelabOS will back up all it's core data every night at 4 AM.", 
+            "title": "Configure the Backup Service"
+        }, 
+        {
+            "location": "/setup/backups/#restoring-backups", 
+            "text": "Let's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run  make restore . Then proceed with the normal install step of running  make  and boom, you have all your data back with a fully working HomelabOS setup.", 
+            "title": "Restoring Backups"
+        }, 
+        {
+            "location": "/software/convos/", 
+            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nIt is available at \nhttp://irc.{{ domain }}/", 
+            "title": "Convos"
+        }, 
+        {
+            "location": "/software/convos/#convos", 
+            "text": "Convos  is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.  It is available at  http://irc.{{ domain }}/", 
+            "title": "Convos"
+        }, 
+        {
+            "location": "/software/darksky/", 
+            "text": "Darksky\n\n\ndarksky-influxdb\n pulls in weather data for your location every 2 minutes from \nDarksky\n and saves it to your \nInfluxDB\n instance.\n\n\nYou need to get an API key first from \nDarksky\n\n\nThere is no direct access to it, but you can create graphs in \nGrafana\n to visualize it.", 
+            "title": "Darksky"
+        }, 
+        {
+            "location": "/software/darksky/#darksky", 
+            "text": "darksky-influxdb  pulls in weather data for your location every 2 minutes from  Darksky  and saves it to your  InfluxDB  instance.  You need to get an API key first from  Darksky  There is no direct access to it, but you can create graphs in  Grafana  to visualize it.", 
+            "title": "Darksky"
+        }, 
+        {
+            "location": "/software/emby/", 
+            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nIt is available at \nhttp://emby.{{ domain }}/", 
             "title": "Emby"
         }, 
         {
-            "location": "/#gitea", 
-            "text": "", 
+            "location": "/software/emby/#emby", 
+            "text": "Emby  is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.  It is available at  http://emby.{{ domain }}/", 
+            "title": "Emby"
+        }, 
+        {
+            "location": "/software/firefly/", 
+            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nIt is available at \nhttp://money.{{ domain }}/", 
+            "title": "Firefly III"
+        }, 
+        {
+            "location": "/software/firefly/#firefly-iii", 
+            "text": "Firefly III  is a money management app.  It is available at  http://money.{{ domain }}/", 
+            "title": "Firefly III"
+        }, 
+        {
+            "location": "/software/gitea/", 
+            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nIt is available at \nhttp://git.{{ domain }}/", 
             "title": "Gitea"
         }, 
         {
-            "location": "/#grafana", 
-            "text": "", 
+            "location": "/software/gitea/#gitea", 
+            "text": "Gitea  is a Git hosting platform.  It is available at  http://git.{{ domain }}/", 
+            "title": "Gitea"
+        }, 
+        {
+            "location": "/software/grafana/", 
+            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky", 
             "title": "Grafana"
         }, 
         {
-            "location": "/#home-assistant", 
-            "text": "Home Assistant Documentation", 
+            "location": "/software/grafana/#grafana", 
+            "text": "Grafana  is a Time Series Database graphing application.  You can use it to visualize the Weather data imported by  influxdb_darksky", 
+            "title": "Grafana"
+        }, 
+        {
+            "location": "/software/homeassistant/", 
+            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nIt is available at \nhttp://homeassistant.{{ domain }}/", 
             "title": "Home Assistant"
         }, 
         {
-            "location": "/#transmission", 
-            "text": "Login with your default username and password  transmission", 
+            "location": "/software/homeassistant/#home-assistant", 
+            "text": "Home Assistant  can automate just about any part of your home.  It is available at  http://homeassistant.{{ domain }}/", 
+            "title": "Home Assistant"
+        }, 
+        {
+            "location": "/software/influxdb/", 
+            "text": "InfluxDB\n\n\nInfluxDB\n is the Time Series Database that \nDarksky\n writes to and \nGrafana\n can visualize.\n\n\nIt can also take data from \nHome Assistant\n and many other sources.\n\n\nThere is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host \ninfluxdb\n.", 
+            "title": "InfluxDB"
+        }, 
+        {
+            "location": "/software/influxdb/#influxdb", 
+            "text": "InfluxDB  is the Time Series Database that  Darksky  writes to and  Grafana  can visualize.  It can also take data from  Home Assistant  and many other sources.  There is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host  influxdb .", 
+            "title": "InfluxDB"
+        }, 
+        {
+            "location": "/software/nextcloud/", 
+            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nIt is available at \nhttp://nextcloud.{{ domain }}/", 
+            "title": "NextCloud"
+        }, 
+        {
+            "location": "/software/nextcloud/#nextcloud", 
+            "text": "NextCloud  is your Dropbox / Google Calendar replacement.  It is available at  http://nextcloud.{{ domain }}/", 
+            "title": "NextCloud"
+        }, 
+        {
+            "location": "/software/paperless/", 
+            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nIt is available at \nhttp://paperless.{{ domain }}/", 
+            "title": "Paperless"
+        }, 
+        {
+            "location": "/software/paperless/#paperless", 
+            "text": "Paperless  is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.  It is available at  http://paperless.{{ domain }}/", 
+            "title": "Paperless"
+        }, 
+        {
+            "location": "/software/portainer/", 
+            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nIt is available at \nhttp://docker.{{ domain }}/", 
+            "title": "Portainer"
+        }, 
+        {
+            "location": "/software/portainer/#portainer", 
+            "text": "Portainer  is a Docker management interface, for the more advanced user.  It is available at  http://docker.{{ domain }}/", 
+            "title": "Portainer"
+        }, 
+        {
+            "location": "/software/terminal/", 
+            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nIt is available at \nhttp://terminal.{{ domain }}/", 
+            "title": "Terminal"
+        }, 
+        {
+            "location": "/software/terminal/#terminal", 
+            "text": "Butterfly  is available as a simple web terminal.  It is available at  http://terminal.{{ domain }}/", 
+            "title": "Terminal"
+        }, 
+        {
+            "location": "/software/transmission/", 
+            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nIt is available at \nhttp://torrent.{{ domain }}/", 
+            "title": "Transmission"
+        }, 
+        {
+            "location": "/software/transmission/#transmission", 
+            "text": "Transmission  is available for all your torrenting needs.  It is available at  http://torrent.{{ domain }}/", 
             "title": "Transmission"
         }
     ]

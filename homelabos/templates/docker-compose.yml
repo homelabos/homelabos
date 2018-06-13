@@ -1,3 +1,5 @@
+# Commented out services are in beta testing and not integrated or documented yet. Uncomment them at your own peril.
+
 version: '3'
 
 services:
@@ -98,22 +100,22 @@ services:
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=3000"
 
-  couchpotato:
-    image: "couchpotato/couchpotato"
-    volumes:
-      - /var/homelabos/couchpotato/data:/datadir
-      - {{ nas_movies }}:/media
-    ports:
-      - "5050:5050"
-    restart: always
-    links:
-      - transmission
-      - jackett
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:couchpotato.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=5050"
+  # couchpotato:
+  #   image: "couchpotato/couchpotato"
+  #   volumes:
+  #     - /var/homelabos/couchpotato/data:/datadir
+  #     - {{ nas_movies }}:/media
+  #   ports:
+  #     - "5050:5050"
+  #   restart: always
+  #   links:
+  #     - transmission
+  #     - jackett
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:couchpotato.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=5050"
 
   darksky-influx:
     image: erwinsteffens/darksky-influxdb:latest
@@ -128,6 +130,14 @@ services:
       - INFLUXDB_DATABASE=darksky
       - DARKSKY_LATITUDE={{ latitude }}
       - DARKSKY_LONGITUDE={{ longitude }}
+
+  dasher:
+    image: hijinx/dasher
+    restart: always
+    links:
+      - homeassistant
+    volumes:
+      - /var/homelabos/dasher/config.json:/usr/src/app/config/config.json
 
   docs:
     image: kyma/docker-nginx
@@ -188,17 +198,17 @@ services:
     volumes:
       - "/var/homelabos/firefly/db:/var/lib/mysql"
 
-  freshrss:
-    image: linuxserver/freshrss
-    ports:
-      - 8084:80
-    volumes:
-      - /var/homelabos/freshrss:/config
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:rss.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=80"
+  # freshrss:
+  #   image: linuxserver/freshrss
+  #   ports:
+  #     - 8084:80
+  #   volumes:
+  #     - /var/homelabos/freshrss:/config
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:rss.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=80"
 
   gitea:
     image: gitea/gitea:latest
@@ -305,17 +315,17 @@ services:
     ports:
       - 8086:8086
 
-  jackett:
-    image: linuxserver/jackett
-    restart: always
-    volumes: 
-      - /var/homelabos/jackett/config:/config
-      - /var/homelabos/jackett/downloads:/downloads
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - TZ={{ timezone }}
-    ports:
-      - 9117:9117
+  # jackett:
+  #   image: linuxserver/jackett
+  #   restart: always
+  #   volumes: 
+  #     - /var/homelabos/jackett/config:/config
+  #     - /var/homelabos/jackett/downloads:/downloads
+  #     - /etc/localtime:/etc/localtime:ro
+  #   environment:
+  #     - TZ={{ timezone }}
+  #   ports:
+  #     - 9117:9117
 
   nextcloud:
     image: nextcloud
@@ -345,23 +355,24 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
 
-  nzbget:
-    image: linuxserver/nzbget
-    ports:
-      - 6789:6789
-    environment:
-      - TZ={{ timezone }}
-    volumes:
-      - /var/homelabos/nzbget:/config
-      - {{ nas_downloads }}:/downloads
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:nzbget.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=6789"
+  # nzbget:
+  #   image: linuxserver/nzbget
+  #   ports:
+  #     - 6789:6789
+  #   environment:
+  #     - TZ={{ timezone }}
+  #   volumes:
+  #     - /var/homelabos/nzbget:/config
+  #     - {{ nas_downloads }}:/downloads
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:nzbget.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=6789"
 
   organizr:
-    image: lsiocommunity/organizr
+    # image: lsiocommunity/organizr
+    image: handsomgenious/organizr-v2
     restart: always
     ports:
       - 8083:80
@@ -443,27 +454,27 @@ services:
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=9000"
 
-  sonarr:
-    image: linuxserver/sonarr
-    ports:
-      - 8989:8989
-    environment:
-      - PGID=1000
-      - PUID=1000
-      - TZ={{ timezone }}
-    links:
-      - jackett
-      - transmission
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos/sonarr/config:/config
-      - {{ nas_tv }}:/tv
-      - /var/homelabos/sonarr/downloads:/downloads
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:sonarr.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=8989"
+  # sonarr:
+  #   image: linuxserver/sonarr
+  #   ports:
+  #     - 8989:8989
+  #   environment:
+  #     - PGID=1000
+  #     - PUID=1000
+  #     - TZ={{ timezone }}
+  #   links:
+  #     - jackett
+  #     - transmission
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /var/homelabos/sonarr/config:/config
+  #     - {{ nas_tv }}:/tv
+  #     - /var/homelabos/sonarr/downloads:/downloads
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:sonarr.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=8989"
 
   sonerezh:
     image: sonerezh/sonerezh:latest
@@ -566,19 +577,19 @@ services:
       - "traefik.admin.protocol={{ protocol }}"
       - "traefik.admin.port=9091"
   
-  urbackup:
-    image: cfstras/urbackup
-    ports:
-      - 55413
-      - 55414
-      - 55415
-      - 35622
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos/urbackup/db/:/var/urbackup
-      - {{ nas_backups }}:/backup:rw
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=55414"
+  # urbackup:
+  #   image: cfstras/urbackup
+  #   ports:
+  #     - 55413
+  #     - 55414
+  #     - 55415
+  #     - 35622
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /var/homelabos/urbackup/db/:/var/urbackup
+  #     - {{ nas_backups }}:/backup:rw
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=55414"
