@@ -29,7 +29,6 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 ## Included Software
 
 * [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
-* [Dashboard](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 * [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
@@ -40,6 +39,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
+* [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
 * [Portainer](https://www.portainer.io/) - Easy Docker management
 * [Sonerezh](https://www.sonerezh.bzh/) - Music streaming and library management
