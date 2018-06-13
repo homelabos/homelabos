@@ -28,6 +28,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated Apple Health Import
 * Automated LDAP Sync
 * Self Updating
+* Grafana configured with Dashboards out of the box
 
 ## Demo
 

@@ -5,6 +5,8 @@ edit_uri: edit/master/docs
 
 theme:
   name: 'material'
+  logo:
+    icon: 'cloud'
 
 pages:
   - Home: index.md
