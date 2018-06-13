@@ -80,11 +80,7 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 Ansible version 2.5+ installed on your computer (not the server).
 
-## Installation
-
-Set your settings in `host_vars/myserver`. You can find the default settings in `group_vars/homelabos`.
-
-From your computer (not the server) simply run `make`.
+## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
 ## Contributing
 
