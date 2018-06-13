@@ -20,15 +20,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated Backups
 * Easy Restore
 
-## Planned Features
-
-* Access from anywhere via TOR
-* Automated HTTPS endpoints
-* Dynamic DNS Support
-* Automated Apple Health Import
-* Automated LDAP Sync
-* Self Updating
-* Grafana configured with Dashboards out of the box
+### [Planned Features] (https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
 ## Demo
 
