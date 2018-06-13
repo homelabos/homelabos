@@ -4,13 +4,13 @@ Clone the repository if you have git `git clone git@gitlab.com:NickBusey/Homelab
 
 Make sure you have Ansible 2.5+ installed.
 
-Copy `group_vars/homelabos` to `host_vars/myserver` and change the settings to match your setup.
+From inside the HomelabOS folder execute the terminal command `make setup` to configure your server settings.
 
-Once you have set at a very minimum the required fields in that file, you can begin the installation.
+Once that is done, you can run `make` to have HomelabOS install itself.
 
-Now from inside the HomelabOS folder execute the terminal command `make`.
+To configure additional services, look at the options available in `group_vars/homelabos` and override them in `host_vars/myserver`.
 
-You can always change settings and re-run `make` to update the server with these settings.
+You can always change settings by hand in `host_vars/myserver` and re-run `make` again to update the server with your new settings.
 
 ## Network Configuration
 

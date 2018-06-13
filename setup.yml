@@ -1,0 +1,25 @@
+---
+
+- hosts: all
+  remote_user: root
+  gather_facts: False
+
+  vars_prompt:
+    - name: homelab_ip
+      prompt: "What is the local IP of your server that you can SSH to?"
+      private: no
+    - name: homelab_ssh_user
+      prompt: "What is the user you can passwordless SSH to the above server with?"
+      private: no
+    - name: homelab_user
+      prompt: "What is the default username you would like created as an admin on the various HomelabOS services?"
+      private: no
+    - name: homelab_pass
+      prompt: "What is the default password you would like for this account?"
+      private: no
+    - name: homelab_domain
+      prompt: "What is the domain you have pointed at your Homelab server with ports 80 and 443?"
+      private: no
+
+  roles:
+    - setup
