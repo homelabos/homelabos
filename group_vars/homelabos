@@ -1,7 +1,7 @@
 # These are the default settings. Copy this file to `host_vars/myserver` then in that file set the values to match your setup.
 
 # Default user name to create as admin with services
-default_user_name: (required)
+default_username: (required)
 
 # Default password to go with the default user
 default_password: (required)
