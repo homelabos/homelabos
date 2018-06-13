@@ -4,9 +4,9 @@ repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: edit/master/docs
 
 theme:
-  name: 'material'
+  name: material
   logo:
-    icon: 'cloud'
+    icon: home
 
 pages:
   - Home: index.md
@@ -17,6 +17,7 @@ pages:
   - Included Software:
     - Convos: software/convos.md
     - Darksky: software/darksky.md
+    - Dasher: software/dasher.md
     - Emby: software/emby.md
     - Firefly III: software/firefly.md
     - Gitea: software/gitea.md

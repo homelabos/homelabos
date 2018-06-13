@@ -46,6 +46,12 @@
     </url>
         
     <url>
+     <loc>/software/dasher/</loc>
+     <lastmod>2018-06-12</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>/software/emby/</loc>
      <lastmod>2018-06-12</lastmod>
      <changefreq>daily</changefreq>

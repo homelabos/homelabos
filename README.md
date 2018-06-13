@@ -39,7 +39,8 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
 * [Dashboard](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
-* Documentation - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
+* [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
+* [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 * [Emby](https://emby.media/) - Media player
 * [Firefly III](https://firefly-iii.org/) - Money management budgeting app
 * [Gitea](https://gitea.io/en-US/) - Git hosting

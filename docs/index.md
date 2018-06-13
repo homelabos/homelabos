@@ -1,6 +1,6 @@
 # HomelabOS
 
-Welcome to HomelabOS version 0.1! Your very own offline-first open-source data-center!
+Welcome to HomelabOS version 0.2! Your very own offline-first open-source data-center!
 
 HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.
 

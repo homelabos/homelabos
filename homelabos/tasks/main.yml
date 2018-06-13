@@ -1,11 +1,14 @@
 ---
 - name: Make HomelabOS data directory.
   file:
-    path: /var/homelabos
+    path: "{{ item }}"
     state: directory
-
-- name: Configure HomelabOS Documentation.
-  copy: src=site dest=/var/homelabos/docs
+  loop:
+    - /var/homelabos
+    - /var/homelabos/telegraf
+    - /var/homelabos/traefik
+    - /var/homelabos/dasher
+    - /var/homelabos/docker
 
 - name: Configure Telegraf.
   template: src=telegraf.conf dest=/var/homelabos/telegraf/telegraf.conf

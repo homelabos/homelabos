@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/", 
-            "text": "HomelabOS\n\n\nWelcome to HomelabOS version 0.1! Your very own offline-first open-source data-center!\n\n\nHomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.\n\n\nGetting Help\n\n\nIf you are having problems you can \nfile an issue on GitLab\n.", 
+            "text": "HomelabOS\n\n\nWelcome to HomelabOS version 0.2! Your very own offline-first open-source data-center!\n\n\nHomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.\n\n\nGetting Help\n\n\nIf you are having problems you can \nfile an issue on GitLab\n.", 
             "title": "Home"
         }, 
         {
             "location": "/#homelabos", 
-            "text": "Welcome to HomelabOS version 0.1! Your very own offline-first open-source data-center!  HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.", 
+            "text": "Welcome to HomelabOS version 0.2! Your very own offline-first open-source data-center!  HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.", 
             "title": "HomelabOS"
         }, 
         {
@@ -77,57 +77,97 @@
         }, 
         {
             "location": "/software/convos/", 
-            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nIt is available at \nhttp://irc.{{ domain }}/", 
+            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nAccess\n\n\nIt is available at \nhttp://irc.{{ domain }}/", 
             "title": "Convos"
         }, 
         {
             "location": "/software/convos/#convos", 
-            "text": "Convos  is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.  It is available at  http://irc.{{ domain }}/", 
+            "text": "Convos  is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.", 
             "title": "Convos"
         }, 
         {
+            "location": "/software/convos/#access", 
+            "text": "It is available at  http://irc.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/darksky/", 
-            "text": "Darksky\n\n\ndarksky-influxdb\n pulls in weather data for your location every 2 minutes from \nDarksky\n and saves it to your \nInfluxDB\n instance.\n\n\nYou need to get an API key first from \nDarksky\n\n\nThere is no direct access to it, but you can create graphs in \nGrafana\n to visualize it.", 
+            "text": "Darksky\n\n\ndarksky-influxdb\n pulls in weather data for your location every 2 minutes from \nDarksky\n and saves it to your \nInfluxDB\n instance.\n\n\nYou need to get an API key first from \nDarksky\n\n\nAccess\n\n\nThere is no direct access to it, but you can create graphs in \nGrafana\n to visualize it.", 
             "title": "Darksky"
         }, 
         {
             "location": "/software/darksky/#darksky", 
-            "text": "darksky-influxdb  pulls in weather data for your location every 2 minutes from  Darksky  and saves it to your  InfluxDB  instance.  You need to get an API key first from  Darksky  There is no direct access to it, but you can create graphs in  Grafana  to visualize it.", 
+            "text": "darksky-influxdb  pulls in weather data for your location every 2 minutes from  Darksky  and saves it to your  InfluxDB  instance.  You need to get an API key first from  Darksky", 
             "title": "Darksky"
         }, 
         {
+            "location": "/software/darksky/#access", 
+            "text": "There is no direct access to it, but you can create graphs in  Grafana  to visualize it.", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/dasher/", 
+            "text": "Dasher\n\n\nDasher\n provides support for triggering things when you press one of those free Amazon Dash buttons.\n\n\nFollow \nthe directions on how to find your Dash button's MAC address\n. Then plug that MAC address into \nhomelabos/templates/dasher.config.json\n. Edit the URL, headers and body as needed for your use case. The default example shown causes \nHome Assistant\n to toggle the Living Room lights.\n\n\nAccess\n\n\nNo direct access, but like all the images you can tail the logs in \nPortainer", 
+            "title": "Dasher"
+        }, 
+        {
+            "location": "/software/dasher/#dasher", 
+            "text": "Dasher  provides support for triggering things when you press one of those free Amazon Dash buttons.  Follow  the directions on how to find your Dash button's MAC address . Then plug that MAC address into  homelabos/templates/dasher.config.json . Edit the URL, headers and body as needed for your use case. The default example shown causes  Home Assistant  to toggle the Living Room lights.", 
+            "title": "Dasher"
+        }, 
+        {
+            "location": "/software/dasher/#access", 
+            "text": "No direct access, but like all the images you can tail the logs in  Portainer", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/emby/", 
-            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nIt is available at \nhttp://emby.{{ domain }}/", 
+            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nAccess\n\n\nIt is available at \nhttp://emby.{{ domain }}/", 
             "title": "Emby"
         }, 
         {
             "location": "/software/emby/#emby", 
-            "text": "Emby  is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.  It is available at  http://emby.{{ domain }}/", 
+            "text": "Emby  is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.", 
             "title": "Emby"
         }, 
         {
+            "location": "/software/emby/#access", 
+            "text": "It is available at  http://emby.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/firefly/", 
-            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nIt is available at \nhttp://money.{{ domain }}/", 
+            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nAccess\n\n\nIt is available at \nhttp://money.{{ domain }}/", 
             "title": "Firefly III"
         }, 
         {
             "location": "/software/firefly/#firefly-iii", 
-            "text": "Firefly III  is a money management app.  It is available at  http://money.{{ domain }}/", 
+            "text": "Firefly III  is a money management app.", 
             "title": "Firefly III"
         }, 
         {
+            "location": "/software/firefly/#access", 
+            "text": "It is available at  http://money.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/gitea/", 
-            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nIt is available at \nhttp://git.{{ domain }}/", 
+            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nAccess\n\n\nIt is available at \nhttp://git.{{ domain }}/", 
             "title": "Gitea"
         }, 
         {
             "location": "/software/gitea/#gitea", 
-            "text": "Gitea  is a Git hosting platform.  It is available at  http://git.{{ domain }}/", 
+            "text": "Gitea  is a Git hosting platform.", 
             "title": "Gitea"
         }, 
         {
+            "location": "/software/gitea/#access", 
+            "text": "It is available at  http://git.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/grafana/", 
-            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky", 
+            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky\n\n\nAccess\n\n\nIt is available at \nhttp://grafana.{{ domain }}/", 
             "title": "Grafana"
         }, 
         {
@@ -136,74 +176,114 @@
             "title": "Grafana"
         }, 
         {
+            "location": "/software/grafana/#access", 
+            "text": "It is available at  http://grafana.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/homeassistant/", 
-            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nIt is available at \nhttp://homeassistant.{{ domain }}/", 
+            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nAccess\n\n\nIt is available at \nhttp://homeassistant.{{ domain }}/", 
             "title": "Home Assistant"
         }, 
         {
             "location": "/software/homeassistant/#home-assistant", 
-            "text": "Home Assistant  can automate just about any part of your home.  It is available at  http://homeassistant.{{ domain }}/", 
+            "text": "Home Assistant  can automate just about any part of your home.", 
             "title": "Home Assistant"
         }, 
         {
+            "location": "/software/homeassistant/#access", 
+            "text": "It is available at  http://homeassistant.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/influxdb/", 
-            "text": "InfluxDB\n\n\nInfluxDB\n is the Time Series Database that \nDarksky\n writes to and \nGrafana\n can visualize.\n\n\nIt can also take data from \nHome Assistant\n and many other sources.\n\n\nThere is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host \ninfluxdb\n.", 
+            "text": "InfluxDB\n\n\nInfluxDB\n is the Time Series Database that \nDarksky\n writes to and \nGrafana\n can visualize.\n\n\nIt can also take data from \nHome Assistant\n and many other sources.\n\n\nAccess\n\n\nThere is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host \ninfluxdb\n.", 
             "title": "InfluxDB"
         }, 
         {
             "location": "/software/influxdb/#influxdb", 
-            "text": "InfluxDB  is the Time Series Database that  Darksky  writes to and  Grafana  can visualize.  It can also take data from  Home Assistant  and many other sources.  There is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host  influxdb .", 
+            "text": "InfluxDB  is the Time Series Database that  Darksky  writes to and  Grafana  can visualize.  It can also take data from  Home Assistant  and many other sources.", 
             "title": "InfluxDB"
         }, 
         {
+            "location": "/software/influxdb/#access", 
+            "text": "There is no direct access, but you can access it in Grafana by creating a new InfluxDB data source pointing at host  influxdb .", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/nextcloud/", 
-            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nIt is available at \nhttp://nextcloud.{{ domain }}/", 
+            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nAccess\n\n\nIt is available at \nhttp://nextcloud.{{ domain }}/", 
             "title": "NextCloud"
         }, 
         {
             "location": "/software/nextcloud/#nextcloud", 
-            "text": "NextCloud  is your Dropbox / Google Calendar replacement.  It is available at  http://nextcloud.{{ domain }}/", 
+            "text": "NextCloud  is your Dropbox / Google Calendar replacement.", 
             "title": "NextCloud"
         }, 
         {
+            "location": "/software/nextcloud/#access", 
+            "text": "It is available at  http://nextcloud.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/paperless/", 
-            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nIt is available at \nhttp://paperless.{{ domain }}/", 
+            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nAccess\n\n\nIt is available at \nhttp://paperless.{{ domain }}/", 
             "title": "Paperless"
         }, 
         {
             "location": "/software/paperless/#paperless", 
-            "text": "Paperless  is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.  It is available at  http://paperless.{{ domain }}/", 
+            "text": "Paperless  is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.", 
             "title": "Paperless"
         }, 
         {
+            "location": "/software/paperless/#access", 
+            "text": "It is available at  http://paperless.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/portainer/", 
-            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nIt is available at \nhttp://docker.{{ domain }}/", 
+            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nAccess\n\n\nIt is available at \nhttp://docker.{{ domain }}/", 
             "title": "Portainer"
         }, 
         {
             "location": "/software/portainer/#portainer", 
-            "text": "Portainer  is a Docker management interface, for the more advanced user.  It is available at  http://docker.{{ domain }}/", 
+            "text": "Portainer  is a Docker management interface, for the more advanced user.", 
             "title": "Portainer"
         }, 
         {
+            "location": "/software/portainer/#access", 
+            "text": "It is available at  http://docker.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/terminal/", 
-            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nIt is available at \nhttp://terminal.{{ domain }}/", 
+            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nAccess\n\n\nIt is available at \nhttp://terminal.{{ domain }}/", 
             "title": "Terminal"
         }, 
         {
             "location": "/software/terminal/#terminal", 
-            "text": "Butterfly  is available as a simple web terminal.  It is available at  http://terminal.{{ domain }}/", 
+            "text": "Butterfly  is available as a simple web terminal.", 
             "title": "Terminal"
         }, 
         {
+            "location": "/software/terminal/#access", 
+            "text": "It is available at  http://terminal.{{ domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/transmission/", 
-            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nIt is available at \nhttp://torrent.{{ domain }}/", 
+            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. To disable this functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttp://torrent.{{ domain }}/", 
             "title": "Transmission"
         }, 
         {
             "location": "/software/transmission/#transmission", 
-            "text": "Transmission  is available for all your torrenting needs.  It is available at  http://torrent.{{ domain }}/", 
+            "text": "Transmission  is available for all your torrenting needs.  HomelabOS uses  docker-transmission-openvpn  to only connect via a VPN. To disable this functionality replace the line  image: haugene/transmission-openvpn  with  image: linuxserver/transmission  in  homelabos/templates/docker-compose.yml  then run  make  again from the root directory to update HomelabOS with your new settings.", 
             "title": "Transmission"
+        }, 
+        {
+            "location": "/software/transmission/#access", 
+            "text": "It is available at  http://torrent.{{ domain }}/", 
+            "title": "Access"
         }
     ]
 }

@@ -2,7 +2,11 @@
 
 # Deploy HomelabOS
 deploy:
-	ansible-playbook -i hosts -t homelabos homelabos.yml 
+	ansible-playbook -i hosts homelabos.yml 
+
+# Update just HomelabOS Services (skipping slow initial setup steps)
+update:
+	ansible-playbook -i hosts -t deploy homelabos.yml 
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 build:
