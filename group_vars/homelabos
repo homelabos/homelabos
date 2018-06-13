@@ -1,4 +1,4 @@
-# Set your variables here
+# These are the default settings. Copy this file to `host_vars/myserver` then in that file set the values to match your setup.
 
 # Default user name to create as admin with services
 default_user_name: (required)
@@ -8,6 +8,9 @@ default_password: (required)
 
 # User name used to connect via ssh. Must have passwordless sudo.
 ansible_ssh_user: (required)
+
+# SSH accessible IP address
+ansible_host: (required)
 
 # Timezone of the server
 common_timezone: 'Etc/UTC'

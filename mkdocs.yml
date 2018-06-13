@@ -1,8 +1,28 @@
 site_name: HomelabOS
 
+repo_url: https://gitlab.com/NickBusey/HomelabOS
+edit_uri: edit/master/docs
+
 theme:
   name: 'material'
 
 pages:
   - Home: index.md
-  - Backups: backups.md
+  - Setup:
+    - Installation: setup/installation.md
+    - Getting Started: setup/gettingstarted.md
+    - Backups: setup/backups.md
+  - Included Software:
+    - Convos: software/convos.md
+    - Darksky: software/darksky.md
+    - Emby: software/emby.md
+    - Firefly III: software/firefly.md
+    - Gitea: software/gitea.md
+    - Grafana: software/grafana.md
+    - Home Assistant: software/homeassistant.md
+    - InfluxDB: software/influxdb.md
+    - NextCloud: software/nextcloud.md
+    - Paperless: software/paperless.md
+    - Portainer: software/portainer.md
+    - Terminal: software/terminal.md
+    - Transmission: software/transmission.md
