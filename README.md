@@ -77,6 +77,12 @@ Ansible version 2.5+ installed on your computer (not the server).
 
 ## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
+## Support
+
+* [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
+* [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
+* Join us on irc.freenode.net #HomelabOS
+
 ## Contributing
 
 Please do!
