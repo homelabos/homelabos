@@ -24,3 +24,8 @@ build:
 restore:
 	cat homelaboslogo.txt
 	ansible-playbook -i hosts restore.yml
+
+# Spin up a development stack
+develop:
+	vagrant destroy --force
+	vagrant up
