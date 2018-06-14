@@ -58,3 +58,6 @@ s3_backup_cron: 0 4 * * *
 
 # Home Assitant API Key
 homeassistant_api_key: 
+
+# Apple Health Data Importer - Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
+apple_health_nextcloud_username: admin

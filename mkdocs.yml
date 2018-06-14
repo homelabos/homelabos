@@ -15,6 +15,7 @@ pages:
     - Getting Started: setup/gettingstarted.md
     - Backups: setup/backups.md
   - Included Software:
+    - Apple Health: software/applehealth.md
     - Convos: software/convos.md
     - Darksky: software/darksky.md
     - Dasher: software/dasher.md

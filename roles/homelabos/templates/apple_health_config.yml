@@ -1,0 +1,6 @@
+influxdb:
+  client:
+    host: influxdb
+    database: health
+  write_points:
+    batch_size: 1000

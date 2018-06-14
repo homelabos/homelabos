@@ -5,10 +5,11 @@
     state: directory
   loop:
     - /var/homelabos
-    - /var/homelabos/telegraf
-    - /var/homelabos/traefik
+    - /var/homelabos/apple_health_influx
     - /var/homelabos/dasher
     - /var/homelabos/docker
+    - /var/homelabos/telegraf
+    - /var/homelabos/traefik
     - /mnt/nas
 
 - name: Configure Telegraf.
@@ -20,7 +21,10 @@
 - name: Configure Dasher
   template: src=dasher.config.json dest=/var/homelabos/dasher/config.json
 
-- name: Configure NAS
+- name: Configure Apple Health Importer
+  template: src=apple_health_config.yml dest=/var/homelabos/apple_health_influx/config.yml
+
+  - name: Configure NAS
   lineinfile:
     path: /etc/fstab
     line: '{{ nas_path }}  /mnt/nas  cifs  username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid=1000,iocharset=utf8  0  0'
