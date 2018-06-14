@@ -1,5 +1,3 @@
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1894/badge)](https://bestpractices.coreinfrastructure.org/projects/1894)
-
 # HomelabOS
 
 Your very own offline-first open-source data-center!
