@@ -85,6 +85,7 @@ services:
       - BACKUP_CRON={{ s3_backup_cron }}
       - HOSTNAME={{ domain }}
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/homelabos:/data:ro
 
   convos:
@@ -104,7 +105,7 @@ services:
   #   image: "couchpotato/couchpotato"
   #   volumes:
   #     - /var/homelabos/couchpotato/data:/datadir
-  #     - {{ nas_movies }}:/media
+        # - /mnt/nas/Movies:/media
   #   ports:
   #     - "5050:5050"
   #   restart: always
@@ -153,8 +154,7 @@ services:
     restart: always
     volumes:
       - /var/homelabos/emby:/config
-      - {{ nas_tv }}:/mnt/tv
-      - {{ nas_movies }}:/mnt/movies
+      - /mnt/nas:/mnt/nas
     ports:
       - 8096:8096
     labels:
@@ -362,7 +362,7 @@ services:
   #     - TZ={{ timezone }}
   #   volumes:
   #     - /var/homelabos/nzbget:/config
-  #     - {{ nas_downloads }}:/downloads
+  #     - /mnt/nas/Downloads:/downloads
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.admin.frontend.rule=Host:nzbget.{{ domain }}"
@@ -415,8 +415,8 @@ services:
     volumes:
       - /var/homelabos/paperless/data:/usr/src/paperless/data
       - /var/homelabos/paperless/media:/usr/src/paperless/media
-      - /mnt/Privatenas/Documents/consume:/consume
-      - /mnt/Privatenas/Documents/export:/export
+      - /mnt/nas/Documents/consume:/consume
+      - /mnt/nas/Documents/export:/export
     environment:
       - PAPERLESS_PASSPHRASE=homelabos
     command: ["document_consumer"]
@@ -467,7 +467,7 @@ services:
   #   volumes:
   #     - /etc/localtime:/etc/localtime:ro
   #     - /var/homelabos/sonarr/config:/config
-  #     - {{ nas_tv }}:/tv
+  #     - /mnt/nas/TV:/tv
   #     - /var/homelabos/sonarr/downloads:/downloads
   #   labels:
   #     - "traefik.enable=true"
@@ -556,7 +556,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/transmission/data:/data
       - /var/homelabos/transmission/config:/config
-      - {{ nas_downloads }}:/downloads
+      - /mnt/nas/Downloads:/downloads
       - /var/homelabos/transmission/watch:/watch
     environment:
       - OPENVPN_PROVIDER=PIA
@@ -586,7 +586,7 @@ services:
   #   volumes:
   #     - /etc/localtime:/etc/localtime:ro
   #     - /var/homelabos/urbackup/db/:/var/urbackup
-  #     - {{ nas_backups }}:/backup:rw
+  #     - /mnt/nas/Backups/urbackup/:/backup:rw
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.admin.frontend.rule=Host:backup.{{ domain }}"

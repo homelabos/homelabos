@@ -33,7 +33,7 @@
     - docs
 
   roles:
-    - docs_deploy
+    - docs
 
 # Install and configure HomelabOS services
 - hosts: all

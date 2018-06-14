@@ -9,6 +9,7 @@
     - /var/homelabos/traefik
     - /var/homelabos/dasher
     - /var/homelabos/docker
+    - /mnt/nas
 
 - name: Configure Telegraf.
   template: src=telegraf.conf dest=/var/homelabos/telegraf/telegraf.conf
@@ -18,6 +19,17 @@
 
 - name: Configure Dasher
   template: src=dasher.config.json dest=/var/homelabos/dasher/config.json
+
+- name: Configure NAS
+  lineinfile:
+    path: /etc/fstab
+    line: '{{ nas_path }}  /mnt/nas  cifs  username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid=1000,iocharset=utf8  0  0'
+
+- name: Mount NAS Drives
+  command: mount -a
+  args:
+    warn: no
+  ignore_errors: yes
 
 - name: Configure HomelabOS systemd service.
   template: src=homelabos.service dest=/etc/systemd/system/homelabos.service

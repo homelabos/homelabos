@@ -42,15 +42,13 @@ openvpn_provider: PIA
 openvpn_username: username
 openvpn_password: password
 
-# NAS Stores
-nas_backups:
-nas_music:
-nas_movies:
-nas_tv:
-nas_downloads:
-nas_documents:
+# NAS Config - Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
+nas_path:
+nas_user: 
+nas_pass:
+nas_workgroup: 
 
-# S3 Backup Server Information (More information can be found in the Backups section of the HomelabOS Documentation)
+# S3 Backup Server Information - Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
 s3_path:
 s3_access_key:
 s3_secret_key:

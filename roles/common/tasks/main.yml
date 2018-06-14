@@ -5,11 +5,6 @@
 - debug:
     msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"
 
-- name: Update apt cache
-  apt: update_cache=yes
-  tags:
-    - dependencies
-
 - name: Upgrade all dist packages
   apt: upgrade=dist
   tags:

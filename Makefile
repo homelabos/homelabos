@@ -27,5 +27,11 @@ restore:
 
 # Spin up a development stack
 develop:
+	cat homelaboslogo.txt
 	vagrant destroy --force
 	vagrant up
+
+# Re-run just the Provision step (Ansible) against the Vagrant machine
+provision:
+	cat homelaboslogo.txt
+	vagrant provision

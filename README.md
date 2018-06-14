@@ -84,7 +84,7 @@ Please do!
 
 ### Developing Locally
 
-Run `make develop` to spin up a local instance inside a Vagrant machine.
+Run `make develop` to spin up a local instance inside a Vagrant machine. If you make changes to the Ansible scripts you can run `make provision` to run them again.
 
 ### Working locally on the documentation
 
