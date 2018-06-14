@@ -48,4 +48,4 @@ nas_workgroup: WORKGROUP
 
 This NAS resource will be mounted under `/mnt/nas` in the various containers that would benefit from access.
 
-Assuming you have created the folders above, for [Emby](/software/emby) for example you could point it to `/mnt/nas/tv` and `/mnt/nas/movies` while [Paperless](/software/paperless) would point at `/mnt/nas/documents`.
+Assuming you have created the folders above, for [Emby](/software/emby) for example you could point it to `/mnt/nas/TV` and `/mnt/nas/Movies` while [Paperless](/software/paperless) would point at `/mnt/nas/Documents`.
