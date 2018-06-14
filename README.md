@@ -26,6 +26,10 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ![demo.gif](demo.gif)
 
+### Local Demo
+
+If you have the latest version of Vagrant and Virtual Box setup you can demo things locally by running `make develop`. This will spin up a temporary developer copy on your local computer without needing an actual server to point things at. Note no data will actually be saved from inside the VM, so this is for testing only.
+
 ## Included Software
 
 * [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
@@ -77,6 +81,10 @@ Ansible version 2.5+ installed on your computer (not the server).
 ## Contributing
 
 Please do!
+
+### Developing Locally
+
+Run `make develop` to spin up a local instance inside a Vagrant machine.
 
 ### Working locally on the documentation
 
