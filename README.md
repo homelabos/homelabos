@@ -2,6 +2,12 @@
 
 Your very own offline-first open-source data-center!
 
+## Beta Software
+
+This software has not reached version 1.0 and should therefore be considered unstable. While any tagged version should work well on it's own, a nice friendly upgrade path from one version to another is not guaranteed.
+
+If you like getting your hands dirty in early versions of software, this is for you. If you prefer to wait till things are stable and friendly, maybe hold off for a while.
+
 ## [Documentation](https://nickbusey.gitlab.io/HomelabOS/)
 
 ## Summary
