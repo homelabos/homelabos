@@ -48,8 +48,8 @@ nas_user:
 nas_pass:
 nas_workgroup: 
 
-# S3 Backup Server Information - Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
-s3_path:
+# Restic S3 Backup Server Information - Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+s3_path: s3:http://minio:9000/restic-backups/
 s3_access_key:
 s3_secret_key:
 s3_backup_password:

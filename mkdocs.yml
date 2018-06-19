@@ -25,6 +25,7 @@ pages:
     - Grafana: software/grafana.md
     - Home Assistant: software/homeassistant.md
     - InfluxDB: software/influxdb.md
+    - Minio: software/minio.md
     - NextCloud: software/nextcloud.md
     - Paperless: software/paperless.md
     - Portainer: software/portainer.md

@@ -12,21 +12,16 @@ services:
 
   # bitwarden_mssql:
   #   image: bitwarden/mssql:1.16.0
-  #   container_name: bitwarden-mssql
   #   restart: always
   #   volumes:
-  #     - ../mssql/data:/var/opt/mssql/data
-  #     - ../mssql/backups:/etc/bitwarden/mssql/backups
-  #   env_file:
-  #     - mssql.env
-  #     - ../env/mssql.override.env
+  #     - /var/homelabos/bitwarden/mssql/data:/var/opt/mssql/data
+  #     - /var/homelabos/bitwarden/mssql/backups:/etc/bitwarden/mssql/backups
 
   # bitwarden_web:
   #   image: bitwarden/web:1.22.0
-  #   container_name: bitwarden-web
   #   restart: always
   #   volumes:
-  #     - ../web:/etc/bitwarden/web
+  #     - /var/homelabos/bitwarden/web:/etc/bitwarden/web
   #   labels:
   #     traefik.frontend.rule: 'Host:warden.example.com;Path: /'
   #     traefik.enable: 'true'
@@ -34,10 +29,9 @@ services:
 
   # bitwarden_attachments:
   #   image: bitwarden/attachments:1.16.0
-  #   container_name: bitwarden-attachments
   #   restart: always
   #   volumes:
-  #     - ../core/attachments:/etc/bitwarden/core/attachments
+  #     - /var/homelabos/bitwarden/core/attachments:/etc/bitwarden/core/attachments
   #   labels:
   #     traefik.frontend.rule: 'Host:warden.example.com;PathPrefix: /attachments'
   #     traefik.enable: 'true'
@@ -45,13 +39,9 @@ services:
 
   # bitwarden_api:
   #   image: bitwarden/api:1.16.0
-  #   container_name: bitwarden-api
   #   restart: always
   #   volumes:
-  #     - ../core:/etc/bitwarden/core
-  #   env_file:
-  #     - global.env
-  #     - ../env/global.override.env
+  #     - /var/homelabos/bitwarden/core:/etc/bitwarden/core
   #   labels:
   #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /api'
   #     traefik.enable: 'true'
@@ -59,14 +49,10 @@ services:
 
   # bitwarden_identity:
   #   image: bitwarden/identity:1.16.0
-  #   container_name: bitwarden-identity
   #   restart: always
   #   volumes:
-  #     - ../identity:/etc/bitwarden/identity
-  #     - ../core:/etc/bitwarden/core
-  #   env_file:
-  #     - global.env
-  #     - ../env/global.override.env
+  #     - /var/homelabos/bitwarden/identity:/etc/bitwarden/identity
+  #     - /var/homelabos/bitwarden/core:/etc/bitwarden/core
   #   labels:
   #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /identity'
   #     traefik.enable: 'true'
@@ -74,25 +60,11 @@ services:
 
   # bitwarden_icons:
   #   image: bitwarden/icons:1.16.0
-  #   container_name: bitwarden-icons
   #   restart: always
   #   labels:
   #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /icons'
   #     traefik.enable: 'true'
   #     traefik.port: 80
-
-  backups:
-    image: lobaro/restic-backup-docker:v1.0
-    environment:
-      - RESTIC_REPOSITORY={{ s3_path }}
-      - AWS_ACCESS_KEY_ID={{ s3_access_key }}
-      - AWS_SECRET_ACCESS_KEY={{ s3_secret_key }}
-      - RESTIC_PASSWORD={{ s3_backup_password }}
-      - BACKUP_CRON={{ s3_backup_cron }}
-      - HOSTNAME={{ domain }}
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos:/data:ro
 
   convos:
     image: nordaaker/convos
@@ -201,7 +173,7 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     image: "mariadb:latest"
     volumes:
-      - "/var/homelabos/firefly/db:/var/lib/mysql"
+      - /var/homelabos/firefly/db:/var/lib/mysql
 
   # freshrss:
   #   image: linuxserver/freshrss
@@ -224,7 +196,7 @@ services:
     links:
       - gitea_db:db
     volumes:
-      - ./gitea:/data
+      - /var/lab/homelabos/gitea:/data
     ports:
       - "3030:3000"
       - "222:22"
@@ -331,6 +303,45 @@ services:
   #     - TZ={{ timezone }}
   #   ports:
   #     - 9117:9117
+
+  minio:
+    image: minio/minio
+    command: server /data
+    volumes:
+      - /var/homelabos/minio/data:/data
+      - /var/homelabos/minio/config:/root/.minio/
+    ports:
+      - 9110:9000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:minio.{{ domain }}"
+      - "traefik.admin.protocol={{ protocol }}"
+      - "traefik.admin.port=9000"
+
+  # monicahq:
+  #   image: monicahq/monicahq
+  #   links:
+  #     - monicahq_db
+  #   ports:
+  #     - 8176:80
+  #   env_file: .env
+  #   volumes:
+  #     - /var/homelabos/monica/storage/app/public:/var/www/monica/storage/app/public
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:monica.{{ domain }}"
+  #     - "traefik.admin.protocol={{ protocol }}"
+  #     - "traefik.admin.port=80"
+
+  # monicahq_db:
+  #   image: mysql:5.7
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=sekret_root_password
+  #     - MYSQL_DATABASE=monica
+  #     - MYSQL_USER=homestead
+  #     - MYSQL_PASSWORD=secret
+  #   volumes:
+  #     - /var/homelabos/monica/mysql:/var/lib/mysql
 
   nextcloud:
     image: nextcloud
@@ -481,6 +492,24 @@ services:
   #     - "traefik.admin.protocol={{ protocol }}"
   #     - "traefik.admin.port=8989"
 
+  # https://nickbusey.gitlab.io/HomelabOS/software/restic/
+  restic:
+    image: lobaro/restic-backup-docker:v1.0
+    environment:
+      - RESTIC_REPOSITORY={{ s3_path }}
+      - AWS_ACCESS_KEY_ID={{ s3_access_key }}
+      - AWS_SECRET_ACCESS_KEY={{ s3_secret_key }}
+      - RESTIC_PASSWORD={{ s3_backup_password }}
+      - BACKUP_CRON={{ s3_backup_cron }}
+      - HOSTNAME={{ domain }}
+      - RESTIC_JOB_ARGS="--exclude=minio"
+      - RESTIC_FORGET_ARGS="--prune --keep-last 10 --keep-hourly 24 --keep-daily 7 --keep-weekly 52 --keep-monthly 120 --keep-yearly 100"
+    links:
+      - minio
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/homelabos:/data:ro
+
   sonerezh:
     image: sonerezh/sonerezh:latest
     links:
@@ -520,19 +549,6 @@ services:
     links:
       - influxdb
 
-  terminal:
-    image: georgeyord/butterfly-web-terminal
-    restart: always
-    environment:
-      - PASSWORD={{ default_password }}
-    ports:
-      - 2233:2233
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:terminal.{{ domain }}"
-      - "traefik.admin.protocol={{ protocol }}"
-      - "traefik.admin.port=2233"
-
   traefik:
     image: traefik
     restart: always
@@ -545,6 +561,7 @@ services:
       - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/homelabos/traefik/acme.json:/etc/traefik/acme.json
 
+  # https://nickbusey.gitlab.io/HomelabOS/software/transmission/
   transmission:
     image: haugene/transmission-openvpn
     cap_add:
