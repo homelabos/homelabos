@@ -47,6 +47,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
+* [Minio](https://minio.io/) - S3 hosting
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
