@@ -230,7 +230,7 @@ services:
     volumes:
       - /var/homelabos/grafana:/var/lib/grafana
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,natel-discrete-panel,petrslavotinek-carpetplot-panel,vonage-status-panel
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,natel-discrete-panel,petrslavotinek-carpetplot-panel,vonage-status-panel,raintank-worldping-app
     labels:
       - "traefik.enable=true"
       - "traefik.admin.frontend.rule=Host:grafana.{{ domain }}"
