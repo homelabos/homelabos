@@ -9,6 +9,7 @@ deploy:
 setup:
 	cat homelaboslogo.txt
 	ansible-playbook -i setup_hosts setup.yml
+	ansible-playbook -i hosts homelabos.yml
 
 # Update just HomelabOS Services (skipping slow initial setup steps)
 update:

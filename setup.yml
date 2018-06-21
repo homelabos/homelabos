@@ -1,9 +1,7 @@
 ---
 
-- hosts: all
-  remote_user: root
-  gather_facts: False
-
+- hosts: 127.0.0.1
+  connection: local
   vars_prompt:
     - name: homelab_ip
       prompt: "What is the local IP of your server that you can SSH to?"

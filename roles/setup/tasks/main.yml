@@ -1,5 +1,4 @@
 ---
 
 - name: Save `host_vars/myserver` config file.
-  delegate_to: localhost
   template: src='myserver' dest='{{ playbook_dir }}/host_vars/myserver'
