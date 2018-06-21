@@ -12,11 +12,11 @@
     - /var/homelabos/traefik
     - /mnt/nas
 
-- name: Configure Docker.
-  template: src={{ item }} dest=/var/homelabos/docker/
-  loop:
-    - .env
-    - monica.env
+# - name: Configure Docker.
+#   template: src={{ item }} dest=/var/homelabos/docker/
+#   loop:
+#     - .env
+#     - monica.env
 
 - name: Configure Telegraf.
   template: src=telegraf.conf dest=/var/homelabos/telegraf/telegraf.conf
