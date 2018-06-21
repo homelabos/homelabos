@@ -17,18 +17,23 @@
         }, 
         {
             "location": "/setup/installation/", 
-            "text": "Installation\n\n\nClone the repository if you have git \ngit clone git@gitlab.com:NickBusey/HomelabOS.git\n or \ndownload it from GitLab\n.\n\n\nMake sure you have Ansible 2.5+ installed.\n\n\nCopy \ngroup_vars/homelabos\n to \nhost_vars/myserver\n and change the settings to match your setup.\n\n\nOnce you have set at a very minimum the required fields in that file, you can begin the installation.\n\n\nNow from inside the HomelabOS folder execute the terminal command \nmake\n.\n\n\nYou can always change settings and re-run \nmake\n to update the server with these settings.\n\n\nNetwork Configuration\n\n\nIt is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in \n.local\n and enter that as your domain in \nhost_vars/myserver\n.\n\n\nWhen HomelabOS \nmake\n command completes, it creates a file on the computer which ran make \n/tmp/homelabos_hosts\n. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.", 
+            "text": "Installation\n\n\nClone the repository if you have git \ngit clone git@gitlab.com:NickBusey/HomelabOS.git\n or \ndownload it from GitLab\n.\n\n\nMake sure you have Ansible 2.5+ installed on your computer.\n\n\nEnsure you can access your server with a local IP through \npasswordless SSH\n and your user has \npasswordless sudo\n.\n\n\nFrom inside the HomelabOS folder execute the terminal command \nmake setup\n to configure your server settings.\n\n\nOnce that is done, you can run \nmake\n to have HomelabOS install itself.\n\n\nTo configure additional services, look at the options available in \ngroup_vars/all\n and override them in \nhost_vars/myserver\n.\n\n\nYou can always change settings by hand in \nhost_vars/myserver\n and re-run \nmake\n again to update the server with your new settings.\n\n\nNetwork Configuration\n\n\nIt is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in \n.local\n and enter that as your domain in \nhost_vars/myserver\n.\n\n\nWhen HomelabOS \nmake\n command completes, it creates a file on the computer which ran make \n/tmp/homelabos_hosts\n. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.\n\n\nNAS Network Area Storage Configuration\n\n\nIt is a good idea to keep your files as a whole, media, documents, etc., on a Network Area Storage device or NAS.\n\n\nFor a typical HomelabOS setup you will want at least the following directories inside your NAS:\n\n\nBackups\nMusic\nMovies\nTV\nDownloads\nDocuments\n\n\n\n\nAll you have to do is enter your NAS network path, username and password into your \nhost_vars/myserver\n file. You can find the template in \nhost_vars/all\n in the \n# NAS Config\n section.\n\n\nIt should look something like this, depending on your setup:\n\n\nnas_path: //192.168.1.1/Mynas\nnas_user: guest\nnas_pass:\nnas_workgroup: WORKGROUP\n\n\n\n\nThis NAS resource will be mounted under \n/mnt/nas\n in the various containers that would benefit from access.\n\n\nAssuming you have created the folders above, for \nEmby\n for example you could point it to \n/mnt/nas/TV\n and \n/mnt/nas/Movies\n while \nPaperless\n would point at \n/mnt/nas/Documents\n.", 
             "title": "Installation"
         }, 
         {
             "location": "/setup/installation/#installation", 
-            "text": "Clone the repository if you have git  git clone git@gitlab.com:NickBusey/HomelabOS.git  or  download it from GitLab .  Make sure you have Ansible 2.5+ installed.  Copy  group_vars/homelabos  to  host_vars/myserver  and change the settings to match your setup.  Once you have set at a very minimum the required fields in that file, you can begin the installation.  Now from inside the HomelabOS folder execute the terminal command  make .  You can always change settings and re-run  make  to update the server with these settings.", 
+            "text": "Clone the repository if you have git  git clone git@gitlab.com:NickBusey/HomelabOS.git  or  download it from GitLab .  Make sure you have Ansible 2.5+ installed on your computer.  Ensure you can access your server with a local IP through  passwordless SSH  and your user has  passwordless sudo .  From inside the HomelabOS folder execute the terminal command  make setup  to configure your server settings.  Once that is done, you can run  make  to have HomelabOS install itself.  To configure additional services, look at the options available in  group_vars/all  and override them in  host_vars/myserver .  You can always change settings by hand in  host_vars/myserver  and re-run  make  again to update the server with your new settings.", 
             "title": "Installation"
         }, 
         {
             "location": "/setup/installation/#network-configuration", 
             "text": "It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in  .local  and enter that as your domain in  host_vars/myserver .  When HomelabOS  make  command completes, it creates a file on the computer which ran make  /tmp/homelabos_hosts . You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.", 
             "title": "Network Configuration"
+        }, 
+        {
+            "location": "/setup/installation/#nas-network-area-storage-configuration", 
+            "text": "It is a good idea to keep your files as a whole, media, documents, etc., on a Network Area Storage device or NAS.  For a typical HomelabOS setup you will want at least the following directories inside your NAS:  Backups\nMusic\nMovies\nTV\nDownloads\nDocuments  All you have to do is enter your NAS network path, username and password into your  host_vars/myserver  file. You can find the template in  host_vars/all  in the  # NAS Config  section.  It should look something like this, depending on your setup:  nas_path: //192.168.1.1/Mynas\nnas_user: guest\nnas_pass:\nnas_workgroup: WORKGROUP  This NAS resource will be mounted under  /mnt/nas  in the various containers that would benefit from access.  Assuming you have created the folders above, for  Emby  for example you could point it to  /mnt/nas/TV  and  /mnt/nas/Movies  while  Paperless  would point at  /mnt/nas/Documents .", 
+            "title": "NAS Network Area Storage Configuration"
         }, 
         {
             "location": "/setup/gettingstarted/", 
@@ -47,37 +52,92 @@
         }, 
         {
             "location": "/setup/backups/", 
-            "text": "HomelabOS Backups\n\n\nHomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using \nRestic\n.\n\n\nThis is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.\n\n\nGet access to an S3 Bucket\n\n\nIdeally you want your backups to be offsite, so an S3 bucket is not set up by default for you on your HomlabOS machine. Since we use encrypted backups, you can easily have a friend or enemy host an S3 server for you, and as long as they don't get your backup password, everything will be safe. We recommend generating a very secure password for your backup password.\n\n\nOr you could pay Amazon and use their S3 service, if you're into that sort of thing.\n\n\nSet up your own S3\n\n\nWe recommend Minio.\n\n\nbrew install minio/stable/minio\nminio server /data\n\n\n\n\nCreate a bucket called \nhomelabos\n.\n\n\nOf course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.\n\n\nConfigure the Backup Service\n\n\nSet your S3 path and keys in \nhost_vars/myserver\n.\n\n\nIf you use minio for your S3 hosting, your s3_path should look something like \ns3:http://192.168.1.212:9000/homelabos/\n\n\nOnce these are set, HomelabOS will back up all it's core data every night at 4 AM.\n\n\nRestoring Backups\n\n\nLet's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run \nmake restore\n. Then proceed with the normal install step of running \nmake\n and boom, you have all your data back with a fully working HomelabOS setup.", 
+            "text": "HomelabOS Backups\n\n\nHomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using \nRestic\n and \nMinio\n.\n\n\nThis is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.\n\n\nGet access to an S3 Bucket\n\n\nIdeally you want your backups to be offsite, so really the best case scenario would be to find a friend also running HomelabOS, and trade S3 access with them.\n\n\nOr you could pay Amazon and use their S3 service, if you're into that sort of thing.\n\n\nUse your own S3\n\n\nThis method is not recommended as it is backing up to yourself which is not very useful. The usefulness here comes from Restic's snapshotting. So while this won't give you an offsite backup, it will still provide timed snapshots to access old versions of files.\n\n\nView your logs for the Minio service (homelabos_minio_1) and copy the AccessKey and SecretKeys out of the logs. Put these into your \nhost_vars/myserver\n file under the \ns3_access_key\n and \ns3_secret_key\n variables. Now login to Minio at \nhttp://minio.{{ domain }}/\n with the same access and secret key values and create a bucket called \nrestic-backups\n. Finally run \nmake update\n to copy your new settings up to your HomelabOS server.\n\n\nOf course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.\n\n\nConfigure the Backup Service\n\n\nSet your S3 keys in \nhost_vars/myserver\n.\n\n\nOnce these are set, HomelabOS will back up all it's core data every night at 4 AM.\n\n\nRestoring Backups\n\n\nLet's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run \nmake restore\n. Then proceed with the normal install step of running \nmake\n and boom, you have all your data back with a fully working HomelabOS setup.\n\n\nAlternatively you can work directly with the Restic backups through it's Docker shell. Using either \nPortainer\n or your server's CLI, once you gain access to the Restic shell, you can run commands like \nrestic snapshots\n to list all your snapshots.", 
             "title": "Backups"
         }, 
         {
             "location": "/setup/backups/#homelabos-backups", 
-            "text": "HomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using  Restic .  This is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.", 
+            "text": "HomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using  Restic  and  Minio .  This is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.", 
             "title": "HomelabOS Backups"
         }, 
         {
             "location": "/setup/backups/#get-access-to-an-s3-bucket", 
-            "text": "Ideally you want your backups to be offsite, so an S3 bucket is not set up by default for you on your HomlabOS machine. Since we use encrypted backups, you can easily have a friend or enemy host an S3 server for you, and as long as they don't get your backup password, everything will be safe. We recommend generating a very secure password for your backup password.  Or you could pay Amazon and use their S3 service, if you're into that sort of thing.", 
+            "text": "Ideally you want your backups to be offsite, so really the best case scenario would be to find a friend also running HomelabOS, and trade S3 access with them.  Or you could pay Amazon and use their S3 service, if you're into that sort of thing.", 
             "title": "Get access to an S3 Bucket"
         }, 
         {
-            "location": "/setup/backups/#set-up-your-own-s3", 
-            "text": "We recommend Minio.  brew install minio/stable/minio\nminio server /data  Create a bucket called  homelabos .  Of course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.", 
-            "title": "Set up your own S3"
+            "location": "/setup/backups/#use-your-own-s3", 
+            "text": "This method is not recommended as it is backing up to yourself which is not very useful. The usefulness here comes from Restic's snapshotting. So while this won't give you an offsite backup, it will still provide timed snapshots to access old versions of files.  View your logs for the Minio service (homelabos_minio_1) and copy the AccessKey and SecretKeys out of the logs. Put these into your  host_vars/myserver  file under the  s3_access_key  and  s3_secret_key  variables. Now login to Minio at  http://minio.{{ domain }}/  with the same access and secret key values and create a bucket called  restic-backups . Finally run  make update  to copy your new settings up to your HomelabOS server.  Of course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.", 
+            "title": "Use your own S3"
         }, 
         {
             "location": "/setup/backups/#configure-the-backup-service", 
-            "text": "Set your S3 path and keys in  host_vars/myserver .  If you use minio for your S3 hosting, your s3_path should look something like  s3:http://192.168.1.212:9000/homelabos/  Once these are set, HomelabOS will back up all it's core data every night at 4 AM.", 
+            "text": "Set your S3 keys in  host_vars/myserver .  Once these are set, HomelabOS will back up all it's core data every night at 4 AM.", 
             "title": "Configure the Backup Service"
         }, 
         {
             "location": "/setup/backups/#restoring-backups", 
-            "text": "Let's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run  make restore . Then proceed with the normal install step of running  make  and boom, you have all your data back with a fully working HomelabOS setup.", 
+            "text": "Let's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run  make restore . Then proceed with the normal install step of running  make  and boom, you have all your data back with a fully working HomelabOS setup.  Alternatively you can work directly with the Restic backups through it's Docker shell. Using either  Portainer  or your server's CLI, once you gain access to the Restic shell, you can run commands like  restic snapshots  to list all your snapshots.", 
             "title": "Restoring Backups"
         }, 
         {
+            "location": "/setup/tor/", 
+            "text": "Tor\n\n\nIf you don't have a domain, or your DNS fails you, or suddenly some ports aren't mapped correctly somewhere in your network, and you can't access your services remotely, fear not! Tor is here to save the day.\n\n\nInstall Tor\n\n\nDownload Tor from the \nTor Project\n website.\n\n\nWeb Access\n\n\nEach page of the Software documentation section has a Tor URL beneath the normal URL.\n\n\nSSH Access\n\n\nMake sure you have a working \ntorify\n installation on your machine (not the server). Run \ntorify curl ifconfig.me\n to verify you can connect to Tor with \ntorify\n.\n\n\nNow append the following lines to your \n~/.ssh/config\n file:\n\n\nHost *.onion\n   ProxyCommand /usr/bin/nc -xlocalhost:9150 -X5 %h %p\n\n\n\n\nOnce that is done, you can ssh to your server with \ntorify ssh {{ ansible_user }}@{{ tor_ssh_domain }}", 
+            "title": "Tor Hidden Services"
+        }, 
+        {
+            "location": "/setup/tor/#tor", 
+            "text": "If you don't have a domain, or your DNS fails you, or suddenly some ports aren't mapped correctly somewhere in your network, and you can't access your services remotely, fear not! Tor is here to save the day.", 
+            "title": "Tor"
+        }, 
+        {
+            "location": "/setup/tor/#install-tor", 
+            "text": "Download Tor from the  Tor Project  website.", 
+            "title": "Install Tor"
+        }, 
+        {
+            "location": "/setup/tor/#web-access", 
+            "text": "Each page of the Software documentation section has a Tor URL beneath the normal URL.", 
+            "title": "Web Access"
+        }, 
+        {
+            "location": "/setup/tor/#ssh-access", 
+            "text": "Make sure you have a working  torify  installation on your machine (not the server). Run  torify curl ifconfig.me  to verify you can connect to Tor with  torify .  Now append the following lines to your  ~/.ssh/config  file:  Host *.onion\n   ProxyCommand /usr/bin/nc -xlocalhost:9150 -X5 %h %p  Once that is done, you can ssh to your server with  torify ssh {{ ansible_user }}@{{ tor_ssh_domain }}", 
+            "title": "SSH Access"
+        }, 
+        {
+            "location": "/software/applehealth/", 
+            "text": "Automated Apple Health Import\n\n\nHomelabOS supports automatically (kind of) importing of your data from Apple Health.\n\n\nThe non-automatic part is you have to manually create an Export from the Health app on your phone.\n\n\nOnce you upload your export to your \nNextCloud\n instance, the Apple Health cron task will pick it up within the next hour, and put all the data into \nInfluxDB\n. Now you can create nice dashboards in \nGrafana\n to visualize and inspect your Health data.\n\n\nConfiguring\n\n\nYou need to set the NextCloud username that you want to import Health Data from in your \nhost_vars/myserver\n file. This value defaults to \nadmin\n the default username created at startup by NextCloud.\n\n\nExporting\n\n\nMake sure you have NextCloud configured on your Apple device. On your Apple device open the \nHealth\n app. Click the \nToday\n tab, then click the profile icon in the top right of the screen. Now click \nExport Health Data\n. Once the export completes, save it to NextCloud. Click \nUpload\n with the default settings. It should save to your \nFiles\n folder with the name \nexport.zip\n.\n\n\nNow in under an hour you should be able to see your data in Influx via Grafana.\n\n\nDebugging\n\n\nYou can always open up \nPortainer\n and view the Logs of the \nhomelabos_apple_health_influx_1\n container to see if things are working or not.\n\n\nAccess\n\n\nThere is no direct access to this service, you can visualize the data through Grafana.", 
+            "title": "Apple Health"
+        }, 
+        {
+            "location": "/software/applehealth/#automated-apple-health-import", 
+            "text": "HomelabOS supports automatically (kind of) importing of your data from Apple Health.  The non-automatic part is you have to manually create an Export from the Health app on your phone.  Once you upload your export to your  NextCloud  instance, the Apple Health cron task will pick it up within the next hour, and put all the data into  InfluxDB . Now you can create nice dashboards in  Grafana  to visualize and inspect your Health data.", 
+            "title": "Automated Apple Health Import"
+        }, 
+        {
+            "location": "/software/applehealth/#configuring", 
+            "text": "You need to set the NextCloud username that you want to import Health Data from in your  host_vars/myserver  file. This value defaults to  admin  the default username created at startup by NextCloud.", 
+            "title": "Configuring"
+        }, 
+        {
+            "location": "/software/applehealth/#exporting", 
+            "text": "Make sure you have NextCloud configured on your Apple device. On your Apple device open the  Health  app. Click the  Today  tab, then click the profile icon in the top right of the screen. Now click  Export Health Data . Once the export completes, save it to NextCloud. Click  Upload  with the default settings. It should save to your  Files  folder with the name  export.zip .  Now in under an hour you should be able to see your data in Influx via Grafana.", 
+            "title": "Exporting"
+        }, 
+        {
+            "location": "/software/applehealth/#debugging", 
+            "text": "You can always open up  Portainer  and view the Logs of the  homelabos_apple_health_influx_1  container to see if things are working or not.", 
+            "title": "Debugging"
+        }, 
+        {
+            "location": "/software/applehealth/#access", 
+            "text": "There is no direct access to this service, you can visualize the data through Grafana.", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/convos/", 
-            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nAccess\n\n\nIt is available at \nhttp://irc.{{ domain }}/", 
+            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nAccess\n\n\nIt is available at \nhttp://irc.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://irc.{{ tor_domain }}/", 
             "title": "Convos"
         }, 
         {
@@ -87,7 +147,7 @@
         }, 
         {
             "location": "/software/convos/#access", 
-            "text": "It is available at  http://irc.{{ domain }}/", 
+            "text": "It is available at  http://irc.{{ domain }}/  It is also available via Tor at  http://irc.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -122,7 +182,7 @@
         }, 
         {
             "location": "/software/emby/", 
-            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nAccess\n\n\nIt is available at \nhttp://emby.{{ domain }}/", 
+            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nAccess\n\n\nIt is available at \nhttp://emby.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://emby.{{ tor_domain }}/", 
             "title": "Emby"
         }, 
         {
@@ -132,12 +192,12 @@
         }, 
         {
             "location": "/software/emby/#access", 
-            "text": "It is available at  http://emby.{{ domain }}/", 
+            "text": "It is available at  http://emby.{{ domain }}/  It is also available via Tor at  http://emby.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/firefly/", 
-            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nAccess\n\n\nIt is available at \nhttp://money.{{ domain }}/", 
+            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nAccess\n\n\nIt is available at \nhttp://money.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://money.{{ tor_domain }}/", 
             "title": "Firefly III"
         }, 
         {
@@ -147,12 +207,12 @@
         }, 
         {
             "location": "/software/firefly/#access", 
-            "text": "It is available at  http://money.{{ domain }}/", 
+            "text": "It is available at  http://money.{{ domain }}/  It is also available via Tor at  http://money.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/gitea/", 
-            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nAccess\n\n\nIt is available at \nhttp://git.{{ domain }}/", 
+            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nAccess\n\n\nIt is available at \nhttp://git.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://git.{{ tor_domain }}/", 
             "title": "Gitea"
         }, 
         {
@@ -162,12 +222,12 @@
         }, 
         {
             "location": "/software/gitea/#access", 
-            "text": "It is available at  http://git.{{ domain }}/", 
+            "text": "It is available at  http://git.{{ domain }}/  It is also available via Tor at  http://git.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/grafana/", 
-            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky\n\n\nAccess\n\n\nIt is available at \nhttp://grafana.{{ domain }}/", 
+            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky\n\n\nAccess\n\n\nIt is available at \nhttp://grafana.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://grafana.{{ tor_domain }}/", 
             "title": "Grafana"
         }, 
         {
@@ -177,12 +237,12 @@
         }, 
         {
             "location": "/software/grafana/#access", 
-            "text": "It is available at  http://grafana.{{ domain }}/", 
+            "text": "It is available at  http://grafana.{{ domain }}/  It is also available via Tor at  http://grafana.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/homeassistant/", 
-            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nAccess\n\n\nIt is available at \nhttp://homeassistant.{{ domain }}/", 
+            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nAccess\n\n\nIt is available at \nhttp://homeassistant.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://homeassistant.{{ tor_domain }}/", 
             "title": "Home Assistant"
         }, 
         {
@@ -192,7 +252,7 @@
         }, 
         {
             "location": "/software/homeassistant/#access", 
-            "text": "It is available at  http://homeassistant.{{ domain }}/", 
+            "text": "It is available at  http://homeassistant.{{ domain }}/  It is also available via Tor at  http://homeassistant.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -211,8 +271,28 @@
             "title": "Access"
         }, 
         {
+            "location": "/software/minio/", 
+            "text": "Minio\n\n\nMinio is an S3 storage utility.\n\n\nConfiguration\n\n\nRefer to the \nBackup Guide\n for configuration details.\n\n\nAccess\n\n\nThe dashboard is available at \nhttp://minio.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://minio.{{ tor_domain }}/", 
+            "title": "Minio"
+        }, 
+        {
+            "location": "/software/minio/#minio", 
+            "text": "Minio is an S3 storage utility.", 
+            "title": "Minio"
+        }, 
+        {
+            "location": "/software/minio/#configuration", 
+            "text": "Refer to the  Backup Guide  for configuration details.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/minio/#access", 
+            "text": "The dashboard is available at  http://minio.{{ domain }}/  It is also available via Tor at  http://minio.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/nextcloud/", 
-            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nAccess\n\n\nIt is available at \nhttp://nextcloud.{{ domain }}/", 
+            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nAccess\n\n\nIt is available at \nhttp://nextcloud.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://nextcloud.{{ tor_domain }}/", 
             "title": "NextCloud"
         }, 
         {
@@ -222,12 +302,12 @@
         }, 
         {
             "location": "/software/nextcloud/#access", 
-            "text": "It is available at  http://nextcloud.{{ domain }}/", 
+            "text": "It is available at  http://nextcloud.{{ domain }}/  It is also available via Tor at  http://nextcloud.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/paperless/", 
-            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nAccess\n\n\nIt is available at \nhttp://paperless.{{ domain }}/", 
+            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nAccess\n\n\nIt is available at \nhttp://paperless.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://paperless.{{ tor_domain }}/", 
             "title": "Paperless"
         }, 
         {
@@ -237,12 +317,12 @@
         }, 
         {
             "location": "/software/paperless/#access", 
-            "text": "It is available at  http://paperless.{{ domain }}/", 
+            "text": "It is available at  http://paperless.{{ domain }}/  It is also available via Tor at  http://paperless.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/portainer/", 
-            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nAccess\n\n\nIt is available at \nhttp://docker.{{ domain }}/", 
+            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nAccess\n\n\nIt is available at \nhttp://docker.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://docker.{{ tor_domain }}/", 
             "title": "Portainer"
         }, 
         {
@@ -252,12 +332,12 @@
         }, 
         {
             "location": "/software/portainer/#access", 
-            "text": "It is available at  http://docker.{{ domain }}/", 
+            "text": "It is available at  http://docker.{{ domain }}/  It is also available via Tor at  http://docker.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/terminal/", 
-            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nAccess\n\n\nIt is available at \nhttp://terminal.{{ domain }}/", 
+            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nAccess\n\n\nIt is available at \nhttp://terminal.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://terminal.{{ tor_domain }}/", 
             "title": "Terminal"
         }, 
         {
@@ -267,22 +347,22 @@
         }, 
         {
             "location": "/software/terminal/#access", 
-            "text": "It is available at  http://terminal.{{ domain }}/", 
+            "text": "It is available at  http://terminal.{{ domain }}/  It is also available via Tor at  http://terminal.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/transmission/", 
-            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. To disable this functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttp://torrent.{{ domain }}/", 
+            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttp://torrent.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://transmission.{{ tor_domain }}/", 
             "title": "Transmission"
         }, 
         {
             "location": "/software/transmission/#transmission", 
-            "text": "Transmission  is available for all your torrenting needs.  HomelabOS uses  docker-transmission-openvpn  to only connect via a VPN. To disable this functionality replace the line  image: haugene/transmission-openvpn  with  image: linuxserver/transmission  in  homelabos/templates/docker-compose.yml  then run  make  again from the root directory to update HomelabOS with your new settings.", 
+            "text": "Transmission  is available for all your torrenting needs.  HomelabOS uses  docker-transmission-openvpn  to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line  image: haugene/transmission-openvpn  with  image: linuxserver/transmission  in  homelabos/templates/docker-compose.yml  then run  make  again from the root directory to update HomelabOS with your new settings.", 
             "title": "Transmission"
         }, 
         {
             "location": "/software/transmission/#access", 
-            "text": "It is available at  http://torrent.{{ domain }}/", 
+            "text": "It is available at  http://torrent.{{ domain }}/  It is also available via Tor at  http://transmission.{{ tor_domain }}/", 
             "title": "Access"
         }
     ]

@@ -313,6 +313,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../setup/tor/" title="Tor Hidden Services" class="md-nav__link">
+      Tor Hidden Services
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -338,6 +350,18 @@
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../applehealth/" title="Apple Health" class="md-nav__link">
+      Apple Health
+    </a>
+  </li>
+
         
           
           
@@ -443,6 +467,18 @@
   <li class="md-nav__item">
     <a href="../influxdb/" title="InfluxDB" class="md-nav__link">
       InfluxDB
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../minio/" title="Minio" class="md-nav__link">
+      Minio
     </a>
   </li>
 
@@ -598,9 +634,10 @@
                 
                 <h1 id="transmission">Transmission</h1>
 <p><a href="https://transmissionbt.com/">Transmission</a> is available for all your torrenting needs.</p>
-<p>HomelabOS uses <a href="https://github.com/haugene/docker-transmission-openvpn">docker-transmission-openvpn</a> to only connect via a VPN. To disable this functionality replace the line <code>image: haugene/transmission-openvpn</code> with <code>image: linuxserver/transmission</code> in <code>homelabos/templates/docker-compose.yml</code> then run <code>make</code> again from the root directory to update HomelabOS with your new settings. </p>
+<p>HomelabOS uses <a href="https://github.com/haugene/docker-transmission-openvpn">docker-transmission-openvpn</a> to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line <code>image: haugene/transmission-openvpn</code> with <code>image: linuxserver/transmission</code> in <code>homelabos/templates/docker-compose.yml</code> then run <code>make</code> again from the root directory to update HomelabOS with your new settings. </p>
 <h2 id="access">Access</h2>
 <p>It is available at <a href="http://torrent.{{ domain }}/">http://torrent.{{ domain }}/</a></p>
+<p>It is also available via Tor at <a href="http://transmission.{{ tor_domain }}/">http://transmission.{{ tor_domain }}/</a></p>
                 
                   
                 

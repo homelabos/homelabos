@@ -7,3 +7,5 @@ You can use it to visualize the Weather data imported by [influxdb_darksky](soft
 ## Access
 
 It is available at [http://grafana.{{ domain }}/](http://grafana.{{ domain }}/)
+
+It is also available via Tor at [http://grafana.{{ tor_domain }}/](http://grafana.{{ tor_domain }}/)

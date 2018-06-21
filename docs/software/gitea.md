@@ -5,3 +5,5 @@
 ## Access
 
 It is available at [http://git.{{ domain }}/](http://git.{{ domain }}/)
+
+It is also available via Tor at [http://git.{{ tor_domain }}/](http://git.{{ tor_domain }}/)

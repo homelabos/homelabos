@@ -1,5 +1,5 @@
 ---
-- name: Make HomelabOS data directory.
+- name: Make HomelabOS data directories.
   file:
     path: "{{ item }}"
     state: directory
@@ -11,6 +11,12 @@
     - /var/homelabos/telegraf
     - /var/homelabos/traefik
     - /mnt/nas
+
+- name: Configure Docker.
+  template: src={{ item }} dest=/var/homelabos/docker/
+  loop:
+    - .env
+    - monica.env
 
 - name: Configure Telegraf.
   template: src=telegraf.conf dest=/var/homelabos/telegraf/telegraf.conf
@@ -38,10 +44,16 @@
 - name: Configure HomelabOS systemd service.
   template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
 
+- name: Read Tor connection info
+  shell: cat /var/lib/tor/http-onion/hostname
+  register: tor_http_domain_file
+
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
     src: docker-compose.yml
     dest: /var/homelabos/docker/docker-compose.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
 
 # This breaks with Vagrant and seems unreliable. Let's find a better solution.
 # - name: Create HomelabOS hosts file.
@@ -79,8 +91,12 @@
     daemon-reload: yes
     state: restarted
 
+- name: Read Tor SSH connection info
+  shell: cat /var/lib/tor/ssh-onion/hostname
+  register: tor_ssh_domain_file
+
 - debug:
-    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started."
+    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started. You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}/ Finally you can SSH to {{ tor_ssh_domain_file.stdout }}"
 
 - debug:
     msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"

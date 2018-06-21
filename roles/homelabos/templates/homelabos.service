@@ -7,6 +7,7 @@ Requires=docker.service
 TimeoutSec=infinity
 Restart=always
 RestartSec=3
+EnvironmentFile=/var/homelabos/docker/.env
 
 ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/docker/docker-compose.yml -p homelabos down
 

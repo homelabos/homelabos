@@ -5,3 +5,5 @@
 ## Access
 
 It is available at [http://music.{{ domain }}/](http://music.{{ domain }}/)
+
+It is also available via Tor at [http://music.{{ tor_domain }}/](http://music.{{ tor_domain }}/)

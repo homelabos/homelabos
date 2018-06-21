@@ -343,8 +343,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#set-up-your-own-s3" title="Set up your own S3" class="md-nav__link">
-    Set up your own S3
+  <a href="#use-your-own-s3" title="Use your own S3" class="md-nav__link">
+    Use your own S3
   </a>
   
 </li>
@@ -374,6 +374,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tor/" title="Tor Hidden Services" class="md-nav__link">
+      Tor Hidden Services
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -397,6 +409,18 @@
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../software/applehealth/" title="Apple Health" class="md-nav__link">
+      Apple Health
+    </a>
+  </li>
+
         
           
           
@@ -512,6 +536,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../software/minio/" title="Minio" class="md-nav__link">
+      Minio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../software/nextcloud/" title="NextCloud" class="md-nav__link">
       NextCloud
     </a>
@@ -599,8 +635,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#set-up-your-own-s3" title="Set up your own S3" class="md-nav__link">
-    Set up your own S3
+  <a href="#use-your-own-s3" title="Use your own S3" class="md-nav__link">
+    Use your own S3
   </a>
   
 </li>
@@ -639,25 +675,21 @@
                 
                 
                 <h1 id="homelabos-backups">HomelabOS Backups</h1>
-<p>HomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using <a href="https://restic.net/">Restic</a>.</p>
+<p>HomelabOS automatically backs itself in a smart, incremental, encrypted way to any S3 compatible storage provider, using <a href="https://restic.net/">Restic</a> and <a href="https://minio.io/">Minio</a>.</p>
 <p>This is in addition to and separate from the Backup service included within HomelabOS, which backs up your personal computers to the HomelabOS servers.</p>
 <h2 id="get-access-to-an-s3-bucket">Get access to an S3 Bucket</h2>
-<p>Ideally you want your backups to be offsite, so an S3 bucket is not set up by default for you on your HomlabOS machine. Since we use encrypted backups, you can easily have a friend or enemy host an S3 server for you, and as long as they don't get your backup password, everything will be safe. We recommend generating a very secure password for your backup password.</p>
+<p>Ideally you want your backups to be offsite, so really the best case scenario would be to find a friend also running HomelabOS, and trade S3 access with them.</p>
 <p>Or you could pay Amazon and use their S3 service, if you're into that sort of thing.</p>
-<h2 id="set-up-your-own-s3">Set up your own S3</h2>
-<p>We recommend Minio.</p>
-<pre><code>brew install minio/stable/minio
-minio server /data
-</code></pre>
-
-<p>Create a bucket called <code>homelabos</code>.</p>
+<h2 id="use-your-own-s3">Use your own S3</h2>
+<p>This method is not recommended as it is backing up to yourself which is not very useful. The usefulness here comes from Restic's snapshotting. So while this won't give you an offsite backup, it will still provide timed snapshots to access old versions of files.</p>
+<p>View your logs for the Minio service (homelabos_minio_1) and copy the AccessKey and SecretKeys out of the logs. Put these into your <code>host_vars/myserver</code> file under the <code>s3_access_key</code> and <code>s3_secret_key</code> variables. Now login to Minio at <code>http://minio.{{ domain }}/</code> with the same access and secret key values and create a bucket called <code>restic-backups</code>. Finally run <code>make update</code> to copy your new settings up to your HomelabOS server.</p>
 <p>Of course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.</p>
 <h2 id="configure-the-backup-service">Configure the Backup Service</h2>
-<p>Set your S3 path and keys in <code>host_vars/myserver</code>.</p>
-<p>If you use minio for your S3 hosting, your s3_path should look something like <code>s3:http://192.168.1.212:9000/homelabos/</code></p>
+<p>Set your S3 keys in <code>host_vars/myserver</code>.</p>
 <p>Once these are set, HomelabOS will back up all it's core data every night at 4 AM.</p>
 <h2 id="restoring-backups">Restoring Backups</h2>
 <p>Let's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run <code>make restore</code>. Then proceed with the normal install step of running <code>make</code> and boom, you have all your data back with a fully working HomelabOS setup.</p>
+<p>Alternatively you can work directly with the Restic backups through it's Docker shell. Using either <a href="../../software/portainer/">Portainer</a> or your server's CLI, once you gain access to the Restic shell, you can run commands like <code>restic snapshots</code> to list all your snapshots.</p>
                 
                   
                 
@@ -693,13 +725,13 @@ minio server /data
           </a>
         
         
-          <a href="../../software/convos/" title="Convos" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../tor/" title="Tor Hidden Services" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Convos
+                Tor Hidden Services
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

@@ -9,3 +9,31 @@
 
 - name: Configure HomelabOS Documentation.
   copy: src=site dest=/var/homelabos/docs
+
+- name: Read Tor connection info
+  shell: cat /var/lib/tor/http-onion/hostname
+  register: tor_domain_file
+
+- name: Read Tor connection info
+  shell: cat /var/lib/tor/ssh-onion/hostname
+  register: tor_ssh_domain_file
+
+- name: Configure HomelabOS Documentation.
+  template:
+    src: '{{ item.src }}'
+    dest: '/var/homelabos/docs/site/setup/{{ item.path }}'
+  with_filetree: 'site/setup/'
+  when: item.state == 'file'
+  vars:
+    tor_domain: "{{ tor_domain_file.stdout }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"
+
+- name: Configure HomelabOS Documentation.
+  template:
+    src: '{{ item.src }}'
+    dest: '/var/homelabos/docs/site/software/{{ item.path }}'
+  with_filetree: 'site/software/'
+  when: item.state == 'file'
+  vars:
+    tor_domain: "{{ tor_domain_file.stdout }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"

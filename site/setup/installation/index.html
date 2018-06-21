@@ -318,6 +318,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#nas-network-area-storage-configuration" title="NAS Network Area Storage Configuration" class="md-nav__link">
+    NAS Network Area Storage Configuration
+  </a>
+  
+</li>
+      
       
       
       
@@ -353,6 +360,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../tor/" title="Tor Hidden Services" class="md-nav__link">
+      Tor Hidden Services
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -376,6 +395,18 @@
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../software/applehealth/" title="Apple Health" class="md-nav__link">
+      Apple Health
+    </a>
+  </li>
+
         
           
           
@@ -491,6 +522,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../software/minio/" title="Minio" class="md-nav__link">
+      Minio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../software/nextcloud/" title="NextCloud" class="md-nav__link">
       NextCloud
     </a>
@@ -577,6 +620,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#nas-network-area-storage-configuration" title="NAS Network Area Storage Configuration" class="md-nav__link">
+    NAS Network Area Storage Configuration
+  </a>
+  
+</li>
+      
       
       
       
@@ -598,14 +648,36 @@
                 
                 <h1 id="installation">Installation</h1>
 <p>Clone the repository if you have git <code>git clone git@gitlab.com:NickBusey/HomelabOS.git</code> or <a href="https://gitlab.com/NickBusey/HomelabOS/-/archive/master/HomelabOS-master.zip">download it from GitLab</a>.</p>
-<p>Make sure you have Ansible 2.5+ installed.</p>
-<p>Copy <code>group_vars/homelabos</code> to <code>host_vars/myserver</code> and change the settings to match your setup.</p>
-<p>Once you have set at a very minimum the required fields in that file, you can begin the installation.</p>
-<p>Now from inside the HomelabOS folder execute the terminal command <code>make</code>.</p>
-<p>You can always change settings and re-run <code>make</code> to update the server with these settings.</p>
+<p>Make sure you have Ansible 2.5+ installed on your computer.</p>
+<p>Ensure you can access your server with a local IP through <a href="https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login">passwordless SSH</a> and your user has <a href="https://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password">passwordless sudo</a>.</p>
+<p>From inside the HomelabOS folder execute the terminal command <code>make setup</code> to configure your server settings.</p>
+<p>Once that is done, you can run <code>make</code> to have HomelabOS install itself.</p>
+<p>To configure additional services, look at the options available in <code>group_vars/all</code> and override them in <code>host_vars/myserver</code>.</p>
+<p>You can always change settings by hand in <code>host_vars/myserver</code> and re-run <code>make</code> again to update the server with your new settings.</p>
 <h2 id="network-configuration">Network Configuration</h2>
 <p>It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in <code>.local</code> and enter that as your domain in <code>host_vars/myserver</code>.</p>
 <p>When HomelabOS <code>make</code> command completes, it creates a file on the computer which ran make <code>/tmp/homelabos_hosts</code>. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.</p>
+<h2 id="nas-network-area-storage-configuration">NAS Network Area Storage Configuration</h2>
+<p>It is a good idea to keep your files as a whole, media, documents, etc., on a Network Area Storage device or NAS.</p>
+<p>For a typical HomelabOS setup you will want at least the following directories inside your NAS:</p>
+<pre><code>Backups
+Music
+Movies
+TV
+Downloads
+Documents
+</code></pre>
+
+<p>All you have to do is enter your NAS network path, username and password into your <code>host_vars/myserver</code> file. You can find the template in <code>host_vars/all</code> in the <code># NAS Config</code> section.</p>
+<p>It should look something like this, depending on your setup:</p>
+<pre><code>nas_path: //192.168.1.1/Mynas
+nas_user: guest
+nas_pass:
+nas_workgroup: WORKGROUP
+</code></pre>
+
+<p>This NAS resource will be mounted under <code>/mnt/nas</code> in the various containers that would benefit from access.</p>
+<p>Assuming you have created the folders above, for <a href="../../software/emby">Emby</a> for example you could point it to <code>/mnt/nas/TV</code> and <code>/mnt/nas/Movies</code> while <a href="../../software/paperless">Paperless</a> would point at <code>/mnt/nas/Documents</code>.</p>
                 
                   
                 

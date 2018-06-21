@@ -36,7 +36,7 @@
     
     
       
-        <title>Portainer - HomelabOS</title>
+        <title>Minio - HomelabOS</title>
       
     
     
@@ -109,7 +109,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#portainer" tabindex="1" class="md-skip">
+      <a href="#minio" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -135,7 +135,7 @@
                 HomelabOS
               </span>
               <span class="md-header-nav__topic">
-                Portainer
+                Minio
               </span>
             
           
@@ -475,11 +475,56 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../minio/" title="Minio" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Minio
+      </label>
+    
+    <a href="./" title="Minio" class="md-nav__link md-nav__link--active">
       Minio
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" title="Access" class="md-nav__link">
+    Access
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -511,49 +556,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Portainer
-      </label>
-    
-    <a href="./" title="Portainer" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../portainer/" title="Portainer" class="md-nav__link">
       Portainer
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#access" title="Access" class="md-nav__link">
-    Access
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -607,6 +614,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#access" title="Access" class="md-nav__link">
     Access
   </a>
@@ -629,14 +643,16 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://gitlab.com/NickBusey/HomelabOS/edit/master/docs/software/portainer.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://gitlab.com/NickBusey/HomelabOS/edit/master/docs/software/minio.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="portainer">Portainer</h1>
-<p><a href="https://www.portainer.io/">Portainer</a> is a Docker management interface, for the more advanced user.</p>
+                <h1 id="minio">Minio</h1>
+<p>Minio is an S3 storage utility.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Refer to the <a href="../../setup/backups">Backup Guide</a> for configuration details.</p>
 <h2 id="access">Access</h2>
-<p>It is available at <a href="http://docker.{{ domain }}/">http://docker.{{ domain }}/</a></p>
-<p>It is also available via Tor at <a href="http://docker.{{ tor_domain }}/">http://docker.{{ tor_domain }}/</a></p>
+<p>The dashboard is available at <a href="http://minio.{{ domain }}/">http://minio.{{ domain }}/</a></p>
+<p>It is also available via Tor at <a href="http://minio.{{ tor_domain }}/">http://minio.{{ tor_domain }}/</a></p>
                 
                   
                 
@@ -657,7 +673,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../paperless/" title="Paperless" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../influxdb/" title="InfluxDB" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -666,19 +682,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Paperless
+                InfluxDB
               </span>
             </div>
           </a>
         
         
-          <a href="../terminal/" title="Terminal" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../nextcloud/" title="NextCloud" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Terminal
+                NextCloud
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

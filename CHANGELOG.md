@@ -1,6 +1,7 @@
 # 0.3
 
 * Added Automated Apple Health Import
+* Added Tor Hidden Services
 
 # 0.2
 

@@ -24,6 +24,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated Backups
 * Easy Restore
 * Automated Apple Health Data import
+* Automated Tor Hidden Service access
 
 ### [Planned Features] (https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
@@ -69,18 +70,20 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * OwnTracksRecorder - https://github.com/owntracks/recorder
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
 * Sonarr
-* SynchThing
+* SyncThing
 * urBackup
 
 ## Requirements
 
 A server running Ubuntu 18.04 accessible via ssh with a user that has sudo.
 
-A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at your server's IP address.
-
-Ports 80 and 443 punched through any firewalls and port forwarded at your server in question.
-
 Ansible version 2.5+ installed on your computer (not the server).
+
+## Optional Items
+
+A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at your server's IP address. (This is optional because you can use Tor to access your services without registering a domain. For best support from 3rd party clients an actual domain is recommended.)
+
+Ports 80 and 443 punched through any firewalls and port forwarded at your server in question. (This is also optional due to Tor access.)
 
 ## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 

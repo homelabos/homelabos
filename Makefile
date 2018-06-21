@@ -1,4 +1,4 @@
-.PHONY: deploy build restore
+.PHONY: deploy build restore develop provision docs
 
 # Deploy HomelabOS
 deploy:
@@ -35,3 +35,9 @@ develop:
 provision:
 	cat homelaboslogo.txt
 	vagrant provision
+
+# Update just the dcos
+docs:
+	cat homelaboslogo.txt
+	mkdocs build
+	ansible-playbook -i hosts -t docs homelabos.yml 	

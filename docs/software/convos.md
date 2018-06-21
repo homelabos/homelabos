@@ -5,3 +5,5 @@
 ## Access
 
 It is available at [http://irc.{{ domain }}/](http://irc.{{ domain }}/)
+
+It is also available via Tor at [http://irc.{{ tor_domain }}/](http://irc.{{ tor_domain }}/)

@@ -22,7 +22,17 @@
     # Install Docker, configure basic server settings
     - common
     # Configure a TOR hidden service for remote access without a public IP
-    # - { role: systemli.hidden-service }
+    - role: toke.tor
+      hidden_services:
+      - dir: /var/lib/tor/ssh-onion
+        port: 22
+        source: 127.0.0.1:22
+      - dir: /var/lib/tor/https-onion
+        port: 443
+        source: 127.0.0.1:443
+      - dir: /var/lib/tor/http-onion
+        port: 80
+        source: 127.0.0.1:80
 
 # Install and configure HomelabOS documentation
 - hosts: all
