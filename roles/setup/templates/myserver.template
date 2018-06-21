@@ -1,0 +1,5 @@
+ansible_host: {{ homelab_ip }}
+ansible_ssh_user: {{ homelab_ssh_user }}
+default_username: {{ homelab_user }} 
+default_password: {{ homelab_pass }}
+domain: {{ homelab_domain }}
