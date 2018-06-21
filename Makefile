@@ -3,11 +3,13 @@
 # Deploy HomelabOS
 deploy:
 	cat homelaboslogo.txt
+	ansible-galaxy install toke.tor
 	ansible-playbook -i hosts homelabos.yml 
 
 # Initial setup
 setup:
 	cat homelaboslogo.txt
+	ansible-galaxy install toke.tor
 	ansible-playbook -i setup_hosts setup.yml
 	ansible-playbook -i hosts homelabos.yml
 
