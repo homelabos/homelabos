@@ -4,6 +4,6 @@
 
 ## Access
 
-It is available at [http://music.{{ domain }}/](http://music.{{ domain }}/)
+It is available at [https://music.{{ domain }}/](https://music.{{ domain }}/) or [http://music.{{ domain }}/](http://music.{{ domain }}/)
 
 It is also available via Tor at [http://music.{{ tor_domain }}/](http://music.{{ tor_domain }}/)

@@ -37,7 +37,7 @@
         }, 
         {
             "location": "/setup/gettingstarted/", 
-            "text": "Getting Started\n\n\nAlright once you are all setup and ready to go you should be able to load Organizr at \nhttp://{{ domain }}/\n.\n\n\nIf you see \n{ domain }\n in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.\n\n\nUsing Organizr\n\n\nYou can click the \nSettings\n link, then \nEdit Tabs\n to be able to add links to all the various HomelabOS services.\n\n\nIn the very near future, HomelabOS will provision these tab links for you automatically.\n\n\nThe URLs for all the services can be found in their individual documentation section.", 
+            "text": "Getting Started\n\n\nAlright once you are all setup and ready to go you should be able to load Organizr at \nhttp://{{ domain }}/\n.\n\n\nIf you see \n{ domain }\n in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.\n\n\nUsing Organizr\n\n\nYou can click the \nSettings\n link, then \nEdit Tabs\n to be able to add links to all the various HomelabOS services.\n\n\nIn the very near future, HomelabOS will provision these tab links for you automatically.\n\n\nThe URLs for all the services can be found in their individual documentation section.\n\n\nHTTPS via LetsEncrypt\n\n\nHomelabOS will use Traefik's built in LetsEncrypt integration to automatically generate SSL certificates for your various services. If initially some of the certificates don't appear valid, you have likely run into \nLetsEncrypt rate limits\n. Unfortunately the only fix we have for that right now is 'wait a week and try again'.", 
             "title": "Getting Started"
         }, 
         {
@@ -49,6 +49,11 @@
             "location": "/setup/gettingstarted/#using-organizr", 
             "text": "You can click the  Settings  link, then  Edit Tabs  to be able to add links to all the various HomelabOS services.  In the very near future, HomelabOS will provision these tab links for you automatically.  The URLs for all the services can be found in their individual documentation section.", 
             "title": "Using Organizr"
+        }, 
+        {
+            "location": "/setup/gettingstarted/#https-via-letsencrypt", 
+            "text": "HomelabOS will use Traefik's built in LetsEncrypt integration to automatically generate SSL certificates for your various services. If initially some of the certificates don't appear valid, you have likely run into  LetsEncrypt rate limits . Unfortunately the only fix we have for that right now is 'wait a week and try again'.", 
+            "title": "HTTPS via LetsEncrypt"
         }, 
         {
             "location": "/setup/backups/", 
@@ -83,7 +88,7 @@
         {
             "location": "/setup/tor/", 
             "text": "Tor\n\n\nIf you don't have a domain, or your DNS fails you, or suddenly some ports aren't mapped correctly somewhere in your network, and you can't access your services remotely, fear not! Tor is here to save the day.\n\n\nInstall Tor\n\n\nDownload Tor from the \nTor Project\n website.\n\n\nWeb Access\n\n\nEach page of the Software documentation section has a Tor URL beneath the normal URL.\n\n\nSSH Access\n\n\nMake sure you have a working \ntorify\n installation on your machine (not the server). Run \ntorify curl ifconfig.me\n to verify you can connect to Tor with \ntorify\n.\n\n\nNow append the following lines to your \n~/.ssh/config\n file:\n\n\nHost *.onion\n   ProxyCommand /usr/bin/nc -xlocalhost:9150 -X5 %h %p\n\n\n\n\nOnce that is done, you can ssh to your server with \ntorify ssh {{ ansible_user }}@{{ tor_ssh_domain }}", 
-            "title": "Tor Hidden Services"
+            "title": "Tor Onion Services"
         }, 
         {
             "location": "/setup/tor/#tor", 
@@ -137,7 +142,7 @@
         }, 
         {
             "location": "/software/convos/", 
-            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nAccess\n\n\nIt is available at \nhttp://irc.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://irc.{{ tor_domain }}/", 
+            "text": "Convos\n\n\nConvos\n is an always on IRC client. Login to your IRC network of choice, and Convos will stay online 24/7 for you, so you can always see any messages.\n\n\nAccess\n\n\nIt is available at \nhttps://irc.{{ domain }}/\n or \nhttp://irc.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://irc.{{ tor_domain }}/", 
             "title": "Convos"
         }, 
         {
@@ -147,7 +152,7 @@
         }, 
         {
             "location": "/software/convos/#access", 
-            "text": "It is available at  http://irc.{{ domain }}/  It is also available via Tor at  http://irc.{{ tor_domain }}/", 
+            "text": "It is available at  https://irc.{{ domain }}/  or  http://irc.{{ domain }}/  It is also available via Tor at  http://irc.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -182,7 +187,7 @@
         }, 
         {
             "location": "/software/emby/", 
-            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nAccess\n\n\nIt is available at \nhttp://emby.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://emby.{{ tor_domain }}/", 
+            "text": "Emby\n\n\nEmby\n is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.\n\n\nAccess\n\n\nIt is available at \nhttps://emby.{{ domain }}/\n or \nhttp://emby.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://emby.{{ tor_domain }}/", 
             "title": "Emby"
         }, 
         {
@@ -192,12 +197,12 @@
         }, 
         {
             "location": "/software/emby/#access", 
-            "text": "It is available at  http://emby.{{ domain }}/  It is also available via Tor at  http://emby.{{ tor_domain }}/", 
+            "text": "It is available at  https://emby.{{ domain }}/  or  http://emby.{{ domain }}/  It is also available via Tor at  http://emby.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/firefly/", 
-            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nAccess\n\n\nIt is available at \nhttp://money.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://money.{{ tor_domain }}/", 
+            "text": "Firefly III\n\n\nFirefly III\n is a money management app.\n\n\nAccess\n\n\nIt is available at \nhttps://money.{{ domain }}/\n or \nhttp://money.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://money.{{ tor_domain }}/", 
             "title": "Firefly III"
         }, 
         {
@@ -207,12 +212,12 @@
         }, 
         {
             "location": "/software/firefly/#access", 
-            "text": "It is available at  http://money.{{ domain }}/  It is also available via Tor at  http://money.{{ tor_domain }}/", 
+            "text": "It is available at  https://money.{{ domain }}/  or  http://money.{{ domain }}/  It is also available via Tor at  http://money.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/gitea/", 
-            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nAccess\n\n\nIt is available at \nhttp://git.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://git.{{ tor_domain }}/", 
+            "text": "Gitea\n\n\nGitea\n is a Git hosting platform.\n\n\nAccess\n\n\nIt is available at \nhttps://git.{{ domain }}/\n or \nhttp://git.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://git.{{ tor_domain }}/", 
             "title": "Gitea"
         }, 
         {
@@ -222,12 +227,12 @@
         }, 
         {
             "location": "/software/gitea/#access", 
-            "text": "It is available at  http://git.{{ domain }}/  It is also available via Tor at  http://git.{{ tor_domain }}/", 
+            "text": "It is available at  https://git.{{ domain }}/  or  http://git.{{ domain }}/  It is also available via Tor at  http://git.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/grafana/", 
-            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky\n\n\nAccess\n\n\nIt is available at \nhttp://grafana.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://grafana.{{ tor_domain }}/", 
+            "text": "Grafana\n\n\nGrafana\n is a Time Series Database graphing application.\n\n\nYou can use it to visualize the Weather data imported by \ninfluxdb_darksky\n\n\nAccess\n\n\nIt is available at \nhttps://grafana.{{ domain }}/\n or \nhttp://grafana.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://grafana.{{ tor_domain }}/", 
             "title": "Grafana"
         }, 
         {
@@ -237,12 +242,12 @@
         }, 
         {
             "location": "/software/grafana/#access", 
-            "text": "It is available at  http://grafana.{{ domain }}/  It is also available via Tor at  http://grafana.{{ tor_domain }}/", 
+            "text": "It is available at  https://grafana.{{ domain }}/  or  http://grafana.{{ domain }}/  It is also available via Tor at  http://grafana.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/homeassistant/", 
-            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nAccess\n\n\nIt is available at \nhttp://homeassistant.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://homeassistant.{{ tor_domain }}/", 
+            "text": "Home Assistant\n\n\nHome Assistant\n can automate just about any part of your home.\n\n\nAccess\n\n\nIt is available at \nhttps://homeassistant.{{ domain }}/\n or \nhttp://homeassistant.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://homeassistant.{{ tor_domain }}/", 
             "title": "Home Assistant"
         }, 
         {
@@ -252,7 +257,7 @@
         }, 
         {
             "location": "/software/homeassistant/#access", 
-            "text": "It is available at  http://homeassistant.{{ domain }}/  It is also available via Tor at  http://homeassistant.{{ tor_domain }}/", 
+            "text": "It is available at  https://homeassistant.{{ domain }}/  or  http://homeassistant.{{ domain }}/  It is also available via Tor at  http://homeassistant.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -272,7 +277,7 @@
         }, 
         {
             "location": "/software/minio/", 
-            "text": "Minio\n\n\nMinio is an S3 storage utility.\n\n\nConfiguration\n\n\nRefer to the \nBackup Guide\n for configuration details.\n\n\nAccess\n\n\nThe dashboard is available at \nhttp://minio.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://minio.{{ tor_domain }}/", 
+            "text": "Minio\n\n\nMinio is an S3 storage utility.\n\n\nConfiguration\n\n\nRefer to the \nBackup Guide\n for configuration details.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://minio.{{ domain }}/\n or \nhttp://minio.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://minio.{{ tor_domain }}/", 
             "title": "Minio"
         }, 
         {
@@ -287,12 +292,12 @@
         }, 
         {
             "location": "/software/minio/#access", 
-            "text": "The dashboard is available at  http://minio.{{ domain }}/  It is also available via Tor at  http://minio.{{ tor_domain }}/", 
+            "text": "The dashboard is available at  https://minio.{{ domain }}/  or  http://minio.{{ domain }}/  It is also available via Tor at  http://minio.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/nextcloud/", 
-            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nAccess\n\n\nIt is available at \nhttp://nextcloud.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://nextcloud.{{ tor_domain }}/", 
+            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nAccess\n\n\nIt is available at \nhttps://nextcloud.{{ domain }}/\n or \nhttp://nextcloud.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://nextcloud.{{ tor_domain }}/", 
             "title": "NextCloud"
         }, 
         {
@@ -302,12 +307,12 @@
         }, 
         {
             "location": "/software/nextcloud/#access", 
-            "text": "It is available at  http://nextcloud.{{ domain }}/  It is also available via Tor at  http://nextcloud.{{ tor_domain }}/", 
+            "text": "It is available at  https://nextcloud.{{ domain }}/  or  http://nextcloud.{{ domain }}/  It is also available via Tor at  http://nextcloud.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/paperless/", 
-            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nAccess\n\n\nIt is available at \nhttp://paperless.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://paperless.{{ tor_domain }}/", 
+            "text": "Paperless\n\n\nPaperless\n is a document management server. Point it at a folder on your NAS that your scanner is set to scan to, scan all your paper docs, have a searchable secure document archive.\n\n\nAccess\n\n\nIt is available at \nhttps://paperless.{{ domain }}/\n or \nhttp://paperless.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://paperless.{{ tor_domain }}/", 
             "title": "Paperless"
         }, 
         {
@@ -317,12 +322,12 @@
         }, 
         {
             "location": "/software/paperless/#access", 
-            "text": "It is available at  http://paperless.{{ domain }}/  It is also available via Tor at  http://paperless.{{ tor_domain }}/", 
+            "text": "It is available at  https://paperless.{{ domain }}/  or  http://paperless.{{ domain }}/  It is also available via Tor at  http://paperless.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/portainer/", 
-            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nAccess\n\n\nIt is available at \nhttp://docker.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://docker.{{ tor_domain }}/", 
+            "text": "Portainer\n\n\nPortainer\n is a Docker management interface, for the more advanced user.\n\n\nAccess\n\n\nIt is available at \nhttps://docker.{{ domain }}/\n or \nhttp://docker.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://docker.{{ tor_domain }}/", 
             "title": "Portainer"
         }, 
         {
@@ -332,12 +337,12 @@
         }, 
         {
             "location": "/software/portainer/#access", 
-            "text": "It is available at  http://docker.{{ domain }}/  It is also available via Tor at  http://docker.{{ tor_domain }}/", 
+            "text": "It is available at  https://docker.{{ domain }}/  or  http://docker.{{ domain }}/  It is also available via Tor at  http://docker.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/terminal/", 
-            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nAccess\n\n\nIt is available at \nhttp://terminal.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://terminal.{{ tor_domain }}/", 
+            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nAccess\n\n\nIt is available at \nhttps://terminal.{{ domain }}/\n or \nhttp://terminal.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://terminal.{{ tor_domain }}/", 
             "title": "Terminal"
         }, 
         {
@@ -347,12 +352,12 @@
         }, 
         {
             "location": "/software/terminal/#access", 
-            "text": "It is available at  http://terminal.{{ domain }}/  It is also available via Tor at  http://terminal.{{ tor_domain }}/", 
+            "text": "It is available at  https://terminal.{{ domain }}/  or  http://terminal.{{ domain }}/  It is also available via Tor at  http://terminal.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
             "location": "/software/transmission/", 
-            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttp://torrent.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://transmission.{{ tor_domain }}/", 
+            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttps://torrent.{{ domain }}/\n or \nhttp://torrent.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://transmission.{{ tor_domain }}/", 
             "title": "Transmission"
         }, 
         {
@@ -362,7 +367,7 @@
         }, 
         {
             "location": "/software/transmission/#access", 
-            "text": "It is available at  http://torrent.{{ domain }}/  It is also available via Tor at  http://transmission.{{ tor_domain }}/", 
+            "text": "It is available at  https://torrent.{{ domain }}/  or  http://torrent.{{ domain }}/  It is also available via Tor at  http://transmission.{{ tor_domain }}/", 
             "title": "Access"
         }
     ]

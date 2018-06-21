@@ -4,6 +4,6 @@
 
 ## Access
 
-It is available at [http://emby.{{ domain }}/](http://emby.{{ domain }}/)
+It is available at [https://emby.{{ domain }}/](https://emby.{{ domain }}/) or [http://emby.{{ domain }}/](http://emby.{{ domain }}/)
 
 It is also available via Tor at [http://emby.{{ tor_domain }}/](http://emby.{{ tor_domain }}/)

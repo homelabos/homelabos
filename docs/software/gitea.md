@@ -4,6 +4,6 @@
 
 ## Access
 
-It is available at [http://git.{{ domain }}/](http://git.{{ domain }}/)
+It is available at [https://git.{{ domain }}/](https://git.{{ domain }}/) or [http://git.{{ domain }}/](http://git.{{ domain }}/)
 
 It is also available via Tor at [http://git.{{ tor_domain }}/](http://git.{{ tor_domain }}/)
