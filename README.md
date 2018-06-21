@@ -24,7 +24,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated Backups
 * Easy Restore
 * Automated Apple Health Data import
-* Automated Tor Hidden Service access
+* Automated Tor Onion Service access
 
 ### [Planned Features] (https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
