@@ -2,6 +2,7 @@
 
 * Added Automated Apple Health Import
 * Added Tor Onion Services
+* Added Automated HTTPS via LetsEncrypt
 
 # 0.2
 
