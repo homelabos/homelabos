@@ -482,6 +482,8 @@ services:
       - WEBPASSWORD={{ default_password }}
       - VIRTUAL_HOST=pihole.{{ domain }}
       - ServerIP={{ ansible_ssh_host }}
+      - ServerIP="${IP:-$(ip route get 8.8.8.8 | awk '{ print $NF; exit }')}"
+      - ServerIPv6="${IPv6:-$(ip -6 route get 2001:4860:4860::8888 | awk '{ print $10; exit }')}"
     ports:
       - 53:53/tcp
       - 53:53/udp
@@ -491,6 +493,7 @@ services:
       - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"

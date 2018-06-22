@@ -81,6 +81,12 @@
 #     - music
 #     - git
 
+- name: Configure resolve.conf to use localhost
+  lineinfile:
+    path: /etc/resolv.conf
+    line: 'nameserver 127.0.0.1'
+
+
 - name: Pull latest HomelabOS service docker images. (This could take a while the first time, it has to download quite a bit.)
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull
 
