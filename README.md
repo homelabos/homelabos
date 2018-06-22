@@ -92,7 +92,7 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 * [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
 * [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
-* Join us on irc.freenode.net #HomelabOS
+* Join us on [irc.freenode.net #HomelabOS](http://webchat.freenode.net/?channels=%23HomelabOS&uio=d4)
 
 ## Contributing
 
