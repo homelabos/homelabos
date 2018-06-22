@@ -49,10 +49,3 @@
   locale_gen:
     name: en_US.UTF-8
     state: present
-
-- name: Disable resolved service to make room for pihole
-  systemd:
-    name: systemd-resolved
-    state: stopped
-    enabled: no
-    daemon-reload: yes
