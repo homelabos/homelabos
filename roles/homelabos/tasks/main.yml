@@ -11,6 +11,7 @@
     - /var/homelabos/telegraf
     - /var/homelabos/traefik
     - /mnt/nas
+  ignore_errors: yes
 
 # - name: Configure Docker.
 #   template: src={{ item }} dest=/var/homelabos/docker/
@@ -55,37 +56,28 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout }}"
 
-# This breaks with Vagrant and seems unreliable. Let's find a better solution.
-# - name: Create HomelabOS hosts file.
-#   file:
-#     path: /tmp/homelab_hosts
-#     state: touch
-#   delegate_to: localhost
-#
-# - name: Configure HomelabOS hosts file. You can find it at /tmp/homelabos_hosts on your machine.
-#   lineinfile:
-#     path: /tmp/homelab_hosts
-#     line: '{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}'
-#   delegate_to: localhost
-#   loop:
-#     - irc
-#     - emby
-#     - money
-#     - grafana
-#     - homeassistant
-#     - nextcloud
-#     - paperless
-#     - portainer
-#     - terminal
-#     - transmission
-#     - music
-#     - git
+- name: Create HomelabOS hosts file.
+  file:
+    path: /var/homelabos/homelab_hosts
+    state: touch
 
-- name: Configure resolve.conf to use localhost
+- name: Configure HomelabOS hosts file. You can find it at /tmp/homelabos_hosts on your machine.
   lineinfile:
-    path: /etc/resolv.conf
-    line: 'nameserver 127.0.0.1'
-
+    path: /var/homelabos/homelab_hosts
+    line: '{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}'
+  loop:
+    - irc
+    - emby
+    - money
+    - grafana
+    - homeassistant
+    - nextcloud
+    - paperless
+    - portainer
+    - terminal
+    - transmission
+    - music
+    - git
 
 - name: Pull latest HomelabOS service docker images. (This could take a while the first time, it has to download quite a bit.)
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull
@@ -93,9 +85,14 @@
 - name: Disable resolved service to make room for pihole
   systemd:
     name: systemd-resolved
-    state: started
-    enabled: yes
+    state: stopped
+    enabled: no
     daemon-reload: yes
+
+- name: Configure resolve.conf to use localhost
+  lineinfile:
+    path: /etc/resolv.conf
+    line: 'nameserver 127.0.0.1'
 
 - name: Restart HomelabOS service.
   systemd:

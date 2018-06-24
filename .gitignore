@@ -1,4 +1,5 @@
 *.retry
 myserver
 myserver.bak
+testserver
 .vagrant/

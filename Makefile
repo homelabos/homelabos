@@ -39,8 +39,13 @@ provision:
 	cat homelaboslogo.txt
 	vagrant provision
 
-# Update just the dcos
+# Update just the docs
 docs:
 	cat homelaboslogo.txt
 	mkdocs build
 	ansible-playbook -i hosts -t docs homelabos.yml 	
+
+# Execute against a test server
+test:
+	cat homelaboslogo.txt
+	ansible-playbook -i test_hosts homelabos.yml
