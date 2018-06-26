@@ -25,8 +25,17 @@
 - name: Configure Traefik.
   template: src=traefik.toml dest=/var/homelabos/traefik/traefik.toml
 
+- name: Configure SSL
+  file:
+    path: /var/homelabos/traefik/acme.json
+    mode: 0600
+    state: touch
+
 - name: Configure Dasher
   template: src=dasher.config.json dest=/var/homelabos/dasher/config.json
+
+# - name: Configure Matomo
+#   template: src=matomo.nginx.conf dest=/var/homelabos/matomo/nginx.conf
 
 - name: Configure Apple Health Importer
   template: src=apple_health_config.yml dest=/var/homelabos/apple_health_influx/config.yml

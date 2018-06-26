@@ -7,7 +7,7 @@ services:
   apple_health_influx:
     image: nickbusey/healthdata_influx:cron
     volumes:
-      - /var/homelabos/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export.zip:/export.zip
+      - /var/homelabos/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/
       - /var/homelabos/apple_health_influx/config.yml:/config.yml
 
   # bitwarden_mssql:
@@ -16,6 +16,8 @@ services:
   #   volumes:
   #     - /var/homelabos/bitwarden/mssql/data:/var/opt/mssql/data
   #     - /var/homelabos/bitwarden/mssql/backups:/etc/bitwarden/mssql/backups
+  #   environment:
+  #     - ACCEPT_EULA=true
 
   # bitwarden_web:
   #   image: bitwarden/web:1.22.0
@@ -23,9 +25,10 @@ services:
   #   volumes:
   #     - /var/homelabos/bitwarden/web:/etc/bitwarden/web
   #   labels:
-  #     traefik.frontend.rule: 'Host:warden.example.com;Path: /'
-  #     traefik.enable: 'true'
-  #     traefik.port: 80
+  #     - "traefik.enable=true"
+  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }}"
+  #     - "traefik.http.protocol={{ protocol }}"
+  #     - "traefik.http.port=80"
 
   # bitwarden_attachments:
   #   image: bitwarden/attachments:1.16.0
@@ -33,9 +36,10 @@ services:
   #   volumes:
   #     - /var/homelabos/bitwarden/core/attachments:/etc/bitwarden/core/attachments
   #   labels:
-  #     traefik.frontend.rule: 'Host:warden.example.com;PathPrefix: /attachments'
-  #     traefik.enable: 'true'
-  #     traefik.port: 80
+  #     - "traefik.enable=true"
+  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /attachments"
+  #     - "traefik.http.protocol={{ protocol }}"
+  #     - "traefik.http.port=80"
 
   # bitwarden_api:
   #   image: bitwarden/api:1.16.0
@@ -43,9 +47,10 @@ services:
   #   volumes:
   #     - /var/homelabos/bitwarden/core:/etc/bitwarden/core
   #   labels:
-  #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /api'
-  #     traefik.enable: 'true'
-  #     traefik.port: 80
+  #     - "traefik.enable=true"
+  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /api"
+  #     - "traefik.http.protocol={{ protocol }}"
+  #     - "traefik.http.port=80"
 
   # bitwarden_identity:
   #   image: bitwarden/identity:1.16.0
@@ -54,17 +59,19 @@ services:
   #     - /var/homelabos/bitwarden/identity:/etc/bitwarden/identity
   #     - /var/homelabos/bitwarden/core:/etc/bitwarden/core
   #   labels:
-  #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /identity'
-  #     traefik.enable: 'true'
-  #     traefik.port: 80
+  #     - "traefik.enable=true"
+  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /identity"
+  #     - "traefik.http.protocol={{ protocol }}"
+  #     - "traefik.http.port=80"
 
   # bitwarden_icons:
   #   image: bitwarden/icons:1.16.0
   #   restart: always
   #   labels:
-  #     traefik.frontend.rule: 'Host: warden.example.com;PathPrefix: /icons'
-  #     traefik.enable: 'true'
-  #     traefik.port: 80
+  #     - "traefik.enable=true"
+  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /icons"
+  #     - "traefik.http.protocol={{ protocol }}"
+  #     - "traefik.http.port=80"
 
   convos:
     image: nordaaker/convos
@@ -326,6 +333,39 @@ services:
   #   ports:
   #     - 9117:9117
 
+  # matomo_db:
+  #  image: mariadb:latest
+  #  volumes:
+  #    - /var/homelabos/matomo/db:/var/lib/mysql
+  #  environment:
+  #    - MYSQL_ROOT_PASSWORD=matomo
+
+  # matomo_app:
+  #   image: piwik:fpm
+  #   links:
+  #     - matomo_db:db
+  #   volumes:
+  #     - /var/homelabos/matomo/config:/var/www/html/config:rw
+
+  # matomo_web:
+  #   image: nginx
+  #   volumes:
+  #     - /var/homelabos/matomo/nginx.conf:/etc/nginx/nginx.conf:ro
+  #   links:
+  #     - matomo_app:app
+  #   volumes:
+  #     - /var/homelabos/matomo/config:/var/www/html/config:rw
+  #   environment:
+  #     - VIRTUAL_HOST
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
+  #     - "traefik.http.protocol={{ protocol }}"
+  #     - "traefik.http.port=80"
+  #     - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
+  #     - "traefik.tor.protocol={{ protocol }}"
+  #     - "traefik.tor.port=80"
+
   minio:
     image: minio/minio
     command: server /data
@@ -413,6 +453,16 @@ services:
   #     - "traefik.http.frontend.rule=Host:nzbget.{{ domain }}"
   #     - "traefik.http.protocol={{ protocol }}"
   #     - "traefik.http.port=6789"
+
+  openvpn:
+    cap_add:
+     - NET_ADMIN
+    image: kylemanna/openvpn
+    ports:
+     - "1194:1194/udp"
+    restart: always
+    volumes:
+     - /var/homelabos/openvpn:/etc/openvpn
 
   organizr:
     image: lsiocommunity/organizr
@@ -554,39 +604,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos:/data:ro
 
-  sonerezh:
-    image: sonerezh/sonerezh:latest
-    links:
-      - sonerezh_db:mysql
-    volumes:
-      - /mnt/music:/music
-      - /var/homelabos/sonerezh/thumbnails:/thmubnails
-    ports:
-      - 8089:80
-    environment:
-      - SONEREZH_DB_PORT_3306_TCP_ADDR=mysql
-      - SONEREZH_DB_ENV_MYSQL_DATABASE=sonerezh
-      - SONEREZH_DB_ENV_MYSQL_USER=sonerezh
-      - SONEREZH_DB_ENV_MYSQL_PASSWORD=motdepasse
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:music.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=80"
-      - "traefik.tor.frontend.rule=Host:music.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=80"
-
-  sonerezh_db:
-    image: mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=motdepasse
-      - MYSQL_USER=sonerezh
-      - MYSQL_PASSWORD=motdepasse
-      - MYSQL_DATABASE=sonerezh
-    volumes:
-      - /var/homelabos/sonerezh_db:/var/lib/mysql
-
   telegraf:
     image: telegraf
     restart: always
@@ -605,8 +622,8 @@ services:
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/homelabos/traefik/traefik.toml:/etc/traefik/traefik.toml
-      - /var/homelabos/traefik/acme.json:/etc/traefik/acme.json
+      - /var/homelabos/traefik/traefik.toml:/traefik.toml
+      - /var/homelabos/traefik/acme.json:/acme.json
 
   # https://nickbusey.gitlab.io/HomelabOS/software/transmission/
   transmission:
@@ -659,7 +676,7 @@ services:
   #   volumes:
   #     - /etc/localtime:/etc/localtime:ro
   #     - /var/homelabos/urbackup/db/:/var/urbackup
-  #     - /mnt/nas/Backups/urbackup/:/backup:rw
+  #     - /var/homelabos/urbackup/backups/:/backup
   #   labels:
   #     - "traefik.enable=true"
   #     - "traefik.http.frontend.rule=Host:backup.{{ domain }}"
