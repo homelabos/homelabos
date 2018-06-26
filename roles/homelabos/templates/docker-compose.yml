@@ -407,9 +407,6 @@ services:
       - "traefik.http.frontend.rule=Host:mastodon.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=3000"
-      - "traefik.tor.frontend.rule=Host:mastodon.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=3000"
 
   mastodon_streaming:
     image: tootsuite/mastodon
