@@ -51,12 +51,12 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [Mastodon](https://joinmastodon.org/) - Federated social microblogging
+* [Matomo](https://matomo.org/) - Web analytics
 * [Minio](https://minio.io/) - S3 hosting
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
 * [Portainer](https://www.portainer.io/) - Easy Docker management
-* [Sonerezh](https://www.sonerezh.bzh/) - Music streaming and library management
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 * [Terminal](georgeyord/butterfly-web-terminal) - Web based terminal access
 * [Transmission](https://transmissionbt.com/) - BitTorrent client

@@ -34,9 +34,6 @@
 - name: Configure Dasher
   template: src=dasher.config.json dest=/var/homelabos/dasher/config.json
 
-# - name: Configure Matomo
-#   template: src=matomo.nginx.conf dest=/var/homelabos/matomo/nginx.conf
-
 - name: Configure Mastodon
   template: src=mastodon.env dest=/var/homelabos/mastodon/mastodon.env
 

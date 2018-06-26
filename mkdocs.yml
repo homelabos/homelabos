@@ -28,6 +28,7 @@ pages:
     - Home Assistant: software/homeassistant.md
     - InfluxDB: software/influxdb.md
     - Mastodon: software/mastodon.md
+    - Matomo: software/matomo.md
     - Minio: software/minio.md
     - NextCloud: software/nextcloud.md
     - Paperless: software/paperless.md

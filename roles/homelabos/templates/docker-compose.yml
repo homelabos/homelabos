@@ -333,19 +333,30 @@ services:
   #   ports:
   #     - 9117:9117
 
-  # matomo_db:
-  #  image: mariadb:latest
-  #  volumes:
-  #    - /var/homelabos/matomo/db:/var/lib/mysql
-  #  environment:
-  #    - MYSQL_ROOT_PASSWORD=matomo
+  matomo_db:
+   image: mariadb:latest
+   volumes:
+     - /var/homelabos/matomo/db:/var/lib/mysql
+   environment:
+     - MYSQL_ROOT_PASSWORD=matomo
+     - MYSQL_USER=matomo
+     - MYSQL_PASSWORD=matomo
+     - MYSQL_DATABASE=matomo
 
-  # matomo_app:
-  #   image: piwik:fpm
-  #   links:
-  #     - matomo_db:db
-  #   volumes:
-  #     - /var/homelabos/matomo/config:/var/www/html/config:rw
+  matomo_app:
+    image: crazymax/matomo:latest
+    links:
+      - matomo_db:db
+    volumes:
+      - /var/homelabos/matomo/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+      - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
 
   # matomo_web:
   #   image: nginx
