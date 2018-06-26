@@ -21,6 +21,10 @@ common_timezone: 'Etc/UTC'
 # Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
 domain: yourserver.com
 
+# An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
+# Necessary for SSL / LetsEncrypt to work.
+admin_email: 
+
 ### END REQUIRED ###
  
 ### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
