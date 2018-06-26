@@ -366,6 +366,74 @@ services:
   #     - "traefik.tor.protocol={{ protocol }}"
   #     - "traefik.tor.port=80"
 
+
+  mastodon_db:
+    restart: always
+    image: postgres:9.6-alpine
+    volumes:
+      - /var/homelabos/mastodon/postgres:/var/lib/postgresql/data
+
+  mastodon_redis:
+    restart: always
+    image: redis:4.0-alpine
+    volumes:
+      - /var/homelabos/mastodon/redis:/data
+
+  mastodon_es:
+    restart: always
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - /var/homelabos/mastodon/elasticsearch:/usr/share/elasticsearch/data
+
+  mastodon_web:
+    image: tootsuite/mastodon
+    restart: always
+    env_file: /var/homelabos/mastodon/mastodon.env
+    command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000 -b '0.0.0.0'"
+    ports:
+      - "3456:3000"
+    depends_on:
+      - mastodon_db
+      - mastodon_redis
+      - mastodon_es
+    volumes:
+      - /var/homelabos/mastodon/public/assets:/mastodon/public/assets
+      - /var/homelabos/mastodon/public/packs:/mastodon/public/packs
+      - /var/homelabos/mastodon/public/system:/mastodon/public/system
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:mastodon.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=3000"
+      - "traefik.tor.frontend.rule=Host:mastodon.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=3000"
+
+  mastodon_streaming:
+    image: tootsuite/mastodon
+    restart: always
+    env_file: /var/homelabos/mastodon/mastodon.env
+    command: yarn start
+    ports:
+      - "127.0.0.1:4000:4000"
+    depends_on:
+      - mastodon_db
+      - mastodon_redis
+
+  mastodon_sidekiq:
+    image: tootsuite/mastodon
+    restart: always
+    env_file: /var/homelabos/mastodon/mastodon.env
+    command: bundle exec sidekiq -q default -q mailers -q pull -q push
+    depends_on:
+      - mastodon_db
+      - mastodon_redis
+    volumes:
+      - /var/homelabos/mastodon/public/packs:/mastodon/public/packs
+      - /var/homelabos/mastodon/public/system:/mastodon/public/system
+
   minio:
     image: minio/minio
     command: server /data

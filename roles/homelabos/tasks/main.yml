@@ -4,10 +4,10 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - /var/homelabos
     - /var/homelabos/apple_health_influx
     - /var/homelabos/dasher
     - /var/homelabos/docker
+    - /var/homelabos/mastodon/public/assets
     - /var/homelabos/telegraf
     - /var/homelabos/traefik
     - /mnt/nas
@@ -36,6 +36,15 @@
 
 # - name: Configure Matomo
 #   template: src=matomo.nginx.conf dest=/var/homelabos/matomo/nginx.conf
+
+- name: Configure Mastodon
+  template: src=mastodon.env dest=/var/homelabos/mastodon/mastodon.env
+
+- name: Configure Mastodon
+  file:
+    path: /var/homelabos/mastodon/public
+    mode: 0777
+    recurse: yes
 
 - name: Configure Apple Health Importer
   template: src=apple_health_config.yml dest=/var/homelabos/apple_health_influx/config.yml

@@ -3,6 +3,8 @@
 * Added Automated Apple Health Import
 * Added Tor Onion Services
 * Added Automated HTTPS via LetsEncrypt
+* Added OpenVPN
+* Added Mastodon
 
 # 0.2
 
