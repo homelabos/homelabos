@@ -5,6 +5,7 @@
 * Added Automated HTTPS via LetsEncrypt
 * Added OpenVPN
 * Added Mastodon
+* Added Matomo
 
 # 0.2
 
