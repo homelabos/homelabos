@@ -76,23 +76,31 @@
     path: /var/homelabos/homelab_hosts
     state: touch
 
-- name: Configure HomelabOS hosts file. You can find it at /tmp/homelabos_hosts on your machine.
+- name: Configure HomelabOS hosts file. You can find it at /var/homelabos/homelab_hosts on your server.
   lineinfile:
     path: /var/homelabos/homelab_hosts
     line: '{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}'
   loop:
-    - irc
+    - docker
+    - docs
     - emby
-    - money
+    - git
     - grafana
     - homeassistant
+    - irc
+    - matomo
+    - mastodon
+    - minio
+    - money
+    - music
     - nextcloud
     - paperless
+    - pihole
     - portainer
     - terminal
+    - torrent
     - transmission
-    - music
-    - git
+    - warden
 
 - name: Pull latest HomelabOS service docker images. (This could take a while the first time, it has to download quite a bit.)
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull
