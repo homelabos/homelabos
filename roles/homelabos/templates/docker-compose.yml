@@ -10,68 +10,21 @@ services:
       - /var/homelabos/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/
       - /var/homelabos/apple_health_influx/config.yml:/config.yml
 
-  # bitwarden_mssql:
-  #   image: bitwarden/mssql:1.16.0
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/bitwarden/mssql/data:/var/opt/mssql/data
-  #     - /var/homelabos/bitwarden/mssql/backups:/etc/bitwarden/mssql/backups
-  #   environment:
-  #     - ACCEPT_EULA=true
-
-  # bitwarden_web:
-  #   image: bitwarden/web:1.22.0
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/bitwarden/web:/etc/bitwarden/web
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }}"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
-
-  # bitwarden_attachments:
-  #   image: bitwarden/attachments:1.16.0
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/bitwarden/core/attachments:/etc/bitwarden/core/attachments
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /attachments"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
-
-  # bitwarden_api:
-  #   image: bitwarden/api:1.16.0
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/bitwarden/core:/etc/bitwarden/core
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /api"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
-
-  # bitwarden_identity:
-  #   image: bitwarden/identity:1.16.0
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/bitwarden/identity:/etc/bitwarden/identity
-  #     - /var/homelabos/bitwarden/core:/etc/bitwarden/core
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /identity"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
-
-  # bitwarden_icons:
-  #   image: bitwarden/icons:1.16.0
-  #   restart: always
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:warden.{{ domain }};PathPrefix: /icons"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
+  bitwarden_web:
+    image: nickbusey/bitwarden_rs
+    restart: always
+    volumes:
+      - /var/homelabos/bitwarden:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:warden.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:warden.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
 
   convos:
     image: nordaaker/convos
@@ -689,19 +642,24 @@ services:
     links:
       - influxdb
 
-  # tls-dashboard:
-  #   image: markovuksanovic/tls-dashboard
-  #   ports:
-  #     - "8989:8080"
-  #   volumes:
-  #     - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
+  tls-dashboard:
+    image: markovuksanovic/tls-dashboard
+    ports:
+      - "8989:8080"
+    volumes:
+      - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
+    labels:
+      - "traefik.enable=true"
+      - "traefik.admin.frontend.rule=Host:tlsdash.{{ domain }}"
+      - "traefik.admin.protocol=http"
+      - "traefik.admin.port=8080"
 
-  # tls-dashboard-cron:
-  #   image: markovuksanovic/tls-dashboard-cron
-  #   volumes:
-  #     - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
-  #   environment:
-  #     - TLS_DASHBOARD_HOSTS={{ domain }},docker.{{ domain }},docs.{{ domain }},emby.{{ domain }},git.{{ domain }},grafana.{{ domain }},homeassistant.{{ domain }},irc.{{ domain }},matomo.{{ domain }},mastodon.{{ domain }},minio.{{ domain }},money.{{ domain }},music.{{ domain }},nextcloud.{{ domain }},paperless.{{ domain }},pihole.{{ domain }},portainer.{{ domain }},terminal.{{ domain }},torrent.{{ domain }},transmission.{{ domain }},warden.{{ domain }}
+  tls-dashboard-cron:
+    image: markovuksanovic/tls-dashboard-cron
+    volumes:
+      - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
+    environment:
+      - TLS_DASHBOARD_HOSTS={{ domain }},docker.{{ domain }},docs.{{ domain }},emby.{{ domain }},git.{{ domain }},grafana.{{ domain }},homeassistant.{{ domain }},irc.{{ domain }},matomo.{{ domain }},mastodon.{{ domain }},minio.{{ domain }},money.{{ domain }},music.{{ domain }},nextcloud.{{ domain }},paperless.{{ domain }},pihole.{{ domain }},portainer.{{ domain }},terminal.{{ domain }},torrent.{{ domain }},transmission.{{ domain }},warden.{{ domain }}
 
   traefik:
     image: traefik

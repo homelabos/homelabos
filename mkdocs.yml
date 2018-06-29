@@ -18,6 +18,7 @@ pages:
     - VPN Setup: setup/vpn.md
   - Included Software:
     - Apple Health: software/applehealth.md
+    - Bitwarden: software/bitwarden.md
     - Convos: software/convos.md
     - Darksky: software/darksky.md
     - Dasher: software/dasher.md

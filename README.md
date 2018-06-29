@@ -20,7 +20,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ## Features
 
-* One command depyloment
+* One command deployment
 * Automated Backups
 * Easy Restore
 * Automated Apple Health Data import
@@ -40,6 +40,8 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 ## Included Software
 
+* [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
+* [Butterfly](https://github.com/paradoxxxzero/butterfly) - Web based terminal access
 * [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
@@ -56,37 +58,22 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
+* [Pi-hole](https://pi-hole.net/) - Ad blocking
 * [Portainer](https://www.portainer.io/) - Easy Docker management
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
-* [Terminal](georgeyord/butterfly-web-terminal) - Web based terminal access
 * [Transmission](https://transmissionbt.com/) - BitTorrent client
-
-### Coming Soon
-
-* BitWarden - Password manager
-* BulletNotes - Note taking knowledgebase with kanban and calendar functionality.
-* Chronograf
-* Couchpotato
-* FreshRSS
-* Jackett
-* NZBGet
-* OwnTracksRecorder - https://github.com/owntracks/recorder
-* [Pi-hole](https://pi-hole.net/) - Ad blocking
-* Sonarr
-* SyncThing
-* urBackup
 
 ## Requirements
 
-A server running Ubuntu 18.04 accessible via ssh with a user that has sudo.
+A server running Ubuntu 18.04 accessible via paswordless ssh with a user that has passwordless sudo.
 
 Ansible version 2.5+ installed on your computer (not the server).
 
 ## Optional Items
 
-A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at your server's IP address. (This is optional because you can use Tor to access your services without registering a domain. For best support from 3rd party clients an actual domain is recommended.)
+A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at your server's IP address. (This is optional because you can use Tor to access your services without registering a domain. For best support from 3rd party clients an actual domain is highly recommended. Also certain services do not work through TOR at the moment.) Note you can hang this off a subdomain as well, so `*.homelab.yourdomain.com` will work as well.
 
-Ports 80 and 443 punched through any firewalls and port forwarded at your server in question. (This is also optional due to Tor access.)
+Ports 80 and 443 punched through any firewalls and port forwarded at your server in question. (This is also optional due to Tor access, but again highly recommended.)
 
 ## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
