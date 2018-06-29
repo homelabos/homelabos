@@ -1,11 +1,13 @@
 # 0.3
 
-* Added Automated Apple Health Import
-* Added Tor Onion Services
+* Added Semi-automated Apple Health Import
 * Added Automated HTTPS via LetsEncrypt
-* Added OpenVPN
-* Added Mastodon
-* Added Matomo
+* Added Tor Onion Services - Remote access through any firewall
+* Added OpenVPN - Remote device Ad filtering via piHole
+* Added Mastodon - Federated social micro blogging
+* Added Matomo - Web analytics
+* Added Bitwarden - Password manager
+* Added piHole - Network wide ad blocking
 
 # 0.2
 
