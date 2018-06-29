@@ -642,24 +642,24 @@ services:
     links:
       - influxdb
 
-  tls-dashboard:
-    image: markovuksanovic/tls-dashboard
-    ports:
-      - "8989:8080"
-    volumes:
-      - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
-    labels:
-      - "traefik.enable=true"
-      - "traefik.admin.frontend.rule=Host:tlsdash.{{ domain }}"
-      - "traefik.admin.protocol=http"
-      - "traefik.admin.port=8080"
+  # tls-dashboard:
+  #   image: markovuksanovic/tls-dashboard
+  #   ports:
+  #     - "8989:8080"
+  #   volumes:
+  #     - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.admin.frontend.rule=Host:tlsdash.{{ domain }}"
+  #     - "traefik.admin.protocol=http"
+  #     - "traefik.admin.port=8080"
 
-  tls-dashboard-cron:
-    image: markovuksanovic/tls-dashboard-cron
-    volumes:
-      - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
-    environment:
-      - TLS_DASHBOARD_HOSTS={{ domain }},docker.{{ domain }},docs.{{ domain }},emby.{{ domain }},git.{{ domain }},grafana.{{ domain }},homeassistant.{{ domain }},irc.{{ domain }},matomo.{{ domain }},mastodon.{{ domain }},minio.{{ domain }},money.{{ domain }},music.{{ domain }},nextcloud.{{ domain }},paperless.{{ domain }},pihole.{{ domain }},portainer.{{ domain }},terminal.{{ domain }},torrent.{{ domain }},transmission.{{ domain }},warden.{{ domain }}
+  # tls-dashboard-cron:
+  #   image: markovuksanovic/tls-dashboard-cron
+  #   volumes:
+  #     - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
+  #   environment:
+  #     - TLS_DASHBOARD_HOSTS={{ domain }},docker.{{ domain }},docs.{{ domain }},emby.{{ domain }},git.{{ domain }},grafana.{{ domain }},homeassistant.{{ domain }},irc.{{ domain }},matomo.{{ domain }},mastodon.{{ domain }},minio.{{ domain }},money.{{ domain }},music.{{ domain }},nextcloud.{{ domain }},paperless.{{ domain }},pihole.{{ domain }},portainer.{{ domain }},terminal.{{ domain }},torrent.{{ domain }},transmission.{{ domain }},warden.{{ domain }}
 
   traefik:
     image: traefik
