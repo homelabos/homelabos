@@ -1,6 +1,6 @@
 # Installation
 
-Clone the repository if you have git `git clone git@gitlab.com:NickBusey/HomelabOS.git` or [download it from GitLab](https://gitlab.com/NickBusey/HomelabOS/-/archive/master/HomelabOS-master.zip).
+[Download the latest version from GitLab](https://gitlab.com/NickBusey/HomelabOS/tags).
 
 Make sure you have Ansible 2.5+ installed on your computer.
 
