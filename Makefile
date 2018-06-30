@@ -9,7 +9,6 @@ deploy:
 # Initial setup
 setup:
 	cat homelaboslogo.txt
-	vagrant plugin install vagrant-disksize
 	ansible-galaxy install toke.tor
 	ansible-playbook -i setup_hosts setup.yml
 	ansible-playbook -i hosts homelabos.yml
@@ -32,6 +31,7 @@ restore:
 # Spin up a development stack
 develop:
 	cat homelaboslogo.txt
+	vagrant plugin install vagrant-disksize
 	vagrant destroy --force
 	vagrant up
 
