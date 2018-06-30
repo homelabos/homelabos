@@ -18,7 +18,7 @@ You can always change settings by hand in `host_vars/myserver` and re-run `make`
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
 
-When HomelabOS `make` command completes, it creates a file on the computer which ran make `/tmp/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
+When HomelabOS `make` command completes, it creates a file on the server at `/var/homelabos/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
 
 ## NAS Network Area Storage Configuration
 
