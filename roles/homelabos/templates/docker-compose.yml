@@ -399,7 +399,7 @@ services:
     image: minio/minio
     command: server /data
     volumes:
-      - /var/homelabos/minio/data:/data
+      - /mnt/nas/Backups/minio:/data
       - /var/homelabos/minio/config:/root/.minio/
     ports:
       - 9110:9000
