@@ -730,3 +730,13 @@ services:
   #     - "traefik.http.frontend.rule=Host:backup.{{ domain }}"
   #     - "traefik.http.protocol={{ protocol }}"
   #     - "traefik.http.port=55414"
+
+  xfinityusageinfluxdb:
+    restart: unless-stopped
+    image: nickbusey/xfinityusageinfluxdb
+    links:
+      - influxdb
+    environment:
+      - XFINITY_USER={{ xfinity_user }}
+      - XFINITY_PASSWORD={{ xfinity_password }}
+      - INFLUXDB_HOST=influxdb

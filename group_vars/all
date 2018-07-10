@@ -65,3 +65,7 @@ homeassistant_api_key:
 
 # Apple Health Data Importer - Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
 apple_health_nextcloud_username: admin
+
+# Xfinity Data Usage Settings
+xfinity_user:
+xfinity_password:
