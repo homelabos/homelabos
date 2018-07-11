@@ -28,7 +28,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated HTTPS via LetsEncrypt
 * OpenVPN
 
-### [Planned Features] (https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
+### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
 ## Demo
 
