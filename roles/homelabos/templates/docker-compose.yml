@@ -633,12 +633,33 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos:/data:ro
 
+  syncthing:
+    image: linuxserver/syncthing
+    volumes:
+      - /var/homelabos/syncthing:/config
+      - /mnt/nas/Syncthing:/mnt/any/dir/you/want
+    ports:
+      - 22000:22000
+      - 21027:21027/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:sync.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=8384"
+      - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=8384"
+
   telegraf:
     image: telegraf
     restart: always
     volumes:
       - /var/homelabos/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
       - /var/run/docker.sock:/var/run/docker.sock
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+      - /mnt/nas:/mnt/nas
     links:
       - influxdb
 
