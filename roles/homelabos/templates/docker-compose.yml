@@ -522,6 +522,8 @@ services:
     volumes:
       - /var/homelabos/paperless/data:/usr/src/paperless/data
       - /var/homelabos/paperless/media:/usr/src/paperless/media
+      - /mnt/nas/Documents/consume:/consume
+      - /mnt/nas/Documents/export:/export
     environment:
       - PAPERLESS_OCR_LANGUAGES=
       - PAPERLESS_PASSPHRASE=homelabos
@@ -637,7 +639,10 @@ services:
     image: linuxserver/syncthing
     volumes:
       - /var/homelabos/syncthing:/config
-      - /mnt/nas/Syncthing:/mnt/any/dir/you/want
+      - /mnt/nas/Syncthing:/data
+    environment:
+      - PGID=1004
+      - PUID=1000
     ports:
       - 22000:22000
       - 21027:21027/udp
