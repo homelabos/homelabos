@@ -11,7 +11,7 @@ services:
       - /var/homelabos/apple_health_influx/config.yml:/config.yml
 
   bitwarden_web:
-    image: nickbusey/bitwarden_rs
+    image: mprasil/bitwarden
     restart: always
     volumes:
       - /var/homelabos/bitwarden:/data
