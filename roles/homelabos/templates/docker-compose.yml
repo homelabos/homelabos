@@ -99,6 +99,7 @@ services:
     volumes:
       - /var/homelabos/emby:/config
       - /mnt/nas:/mnt/nas
+      - /mnt/nas/tmp:/config/transcoding-temp
     ports:
       - 8096:8096
     labels:
@@ -286,51 +287,6 @@ services:
   #   ports:
   #     - 9117:9117
 
-  matomo_db:
-   image: mariadb:latest
-   volumes:
-     - /var/homelabos/matomo/db:/var/lib/mysql
-   environment:
-     - MYSQL_ROOT_PASSWORD=matomo
-     - MYSQL_USER=matomo
-     - MYSQL_PASSWORD=matomo
-     - MYSQL_DATABASE=matomo
-
-  matomo_app:
-    image: crazymax/matomo:latest
-    links:
-      - matomo_db:db
-    volumes:
-      - /var/homelabos/matomo/data:/data
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=80"
-      - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=80"
-
-  # matomo_web:
-  #   image: nginx
-  #   volumes:
-  #     - /var/homelabos/matomo/nginx.conf:/etc/nginx/nginx.conf:ro
-  #   links:
-  #     - matomo_app:app
-  #   volumes:
-  #     - /var/homelabos/matomo/config:/var/www/html/config:rw
-  #   environment:
-  #     - VIRTUAL_HOST
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
-  #     - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
-  #     - "traefik.tor.protocol={{ protocol }}"
-  #     - "traefik.tor.port=80"
-
-
   mastodon_db:
     restart: always
     image: postgres:9.6-alpine
@@ -394,6 +350,33 @@ services:
     volumes:
       - /var/homelabos/mastodon/public/packs:/mastodon/public/packs
       - /var/homelabos/mastodon/public/system:/mastodon/public/system
+
+  matomo_db:
+   image: mariadb:latest
+   volumes:
+     - /var/homelabos/matomo/db:/var/lib/mysql
+   environment:
+     - MYSQL_ROOT_PASSWORD=matomo
+     - MYSQL_USER=matomo
+     - MYSQL_PASSWORD=matomo
+     - MYSQL_DATABASE=matomo
+
+  matomo_app:
+    image: crazymax/matomo:latest
+    links:
+      - matomo_db:db
+    volumes:
+      - /var/homelabos/matomo/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
 
   minio:
     image: minio/minio
@@ -651,6 +634,8 @@ services:
       - "traefik.http.frontend.rule=Host:sync.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=8384"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=8384"
@@ -667,25 +652,6 @@ services:
       - /mnt/nas:/mnt/nas
     links:
       - influxdb
-
-  # tls-dashboard:
-  #   image: markovuksanovic/tls-dashboard
-  #   ports:
-  #     - "8989:8080"
-  #   volumes:
-  #     - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.admin.frontend.rule=Host:tlsdash.{{ domain }}"
-  #     - "traefik.admin.protocol=http"
-  #     - "traefik.admin.port=8080"
-
-  # tls-dashboard-cron:
-  #   image: markovuksanovic/tls-dashboard-cron
-  #   volumes:
-  #     - /var/homelabos/tls-dashboard:/root/tls-dashboard/web_service
-  #   environment:
-  #     - TLS_DASHBOARD_HOSTS={{ domain }},docker.{{ domain }},docs.{{ domain }},emby.{{ domain }},git.{{ domain }},grafana.{{ domain }},homeassistant.{{ domain }},irc.{{ domain }},matomo.{{ domain }},mastodon.{{ domain }},minio.{{ domain }},money.{{ domain }},music.{{ domain }},nextcloud.{{ domain }},paperless.{{ domain }},pihole.{{ domain }},portainer.{{ domain }},terminal.{{ domain }},torrent.{{ domain }},transmission.{{ domain }},warden.{{ domain }}
 
   traefik:
     image: traefik
