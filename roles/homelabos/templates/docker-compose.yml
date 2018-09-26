@@ -144,21 +144,9 @@ services:
       - MYSQL_USER=firefly_db
       - MYSQL_PASSWORD=firefly_db_secret
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
-    image: "mariadb:latest"
+    image: mariadb
     volumes:
       - /var/homelabos/firefly/db:/var/lib/mysql
-
-  # freshrss:
-  #   image: linuxserver/freshrss
-  #   ports:
-  #     - 8084:80
-  #   volumes:
-  #     - /var/homelabos/freshrss:/config
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:rss.{{ domain }}"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
 
   gitea:
     image: gitea/gitea:latest
@@ -287,82 +275,85 @@ services:
   #   ports:
   #     - 9117:9117
 
-  mastodon_db:
-    restart: always
-    image: postgres:9.6-alpine
-    volumes:
-      - /var/homelabos/mastodon/postgres:/var/lib/postgresql/data
-
-  mastodon_redis:
-    restart: always
-    image: redis:4.0-alpine
-    volumes:
-      - /var/homelabos/mastodon/redis:/data
-
-  mastodon_es:
-    restart: always
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
+  koel:
+    image: 0xcaff/koel
+    links:
+      - koel_database
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      DB_CONNECTION: mysql
+      DB_HOST: koel_database
+      DB_USERNAME: koel
+      DB_PASSWORD: koel
+      DB_DATABASE: koel
     volumes:
-      - /var/homelabos/mastodon/elasticsearch:/usr/share/elasticsearch/data
-
-  mastodon_web:
-    image: tootsuite/mastodon
-    restart: always
-    env_file: /var/homelabos/mastodon/mastodon.env
-    command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000 -b '0.0.0.0'"
-    ports:
-      - "3456:3000"
-    depends_on:
-      - mastodon_db
-      - mastodon_redis
-      - mastodon_es
-    volumes:
-      - /var/homelabos/mastodon/public/assets:/mastodon/public/assets
-      - /var/homelabos/mastodon/public/packs:/mastodon/public/packs
-      - /var/homelabos/mastodon/public/system:/mastodon/public/system
+      - /mnt/nas/Music:/music
+      - /var/homelabos/koel/covers:/var/www/html/public/img/covers
     labels:
       - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:mastodon.{{ domain }}"
+      - "traefik.http.frontend.rule=Host:koel.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=3000"
+      - "traefik.http.port=80"
+      - "traefik.tor.frontend.rule=Host:koel.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
 
-  mastodon_streaming:
-    image: tootsuite/mastodon
-    restart: always
-    env_file: /var/homelabos/mastodon/mastodon.env
-    command: yarn start
-    ports:
-      - "127.0.0.1:4000:4000"
-    depends_on:
-      - mastodon_db
-      - mastodon_redis
-
-  mastodon_sidekiq:
-    image: tootsuite/mastodon
-    restart: always
-    env_file: /var/homelabos/mastodon/mastodon.env
-    command: bundle exec sidekiq -q default -q mailers -q pull -q push
-    depends_on:
-      - mastodon_db
-      - mastodon_redis
+  koel_database:
+    image: mariadb
     volumes:
-      - /var/homelabos/mastodon/public/packs:/mastodon/public/packs
-      - /var/homelabos/mastodon/public/system:/mastodon/public/system
+      - /var/homelabos/koel/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: koel
+      MYSQL_USER: koel
+      MYSQL_PASSWORD: koel
+
+  lychee:
+    image: linuxserver/lychee
+    restart: always
+    volumes:
+      - /var/homelabos/lychee:/config
+      - /mnt/nas/Photos:/pictures
+    links:
+      - lychee_db
+    environment:
+      - PGID=0
+      - PUID=0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:photos.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:photos.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
+
+  lychee_db:
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/homelabos/lychee/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=lychee
+      - MYSQL_USER=lychee
+      - MYSQL_PASSWORD=lychee
+      - MYSQL_DATABASE=lychee
 
   matomo_db:
-   image: mariadb:latest
-   volumes:
-     - /var/homelabos/matomo/db:/var/lib/mysql
-   environment:
-     - MYSQL_ROOT_PASSWORD=matomo
-     - MYSQL_USER=matomo
-     - MYSQL_PASSWORD=matomo
-     - MYSQL_DATABASE=matomo
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/homelabos/matomo/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=matomo
+      - MYSQL_USER=matomo
+      - MYSQL_PASSWORD=matomo
+      - MYSQL_DATABASE=matomo
 
   matomo_app:
     image: crazymax/matomo:latest
+    restart: always
     links:
       - matomo_db:db
     volumes:
@@ -378,8 +369,29 @@ services:
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
 
+  miniflux:
+    image: miniflux/miniflux:2.0.9
+    links:
+      - miniflux_db:db
+    environment:
+      - DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:rss.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+
+  miniflux_db:
+    image: postgres:10.1
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - /var/homelabos/miniflux/db:/var/lib/postgresql/data
+
   minio:
     image: minio/minio
+    restart: always
     command: server /data
     volumes:
       - /mnt/nas/Backups/minio:/data
@@ -395,35 +407,33 @@ services:
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=9000"
 
-  # monicahq:
-  #   image: monicahq/monicahq
-  #   links:
-  #     - monicahq_db
-  #   ports:
-  #     - 8176:80
-  #   volumes:
-  #     - /var/homelabos/monica/storage/app/public:/var/www/monica/storage/app/public
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:monica.{{ domain }}"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=80"
+  monicahq:
+    image: monicahq/monicahq
+    links:
+      - monicahq_db
+    ports:
+      - 8176:80
+    volumes:
+      - /var/homelabos/monica/storage/app/public:/var/www/monica/storage/app/public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:monica.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
 
-  # monicahq_db:
-  #   image: mysql:5.7
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=sekret_root_password
-  #     - MYSQL_DATABASE=monica
-  #     - MYSQL_USER=homestead
-  #     - MYSQL_PASSWORD=secret
-  #   volumes:
-  #     - /var/homelabos/monica/mysql:/var/lib/mysql
+  monicahq_db:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=sekret_root_password
+      - MYSQL_DATABASE=monica
+      - MYSQL_USER=monica
+      - MYSQL_PASSWORD=monica
+    volumes:
+      - /var/homelabos/monica/mysql:/var/lib/mysql
 
   nextcloud:
     image: nextcloud
     restart: always
-    ports:
-      - 8181:80
     links:
       - nextcloud_db
     volumes:
@@ -536,34 +546,9 @@ services:
       - PAPERLESS_PASSPHRASE=homelabos
     command: ["document_consumer"]
 
-  pihole:
-    image: diginc/pi-hole:latest
-    restart: always
-    volumes:
-      - /var/homelabos/pihole/config/:/etc/pihole/
-      - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/
-    environment:
-      - WEBPASSWORD={{ default_password }}
-      - VIRTUAL_HOST=pihole.{{ domain }}
-      # - ServerIP={{ ansible_ssh_host }}
-      # - ServerIP="${IP:-$(ip route get 8.8.8.8 | awk '{ print $NF; exit }')}"
-      # - ServerIPv6="${IPv6:-$(ip -6 route get 2001:4860:4860::8888 | awk '{ print $10; exit }')}"
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 8765:80
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=80"
-
   portainer:
     image: portainer/portainer
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/portainer:/data
@@ -603,6 +588,7 @@ services:
   # https://nickbusey.gitlab.io/HomelabOS/software/restic/
   restic:
     image: lobaro/restic-backup-docker:v1.0
+    restart: always
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}
       - AWS_ACCESS_KEY_ID={{ s3_access_key }}
@@ -620,6 +606,7 @@ services:
 
   syncthing:
     image: linuxserver/syncthing
+    restart: always
     volumes:
       - /var/homelabos/syncthing:/config
       - /mnt/nas/Syncthing:/data
@@ -659,7 +646,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      - "8181:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/traefik/traefik.toml:/traefik.toml
@@ -681,22 +668,26 @@ services:
       - 8.8.4.4
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos/transmission/data:/data
-      - /var/homelabos/transmission/config:/config
-      - /mnt/nas/Downloads:/downloads
-      - /var/homelabos/transmission/watch:/watch
+      - /mnt/nas/Downloads:/data
+      - /mnt/nas/Downloads/watch:/data/watch
     environment:
       - OPENVPN_PROVIDER=PIA
       - OPENVPN_USERNAME={{ openvpn_username }}
       - OPENVPN_PASSWORD={{ openvpn_password }}
-      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
-      - PGID=1000
-      - PUID=1000
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 300
+      - PGID=0
+      - PUID=0
       - TZ={{ timezone }}
       - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
       # Password = `transmission`
       - TRANSMISSION_RPC_PASSWORD="{62b16db87b89a91dd49a5110a7cafc06d20eb4f2wtK6kqPj"
       - TRANSMISSION_RPC_USERNAME={{ default_username }}
+      - TRANSMISSION_SPEED_LIMIT_UP=100
+      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+      - TRANSMISSION_SPEED_LIMIT_DOWN=100
+      - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
+      - TRANSMISSION_RATIO_LIMIT=2
+      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:torrent.{{ domain }}"
