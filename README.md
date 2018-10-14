@@ -41,7 +41,6 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 ## Included Software
 
 * [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
-* [Butterfly](https://github.com/paradoxxxzero/butterfly) - Web based terminal access
 * [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
@@ -56,6 +55,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Mastodon](https://joinmastodon.org/) - Federated social microblogging
 * [Matomo](https://matomo.org/) - Web analytics
 * [Minio](https://minio.io/) - S3 hosting
+* [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
 * [Monica](https://www.monicahq.com/) - Contact / relationship manager
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
