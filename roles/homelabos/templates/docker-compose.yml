@@ -6,6 +6,7 @@ services:
   # Apple Health Data Importer
   apple_health_influx:
     image: nickbusey/healthdata_influx:cron
+    restart: always
     volumes:
       - /var/homelabos/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/
       - /var/homelabos/apple_health_influx/config.yml:/config.yml
@@ -70,6 +71,7 @@ services:
   # HomelabOS Documentation
   docs:
     image: kyma/docker-nginx
+    restart: always
     volumes:
       - /var/homelabos/docs/site:/var/www
     labels:
@@ -102,6 +104,7 @@ services:
 
   # Financial Tracker
   firefly_iii_app:
+    restart: always
     environment:
       - FF_DB_HOST=firefly_iii_db
       - FF_DB_NAME=firefly_db
@@ -129,6 +132,7 @@ services:
       - "traefik.tor.port=80"
 
   firefly_iii_db:
+    restart: always
     environment:
       - MYSQL_DATABASE=firefly_db
       - MYSQL_USER=firefly_db
@@ -273,6 +277,7 @@ services:
   # Music Streamer
   koel:
     image: 0xcaff/koel
+    restart: always
     links:
       - koel_database
     environment:
@@ -295,6 +300,7 @@ services:
 
   koel_database:
     image: mariadb
+    restart: always
     volumes:
       - /var/homelabos/koel/db:/var/lib/mysql
     environment:
@@ -370,13 +376,16 @@ services:
   # RSS Reader
   miniflux:
     image: miniflux/miniflux:2.0.11
+    restart: always
     links:
       - miniflux_db:db
     environment:
-      - DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable
+      - DATABASE_URL=postgres://miniflux:EsQMeV35CskJPE9eJwwqeV3ZFfZZ@db/miniflux?sslmode=disable
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:rss.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=8080"
       - "traefik.tor.frontend.rule=Host:rss.{{ tor_domain }}"
@@ -385,9 +394,10 @@ services:
 
   miniflux_db:
     image: postgres:10.1
+    restart: always
     environment:
       - POSTGRES_USER=miniflux
-      - POSTGRES_PASSWORD=secret
+      - POSTGRES_PASSWORD=EsQMeV35CskJPE9eJwwqeV3ZFfZZ
     volumes:
       - /var/homelabos/miniflux/db:/var/lib/postgresql/data
 
@@ -413,6 +423,7 @@ services:
   # Personal Relationship Database
   monicahq:
     image: monicahq/monicahq
+    restart: always
     links:
       - monicahq_db
     ports:
@@ -422,6 +433,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:monica.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=80"
       - "traefik.tor.frontend.rule=Host:monica.{{ tor_domain }}"
@@ -432,6 +445,7 @@ services:
 
   monicahq_db:
     image: mariadb
+    restart: always
     env_file:
       - /var/homelabos/docker/monica.env
     volumes:
@@ -445,7 +459,15 @@ services:
       - nextcloud_db
     volumes:
       - /var/homelabos/nextcloud:/var/www/html
+      # - /mnt/nas/Documents/Nextcloud:/var/www/html/data
     restart: always
+    environment:
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=nextcloud
+      - MYSQL_HOST=nextcloud_db
+      - NEXTCLOUD_ADMIN_USER={{ default_username }}
+      - NEXTCLOUD_ADMIN_PASSWORD={{ default_password }}
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:nextcloud.{{ domain }}"
@@ -471,6 +493,7 @@ services:
   # Usenet Downloader
   nzbget:
     image: linuxserver/nzbget
+    restart: always
     ports:
       - 6789:6789
     environment:
@@ -578,6 +601,7 @@ services:
   # TV Downloader
   sonarr:
     image: linuxserver/sonarr
+    restart: always
     ports:
       - 8989:8989
     environment:
@@ -601,6 +625,7 @@ services:
   # Movie Downloader
   radarr:
     image: linuxserver/radarr
+    restart: always
     ports:
       - 7878:7878
     environment:
