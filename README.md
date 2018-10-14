@@ -56,6 +56,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Mastodon](https://joinmastodon.org/) - Federated social microblogging
 * [Matomo](https://matomo.org/) - Web analytics
 * [Minio](https://minio.io/) - S3 hosting
+* [Monica](https://www.monicahq.com/) - Contact / relationship manager
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
@@ -84,7 +85,6 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 * [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
 * [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
-* Join us on [irc.freenode.net #HomelabOS](http://webchat.freenode.net/?channels=%23HomelabOS&uio=d4)
 
 ## Contributing
 
@@ -100,4 +100,4 @@ Follow the [MkDocs Material Theme setup directions](https://squidfunk.github.io/
 
 Then run `mkdocs serve`.
 
-To build changes to the docs run `make build`.
+To build changes to the docs run `make docs`.

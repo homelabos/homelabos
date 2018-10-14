@@ -13,11 +13,11 @@
     - /mnt/nas
   ignore_errors: yes
 
-# - name: Configure Docker.
-#   template: src={{ item }} dest=/var/homelabos/docker/
-#   loop:
-#     - .env
-#     - monica.env
+- name: Configure Docker.
+  template: src={{ item }} dest=/var/homelabos/docker/
+  loop:
+    - .env
+    - monica.env
 
 - name: Configure Telegraf.
   template: src=telegraf.conf dest=/var/homelabos/telegraf/telegraf.conf
@@ -92,6 +92,7 @@
     - mastodon
     - minio
     - money
+    - monica
     - music
     - nextcloud
     - paperless

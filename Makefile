@@ -1,4 +1,4 @@
-.PHONY: deploy build restore develop provision docs
+.PHONY: deploy docs_build restore develop provision docs_deploy
 
 # Deploy HomelabOS
 deploy:
@@ -9,6 +9,7 @@ deploy:
 # Initial setup
 setup:
 	cat homelaboslogo.txt
+	make docs_build
 	ansible-galaxy install toke.tor
 	ansible-playbook -i setup_hosts setup.yml
 	ansible-playbook -i hosts homelabos.yml
@@ -19,7 +20,7 @@ update:
 	ansible-playbook -i hosts -t deploy homelabos.yml 
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
-build:
+docs_build:
 	cat homelaboslogo.txt
 	mkdocs build
 
@@ -41,7 +42,7 @@ provision:
 	vagrant provision
 
 # Update just the docs
-docs:
+docs_deploy:
 	cat homelaboslogo.txt
 	mkdocs build
 	ansible-playbook -i hosts -t docs homelabos.yml 	

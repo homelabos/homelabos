@@ -379,6 +379,9 @@ services:
       - "traefik.http.frontend.rule=Host:rss.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=8080"
+      - "traefik.tor.frontend.rule=Host:rss.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
 
   miniflux_db:
     image: postgres:10.1
@@ -421,14 +424,16 @@ services:
       - "traefik.http.frontend.rule=Host:monica.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=80"
+      - "traefik.tor.frontend.rule=Host:monica.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
+    env_file:
+      - /var/homelabos/docker/monica.env
 
   monicahq_db:
     image: mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=sekret_root_password
-      - MYSQL_DATABASE=monica
-      - MYSQL_USER=monica
-      - MYSQL_PASSWORD=monica
+    env_file:
+      - /var/homelabos/docker/monica.env
     volumes:
       - /var/homelabos/monica/mysql:/var/lib/mysql
 

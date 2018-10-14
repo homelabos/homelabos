@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/", 
-            "text": "HomelabOS\n\n\nWelcome to HomelabOS version 0.2! Your very own offline-first open-source data-center!\n\n\nHomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.\n\n\nGetting Help\n\n\nIf you are having problems you can \nfile an issue on GitLab\n.", 
+            "text": "HomelabOS\n\n\nWelcome to HomelabOS version 0.3! Your very own offline-first open-source data-center!\n\n\nHomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.\n\n\nGetting Help\n\n\nIf you are having problems you can \nfile an issue on GitLab\n.", 
             "title": "Home"
         }, 
         {
             "location": "/#homelabos", 
-            "text": "Welcome to HomelabOS version 0.2! Your very own offline-first open-source data-center!  HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.", 
+            "text": "Welcome to HomelabOS version 0.3! Your very own offline-first open-source data-center!  HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.", 
             "title": "HomelabOS"
         }, 
         {
@@ -17,17 +17,17 @@
         }, 
         {
             "location": "/setup/installation/", 
-            "text": "Installation\n\n\nClone the repository if you have git \ngit clone git@gitlab.com:NickBusey/HomelabOS.git\n or \ndownload it from GitLab\n.\n\n\nMake sure you have Ansible 2.5+ installed on your computer.\n\n\nEnsure you can access your server with a local IP through \npasswordless SSH\n and your user has \npasswordless sudo\n.\n\n\nFrom inside the HomelabOS folder execute the terminal command \nmake setup\n to configure your server settings.\n\n\nOnce that is done, you can run \nmake\n to have HomelabOS install itself.\n\n\nTo configure additional services, look at the options available in \ngroup_vars/all\n and override them in \nhost_vars/myserver\n.\n\n\nYou can always change settings by hand in \nhost_vars/myserver\n and re-run \nmake\n again to update the server with your new settings.\n\n\nNetwork Configuration\n\n\nIt is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in \n.local\n and enter that as your domain in \nhost_vars/myserver\n.\n\n\nWhen HomelabOS \nmake\n command completes, it creates a file on the computer which ran make \n/tmp/homelabos_hosts\n. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.\n\n\nNAS Network Area Storage Configuration\n\n\nIt is a good idea to keep your files as a whole, media, documents, etc., on a Network Area Storage device or NAS.\n\n\nFor a typical HomelabOS setup you will want at least the following directories inside your NAS:\n\n\nBackups\nMusic\nMovies\nTV\nDownloads\nDocuments\n\n\n\n\nAll you have to do is enter your NAS network path, username and password into your \nhost_vars/myserver\n file. You can find the template in \nhost_vars/all\n in the \n# NAS Config\n section.\n\n\nIt should look something like this, depending on your setup:\n\n\nnas_path: //192.168.1.1/Mynas\nnas_user: guest\nnas_pass:\nnas_workgroup: WORKGROUP\n\n\n\n\nThis NAS resource will be mounted under \n/mnt/nas\n in the various containers that would benefit from access.\n\n\nAssuming you have created the folders above, for \nEmby\n for example you could point it to \n/mnt/nas/TV\n and \n/mnt/nas/Movies\n while \nPaperless\n would point at \n/mnt/nas/Documents\n.", 
+            "text": "Installation\n\n\nDownload the latest version from GitLab\n.\n\n\nMake sure you have Ansible 2.5+ installed on your computer.\n\n\nEnsure you can access your server with a local IP through \npasswordless SSH\n and your user has \npasswordless sudo\n.\n\n\nFrom inside the HomelabOS folder execute the terminal command \nmake setup\n to configure your server settings.\n\n\nOnce that is done, you can run \nmake\n to have HomelabOS install itself.\n\n\nTo configure additional services, look at the options available in \ngroup_vars/all\n and override them in \nhost_vars/myserver\n.\n\n\nYou can always change settings by hand in \nhost_vars/myserver\n and re-run \nmake\n again to update the server with your new settings.\n\n\nNetwork Configuration\n\n\nIt is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in \n.local\n and enter that as your domain in \nhost_vars/myserver\n.\n\n\nWhen HomelabOS \nmake\n command completes, it creates a file on the server at \n/var/homelabos/homelabos_hosts\n. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.\n\n\nNAS Network Area Storage Configuration\n\n\nIt is a good idea to keep your files as a whole, media, documents, etc., on a Network Area Storage device or NAS.\n\n\nFor a typical HomelabOS setup you will want at least the following directories inside your NAS:\n\n\nBackups\nMusic\nMovies\nTV\nDownloads\nDocuments\n\n\n\n\nAll you have to do is enter your NAS network path, username and password into your \nhost_vars/myserver\n file. You can find the template in \nhost_vars/all\n in the \n# NAS Config\n section.\n\n\nIt should look something like this, depending on your setup:\n\n\nnas_path: //192.168.1.1/Mynas\nnas_user: guest\nnas_pass:\nnas_workgroup: WORKGROUP\n\n\n\n\nThis NAS resource will be mounted under \n/mnt/nas\n in the various containers that would benefit from access.\n\n\nAssuming you have created the folders above, for \nEmby\n for example you could point it to \n/mnt/nas/TV\n and \n/mnt/nas/Movies\n while \nPaperless\n would point at \n/mnt/nas/Documents\n.", 
             "title": "Installation"
         }, 
         {
             "location": "/setup/installation/#installation", 
-            "text": "Clone the repository if you have git  git clone git@gitlab.com:NickBusey/HomelabOS.git  or  download it from GitLab .  Make sure you have Ansible 2.5+ installed on your computer.  Ensure you can access your server with a local IP through  passwordless SSH  and your user has  passwordless sudo .  From inside the HomelabOS folder execute the terminal command  make setup  to configure your server settings.  Once that is done, you can run  make  to have HomelabOS install itself.  To configure additional services, look at the options available in  group_vars/all  and override them in  host_vars/myserver .  You can always change settings by hand in  host_vars/myserver  and re-run  make  again to update the server with your new settings.", 
+            "text": "Download the latest version from GitLab .  Make sure you have Ansible 2.5+ installed on your computer.  Ensure you can access your server with a local IP through  passwordless SSH  and your user has  passwordless sudo .  From inside the HomelabOS folder execute the terminal command  make setup  to configure your server settings.  Once that is done, you can run  make  to have HomelabOS install itself.  To configure additional services, look at the options available in  group_vars/all  and override them in  host_vars/myserver .  You can always change settings by hand in  host_vars/myserver  and re-run  make  again to update the server with your new settings.", 
             "title": "Installation"
         }, 
         {
             "location": "/setup/installation/#network-configuration", 
-            "text": "It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in  .local  and enter that as your domain in  host_vars/myserver .  When HomelabOS  make  command completes, it creates a file on the computer which ran make  /tmp/homelabos_hosts . You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.", 
+            "text": "It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in  .local  and enter that as your domain in  host_vars/myserver .  When HomelabOS  make  command completes, it creates a file on the server at  /var/homelabos/homelabos_hosts . You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.", 
             "title": "Network Configuration"
         }, 
         {
@@ -37,7 +37,7 @@
         }, 
         {
             "location": "/setup/gettingstarted/", 
-            "text": "Getting Started\n\n\nAlright once you are all setup and ready to go you should be able to load Organizr at \nhttp://{{ domain }}/\n.\n\n\nIf you see \n{ domain }\n in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.\n\n\nUsing Organizr\n\n\nYou can click the \nSettings\n link, then \nEdit Tabs\n to be able to add links to all the various HomelabOS services.\n\n\nIn the very near future, HomelabOS will provision these tab links for you automatically.\n\n\nThe URLs for all the services can be found in their individual documentation section.\n\n\nHTTPS via LetsEncrypt\n\n\nHomelabOS will use Traefik's built in LetsEncrypt integration to automatically generate SSL certificates for your various services. If initially some of the certificates don't appear valid, you have likely run into \nLetsEncrypt rate limits\n. Unfortunately the only fix we have for that right now is 'wait a week and try again'.", 
+            "text": "Getting Started\n\n\nAlright once you are all setup and ready to go you should be able to load Organizr at \nhttp://{{ domain }}/\n.\n\n\nIf you see \n{ domain }\n in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.\n\n\nUsing Organizr\n\n\nYou can click the \nSettings\n link, then \nEdit Tabs\n to be able to add links to all the various HomelabOS services.\n\n\nIn the very near future, HomelabOS will provision these tab links for you automatically.\n\n\nThe URLs for all the services can be found in their individual documentation section.\n\n\nHTTPS via LetsEncrypt\n\n\nHomelabOS will use Traefik's built in LetsEncrypt integration to automatically generate SSL certificates for your various services. If initially some of the certificates don't appear valid, you have likely run into \nLetsEncrypt rate limits\n. Unfortunately the only fix we have for that right now is 'wait a week'.", 
             "title": "Getting Started"
         }, 
         {
@@ -52,7 +52,7 @@
         }, 
         {
             "location": "/setup/gettingstarted/#https-via-letsencrypt", 
-            "text": "HomelabOS will use Traefik's built in LetsEncrypt integration to automatically generate SSL certificates for your various services. If initially some of the certificates don't appear valid, you have likely run into  LetsEncrypt rate limits . Unfortunately the only fix we have for that right now is 'wait a week and try again'.", 
+            "text": "HomelabOS will use Traefik's built in LetsEncrypt integration to automatically generate SSL certificates for your various services. If initially some of the certificates don't appear valid, you have likely run into  LetsEncrypt rate limits . Unfortunately the only fix we have for that right now is 'wait a week'.", 
             "title": "HTTPS via LetsEncrypt"
         }, 
         {
@@ -111,6 +111,16 @@
             "title": "SSH Access"
         }, 
         {
+            "location": "/setup/vpn/", 
+            "text": "VPN Setup\n\n\nThis bit is not quite automated yet, so you'll have to run the following commands on the server by hand.\n\n\n# Create config\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://vpn.{{ domain }}:1194\n\n# Create PKI\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki\n\n# Create a client (repeat as needed)\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full USERNAME nopass\n\n# Get client connection file (repeat as needed)\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient USERNAME \n USERNAME.ovpn\n\n\n\n\nOnce you run those 4 lines you will have a .ovpn file for each user. Simply copy them off of the server to your machine, and distribute as needed.", 
+            "title": "VPN Setup"
+        }, 
+        {
+            "location": "/setup/vpn/#vpn-setup", 
+            "text": "This bit is not quite automated yet, so you'll have to run the following commands on the server by hand.  # Create config\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://vpn.{{ domain }}:1194\n\n# Create PKI\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki\n\n# Create a client (repeat as needed)\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full USERNAME nopass\n\n# Get client connection file (repeat as needed)\ndocker run -v /var/homelabos/openvpn:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient USERNAME   USERNAME.ovpn  Once you run those 4 lines you will have a .ovpn file for each user. Simply copy them off of the server to your machine, and distribute as needed.", 
+            "title": "VPN Setup"
+        }, 
+        {
             "location": "/software/applehealth/", 
             "text": "Automated Apple Health Import\n\n\nHomelabOS supports automatically (kind of) importing of your data from Apple Health.\n\n\nThe non-automatic part is you have to manually create an Export from the Health app on your phone.\n\n\nOnce you upload your export to your \nNextCloud\n instance, the Apple Health cron task will pick it up within the next hour, and put all the data into \nInfluxDB\n. Now you can create nice dashboards in \nGrafana\n to visualize and inspect your Health data.\n\n\nConfiguring\n\n\nYou need to set the NextCloud username that you want to import Health Data from in your \nhost_vars/myserver\n file. This value defaults to \nadmin\n the default username created at startup by NextCloud.\n\n\nExporting\n\n\nMake sure you have NextCloud configured on your Apple device. On your Apple device open the \nHealth\n app. Click the \nToday\n tab, then click the profile icon in the top right of the screen. Now click \nExport Health Data\n. Once the export completes, save it to NextCloud. Click \nUpload\n with the default settings. It should save to your \nFiles\n folder with the name \nexport.zip\n.\n\n\nNow in under an hour you should be able to see your data in Influx via Grafana.\n\n\nDebugging\n\n\nYou can always open up \nPortainer\n and view the Logs of the \nhomelabos_apple_health_influx_1\n container to see if things are working or not.\n\n\nAccess\n\n\nThere is no direct access to this service, you can visualize the data through Grafana.", 
             "title": "Apple Health"
@@ -138,6 +148,21 @@
         {
             "location": "/software/applehealth/#access", 
             "text": "There is no direct access to this service, you can visualize the data through Grafana.", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/bitwarden/", 
+            "text": "Bitwarden\n\n\nBitwarden\n is an open source password manager. HomelabOS utilizes an Open Source clone of the Bitwarden API server, \nbitwarden_rs\n. This is primarily due to performance and complexity reasons. \nbitwarden_rs\n requires just one Docker container, whereas the official \nBitwarden\n install requires something like six different containers.\n\n\nAccess\n\n\nIt is available at \nhttps://warden.{{ domain }}/\n or \nhttp://warden.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://warden.{{ tor_domain }}/", 
+            "title": "Bitwarden"
+        }, 
+        {
+            "location": "/software/bitwarden/#bitwarden", 
+            "text": "Bitwarden  is an open source password manager. HomelabOS utilizes an Open Source clone of the Bitwarden API server,  bitwarden_rs . This is primarily due to performance and complexity reasons.  bitwarden_rs  requires just one Docker container, whereas the official  Bitwarden  install requires something like six different containers.", 
+            "title": "Bitwarden"
+        }, 
+        {
+            "location": "/software/bitwarden/#access", 
+            "text": "It is available at  https://warden.{{ domain }}/  or  http://warden.{{ domain }}/  It is also available via Tor at  http://warden.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -276,6 +301,41 @@
             "title": "Access"
         }, 
         {
+            "location": "/software/mastodon/", 
+            "text": "Mastodon\n\n\nYou have to manually configure \nMastodon\n.\n\n\nSSH in to your HomelabOS machine and stop the HomelabOS services \nsystemctl stop homelabos\n\n\nNow run the following command \ncd /var/homelabos/docker \n docker-compose run --rm mastodon_web bundle exec rake mastodon:setup\n\n\nFollow the onscreen directions.\n\n\nOnce that is done, start HomelabOS again with \nsystemctl start homelabos\n\n\nAcces\n\n\nYou can access Mastodon at \nhttps://mastodon.{{ domain }}/\n or \nhttp://mastodon.{{ domain }}/\n\n\nIt is not available via Tor as it requires as SSL connection to load.", 
+            "title": "Mastodon"
+        }, 
+        {
+            "location": "/software/mastodon/#mastodon", 
+            "text": "You have to manually configure  Mastodon .  SSH in to your HomelabOS machine and stop the HomelabOS services  systemctl stop homelabos  Now run the following command  cd /var/homelabos/docker   docker-compose run --rm mastodon_web bundle exec rake mastodon:setup  Follow the onscreen directions.  Once that is done, start HomelabOS again with  systemctl start homelabos", 
+            "title": "Mastodon"
+        }, 
+        {
+            "location": "/software/mastodon/#acces", 
+            "text": "You can access Mastodon at  https://mastodon.{{ domain }}/  or  http://mastodon.{{ domain }}/  It is not available via Tor as it requires as SSL connection to load.", 
+            "title": "Acces"
+        }, 
+        {
+            "location": "/software/matomo/", 
+            "text": "Matomo\n\n\nSetup\n\n\nDuring the setup wizard, your Database host should be \ndb\n and the database name, user, and password, all \nmatomo\n.\n\n\nAccess\n\n\nIt is available via \nhttps://matomo.{{ domain }}/\n or \nhttp://matomo.{{ domain }}/\n.\n\n\nIt is also available via Tor at \nhttp://matomo.{{ tor_domain }}/", 
+            "title": "Matomo"
+        }, 
+        {
+            "location": "/software/matomo/#matomo", 
+            "text": "", 
+            "title": "Matomo"
+        }, 
+        {
+            "location": "/software/matomo/#setup", 
+            "text": "During the setup wizard, your Database host should be  db  and the database name, user, and password, all  matomo .", 
+            "title": "Setup"
+        }, 
+        {
+            "location": "/software/matomo/#access", 
+            "text": "It is available via  https://matomo.{{ domain }}/  or  http://matomo.{{ domain }}/ .  It is also available via Tor at  http://matomo.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/minio/", 
             "text": "Minio\n\n\nMinio is an S3 storage utility.\n\n\nConfiguration\n\n\nRefer to the \nBackup Guide\n for configuration details.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://minio.{{ domain }}/\n or \nhttp://minio.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://minio.{{ tor_domain }}/", 
             "title": "Minio"
@@ -293,6 +353,26 @@
         {
             "location": "/software/minio/#access", 
             "text": "The dashboard is available at  https://minio.{{ domain }}/  or  http://minio.{{ domain }}/  It is also available via Tor at  http://minio.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/monica/", 
+            "text": "Monica\n\n\nMonica\n is an open source personal CRM.\n\n\nConfiguration\n\n\nThis requires some manual setup unfortunately.\n\n\nFirst make sure all the migrations have completed and that accessing the Monica URL below renders a login page.\n\n\nOnce that is done, login to your server and stop the services with \nsystemctl stop homelabos\n\n\nSpin up a monica specific app by CDing into the HomelabOS Docker folder \ncd /var/homelabos/docker\n and then running \ndocker-compose run monicahq shell\n\n\nOnce you are inside the Docker container, run \nphp artisan setup:production\n then after that's done \nexit\n the container. Now you should spin down the DB container left running with \ndocker stop docker_monicahq_db_1\n.\n\n\nNOW you should be able to access the Monica URL below again, and be presented with a registration page for the first account.\n\n\nAccess\n\n\nMonica is available at \nhttps://monica.{{ domain }}/\n or \nhttp://monica.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://monica.{{ tor_domain }}/", 
+            "title": "Monica"
+        }, 
+        {
+            "location": "/software/monica/#monica", 
+            "text": "Monica  is an open source personal CRM.", 
+            "title": "Monica"
+        }, 
+        {
+            "location": "/software/monica/#configuration", 
+            "text": "This requires some manual setup unfortunately.  First make sure all the migrations have completed and that accessing the Monica URL below renders a login page.  Once that is done, login to your server and stop the services with  systemctl stop homelabos  Spin up a monica specific app by CDing into the HomelabOS Docker folder  cd /var/homelabos/docker  and then running  docker-compose run monicahq shell  Once you are inside the Docker container, run  php artisan setup:production  then after that's done  exit  the container. Now you should spin down the DB container left running with  docker stop docker_monicahq_db_1 .  NOW you should be able to access the Monica URL below again, and be presented with a registration page for the first account.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/monica/#access", 
+            "text": "Monica is available at  https://monica.{{ domain }}/  or  http://monica.{{ domain }}/  It is also available via Tor at  http://monica.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -357,7 +437,7 @@
         }, 
         {
             "location": "/software/transmission/", 
-            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttps://torrent.{{ domain }}/\n or \nhttp://torrent.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://transmission.{{ tor_domain }}/", 
+            "text": "Transmission\n\n\nTransmission\n is available for all your torrenting needs.\n\n\nHomelabOS uses \ndocker-transmission-openvpn\n to only connect via a VPN. It includes Tinyproxy on port 8888 to provide proxy services over the OpenVPN client connection. To disable the OpenVPN functionality replace the line \nimage: haugene/transmission-openvpn\n with \nimage: linuxserver/transmission\n in \nhomelabos/templates/docker-compose.yml\n then run \nmake\n again from the root directory to update HomelabOS with your new settings. \n\n\nAccess\n\n\nIt is available at \nhttps://torrent.{{ domain }}/\n or \nhttp://torrent.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://torrent.{{ tor_domain }}/", 
             "title": "Transmission"
         }, 
         {
@@ -367,7 +447,7 @@
         }, 
         {
             "location": "/software/transmission/#access", 
-            "text": "It is available at  https://torrent.{{ domain }}/  or  http://torrent.{{ domain }}/  It is also available via Tor at  http://transmission.{{ tor_domain }}/", 
+            "text": "It is available at  https://torrent.{{ domain }}/  or  http://torrent.{{ domain }}/  It is also available via Tor at  http://torrent.{{ tor_domain }}/", 
             "title": "Access"
         }
     ]

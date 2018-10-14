@@ -31,6 +31,7 @@ pages:
     - Mastodon: software/mastodon.md
     - Matomo: software/matomo.md
     - Minio: software/minio.md
+    - Monica: software/monica.md
     - NextCloud: software/nextcloud.md
     - Paperless: software/paperless.md
     - Portainer: software/portainer.md

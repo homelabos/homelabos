@@ -69,3 +69,6 @@ apple_health_nextcloud_username: admin
 # Xfinity Data Usage Settings
 xfinity_user:
 xfinity_password:
+
+# Monica Settings
+monica_db_password:
