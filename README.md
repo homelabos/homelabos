@@ -52,6 +52,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
+* [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
 * [Mastodon](https://joinmastodon.org/) - Federated social microblogging
 * [Matomo](https://matomo.org/) - Web analytics
 * [Minio](https://minio.io/) - S3 hosting
@@ -60,6 +61,8 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
 * [Portainer](https://www.portainer.io/) - Easy Docker management
+* [Radarr](https://radarr.video/) - Automated movie downloading
+* [Sonarr](https://sonarr.tv/) - Automated TV downloading
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 * [Transmission](https://transmissionbt.com/) - BitTorrent client
 
