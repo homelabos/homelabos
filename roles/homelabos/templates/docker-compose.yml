@@ -570,6 +570,29 @@ services:
       - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
+    extra_hosts:
+      - docker.{{ domain }}:{{ ansible_ssh_host }}
+      - docs.{{ domain }}:{{ ansible_ssh_host }}
+      - emby.{{ domain }}:{{ ansible_ssh_host }}
+      - git.{{ domain }}:{{ ansible_ssh_host }}
+      - grafana.{{ domain }}:{{ ansible_ssh_host }}
+      - homeassistant.{{ domain }}:{{ ansible_ssh_host }}
+      - irc.{{ domain }}:{{ ansible_ssh_host }}
+      - koel.{{ domain }}:{{ ansible_ssh_host }}
+      - matomo.{{ domain }}:{{ ansible_ssh_host }}
+      - mastodon.{{ domain }}:{{ ansible_ssh_host }}
+      - minio.{{ domain }}:{{ ansible_ssh_host }}
+      - money.{{ domain }}:{{ ansible_ssh_host }}
+      - monica.{{ domain }}:{{ ansible_ssh_host }}
+      - music.{{ domain }}:{{ ansible_ssh_host }}
+      - nextcloud.{{ domain }}:{{ ansible_ssh_host }}
+      - paperless.{{ domain }}:{{ ansible_ssh_host }}
+      - pihole.{{ domain }}:{{ ansible_ssh_host }}
+      - portainer.{{ domain }}:{{ ansible_ssh_host }}
+      - radarr.{{ domain }}:{{ ansible_ssh_host }}
+      - terminal.{{ domain }}:{{ ansible_ssh_host }}
+      - torrent.{{ domain }}:{{ ansible_ssh_host }}
+      - warden.{{ domain }}:{{ ansible_ssh_host }}
 
   # Photo Gallery
   piwigo:
