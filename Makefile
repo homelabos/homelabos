@@ -24,6 +24,12 @@ docs_build:
 	cat homelaboslogo.txt
 	mkdocs build
 
+# Update just the docs
+docs_deploy:
+	cat homelaboslogo.txt
+	mkdocs build
+	ansible-playbook -i hosts -t docs homelabos.yml
+
 # Restore a server with the most recent backup. Assuming Backups were running.
 restore:
 	cat homelaboslogo.txt
@@ -40,12 +46,6 @@ develop:
 provision:
 	cat homelaboslogo.txt
 	vagrant provision
-
-# Update just the docs
-docs_deploy:
-	cat homelaboslogo.txt
-	mkdocs build
-	ansible-playbook -i hosts -t docs homelabos.yml 	
 
 # Execute against a test server
 test:

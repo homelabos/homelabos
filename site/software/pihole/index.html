@@ -32,7 +32,7 @@
     
     
       
-        <title>Mastodon - HomelabOS</title>
+        <title>Pi-hole - HomelabOS</title>
       
     
     
@@ -68,7 +68,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#mastodon" tabindex="1" class="md-skip">
+      <a href="#pi-hole" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -94,7 +94,7 @@
                 HomelabOS
               </span>
               <span class="md-header-nav__topic">
-                Mastodon
+                Pi-hole
               </span>
             
           
@@ -458,47 +458,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Mastodon
-      </label>
-    
-    <a href="./" title="Mastodon" class="md-nav__link md-nav__link--active">
-      Mastodon
+  <li class="md-nav__item">
+    <a href="../koel/" title="Koel" class="md-nav__link">
+      Koel
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#acces" title="Acces" class="md-nav__link">
-    Acces
-  </a>
-  
-</li>
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -522,6 +486,18 @@
   <li class="md-nav__item">
     <a href="../minio/" title="Minio" class="md-nav__link">
       Minio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../miniflux/" title="Miniflux" class="md-nav__link">
+      Miniflux
     </a>
   </li>
 
@@ -559,6 +535,61 @@
     <a href="../paperless/" title="Paperless" class="md-nav__link">
       Paperless
     </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Pi-hole
+      </label>
+    
+    <a href="./" title="Pi-hole" class="md-nav__link md-nav__link--active">
+      Pi-hole
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" title="Access" class="md-nav__link">
+    Access
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -624,8 +655,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#acces" title="Acces" class="md-nav__link">
-    Acces
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" title="Access" class="md-nav__link">
+    Access
   </a>
   
 </li>
@@ -644,18 +682,16 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://gitlab.com/NickBusey/HomelabOS/edit/master/docs/software/mastodon.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://gitlab.com/NickBusey/HomelabOS/edit/master/docs/software/pihole.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="mastodon">Mastodon</h1>
-<p>You have to manually configure <a href="https://joinmastodon.org/">Mastodon</a>.</p>
-<p>SSH in to your HomelabOS machine and stop the HomelabOS services <code>systemctl stop homelabos</code></p>
-<p>Now run the following command <code>cd /var/homelabos/docker &amp;&amp; docker-compose run --rm mastodon_web bundle exec rake mastodon:setup</code></p>
-<p>Follow the onscreen directions.</p>
-<p>Once that is done, start HomelabOS again with <code>systemctl start homelabos</code></p>
-<h2 id="acces">Acces</h2>
-<p>You can access Mastodon at <a href="https://mastodon.{{ domain }}/">https://mastodon.{{ domain }}/</a> or <a href="http://mastodon.{{ domain }}/">http://mastodon.{{ domain }}/</a></p>
-<p>It is not available via Tor as it requires as SSL connection to load.</p>
+                <h1 id="pi-hole">Pi-hole</h1>
+<p><a href="http://pi-hole.net/">Pi-hole</a> provides network-wide ad blocking via your own Linux hardware.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Login with the default password you set.</p>
+<h2 id="access">Access</h2>
+<p>The dashboard is available at <a href="https://pihole.{{ domain }}/">https://pihole.{{ domain }}/</a> or <a href="http://pihole.{{ domain }}/">http://pihole.{{ domain }}/</a></p>
+<p>It is also available via Tor at <a href="http://pihole.{{ tor_domain }}/">http://pihole.{{ tor_domain }}/</a></p>
                 
                   
                 
@@ -674,7 +710,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../influxdb/" title="InfluxDB" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../paperless/" title="Paperless" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -683,19 +719,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                InfluxDB
+                Paperless
               </span>
             </div>
           </a>
         
         
-          <a href="../matomo/" title="Matomo" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../portainer/" title="Portainer" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Matomo
+                Portainer
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

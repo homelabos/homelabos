@@ -112,7 +112,7 @@
     </url>
         
     <url>
-     <loc>/software/mastodon/</loc>
+     <loc>/software/koel/</loc>
      <lastmod>2018-10-14</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -125,6 +125,12 @@
         
     <url>
      <loc>/software/minio/</loc>
+     <lastmod>2018-10-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/software/miniflux/</loc>
      <lastmod>2018-10-14</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -143,6 +149,12 @@
         
     <url>
      <loc>/software/paperless/</loc>
+     <lastmod>2018-10-14</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/software/pihole/</loc>
      <lastmod>2018-10-14</lastmod>
      <changefreq>daily</changefreq>
     </url>

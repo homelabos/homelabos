@@ -460,8 +460,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../mastodon/" title="Mastodon" class="md-nav__link">
-      Mastodon
+    <a href="../koel/" title="Koel" class="md-nav__link">
+      Koel
     </a>
   </li>
 
@@ -486,6 +486,18 @@
   <li class="md-nav__item">
     <a href="../minio/" title="Minio" class="md-nav__link">
       Minio
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../miniflux/" title="Miniflux" class="md-nav__link">
+      Miniflux
     </a>
   </li>
 
@@ -535,6 +547,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#access" title="Access" class="md-nav__link">
     Access
   </a>
@@ -558,6 +577,18 @@
   <li class="md-nav__item">
     <a href="../paperless/" title="Paperless" class="md-nav__link">
       Paperless
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../pihole/" title="Pi-hole" class="md-nav__link">
+      Pi-hole
     </a>
   </li>
 
@@ -624,6 +655,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configuration" title="Configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#access" title="Access" class="md-nav__link">
     Access
   </a>
@@ -649,6 +687,13 @@
                 
                 <h1 id="nextcloud">NextCloud</h1>
 <p><a href="https://nextcloud.com/">NextCloud</a> is your Dropbox / Google Calendar replacement.</p>
+<h2 id="configuration">Configuration</h2>
+<p>When creating the admin account, expand the <code>Storage &amp; Database</code> tab, select <code>MySQL/MariaDB</code>, then fill out the following information.</p>
+<p>Database User: <code>nextcloud</code>
+Database Password: <code>nextcloud</code>
+Database Name: <code>nextcloud</code>
+Change <code>localhost</code> to <code>nextcloud_db</code></p>
+<p>Hit <code>Finish Setup</code></p>
 <h2 id="access">Access</h2>
 <p>It is available at <a href="https://nextcloud.{{ domain }}/">https://nextcloud.{{ domain }}/</a> or <a href="http://nextcloud.{{ domain }}/">http://nextcloud.{{ domain }}/</a></p>
 <p>It is also available via Tor at <a href="http://nextcloud.{{ tor_domain }}/">http://nextcloud.{{ tor_domain }}/</a></p>

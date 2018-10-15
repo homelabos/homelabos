@@ -301,19 +301,24 @@
             "title": "Access"
         }, 
         {
-            "location": "/software/mastodon/", 
-            "text": "Mastodon\n\n\nYou have to manually configure \nMastodon\n.\n\n\nSSH in to your HomelabOS machine and stop the HomelabOS services \nsystemctl stop homelabos\n\n\nNow run the following command \ncd /var/homelabos/docker \n docker-compose run --rm mastodon_web bundle exec rake mastodon:setup\n\n\nFollow the onscreen directions.\n\n\nOnce that is done, start HomelabOS again with \nsystemctl start homelabos\n\n\nAcces\n\n\nYou can access Mastodon at \nhttps://mastodon.{{ domain }}/\n or \nhttp://mastodon.{{ domain }}/\n\n\nIt is not available via Tor as it requires as SSL connection to load.", 
-            "title": "Mastodon"
+            "location": "/software/koel/", 
+            "text": "Koel\n\n\nKoel\n is a personal music streaming server that works.\n\n\nSetup\n\n\nTo set your credentials, ssh in to your machine and run: \ndocker exec -it homelabos_koel_1 php artisan koel:init\n\n\nOr open \nPortainer\n and run \nphp artisan koel:init\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://koel.{{ domain }}/\n or \nhttp://koel.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://koel.{{ tor_domain }}/", 
+            "title": "Koel"
         }, 
         {
-            "location": "/software/mastodon/#mastodon", 
-            "text": "You have to manually configure  Mastodon .  SSH in to your HomelabOS machine and stop the HomelabOS services  systemctl stop homelabos  Now run the following command  cd /var/homelabos/docker   docker-compose run --rm mastodon_web bundle exec rake mastodon:setup  Follow the onscreen directions.  Once that is done, start HomelabOS again with  systemctl start homelabos", 
-            "title": "Mastodon"
+            "location": "/software/koel/#koel", 
+            "text": "Koel  is a personal music streaming server that works.", 
+            "title": "Koel"
         }, 
         {
-            "location": "/software/mastodon/#acces", 
-            "text": "You can access Mastodon at  https://mastodon.{{ domain }}/  or  http://mastodon.{{ domain }}/  It is not available via Tor as it requires as SSL connection to load.", 
-            "title": "Acces"
+            "location": "/software/koel/#setup", 
+            "text": "To set your credentials, ssh in to your machine and run:  docker exec -it homelabos_koel_1 php artisan koel:init  Or open  Portainer  and run  php artisan koel:init", 
+            "title": "Setup"
+        }, 
+        {
+            "location": "/software/koel/#access", 
+            "text": "The dashboard is available at  https://koel.{{ domain }}/  or  http://koel.{{ domain }}/  It is also available via Tor at  http://koel.{{ tor_domain }}/", 
+            "title": "Access"
         }, 
         {
             "location": "/software/matomo/", 
@@ -356,6 +361,26 @@
             "title": "Access"
         }, 
         {
+            "location": "/software/miniflux/", 
+            "text": "Miniflux\n\n\nMiniflux\n is a minimalist and opinionated feed reader.\n\n\nConfiguration\n\n\nLogin to your server and run the following commands to configure Miniflux the first time.\n\n\nExecute \ndocker exec -ti homelabos_miniflux_1 /usr/local/bin/miniflux -migrate\n\n\nThen \ndocker exec -ti homelabos_miniflux_1 /usr/local/bin/miniflux -create-admin\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://rss.{{ domain }}/\n or \nhttp://rss.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://rss.{{ tor_domain }}/", 
+            "title": "Miniflux"
+        }, 
+        {
+            "location": "/software/miniflux/#miniflux", 
+            "text": "Miniflux  is a minimalist and opinionated feed reader.", 
+            "title": "Miniflux"
+        }, 
+        {
+            "location": "/software/miniflux/#configuration", 
+            "text": "Login to your server and run the following commands to configure Miniflux the first time.  Execute  docker exec -ti homelabos_miniflux_1 /usr/local/bin/miniflux -migrate  Then  docker exec -ti homelabos_miniflux_1 /usr/local/bin/miniflux -create-admin", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/miniflux/#access", 
+            "text": "The dashboard is available at  https://rss.{{ domain }}/  or  http://rss.{{ domain }}/  It is also available via Tor at  http://rss.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/monica/", 
             "text": "Monica\n\n\nMonica\n is an open source personal CRM.\n\n\nConfiguration\n\n\nThis requires some manual setup unfortunately.\n\n\nFirst make sure all the migrations have completed and that accessing the Monica URL below renders a login page.\n\n\nOnce that is done, login to your server and stop the services with \nsystemctl stop homelabos\n\n\nSpin up a monica specific app by CDing into the HomelabOS Docker folder \ncd /var/homelabos/docker\n and then running \ndocker-compose run monicahq shell\n\n\nOnce you are inside the Docker container, run \nphp artisan setup:production\n then after that's done \nexit\n the container. Now you should spin down the DB container left running with \ndocker stop docker_monicahq_db_1\n.\n\n\nNOW you should be able to access the Monica URL below again, and be presented with a registration page for the first account.\n\n\nAccess\n\n\nMonica is available at \nhttps://monica.{{ domain }}/\n or \nhttp://monica.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://monica.{{ tor_domain }}/", 
             "title": "Monica"
@@ -377,13 +402,18 @@
         }, 
         {
             "location": "/software/nextcloud/", 
-            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nAccess\n\n\nIt is available at \nhttps://nextcloud.{{ domain }}/\n or \nhttp://nextcloud.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://nextcloud.{{ tor_domain }}/", 
+            "text": "NextCloud\n\n\nNextCloud\n is your Dropbox / Google Calendar replacement.\n\n\nConfiguration\n\n\nWhen creating the admin account, expand the \nStorage \n Database\n tab, select \nMySQL/MariaDB\n, then fill out the following information.\n\n\nDatabase User: \nnextcloud\n\nDatabase Password: \nnextcloud\n\nDatabase Name: \nnextcloud\n\nChange \nlocalhost\n to \nnextcloud_db\n\n\nHit \nFinish Setup\n\n\nAccess\n\n\nIt is available at \nhttps://nextcloud.{{ domain }}/\n or \nhttp://nextcloud.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://nextcloud.{{ tor_domain }}/", 
             "title": "NextCloud"
         }, 
         {
             "location": "/software/nextcloud/#nextcloud", 
             "text": "NextCloud  is your Dropbox / Google Calendar replacement.", 
             "title": "NextCloud"
+        }, 
+        {
+            "location": "/software/nextcloud/#configuration", 
+            "text": "When creating the admin account, expand the  Storage   Database  tab, select  MySQL/MariaDB , then fill out the following information.  Database User:  nextcloud \nDatabase Password:  nextcloud \nDatabase Name:  nextcloud \nChange  localhost  to  nextcloud_db  Hit  Finish Setup", 
+            "title": "Configuration"
         }, 
         {
             "location": "/software/nextcloud/#access", 
@@ -403,6 +433,26 @@
         {
             "location": "/software/paperless/#access", 
             "text": "It is available at  https://paperless.{{ domain }}/  or  http://paperless.{{ domain }}/  It is also available via Tor at  http://paperless.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/pihole/", 
+            "text": "Pi-hole\n\n\nPi-hole\n provides network-wide ad blocking via your own Linux hardware.\n\n\nConfiguration\n\n\nLogin with the default password you set.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://pihole.{{ domain }}/\n or \nhttp://pihole.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://pihole.{{ tor_domain }}/", 
+            "title": "Pi-hole"
+        }, 
+        {
+            "location": "/software/pihole/#pi-hole", 
+            "text": "Pi-hole  provides network-wide ad blocking via your own Linux hardware.", 
+            "title": "Pi-hole"
+        }, 
+        {
+            "location": "/software/pihole/#configuration", 
+            "text": "Login with the default password you set.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/pihole/#access", 
+            "text": "The dashboard is available at  https://pihole.{{ domain }}/  or  http://pihole.{{ domain }}/  It is also available via Tor at  http://pihole.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {

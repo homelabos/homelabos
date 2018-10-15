@@ -32,7 +32,7 @@
     
     
       
-        <title>Apple Health - HomelabOS</title>
+        <title>Koel - HomelabOS</title>
       
     
     
@@ -68,7 +68,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
     <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
     
-      <a href="#automated-apple-health-import" tabindex="1" class="md-skip">
+      <a href="#koel" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -94,7 +94,7 @@
                 HomelabOS
               </span>
               <span class="md-header-nav__topic">
-                Apple Health
+                Koel
               </span>
             
           
@@ -326,68 +326,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Apple Health
-      </label>
-    
-    <a href="./" title="Apple Health" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../applehealth/" title="Apple Health" class="md-nav__link">
       Apple Health
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#configuring" title="Configuring" class="md-nav__link">
-    Configuring
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exporting" title="Exporting" class="md-nav__link">
-    Exporting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#debugging" title="Debugging" class="md-nav__link">
-    Debugging
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#access" title="Access" class="md-nav__link">
-    Access
-  </a>
-  
-</li>
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -515,11 +458,54 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../koel/" title="Koel" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Koel
+      </label>
+    
+    <a href="./" title="Koel" class="md-nav__link md-nav__link--active">
       Koel
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setup" title="Setup" class="md-nav__link">
+    Setup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access" title="Access" class="md-nav__link">
+    Access
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -669,22 +655,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuring" title="Configuring" class="md-nav__link">
-    Configuring
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#exporting" title="Exporting" class="md-nav__link">
-    Exporting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#debugging" title="Debugging" class="md-nav__link">
-    Debugging
+  <a href="#setup" title="Setup" class="md-nav__link">
+    Setup
   </a>
   
 </li>
@@ -710,22 +682,17 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://gitlab.com/NickBusey/HomelabOS/edit/master/docs/software/applehealth.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://gitlab.com/NickBusey/HomelabOS/edit/master/docs/software/koel.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="automated-apple-health-import">Automated Apple Health Import</h1>
-<p>HomelabOS supports automatically (kind of) importing of your data from Apple Health.</p>
-<p>The non-automatic part is you have to manually create an Export from the Health app on your phone.</p>
-<p>Once you upload your export to your <a href="../../sofware/nextcloud/">NextCloud</a> instance, the Apple Health cron task will pick it up within the next hour, and put all the data into <a href="../../software/influxdb">InfluxDB</a>. Now you can create nice dashboards in <a href="../../software/grafana/">Grafana</a> to visualize and inspect your Health data.</p>
-<h2 id="configuring">Configuring</h2>
-<p>You need to set the NextCloud username that you want to import Health Data from in your <code>host_vars/myserver</code> file. This value defaults to <code>admin</code> the default username created at startup by NextCloud.</p>
-<h2 id="exporting">Exporting</h2>
-<p>Make sure you have NextCloud configured on your Apple device. On your Apple device open the <code>Health</code> app. Click the <code>Today</code> tab, then click the profile icon in the top right of the screen. Now click <code>Export Health Data</code>. Once the export completes, save it to NextCloud. Click <code>Upload</code> with the default settings. It should save to your <code>Files</code> folder with the name <code>export.zip</code>.</p>
-<p>Now in under an hour you should be able to see your data in Influx via Grafana.</p>
-<h2 id="debugging">Debugging</h2>
-<p>You can always open up <a href="../../software/portainer/">Portainer</a> and view the Logs of the <code>homelabos_apple_health_influx_1</code> container to see if things are working or not.</p>
+                <h1 id="koel">Koel</h1>
+<p><a href="https://koel.phanan.net/">Koel</a> is a personal music streaming server that works.</p>
+<h2 id="setup">Setup</h2>
+<p>To set your credentials, ssh in to your machine and run: <code>docker exec -it homelabos_koel_1 php artisan koel:init</code></p>
+<p>Or open <a href="../portainer/">Portainer</a> and run <code>php artisan koel:init</code></p>
 <h2 id="access">Access</h2>
-<p>There is no direct access to this service, you can visualize the data through Grafana.</p>
+<p>The dashboard is available at <a href="https://koel.{{ domain }}/">https://koel.{{ domain }}/</a> or <a href="http://koel.{{ domain }}/">http://koel.{{ domain }}/</a></p>
+<p>It is also available via Tor at <a href="http://koel.{{ tor_domain }}/">http://koel.{{ tor_domain }}/</a></p>
                 
                   
                 
@@ -744,7 +711,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../setup/vpn/" title="VPN Setup" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../influxdb/" title="InfluxDB" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -753,19 +720,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                VPN Setup
+                InfluxDB
               </span>
             </div>
           </a>
         
         
-          <a href="../bitwarden/" title="Bitwarden" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../matomo/" title="Matomo" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Bitwarden
+                Matomo
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

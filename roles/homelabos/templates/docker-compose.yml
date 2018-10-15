@@ -309,40 +309,6 @@ services:
       MYSQL_USER: koel
       MYSQL_PASSWORD: koel
 
-  # PHoto Server
-  lychee:
-    image: linuxserver/lychee
-    restart: always
-    volumes:
-      - /var/homelabos/lychee:/config
-      - /mnt/nas/Photos:/pictures
-    links:
-      - lychee_db
-    environment:
-      - PGID=0
-      - PUID=0
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:photos.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.tor.frontend.rule=Host:photos.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=80"
-
-  lychee_db:
-    image: mariadb
-    restart: always
-    volumes:
-      - /var/homelabos/lychee/db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=lychee
-      - MYSQL_USER=lychee
-      - MYSQL_PASSWORD=lychee
-      - MYSQL_DATABASE=lychee
-
   # Web Analytics
   matomo_db:
     image: mariadb
@@ -579,6 +545,63 @@ services:
     environment:
       - PAPERLESS_PASSPHRASE=homelabos
     command: ["document_consumer"]
+
+  # Network level ad blocking
+  pihole:
+    image: pihole/pihole:latest
+    restart: always
+    volumes:
+      - /var/homelabos/pihole/config/:/etc/pihole/
+      - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/
+    environment:
+      - WEBPASSWORD={{ default_password }}
+      - VIRTUAL_HOST=pihole.{{ domain }}
+      - ServerIP={{ ansible_ssh_host }}
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 8765:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
+
+  # Photo Gallery
+  piwigo:
+    image: linuxserver/piwigo
+    restart: always
+    links:
+      - piwigo_db
+    volumes:
+      - /var/homelabos/piwigo/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ={{ timezone }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:photos.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:photos.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=80"
+
+  piwigo_db:
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/homelabos/piwigo/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=piwigo
+      - MYSQL_PASSWORD=piwigo
+      - MYSQL_DATABASE=piwigo
+      - MYSQL_USER=piwigo
 
   # Docker Control
   portainer:
