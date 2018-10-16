@@ -28,23 +28,6 @@ services:
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
 
-  # IRC Bouncer
-  convos:
-    image: nordaaker/convos
-    restart: always
-    volumes:
-     - /var/homelabos/convos:/data
-    ports:
-      - 8033:3000
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:irc.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=3000"
-      - "traefik.tor.frontend.rule=Host:irc.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=3000"
-
   # Weather Data Importer
   darksky-influx:
     image: erwinsteffens/darksky-influxdb:latest
@@ -186,8 +169,6 @@ services:
     restart: always
     links:
       - influxdb
-    ports:
-      - 3000:3000
     volumes:
       - /var/homelabos/grafana:/var/lib/grafana
     environment:
@@ -273,6 +254,13 @@ services:
       - TZ={{ timezone }}
     ports:
       - 9117:9117
+
+  # kibitzr:
+    # image: peterdemin/kibitzr
+    # restart: always
+    # volumes:
+    #   - /var/homelabos/kibitzr/config:/root/.config/kibitzr
+    #   - /var/homelabos/kibitzr/pages:/pages 
 
   # Music Streamer
   koel:
@@ -557,10 +545,9 @@ services:
       - WEBPASSWORD={{ default_password }}
       - VIRTUAL_HOST=pihole.{{ domain }}
       - ServerIP={{ ansible_ssh_host }}
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 8765:80
+    #ports:
+      #- 53:53/tcp
+      #- 53:53/udp
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
@@ -594,38 +581,6 @@ services:
       - torrent.{{ domain }}:{{ ansible_ssh_host }}
       - warden.{{ domain }}:{{ ansible_ssh_host }}
 
-  # Photo Gallery
-  piwigo:
-    image: linuxserver/piwigo
-    restart: always
-    links:
-      - piwigo_db
-    volumes:
-      - /var/homelabos/piwigo/config:/config
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - TZ={{ timezone }}
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:photos.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.tor.frontend.rule=Host:photos.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=80"
-
-  piwigo_db:
-    image: mariadb
-    restart: always
-    volumes:
-      - /var/homelabos/piwigo/db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=piwigo
-      - MYSQL_PASSWORD=piwigo
-      - MYSQL_DATABASE=piwigo
-      - MYSQL_USER=piwigo
-
   # Docker Control
   portainer:
     image: portainer/portainer
@@ -633,8 +588,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/portainer:/data
-    ports:
-      - 9000:9000
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:docker.{{ domain }}"
@@ -648,8 +601,6 @@ services:
   sonarr:
     image: linuxserver/sonarr
     restart: always
-    ports:
-      - 8989:8989
     environment:
       - PGID=1000
       - PUID=1000
@@ -672,8 +623,6 @@ services:
   radarr:
     image: linuxserver/radarr
     restart: always
-    ports:
-      - 7878:7878
     environment:
       - PGID=1000
       - PUID=1000
@@ -748,6 +697,22 @@ services:
       - /mnt/nas:/mnt/nas
     links:
       - influxdb
+
+  # IRC Bouncer
+  thelounge:
+    image: linuxserver/thelounge
+    volumes:
+      - /var/homelabos/thelounge:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:thelounge.{{ domain }}"
+      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.port=9000"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:thelounge.{{ tor_domain }}"
+      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.port=9000"
 
   # Load Balancer / SSL / Web Server
   traefik:
