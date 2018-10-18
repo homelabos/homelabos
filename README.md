@@ -41,7 +41,6 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 ## Included Software
 
 * [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
-* [Convos](https://convos.by/) - Always-on IRC client (IRC bouncer)
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 * [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
@@ -65,6 +64,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Radarr](https://radarr.video/) - Automated movie downloading
 * [Sonarr](https://sonarr.tv/) - Automated TV downloading
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
+* [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 * [Transmission](https://transmissionbt.com/) - BitTorrent client
 
 ## Requirements
