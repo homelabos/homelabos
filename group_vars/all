@@ -72,3 +72,11 @@ xfinity_password:
 
 # Monica Settings
 monica_db_password:
+
+# SMTP Settings
+smtp_host:
+smtp_port:
+smtp_user:
+smtp_pass:
+smtp_from_email:
+smtp_from_name:

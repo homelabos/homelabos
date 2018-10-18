@@ -74,8 +74,6 @@ services:
       - /var/homelabos/emby:/config
       - /mnt/nas:/mnt/nas
       - /mnt/nas/tmp:/config/transcoding-temp
-    ports:
-      - 8096:8096
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:emby.{{ domain }}"
@@ -95,13 +93,12 @@ services:
       - FF_DB_PASSWORD=firefly_db_secret
       - FF_APP_KEY=S0m3R@nd0mStr1ngOf31Ch@rsEx@ctly
       - FF_APP_ENV=local
+      - APP_URL=https://money.{{ domain }}
       - TZ={{ timezone }}
       - ServerName=money.{{ domain }}
     image: jc5x/firefly-iii
     links:
       - firefly_iii_db
-    ports:
-      - "8555:80"
     volumes:
       - /var/homelabos/firefly/export:/var/www/firefly-iii/storage/export
       - /var/homelabos/firefly/upload:/var/www/firefly-iii/storage/upload
@@ -173,6 +170,12 @@ services:
       - /var/homelabos/grafana:/var/lib/grafana
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,natel-discrete-panel,petrslavotinek-carpetplot-panel,vonage-status-panel,raintank-worldping-app
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST={{ smtp_host }}:{{ smtp_port }}
+      - GF_SMTP_USER={{ smtp_user }}
+      - GF_SMTP_PASSWORD={{ smtp_pass }}
+      - GF_SMTP_FROM_ADDRESS={{ smtp_from_email }}
+      - GF_SMTP_FROM_NAME={{ smtp_from_name }}
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:grafana.{{ domain }}"
@@ -256,11 +259,11 @@ services:
       - 9117:9117
 
   # kibitzr:
-    # image: peterdemin/kibitzr
-    # restart: always
-    # volumes:
-    #   - /var/homelabos/kibitzr/config:/root/.config/kibitzr
-    #   - /var/homelabos/kibitzr/pages:/pages 
+  #   image: peterdemin/kibitzr
+  #   restart: always
+  #   volumes:
+  #     - /var/homelabos/kibitzr/config:/root/.config/kibitzr
+  #     - /var/homelabos/kibitzr/pages:/pages 
 
   # Music Streamer
   koel:
@@ -413,7 +416,7 @@ services:
       - nextcloud_db
     volumes:
       - /var/homelabos/nextcloud:/var/www/html
-      # - /mnt/nas/Documents/Nextcloud:/var/www/html/data
+      - /mnt/nas/Documents/Nextcloud:/var/www/html/data
     restart: always
     environment:
       - MYSQL_DATABASE=nextcloud
@@ -534,6 +537,31 @@ services:
       - PAPERLESS_PASSPHRASE=homelabos
     command: ["document_consumer"]
 
+  # photoprism: # change if needed
+  #   image: photoprism/photoprism # use pre-built image from docker hub: https://hub.docker.com/r/photoprism/photoprism/
+  #   restart: always
+  #   ports:
+  #     - 2342:80 # left side is your local port (change if port 2342 is already used or you want to use port 80)
+  #   volumes:
+  #     - ~/Photos:/Photos # change ~/Photos to whatever directory you want to use on your local computer
+  #     - photoprism-thumbnails:/var/photoprism/thumbnails # keep this (thumbnail cache)
+  #   environment:
+  #     PHOTOPRISM_IMPORT_PATH: "/Photos/Import" # ~/Photos/Import (files to be imported to originals)
+  #     PHOTOPRISM_EXPORT_PATH: "/Photos/Export" # ~/Photos/Export (files exported from originals)
+  #     PHOTOPRISM_ORIGINALS_PATH: "/Photos/Originals" # ~/Photos/Originals (original jpeg, raw and meta files)
+
+  # database: # keep this
+  #   image: mysql:latest
+  #   restart: always
+  #   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=1024
+  #   volumes:
+  #     - photoprism-database:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: photoprism
+  #     MYSQL_USER: photoprism
+  #     MYSQL_PASSWORD: photoprism
+  #     MYSQL_DATABASE: photoprism
+
   # Network level ad blocking
   pihole:
     image: pihole/pihole:latest
@@ -545,9 +573,9 @@ services:
       - WEBPASSWORD={{ default_password }}
       - VIRTUAL_HOST=pihole.{{ domain }}
       - ServerIP={{ ansible_ssh_host }}
-    #ports:
-      #- 53:53/tcp
-      #- 53:53/udp
+    # ports:
+    #   - 53:53/tcp
+    #   - 53:53/udp
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
@@ -591,6 +619,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:docker.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=9000"
       - "traefik.tor.frontend.rule=Host:docker.{{ tor_domain }}"
@@ -667,6 +696,7 @@ services:
     volumes:
       - /var/homelabos/syncthing:/config
       - /mnt/nas/Syncthing:/data
+      - /mnt/nas:/nas
     environment:
       - PGID=1004
       - PUID=1000
