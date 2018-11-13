@@ -39,13 +39,7 @@ restore:
 develop:
 	cat homelaboslogo.txt
 	vagrant plugin install vagrant-disksize
-	vagrant destroy --force
 	vagrant up
-
-# Re-run just the Provision step (Ansible) against the Vagrant machine
-provision:
-	cat homelaboslogo.txt
-	vagrant provision
 
 # Execute against a test server
 test:
