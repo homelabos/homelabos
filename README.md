@@ -85,6 +85,7 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 * [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
 * [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
+* Chat on irc.freenode.net in #homelabos
 
 ## Contributing
 
