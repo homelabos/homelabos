@@ -1,5 +1,5 @@
+---
 # Commented out services are in beta testing and not integrated or documented yet. Uncomment them at your own peril.
-
 version: '3'
 
 services:
@@ -249,7 +249,7 @@ services:
   jackett:
     image: linuxserver/jackett
     restart: always
-    volumes: 
+    volumes:
       - /var/homelabos/jackett/config:/config
       - /var/homelabos/jackett/downloads:/downloads
       - /etc/localtime:/etc/localtime:ro
@@ -270,7 +270,7 @@ services:
   #   restart: always
   #   volumes:
   #     - /var/homelabos/kibitzr/config:/root/.config/kibitzr
-  #     - /var/homelabos/kibitzr/pages:/pages 
+  #     - /var/homelabos/kibitzr/pages:/pages
 
   # Music Streamer
   koel:
@@ -424,7 +424,6 @@ services:
     volumes:
       - /var/homelabos/nextcloud:/var/www/html
       - /mnt/nas/Documents/Nextcloud:/var/www/html/data
-    restart: always
     environment:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
@@ -474,13 +473,13 @@ services:
   # VPN Access
   openvpn:
     cap_add:
-     - NET_ADMIN
+      - NET_ADMIN
     image: kylemanna/openvpn
     ports:
-     - "1194:1194/udp"
+      - "1194:1194/udp"
     restart: always
     volumes:
-     - /var/homelabos/openvpn:/etc/openvpn
+      - /var/homelabos/openvpn:/etc/openvpn
 
   # Dashboard
   organizr:
@@ -506,7 +505,7 @@ services:
     ports:
       - "8325:8000"
     healthcheck:
-      test: ["CMD", "curl" , "-f", "http://localhost:8000"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -827,3 +826,4 @@ services:
       - XFINITY_USER={{ xfinity_user }}
       - XFINITY_PASSWORD={{ xfinity_password }}
       - INFLUXDB_HOST=influxdb
+...

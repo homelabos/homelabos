@@ -11,7 +11,7 @@
     - /var/homelabos/telegraf
     - /var/homelabos/traefik
     - /mnt/nas
-  ignore_errors: yes
+  ignore_errors: "yes"
 
 - name: Configure Docker.
   template: src={{ item }} dest=/var/homelabos/docker/
@@ -41,7 +41,7 @@
   file:
     path: /var/homelabos/mastodon/public
     mode: 0777
-    recurse: yes
+    recurse: "yes"
 
 - name: Configure Apple Health Importer
   template: src=apple_health_config.yml dest=/var/homelabos/apple_health_influx/config.yml
@@ -54,8 +54,8 @@
 - name: Mount NAS Drives
   command: mount -a
   args:
-    warn: no
-  ignore_errors: yes
+    warn: "no"
+  ignore_errors: "yes"
 
 - name: Configure HomelabOS systemd service.
   template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
@@ -111,8 +111,8 @@
   systemd:
     name: systemd-resolved
     state: stopped
-    enabled: no
-    daemon-reload: yes
+    enabled: "no"
+    daemon-reload: "yes"
 
 - name: Configure resolve.conf to use localhost
   lineinfile:
@@ -122,8 +122,8 @@
 - name: Restart HomelabOS service.
   systemd:
     name: homelabos
-    enabled: yes
-    daemon-reload: yes
+    enabled: "yes"
+    daemon-reload: "yes"
     state: restarted
 
 - name: Read Tor SSH connection info
@@ -135,3 +135,4 @@
 
 - debug:
     msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"
+...

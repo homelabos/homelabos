@@ -37,3 +37,4 @@
   vars:
     tor_domain: "{{ tor_domain_file.stdout }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"
+...
