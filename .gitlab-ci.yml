@@ -15,6 +15,6 @@ pages:
 
 lint_yaml_files:
   script:
-    - default config
+    - pip install yamllint
     - find . -type f -name '*.yml*' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -f parsable
 ...
