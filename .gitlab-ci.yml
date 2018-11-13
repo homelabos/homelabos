@@ -4,6 +4,7 @@ image: python:alpine
 before_script:
   - pip install mkdocs
   - pip install mkdocs-material
+  - pip install yamllint
 
 pages:
   script:
@@ -14,4 +15,8 @@ pages:
       - public
   only:
     - master
+
+lint_yaml_files:
+  script:
+    - find . -type f -name '*.yml*' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -f parsable
 ...
