@@ -484,7 +484,7 @@ services:
 
   # Dashboard
   organizr:
-    image: organizrtools/organizr-v2/
+    image: organizrtools/organizr-v2:php-fpm
     restart: always
     ports:
       - 8083:80
