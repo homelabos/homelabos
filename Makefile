@@ -1,4 +1,4 @@
-.PHONY: deploy docs_build restore develop docs_deploy lint
+.PHONY: logo deploy docs_build restore develop docs_deploy lint
 
 logo:
 	cat homelaboslogo.txt
@@ -11,8 +11,7 @@ deploy: logo get_roles
 	ansible-playbook -i hosts homelabos.yml
 
 # Initial setup
-setup: logo get_roles
-	make docs_build
+setup: logo get_roles docs_build
 	ansible-playbook -i setup_hosts setup.yml
 	ansible-playbook -i hosts homelabos.yml
 
@@ -22,11 +21,10 @@ update: logo
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo
-	mkdocs build
+	which mkdocs && mkdocs build || echo "Unable to build the documentation. Please install mkdocs."
 
 # Update just the docs
-docs_deploy: logo
-	mkdocs build
+docs_deploy: logo docs_build
 	ansible-playbook -i hosts -t docs homelabos.yml
 
 # Restore a server with the most recent backup. Assuming Backups were running.
