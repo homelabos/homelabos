@@ -1,10 +1,9 @@
 ---
-
 # Initial setup so Ansible can actually work.
 - name: Install python (required by Ansible).
-  gather_facts: no
+  gather_facts: "False"
   hosts: all
-  become: True
+  become: "True"
   become_method: sudo
   pre_tasks:
     - name: 'Update Apt Cache'
@@ -14,8 +13,8 @@
 
 # Configure the server itself
 - hosts: all
-  become: True
-  gather_facts: True
+  become: "True"
+  gather_facts: "True"
   tags: common
 
   roles:
@@ -24,20 +23,20 @@
     # Configure a TOR hidden service for remote access without a public IP
     - role: toke.tor
       hidden_services:
-      - dir: /var/lib/tor/ssh-onion
-        port: 22
-        source: 127.0.0.1:22
-      - dir: /var/lib/tor/https-onion
-        port: 443
-        source: 127.0.0.1:443
-      - dir: /var/lib/tor/http-onion
-        port: 80
-        source: 127.0.0.1:80
+        - dir: /var/lib/tor/ssh-onion
+          port: 22
+          source: 127.0.0.1:22
+        - dir: /var/lib/tor/https-onion
+          port: 443
+          source: 127.0.0.1:443
+        - dir: /var/lib/tor/http-onion
+          port: 80
+          source: 127.0.0.1:80
 
 # Install and configure HomelabOS documentation
 - hosts: all
-  become: True
-  gather_facts: True
+  become: "True"
+  gather_facts: "True"
   tags:
     - homelabos
     - docs
@@ -47,11 +46,12 @@
 
 # Install and configure HomelabOS services
 - hosts: all
-  become: True
-  gather_facts: True
+  become: "True"
+  gather_facts: "True"
   tags:
     - homelabos
     - deploy
 
   roles:
     - homelabos
+...

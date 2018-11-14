@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -12,3 +13,4 @@ services:
       - HOSTNAME={{ domain }}
     volumes:
       - /var/homelabos:/data
+...
