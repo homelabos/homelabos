@@ -98,7 +98,6 @@
 - name: Pull latest HomelabOS service docker images. (This could take a while the first time, it has to download quite a bit.)
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull
 
-<<<<<<< HEAD
 # - name: Disable resolved service to make room for pihole
 #   systemd:
 #     name: systemd-resolved
@@ -110,19 +109,6 @@
 #   lineinfile:
 #     path: /etc/resolv.conf
 #     line: 'nameserver 127.0.0.1'
-=======
-- name: Disable resolved service to make room for pihole
-  systemd:
-    name: systemd-resolved
-    state: stopped
-    enabled: "no"
-    daemon-reload: "yes"
-
-- name: Configure resolve.conf to use localhost
-  lineinfile:
-    path: /etc/resolv.conf
-    line: 'nameserver 127.0.0.1'
->>>>>>> pgporada/HomelabOS-master
 
 - name: Restart HomelabOS service.
   systemd:
