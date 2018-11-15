@@ -1,3 +1,10 @@
+# 0.4 Release Candidate
+
+* Upgraded Organizr to v2
+* Added The Lounge - IRC Bouncer
+* Added Radarr - DVR
+* Added Sonarr - DVR
+
 # 0.3
 
 * Added Semi-automated Apple Health Import
