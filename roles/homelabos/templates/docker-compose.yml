@@ -483,7 +483,7 @@ services:
 
   # Dashboard
   organizr:
-    image: lsiocommunity/organizr
+    image: organizrtools/organizr-v2
     restart: always
     ports:
       - 8083:80
