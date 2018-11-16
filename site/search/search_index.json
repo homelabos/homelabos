@@ -86,6 +86,16 @@
             "title": "Restoring Backups"
         }, 
         {
+            "location": "/setup/smtp/", 
+            "text": "SMTP\n\n\nIn order for your applications to be able to send out emails, you\nneed an SMTP server. A nice free one is \nMailgun\n.\n\n\nCreate an account, and follow their steps to register your domain.\n\n\nOnce that is completed, you can plug the settings they provide into\nNextcloud and other apps that send emails.", 
+            "title": "SMTP"
+        }, 
+        {
+            "location": "/setup/smtp/#smtp", 
+            "text": "In order for your applications to be able to send out emails, you\nneed an SMTP server. A nice free one is  Mailgun .  Create an account, and follow their steps to register your domain.  Once that is completed, you can plug the settings they provide into\nNextcloud and other apps that send emails.", 
+            "title": "SMTP"
+        }, 
+        {
             "location": "/setup/tor/", 
             "text": "Tor\n\n\nIf you don't have a domain, or your DNS fails you, or suddenly some ports aren't mapped correctly somewhere in your network, and you can't access your services remotely, fear not! Tor is here to save the day.\n\n\nInstall Tor\n\n\nDownload Tor from the \nTor Project\n website.\n\n\nWeb Access\n\n\nEach page of the Software documentation section has a Tor URL beneath the normal URL.\n\n\nSSH Access\n\n\nMake sure you have a working \ntorify\n installation on your machine (not the server). Run \ntorify curl ifconfig.me\n to verify you can connect to Tor with \ntorify\n.\n\n\nNow append the following lines to your \n~/.ssh/config\n file:\n\n\nHost *.onion\n   ProxyCommand /usr/bin/nc -xlocalhost:9150 -X5 %h %p\n\n\n\n\nOnce that is done, you can ssh to your server with \ntorify ssh {{ ansible_user }}@{{ tor_ssh_domain }}", 
             "title": "Tor Onion Services"
@@ -301,6 +311,26 @@
             "title": "Access"
         }, 
         {
+            "location": "/software/jackett/", 
+            "text": "Jackett\n\n\nJackett\n provides API Support for your favorite torrent trackers.\n\n\nConfiguration\n\n\nIt is important to secure Jackett! Access the Jackett dashboard with the links below,\nscroll down to the \nJackett Configuration\n section, and set a value for \nAdmin Password\n.\nHit \nSet Password\n and you should be good to go.\n\n\nSet up some indexers in the interface, and now in \nSonarr\n and \n\nRadarr\n you can setup the link to Jackett.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://jackett.{{ domain }}/\n or \nhttp://jackett.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://jackett.{{ tor_domain }}/", 
+            "title": "Jackett"
+        }, 
+        {
+            "location": "/software/jackett/#jackett", 
+            "text": "Jackett  provides API Support for your favorite torrent trackers.", 
+            "title": "Jackett"
+        }, 
+        {
+            "location": "/software/jackett/#configuration", 
+            "text": "It is important to secure Jackett! Access the Jackett dashboard with the links below,\nscroll down to the  Jackett Configuration  section, and set a value for  Admin Password .\nHit  Set Password  and you should be good to go.  Set up some indexers in the interface, and now in  Sonarr  and  Radarr  you can setup the link to Jackett.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/jackett/#access", 
+            "text": "The dashboard is available at  https://jackett.{{ domain }}/  or  http://jackett.{{ domain }}/  It is also available via Tor at  http://jackett.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
             "location": "/software/koel/", 
             "text": "Koel\n\n\nKoel\n is a personal music streaming server that works.\n\n\nSetup\n\n\nTo set your credentials, ssh in to your machine and run: \ndocker exec -it homelabos_koel_1 php artisan koel:init\n\n\nOr open \nPortainer\n and run \nphp artisan koel:init\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://koel.{{ domain }}/\n or \nhttp://koel.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://koel.{{ tor_domain }}/", 
             "title": "Koel"
@@ -341,26 +371,6 @@
             "title": "Access"
         }, 
         {
-            "location": "/software/minio/", 
-            "text": "Minio\n\n\nMinio is an S3 storage utility.\n\n\nConfiguration\n\n\nRefer to the \nBackup Guide\n for configuration details.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://minio.{{ domain }}/\n or \nhttp://minio.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://minio.{{ tor_domain }}/", 
-            "title": "Minio"
-        }, 
-        {
-            "location": "/software/minio/#minio", 
-            "text": "Minio is an S3 storage utility.", 
-            "title": "Minio"
-        }, 
-        {
-            "location": "/software/minio/#configuration", 
-            "text": "Refer to the  Backup Guide  for configuration details.", 
-            "title": "Configuration"
-        }, 
-        {
-            "location": "/software/minio/#access", 
-            "text": "The dashboard is available at  https://minio.{{ domain }}/  or  http://minio.{{ domain }}/  It is also available via Tor at  http://minio.{{ tor_domain }}/", 
-            "title": "Access"
-        }, 
-        {
             "location": "/software/miniflux/", 
             "text": "Miniflux\n\n\nMiniflux\n is a minimalist and opinionated feed reader.\n\n\nConfiguration\n\n\nLogin to your server and run the following commands to configure Miniflux the first time.\n\n\nExecute \ndocker exec -ti homelabos_miniflux_1 /usr/local/bin/miniflux -migrate\n\n\nThen \ndocker exec -ti homelabos_miniflux_1 /usr/local/bin/miniflux -create-admin\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://rss.{{ domain }}/\n or \nhttp://rss.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://rss.{{ tor_domain }}/", 
             "title": "Miniflux"
@@ -378,6 +388,26 @@
         {
             "location": "/software/miniflux/#access", 
             "text": "The dashboard is available at  https://rss.{{ domain }}/  or  http://rss.{{ domain }}/  It is also available via Tor at  http://rss.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/minio/", 
+            "text": "Minio\n\n\nMinio is an S3 storage utility.\n\n\nConfiguration\n\n\nRefer to the \nBackup Guide\n for configuration details.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://minio.{{ domain }}/\n or \nhttp://minio.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://minio.{{ tor_domain }}/", 
+            "title": "Minio"
+        }, 
+        {
+            "location": "/software/minio/#minio", 
+            "text": "Minio is an S3 storage utility.", 
+            "title": "Minio"
+        }, 
+        {
+            "location": "/software/minio/#configuration", 
+            "text": "Refer to the  Backup Guide  for configuration details.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/minio/#access", 
+            "text": "The dashboard is available at  https://minio.{{ domain }}/  or  http://minio.{{ domain }}/  It is also available via Tor at  http://minio.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {
@@ -471,18 +501,58 @@
             "title": "Access"
         }, 
         {
-            "location": "/software/terminal/", 
-            "text": "Terminal\n\n\nButterfly\n is available as a simple web terminal.\n\n\nAccess\n\n\nIt is available at \nhttps://terminal.{{ domain }}/\n or \nhttp://terminal.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://terminal.{{ tor_domain }}/", 
-            "title": "Terminal"
+            "location": "/software/radarr-sonarr/", 
+            "text": "Radarr / Sonarr\n\n\nRadarr\n (Automated movie downloading) and \nSonarr\n (Automated TV downloading) work esentially the same, so the documentation below applies to both.\n\n\nConfiguration\n\n\nTo make either Sonarr or Radarr work, you need to configure an\nIndexer and a Downlad Client.\n\n\nThe Indexer will be \nJackett\n. Configure\nJackett first, once that is done, in either Sonarr or Radarr, go\nto \nSettings\n then the \nIndexers\n tab, and click the Plus button.\nSelect the \nCustom\n button undernear \nTorznab\n and enter\n\nJackett\n for the name, for the URL enter \nhttp://jackett:9117/api/v2.0/indexers/all/results/torznab/\n\nand for the API Key, enter the API key that Jackett displays\non it's Dashboard.\n\n\nNext go to the \nDownload Client\n tab, toggle the \nAdvanced Settings\n\ntoggle in the top right to \nShown\n, then click the Plus button,\nselect \nTransmission\n. Enter \ntransmission\n for host,\n\n9091\n for port, and your transmission username and password in\ntheir respective fields. In Sonarr, enter \n/tv\n under \nDirectory\n\nand in Radarr enter \n/movies\n. This points to the same folders\n\nEmby\n reads from, so they should be automatically\ndetected by Emby if you set this up correctly.\n\n\nNow if you add some content, either a movie to Radarr or\na TV series to Sonarr, they will automatically be searched\nand downloaded according to your settings.\n\n\nAccess\n\n\nSonarr available at \nhttps://sonarr.{{ domain }}/\n or \nhttp://sonarr.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://sonarr.{{ tor_domain }}/\n\n\nRadarr available at \nhttps://radarr.{{ domain }}/\n or \nhttp://radarr.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://radarr.{{ tor_domain }}/", 
+            "title": "Radarr / Sonarr"
         }, 
         {
-            "location": "/software/terminal/#terminal", 
-            "text": "Butterfly  is available as a simple web terminal.", 
-            "title": "Terminal"
+            "location": "/software/radarr-sonarr/#radarr-sonarr", 
+            "text": "Radarr  (Automated movie downloading) and  Sonarr  (Automated TV downloading) work esentially the same, so the documentation below applies to both.", 
+            "title": "Radarr / Sonarr"
         }, 
         {
-            "location": "/software/terminal/#access", 
-            "text": "It is available at  https://terminal.{{ domain }}/  or  http://terminal.{{ domain }}/  It is also available via Tor at  http://terminal.{{ tor_domain }}/", 
+            "location": "/software/radarr-sonarr/#configuration", 
+            "text": "To make either Sonarr or Radarr work, you need to configure an\nIndexer and a Downlad Client.  The Indexer will be  Jackett . Configure\nJackett first, once that is done, in either Sonarr or Radarr, go\nto  Settings  then the  Indexers  tab, and click the Plus button.\nSelect the  Custom  button undernear  Torznab  and enter Jackett  for the name, for the URL enter  http://jackett:9117/api/v2.0/indexers/all/results/torznab/ \nand for the API Key, enter the API key that Jackett displays\non it's Dashboard.  Next go to the  Download Client  tab, toggle the  Advanced Settings \ntoggle in the top right to  Shown , then click the Plus button,\nselect  Transmission . Enter  transmission  for host, 9091  for port, and your transmission username and password in\ntheir respective fields. In Sonarr, enter  /tv  under  Directory \nand in Radarr enter  /movies . This points to the same folders Emby  reads from, so they should be automatically\ndetected by Emby if you set this up correctly.  Now if you add some content, either a movie to Radarr or\na TV series to Sonarr, they will automatically be searched\nand downloaded according to your settings.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/radarr-sonarr/#access", 
+            "text": "Sonarr available at  https://sonarr.{{ domain }}/  or  http://sonarr.{{ domain }}/  It is also available via Tor at  http://sonarr.{{ tor_domain }}/  Radarr available at  https://radarr.{{ domain }}/  or  http://radarr.{{ domain }}/  It is also available via Tor at  http://radarr.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/syncthing/", 
+            "text": "Synchthing\n\n\nSynchthing\n is a powerful file synchronization tool. \nNextCloud\n can also do this, but Syncthing is nicer to work with servers and other people.\n\n\nAccess\n\n\nIt is available at \nhttps://sync.{{ domain }}/\n or \nhttp://sync.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://sync.{{ tor_domain }}/", 
+            "title": "Synchthing"
+        }, 
+        {
+            "location": "/software/syncthing/#synchthing", 
+            "text": "Synchthing  is a powerful file synchronization tool.  NextCloud  can also do this, but Syncthing is nicer to work with servers and other people.", 
+            "title": "Synchthing"
+        }, 
+        {
+            "location": "/software/syncthing/#access", 
+            "text": "It is available at  https://sync.{{ domain }}/  or  http://sync.{{ domain }}/  It is also available via Tor at  http://sync.{{ tor_domain }}/", 
+            "title": "Access"
+        }, 
+        {
+            "location": "/software/thelounge/", 
+            "text": "TheLounge\n\n\nTheLounge\n is a web based IRC client that syncs nicely across devices, and stays online\nwhen you aren't.\n\n\nConfiguration\n\n\nTo turn TheLounge from a public instance to a private (highly recommended) run the following commands\non your server. Run \nsed -i 's/public: true/public: false/' /var/homelabos/thelounge/config.js\n, then\nrestart the container with \ndocker restart homelabos_thelounge_1\n, then create a user with\n\ndocker exec -it homelabos_thelounge_1 thelounge add \nusername\n and follow the prompts.\n\n\nNow you should be able to login with the username and password you created at the URLs below,\nand have your session automatically sync between multiple devices.\n\n\nAccess\n\n\nThe dashboard is available at \nhttps://thelounge.{{ domain }}/\n or \nhttp://thelounge.{{ domain }}/\n\n\nIt is also available via Tor at \nhttp://thelounge.{{ tor_domain }}/", 
+            "title": "The Lounge"
+        }, 
+        {
+            "location": "/software/thelounge/#thelounge", 
+            "text": "TheLounge  is a web based IRC client that syncs nicely across devices, and stays online\nwhen you aren't.", 
+            "title": "TheLounge"
+        }, 
+        {
+            "location": "/software/thelounge/#configuration", 
+            "text": "To turn TheLounge from a public instance to a private (highly recommended) run the following commands\non your server. Run  sed -i 's/public: true/public: false/' /var/homelabos/thelounge/config.js , then\nrestart the container with  docker restart homelabos_thelounge_1 , then create a user with docker exec -it homelabos_thelounge_1 thelounge add  username  and follow the prompts.  Now you should be able to login with the username and password you created at the URLs below,\nand have your session automatically sync between multiple devices.", 
+            "title": "Configuration"
+        }, 
+        {
+            "location": "/software/thelounge/#access", 
+            "text": "The dashboard is available at  https://thelounge.{{ domain }}/  or  http://thelounge.{{ domain }}/  It is also available via Tor at  http://thelounge.{{ tor_domain }}/", 
             "title": "Access"
         }, 
         {

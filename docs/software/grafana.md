@@ -2,7 +2,13 @@
 
 [Grafana](https://grafana.com/) is a Time Series Database graphing application.
 
-You can use it to visualize the Weather data imported by [influxdb_darksky](software/influxdb_darksky)
+You can use it to visualize the Weather data imported by [influxdb_darksky](software/influxdb_darksky),
+power, activity, and other data from [Home Assistant](software/homeassistant.md), and general server
+information via Telegraf.
+
+Grafana comes configured with a Dashboard for you out of the box.
+
+You can login with the default user and pass you setup for HomelabOS.
 
 ## Access
 

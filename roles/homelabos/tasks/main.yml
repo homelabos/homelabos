@@ -3,13 +3,16 @@
   file:
     path: "{{ item }}"
     state: directory
+    mode: '1777'
   loop:
     - /var/homelabos/apple_health_influx
     - /var/homelabos/dasher
     - /var/homelabos/docker
-    - /var/homelabos/mastodon/public/assets
     - /var/homelabos/telegraf
     - /var/homelabos/traefik
+    - /var/homelabos/grafana/data
+    - /var/homelabos/grafana/datasources
+    - /var/homelabos/grafana/dashboards
     - /mnt/nas
   ignore_errors: "yes"
 
@@ -41,6 +44,17 @@
   lineinfile:
     path: /etc/fstab
     line: '{{ nas_path }}  /mnt/nas  cifs  username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid=1000,iocharset=utf8,file_mode=0777,dir_mode=0777  0  0'
+
+- name: Configure Grafana Datasources
+  template: src={{ item }} dest=/var/homelabos/grafana/datasources/{{ item }}
+  loop:
+    - grafana.datasource.influxdb.yaml
+
+- name: Configure Grafana Dashboards
+  template: src={{ item }} dest=/var/homelabos/grafana/dashboards/{{ item }}
+  loop:
+    - grafana.dashboards.yaml
+    - grafana.dash.homelab.json
 
 - name: Mount NAS Drives
   command: mount -a

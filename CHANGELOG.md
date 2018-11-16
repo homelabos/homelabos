@@ -4,6 +4,7 @@
 * Added The Lounge - IRC Bouncer
 * Added Radarr - DVR
 * Added Sonarr - DVR
+* Automated Grafana Configuration
 
 # 0.3
 
