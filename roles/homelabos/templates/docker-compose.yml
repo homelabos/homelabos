@@ -262,12 +262,13 @@ services:
     ports:
       - 9117:9117
 
-  # kibitzr:
-  #   image: peterdemin/kibitzr
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/kibitzr/config:/root/.config/kibitzr
-  #     - /var/homelabos/kibitzr/pages:/pages
+  # IFTTT Replacement
+  kibitzr:
+    image: peterdemin/kibitzr
+    restart: always
+    volumes:
+      - /var/homelabos/kibitzr/config:/root/.config/kibitzr
+      - /var/homelabos/kibitzr/pages:/pages
 
   # Music Streamer
   koel:
