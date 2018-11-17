@@ -2,5 +2,6 @@
 myserver
 myserver.bak
 testserver
+tincserver
 .vagrant/
 ubuntu-bionic-18.04-cloudimg-console.log

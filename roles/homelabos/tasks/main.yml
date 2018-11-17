@@ -85,29 +85,8 @@
   lineinfile:
     path: /var/homelabos/homelab_hosts
     line: '{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}'
-  loop:
-    - docker
-    - docs
-    - emby
-    - git
-    - grafana
-    - homeassistant
-    - irc
-    - koel
-    - matomo
-    - mastodon
-    - minio
-    - money
-    - monica
-    - music
-    - nextcloud
-    - paperless
-    - pihole
-    - portainer
-    - radarr
-    - terminal
-    - torrent
-    - warden
+  with_items:
+    - "{{ services }}"
 
 - name: Pull latest HomelabOS service docker images. (This could take a while the first time, it has to download quite a bit.)
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull

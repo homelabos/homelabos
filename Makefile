@@ -1,4 +1,4 @@
-.PHONY: deploy docs_build restore develop docs_deploy
+.PHONY: deploy docs_build restore develop docs_deploy lint
 
 logo:
 	cat homelaboslogo.txt
@@ -42,3 +42,8 @@ develop: logo get_roles
 # Execute against a test server
 test: logo
 	ansible-playbook -i test_hosts homelabos.yml
+
+# Run linting scripts
+lint: logo
+	pip install yamllint
+	find . -type f -name '*.yml*' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -f parsable
