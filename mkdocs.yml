@@ -16,6 +16,7 @@ pages:
   - Setup:
       - Backups: setup/backups.md
       - SMTP: setup/smtp.md
+      - Cloud Bastion Server via Tinc: setup/tinc.md
       - Tor Onion Services: setup/tor.md
       - VPN Setup: setup/vpn.md
   - Included Software:

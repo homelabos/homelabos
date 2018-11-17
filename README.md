@@ -27,6 +27,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated Tor Onion Service access
 * Automated HTTPS via LetsEncrypt
 * OpenVPN
+* Cloud Bastion Server with Tinc VPN
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
@@ -69,15 +70,29 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 ## Requirements
 
-A server running Ubuntu 18.04 accessible via paswordless ssh with a user that has passwordless sudo.
+A server with:
+
+* 8G of RAM (to run all services, you can disable a bunch potentially and run with less memory)
+* Ubuntu 18.04
+* Passwordless SSH (with ssh keys)
+* A user that has passwordless sudo
 
 Ansible version 2.5+ installed on your computer (not the server).
 
 ## Optional Items
 
+### Domain Name
+
 A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at your server's IP address. (This is optional because you can use Tor to access your services without registering a domain. For best support from 3rd party clients an actual domain is highly recommended. Also certain services do not work through TOR at the moment.) Note you can hang this off a subdomain as well, so `*.homelab.yourdomain.com` will work as well.
 
+### Port Forwarding
+
 Ports 80 and 443 punched through any firewalls and port forwarded at your server in question. (This is also optional due to Tor access, but again highly recommended.)
+
+### [Cloud Bastion Server](https://nickbusey.gitlab.io/HomelabOS/setup/tinc/)
+
+Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
+to act as a bastion host via Tinc vpn and nginx.
 
 ## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 

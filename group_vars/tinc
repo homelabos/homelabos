@@ -1,0 +1,19 @@
+# These are the default settings. Copy this file to `host_vars/tincserver` then in that file set the values to match your setup.
+
+### REQUIRED ### These values are REQUIRED for the Tinc <-> HomelabOS integration to work.
+
+# User name used to connect via ssh. Must have passwordless sudo.
+ansible_ssh_user: (required)
+
+# SSH accessible IP address
+ansible_host: (required)
+
+# Same as above
+physical_ip: (required)
+
+# Domain that will be used to point at the server
+# Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
+domain: yourserver.com
+
+# Leave as is, unless you know what you're doing
+vpn_ip: 10.0.0.2

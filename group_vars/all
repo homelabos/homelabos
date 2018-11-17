@@ -46,13 +46,13 @@ openvpn_provider: PIA
 openvpn_username: username
 openvpn_password: password
 
-# NAS Config - Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
+# NAS Config name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
 nas_path:
 nas_user: 
 nas_pass:
 nas_workgroup: 
 
-# Restic S3 Backup Server Information - Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+# Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
 s3_path: s3:http://minio:9000/restic-backups/
 s3_access_key:
 s3_secret_key:
@@ -63,7 +63,7 @@ s3_backup_cron: 0 4 * * *
 # Home Assitant API Key
 homeassistant_api_key: 
 
-# Apple Health Data Importer - Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
+# Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
 apple_health_nextcloud_username: admin
 
 # Xfinity Data Usage Settings
@@ -80,3 +80,34 @@ smtp_user:
 smtp_pass:
 smtp_from_email:
 smtp_from_name:
+
+# Leave as is, unless you know what you're doing
+vpn_ip: 10.0.0.1
+netname: homelabos
+physical_ip: 8.8.8.8
+vpn_interface: tun0
+vpn_netmask: 255.255.0.0
+vpn_subnet_cidr_netmask: 32
+
+services:
+  - warden
+  - docs
+  - emby
+  - money
+  - git
+  - grafana
+  - homeassistant
+  - koel
+  - matomo
+  - rss
+  - minio
+  - monica
+  - nextcloud
+  - paperless
+  - pihole
+  - docker
+  - sonarr
+  - radarr
+  - sync
+  - thelounge
+  - torrent

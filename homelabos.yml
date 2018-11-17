@@ -12,7 +12,7 @@
       raw: sudo apt-get -y install python-simplejson
 
 # Configure the server itself
-- hosts: all
+- hosts: homelabos
   become: "True"
   gather_facts: "True"
   tags: common
@@ -34,7 +34,7 @@
           source: 127.0.0.1:80
 
 # Install and configure HomelabOS documentation
-- hosts: all
+- hosts: homelabos
   become: "True"
   gather_facts: "True"
   tags:
@@ -45,7 +45,7 @@
     - docs
 
 # Install and configure HomelabOS services
-- hosts: all
+- hosts: homelabos
   become: "True"
   gather_facts: "True"
   tags:
@@ -54,4 +54,20 @@
 
   roles:
     - homelabos
+
+- name: "Setup tinc VPN"
+  tags: tinc
+  hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+    - {role: tinc, when: "vpn_ip is defined"}
+
+- name: "Update Tinc NGINX Servers"
+  hosts: tinc
+  become: yes
+  become_method: sudo
+  tags: tinc-nginx
+  roles:
+    - {role: tinc-nginx}
 ...

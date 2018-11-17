@@ -1,0 +1,83 @@
+{% for host in groups['homelabos'] %}
+  
+  upstream homelabos {
+      server {{ hostvars[host]['inventory_hostname'] }}:80 weight=50 fail_timeout=30s;
+  }
+
+    {% for service in services %}
+  server {
+    listen  80;
+    server_name {{ service }}.{{ hostvars[host].domain }};
+
+    location / {
+        proxy_pass http://homelabos;
+        proxy_set_header   Host             {{ service }}.{{ hostvars[host].domain }};
+    }
+
+    error_page 404 /500.html;
+    error_page 500 502 503 504 /500.html;
+    location /500.html {
+        root /etc/nginx;
+    }
+    location /logo.png {
+        root /etc/nginx;
+    }
+  }
+    server {
+    listen  443 ssl;
+    server_name {{ service }}.{{ hostvars[host].domain }};
+
+    location / {
+        proxy_pass https://homelabos;
+        proxy_set_header   Host             {{ service }}.{{ hostvars[host].domain }};
+    }
+
+    error_page 404 /500.html;
+    error_page 500 502 503 504 /500.html;
+    location /500.html {
+        root /etc/nginx;
+    }
+    location /logo.png {
+        root /etc/nginx;
+    }
+  }
+    {% endfor %}
+  server {
+    listen 80;
+
+    server_name {{ hostvars[host].domain }};
+    location / {
+      proxy_pass http://homelabos;
+      proxy_set_header   Host             {{ hostvars[host].domain }};
+    }
+
+    error_page 404 /500.html;
+    error_page 500 502 503 504 /500.html;
+    location /500.html {
+        root /etc/nginx;
+    }
+    location /logo.png {
+        root /etc/nginx;
+    }
+  }
+
+  server {
+    listen 443 ssl;
+
+    server_name {{ hostvars[host].domain }};
+    location / {
+      proxy_pass https://homelabos;
+      proxy_set_header   Host             {{ hostvars[host].domain }};
+    }
+
+    error_page 404 /500.html;
+    error_page 500 502 503 504 /500.html;
+    location /500.html {
+        root /etc/nginx;
+    }
+    location /logo.png {
+        root /etc/nginx;
+    }
+  }
+
+{% endfor %}
