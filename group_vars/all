@@ -26,36 +26,45 @@ domain: (required)
 # Necessary for SSL / LetsEncrypt to work.
 admin_email: (required)
 
-# You can enable/disable services individually by changing True to False
-enable_apple_health_influx: True
-enable_bitwarden: True
-enable_darksky_influx: True
-enable_dasher: True
-enable_emby: True
-enable_firefly_iii: True
-enable_gitea: True
-enable_grafana: True
-enable_homeassistant: True
-enable_jackett: True
-enable_kibitzr: True
-enable_matomo: True
-enable_miniflux: True
-enable_minio: True
-enable_monicahq: True
-enable_nextcloud: True
-enable_nzbget: True
-enable_openvpn: True
-enable_organizr: True
-enable_paperless: True
-enable_pihole: True
-enable_portainer: True
-enable_sonarr: True
-enable_radarr: True
-enable_restic: True
-enable_syncthing: True
-enable_thelounge: True
-enable_transmission: True
-enable_xfinityusageinfluxdb: True
+# Features
+
+# You can enable/disable different HomelabOS features here by changing False to True and vice versa.
+
+enable_tinc: False
+
+# Services
+
+# You can enable/disable services individually by changing False to True and vice versa.
+
+enable_apple_health_influx: False
+enable_bitwarden: False
+enable_darksky_influx: False
+enable_dasher: False
+enable_emby: False
+enable_firefly_iii: False
+enable_gitea: False
+enable_grafana: False
+enable_homeassistant: False
+enable_jackett: False
+enable_kibitzr: False
+enable_matomo: False
+enable_miniflux: False
+enable_minio: False
+enable_monicahq: False
+enable_nextcloud: False
+enable_nzbget: False
+enable_openvpn: False
+enable_organizr: False
+enable_paperless: False
+enable_pihole: False
+enable_portainer: False
+enable_sonarr: False
+enable_radarr: False
+enable_restic: False
+enable_syncthing: False
+enable_thelounge: False
+enable_transmission: False
+enable_xfinityusageinfluxdb: False
 
 ### END REQUIRED ###
  

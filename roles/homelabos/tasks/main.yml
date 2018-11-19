@@ -92,11 +92,13 @@
   command: docker-compose -f /var/homelabos/docker/docker-compose.yml pull
 
 - name: Configure Kibitzr
+  ignore_errors: True
   copy:
     src=kibitzr.yml
     dest=/var/homelabos/kibitzr/config/kibitzr.yml
 
 - name: Configure Kibitzr Credentials
+  ignore_errors: True
   copy:
     src=kibitzr-creds.yml
     dest=/var/homelabos/kibitzr/config/kibitzr-creds.yml
