@@ -140,7 +140,6 @@ services:
   - git
   - grafana
   - homeassistant
-  - koel
   - matomo
   - rss
   - minio

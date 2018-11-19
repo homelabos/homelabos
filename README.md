@@ -53,7 +53,6 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
 * [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
-* [Koel](https://koel.phanan.net/) - Music streaming server that works
 * [Matomo](https://matomo.org/) - Web analytics
 * [Minio](https://minio.io/) - S3 hosting
 * [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.

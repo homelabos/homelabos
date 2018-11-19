@@ -19,6 +19,10 @@
       
         <meta name="lang:search.language" content="en">
       
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
         <meta name="lang:search.result.none" content="No matching documents">
       
         <meta name="lang:search.result.one" content="1 matching document">
@@ -28,7 +32,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.5.3">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.1.0">
     
     
       
@@ -36,23 +40,25 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.aa3de92b.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.11e41852.css">
+      
       
     
     
-      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../../assets/javascripts/modernizr.20ef595d.js"></script>
     
     
       
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
     
     
   </head>
-  
   
     <body dir="ltr">
   
@@ -60,13 +66,50 @@
       <defs>
         
         
-          <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500" id="gitlab"><path fill="currentColor" d="M93.667 473.347l90.684-279.097H2.983l90.684 279.097z" transform="translate(156.198 1.16)"/><path fill="currentColor" d="M221.333 473.345L130.649 194.25H3.557l217.776 279.095z" transform="translate(28.531 1.16)" opacity=".7"/><path fill="currentColor" d="M32 195.155L4.441 279.97a18.773 18.773 0 0 0 6.821 20.99l238.514 173.29L32 195.155z" transform="translate(.089 .256)" opacity=".5"/><path fill="currentColor" d="M2.667-84.844h127.092L75.14-252.942c-2.811-8.649-15.047-8.649-17.856 0L2.667-84.844z" transform="translate(29.422 280.256)"/><path fill="currentColor" d="M2.667 473.345L93.351 194.25h127.092L2.667 473.345z" transform="translate(247.198 1.16)" opacity=".7"/><path fill="currentColor" d="M221.334 195.155l27.559 84.815a18.772 18.772 0 0 1-6.821 20.99L3.557 474.25l217.777-279.095z" transform="translate(246.307 .256)" opacity=".5"/><path fill="currentColor" d="M130.667-84.844H3.575l54.618-168.098c2.811-8.649 15.047-8.649 17.856 0l54.618 168.098z" transform="translate(336.974 280.256)"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"
+    viewBox="0 0 500 500" id="__gitlab">
+  <g transform="translate(156.197863, 1.160267)">
+  	<path fill="currentColor"
+        d="M93.667,473.347L93.667,473.347l90.684-279.097H2.983L93.667,
+          473.347L93.667,473.347z" />
+  </g>
+  <g transform="translate(28.531199, 1.160800)" opacity="0.7">
+  	<path fill="currentColor"
+        d="M221.333,473.345L130.649,194.25H3.557L221.333,473.345L221.333,
+          473.345z" />
+  </g>
+  <g transform="translate(0.088533, 0.255867)" opacity="0.5">
+  	<path fill="currentColor"
+        d="M32,195.155L32,195.155L4.441,279.97c-2.513,7.735,0.24,16.21,6.821,
+          20.99l238.514,173.29 L32,195.155L32,195.155z" />
+  </g>
+  <g transform="translate(29.421866, 280.255593)">
+  	<path fill="currentColor"
+        d="M2.667-84.844h127.092L75.14-252.942c-2.811-8.649-15.047-8.649-17.856,
+          0L2.667-84.844 L2.667-84.844z" />
+  </g>
+  <g transform="translate(247.197860, 1.160800)" opacity="0.7">
+  	<path fill="currentColor"
+        d="M2.667,473.345L93.351,194.25h127.092L2.667,473.345L2.667,
+          473.345z" />
+  </g>
+  <g transform="translate(246.307061, 0.255867)" opacity="0.5">
+  	<path fill="currentColor"
+        d="M221.334,195.155L221.334,195.155l27.559,84.815c2.514,7.735-0.24,
+          16.21-6.821,20.99 L3.557,474.25L221.334,195.155L221.334,195.155z" />
+  </g>
+  <g transform="translate(336.973725, 280.255593)">
+  	<path fill="currentColor"
+        d="M130.667-84.844H3.575l54.618-168.098c2.811-8.649,15.047-8.649,
+          17.856,0L130.667-84.844 L130.667-84.844z" />
+  </g>
+</svg>
         
       </defs>
     </svg>
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
-    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
       <a href="#jackett" tabindex="1" class="md-skip">
         Skip to content
@@ -84,7 +127,7 @@
         </a>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
       </div>
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
@@ -103,14 +146,14 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         
           
-            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
             
 <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="search"></label>
+  <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="search"></label>
+      <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
       </button>
@@ -143,12 +186,12 @@
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
-          <use xlink:href="#gitlab" width="24" height="24"></use>
+          <use xlink:href="#__gitlab" width="24" height="24"></use>
         </svg>
       </div>
     
     <div class="md-source__repository">
-      Gitlab
+      GitLab
     </div>
   </a>
 
@@ -172,12 +215,12 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="drawer">
-    <span class="md-nav__button md-logo">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="HomelabOS" class="md-nav__button md-logo">
       
         <i class="md-icon">home</i>
       
-    </span>
+    </a>
     HomelabOS
   </label>
   
@@ -192,12 +235,12 @@
     
       <div class="md-source__icon">
         <svg viewBox="0 0 24 24" width="24" height="24">
-          <use xlink:href="#gitlab" width="24" height="24"></use>
+          <use xlink:href="#__gitlab" width="24" height="24"></use>
         </svg>
       </div>
     
     <div class="md-source__repository">
-      Gitlab
+      GitLab
     </div>
   </a>
 
@@ -280,6 +323,18 @@
   <li class="md-nav__item">
     <a href="../../setup/smtp/" title="SMTP" class="md-nav__link">
       SMTP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../setup/tinc/" title="Cloud Bastion Server via Tinc" class="md-nav__link">
+      Cloud Bastion Server via Tinc
     </a>
   </li>
 
@@ -475,12 +530,12 @@
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="toc">
+      <label class="md-nav__link md-nav__link--active" for="__toc">
         Jackett
       </label>
     
@@ -495,7 +550,7 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -514,6 +569,8 @@
       
       
       
+      
+      
     </ul>
   
 </nav>
@@ -527,8 +584,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../koel/" title="Koel" class="md-nav__link">
-      Koel
+    <a href="../kibitzr/" title="Kibitzr" class="md-nav__link">
+      Kibitzr
     </a>
   </li>
 
@@ -699,7 +756,7 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -715,6 +772,8 @@
   </a>
   
 </li>
+      
+      
       
       
       
@@ -750,6 +809,8 @@ Hit <code>Set Password</code> and you should be good to go.</p>
               
               
                 
+
+
               
             </article>
           </div>
@@ -777,13 +838,13 @@ Hit <code>Set Password</code> and you should be good to go.</p>
           </a>
         
         
-          <a href="../koel/" title="Koel" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../kibitzr/" title="Kibitzr" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Koel
+                Kibitzr
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -799,7 +860,7 @@ Hit <code>Set Password</code> and you should be good to go.</p>
       <div class="md-footer-copyright">
         
         powered by
-        <a href="http://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org">MkDocs</a>
         and
         <a href="https://squidfunk.github.io/mkdocs-material/">
           Material for MkDocs</a>
@@ -813,9 +874,9 @@ Hit <code>Set Password</code> and you should be good to go.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application.f041762f.js"></script>
+      <script src="../../assets/javascripts/application.9e1f3b71.js"></script>
       
-      <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
     
     

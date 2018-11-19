@@ -33,7 +33,6 @@ pages:
       - InfluxDB: software/influxdb.md
       - Jackett: software/jackett.md
       - Kibitzr: software/kibitzr.md
-      - Koel: software/koel.md
       - Matomo: software/matomo.md
       - Miniflux: software/miniflux.md
       - Minio: software/minio.md
