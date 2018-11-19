@@ -71,7 +71,7 @@
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
-    src: docker-compose.yml
+    src: docker-compose.yml.j2
     dest: /var/homelabos/docker/docker-compose.yml
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout }}"

@@ -5,6 +5,10 @@
 * Added Radarr - DVR
 * Added Sonarr - DVR
 * Automated Grafana Configuration
+* Added Cloud Bastion Server via Tinc VPN option
+* Added individual service toggling via host vars
+* Removed Koel - Rarely worked
+* Added Kibitzr - IFTTT replacement
 
 # 0.3
 
