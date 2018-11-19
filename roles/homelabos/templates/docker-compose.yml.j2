@@ -22,12 +22,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:warden.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:warden.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
 
@@ -67,10 +67,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:docs.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.tor.frontend.rule=Host:docs.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 
 {% if enable_emby %}
@@ -85,10 +85,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:emby.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=8096"
       - "traefik.tor.frontend.rule=Host:emby.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=8096"
 {% endif %}
 
@@ -104,7 +104,7 @@ services:
       - FF_APP_KEY=S0m3R@nd0mStr1ngOf31Ch@rsEx@ctly
       - FF_APP_ENV=local
       - APP_URL=https://money.{{ domain }}
-      - TZ={{ timezone }}
+      - TZ={{ common_timezone }}
       - ServerName=money.{{ domain }}
     image: jc5x/firefly-iii
     links:
@@ -115,10 +115,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:money.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.tor.frontend.rule=Host:money.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 
   firefly_iii_db:
@@ -155,10 +155,10 @@ services:
       - "traefik.http.frontend.rule=Host:git.{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=3000"
       - "traefik.tor.frontend.rule=Host:git.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=3000"
 
   gitea_db:
@@ -197,10 +197,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:grafana.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=3000"
       - "traefik.tor.frontend.rule=Host:grafana.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=3000"
 {% endif %}
 
@@ -223,10 +223,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:homeassistant.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=8123"
       - "traefik.tor.frontend.rule=Host:homeassistant.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=8123"
 {% endif %}
 
@@ -249,7 +249,7 @@ services:
       - /var/homelabos/jackett/downloads:/downloads
       - /etc/localtime:/etc/localtime:ro
     environment:
-      - TZ={{ timezone }}
+      - TZ={{ common_timezone }}
     ports:
       - 9117:9117
 {% endif %}
@@ -276,12 +276,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 
   matomo_db:
@@ -310,10 +310,10 @@ services:
       - "traefik.http.frontend.rule=Host:rss.{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=8080"
       - "traefik.tor.frontend.rule=Host:rss.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 
   miniflux_db:
@@ -340,10 +340,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:minio.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=9000"
       - "traefik.tor.frontend.rule=Host:minio.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=9000"
 {% endif %}
 
@@ -363,10 +363,10 @@ services:
       - "traefik.http.frontend.rule=Host:monica.{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.tor.frontend.rule=Host:monica.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
     env_file:
       - /var/homelabos/docker/monica.env
@@ -402,10 +402,10 @@ services:
       - "traefik.http.frontend.rule=Host:nextcloud.{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.tor.frontend.rule=Host:nextcloud.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 
   nextcloud_db:
@@ -428,14 +428,14 @@ services:
     ports:
       - 6789:6789
     environment:
-      - TZ={{ timezone }}
+      - TZ={{ common_timezone }}
     volumes:
       - /var/homelabos/nzbget:/config
       - /mnt/nas/Downloads:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:nzbget.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=6789"
 {% endif %}
 
@@ -462,10 +462,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.tor.frontend.rule=Host:{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
 
@@ -495,10 +495,10 @@ services:
       - "traefik.http.frontend.rule=Host:paperless.{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=8000"
       - "traefik.tor.frontend.rule=Host:paperless.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=8000"
 
   paperless_consumer:
@@ -534,11 +534,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
     extra_hosts:
       - docker.{{ domain }}:{{ ansible_ssh_host }}
@@ -564,6 +564,24 @@ services:
       - warden.{{ domain }}:{{ ansible_ssh_host }}
 {% endif %}
 
+{% if enable_plex %}
+  # Plex Media Server
+  plex:
+    image: plexinc/pms-docker:latest
+    restart: always
+    volumes:
+      - /var/homelabos/plex:/config
+      - /mnt/nas:/mnt/nas
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:plex.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=32400"
+      - "traefik.tor.frontend.rule=Host:plex.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=32400"
+{% endif %}
+
 {% if enable_portainer %}
   # Docker Control
   portainer:
@@ -576,10 +594,10 @@ services:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:docker.{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=9000"
       - "traefik.tor.frontend.rule=Host:docker.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=9000"
 {% endif %}
 
@@ -591,7 +609,7 @@ services:
     environment:
       - PGID=1000
       - PUID=1000
-      - TZ={{ timezone }}
+      - TZ={{ common_timezone }}
     links:
       - jackett
       - transmission
@@ -603,7 +621,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:sonarr.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=8989"
 {% endif %}
 
@@ -615,7 +633,7 @@ services:
     environment:
       - PGID=1000
       - PUID=1000
-      - TZ={{ timezone }}
+      - TZ={{ common_timezone }}
     links:
       - jackett
       - transmission
@@ -627,7 +645,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:radarr.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=7878"
 {% endif %}
 
@@ -670,12 +688,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:sync.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=8384"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=8384"
 {% endif %}
 
@@ -702,12 +720,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:thelounge.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=9000"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.tor.frontend.rule=Host:thelounge.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=9000"
 {% endif %}
 
@@ -752,7 +770,7 @@ services:
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 300
       - PGID=0
       - PUID=0
-      - TZ={{ timezone }}
+      - TZ={{ common_timezone }}
       - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
       # Password = `transmission`
       - TRANSMISSION_RPC_PASSWORD="{62b16db87b89a91dd49a5110a7cafc06d20eb4f2wtK6kqPj"
@@ -766,10 +784,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.frontend.rule=Host:torrent.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
+      - "traefik.http.protocol=http"
       - "traefik.http.port=9091"
       - "traefik.tor.frontend.rule=Host:torrent.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
+      - "traefik.tor.protocol=http"
       - "traefik.tor.port=9091"
 {% endif %}
 

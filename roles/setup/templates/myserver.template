@@ -57,6 +57,7 @@ enable_openvpn: False
 enable_organizr: False
 enable_paperless: False
 enable_pihole: False
+enable_plex: False
 enable_portainer: False
 enable_sonarr: False
 enable_radarr: False
@@ -77,11 +78,6 @@ darksky_key:
 latitude: 
 longitude: 
 
-timezone: America/Denver
-
-# Change to https to enable LetsEncrypt
-protocol: http
-
 # VPN For Transmission to use for Downloads
 openvpn_provider: PIA
 openvpn_username: username
@@ -94,7 +90,6 @@ nas_pass:
 nas_workgroup: 
 
 # Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
-s3_path: s3:http://minio:9000/restic-backups/
 s3_access_key:
 s3_secret_key:
 s3_backup_password:

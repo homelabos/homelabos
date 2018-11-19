@@ -115,12 +115,26 @@
 #     path: /etc/resolv.conf
 #     line: 'nameserver 127.0.0.1'
 
-- name: Restart HomelabOS service.
+- name: Stop HomelabOS
   systemd:
     name: homelabos
     enabled: "yes"
     daemon-reload: "yes"
+    state: stopped
+
+- name: Restart Docker (workaround for Docker not releasing ports.)
+  systemd:
+    name: docker
+    enabled: "yes"
+    daemon-reload: "yes"
     state: restarted
+
+- name: Start HomelabOS
+  systemd:
+    name: homelabos
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
 
 - name: Read Tor SSH connection info
   shell: cat /var/lib/tor/ssh-onion/hostname
