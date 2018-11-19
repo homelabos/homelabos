@@ -1,4 +1,4 @@
 ---
 - name: Save `host_vars/myserver` config file.
-  template: src='myserver.template' dest='{{ playbook_dir }}/host_vars/myserver'
+  template: src='myserver.j2' dest='{{ playbook_dir }}/host_vars/myserver'
 ...
