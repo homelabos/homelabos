@@ -17,6 +17,9 @@
     - name: homelab_domain
       prompt: "What is the domain you have pointed at your Homelab server with ports 80 and 443?"
       private: "False"
+    - name: homelab_admin_email
+      prompt: "What is a current valid email address for the admin? (Required for HTTPS via LetsEncrypt)"
+      private: "False"
 
   roles:
     - setup
