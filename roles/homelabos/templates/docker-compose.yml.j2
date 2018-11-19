@@ -1,8 +1,8 @@
 ---
-# Commented out services are in beta testing and not integrated or documented yet. Uncomment them at your own peril.
 version: '3'
 
 services:
+{% if enable_apple_health_influx %}
   # Apple Health Data Importer
   apple_health_influx:
     image: nickbusey/healthdata_influx:cron
@@ -10,7 +10,9 @@ services:
     volumes:
       - /var/homelabos/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/
       - /var/homelabos/apple_health_influx/config.yml:/config.yml
+{% endif %}
 
+{% if enable_bitwarden %}
   # Password Manager
   bitwarden_web:
     image: mprasil/bitwarden
@@ -27,9 +29,11 @@ services:
       - "traefik.tor.frontend.rule=Host:warden.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
+{% endif %}
 
+{% if enable_darksky_influx %}
   # Weather Data Importer
-  darksky-influx:
+  darksky_influx:
     image: erwinsteffens/darksky-influxdb:latest
     restart: always
     links:
@@ -42,7 +46,9 @@ services:
       - INFLUXDB_DATABASE=darksky
       - DARKSKY_LATITUDE={{ latitude }}
       - DARKSKY_LONGITUDE={{ longitude }}
+{% endif %}
 
+{% if enable_dasher %}
   # Amazon Dash Button
   dasher:
     image: hijinx/dasher
@@ -50,6 +56,7 @@ services:
     network_mode: host
     volumes:
       - /var/homelabos/dasher/config.json:/usr/src/app/config/config.json
+{% endif %}
 
   # HomelabOS Documentation
   docs:
@@ -66,6 +73,7 @@ services:
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
 
+{% if enable_emby %}
   # Media Server
   emby:
     image: emby/embyserver:latest
@@ -82,7 +90,9 @@ services:
       - "traefik.tor.frontend.rule=Host:emby.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=8096"
+{% endif %}
 
+{% if enable_firefly_iii %}
   # Financial Tracker
   firefly_iii_app:
     restart: always
@@ -121,7 +131,9 @@ services:
     image: mariadb
     volumes:
       - /var/homelabos/firefly/db:/var/lib/mysql
+{% endif %}
 
+{% if enable_gitea %}
   # Code Hosting
   gitea:
     image: gitea/gitea:latest
@@ -159,7 +171,9 @@ services:
       - MYSQL_DATABASE=gitea
     volumes:
       - /var/homelabos/gitea_db:/var/lib/mysql
+{% endif %}
 
+{% if enable_grafana %}
   # Graphing
   grafana:
     image: grafana/grafana
@@ -188,7 +202,9 @@ services:
       - "traefik.tor.frontend.rule=Host:grafana.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=3000"
+{% endif %}
 
+{% if enable_homeassistant %}
   # Home Automation
   homeassistant:
     image: homeassistant/home-assistant
@@ -212,33 +228,7 @@ services:
       - "traefik.tor.frontend.rule=Host:homeassistant.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=8123"
-
-  # huginn:
-  #   image: huginn/huginn
-  #   links:
-  #     - huginn_db:mysql
-  #   ports:
-  #     - 3132:3000
-  #   environment:
-  #     - HUGINN_DATABASE_NAME=huginn
-  #     - HUGINN_DATABASE_USERNAME=huginn
-  #     - HUGINN_DATABASE_PASSWORD=somethingsecret
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.frontend.rule=Host:huginn.{{ domain }}"
-  #     - "traefik.http.protocol={{ protocol }}"
-  #     - "traefik.http.port=3000"
-
-  # huginn_db:
-  #   image: mariadb
-  #   restart: always
-  #   volumes:
-  #     - /var/homelabos/huginn_db:/var/lib/mysql
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=huginn
-  #     - MYSQL_PASSWORD=somethingsecret
-  #     - MYSQL_DATABASE=huginn
-  #     - MYSQL_USER=huginn
+{% endif %}
 
   # Time Series Data Store
   influxdb:
@@ -249,6 +239,7 @@ services:
     ports:
       - 8086:8086
 
+{% if enable_jackett %}
   # Torrent API
   jackett:
     image: linuxserver/jackett
@@ -261,7 +252,9 @@ services:
       - TZ={{ timezone }}
     ports:
       - 9117:9117
+{% endif %}
 
+{% if enable_kibitzr %}
   # IFTTT Replacement
   kibitzr:
     image: peterdemin/kibitzr
@@ -269,54 +262,10 @@ services:
     volumes:
       - /var/homelabos/kibitzr/config:/root/.config/kibitzr
       - /var/homelabos/kibitzr/pages:/pages
+{% endif %}
 
-  # Music Streamer
-  koel:
-    image: 0xcaff/koel
-    restart: always
-    links:
-      - koel_database
-    environment:
-      DB_CONNECTION: mysql
-      DB_HOST: koel_database
-      DB_USERNAME: koel
-      DB_PASSWORD: koel
-      DB_DATABASE: koel
-    volumes:
-      - /mnt/nas/Music:/music
-      - /var/homelabos/koel/covers:/var/www/html/public/img/covers
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.frontend.rule=Host:koel.{{ domain }}"
-      - "traefik.http.protocol={{ protocol }}"
-      - "traefik.http.port=80"
-      - "traefik.tor.frontend.rule=Host:koel.{{ tor_domain }}"
-      - "traefik.tor.protocol={{ protocol }}"
-      - "traefik.tor.port=80"
-
-  koel_database:
-    image: mariadb
-    restart: always
-    volumes:
-      - /var/homelabos/koel/db:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: koel
-      MYSQL_USER: koel
-      MYSQL_PASSWORD: koel
-
+{% if enable_matomo %}
   # Web Analytics
-  matomo_db:
-    image: mariadb
-    restart: always
-    volumes:
-      - /var/homelabos/matomo/db:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=matomo
-      - MYSQL_USER=matomo
-      - MYSQL_PASSWORD=matomo
-      - MYSQL_DATABASE=matomo
-
   matomo_app:
     image: crazymax/matomo:latest
     restart: always
@@ -335,6 +284,19 @@ services:
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
 
+  matomo_db:
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/homelabos/matomo/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=matomo
+      - MYSQL_USER=matomo
+      - MYSQL_PASSWORD=matomo
+      - MYSQL_DATABASE=matomo
+{% endif %}
+
+{% if enable_miniflux %}
   # RSS Reader
   miniflux:
     image: miniflux/miniflux:2.0.11
@@ -362,7 +324,9 @@ services:
       - POSTGRES_PASSWORD=EsQMeV35CskJPE9eJwwqeV3ZFfZZ
     volumes:
       - /var/homelabos/miniflux/db:/var/lib/postgresql/data
+{% endif %}
 
+{% if enable_minio %}
   # S3 Storage for Backups via Restic
   minio:
     image: minio/minio
@@ -381,7 +345,9 @@ services:
       - "traefik.tor.frontend.rule=Host:minio.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=9000"
+{% endif %}
 
+{% if enable_monicahq %}
   # Personal Relationship Database
   monicahq:
     image: monicahq/monicahq
@@ -412,7 +378,9 @@ services:
       - /var/homelabos/docker/monica.env
     volumes:
       - /var/homelabos/monica/mysql:/var/lib/mysql
+{% endif %}
 
+{% if enable_nextcloud %}
   # Calendar, Contact, and Photo Sync Server
   nextcloud:
     image: nextcloud
@@ -450,7 +418,9 @@ services:
       - MYSQL_PASSWORD=nextcloud
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+{% endif %}
 
+{% if enable_nzbget %}
   # Usenet Downloader
   nzbget:
     image: linuxserver/nzbget
@@ -467,7 +437,9 @@ services:
       - "traefik.http.frontend.rule=Host:nzbget.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=6789"
+{% endif %}
 
+{% if enable_openvpn %}
   # VPN Access
   openvpn:
     cap_add:
@@ -478,7 +450,9 @@ services:
     restart: always
     volumes:
       - /var/homelabos/openvpn:/etc/openvpn
+{% endif %}
 
+{% if enable_organizr %}
   # Dashboard
   organizr:
     image: organizrtools/organizr-v2
@@ -493,7 +467,9 @@ services:
       - "traefik.tor.frontend.rule=Host:{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=80"
+{% endif %}
 
+{% if enable_paperless %}
   # Document Storage
   paperless:
     image: danielquinn/paperless
@@ -538,32 +514,9 @@ services:
     environment:
       - PAPERLESS_PASSPHRASE=homelabos
     command: ["document_consumer"]
+{% endif %}
 
-  # photoprism: # change if needed
-  #   image: photoprism/photoprism # use pre-built image from docker hub: https://hub.docker.com/r/photoprism/photoprism/
-  #   restart: always
-  #   ports:
-  #     - 2342:80 # left side is your local port (change if port 2342 is already used or you want to use port 80)
-  #   volumes:
-  #     - ~/Photos:/Photos # change ~/Photos to whatever directory you want to use on your local computer
-  #     - photoprism-thumbnails:/var/photoprism/thumbnails # keep this (thumbnail cache)
-  #   environment:
-  #     PHOTOPRISM_IMPORT_PATH: "/Photos/Import" # ~/Photos/Import (files to be imported to originals)
-  #     PHOTOPRISM_EXPORT_PATH: "/Photos/Export" # ~/Photos/Export (files exported from originals)
-  #     PHOTOPRISM_ORIGINALS_PATH: "/Photos/Originals" # ~/Photos/Originals (original jpeg, raw and meta files)
-
-  # database: # keep this
-  #   image: mysql:latest
-  #   restart: always
-  #   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=1024
-  #   volumes:
-  #     - photoprism-database:/var/lib/mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: photoprism
-  #     MYSQL_USER: photoprism
-  #     MYSQL_PASSWORD: photoprism
-  #     MYSQL_DATABASE: photoprism
-
+{% if enable_pihole %}
   # Network level ad blocking
   pihole:
     image: pihole/pihole:latest
@@ -595,7 +548,6 @@ services:
       - grafana.{{ domain }}:{{ ansible_ssh_host }}
       - homeassistant.{{ domain }}:{{ ansible_ssh_host }}
       - irc.{{ domain }}:{{ ansible_ssh_host }}
-      - koel.{{ domain }}:{{ ansible_ssh_host }}
       - matomo.{{ domain }}:{{ ansible_ssh_host }}
       - mastodon.{{ domain }}:{{ ansible_ssh_host }}
       - minio.{{ domain }}:{{ ansible_ssh_host }}
@@ -610,7 +562,9 @@ services:
       - terminal.{{ domain }}:{{ ansible_ssh_host }}
       - torrent.{{ domain }}:{{ ansible_ssh_host }}
       - warden.{{ domain }}:{{ ansible_ssh_host }}
+{% endif %}
 
+{% if enable_portainer %}
   # Docker Control
   portainer:
     image: portainer/portainer
@@ -627,7 +581,9 @@ services:
       - "traefik.tor.frontend.rule=Host:docker.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=9000"
+{% endif %}
 
+{% if enable_sonarr %}
   # TV Downloader
   sonarr:
     image: linuxserver/sonarr
@@ -649,7 +605,9 @@ services:
       - "traefik.http.frontend.rule=Host:sonarr.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=8989"
+{% endif %}
 
+{% if enable_radarr %}
   # Movie Downloader
   radarr:
     image: linuxserver/radarr
@@ -671,7 +629,9 @@ services:
       - "traefik.http.frontend.rule=Host:radarr.{{ domain }}"
       - "traefik.http.protocol={{ protocol }}"
       - "traefik.http.port=7878"
+{% endif %}
 
+{% if enable_restic %}
   # Backups https://nickbusey.gitlab.io/HomelabOS/software/restic/
   restic:
     image: lobaro/restic-backup-docker:v1.0
@@ -690,7 +650,9 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos:/data:ro
+{% endif %}
 
+{% if enable_syncthing %}
   # Sync Server
   syncthing:
     image: linuxserver/syncthing
@@ -715,6 +677,7 @@ services:
       - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=8384"
+{% endif %}
 
   # System Statistics Logger
   telegraf:
@@ -730,6 +693,7 @@ services:
     links:
       - influxdb
 
+{% if enable_thelounge %}
   # IRC Bouncer
   thelounge:
     image: linuxserver/thelounge
@@ -745,6 +709,7 @@ services:
       - "traefik.tor.frontend.rule=Host:thelounge.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=9000"
+{% endif %}
 
   # Load Balancer / SSL / Web Server
   traefik:
@@ -759,6 +724,7 @@ services:
       - /var/homelabos/traefik/traefik.toml:/traefik.toml
       - /var/homelabos/traefik/acme.json:/acme.json
 
+{% if enable_transmission %}
   # Torrent Downloader https://nickbusey.gitlab.io/HomelabOS/software/transmission/
   transmission:
     image: haugene/transmission-openvpn
@@ -805,7 +771,9 @@ services:
       - "traefik.tor.frontend.rule=Host:torrent.{{ tor_domain }}"
       - "traefik.tor.protocol={{ protocol }}"
       - "traefik.tor.port=9091"
+{% endif %}
 
+{% if enable_xfinityusageinfluxdb %}
   # Bandwidth Usage Logger
   xfinityusageinfluxdb:
     restart: unless-stopped
@@ -816,4 +784,5 @@ services:
       - XFINITY_USER={{ xfinity_user }}
       - XFINITY_PASSWORD={{ xfinity_password }}
       - INFLUXDB_HOST=influxdb
+{% endif %}
 ...

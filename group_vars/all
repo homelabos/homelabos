@@ -1,6 +1,7 @@
 # These are the default settings. Copy this file to `host_vars/myserver` then in that file set the values to match your setup.
 
-### REQUIRED ### These values are REQUIRED for HomelabOS to work.
+### REQUIRED ### 
+# (required) = These values are REQUIRED for HomelabOS to work.
 
 # Default user name to create as admin with services
 default_username: (required)
@@ -19,11 +20,42 @@ common_timezone: 'Etc/UTC'
 
 # Domain that will be used to point at the server
 # Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
-domain: yourserver.com
+domain: (required)
 
 # An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
 # Necessary for SSL / LetsEncrypt to work.
-admin_email: 
+admin_email: (required)
+
+# You can enable/disable services individually by changing True to False
+enable_apple_health_influx: True
+enable_bitwarden: True
+enable_darksky_influx: True
+enable_dasher: True
+enable_emby: True
+enable_firefly_iii: True
+enable_gitea: True
+enable_grafana: True
+enable_homeassistant: True
+enable_jackett: True
+enable_kibitzr: True
+enable_matomo: True
+enable_miniflux: True
+enable_minio: True
+enable_monicahq: True
+enable_nextcloud: True
+enable_nzbget: True
+enable_openvpn: True
+enable_organizr: True
+enable_paperless: True
+enable_pihole: True
+enable_portainer: True
+enable_sonarr: True
+enable_radarr: True
+enable_restic: True
+enable_syncthing: True
+enable_thelounge: True
+enable_transmission: True
+enable_xfinityusageinfluxdb: True
 
 ### END REQUIRED ###
  
@@ -81,14 +113,16 @@ smtp_pass:
 smtp_from_email:
 smtp_from_name:
 
-# Leave as is, unless you know what you're doing
+#####################################################################################
+#          Leave everything below as is, unless you know what you're doing          #
+#####################################################################################
+
 vpn_ip: 10.0.0.1
 netname: homelabos
 physical_ip: 8.8.8.8
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-
 services:
   - warden
   - docs
