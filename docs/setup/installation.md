@@ -10,9 +10,9 @@ From inside the HomelabOS folder execute the terminal command `make config` to c
 
 Once that is done, you can run `make` to have HomelabOS install itself.
 
-To configure additional services, look at the options available in `group_vars/all` and override them in `host_vars/myserver`.
+To change any setting, edit your `config.yml` file, then run `make config` again.
 
-You can always change settings by hand in `host_vars/myserver` and re-run `make` again to update the server with your new settings.
+To reset your settings, run `make config_reset`, then run `make config` again.
 
 ## Network Configuration
 
