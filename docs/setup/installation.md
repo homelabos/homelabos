@@ -6,7 +6,7 @@ Make sure you have Ansible 2.5+ installed on your computer.
 
 Ensure you can access your server with a local IP through [passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login) and your user has [passwordless sudo](https://askubuntu.com/questions/192050/how-to-run-sudo-command-with-no-password).
 
-From inside the HomelabOS folder execute the terminal command `make setup` to configure your server settings.
+From inside the HomelabOS folder execute the terminal command `make config` to configure your server settings.
 
 Once that is done, you can run `make` to have HomelabOS install itself.
 

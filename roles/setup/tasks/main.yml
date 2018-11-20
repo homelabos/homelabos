@@ -1,4 +1,10 @@
 ---
-- name: Save `host_vars/myserver` config file.
-  template: src='settings.yml.j2' dest='{{ playbook_dir }}/settings.yml'
+- name: Copy HomelabOS config file into place
+  template: src='config.yml.j2' dest='{{ playbook_dir }}/config.yml'
+
+- name: Copy server variables into place
+  template: src='config.yml.j2' dest='{{ playbook_dir }}/host_vars/myserver'
+
+- name: Generate Ansible inventory file
+  template: src='inventory.j2' dest='{{ playbook_dir }}/inventory'
 ...

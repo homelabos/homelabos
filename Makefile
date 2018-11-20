@@ -1,23 +1,27 @@
 .PHONY: logo deploy docs_build restore develop docs_deploy lint
 
+# Deploy HomelabOS
+deploy: logo get_roles
+	ansible-playbook --extra-vars="@config.yml" -i inventory homelabos.yml
+
 logo:
 	cat homelaboslogo.txt
 
 get_roles:
 	sudo ansible-galaxy install toke.tor
 
-# Deploy HomelabOS
-deploy: logo get_roles
-	ansible-playbook -i hosts homelabos.yml
+# Initial configuration
+config: logo
+	ansible-playbook --extra-vars="@config.yml" -i setup_inventory setup.yml
+	echo "========== Configuration completed! Now just run 'make' =========="
 
-# Initial setup
-setup: logo
-	ansible-playbook --extra-vars="@settings.yml" -i setup_hosts setup.yml
-	echo "Setup completed! Now just run `make`
+# Reset all local settings
+config_reset: logo
+	cp config.yml.blank config.yml
 
-# Update just HomelabOS Services (skipping slow initial setup steps)
+# Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo
-	ansible-playbook -i hosts -t deploy homelabos.yml
+	ansible-playbook -i inventory -t deploy homelabos.yml
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo
@@ -25,11 +29,11 @@ docs_build: logo
 
 # Update just the docs
 docs_deploy: logo docs_build
-	ansible-playbook -i hosts -t docs homelabos.yml
+	ansible-playbook -i inventory -t docs homelabos.yml
 
 # Restore a server with the most recent backup. Assuming Backups were running.
 restore: logo
-	ansible-playbook -i hosts restore.yml
+	ansible-playbook -i inventory restore.yml
 
 # Spin up a development stack
 develop: logo get_roles

@@ -4,10 +4,10 @@
 # These values are REQUIRED for HomelabOS to work.
 
 # Default user name to create as admin with services
-default_username: {{ homelab_user }} 
+default_username: {{ default_username }} 
 
 # Default password to go with the default user
-default_password: {{ homelab_pass }}
+default_password: {{ default_password }}
 
 # User name used to connect via ssh. Must have passwordless sudo.
 ansible_ssh_user: {{ homelab_ssh_user }}
@@ -22,11 +22,11 @@ common_timezone: 'Etc/UTC'
 
 # Domain that will be used to point at the server
 # Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
-domain: {{ homelab_domain }}
+domain: {{ domain }}
 
 # An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
 # Necessary for SSL / LetsEncrypt to work.
-admin_email: {{ homelab_admin_email }}
+admin_email: {{ admin_email }}
 
 # Features
 
