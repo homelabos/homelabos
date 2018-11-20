@@ -1,4 +1,121 @@
----
-# Run `make config` to populate
-blank_on_purpose: True
-...
+# These are the default settings. Copy this file to `host_vars/myserver` then in that file set the values to match your setup.
+
+### REQUIRED ### 
+# These values are REQUIRED for HomelabOS to work.
+
+# Default user name to create as admin with services
+default_username: nick 
+
+# Default password to go with the default user
+default_password: gangsterish
+
+# User name used to connect via ssh. Must have passwordless sudo.
+ansible_ssh_user: nick
+homelab_ssh_user: nick
+
+# SSH accessible IP address
+ansible_host: 192.168.1.68
+homelab_ip: 192.168.1.68
+
+# Timezone of the server
+common_timezone: 'Etc/UTC'
+
+# Domain that will be used to point at the server
+# Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
+domain: mapleton.busey.me
+
+# An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
+# Necessary for SSL / LetsEncrypt to work.
+admin_email: nickabusey@gmail.com
+
+# Features
+
+# You can enable/disable different HomelabOS features here by changing False to True and vice versa.
+
+enable_tinc: False
+
+# Services
+
+# You can enable/disable services individually by changing False to True and vice versa.
+
+enable_apple_health_influx: False
+enable_bitwarden: False
+enable_bulletnotes: False
+enable_darksky_influx: False
+enable_dasher: False
+enable_emby: False
+enable_firefly_iii: False
+enable_gitea: False
+enable_grafana: False
+enable_homeassistant: False
+enable_jackett: False
+enable_kibitzr: False
+enable_matomo: False
+enable_miniflux: False
+enable_minio: False
+enable_monicahq: False
+enable_nextcloud: False
+enable_nzbget: False
+enable_openvpn: False
+enable_organizr: False
+enable_paperless: False
+enable_pihole: False
+enable_plex: False
+enable_portainer: False
+enable_sonarr: False
+enable_radarr: False
+enable_restic: False
+enable_syncthing: False
+enable_thelounge: False
+enable_transmission: False
+enable_xfinityusageinfluxdb: False
+
+### END REQUIRED ###
+ 
+### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
+
+# Your DarkSky API Key. Get one at http://darksky.net/dev
+darksky_key: 
+
+# Your location
+latitude: 
+longitude: 
+
+# VPN For Transmission to use for Downloads
+openvpn_provider: PIA
+openvpn_username: username
+openvpn_password: password
+
+# NAS Config name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
+nas_path:
+nas_user: 
+nas_pass:
+nas_workgroup: 
+
+# Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+s3_access_key:
+s3_secret_key:
+s3_backup_password:
+# Backup every day at 4:00 AM
+s3_backup_cron: 0 4 * * *
+
+# Home Assitant API Key
+homeassistant_api_key: 
+
+# Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
+apple_health_nextcloud_username: admin
+
+# Xfinity Data Usage Settings
+xfinity_user:
+xfinity_password:
+
+# Monica Settings
+monica_db_password:
+
+# SMTP Settings
+smtp_host: localhost
+smtp_port: 25
+smtp_user:
+smtp_pass:
+smtp_from_email:
+smtp_from_name:
