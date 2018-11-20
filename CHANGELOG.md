@@ -4,11 +4,14 @@
 * Added The Lounge - IRC Bouncer
 * Added Radarr - DVR
 * Added Sonarr - DVR
+* Added Kibitzr - IFTTT replacement
+* Added BulletNotes - Note taking application
+* Added Emby - Personal Media Server
 * Automated Grafana Configuration
 * Added Cloud Bastion Server via Tinc VPN option
 * Added individual service toggling via host vars
 * Removed Koel - Rarely worked
-* Added Kibitzr - IFTTT replacement
+* Removed Convos - Rarely worked
 
 # 0.3
 

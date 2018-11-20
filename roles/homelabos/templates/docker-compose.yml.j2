@@ -31,6 +31,39 @@ services:
       - "traefik.tor.port=80"
 {% endif %}
 
+{% if enable_bulletnotes %}
+
+  bulletnotes_db:
+    image: mongo:3.2.21
+    restart: always
+    command: mongod --smallfiles --oplogSize 128
+    expose:
+      - 27017
+    volumes:
+      - ./data/bulletnotes-db:/data/db
+      - ./data/bulletnotes-db-dump:/dump
+
+  bulletnotes:
+    image: nickbusey/bulletnotes
+    command: meteor --allow-superuser run 
+    working_dir: /BulletNotes
+    links:
+      - bulletnotes_db
+    restart: always
+    environment:
+      - MONGO_URL=mongodb://bulletnotes_db:27017/bulletnotes
+      - ROOT_URL=http://bulletnotes.{{ domain }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:bulletnotes.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=3000"
+      - "traefik.tor.frontend.rule=Host:bulletnotes.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=3000"
+
+{% endif %}
+
 {% if enable_darksky_influx %}
   # Weather Data Importer
   darksky_influx:

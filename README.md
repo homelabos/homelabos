@@ -42,10 +42,11 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 ## Included Software
 
 * [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
+* [BulletNotes](https://gitlab.com/NickBusey/BulletNotes.git) - Note taking application
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 * [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
-* [Emby](https://emby.media/) - Media player
+* [Emby](https://emby.media/) - Personal Media Server
 * [Firefly III](https://firefly-iii.org/) - Money management budgeting app
 * [Gitea](https://gitea.io/en-US/) - Git hosting
 * [Grafana](https://grafana.com/) - Pretty graphs
@@ -61,6 +62,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
+* [Plex](https://www.plex.tv/) - Personal Media Server
 * [Portainer](https://www.portainer.io/) - Easy Docker management
 * [Radarr](https://radarr.video/) - Automated movie downloading
 * [Sonarr](https://sonarr.tv/) - Automated TV downloading

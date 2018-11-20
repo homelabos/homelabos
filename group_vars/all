@@ -17,6 +17,7 @@ s3_backup_cron: 0 4 * * *
 # Service List
 services:
   - warden
+  - bulletnotes
   - docs
   - emby
   - money
