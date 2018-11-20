@@ -567,7 +567,7 @@ services:
 {% if enable_plex %}
   # Plex Media Server
   plex:
-    image: plexinc/pms-docker:latest
+    image: linuxserver/plex
     restart: always
     volumes:
       - /var/homelabos/plex:/config

@@ -11,9 +11,11 @@ default_password: {{ homelab_pass }}
 
 # User name used to connect via ssh. Must have passwordless sudo.
 ansible_ssh_user: {{ homelab_ssh_user }}
+homelab_ssh_user: {{ homelab_ssh_user }}
 
 # SSH accessible IP address
 ansible_host: {{ homelab_ip }}
+homelab_ip: {{ homelab_ip }}
 
 # Timezone of the server
 common_timezone: 'Etc/UTC'
@@ -116,35 +118,3 @@ smtp_user:
 smtp_pass:
 smtp_from_email:
 smtp_from_name:
-
-#####################################################################################
-#          Leave everything below as is, unless you know what you're doing          #
-#####################################################################################
-
-vpn_ip: 10.0.0.1
-netname: homelabos
-physical_ip: 8.8.8.8
-vpn_interface: tun0
-vpn_netmask: 255.255.0.0
-vpn_subnet_cidr_netmask: 32
-services:
-  - warden
-  - docs
-  - emby
-  - money
-  - git
-  - grafana
-  - homeassistant
-  - matomo
-  - rss
-  - minio
-  - monica
-  - nextcloud
-  - paperless
-  - pihole
-  - docker
-  - sonarr
-  - radarr
-  - sync
-  - thelounge
-  - torrent

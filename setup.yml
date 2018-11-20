@@ -13,7 +13,7 @@
       private: "False"
     - name: homelab_pass
       prompt: "What is the default password you would like for this account?"
-      private: "False"
+      private: "True"
     - name: homelab_domain
       prompt: "What is the domain you have pointed at your Homelab server with ports 80 and 443?"
       private: "False"

@@ -11,9 +11,9 @@ deploy: logo get_roles
 	ansible-playbook -i hosts homelabos.yml
 
 # Initial setup
-setup: logo get_roles docs_build
-	ansible-playbook -i setup_hosts setup.yml
-	ansible-playbook -i hosts homelabos.yml
+setup: logo
+	ansible-playbook --extra-vars="@settings.yml" -i setup_hosts setup.yml
+	echo "Setup completed! Now just run `make`
 
 # Update just HomelabOS Services (skipping slow initial setup steps)
 update: logo
