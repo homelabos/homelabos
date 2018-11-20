@@ -5,10 +5,19 @@
 - debug:
     msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"
 
-- name: Ensuring Ubuntu universe repo is enabled
-  apt_repository:
-    repo: "deb http://us.archive.ubuntu.com/ubuntu 18.04 universe"
-    state: present
+- apt_repository:
+    repo: "{{item}}"
+  register: multiverse_installed
+  update_cache: false  # We will do ourselfs afterwards
+  with_items:
+    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+
+- apt:
+    update_cache: true
+  when: multiverse_installed | changed
 
 - name: Upgrade all dist packages
   apt: upgrade=dist
