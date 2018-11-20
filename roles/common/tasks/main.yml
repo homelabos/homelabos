@@ -5,6 +5,11 @@
 - debug:
     msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"
 
+- name: Ensuring Ubuntu universe repo is enabled
+  apt_repository:
+    repo: "deb http://us.archive.ubuntu.com/ubuntu 18.04 universe"
+    state: present
+
 - name: Upgrade all dist packages
   apt: upgrade=dist
   ignore_errors: True
