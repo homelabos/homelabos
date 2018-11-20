@@ -21,7 +21,7 @@ config_reset: logo
 
 # Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo
-	ansible-playbook -i inventory -t deploy homelabos.yml
+	ansible-playbook --extra-vars="@config.yml" -i inventory -t deploy homelabos.yml
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo
