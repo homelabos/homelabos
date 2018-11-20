@@ -1,5 +1,6 @@
 # 0.4 Release Candidate
 
+* Vastly improved initial setup
 * Upgraded Organizr to v2
 * Added The Lounge - IRC Bouncer
 * Added Radarr - DVR
