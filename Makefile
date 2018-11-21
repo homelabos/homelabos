@@ -13,7 +13,7 @@ config: logo
 # yml file so the first attempt at parsing it succeeds
 	@[ -f config.yml ] || cp config.yml.blank config.yml
 	@ansible-playbook --extra-vars="@config.yml" -i setup_inventory setup.yml
-	@echo "========== Configuration completed! Now just run 'make' =========="
+	@echo "========== Configuration completed! Now edit config.yml to turn on the services you want, then run 'make' =========="
 
 # Reset all local settings
 config_reset: logo
