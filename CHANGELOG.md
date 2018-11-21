@@ -9,7 +9,7 @@
 * Added Sonarr - DVR
 * Added Kibitzr - IFTTT replacement
 * Added BulletNotes - Note taking application
-* Added Emby - Personal Media Server
+* Added Plex - Personal Media Server
 * Upgraded Organizr to v2 - Dashboard
 * Removed Koel - Rarely worked
 * Removed Convos - Rarely worked
