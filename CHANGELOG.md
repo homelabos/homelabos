@@ -1,16 +1,16 @@
-# 0.4 Release Candidate
+# 0.4
 
 * Vastly improved initial setup
-* Upgraded Organizr to v2
+* Automated Grafana Configuration
+* Added Cloud Bastion Server via Tinc VPN option
+* Added individual service toggling via host vars
 * Added The Lounge - IRC Bouncer
 * Added Radarr - DVR
 * Added Sonarr - DVR
 * Added Kibitzr - IFTTT replacement
 * Added BulletNotes - Note taking application
 * Added Emby - Personal Media Server
-* Automated Grafana Configuration
-* Added Cloud Bastion Server via Tinc VPN option
-* Added individual service toggling via host vars
+* Upgraded Organizr to v2 - Dashboard
 * Removed Koel - Rarely worked
 * Removed Convos - Rarely worked
 

@@ -1,0 +1,30 @@
+#jinja2: lstrip_blocks: True
+########################################
+## {{ ansible_managed }}
+## Tor configuration
+########################################
+
+{% if tor_control_port is defined %}
+## The port on which Tor will listen for local connections from Tor
+## controller applications, as documented in control-spec.txt.
+## Usual Port Number:9051
+ControlPort {{ tor_control_port }}
+{% endif %}
+{% if tor_password is defined and 'password_hash' in tor_password %}
+HashedControlPassword {{ tor_password['password_hash'] }}
+{% endif %}
+
+## The directory for keeping all the keys/etc. By default, we store
+## things in $HOME/.tor on Unix, and in Application Data\tor on Windows.
+DataDirectory {{ tor_data_directory }}
+
+{% if hidden_services is defined %}
+## Tor Hidden Service configuration
+{% for service in hidden_services %}
+HiddenServiceDir {{ service.dir }}
+{% if service.version is defined %}
+HiddenServiceVersion {{ service.version }}
+{% endif %}
+HiddenServicePort {{ service.port }} {{ service.source }}
+{% endfor %}
+{% endif %}

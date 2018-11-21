@@ -1,0 +1,47 @@
+---
+
+- name: Tor packages
+  package:
+    name: tor
+    state: present
+  become: "{{ tor_become }}"
+
+- name: Manage Hidden Service directories
+  file:
+    path: "{{ item.dir }}"
+    owner: "{{ tor_user }}"
+    group: "{{ tor_group }}"
+    mode: 0700
+    state: directory
+  with_items:
+    "{{ hidden_services }}"
+  when: hidden_services is defined
+
+- set_fact:
+    tor_stored_hash: "{{ ansible_local.tor.tor_hashed_password | default(omit)}}"
+  when: ansible_local is defined and ansible_local.tor is defined
+
+- name: Manage the TOR password
+  include: password.yml
+
+- name: Tor Configuration
+  template:
+    src: etc/tor/torrc.j2
+    dest: "{{ tor_config_dir }}/torrc"
+    owner: root
+    group: "{{ tor_root_group }}"
+    mode: 0644
+  notify: Reload Tor Service
+
+- meta: flush_handlers
+
+- block:
+  - name: Tor Service
+    service:
+      name: tor
+      state: started
+      enabled: yes
+  - name: wait for all tor hidden services hostname files
+    wait_for: state=present path="{{ item.dir }}/hostname" delay=5
+    with_items: "{{ hidden_services }}"
+  when: ansible_distribution != "MacOSX"

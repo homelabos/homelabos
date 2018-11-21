@@ -1,0 +1,8 @@
+---
+
+tor_user: debian-tor
+tor_group: debian-tor
+tor_become: true
+tor_config_dir: /etc/tor
+tor_data_directory: /var/lib/tor
+tor_root_group: root

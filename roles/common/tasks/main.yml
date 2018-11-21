@@ -7,17 +7,15 @@
 
 - apt_repository:
     repo: "{{item}}"
-    register: multiverse_installed
     update_cache: false  # We will do ourselfs afterwards
-    with_items:
-      - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
-      - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
-      - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
-      - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+  with_items:
+    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
 
 - apt:
     update_cache: true
-  when: multiverse_installed | changed
 
 - name: Upgrade all dist packages
   apt: upgrade=dist
@@ -26,20 +24,20 @@
     - dependencies
 
 - name: Install necessities and nice-to-haves
-  apt: pkg={{ item }} state=present
-  with_items:
-    - apt-transport-https
-    - git
-    - htop
-    - iftop
-    - iotop
-    - mosh
-    - screen
-    - sudo
-    - unattended-upgrades
-    - vim
-    - zsh
-    - docker-compose
+  apt:
+    name:
+        - apt-transport-https
+        - git
+        - htop
+        - iftop
+        - iotop
+        - mosh
+        - screen
+        - sudo
+        - unattended-upgrades
+        - vim
+        - zsh
+        - docker-compose
   tags:
     - dependencies
 

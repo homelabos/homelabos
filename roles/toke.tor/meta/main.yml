@@ -1,0 +1,22 @@
+---
+
+galaxy_info:
+  author: Thomas Kerpe <toke@toke.de>
+  description: Ansible tor hidden services role
+  license: "MIT"
+  min_ansible_version: 2.2
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  - name: ArchLinux
+    versions:
+    - all
+  - name: Alpine
+    versions:
+    - all
+  galaxy_tags:
+    - tor
