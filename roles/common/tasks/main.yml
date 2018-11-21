@@ -7,13 +7,13 @@
 
 - apt_repository:
     repo: "{{item}}"
-  register: multiverse_installed
-  update_cache: false  # We will do ourselfs afterwards
-  with_items:
-    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
-    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
-    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
-    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+    register: multiverse_installed
+    update_cache: false  # We will do ourselfs afterwards
+    with_items:
+      - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
+      - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+      - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
+      - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
 
 - apt:
     update_cache: true
