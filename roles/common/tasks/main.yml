@@ -26,18 +26,18 @@
 - name: Install necessities and nice-to-haves
   apt:
     name:
-        - apt-transport-https
-        - git
-        - htop
-        - iftop
-        - iotop
-        - mosh
-        - screen
-        - sudo
-        - unattended-upgrades
-        - vim
-        - zsh
-        - docker-compose
+      - apt-transport-https
+      - git
+      - htop
+      - iftop
+      - iotop
+      - mosh
+      - screen
+      - sudo
+      - unattended-upgrades
+      - vim
+      - zsh
+      - docker-compose
   tags:
     - dependencies
 
