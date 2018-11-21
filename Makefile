@@ -8,7 +8,7 @@ logo:
 	cat homelaboslogo.txt
 
 get_roles:
-	sudo ansible-galaxy --roles-path ./roles install toke.tor
+	ansible-galaxy --roles-path ./roles install toke.tor
 
 # Initial configuration
 config: logo
