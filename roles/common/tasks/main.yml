@@ -11,8 +11,6 @@
   with_items:
     - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
     - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
-    - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
-    - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
 
 - apt:
     update_cache: true
