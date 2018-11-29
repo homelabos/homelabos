@@ -48,13 +48,12 @@ nas_workgroup:
 s3_access_key:
 s3_secret_key:
 s3_backup_password:
-s3_backup_cron:
 homeassistant_api_key:
 apple_health_nextcloud_username:
 xfinity_user:
 xfinity_password:
 monica_db_password:
-smtp_host:
+smtp_host: false
 smtp_port:
 smtp_user:
 smtp_pass:
