@@ -1,3 +1,7 @@
+# 0.5 Release Candidate
+* Added Inventario - Home Inventory Managament Software
+* Fixed various bugs
+
 # 0.4
 
 * Vastly improved initial setup

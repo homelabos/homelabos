@@ -274,6 +274,26 @@ services:
     ports:
       - 8086:8086
 
+{% if enable_inventario %}
+  # Home Inventory Management
+  inventario:
+      image: nickbusey/inventario
+      restart: always
+      links:
+          - inventario_db
+
+  inventario_db:
+      image: mariadb
+      volumes:
+          - /var/homelabos/inventario_db:/var/lib/mysql
+      environment:
+          - MYSQL_ROOT_PASSWORD=inventario
+          - MYSQL_DATABASE=inventario
+          - MYSQL_TEST_DATABASE=inventario_test
+          - MYSQL_USER=inventario
+          - MYSQL_PASSWORD=inventario
+{% endif %}
+
 {% if enable_jackett %}
   # Torrent API
   jackett:

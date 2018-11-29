@@ -13,6 +13,7 @@ enable_firefly_iii: False
 enable_gitea: False
 enable_grafana: False
 enable_homeassistant: False
+enable_inventario: False
 enable_jackett: False
 enable_kibitzr: False
 enable_matomo: False

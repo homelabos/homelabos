@@ -31,6 +31,7 @@ pages:
       - Grafana: software/grafana.md
       - Home Assistant: software/homeassistant.md
       - InfluxDB: software/influxdb.md
+      - Inventario: software/inventario.md
       - Jackett: software/jackett.md
       - Kibitzr: software/kibitzr.md
       - Matomo: software/matomo.md

@@ -52,6 +52,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
+* [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
 * [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
 * [Matomo](https://matomo.org/) - Web analytics
