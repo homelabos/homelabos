@@ -1,0 +1,89 @@
+---
+- name: Make HomelabOS data directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '1777'
+  loop:
+    - /var/homelabos/traefik
+    - /mnt/nas
+  ignore_errors: "yes"
+
+- name: Configure Traefik.
+  template: src=traefik.toml dest=/var/homelabos/traefik/traefik.toml
+
+- name: Configure SSL
+  file:
+    path: /var/homelabos/traefik/acme.json
+    mode: 0600
+    state: touch
+
+- name: Mount NAS Drives
+  command: mount -a
+  args:
+    warn: "no"
+  ignore_errors: "yes"
+
+- name: Configure HomelabOS systemd service.
+  template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
+
+- name: Read Tor connection info
+  shell: cat /var/lib/tor/http-onion/hostname
+  register: tor_http_domain_file
+
+- name: Copy HomelabOS docker-compose.yml file into place.
+  template:
+    src: docker-compose.traefik.yml.j2
+    dest: /var/homelabos/traefik/docker-compose.traefik.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Create HomelabOS hosts file.
+  file:
+    path: /var/homelabos/homelab_hosts
+    state: touch
+
+- name: Configure HomelabOS hosts file. You can find it at /var/homelabos/homelab_hosts on your server.
+  lineinfile:
+    path: /var/homelabos/homelab_hosts
+    line: '{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}'
+  with_items:
+    - "{{ services }}"
+
+- name: Pull HomelabOS Traefik Image
+  command: docker-compose -f /var/homelabos/traefik/docker-compose.traefik.yml pull
+
+- name: Start HomelabOS
+  systemd:
+    name: homelabos
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: restarted
+  ignore_errors: "yes"
+
+- name: Read Tor SSH connection info
+  shell: cat /var/lib/tor/ssh-onion/hostname
+  register: tor_ssh_domain_file
+
+- name: Deploy enabled services.
+  include_role:
+    name: "{{ item }}"
+  when: enable_{{ item }}
+  with_items:
+    - "{{ services }}"
+
+- name: Ensure disabled services are not running
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+  when: enable_{{ item }} == False
+  with_items:
+    - "{{ services }}"
+  ignore_errors: "yes"
+
+- debug:
+    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started. You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}/ Finally you can SSH to {{ tor_ssh_domain_file.stdout }}"
+
+- debug:
+    msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"
+...

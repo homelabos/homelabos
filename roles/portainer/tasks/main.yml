@@ -1,0 +1,23 @@
+---
+- name: Make portainer directory.
+  file:
+    path: "/var/homelabos/portainer"
+    state: directory
+
+- name: Copy portainer docker-compose.yml file into place.
+  template:
+    src: docker-compose.portainer.yml.j2
+    dest: /var/homelabos/portainer/docker-compose.portainer.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure portainer systemd service.
+  template: src=portainer.service dest=/etc/systemd/system/portainer.service
+
+- name: Start portainer
+  systemd:
+    name: portainer
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

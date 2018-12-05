@@ -1,0 +1,21 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Bandwidth Usage Logger
+  xfinityusageinfluxdb:
+    restart: unless-stopped
+    image: nickbusey/xfinityusageinfluxdb
+    networks:
+      - traefik_network
+    links:
+      - influxdb
+    environment:
+      - XFINITY_USER={{ xfinity_user }}
+      - XFINITY_PASSWORD={{ xfinity_password }}
+      - INFLUXDB_HOST=influxdb

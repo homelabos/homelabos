@@ -1,0 +1,23 @@
+---
+- name: Make pihole directory.
+  file:
+    path: "/var/homelabos/pihole"
+    state: directory
+
+- name: Copy pihole docker-compose.yml file into place.
+  template:
+    src: docker-compose.pihole.yml.j2
+    dest: /var/homelabos/pihole/docker-compose.pihole.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure pihole systemd service.
+  template: src=pihole.service dest=/etc/systemd/system/pihole.service
+
+- name: Start pihole
+  systemd:
+    name: pihole
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

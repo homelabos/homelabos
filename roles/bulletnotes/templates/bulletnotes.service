@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS bulletnotes Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/bulletnotes/docker-compose.bulletnotes.yml -p bulletnotes down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/bulletnotes/docker-compose.bulletnotes.yml -p bulletnotes up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/bulletnotes/docker-compose.bulletnotes.yml -p bulletnotes stop
+
+[Install]
+WantedBy=multi-user.target

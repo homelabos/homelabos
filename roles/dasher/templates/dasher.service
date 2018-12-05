@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS dasher Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/dasher/docker-compose.dasher.yml -p dasher down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/dasher/docker-compose.dasher.yml -p dasher up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/dasher/docker-compose.dasher.yml -p dasher stop
+
+[Install]
+WantedBy=multi-user.target

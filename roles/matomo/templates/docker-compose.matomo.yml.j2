@@ -1,0 +1,43 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+ # Web Analytics
+  app:
+    image: crazymax/matomo:latest
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    links:
+      - matomo_db:db
+    volumes:
+      - /var/homelabos/matomo/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:matomo.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+
+  matomo_db:
+    image: mariadb
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/matomo/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=matomo
+      - MYSQL_USER=matomo
+      - MYSQL_PASSWORD=matomo
+      - MYSQL_DATABASE=matomo

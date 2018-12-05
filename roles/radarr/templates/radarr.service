@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS radarr Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/radarr/docker-compose.radarr.yml -p radarr down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/radarr/docker-compose.radarr.yml -p radarr up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/radarr/docker-compose.radarr.yml -p radarr stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS transmission Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/transmission/docker-compose.transmission.yml -p transmission down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/transmission/docker-compose.transmission.yml -p transmission up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/transmission/docker-compose.transmission.yml -p transmission stop
+
+[Install]
+WantedBy=multi-user.target

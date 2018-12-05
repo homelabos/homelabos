@@ -1,0 +1,23 @@
+---
+- name: Make plex directory.
+  file:
+    path: "/var/homelabos/plex"
+    state: directory
+
+- name: Copy plex docker-compose.yml file into place.
+  template:
+    src: docker-compose.plex.yml.j2
+    dest: /var/homelabos/plex/docker-compose.plex.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure plex systemd service.
+  template: src=plex.service dest=/etc/systemd/system/plex.service
+
+- name: Start plex
+  systemd:
+    name: plex
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

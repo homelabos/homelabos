@@ -1,0 +1,36 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Sync Server
+  syncthing:
+    image: linuxserver/syncthing
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - /var/homelabos/syncthing:/config
+      - /mnt/nas/Syncthing:/data
+      - /mnt/nas:/nas
+    environment:
+      - PGID=1004
+      - PUID=1000
+    ports:
+      - 22000:22000
+      - 21027:21027/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:sync.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8384"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8384"

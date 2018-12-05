@@ -1,0 +1,23 @@
+---
+- name: Make nzbget directory.
+  file:
+    path: "/var/homelabos/nzbget"
+    state: directory
+
+- name: Copy nzbget docker-compose.yml file into place.
+  template:
+    src: docker-compose.nzbget.yml.j2
+    dest: /var/homelabos/nzbget/docker-compose.nzbget.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure nzbget systemd service.
+  template: src=nzbget.service dest=/etc/systemd/system/nzbget.service
+
+- name: Start nzbget
+  systemd:
+    name: nzbget
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

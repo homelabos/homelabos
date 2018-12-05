@@ -20,9 +20,9 @@
 
   roles:
     # Install Docker, configure basic server settings
-    - common
+    - homelabos_common
     # Configure a TOR hidden service for remote access without a public IP
-    - role: toke.tor
+    - role: tor
       hidden_services:
         - dir: /var/lib/tor/ssh-onion
           port: 22
@@ -34,16 +34,25 @@
           port: 80
           source: 127.0.0.1:80
 
-# Install and configure HomelabOS documentation
-- hosts: homelabos
-  become: "True"
-  gather_facts: "True"
-  tags:
-    - homelabos
-    - docs
 
+- name: "Setup tinc VPN"
+  tags: tinc
+  hosts: all
+  become: yes
+  become_method: sudo
   roles:
-    - docs
+    - role: homelabos_tinc
+      when:
+        - enable_tinc
+
+- name: "Update Tinc NGINX Servers"
+  hosts: tinc
+  become: yes
+  become_method: sudo
+  tags: tinc-nginx
+  roles:
+    - role: homelabos_tinc-nginx
+      when: enable_tinc
 
 # Install and configure HomelabOS services
 - hosts: homelabos
@@ -52,27 +61,7 @@
   tags:
     - homelabos
     - deploy
-
   roles:
-    - homelabos
+    - homelabos_base
 
-- name: "Setup tinc VPN"
-  tags: tinc
-  hosts: all
-  become: yes
-  become_method: sudo
-  roles:
-    - role: tinc
-      when:
-        - "vpn_ip is defined"
-
-- name: "Update Tinc NGINX Servers"
-  hosts: tinc
-  become: yes
-  become_method: sudo
-  tags: tinc-nginx
-  roles:
-    - role: tinc-nginx
-      when:
-        - "vpn_ip is defined"
 ...

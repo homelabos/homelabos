@@ -1,0 +1,33 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Home Automation
+  homeassistant:
+    image: homeassistant/home-assistant
+    volumes:
+      - /var/homelabos/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    ports:
+      - 8123:8123
+      - 1883:1883
+      # - 8080:8080
+      - 51827:51827
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:homeassistant.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8123"
+      - "traefik.tor.frontend.rule=Host:homeassistant.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8123"

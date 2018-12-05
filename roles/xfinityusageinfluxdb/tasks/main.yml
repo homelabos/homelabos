@@ -1,0 +1,23 @@
+---
+- name: Make xfinityusageinfluxdb directory.
+  file:
+    path: "/var/homelabos/xfinityusageinfluxdb"
+    state: directory
+
+- name: Copy xfinityusageinfluxdb docker-compose.yml file into place.
+  template:
+    src: docker-compose.xfinityusageinfluxdb.yml.j2
+    dest: /var/homelabos/xfinityusageinfluxdb/docker-compose.xfinityusageinfluxdb.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure xfinityusageinfluxdb systemd service.
+  template: src=xfinityusageinfluxdb.service dest=/etc/systemd/system/xfinityusageinfluxdb.service
+
+- name: Start xfinityusageinfluxdb
+  systemd:
+    name: xfinityusageinfluxdb
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

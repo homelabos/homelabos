@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS restic Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/restic/docker-compose.restic.yml -p restic down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/restic/docker-compose.restic.yml -p restic up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/restic/docker-compose.restic.yml -p restic stop
+
+[Install]
+WantedBy=multi-user.target

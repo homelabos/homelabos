@@ -1,0 +1,33 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # System Statistics Logger
+  telegraf:
+    image: telegraf
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+      - /mnt/nas:/mnt/nas
+
+  # Time Series Data Store
+  influxdb:
+    image: influxdb
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/influxdb:/var/lib/influxdb
+    ports:
+      - 8086:8086

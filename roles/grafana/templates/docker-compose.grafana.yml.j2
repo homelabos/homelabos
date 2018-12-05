@@ -1,0 +1,39 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+ # Graphing
+  grafana:
+    image: grafana/grafana
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/grafana/data/:/var/lib/grafana/
+      - /var/homelabos/grafana/dashboards/:/etc/grafana/provisioning/dashboards/
+      - /var/homelabos/grafana/datasources/:/etc/grafana/provisioning/datasources/
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,natel-discrete-panel,petrslavotinek-carpetplot-panel,vonage-status-panel,raintank-worldping-app
+{% if smtp_host %}
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST={{ smtp_host }}:{{ smtp_port }}
+      - GF_SMTP_USER={{ smtp_user }}
+      - GF_SMTP_PASSWORD={{ smtp_pass }}
+      - GF_SMTP_FROM_ADDRESS={{ smtp_from_email }}
+      - GF_SMTP_FROM_NAME={{ smtp_from_name }}
+{% endif %}
+      - GF_SECURITY_ADMIN_USER={{ default_username }}
+      - GF_SECURITY_ADMIN_PASSWORD={{ default_password }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:grafana.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=3000"
+      - "traefik.tor.frontend.rule=Host:grafana.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=3000"

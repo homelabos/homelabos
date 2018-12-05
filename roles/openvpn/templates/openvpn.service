@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS openvpn Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/openvpn/docker-compose.openvpn.yml -p openvpn down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/openvpn/docker-compose.openvpn.yml -p openvpn up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/openvpn/docker-compose.openvpn.yml -p openvpn stop
+
+[Install]
+WantedBy=multi-user.target

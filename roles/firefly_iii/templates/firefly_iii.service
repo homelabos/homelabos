@@ -1,0 +1,15 @@
+[Unit]
+Description=HomelabOS firefly_iii Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/firefly_iii/docker-compose.firefly_iii.yml -p firefly_iii up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/firefly_iii/docker-compose.firefly_iii.yml -p firefly_iii stop
+
+[Install]
+WantedBy=multi-user.target

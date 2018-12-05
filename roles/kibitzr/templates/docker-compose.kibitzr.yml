@@ -1,0 +1,16 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # IFTTT Replacement
+  kibitzr:
+    image: peterdemin/kibitzr
+    restart: unless-stopped
+    volumes:
+      - /var/homelabos/kibitzr/config:/root/.config/kibitzr
+      - /var/homelabos/kibitzr/pages:/pages

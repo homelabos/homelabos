@@ -1,0 +1,23 @@
+---
+- name: Make transmission directory.
+  file:
+    path: "/var/homelabos/transmission"
+    state: directory
+
+- name: Copy transmission docker-compose.yml file into place.
+  template:
+    src: docker-compose.transmission.yml.j2
+    dest: /var/homelabos/transmission/docker-compose.transmission.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure transmission systemd service.
+  template: src=transmission.service dest=/etc/systemd/system/transmission.service
+
+- name: Start transmission
+  systemd:
+    name: transmission
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

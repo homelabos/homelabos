@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS grafana Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/grafana/docker-compose.grafana.yml -p grafana down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/grafana/docker-compose.grafana.yml -p grafana up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/grafana/docker-compose.grafana.yml -p grafana stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,42 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Personal Relationship Database
+  monicahq:
+    image: monicahq/monicahq
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    links:
+      - monicahq_db
+    ports:
+      - 8176:80
+    volumes:
+      - /var/homelabos/monica/storage/app/public:/var/www/monica/storage/app/public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:monica.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.tor.frontend.rule=Host:monica.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+    env_file:
+      - /var/homelabos/docker/monica.env
+
+  monicahq_db:
+    image: mariadb
+    restart: unless-stopped
+    env_file:
+      - /var/homelabos/docker/monica.env
+    volumes:
+      - /var/homelabos/monica/mysql:/var/lib/mysql

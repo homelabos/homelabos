@@ -1,0 +1,23 @@
+---
+- name: Make homeassistant directory.
+  file:
+    path: "/var/homelabos/homeassistant"
+    state: directory
+
+- name: Copy homeassistant docker-compose.yml file into place.
+  template:
+    src: docker-compose.homeassistant.yml.j2
+    dest: /var/homelabos/homeassistant/docker-compose.homeassistant.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure homeassistant systemd service.
+  template: src=homeassistant.service dest=/etc/systemd/system/homeassistant.service
+
+- name: Start homeassistant
+  systemd:
+    name: homeassistant
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

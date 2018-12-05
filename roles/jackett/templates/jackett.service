@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS jackett Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/jackett/docker-compose.jackett.yml -p jackett down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/jackett/docker-compose.jackett.yml -p jackett up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/jackett/docker-compose.jackett.yml -p jackett stop
+
+[Install]
+WantedBy=multi-user.target

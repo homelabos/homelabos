@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS sonarr Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/sonarr/docker-compose.sonarr.yml -p sonarr down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/sonarr/docker-compose.sonarr.yml -p sonarr up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/sonarr/docker-compose.sonarr.yml -p sonarr stop
+
+[Install]
+WantedBy=multi-user.target

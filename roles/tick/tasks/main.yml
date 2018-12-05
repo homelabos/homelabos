@@ -1,0 +1,23 @@
+---
+- name: Make tick directory.
+  file:
+    path: "/var/homelabos/tick"
+    state: directory
+
+- name: Copy tick docker-compose.yml file into place.
+  template:
+    src: docker-compose.tick.yml.j2
+    dest: /var/homelabos/tick/docker-compose.tick.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure tick systemd service.
+  template: src=tick.service dest=/etc/systemd/system/tick.service
+
+- name: Start tick
+  systemd:
+    name: tick
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

@@ -1,0 +1,23 @@
+---
+- name: Make thelounge directory.
+  file:
+    path: "/var/homelabos/thelounge"
+    state: directory
+
+- name: Copy thelounge docker-compose.yml file into place.
+  template:
+    src: docker-compose.thelounge.yml.j2
+    dest: /var/homelabos/thelounge/docker-compose.thelounge.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure thelounge systemd service.
+  template: src=thelounge.service dest=/etc/systemd/system/thelounge.service
+
+- name: Start thelounge
+  systemd:
+    name: thelounge
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

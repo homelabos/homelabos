@@ -34,6 +34,7 @@ pages:
       - Inventario: software/inventario.md
       - Jackett: software/jackett.md
       - Kibitzr: software/kibitzr.md
+      - Mashio: software/mashio.md
       - Matomo: software/matomo.md
       - Miniflux: software/miniflux.md
       - Minio: software/minio.md

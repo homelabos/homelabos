@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS mashio Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/mashio/docker-compose.mashio.yml -p mashio down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/mashio/docker-compose.mashio.yml -p mashio up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/mashio/docker-compose.mashio.yml -p mashio stop
+
+[Install]
+WantedBy=multi-user.target

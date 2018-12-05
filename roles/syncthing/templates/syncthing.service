@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS syncthing Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/syncthing/docker-compose.syncthing.yml -p syncthing down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/syncthing/docker-compose.syncthing.yml -p syncthing up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/syncthing/docker-compose.syncthing.yml -p syncthing stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,23 @@
+---
+- name: Make organizr directory.
+  file:
+    path: "/var/homelabos/organizr"
+    state: directory
+
+- name: Copy organizr docker-compose.yml file into place.
+  template:
+    src: docker-compose.organizr.yml.j2
+    dest: /var/homelabos/organizr/docker-compose.organizr.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure organizr systemd service.
+  template: src=organizr.service dest=/etc/systemd/system/organizr.service
+
+- name: Start organizr
+  systemd:
+    name: organizr
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

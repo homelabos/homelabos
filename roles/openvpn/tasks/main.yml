@@ -1,0 +1,23 @@
+---
+- name: Make openvpn directory.
+  file:
+    path: "/var/homelabos/openvpn"
+    state: directory
+
+- name: Copy openvpn docker-compose.yml file into place.
+  template:
+    src: docker-compose.openvpn.yml.j2
+    dest: /var/homelabos/openvpn/docker-compose.openvpn.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure openvpn systemd service.
+  template: src=openvpn.service dest=/etc/systemd/system/openvpn.service
+
+- name: Start openvpn
+  systemd:
+    name: openvpn
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

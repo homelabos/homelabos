@@ -4,6 +4,6 @@
 
 ## Access
 
-It is available at [https://warden.{{ domain }}/](https://warden.{{ domain }}/) or [http://warden.{{ domain }}/](http://warden.{{ domain }}/)
+It is available at [https://bitwarden.{{ domain }}/](https://bitwarden.{{ domain }}/) or [http://bitwarden.{{ domain }}/](http://bitwarden.{{ domain }}/)
 
-It is also available via Tor at [http://warden.{{ tor_domain }}/](http://warden.{{ tor_domain }}/)
+It is also available via Tor at [http://bitwarden.{{ tor_domain }}/](http://bitwarden.{{ tor_domain }}/)

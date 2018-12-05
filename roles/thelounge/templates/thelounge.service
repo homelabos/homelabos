@@ -1,0 +1,15 @@
+[Unit]
+Description=HomelabOS TheLounge Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/thelounge/docker-compose.thelounge.yml -p thelounge up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/thelounge/docker-compose.thelounge.yml -p thelounge stop
+
+[Install]
+WantedBy=multi-user.target

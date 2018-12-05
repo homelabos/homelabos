@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS matomo Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/matomo/docker-compose.matomo.yml -p matomo down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/matomo/docker-compose.matomo.yml -p matomo up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/matomo/docker-compose.matomo.yml -p matomo stop
+
+[Install]
+WantedBy=multi-user.target

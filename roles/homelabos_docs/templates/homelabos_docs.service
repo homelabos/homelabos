@@ -1,0 +1,15 @@
+[Unit]
+Description=HomelabOS Documentation Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/docs/docker-compose.docs.yml -p docs up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/docs/docker-compose.docs.yml -p docs stop
+
+[Install]
+WantedBy=multi-user.target

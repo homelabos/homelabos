@@ -1,0 +1,23 @@
+---
+- name: Make inventario directory.
+  file:
+    path: "/var/homelabos/inventario"
+    state: directory
+
+- name: Copy inventario docker-compose.yml file into place.
+  template:
+    src: docker-compose.inventario.yml.j2
+    dest: /var/homelabos/inventario/docker-compose.inventario.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure inventario systemd service.
+  template: src=inventario.service dest=/etc/systemd/system/inventario.service
+
+- name: Start inventario
+  systemd:
+    name: inventario
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

@@ -1,0 +1,58 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Torrent Downloader https://nickbusey.gitlab.io/HomelabOS/software/transmission/
+  transmission:
+    image: haugene/transmission-openvpn
+    networks:
+      - traefik_network
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: unless-stopped
+    ports:
+      - "9091:9091"
+      - "8888:8888"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/nas/Downloads:/data
+      - /mnt/nas/Downloads/watch:/data/watch
+      - /mnt/nas/Movies:/movies
+      - /mnt/nas/TV:/tv
+    environment:
+      - OPENVPN_PROVIDER=PIA
+      - OPENVPN_USERNAME={{ openvpn_username }}
+      - OPENVPN_PASSWORD={{ openvpn_password }}
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 300
+      - PGID=0
+      - PUID=0
+      - TZ={{ common_timezone }}
+      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+      # Password = `transmission`
+      - TRANSMISSION_RPC_PASSWORD="{62b16db87b89a91dd49a5110a7cafc06d20eb4f2wtK6kqPj"
+      - TRANSMISSION_RPC_USERNAME={{ default_username }}
+      - TRANSMISSION_SPEED_LIMIT_UP=100
+      - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
+      - TRANSMISSION_SPEED_LIMIT_DOWN=100
+      - TRANSMISSION_SPEED_LIMIT_DOWN_ENABLED=true
+      - TRANSMISSION_RATIO_LIMIT=2
+      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:torrent.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=9091"
+      - "traefik.tor.frontend.rule=Host:torrent.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=9091"

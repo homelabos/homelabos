@@ -1,0 +1,23 @@
+---
+- name: Make radarr directory.
+  file:
+    path: "/var/homelabos/radarr"
+    state: directory
+
+- name: Copy radarr docker-compose.yml file into place.
+  template:
+    src: docker-compose.radarr.yml.j2
+    dest: /var/homelabos/radarr/docker-compose.radarr.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure radarr systemd service.
+  template: src=radarr.service dest=/etc/systemd/system/radarr.service
+
+- name: Start radarr
+  systemd:
+    name: radarr
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

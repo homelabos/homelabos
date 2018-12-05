@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS miniflux Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/miniflux/docker-compose.miniflux.yml -p miniflux down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/miniflux/docker-compose.miniflux.yml -p miniflux up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/miniflux/docker-compose.miniflux.yml -p miniflux stop
+
+[Install]
+WantedBy=multi-user.target

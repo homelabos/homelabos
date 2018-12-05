@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS minio Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/minio/docker-compose.minio.yml -p minio down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/minio/docker-compose.minio.yml -p minio up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/minio/docker-compose.minio.yml -p minio stop
+
+[Install]
+WantedBy=multi-user.target

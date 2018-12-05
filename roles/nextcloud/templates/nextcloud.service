@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS nextcloud Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/nextcloud/docker-compose.nextcloud.yml -p nextcloud down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/nextcloud/docker-compose.nextcloud.yml -p nextcloud up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/nextcloud/docker-compose.nextcloud.yml -p nextcloud stop
+
+[Install]
+WantedBy=multi-user.target

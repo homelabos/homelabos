@@ -1,0 +1,23 @@
+---
+- name: Make jackett directory.
+  file:
+    path: "/var/homelabos/jackett"
+    state: directory
+
+- name: Copy jackett docker-compose.yml file into place.
+  template:
+    src: docker-compose.jackett.yml.j2
+    dest: /var/homelabos/jackett/docker-compose.jackett.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure jackett systemd service.
+  template: src=jackett.service dest=/etc/systemd/system/jackett.service
+
+- name: Start jackett
+  systemd:
+    name: jackett
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS plex Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/plex/docker-compose.plex.yml -p plex down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/plex/docker-compose.plex.yml -p plex up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/plex/docker-compose.plex.yml -p plex stop
+
+[Install]
+WantedBy=multi-user.target

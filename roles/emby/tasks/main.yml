@@ -1,0 +1,23 @@
+---
+- name: Make emby directory.
+  file:
+    path: "/var/homelabos/emby"
+    state: directory
+
+- name: Copy emby docker-compose.yml file into place.
+  template:
+    src: docker-compose.emby.yml.j2
+    dest: /var/homelabos/emby/docker-compose.emby.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure emby systemd service.
+  template: src=emby.service dest=/etc/systemd/system/emby.service
+
+- name: Start emby
+  systemd:
+    name: emby
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...
