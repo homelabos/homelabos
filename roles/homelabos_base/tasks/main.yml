@@ -84,7 +84,11 @@
   ignore_errors: "yes"
 
 - debug:
-    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started. You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}/ Finally you can SSH to {{ tor_ssh_domain_file.stdout }}"
+    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started."
+    
+- debug:
+    msg: "You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}/ Finally you can SSH to {{ tor_ssh_domain_file.stdout }}"
+  when: enable_tor
 
 - debug:
     msg: "Problems? File an issue at https://gitlab.com/NickBusey/HomelabOS/issues"

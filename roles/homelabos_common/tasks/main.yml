@@ -35,6 +35,7 @@
       - unattended-upgrades
       - vim
       - zsh
+      - docker.io
       - docker-compose
   tags:
     - dependencies

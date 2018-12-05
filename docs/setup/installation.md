@@ -14,6 +14,16 @@ To change any setting, edit your `config.yml` file, then run `make config` again
 
 To reset your settings, run `make config_reset`, then run `make config` again.
 
+## Debugging
+
+### 404
+
+If you're up and running, but getting a 404, load [http://YOURSERVERIP:8181/]. This is the Traefik dashboard.
+Each service under the `Frontends` column has a section `Route Rule - Host:`. The hostname after `Host:` is the
+hostname that Traefik is listening to for that particular service. You need to be able to `ping` that hostname
+from your computer, and you should get back the IP address of your server. Once that is the case, accessing the
+hostname in a browser will load the respective service.
+
 ## Network Configuration
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
