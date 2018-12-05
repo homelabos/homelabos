@@ -1,0 +1,23 @@
+---
+- name: Make kibitzr directory.
+  file:
+    path: "/var/homelabos/kibitzr"
+    state: directory
+
+- name: Copy kibitzr docker-compose.yml file into place.
+  template:
+    src: docker-compose.kibitzr.yml.j2
+    dest: /var/homelabos/kibitzr/docker-compose.kibitzr.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure kibitzr systemd service.
+  template: src=kibitzr.service dest=/etc/systemd/system/kibitzr.service
+
+- name: Start kibitzr
+  systemd:
+    name: kibitzr
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

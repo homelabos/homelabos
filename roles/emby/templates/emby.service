@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS emby Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/emby/docker-compose.emby.yml -p emby down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/emby/docker-compose.emby.yml -p emby up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/emby/docker-compose.emby.yml -p emby stop
+
+[Install]
+WantedBy=multi-user.target

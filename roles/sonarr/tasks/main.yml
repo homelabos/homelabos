@@ -1,0 +1,23 @@
+---
+- name: Make sonarr directory.
+  file:
+    path: "/var/homelabos/sonarr"
+    state: directory
+
+- name: Copy sonarr docker-compose.yml file into place.
+  template:
+    src: docker-compose.sonarr.yml.j2
+    dest: /var/homelabos/sonarr/docker-compose.sonarr.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure sonarr systemd service.
+  template: src=sonarr.service dest=/etc/systemd/system/sonarr.service
+
+- name: Start sonarr
+  systemd:
+    name: sonarr
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

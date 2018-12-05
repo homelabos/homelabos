@@ -9,3 +9,4 @@ kibitzr.yml
 kibitzr-creds.yml
 config.yml
 inventory
+fetch/

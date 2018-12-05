@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS kibitzr Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/kibitzr/docker-compose.kibitzr.yml -p kibitzr down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/kibitzr/docker-compose.kibitzr.yml -p kibitzr up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/kibitzr/docker-compose.kibitzr.yml -p kibitzr stop
+
+[Install]
+WantedBy=multi-user.target

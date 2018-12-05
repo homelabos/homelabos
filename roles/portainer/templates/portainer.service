@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS portainer Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/portainer/docker-compose.portainer.yml -p portainer down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/portainer/docker-compose.portainer.yml -p portainer up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/portainer/docker-compose.portainer.yml -p portainer stop
+
+[Install]
+WantedBy=multi-user.target

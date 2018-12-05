@@ -8,6 +8,8 @@ This software has not reached version 1.0 and should therefore be considered uns
 
 If you like getting your hands dirty in early versions of software, this is for you. If you prefer to wait till things are stable and friendly, maybe hold off for a while.
 
+Also, if you trash your server or wreck your data, that's on you. Test your backups. Trust nothing.
+
 ## [Documentation](https://nickbusey.gitlab.io/HomelabOS/)
 
 ## Summary

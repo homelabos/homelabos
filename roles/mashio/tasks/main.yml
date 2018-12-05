@@ -1,0 +1,23 @@
+---
+- name: Make mashio directory.
+  file:
+    path: "/var/homelabos/mashio"
+    state: directory
+
+- name: Copy mashio docker-compose.yml file into place.
+  template:
+    src: docker-compose.mashio.yml.j2
+    dest: /var/homelabos/mashio/docker-compose.mashio.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure mashio systemd service.
+  template: src=mashio.service dest=/etc/systemd/system/mashio.service
+
+- name: Start mashio
+  systemd:
+    name: mashio
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

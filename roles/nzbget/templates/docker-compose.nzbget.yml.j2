@@ -1,0 +1,33 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Usenet Downloader
+  nzbget:
+    image: linuxserver/nzbget
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    ports:
+      - 6789:6789
+    environment:
+      - TZ={{ common_timezone }}
+    volumes:
+      - /var/homelabos/nzbget:/config
+      - /mnt/nas/Downloads:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:nzbget.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=6789"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:nzbget.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=6789"

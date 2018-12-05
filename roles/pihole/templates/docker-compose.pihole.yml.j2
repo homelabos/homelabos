@@ -1,0 +1,37 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Network level ad blocking
+  pihole:
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    volumes:
+      - /var/homelabos/pihole/config/:/etc/pihole/
+      - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/
+    environment:
+      - WEBPASSWORD={{ default_password }}
+      - VIRTUAL_HOST=pihole.{{ domain }}
+      - ServerIP={{ ansible_ssh_host }}
+    # ports:
+    #   - 53:53/tcp
+    #   - 53:53/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:pihole.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+    extra_hosts:
+{% for service in services %}
+      - {{ service }}.{{ domain }}:{{ ansible_ssh_host }}
+{% endfor %}

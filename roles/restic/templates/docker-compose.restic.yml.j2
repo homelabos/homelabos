@@ -1,0 +1,27 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Backups https://nickbusey.gitlab.io/HomelabOS/software/restic/
+  restic:
+    image: lobaro/restic-backup-docker:v1.0
+    restart: unless-stopped
+    environment:
+      - RESTIC_REPOSITORY={{ s3_path }}
+      - AWS_ACCESS_KEY_ID={{ s3_access_key }}
+      - AWS_SECRET_ACCESS_KEY={{ s3_secret_key }}
+      - RESTIC_PASSWORD={{ s3_backup_password }}
+      - BACKUP_CRON={{ s3_backup_cron }}
+      - HOSTNAME={{ domain }}
+      - RESTIC_JOB_ARGS="--exclude=minio"
+      - RESTIC_FORGET_ARGS="--prune --keep-last 10 --keep-hourly 24 --keep-daily 7 --keep-weekly 52 --keep-monthly 120 --keep-yearly 100"
+    links:
+      - minio
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/homelabos:/data:ro

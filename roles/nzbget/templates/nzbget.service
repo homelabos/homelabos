@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS nzbget Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/nzbget/docker-compose.nzbget.yml -p nzbget down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/nzbget/docker-compose.nzbget.yml -p nzbget up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/nzbget/docker-compose.nzbget.yml -p nzbget stop
+
+[Install]
+WantedBy=multi-user.target

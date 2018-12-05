@@ -1,0 +1,47 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Home Brewery Management
+  app:
+    image: nickbusey/mashio
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    links:
+      - mashio_db
+    environment:
+      - MYSQL_DATABASE=mashio
+      - MYSQL_TEST_DATABASE=mashio_test
+      - MYSQL_USER=mashio
+      - MYSQL_PASSWORD=mashio
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:mashio.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:mashio.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+
+  mashio_db:
+    image: mariadb
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/mashio_db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mashio
+      - MYSQL_DATABASE=mashio
+      - MYSQL_TEST_DATABASE=mashio_test
+      - MYSQL_USER=mashio
+      - MYSQL_PASSWORD=mashio

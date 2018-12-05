@@ -22,5 +22,5 @@
       private: "False"
 
   roles:
-    - setup
+    - homelabos_setup
 ...

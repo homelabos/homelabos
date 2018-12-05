@@ -8,6 +8,7 @@ enable_bitwarden: False
 enable_bulletnotes: False
 enable_darksky_influx: False
 enable_dasher: False
+enable_docs: False
 enable_emby: False
 enable_firefly_iii: False
 enable_gitea: False
@@ -16,6 +17,7 @@ enable_homeassistant: False
 enable_inventario: False
 enable_jackett: False
 enable_kibitzr: False
+enable_mashio: False
 enable_matomo: False
 enable_miniflux: False
 enable_minio: False
@@ -33,6 +35,7 @@ enable_radarr: False
 enable_restic: False
 enable_syncthing: False
 enable_thelounge: False
+enable_tick: False
 enable_transmission: False
 enable_xfinityusageinfluxdb: False
 
@@ -79,24 +82,29 @@ s3_backup_cron: 0 4 * * *
 
 # Service List
 services:
-  - warden
+  - bitwarden
   - bulletnotes
   - docs
   - emby
-  - money
-  - git
+  - firefly_iii
+  - gitea
   - grafana
   - homeassistant
+  - inventario
+  - mashio
   - matomo
-  - rss
+  - miniflux
   - minio
-  - monica
+  - monicahq
   - nextcloud
+  - organizr
   - paperless
   - pihole
-  - docker
+  - portainer
   - sonarr
   - radarr
-  - sync
+  - syncthing
   - thelounge
-  - torrent
+  - tick
+  - tinc
+  - transmission

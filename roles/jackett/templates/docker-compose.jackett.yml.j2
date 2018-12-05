@@ -1,0 +1,21 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Torrent API
+  jackett:
+    image: linuxserver/jackett
+    restart: unless-stopped
+    volumes:
+      - /var/homelabos/jackett/config:/config
+      - /var/homelabos/jackett/downloads:/downloads
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ={{ common_timezone }}
+    ports:
+      - 9117:9117

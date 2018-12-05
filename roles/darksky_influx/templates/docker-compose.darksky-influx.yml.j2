@@ -1,0 +1,25 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Weather Data Importer
+  darksky_influx:
+    image: erwinsteffens/darksky-influxdb:latest
+    restart: always
+    networks:
+      - traefik_network
+    links:
+      - influxdb
+    environment:
+      - DARKSKY_KEY={{ darksky_key }}
+      # This is every 2 minutes. This is about as fast as you can go with the free API keys without running out of queries.
+      - CRON=0 */2 * * * *
+      - INFLUXDB_HOST=influxdb
+      - INFLUXDB_DATABASE=darksky
+      - DARKSKY_LATITUDE={{ latitude }}
+      - DARKSKY_LONGITUDE={{ longitude }}

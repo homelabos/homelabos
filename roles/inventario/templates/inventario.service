@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS inventario Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/inventario/docker-compose.inventario.yml -p inventario down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/inventario/docker-compose.inventario.yml -p inventario up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/inventario/docker-compose.inventario.yml -p inventario stop
+
+[Install]
+WantedBy=multi-user.target

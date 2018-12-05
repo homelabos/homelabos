@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS gitea Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/gitea/docker-compose.gitea.yml -p gitea down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/gitea/docker-compose.gitea.yml -p gitea up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/gitea/docker-compose.gitea.yml -p gitea stop
+
+[Install]
+WantedBy=multi-user.target

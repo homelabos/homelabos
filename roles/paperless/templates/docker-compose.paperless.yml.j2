@@ -1,0 +1,58 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Document Storage
+  paperless:
+    image: danielquinn/paperless
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    ports:
+      - "8325:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - /var/homelabos/paperless/data:/usr/src/paperless/data
+      - /var/homelabos/paperless/media:/usr/src/paperless/media
+      - /mnt/nas/Documents/consume:/consume
+      - /mnt/nas/Documents/export:/export
+    environment:
+      - PAPERLESS_OCR_LANGUAGES=
+      - PAPERLESS_PASSPHRASE=homelabos
+    command: ["runserver", "--insecure", "--noreload", "0.0.0.0:8000"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:paperless.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8000"
+      - "traefik.tor.frontend.rule=Host:paperless.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8000"
+
+  paperless_consumer:
+    image: danielquinn/paperless
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    depends_on:
+      - paperless
+    volumes:
+      - /var/homelabos/paperless/data:/usr/src/paperless/data
+      - /var/homelabos/paperless/media:/usr/src/paperless/media
+      - /mnt/nas/Documents/consume:/consume
+      - /mnt/nas/Documents/export:/export
+    environment:
+      - PAPERLESS_PASSPHRASE=homelabos
+    command: ["document_consumer"]

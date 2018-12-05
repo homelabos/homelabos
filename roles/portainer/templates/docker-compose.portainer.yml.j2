@@ -1,0 +1,28 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Docker Control
+  portainer:
+    image: portainer/portainer
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/homelabos/portainer:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:portainer.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=9000"
+      - "traefik.tor.frontend.rule=Host:portainer.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=9000"

@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS tick Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/tick/docker-compose.tick.yml -p tick down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/tick/docker-compose.tick.yml -p tick up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/tick/docker-compose.tick.yml -p tick stop
+
+[Install]
+WantedBy=multi-user.target

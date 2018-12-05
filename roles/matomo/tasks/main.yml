@@ -1,0 +1,23 @@
+---
+- name: Make matomo directory.
+  file:
+    path: "/var/homelabos/matomo"
+    state: directory
+
+- name: Copy matomo docker-compose.yml file into place.
+  template:
+    src: docker-compose.matomo.yml.j2
+    dest: /var/homelabos/matomo/docker-compose.matomo.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure matomo systemd service.
+  template: src=matomo.service dest=/etc/systemd/system/matomo.service
+
+- name: Start matomo
+  systemd:
+    name: matomo
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS organizr Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/organizr/docker-compose.organizr.yml -p organizr down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/organizr/docker-compose.organizr.yml -p organizr up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/organizr/docker-compose.organizr.yml -p organizr stop
+
+[Install]
+WantedBy=multi-user.target

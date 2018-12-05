@@ -1,0 +1,52 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Financial Tracker
+  firefly_iii_app:
+    restart: unless-stopped
+    environment:
+      - FF_DB_HOST=firefly_iii_db
+      - FF_DB_NAME=firefly_db
+      - FF_DB_USER=firefly_db
+      - FF_DB_PASSWORD=firefly_db_secret
+      - FF_APP_KEY=S0m3R@nd0mStr1ngOf31Ch@rsEx@ctly
+      - FF_APP_ENV=local
+      - APP_URL=https://money.{{ domain }}
+      - TZ={{ common_timezone }}
+      - ServerName=money.{{ domain }}
+    image: jc5x/firefly-iii
+    links:
+      - firefly_iii_db
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/firefly/export:/var/www/firefly-iii/storage/export
+      - /var/homelabos/firefly/upload:/var/www/firefly-iii/storage/upload
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:money.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.tor.frontend.rule=Host:money.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+
+  firefly_iii_db:
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      - MYSQL_DATABASE=firefly_db
+      - MYSQL_USER=firefly_db
+      - MYSQL_PASSWORD=firefly_db_secret
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    image: mariadb
+    volumes:
+      - /var/homelabos/firefly/db:/var/lib/mysql

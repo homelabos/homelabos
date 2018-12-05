@@ -1,0 +1,11 @@
+---
+version: '3'
+
+services:
+  # Amazon Dash Button
+  dasher:
+    image: hijinx/dasher
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /var/homelabos/dasher/config.json:/usr/src/app/config/config.json

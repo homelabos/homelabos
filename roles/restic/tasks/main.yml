@@ -1,0 +1,23 @@
+---
+- name: Make restic directory.
+  file:
+    path: "/var/homelabos/restic"
+    state: directory
+
+- name: Copy restic docker-compose.yml file into place.
+  template:
+    src: docker-compose.restic.yml.j2
+    dest: /var/homelabos/restic/docker-compose.restic.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure restic systemd service.
+  template: src=restic.service dest=/etc/systemd/system/restic.service
+
+- name: Start restic
+  systemd:
+    name: restic
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

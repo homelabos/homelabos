@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS pihole Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/pihole/docker-compose.pihole.yml -p pihole down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/pihole/docker-compose.pihole.yml -p pihole up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/pihole/docker-compose.pihole.yml -p pihole stop
+
+[Install]
+WantedBy=multi-user.target

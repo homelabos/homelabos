@@ -1,0 +1,51 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+ # Code Hosting
+  gitea:
+    image: gitea/gitea:latest
+    networks:
+      - traefik_network
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: unless-stopped
+    links:
+      - gitea_db:db
+    volumes:
+      - /var/lab/homelabos/gitea:/data
+    ports:
+      - "3030:3000"
+      - "222:22"
+    depends_on:
+      - gitea_db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:gitea.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=3000"
+      - "traefik.tor.frontend.rule=Host:gitea.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=3000"
+
+  gitea_db:
+    image: mariadb
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=gitea
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=gitea
+      - MYSQL_DATABASE=gitea
+    volumes:
+      - /var/homelabos/gitea_db:/var/lib/mysql

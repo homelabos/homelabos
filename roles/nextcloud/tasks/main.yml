@@ -1,0 +1,23 @@
+---
+- name: Make nextcloud directory.
+  file:
+    path: "/var/homelabos/nextcloud"
+    state: directory
+
+- name: Copy nextcloud docker-compose.yml file into place.
+  template:
+    src: docker-compose.nextcloud.yml.j2
+    dest: /var/homelabos/nextcloud/docker-compose.nextcloud.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure nextcloud systemd service.
+  template: src=nextcloud.service dest=/etc/systemd/system/nextcloud.service
+
+- name: Start nextcloud
+  systemd:
+    name: nextcloud
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

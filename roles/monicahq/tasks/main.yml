@@ -1,0 +1,23 @@
+---
+- name: Make monicahq directory.
+  file:
+    path: "/var/homelabos/monicahq"
+    state: directory
+
+- name: Copy monicahq docker-compose.yml file into place.
+  template:
+    src: docker-compose.monicahq.yml.j2
+    dest: /var/homelabos/monicahq/docker-compose.monicahq.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure monicahq systemd service.
+  template: src=monicahq.service dest=/etc/systemd/system/monicahq.service
+
+- name: Start monicahq
+  systemd:
+    name: monicahq
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

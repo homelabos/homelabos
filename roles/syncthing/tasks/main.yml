@@ -1,0 +1,23 @@
+---
+- name: Make syncthing directory.
+  file:
+    path: "/var/homelabos/syncthing"
+    state: directory
+
+- name: Copy syncthing docker-compose.yml file into place.
+  template:
+    src: docker-compose.syncthing.yml.j2
+    dest: /var/homelabos/syncthing/docker-compose.syncthing.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure syncthing systemd service.
+  template: src=syncthing.service dest=/etc/systemd/system/syncthing.service
+
+- name: Start syncthing
+  systemd:
+    name: syncthing
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

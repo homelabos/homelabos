@@ -1,0 +1,23 @@
+---
+- name: Make bitwarden directory.
+  file:
+    path: "/var/homelabos/bitwarden"
+    state: directory
+
+- name: Copy bitwarden docker-compose.yml file into place.
+  template:
+    src: docker-compose.bitwarden.yml.j2
+    dest: /var/homelabos/bitwarden/docker-compose.bitwarden.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure bitwarden systemd service.
+  template: src=bitwarden.service dest=/etc/systemd/system/bitwarden.service
+
+- name: Start bitwarden
+  systemd:
+    name: bitwarden
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

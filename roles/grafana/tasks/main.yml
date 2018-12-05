@@ -1,0 +1,23 @@
+---
+- name: Make grafana directory.
+  file:
+    path: "/var/homelabos/grafana"
+    state: directory
+
+- name: Copy grafana docker-compose.yml file into place.
+  template:
+    src: docker-compose.grafana.yml.j2
+    dest: /var/homelabos/grafana/docker-compose.grafana.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout }}"
+
+- name: Configure grafana systemd service.
+  template: src=grafana.service dest=/etc/systemd/system/grafana.service
+
+- name: Start grafana
+  systemd:
+    name: grafana
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

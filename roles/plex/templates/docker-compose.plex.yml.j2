@@ -1,0 +1,27 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Plex Media Server
+  plex:
+    image: linuxserver/plex
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - /var/homelabos/plex:/config
+      - /mnt/nas:/mnt/nas
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:plex.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=32400"
+      - "traefik.tor.frontend.rule=Host:plex.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=32400"

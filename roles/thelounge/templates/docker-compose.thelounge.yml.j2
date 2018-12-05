@@ -1,0 +1,27 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+ # IRC Bouncer
+  thelounge:
+    image: linuxserver/thelounge
+    restart: unless-stopped
+    volumes:
+      - /var/homelabos/thelounge:/config
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.frontend.rule=Host:thelounge.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=9000"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:thelounge.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=9000"
