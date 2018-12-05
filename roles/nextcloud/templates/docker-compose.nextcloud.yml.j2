@@ -39,6 +39,8 @@ services:
 
   nextcloud_db:
     image: mariadb
+    networks:
+      - traefik_network
     restart: unless-stopped
     volumes:
       - /var/homelabos/nextcloud_db:/var/lib/mysql

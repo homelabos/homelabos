@@ -21,8 +21,16 @@
   roles:
     # Install Docker, configure basic server settings
     - homelabos_common
-    # Configure a TOR hidden service for remote access without a public IP
+
+# Configure a TOR hidden service for remote access without a public IP
+- name: "Setup TOR"
+  tags: tinc
+  hosts: all
+  become: yes
+  become_method: sudo
+  roles:
     - role: tor
+      when: enable_tor
       hidden_services:
         - dir: /var/lib/tor/ssh-onion
           port: 22
@@ -42,8 +50,7 @@
   become_method: sudo
   roles:
     - role: homelabos_tinc
-      when:
-        - enable_tinc
+      when: enable_tinc
 
 - name: "Update Tinc NGINX Servers"
   hosts: tinc

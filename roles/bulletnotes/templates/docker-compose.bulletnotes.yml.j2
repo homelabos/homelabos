@@ -9,6 +9,8 @@ networks:
 services:
   bulletnotes_db:
     image: mongo:3.2.21
+    networks:
+      - traefik_network
     restart: unless-stopped
     command: mongod --smallfiles --oplogSize 128
     expose:
@@ -19,13 +21,13 @@ services:
 
   bulletnotes:
     image: nickbusey/bulletnotes
+    networks:
+      - traefik_network
     command: meteor --allow-superuser run
     working_dir: /BulletNotes
     links:
       - bulletnotes_db
     restart: unless-stopped
-    networks:
-      - traefik_network
     environment:
       - MONGO_URL=mongodb://bulletnotes_db:27017/bulletnotes
       - ROOT_URL=http://bulletnotes.{{ domain }}
