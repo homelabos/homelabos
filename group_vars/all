@@ -2,6 +2,7 @@
 common_timezone: Etc/UTC
 
 enable_tinc: False
+enable_tor: False
 
 enable_apple_health_influx: False
 enable_bitwarden: False
