@@ -2,7 +2,7 @@
 
 Your very own offline-first open-source data-center!
 
-## Beta Software
+## Beta Software Warning
 
 This software has not reached version 1.0 and should therefore be considered unstable. While any tagged version should work well on its own, a nice friendly upgrade path from one version to another is not guaranteed.
 
@@ -57,6 +57,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
 * [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
+* [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 * [Matomo](https://matomo.org/) - Web analytics
 * [Minio](https://minio.io/) - S3 hosting
 * [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
@@ -77,10 +78,8 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 A server with:
 
-* 8G of RAM (to run all services, you can disable a bunch potentially and run with less memory)
 * Ubuntu 18.04
-* Passwordless SSH (with ssh keys)
-* A user that has passwordless sudo
+* Passwordless SSH (with ssh keys) to a user that has passwordless sudo.
 
 Ansible version 2.5+ installed on your computer (not the server).
 
