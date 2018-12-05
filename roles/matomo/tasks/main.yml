@@ -9,7 +9,7 @@
     src: docker-compose.matomo.yml.j2
     dest: /var/homelabos/matomo/docker-compose.matomo.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure matomo systemd service.
   template: src=matomo.service dest=/etc/systemd/system/matomo.service

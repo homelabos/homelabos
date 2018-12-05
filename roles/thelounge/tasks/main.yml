@@ -9,7 +9,7 @@
     src: docker-compose.thelounge.yml.j2
     dest: /var/homelabos/thelounge/docker-compose.thelounge.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure thelounge systemd service.
   template: src=thelounge.service dest=/etc/systemd/system/thelounge.service

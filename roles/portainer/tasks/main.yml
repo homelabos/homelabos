@@ -9,7 +9,7 @@
     src: docker-compose.portainer.yml.j2
     dest: /var/homelabos/portainer/docker-compose.portainer.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure portainer systemd service.
   template: src=portainer.service dest=/etc/systemd/system/portainer.service

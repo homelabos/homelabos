@@ -9,7 +9,7 @@
     src: docker-compose.homeassistant.yml.j2
     dest: /var/homelabos/homeassistant/docker-compose.homeassistant.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure homeassistant systemd service.
   template: src=homeassistant.service dest=/etc/systemd/system/homeassistant.service

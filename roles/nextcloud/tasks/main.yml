@@ -9,7 +9,7 @@
     src: docker-compose.nextcloud.yml.j2
     dest: /var/homelabos/nextcloud/docker-compose.nextcloud.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure nextcloud systemd service.
   template: src=nextcloud.service dest=/etc/systemd/system/nextcloud.service

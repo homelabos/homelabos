@@ -9,7 +9,7 @@
     src: docker-compose.openvpn.yml.j2
     dest: /var/homelabos/openvpn/docker-compose.openvpn.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure openvpn systemd service.
   template: src=openvpn.service dest=/etc/systemd/system/openvpn.service

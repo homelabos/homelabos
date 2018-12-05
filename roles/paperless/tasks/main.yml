@@ -9,7 +9,7 @@
     src: docker-compose.paperless.yml.j2
     dest: /var/homelabos/paperless/docker-compose.paperless.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure paperless systemd service.
   template: src=paperless.service dest=/etc/systemd/system/paperless.service

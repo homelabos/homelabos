@@ -9,7 +9,7 @@
     src: docker-compose.bulletnotes.yml.j2
     dest: /var/homelabos/bulletnotes/docker-compose.bulletnotes.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure bulletnotes systemd service.
   template: src=bulletnotes.service dest=/etc/systemd/system/bulletnotes.service

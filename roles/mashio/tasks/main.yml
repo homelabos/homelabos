@@ -9,7 +9,7 @@
     src: docker-compose.mashio.yml.j2
     dest: /var/homelabos/mashio/docker-compose.mashio.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure mashio systemd service.
   template: src=mashio.service dest=/etc/systemd/system/mashio.service

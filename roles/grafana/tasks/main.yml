@@ -9,7 +9,7 @@
     src: docker-compose.grafana.yml.j2
     dest: /var/homelabos/grafana/docker-compose.grafana.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure grafana systemd service.
   template: src=grafana.service dest=/etc/systemd/system/grafana.service

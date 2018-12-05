@@ -9,7 +9,7 @@
     src: docker-compose.minio.yml.j2
     dest: /var/homelabos/minio/docker-compose.minio.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure minio systemd service.
   template: src=minio.service dest=/etc/systemd/system/minio.service

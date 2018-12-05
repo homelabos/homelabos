@@ -9,7 +9,7 @@
     src: docker-compose.tick.yml.j2
     dest: /var/homelabos/tick/docker-compose.tick.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure tick systemd service.
   template: src=tick.service dest=/etc/systemd/system/tick.service
