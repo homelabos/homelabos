@@ -24,6 +24,12 @@ hostname that Traefik is listening to for that particular service. You need to b
 from your computer, and you should get back the IP address of your server. Once that is the case, accessing the
 hostname in a browser will load the respective service.
 
+### SSL Not working
+
+Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. So it may take several days before
+all of your services get valid SSL certs generated for them. You can tail the logs of the traefik container to see
+the status of it's generation.
+
 ## Network Configuration
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
