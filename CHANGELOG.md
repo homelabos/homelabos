@@ -1,5 +1,7 @@
-# 0.5 Release Candidate
-* Added Inventario - Home Inventory Managament Software
+# 0.5 - Release Candidate
+* Improved deployment - Each service is now fully independent from each other.
+* Added Inventario - Home Inventory Management Software
+* Added Mashio - Home Brewery Management Software
 * Fixed various bugs
 
 # 0.4
