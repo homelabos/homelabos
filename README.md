@@ -29,6 +29,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 * Automated Tor Onion Service access
 * Automated HTTPS via LetsEncrypt
 * OpenVPN
+* OpenLDAP
 * Cloud Bastion Server with Tinc VPN
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
@@ -41,7 +42,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 If you have the latest version of Vagrant and Virtual Box setup you can demo things locally by running `make develop`. This will spin up a temporary developer copy on your local computer without needing an actual server to point things at. Note no data will actually be saved from inside the VM, so this is for testing only.
 
-## Included Software
+## Available Software
 
 * [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
 * [BulletNotes](https://gitlab.com/NickBusey/BulletNotes.git) - Note taking application
@@ -53,6 +54,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Gitea](https://gitea.io/en-US/) - Git hosting
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
+* [Homedash](https://lamarios.github.io/Homedash2/) - Dashboard
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
@@ -65,6 +67,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 * [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 * [Paperless](https://github.com/danielquinn/paperless) - Document management
+* [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 * [Pi-hole](https://pi-hole.net/) - Ad blocking
 * [Plex](https://www.plex.tv/) - Personal Media Server
 * [Portainer](https://www.portainer.io/) - Easy Docker management

@@ -2,6 +2,7 @@
 * Improved deployment - Each service is now fully independent from each other.
 * Added Inventario - Home Inventory Management Software
 * Added Mashio - Home Brewery Management Software
+* Added Homedash - Home Server Dashboard Software
 * Fixed various bugs
 
 # 0.4

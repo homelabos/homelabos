@@ -10,7 +10,7 @@ From inside the HomelabOS folder execute the terminal command `make config` to c
 
 Once that is done, you can run `make` to have HomelabOS install itself.
 
-To change any setting, edit your `config.yml` file, then run `make config` again.
+To change any setting, edit your `config.yml` file, then run `make update`.
 
 To reset your settings, run `make config_reset`, then run `make config` again.
 

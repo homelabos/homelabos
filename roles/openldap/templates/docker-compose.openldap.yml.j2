@@ -1,0 +1,44 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  openldap:
+    image: osixia/openldap:1.2.2
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    ports:
+      - 389:389
+      - 689:689
+    volumes:
+      - /var/homelabos/openldap/data:/var/lib/data
+      - /var/homelabos/openldap/config:/etc/ldap/slapd.d
+    environment:
+      - LDAP_ORGANISATION="{{ ldap_org_name }}"
+      - LDAP_DOMAIN="{{ domain }}"
+      - LDAP_ADMIN_PASSWORD="{{ default_password }}"
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:0.7.2
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:phpldapadmin.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.tor.frontend.rule=Host:phpldapadmin.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+

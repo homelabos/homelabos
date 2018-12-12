@@ -7,28 +7,24 @@ networks:
       name: homelabos_traefik
 
 services:
-  # Torrent API
-  jackett:
-    image: linuxserver/jackett
-    restart: unless-stopped
+  homedash:
+    image: gonzague/homedash
     volumes:
-      - /var/homelabos/jackett/config:/config
-      - /var/homelabos/jackett/downloads:/downloads
       - /etc/localtime:/etc/localtime:ro
+      - /var/homelabos/homedash:/data
     environment:
-      - TZ={{ common_timezone }}
-    ports:
-      - 9117:9117
+      - SALT=ivPWITRH5KPJE5oQQAgxuiCgIxBez6MF6idGmasWTUjZzhEx3iAtnI9TSAo6HAevApRoujC5
+    restart: unless-stopped
     networks:
       - traefik_network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:jackett.{{ domain }}"
+      - "traefik.http.frontend.rule=Host:homedash.{{ domain }}"
       - "traefik.http.protocol=http"
-      - "traefik.http.port=9117"
+      - "traefik.http.port=4567"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.tor.frontend.rule=Host:jackett.{{ tor_domain }}"
+      - "traefik.tor.frontend.rule=Host:homedash.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=9117"
+      - "traefik.tor.port=4567"

@@ -4,7 +4,7 @@ common_timezone: Etc/UTC
 enable_tinc: False
 enable_tor: False
 
-enable_apple_health_influx: False
+
 enable_bitwarden: False
 enable_bulletnotes: False
 enable_darksky_influx: False
@@ -15,6 +15,7 @@ enable_firefly_iii: False
 enable_gitea: False
 enable_grafana: False
 enable_homeassistant: False
+enable_homedash: False
 enable_inventario: False
 enable_jackett: False
 enable_kibitzr: False
@@ -25,6 +26,7 @@ enable_minio: False
 enable_monicahq: False
 enable_nextcloud: False
 enable_nzbget: False
+enable_openldap: False
 enable_openvpn: False
 enable_organizr: False
 enable_paperless: False
@@ -81,6 +83,8 @@ vpn_subnet_cidr_netmask: 32
 s3_path: s3:http://minio:9000/restic-backups/
 s3_backup_cron: 0 4 * * *
 
+ldap_org_name: My Family
+
 # Service List
 services:
   - bitwarden
@@ -91,16 +95,20 @@ services:
   - gitea
   - grafana
   - homeassistant
+  - homedash
   - inventario
+  - jackett
   - mashio
   - matomo
   - miniflux
   - minio
   - monicahq
   - nextcloud
+  - openldap
   - organizr
   - paperless
   - pihole
+  - plex
   - portainer
   - sonarr
   - radarr

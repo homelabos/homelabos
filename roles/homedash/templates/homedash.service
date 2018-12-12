@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS homedash Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f /var/homelabos/homedash/docker-compose.homedash.yml -p homedash down
+
+ExecStart=/usr/bin/docker-compose -f /var/homelabos/homedash/docker-compose.homedash.yml -p homedash up
+ExecStop=/usr/bin/docker-compose -f /var/homelabos/homedash/docker-compose.homedash.yml -p homedash stop
+
+[Install]
+WantedBy=multi-user.target
