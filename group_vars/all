@@ -78,6 +78,8 @@ physical_ip: 8.8.8.8
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
+tincserver_ip:
+tincserver_ssh_user:
 
 # Backup Stuff
 s3_path: s3:http://minio:9000/restic-backups/
