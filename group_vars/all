@@ -115,5 +115,4 @@ services:
   - syncthing
   - thelounge
   - tick
-  - tinc
   - transmission
