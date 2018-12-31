@@ -70,7 +70,7 @@
 - name: Deploy enabled services.
   include_role:
     name: "{{ item }}"
-  when: enable_{{ item }}
+  when: "enabled_services[item]"
   with_items:
     - "{{ services }}"
 
@@ -78,7 +78,7 @@
   systemd:
     name: "{{ item }}"
     state: stopped
-  when: enable_{{ item }} == False
+  when: "not enabled_services[item]"
   with_items:
     - "{{ services }}"
   ignore_errors: "yes"

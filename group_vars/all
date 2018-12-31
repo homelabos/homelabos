@@ -42,6 +42,47 @@ enable_tick: False
 enable_transmission: False
 enable_xfinityusageinfluxdb: False
 
+enabled_services:
+  tinc: "{{ enable_tinc }}"
+  tor: "{{ enable_tor }}"
+  apple_health_influx: "{{ enable_apple_health_influx }}"
+  bitwarden: "{{ enable_bitwarden }}"
+  bulletnotes: "{{ enable_bulletnotes }}"
+  darksky_influx: "{{ enable_darksky_influx }}"
+  dasher: "{{ enable_dasher }}"
+  docs: "{{ enable_docs }}"
+  emby: "{{ enable_emby }}"
+  firefly_iii: "{{ enable_firefly_iii }}"
+  gitea: "{{ enable_gitea }}"
+  grafana: "{{ enable_grafana }}"
+  homeassistant: "{{ enable_homeassistant }}"
+  homedash: "{{ enable_homedash }}"
+  inventario: "{{ enable_inventario }}"
+  jackett: "{{ enable_jackett }}"
+  kibitzr: "{{ enable_kibitzr }}"
+  mashio: "{{ enable_mashio }}"
+  matomo: "{{ enable_matomo }}"
+  miniflux: "{{ enable_miniflux }}"
+  minio: "{{ enable_minio }}"
+  monicahq: "{{ enable_monicahq }}"
+  nextcloud: "{{ enable_nextcloud }}"
+  nzbget: "{{ enable_nzbget }}"
+  openldap: "{{ enable_openldap }}"
+  openvpn: "{{ enable_openvpn }}"
+  organizr: "{{ enable_organizr }}"
+  paperless: "{{ enable_paperless }}"
+  pihole: "{{ enable_pihole }}"
+  plex: "{{ enable_plex }}"
+  portainer: "{{ enable_portainer }}"
+  sonarr: "{{ enable_sonarr }}"
+  radarr: "{{ enable_radarr }}"
+  restic: "{{ enable_restic }}"
+  syncthing: "{{ enable_syncthing }}"
+  thelounge: "{{ enable_thelounge }}"
+  tick: "{{ enable_tick }}"
+  transmission: "{{ enable_transmission }}"
+  xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
+
 darksky_key:
 latitude:
 longitude:
