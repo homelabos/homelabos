@@ -48,6 +48,7 @@ longitude:
 openvpn_provider:
 openvpn_username:
 openvpn_password:
+openvpn_config:
 nas_path:
 nas_user:
 nas_pass:
