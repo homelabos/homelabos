@@ -11,6 +11,13 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
+- name: Stop systemd-resolve
+  systemd:
+    name: systemd-resolved
+    enabled: "no"
+    daemon-reload: "no"
+    state: stopped
+
 - name: Configure pihole systemd service.
   template: src=pihole.service dest=/etc/systemd/system/pihole.service
 
