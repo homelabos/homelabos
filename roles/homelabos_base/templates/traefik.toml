@@ -6,8 +6,10 @@ defaultEntryPoints = ["http", "https"]
 [entryPoints]
   [entryPoints.http]
   address = ":80"
-  #   [entryPoints.http.redirect]
-  #   entryPoint = "https"
+{% if https_only %}
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+{% endif %}
   [entryPoints.https]
   address = ":443"
   [entryPoints.https.tls]
