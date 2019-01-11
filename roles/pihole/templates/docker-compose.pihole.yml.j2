@@ -20,7 +20,7 @@ services:
     environment:
       - WEBPASSWORD={{ default_password }}
       - VIRTUAL_HOST=pihole.{{ domain }}
-      - ServerIP={{ ansible_ssh_host }}
+      - ServerIP={{ homelab_ip }}
     ports:
       - 53:53/tcp
       - 53:53/udp
@@ -36,5 +36,5 @@ services:
       - "traefik.tor.port=80"
     extra_hosts:
 {% for service in services %}
-      - {{ service }}.{{ domain }}:{{ ansible_ssh_host }}
+      - {{ service }}.{{ domain }}:{{ homelab_ip }}
 {% endfor %}
