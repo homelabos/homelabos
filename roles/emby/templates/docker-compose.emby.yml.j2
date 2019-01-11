@@ -11,6 +11,8 @@ services:
   emby:
     image: emby/embyserver:latest
     restart: unless-stopped
+    networks:
+      - traefik_network
     volumes:
       - /var/homelabos/emby:/config
       - /mnt/nas:/mnt/nas
