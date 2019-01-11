@@ -14,8 +14,8 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      - PGID=1000
-      - PUID=1000
+      - PGID=0
+      - PUID=0
       - TZ={{ common_timezone }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
