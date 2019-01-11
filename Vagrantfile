@@ -7,12 +7,16 @@ Vagrant.configure(2) do |config|
 
   config.ssh.insert_key = false
 
+  config.vm.network "forwarded_port", id: "http", guest: 80, host: 2280, auto_correct: true
+  config.vm.network "forwarded_port", id: "https", guest: 443, host: 2281, auto_correct: true
+  config.vm.network "forwarded_port", id: "traefik-dashboard", guest: 8181, host: 2282, auto_correct: true
+
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "homelabos.yml"
-    ansible.groups = { "homelabos" => ["default"] }
-    ansible.extra_vars = { ansible_ssh_user: 'vagrant',
-                ansible_python_interpreter:"/usr/bin/python3",
-                ansible_connection: 'ssh',
-                ansible_ssh_args: '-o ForwardAgent=yes'}
+    ansible.groups = {
+      "homelabos" => ["default"],
+      "vagrant" => ["default"],
+    }
+    ansible.extra_vars = 'config.yml'
   end
 end

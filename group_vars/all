@@ -1,6 +1,9 @@
 # These are the defaults. They are overridden by values in your config.yml file.
 common_timezone: Etc/UTC
 
+domain: localhost
+admin_email: test@test.com
+
 enable_tinc: False
 enable_tor: False
 

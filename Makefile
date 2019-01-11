@@ -39,7 +39,7 @@ restore: logo
 
 # Spin up a development stack
 develop: logo
-	vagrant plugin install vagrant-disksize
+	#vagrant plugin install vagrant-disksize
 	vagrant up
 	vagrant provision
 
