@@ -1,11 +1,8 @@
 ---
 - name: Make HomelabOS documentation directory.
   file:
-    path: "{{ item }}"
+    path: "/var/homelabos/docs"
     state: directory
-  loop:
-    - /var/homelabos
-    - /var/homelabos/docs
 
 - name: Configure HomelabOS Documentation.
   copy: src=site dest=/var/homelabos/docs

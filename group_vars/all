@@ -89,7 +89,6 @@ enabled_services:
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
-  bookstack: "{{ enable_bookstack }}"
 
 darksky_key:
 latitude:
