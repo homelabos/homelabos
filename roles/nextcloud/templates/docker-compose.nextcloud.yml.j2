@@ -19,6 +19,8 @@ services:
       - /var/homelabos/nextcloud:/var/www/html
       - /mnt/nas/Documents/Nextcloud:/var/www/html/data
     environment:
+      - PGID=0
+      - PUID=0
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=nextcloud
@@ -38,7 +40,7 @@ services:
       - "traefik.tor.port=80"
 
   nextcloud_db:
-    image: mariadb
+    image: mariadb:10.2
     networks:
       - traefik_network
     restart: unless-stopped

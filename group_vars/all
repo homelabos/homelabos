@@ -50,6 +50,7 @@ enabled_services:
   tor: "{{ enable_tor }}"
   apple_health_influx: "{{ enable_apple_health_influx }}"
   bitwarden: "{{ enable_bitwarden }}"
+  bookstack: "{{ enable_bookstack }}"
   bulletnotes: "{{ enable_bulletnotes }}"
   darksky_influx: "{{ enable_darksky_influx }}"
   dasher: "{{ enable_dasher }}"
