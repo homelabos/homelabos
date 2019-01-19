@@ -21,7 +21,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/sonarr/config:/config
       - /mnt/nas/TV:/tv
-      - /var/homelabos/sonarr/downloads:/downloads
+      - /mnt/nas/Downloads/complete/tv:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

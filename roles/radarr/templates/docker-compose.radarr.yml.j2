@@ -21,7 +21,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/radarr/config:/config
       - /mnt/nas/Movies:/movies
-      - /mnt/nas/Downloads/completed:/downloads
+      - /mnt/nas/Downloads/complete/movies:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
