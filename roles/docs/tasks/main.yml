@@ -1,11 +1,19 @@
 ---
+- name: Install pip and virtualenv for Python
+  apt:
+    name:
+      - python3
+      - python-pip
+      - python-virtualenv
+
+- name: Install pipenv
+  pip:
+    name: pipenv
+
 - name: Make HomelabOS documentation directory.
   file:
     path: "/var/homelabos/docs"
     state: directory
-
-- name: Configure HomelabOS Documentation.
-  copy: src=site dest=/var/homelabos/docs
 
 - name: Read Tor connection info
   shell: cat /var/lib/tor/http-onion/hostname
@@ -15,25 +23,41 @@
   shell: cat /var/lib/tor/ssh-onion/hostname
   register: tor_ssh_domain_file
 
+- name: Ensure directory structure exists
+  file:
+    path: '/var/homelabos/docs/docs/{{ item.path }}'
+    state: directory
+  with_filetree: 'docs/'
+  when: item.state == 'directory'
+
 - name: Configure HomelabOS Documentation.
   template:
     src: '{{ item.src }}'
-    dest: '/var/homelabos/docs/site/setup/{{ item.path }}'
-  with_filetree: 'site/setup/'
+    dest: '/var/homelabos/docs/docs/{{ item.path }}'
+  with_filetree: 'docs/'
   when: item.state == 'file'
   vars:
     tor_domain: "{{ tor_domain_file.stdout }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"
 
-- name: Configure HomelabOS Documentation.
-  template:
-    src: '{{ item.src }}'
-    dest: '/var/homelabos/docs/site/software/{{ item.path }}'
-  with_filetree: 'site/software/'
-  when: item.state == 'file'
-  vars:
-    tor_domain: "{{ tor_domain_file.stdout }}"
-    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"
+- name: copy configuration files
+  copy:
+    src: '{{item}}'
+    dest: '/var/homelabos/docs/{{item}}'
+  loop:
+    - Pipfile
+    - Pipfile.lock
+    - mkdocs.yml
+
+- name: fetch pipenv dependencies
+  shell: pipenv install
+  args:
+    chdir: "/var/homelabos/docs"
+
+- name: build the documentation with mkdocs
+  shell: pipenv run mkdocs build
+  args:
+    chdir: "/var/homelabos/docs"
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:

@@ -1,4 +1,4 @@
-.PHONY: logo deploy docs_build restore develop docs_deploy lint
+.PHONY: logo deploy docs_build restore develop lint
 
 # Deploy HomelabOS
 deploy: logo
@@ -28,10 +28,6 @@ update: logo
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo
 	which mkdocs && mkdocs build || echo "Unable to build the documentation. Please install mkdocs."
-
-# Update just the docs
-docs_deploy: logo docs_build
-	ansible-playbook -i inventory -t docs homelabos.yml
 
 # Restore a server with the most recent backup. Assuming Backups were running.
 restore: logo
