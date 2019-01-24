@@ -2,7 +2,7 @@
 
 # Deploy HomelabOS
 deploy: logo
-	@ansible-playbook --extra-vars="@config.yml" -i inventory homelabos.yml
+	@ansible-playbook --extra-vars="@config.yml" -i inventory playbook.homelabos.yml
 
 logo:
 	@cat homelaboslogo.txt
@@ -12,7 +12,7 @@ config: logo
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@[ -f config.yml ] || cp config.yml.blank config.yml
-	@ansible-playbook --extra-vars="@config.yml" -i setup_inventory setup.yml
+	@ansible-playbook --extra-vars="@config.yml" -i config_inventory playbook.config.yml
 	@echo "========== Configuration completed! Now edit config.yml to turn on the services you want, then run 'make' =========="
 
 # Reset all local settings
@@ -22,7 +22,7 @@ config_reset: logo
 
 # Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo
-	@ansible-playbook --extra-vars="@config.yml" -i inventory -t deploy homelabos.yml
+	@ansible-playbook --extra-vars="@config.yml" -i inventory -t deploy playbook.homelabos.yml
 	@echo "========== Update completed! =========="
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
@@ -41,7 +41,7 @@ develop: logo
 
 # Execute against a test server
 test: logo
-	ansible-playbook -i test_hosts homelabos.yml
+	ansible-playbook -i test_hosts playbook.homelabos.yml
 
 # Run linting scripts
 lint: logo

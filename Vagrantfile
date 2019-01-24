@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", id: "traefik-dashboard", guest: 8181, host: 2282, auto_correct: true
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "homelabos.yml"
+    ansible.playbook = "playbook.homelabos.yml"
     ansible.groups = {
       "homelabos" => ["default"],
       "vagrant" => ["default"],
