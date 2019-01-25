@@ -9,6 +9,7 @@
 - name: Install pipenv
   pip:
     name: pipenv
+    executable: /usr/bin/pip
 
 - name: Make HomelabOS documentation directory.
   file:
@@ -42,8 +43,8 @@
 
 - name: copy configuration files
   copy:
-    src: '{{item}}'
-    dest: '/var/homelabos/docs/{{item}}'
+    src: '{{ item }}'
+    dest: '/var/homelabos/docs/{{ item }}'
   loop:
     - Pipfile
     - Pipfile.lock

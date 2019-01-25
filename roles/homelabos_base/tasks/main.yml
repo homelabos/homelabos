@@ -74,10 +74,11 @@
 
 - name: Deploy enabled services.
   include_role:
-    name: "{{ item }}"
-  when: "enabled_services[item]"
-  with_items:
-    - "{{ services }}"
+    name: "{{ service_item }}"
+  when: "enabled_services[service_item]"
+  loop: "{{ services|flatten(levels=1) }}"
+  loop_control:
+    loop_var: service_item
 
 - name: Ensure disabled services are not running
   systemd:
