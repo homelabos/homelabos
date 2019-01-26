@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
+      - /var/homelabos/tick/telegraf.conf:/etc/telegraf/telegraf.conf
       - /var/run/docker.sock:/var/run/docker.sock
       - /sys:/rootfs/sys:ro
       - /proc:/rootfs/proc:ro
