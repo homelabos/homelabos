@@ -30,7 +30,6 @@ pages:
       - Gitea: software/gitea.md
       - Grafana: software/grafana.md
       - Home Assistant: software/homeassistant.md
-      - InfluxDB: software/influxdb.md
       - Inventario: software/inventario.md
       - Jackett: software/jackett.md
       - Kibitzr: software/kibitzr.md
@@ -47,5 +46,6 @@ pages:
       - Radarr / Sonarr: software/radarr-sonarr.md
       - Synchthing: software/syncthing.md
       - The Lounge: software/thelounge.md
+      - TICK: software/tick.md
       - Transmission: software/transmission.md
 ...

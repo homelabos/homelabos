@@ -17,6 +17,15 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
+- name: Configure grafana influx datasource
+  template: src=grafana.datasource.influxdb.yaml dest=/var/homelabos/grafana/datasources/
+
+- name: Configure grafana influx dashboard
+  template: src={{ item }} dest=/var/homelabos/grafana/dashboards/
+  loop:
+    - grafana.dashboards.yaml
+    - grafana.dash.homelab.json
+
 - name: Configure grafana systemd service.
   template: src=grafana.service dest=/etc/systemd/system/grafana.service
 

@@ -68,11 +68,11 @@
     tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure HomelabOS systemd service.
-  template: src=homelabos_docs.service dest=/etc/systemd/system/homelabos_docs.service
+  template: src=docs.service dest=/etc/systemd/system/docs.service
 
 - name: Start HomelabOS Docs
   systemd:
-    name: homelabos_docs
+    name: docs
     enabled: "yes"
     daemon-reload: "yes"
     state: restarted
