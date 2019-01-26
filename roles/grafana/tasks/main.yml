@@ -1,8 +1,14 @@
 ---
 - name: Make grafana directory.
   file:
-    path: "/var/homelabos/grafana"
+    path: "{{ item }}"
     state: directory
+    mode: 0777
+  loop:
+    - /var/homelabos/grafana
+    - /var/homelabos/grafana/data
+    - /var/homelabos/grafana/dashboards
+    - /var/homelabos/grafana/datasources
 
 - name: Copy grafana docker-compose.yml file into place.
   template:
