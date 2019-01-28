@@ -17,4 +17,6 @@ and have your session automatically sync between multiple devices.
 
 The dashboard is available at [https://thelounge.{{ domain }}/](https://thelounge.{{ domain }}/) or [http://thelounge.{{ domain }}/](http://thelounge.{{ domain }}/)
 
+{% if enable_tor %}
 It is also available via Tor at [http://thelounge.{{ tor_domain }}/](http://thelounge.{{ tor_domain }}/)
+{% endif %}

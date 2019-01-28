@@ -6,3 +6,14 @@ tor_become: true
 tor_config_dir: /etc/tor
 tor_data_directory: /var/lib/tor
 tor_root_group: root
+
+tor_hidden_services:
+  - dir: /var/lib/tor/ssh-onion
+    port: 22
+    source: 127.0.0.1:22
+  - dir: /var/lib/tor/https-onion
+    port: 443
+    source: 127.0.0.1:443
+  - dir: /var/lib/tor/http-onion
+    port: 80
+    source: 127.0.0.1:80

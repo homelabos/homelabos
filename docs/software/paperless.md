@@ -6,4 +6,6 @@
 
 It is available at [https://paperless.{{ domain }}/](https://paperless.{{ domain }}/) or [http://paperless.{{ domain }}/](http://paperless.{{ domain }}/)
 
+{% if enable_tor %}
 It is also available via Tor at [http://paperless.{{ tor_domain }}/](http://paperless.{{ tor_domain }}/)
+{% endif %}

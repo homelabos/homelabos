@@ -18,9 +18,9 @@ HashedControlPassword {{ tor_password['password_hash'] }}
 ## things in $HOME/.tor on Unix, and in Application Data\tor on Windows.
 DataDirectory {{ tor_data_directory }}
 
-{% if hidden_services is defined %}
+{% if tor_hidden_services is defined %}
 ## Tor Hidden Service configuration
-{% for service in hidden_services %}
+{% for service in tor_hidden_services %}
 HiddenServiceDir {{ service.dir }}
 {% if service.version is defined %}
 HiddenServiceVersion {{ service.version }}

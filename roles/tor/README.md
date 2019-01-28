@@ -24,7 +24,7 @@ _None._
 | tor_data_directory |                                                | /var/lib/tor  |
 | tor_password       | Password for control port                      | _None_        |
 | tor_root_group     | Group of the root-User                         | root          |
-| hidden_services    | List of services to be set up                  | _None_        |
+| tor_hidden_services| List of services to be set up                  | _None_        |
 
 ##### ***Hidden service***
 * **dir**: Directory to store the hidden service configuration. 
@@ -43,7 +43,7 @@ _None._
 - hosts: tor
   roles:
   - role: toke.tor
-    hidden_services:
+    tor_hidden_services:
     - dir: /var/lib/tor/ssh-onion
       port: 22
       source: 127.0.0.1:22
