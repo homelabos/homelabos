@@ -14,8 +14,7 @@
     mode: 0700
     state: directory
   with_items:
-    "{{ hidden_services }}"
-  when: hidden_services is defined
+    "{{ tor_hidden_services }}"
 
 - set_fact:
     tor_stored_hash: "{{ ansible_local.tor.tor_hashed_password | default(omit)}}"
@@ -43,5 +42,5 @@
       enabled: yes
   - name: wait for all tor hidden services hostname files
     wait_for: state=present path="{{ item.dir }}/hostname" delay=5
-    with_items: "{{ hidden_services }}"
+    with_items: "{{ tor_hidden_services }}"
   when: ansible_distribution != "MacOSX"

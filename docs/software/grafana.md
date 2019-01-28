@@ -15,4 +15,6 @@ You can login with the default user and pass you setup for HomelabOS.
 
 It is available at [https://grafana.{{ domain }}/](https://grafana.{{ domain }}/) or [http://grafana.{{ domain }}/](http://grafana.{{ domain }}/)
 
+{% if enable_tor %}
 It is also available via Tor at [http://grafana.{{ tor_domain }}/](http://grafana.{{ tor_domain }}/)
+{% endif %}

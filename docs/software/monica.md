@@ -20,4 +20,6 @@ NOW you should be able to access the Monica URL below again, and be presented wi
 
 Monica is available at [https://monica.{{ domain }}/](https://monica.{{ domain }}/) or [http://monica.{{ domain }}/](http://monica.{{ domain }}/)
 
+{% if enable_tor %}
 It is also available via Tor at [http://monica.{{ tor_domain }}/](http://monica.{{ tor_domain }}/)
+{% endif %}
