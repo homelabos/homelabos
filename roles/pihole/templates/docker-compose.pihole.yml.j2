@@ -11,9 +11,13 @@ services:
   pihole:
     image: pihole/pihole:latest
     restart: unless-stopped
-    dns: 1.1.1.1
+    dns: 
+      - 127.0.0.1
+      - 1.1.1.1
     networks:
       - traefik_network
+    cap_add:
+      - NET_ADMIN
     volumes:
       - /var/homelabos/pihole/config/:/etc/pihole/
       - /var/homelabos/pihole/dnsmasq.d/:/etc/dnsmasq.d/
