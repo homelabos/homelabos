@@ -109,6 +109,7 @@ to act as a bastion host via Tinc vpn and nginx.
 * [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
 * [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
 * Chat on irc.freenode.net in #homelabos
+* Threaded support and development discussion on [Zulip](https://homelabos.zulipchat.com/)
 
 ## Give Support
 
