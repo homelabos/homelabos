@@ -22,7 +22,17 @@ If you're up and running, but getting a 404, load [http://YOURSERVERIP:8181/]. T
 Each service under the `Frontends` column has a section `Route Rule - Host:`. The hostname after `Host:` is the
 hostname that Traefik is listening to for that particular service. You need to be able to `ping` that hostname
 from your computer, and you should get back the IP address of your server. Once that is the case, accessing the
-hostname in a browser will load the respective service.
+hostname in a browser should load the respective service.
+
+### No Traefik Dashboard
+
+If you can't even access the dashboard listed above at :8181, check the status of the HomelabOS service with
+`systemctl status homelabos`. This should give you some insight into what the issue is. Also you should be able
+to run `docker ps | grep traefik` and get an output like:
+
+```
+8f00f6b3cdb6        traefik                        "/traefik"               13 hours ago        Up 13 hours                     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:8181->8080/tcp           homelabos_traefik_1
+```
 
 ### SSL Not working
 
