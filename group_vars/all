@@ -165,6 +165,7 @@ services:
   - portainer
   - sonarr
   - radarr
+  - restic
   - syncthing
   - thelounge
   - tick
