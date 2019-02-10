@@ -59,6 +59,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 * [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management
 * [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
+* [Jellyfin](https://github.com/jellyfin/jellyfin) - The Free Software Media System
 * [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
 * [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 * [Matomo](https://matomo.org/) - Web analytics

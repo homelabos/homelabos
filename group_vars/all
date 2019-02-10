@@ -24,6 +24,7 @@ enable_homeassistant: False
 enable_homedash: False
 enable_inventario: False
 enable_jackett: False
+enable_jellyfin: False
 enable_kibitzr: False
 enable_mashio: False
 enable_matomo: False
@@ -66,6 +67,7 @@ enabled_services:
   homedash: "{{ enable_homedash }}"
   inventario: "{{ enable_inventario }}"
   jackett: "{{ enable_jackett }}"
+  jellyfin: "{{ enable_jellyfin }}"
   kibitzr: "{{ enable_kibitzr }}"
   mashio: "{{ enable_mashio }}"
   matomo: "{{ enable_matomo }}"
@@ -150,6 +152,7 @@ services:
   - homedash
   - inventario
   - jackett
+  - jellyfin
   - mashio
   - matomo
   - miniflux

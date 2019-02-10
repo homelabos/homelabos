@@ -1,0 +1,23 @@
+---
+- name: Make jellyfin directory.
+  file:
+    path: "/var/homelabos/jellyfin"
+    state: directory
+
+- name: Copy jellyfin docker-compose.yml file into place.
+  template:
+    src: docker-compose.jellyfin.yml.j2
+    dest: /var/homelabos/jellyfin/docker-compose.jellyfin.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+
+- name: Configure jellyfin systemd service.
+  template: src=jellyfin.service dest=/etc/systemd/system/jellyfin.service
+
+- name: Start jellyfin
+  systemd:
+    name: jellyfin
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

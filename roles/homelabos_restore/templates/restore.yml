@@ -3,7 +3,7 @@ version: '3'
 
 services:
   restore:
-    image: lobaro/restic-backup-docker:v1.0
+    image: lobaro/restic-backup-docker
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}
       - AWS_ACCESS_KEY_ID={{ s3_access_code }}

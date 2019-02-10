@@ -1,0 +1,28 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+ # Media Server
+  jellyfin:
+    image: jellyfin/jellyfin
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/jellyfin:/config
+      - /mnt/nas:/mnt/nas
+      - /mnt/nas/tmp:/config/transcoding-temp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:jellyfin.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8096"
+      - "traefik.tor.frontend.rule=Host:jellyfin.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8096"
