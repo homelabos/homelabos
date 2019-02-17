@@ -27,7 +27,7 @@
     - grafana.dash.homelab.json
 
 - name: Configure grafana systemd service.
-  template: src=grafana.service dest=/etc/systemd/system/grafana.service
+  template: src=service.j2 dest=/etc/systemd/system/grafana.service
 
 - name: Start grafana
   systemd:

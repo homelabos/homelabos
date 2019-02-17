@@ -12,7 +12,7 @@
     tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure inventario systemd service.
-  template: src=inventario.service dest=/etc/systemd/system/inventario.service
+  template: src=service.j2 dest=/etc/systemd/system/inventario.service
 
 - name: Start inventario
   systemd:

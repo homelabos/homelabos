@@ -12,7 +12,7 @@
     tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure openldap systemd service.
-  template: src=openldap.service dest=/etc/systemd/system/openldap.service
+  template: src=service.j2 dest=/etc/systemd/system/openldap.service
 
 - name: Start openldap
   systemd:

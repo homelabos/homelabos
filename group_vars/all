@@ -10,6 +10,7 @@ enable_tor: False
 https_only: false
 
 enable_apple_health_influx: False
+enable_airsonic: False
 enable_bitwarden: False
 enable_bookstack: False
 enable_bulletnotes: False
@@ -52,7 +53,9 @@ enable_xfinityusageinfluxdb: False
 enabled_services:
   tinc: "{{ enable_tinc }}"
   tor: "{{ enable_tor }}"
+
   apple_health_influx: "{{ enable_apple_health_influx }}"
+  airsonic: "{{ enable_airsonic }}"
   bitwarden: "{{ enable_bitwarden }}"
   bookstack: "{{ enable_bookstack }}"
   bulletnotes: "{{ enable_bulletnotes }}"
@@ -140,6 +143,7 @@ ldap_org_name: My Family
 
 # Service List
 services:
+  - airsonic
   - bitwarden
   - bookstack
   - bulletnotes

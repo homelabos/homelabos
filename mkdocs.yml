@@ -20,6 +20,7 @@ pages:
       - Tor Onion Services: setup/tor.md
       - VPN Setup: setup/vpn.md
   - Included Software:
+      - Airsonic: software/airsonic.md
       - Apple Health: software/applehealth.md
       - Bitwarden: software/bitwarden.md
       - BulletNotes: software/bulletnotes.md

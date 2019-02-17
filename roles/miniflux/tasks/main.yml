@@ -12,7 +12,7 @@
     tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
 
 - name: Configure miniflux systemd service.
-  template: src=miniflux.service dest=/etc/systemd/system/miniflux.service
+  template: src=service.j2 dest=/etc/systemd/system/miniflux.service
 
 - name: Start miniflux
   systemd:

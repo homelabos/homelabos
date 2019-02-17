@@ -27,6 +27,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /mnt/nas/Downloads:/data
       - /mnt/nas/Downloads/watch:/data/watch
+      - /mnt/nas/Movies:/movies
+      - /mnt/nas/TV:/tv
     environment:
       - OPENVPN_PROVIDER={{ openvpn_provider }}
       - OPENVPN_USERNAME={{ openvpn_username }}

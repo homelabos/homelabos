@@ -19,7 +19,7 @@
     state: stopped
 
 - name: Configure pihole systemd service.
-  template: src=pihole.service dest=/etc/systemd/system/pihole.service
+  template: src=service.j2 dest=/etc/systemd/system/pihole.service
 
 - name: Start pihole
   systemd:
