@@ -3,6 +3,10 @@
 * Added Inventario - Home Inventory Management Software
 * Added Mashio - Home Brewery Management Software
 * Added Homedash - Home Server Dashboard Software
+* Added Airsonic - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+* Added Bookstack - Simple & Free Wiki Software
+* Added Jellyfin - The Free Software Media System
+* Added openLDAP - Open Source LDAP Server
 * Fixed various bugs
 
 # 0.4

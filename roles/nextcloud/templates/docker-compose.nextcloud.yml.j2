@@ -40,7 +40,7 @@ services:
       - "traefik.tor.port=80"
 
   nextcloud_db:
-    image: mariadb:10.2
+    image: mariadb:10.4
     networks:
       - traefik_network
     restart: unless-stopped
