@@ -129,13 +129,4 @@
 
 - shell: iptables -t nat -A POSTROUTING -j MASQUERADE
 
-- name: Deploy mailserver services.
-  include_role:
-    name: "{{ service_item }}"
-  when: "enabled_services[service_item]"
-  loop:
-    - mailserver
-  loop_control:
-    loop_var: service_item
-
 ...
