@@ -8,13 +8,13 @@
   pre_tasks:
     - name: 'Update Apt Cache'
       raw: sudo apt-get update
-      ignore_errors: True
+      ignore_errors: true
     - name: 'Install Python'
       raw: sudo apt-get -y install python-simplejson
 
 # Configure the server itself
 - hosts: all
-  become: "True"
+  become: true
   gather_facts: "True"
   tags: common
 
@@ -26,7 +26,7 @@
 - name: "Setup TOR"
   tags: tinc
   hosts: all
-  become: yes
+  become: true
   become_method: sudo
   roles:
     - role: tor
@@ -35,7 +35,7 @@
 - name: "Setup tinc VPN"
   tags: tinc
   hosts: all
-  become: yes
+  become: true
   become_method: sudo
   roles:
     - role: homelabos_tinc
@@ -43,7 +43,7 @@
 
 - name: "Update Tinc NGINX Servers"
   hosts: tinc
-  become: yes
+  become: true
   become_method: sudo
   tags: tinc-nginx
   roles:
@@ -52,7 +52,7 @@
 
 # Install and configure HomelabOS services
 - hosts: homelabos
-  become: "True"
+  become: true
   gather_facts: "True"
   tags:
     - homelabos
