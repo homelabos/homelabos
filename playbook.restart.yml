@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: "True"
+  gather_facts: "True"
+  tags: common
+
+  roles:
+    - homelabos_restart

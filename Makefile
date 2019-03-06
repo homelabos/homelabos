@@ -47,3 +47,7 @@ test: logo
 lint: logo
 	pip install yamllint
 	find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
+
+# Restart all enabled services
+restart: logo
+	ansible-playbook --extra-vars="@config.yml" -i inventory playbook.restart.yml

@@ -126,7 +126,6 @@
 - shell: iptables -t nat -A PREROUTING -p tcp --dport 587 -j DNAT --to-destination 10.0.0.1:587
 - shell: iptables -t nat -A PREROUTING -p tcp --dport 998 -j DNAT --to-destination 10.0.0.1:998
 - shell: iptables -t nat -A PREROUTING -p tcp --dport 4190 -j DNAT --to-destination 10.0.0.1:4190
-
 - shell: iptables -t nat -A POSTROUTING -j MASQUERADE
 
 ...

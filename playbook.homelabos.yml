@@ -13,7 +13,7 @@
       raw: sudo apt-get -y install python-simplejson
 
 # Configure the server itself
-- hosts: homelabos
+- hosts: all
   become: "True"
   gather_facts: "True"
   tags: common
