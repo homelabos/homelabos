@@ -9,7 +9,7 @@ networks:
 services:
  # Web Analytics
   app:
-    image: crazymax/matomo:latest
+    image: matomo
     restart: unless-stopped
     networks:
       - traefik_network
