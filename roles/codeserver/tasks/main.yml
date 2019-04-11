@@ -1,0 +1,23 @@
+---
+- name: Make code-server directory.
+  file:
+    path: "/var/homelabos/codeserver"
+    state: directory
+
+- name: Copy code-server docker-compose.yml file into place.
+  template:
+    src: docker-compose.codeserver.yml.j2
+    dest: /var/homelabos/codeserver/docker-compose.codeserver.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+
+- name: Configure code-server systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/codeserver.service
+
+- name: Start code-server
+  systemd:
+    name: codeserver
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...
