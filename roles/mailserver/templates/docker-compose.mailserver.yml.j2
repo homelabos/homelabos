@@ -34,7 +34,7 @@ services:
     environment:
       {# - DBPASS={{ mail_database_password }}       # MariaDB database password (required) #}
       - DBPASS=postfix
-      - RSPAMD_PASSWORD=changeme     # Rspamd WebUI password (required)
+      - RSPAMD_PASSWORD={{ default_password }}     # Rspamd WebUI password (required)
     # - ADD_DOMAINS=aa.tld, www.bb.tld...      # Add additional domains separated by commas (needed for dkim keys etc.)
     # - DEBUG_MODE=true                        # Enable Postfix, Dovecot, Rspamd and Unbound verbose logging
     # - ENABLE_POP3=true                       # Enable POP3 protocol
