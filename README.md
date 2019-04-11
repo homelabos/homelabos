@@ -48,6 +48,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
 * [BookStack](https://www.bookstackapp.com/) - Simple & Free Wiki Software
 * [BulletNotes](https://gitlab.com/NickBusey/BulletNotes.git) - Note taking application
+* [Code-Server](https://github.com/codercom/code-server) - Run VS Code on a remote server.
 * [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 * [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 * [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
@@ -135,6 +136,9 @@ For easy access to the services run `vagrant ssh -c "cat /var/homelabos/homelab_
 machine's host file (usually `/etc/hosts`). Now you should be able to access http://servicename.localhost:2280/
 where `servicename` is the name of any services you have enabled in `config.yml`.
 If you make changes to the Ansible scripts you can run `make provision` to run them again.
+
+To run just one set of tags you can do something like
+`ansible-playbook --extra-vars="@config.yml" -i inventory -t tinc-nginx playbook.homelabos.yml`
 
 ### Working locally on the documentation
 

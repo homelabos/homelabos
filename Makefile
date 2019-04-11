@@ -6,6 +6,8 @@ deploy: logo
 
 logo:
 	@cat homelaboslogo.txt
+	@./check_version.sh
+	@echo "MOTD:\x1B[01;93m" && curl https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD && echo "\n\x1B[0m"
 
 # Initial configuration
 config: logo

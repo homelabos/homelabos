@@ -6,37 +6,56 @@
 - name: Install nginx on Balance Servers
   package: >
     name=nginx
-    state=latest
+    state=absent
 
-- name: Install NGINX config for hosts
-  template: >
-    src=nginx.conf.j2
-    dest=/etc/nginx/nginx.conf
+# - name: Install NGINX config for hosts
+#   template: >
+#     src=nginx.conf.j2
+#     dest=/etc/nginx/nginx.conf
 
-- name: Install NGINX error templates
-  copy:
-    src=500.html
-    dest=/etc/nginx/500.html
+# - name: Install NGINX error templates
+#   copy:
+#     src=500.html
+#     dest=/etc/nginx/500.html
 
-- name: Install HomelabOS logo
-  copy:
-    src=logo.png
-    dest=/etc/nginx/logo.png
+# - name: Install HomelabOS logo
+#   copy:
+#     src=logo.png
+#     dest=/etc/nginx/logo.png
 
-- name: Install NGINX templates for hosts
-  template: >
-    src=sites-enabled-default.conf.j2
-    dest=/etc/nginx/sites-enabled/default
+# - name: Install NGINX templates for hosts
+#   template: >
+#     src=sites-enabled-default.conf.j2
+#     dest=/etc/nginx/sites-enabled/default
 
-- name: Add Organizr to /etc/hosts
-  lineinfile: dest=/etc/hosts line="10.0.0.1 {{domain}}" state=present
+# - name: Add Organizr to /etc/hosts
+#   lineinfile: dest=/etc/hosts line="10.0.0.1 {{domain}}" state=present
 
-- name: Add each service to /etc/hosts
-  lineinfile: dest=/etc/hosts line="10.0.0.1 {{item}}.{{domain}}" state=present
-  with_items:
-    - "{{ services }}"
+# - name: Add each service to /etc/hosts
+#   lineinfile: dest=/etc/hosts line="10.0.0.1 {{item}}.{{domain}}" state=present
+#   with_items:
+#     - "{{ services }}"
 
 - service:
     name: nginx
-    state: restarted
+    state: stopped
+
+# TODO: Clean this up to actually use the Ansible iptables module
+# https://docs.ansible.com/ansible/latest/modules/iptables_module.html
+- name: Enabled IP forwarding
+  shell: echo "1" > /proc/sys/net/ipv4/ip_forward
+# SSH forward to internal machine
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 2222 -j DNAT --to-destination 10.0.0.1:22
+# HTTP
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1:80
+# HTTPS
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination 10.0.0.1:443
+
+# SMTP
+- shell: iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 25 -j DNAT --to-destination 10.0.0.1:25
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to-destination 10.0.0.1:143
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 587 -j DNAT --to-destination 10.0.0.1:587
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 998 -j DNAT --to-destination 10.0.0.1:998
+- shell: iptables -t nat -A PREROUTING -p tcp --dport 4190 -j DNAT --to-destination 10.0.0.1:4190
+- shell: iptables -t nat -A POSTROUTING -j MASQUERADE
 ...
