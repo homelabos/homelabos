@@ -41,13 +41,13 @@
     - role: homelabos_tinc
       when: enable_tinc
 
-- name: "Update Tinc NGINX Servers"
+- name: "Update Tinc Bastion Host with iptables rules"
   hosts: tinc
   become: true
   become_method: sudo
-  tags: tinc-nginx
+  tags: tinc-iptables
   roles:
-    - role: homelabos_tinc-nginx
+    - role: homelabos_tinc_iptables
       when: enable_tinc
 
 # Install and configure HomelabOS services

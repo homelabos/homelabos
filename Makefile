@@ -6,6 +6,7 @@ deploy: logo
 
 logo:
 	@cat homelaboslogo.txt
+	@chmod +x check_version.sh
 	@./check_version.sh
 	@echo "MOTD:\x1B[01;93m" && curl https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD && echo "\n\x1B[0m"
 
@@ -29,27 +30,23 @@ update: logo
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo
-	which mkdocs && mkdocs build || echo "Unable to build the documentation. Please install mkdocs."
+	@which mkdocs && mkdocs build || echo "Unable to build the documentation. Please install mkdocs."
 
 # Restore a server with the most recent backup. Assuming Backups were running.
 restore: logo
-	ansible-playbook -i inventory restore.yml
+	@ansible-playbook -i inventory restore.yml
 
 # Spin up a development stack
 develop: logo
-	#vagrant plugin install vagrant-disksize
-	vagrant up
-	vagrant provision
-
-# Execute against a test server
-test: logo
-	ansible-playbook -i test_hosts playbook.homelabos.yml
+	@#vagrant plugin install vagrant-disksize
+	@vagrant up
+	@vagrant provision
 
 # Run linting scripts
 lint: logo
-	pip install yamllint
-	find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
+	@pip install yamllint
+	@find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
 
 # Restart all enabled services
 restart: logo
-	ansible-playbook --extra-vars="@config.yml" -i inventory playbook.restart.yml
+	@ansible-playbook --extra-vars="@config.yml" -i inventory playbook.restart.yml

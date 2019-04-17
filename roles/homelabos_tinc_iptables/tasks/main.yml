@@ -1,44 +1,4 @@
----
-
-- name: Ensure apache2 is not present
-  package: name=apache2 state=absent
-
-- name: Install nginx on Balance Servers
-  package: >
-    name=nginx
-    state=absent
-
-# - name: Install NGINX config for hosts
-#   template: >
-#     src=nginx.conf.j2
-#     dest=/etc/nginx/nginx.conf
-
-# - name: Install NGINX error templates
-#   copy:
-#     src=500.html
-#     dest=/etc/nginx/500.html
-
-# - name: Install HomelabOS logo
-#   copy:
-#     src=logo.png
-#     dest=/etc/nginx/logo.png
-
-# - name: Install NGINX templates for hosts
-#   template: >
-#     src=sites-enabled-default.conf.j2
-#     dest=/etc/nginx/sites-enabled/default
-
-# - name: Add Organizr to /etc/hosts
-#   lineinfile: dest=/etc/hosts line="10.0.0.1 {{domain}}" state=present
-
-# - name: Add each service to /etc/hosts
-#   lineinfile: dest=/etc/hosts line="10.0.0.1 {{item}}.{{domain}}" state=present
-#   with_items:
-#     - "{{ services }}"
-
-- service:
-    name: nginx
-    state: stopped
+--
 
 # TODO: Clean this up to actually use the Ansible iptables module
 # https://docs.ansible.com/ansible/latest/modules/iptables_module.html
@@ -58,4 +18,3 @@
 - shell: iptables -t nat -A PREROUTING -p tcp --dport 998 -j DNAT --to-destination 10.0.0.1:998
 - shell: iptables -t nat -A PREROUTING -p tcp --dport 4190 -j DNAT --to-destination 10.0.0.1:4190
 - shell: iptables -t nat -A POSTROUTING -j MASQUERADE
-...
