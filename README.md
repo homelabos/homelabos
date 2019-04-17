@@ -124,6 +124,10 @@ to act as a bastion host via Tinc vpn and nginx.
 
 Please do!
 
+## Watch Live Development
+
+You can watch live development of this project on [Nick Busey's Twitch Stream](https://www.twitch.tv/nickbusey).
+
 ### Developing Locally
 
 You can play around with the stack locally without needing an actual server to spin it up against.
