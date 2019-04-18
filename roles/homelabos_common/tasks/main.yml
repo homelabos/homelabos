@@ -11,6 +11,7 @@
   with_items:
     - 'deb http://archive.ubuntu.com/ubuntu bionic universe'
     - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
+    - 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'
 
 - apt:
     update_cache: true
@@ -21,10 +22,16 @@
   tags:
     - dependencies
 
+- name: GPG key for the official Docker repository
+  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
 - name: Install necessities and nice-to-haves
   apt:
     name:
       - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
       - git
       - htop
       - iftop
@@ -35,7 +42,7 @@
       - unattended-upgrades
       - vim
       - zsh
-      - docker.io
+      - docker-ce
       - docker-compose
   tags:
     - dependencies

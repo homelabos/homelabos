@@ -6,6 +6,7 @@ admin_email: test@test.com
 
 enable_tinc: False
 enable_tor: False
+enable_nas: False
 
 https_only: false
 

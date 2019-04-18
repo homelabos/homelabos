@@ -19,11 +19,13 @@
     state: touch
 
 - name: Configure NAS
+  when: enable_nas
   lineinfile:
     path: /etc/fstab
     line: '{{ nas_path }}  /mnt/nas  cifs  username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid=1000,iocharset=utf8,file_mode=0777,dir_mode=0777  0  0'
 
 - name: Mount NAS Drives
+  when: enable_nas
   command: mount -a
   args:
     warn: "no"
