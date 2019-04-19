@@ -1,20 +1,98 @@
 ---
+- name: Install ipTables-persistent
+  apt:
+    name: iptables-persistent
 
-# TODO: Clean this up to actually use the Ansible iptables module
-# https://docs.ansible.com/ansible/latest/modules/iptables_module.html
-- name: Enabled IP forwarding
-  shell: echo "1" > /proc/sys/net/ipv4/ip_forward
-# SSH forward to internal machine
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 2222 -j DNAT --to-destination 10.0.0.1:22
-# HTTP
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination 10.0.0.1:80
-# HTTPS
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination 10.0.0.1:443
+- name: Set ipTables port 2222->22
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 2222
+    to_destination: 10.0.0.1:22
+    jump: DNAT
+  become: yes
 
-# SMTP
-- shell: iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 25 -j DNAT --to-destination 10.0.0.1:25
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 143 -j DNAT --to-destination 10.0.0.1:143
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 587 -j DNAT --to-destination 10.0.0.1:587
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 998 -j DNAT --to-destination 10.0.0.1:998
-- shell: iptables -t nat -A PREROUTING -p tcp --dport 4190 -j DNAT --to-destination 10.0.0.1:4190
-- shell: iptables -t nat -A POSTROUTING -j MASQUERADE
+- name: Set ipTables port 80->80
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 80
+    to_destination: 10.0.0.1:80
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables port 443->443
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 443
+    to_destination: 10.0.0.1:443
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables port 25->25
+  iptables:
+    table: nat
+    chain: PREROUTING
+    in_interface: eth0
+    protocol: tcp
+    destination_port: 25
+    to_destination: 10.0.0.1:25
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables port 143->143
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 143
+    to_destination: 10.0.0.1:143
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables port 587->587
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 587
+    to_destination: 10.0.0.1:587
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables port 998->998
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 998
+    to_destination: 10.0.0.1:998
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables port 4190->4190
+  iptables:
+    table: nat
+    chain: PREROUTING
+    protocol: tcp
+    destination_port: 4190
+    to_destination: 10.0.0.1:4190
+    jump: DNAT
+  become: yes
+
+- name: Set ipTables post-routing masquerade
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    jump: MASQUERADE
+  become: yes
+
+- name: Persist iptable routing across reboots
+  shell: iptables-save > /etc/iptables/rules.v4
+
+- name: Enable IP Forwarding
+  shell: sysctl net.ipv4.ip_forward=1
