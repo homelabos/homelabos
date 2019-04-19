@@ -14,39 +14,41 @@ pages:
   - Installation: setup/installation.md
   - Getting Started: setup/gettingstarted.md
   - Setup:
-      - Backups: setup/backups.md
-      - SMTP: setup/smtp.md
-      - Cloud Bastion Server via Tinc: setup/tinc.md
-      - Tor Onion Services: setup/tor.md
-      - VPN Setup: setup/vpn.md
+    - Backups: setup/backups.md
+    - SMTP: setup/smtp.md
+    - Cloud Bastion Server via Tinc: setup/tinc.md
+    - Tor Onion Services: setup/tor.md
+    - VPN Setup: setup/vpn.md
   - Included Software:
-      - Airsonic: software/airsonic.md
-      - Apple Health: software/applehealth.md
-      - Bitwarden: software/bitwarden.md
-      - BulletNotes: software/bulletnotes.md
-      - Darksky: software/darksky.md
-      - Dasher: software/dasher.md
-      - Emby: software/emby.md
-      - Firefly III: software/firefly.md
-      - Gitea: software/gitea.md
-      - Grafana: software/grafana.md
-      - Home Assistant: software/homeassistant.md
-      - Inventario: software/inventario.md
-      - Jackett: software/jackett.md
-      - Kibitzr: software/kibitzr.md
-      - Mashio: software/mashio.md
-      - Matomo: software/matomo.md
-      - Miniflux: software/miniflux.md
-      - Minio: software/minio.md
-      - Monica: software/monica.md
-      - NextCloud: software/nextcloud.md
-      - Paperless: software/paperless.md
-      - Pi-hole: software/pihole.md
-      - Plex: software/plex.md
-      - Portainer: software/portainer.md
-      - Radarr / Sonarr: software/radarr-sonarr.md
-      - Synchthing: software/syncthing.md
-      - The Lounge: software/thelounge.md
-      - TICK: software/tick.md
-      - Transmission: software/transmission.md
+    - Airsonic: software/airsonic.md
+    - Apple Health: software/applehealth.md
+    - Bitwarden: software/bitwarden.md
+    - BulletNotes: software/bulletnotes.md
+    - Darksky: software/darksky.md
+    - Dasher: software/dasher.md
+    - Emby: software/emby.md
+    - Firefly III: software/firefly.md
+    - Gitea: software/gitea.md
+    - Grafana: software/grafana.md
+    - Home Assistant: software/homeassistant.md
+    - Inventario: software/inventario.md
+    - Jackett: software/jackett.md
+    - Kibitzr: software/kibitzr.md
+    - Mashio: software/mashio.md
+    - Matomo: software/matomo.md
+    - Miniflux: software/miniflux.md
+    - Minio: software/minio.md
+    - Monica: software/monica.md
+    - NextCloud: software/nextcloud.md
+    - Paperless: software/paperless.md
+    - Pi-hole: software/pihole.md
+    - Plex: software/plex.md
+    - Portainer: software/portainer.md
+    - Radarr / Sonarr: software/radarr-sonarr.md
+    - Synchthing: software/syncthing.md
+    - The Lounge: software/thelounge.md
+    - TICK: software/tick.md
+    - Transmission: software/transmission.md
+  - Development:
+    - Adding Services: development/adding_services.md
 ...
