@@ -12,6 +12,8 @@ https_only: false
 
 volumes_root: /var/homelabos
 
+# Enabled List
+
 enable_apple_health_influx: False
 enable_airsonic: False
 enable_bitwarden: False
@@ -54,6 +56,7 @@ enable_thelounge: False
 enable_tick: False
 enable_transmission: False
 enable_xfinityusageinfluxdb: False
+enable_zulip: False
 
 enabled_services:
   tinc: "{{ enable_tinc }}"
@@ -101,6 +104,7 @@ enabled_services:
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
+  zulip: "{{ enable_zulip }}"
 
 darksky_key:
 latitude:
@@ -186,3 +190,4 @@ services:
   - thelounge
   - tick
   - transmission
+  - zulip

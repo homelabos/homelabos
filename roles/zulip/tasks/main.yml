@@ -1,0 +1,26 @@
+---
+- name: Make zulip directory.
+  file:
+    path: "/var/homelabos/zulip"
+    state: directory
+
+- name: Copy zulip docker-compose.yml file into place.
+  template:
+    src: docker-compose.zulip.yml.j2
+    dest: /var/homelabos/zulip/docker-compose.zulip.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+    zulip_postgres_pass: "{{ lookup('password', './settings/passwords/zulip_postgres_pass chars=digits') }}"
+    zulip_rabbitmq_pass: "{{ lookup('password', './settings/passwords/zulip_rabbitmq_pass chars=digits') }}"
+    zulip_secret_key: "{{ lookup('password', './settings/passwords/zulip_secret_key chars=digits') }}"
+
+- name: Configure zulip systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/zulip.service
+
+- name: Start zulip
+  systemd:
+    name: zulip
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+...

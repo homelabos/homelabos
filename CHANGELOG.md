@@ -1,5 +1,5 @@
 # 0.5 - Release Candidate
-* Improved deployment - Each service is now fully independent from each other.
+* Improved deployment - Each service is now fully independent from each other
 * Added Inventario - Home Inventory Management Software
 * Added Mashio - Home Brewery Management Software
 * Added Homedash - Home Server Dashboard Software
@@ -7,7 +7,8 @@
 * Added Bookstack - Simple & Free Wiki Software
 * Added Jellyfin - The Free Software Media System
 * Added openLDAP - Open Source LDAP Server
-* Fixed various bugs
+* Added Zulip - Threaded Chat Software
+* Various improvements and bug fixes
 
 # 0.4
 

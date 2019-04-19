@@ -82,6 +82,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 * [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 * [Transmission](https://transmissionbt.com/) - BitTorrent client
+* [Zulip](https://github.com/zulip/zulip) - Threaded chat software
 
 ## Requirements
 
@@ -140,6 +141,8 @@ For easy access to the services run `vagrant ssh -c "cat /var/homelabos/homelab_
 machine's host file (usually `/etc/hosts`). Now you should be able to access http://servicename.localhost:2280/
 where `servicename` is the name of any services you have enabled in `config.yml`.
 If you make changes to the Ansible scripts you can run `make provision` to run them again.
+
+To deploy just one service you can run `make update_one SERVICE_NAME` e.g. `make update_one zulip`
 
 To run just one set of tags you can do something like
 `ansible-playbook --extra-vars="@config.yml" -i inventory -t tinc-nginx playbook.homelabos.yml`

@@ -5,4 +5,5 @@ kibitzr.yml
 kibitzr-creds.yml
 config.yml
 fetch/
+settings/
 /site
