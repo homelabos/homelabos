@@ -58,6 +58,6 @@
     - homelabos
     - deploy
   roles:
-    - homelabos_base
+    - homelabos_deploy
 
 ...

@@ -1,4 +1,5 @@
 # 0.5 - Release Candidate
+* Added Automated Settings Sync via Git
 * Improved deployment - Each service is now fully independent from each other
 * Added Inventario - Home Inventory Management Software
 * Added Mashio - Home Brewery Management Software

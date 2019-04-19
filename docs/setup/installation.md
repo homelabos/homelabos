@@ -14,7 +14,18 @@ To change any setting, edit your `config.yml` file, then run `make update`.
 
 To reset your settings, run `make config_reset`, then run `make config` again.
 
+## Syncing Settings via Git
+
+HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
+So you can create a private repo on your Gitea instance for example, then clone that repo over the
+settings folder. Now any changes you make to `config.yml` will be commited and pushed to that git
+repo whenever you run `make`, `make update` or `make config`.
+
 ## Debugging
+
+## [WARNING] Ansible is in a world writable directory (../HomelabOS), ignoring it as an ansible.cfg source.
+
+Run `chmod 775 HomelabOS/` against the HomelabOS folder.
 
 ### 404
 

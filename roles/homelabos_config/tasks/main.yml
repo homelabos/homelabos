@@ -1,6 +1,6 @@
 ---
 - name: Copy HomelabOS config file into place
-  template: src='config.yml.j2' dest='{{ playbook_dir }}/config.yml'
+  template: src='config.yml.j2' dest='{{ playbook_dir }}/settings/config.yml'
 
 - name: Generate Ansible inventory file
   template: src='inventory.j2' dest='{{ playbook_dir }}/inventory'
