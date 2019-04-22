@@ -22,6 +22,8 @@ services:
       - "traefik.http.frontend.rule=Host:plex.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=32400"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:plex.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=32400"
+{% endif %}

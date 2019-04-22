@@ -41,6 +41,8 @@ services:
       - "traefik.http.frontend.rule=Host:bookstack.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=80"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:bookstack.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
+{% endif %}

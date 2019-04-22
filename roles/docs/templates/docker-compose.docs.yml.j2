@@ -21,6 +21,8 @@ services:
       - "traefik.http.frontend.rule=Host:docs.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=80"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:docs.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
+{% endif %}
