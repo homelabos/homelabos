@@ -1,5 +1,8 @@
 ---
 
+- name: GPG key for the official Docker repository
+  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
 - apt_repository:
     repo: "{{item}}"
     update_cache: false  # We will do ourselfs afterwards
@@ -8,17 +11,14 @@
     - 'deb-src http://archive.ubuntu.com/ubuntu bionic universe'
     - 'deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable'
 
-# - apt:
-#     update_cache: true
+- apt:
+  update_cache: true
 
 - name: Upgrade all dist packages
   apt: upgrade=dist
   ignore_errors: true
   tags:
     - dependencies
-
-- name: GPG key for the official Docker repository
-  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
 
 - name: Install necessities and nice-to-haves
   apt:
