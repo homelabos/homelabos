@@ -37,7 +37,7 @@ update: logo git_sync
 
 # Update just one HomelabOS service
 update_one: logo git_sync
-	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@config.yml" -i inventory -t deploy playbook.homelabos.yml
+	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 
 %:
 	@:
