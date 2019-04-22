@@ -4,6 +4,7 @@ ubuntu-bionic-18.04-cloudimg-console.log
 kibitzr.yml
 kibitzr-creds.yml
 config.yml
+inventory
 fetch/
 settings/
 /site

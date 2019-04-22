@@ -34,6 +34,8 @@ services:
       - "traefik.http.frontend.rule=Host:grafana.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=3000"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:grafana.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=3000"
+{% endif %}

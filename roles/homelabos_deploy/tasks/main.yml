@@ -1,24 +1,5 @@
 ---
 
-- name: Deploy enabled services.
-  include_role:
-    name: "{{ service_item }}"
-  when: "enabled_services[service_item]"
-  loop: "{{ services|flatten(levels=1) }}"
-  loop_control:
-    loop_var: service_item
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
-
-- name: Ensure disabled services are not running
-  systemd:
-    name: "{{ item }}"
-    state: stopped
-  when: "not enabled_services[item]"
-  with_items:
-    - "{{ services }}"
-  ignore_errors: "yes"
-
 - name: Read Tor SSH connection info
   shell: cat /var/lib/tor/ssh-onion/hostname
   register: tor_ssh_domain_file
@@ -28,6 +9,31 @@
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_http_domain_file
   when: enable_tor
+
+- debug:
+    var: tor_ssh_domain_file
+
+- debug:
+    var: tor_http_domain_file
+
+- name: Deploy enabled services.
+  include_role:
+    name: "{{ service_item }}"
+  when: "enabled_services[service_item]"
+  loop: "{{ services|flatten(levels=1) }}"
+  loop_control:
+    loop_var: service_item
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain_file is defined else '' }}"
+
+- name: Ensure disabled services are not running
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+  when: "not enabled_services[item]"
+  with_items:
+    - "{{ services }}"
+  ignore_errors: "yes"
 
 - debug:
     msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started."

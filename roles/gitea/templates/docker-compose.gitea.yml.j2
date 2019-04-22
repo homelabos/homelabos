@@ -33,9 +33,11 @@ services:
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=3000"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:gitea.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=3000"
+{% endif %}
 
   gitea_db:
     image: mariadb
