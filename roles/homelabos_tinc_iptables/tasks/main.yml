@@ -84,13 +84,6 @@
     jump: DNAT
   become: true
 
-- name: Set ipTables post-routing masquerade
-  iptables:
-    table: nat
-    chain: POSTROUTING
-    jump: MASQUERADE
-  become: true
-
 - name: Set ipTables forwarding chain tun0->eth0
   iptables:
     chain: FORWARD
@@ -116,7 +109,7 @@
     chain: FORWARD
     protocol: tcp
     destination_port: 443
-    to_destination: 10.0.0.1:443
+    destination: 10.0.0.1
     jump: ACCEPT
   become: true
 
@@ -125,8 +118,15 @@
     chain: FORWARD
     protocol: tcp
     destination_port: 80
-    to_destination: 10.0.0.1:80
+    destination: 10.0.0.1
     jump: ACCEPT
+  become: true
+
+  - name: Set ipTables post-routing masquerade
+  iptables:
+    table: nat
+    chain: POSTROUTING
+    jump: MASQUERADE
   become: true
 
 - name: Persist iptable routing across reboots
