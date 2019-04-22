@@ -54,6 +54,8 @@ services:
       - "traefik.http.frontend.rule=Host:transmission.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=9091"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:transmission.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=9091"
+{% endif %}

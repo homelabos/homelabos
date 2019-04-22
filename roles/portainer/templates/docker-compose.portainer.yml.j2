@@ -23,6 +23,8 @@ services:
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=9000"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:portainer.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=9000"
+{% endif %}

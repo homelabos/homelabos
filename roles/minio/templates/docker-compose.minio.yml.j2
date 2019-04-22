@@ -27,6 +27,8 @@ services:
       - "traefik.http.port=9000"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:minio.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=9000"
+{% endif %}
