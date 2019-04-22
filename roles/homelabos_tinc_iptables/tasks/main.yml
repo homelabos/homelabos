@@ -122,7 +122,7 @@
     jump: ACCEPT
   become: true
 
-  - name: Set ipTables post-routing masquerade
+- name: Set ipTables post-routing masquerade
   iptables:
     table: nat
     chain: POSTROUTING
