@@ -12,15 +12,6 @@
     - name: 'Install Python'
       raw: sudo apt-get -y install python-simplejson
 
-# Configure the server itself
-- hosts: all
-  become: true
-  gather_facts: "True"
-  tags: common
-  roles:
-    # Install Docker, configure basic server settings
-    - homelabos_common
-
 # Configure a TOR hidden service for remote access without a public IP
 - name: "Setup TOR"
   tags: tinc
@@ -30,6 +21,15 @@
   roles:
     - role: tor
       when: enable_tor
+
+# Configure the server itself
+- hosts: all
+  become: true
+  gather_facts: "True"
+  tags: common
+  roles:
+    # Install Docker, configure basic server settings
+    - homelabos_common
 
 - name: "Setup tinc VPN"
   tags: tinc
