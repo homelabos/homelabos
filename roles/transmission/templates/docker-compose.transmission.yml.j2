@@ -40,7 +40,7 @@ services:
       - TZ={{ common_timezone }}
       - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
       # Password = `transmission`
-      - TRANSMISSION_RPC_PASSWORD="{62b16db87b89a91dd49a5110a7cafc06d20eb4f2wtK6kqPj"
+      - TRANSMISSION_RPC_PASSWORD="{{ default_password }}"
       - TRANSMISSION_RPC_USERNAME={{ default_username }}
       - TRANSMISSION_SPEED_LIMIT_UP=100
       - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
