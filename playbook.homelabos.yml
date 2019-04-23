@@ -17,7 +17,6 @@
   become: true
   gather_facts: "True"
   tags: common
-
   roles:
     # Install Docker, configure basic server settings
     - homelabos_common

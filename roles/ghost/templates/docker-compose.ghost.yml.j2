@@ -1,0 +1,44 @@
+---
+# by default, the Ghost image will use SQLite (and thus requires no separate database container)
+# we have used MySQL here merely for demonstration purposes (especially environment-variable-based configuration)
+
+version: '3.1'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+
+  ghost:
+    image: ghost:1-alpine
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:ghost.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=2368"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:ghost.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=2368"
+{% endif %}
+    # environment:
+      ## see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables
+      # database__client: mysql
+      # database__connection__host: db
+      # database__connection__user: root
+      # database__connection__password: example
+      # database__connection__database: ghost
+
+  # db:
+    # image: mysql:5.7
+    # restart: always
+    # environment:
+      # MYSQL_ROOT_PASSWORD: example
