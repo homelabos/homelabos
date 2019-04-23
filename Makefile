@@ -5,7 +5,7 @@ deploy: logo git_sync config
 	@ansible-playbook --extra-vars="@settings/config.yml" -i inventory playbook.homelabos.yml
 
 # Initial configuration
-config: logo git_sync
+config:
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
@@ -20,8 +20,9 @@ logo:
 git_sync:
 	@mkdir -p settings > /dev/null 2>&1
 # If there is a git repo, then attempt to update
-	@[ -f settings/.git ] || cd settings && \
-	 	git pull > /dev/null 2>&1 && \
+	@[ -d settings/.git/ ] && cd settings && \
+		echo "Git Sync:" && \
+	 	git pull && \
 		git add * > /dev/null 2>&1 && \
 		git commit -a -m "Settings update" > /dev/null 2>&1 ; \
 		git push > /dev/null 2>&1
@@ -45,26 +46,26 @@ tag: logo git_sync config
 	@ansible-playbook --extra-vars="@settings/config.yml" -i inventory -t $(filter-out $@,$(MAKECMDGOALS)) playbook.homelabos.yml
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
-docs_build: logo
+docs_build: logo git_sync config
 	@which mkdocs && mkdocs build || echo "Unable to build the documentation. Please install mkdocs."
 
 # Restore a server with the most recent backup. Assuming Backups were running.
-restore: logo
+restore: logo git_sync config
 	@ansible-playbook -i inventory restore.yml
 
 # Spin up a development stack
-develop: logo
+develop: logo git_sync config
 	@#vagrant plugin install vagrant-disksize
 	@vagrant up
 	@vagrant provision
 
 # Run linting scripts
-lint: logo
+lint: logo git_sync config
 	@pip install yamllint
 	@find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
 
 # Restart all enabled services
-restart: logo
+restart: logo git_sync config
 	@ansible-playbook --extra-vars="@settings/config.yml" -i inventory playbook.restart.yml
 
 # Hacky fix to allow make to accept multiple arguments
