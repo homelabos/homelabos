@@ -9,7 +9,7 @@
     src: docker-compose.tick.yml.j2
     dest: /var/homelabos/tick/docker-compose.tick.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure telegraf
   template: src=telegraf.conf.j2 dest=/var/homelabos/tick/telegraf.conf
@@ -23,4 +23,3 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
-...

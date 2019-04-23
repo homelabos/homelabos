@@ -9,7 +9,7 @@
     src: docker-compose.miniflux.yml.j2
     dest: /var/homelabos/miniflux/docker-compose.miniflux.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure miniflux systemd service.
   template: src=service.j2 dest=/etc/systemd/system/miniflux.service
@@ -20,4 +20,3 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
-...
