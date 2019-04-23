@@ -25,6 +25,7 @@ enable_dasher: False
 enable_docs: False
 enable_emby: False
 enable_firefly_iii: False
+enable_ghost: False
 enable_gitea: False
 enable_grafana: False
 enable_homeassistant: False
@@ -73,6 +74,7 @@ enabled_services:
   docs: "{{ enable_docs }}"
   emby: "{{ enable_emby }}"
   firefly_iii: "{{ enable_firefly_iii }}"
+  ghost: "{{ enable_ghost }}"
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
   homeassistant: "{{ enable_homeassistant }}"
@@ -162,6 +164,7 @@ services:
   - docs
   - emby
   - firefly_iii
+  - ghost
   - gitea
   - grafana
   - homeassistant
