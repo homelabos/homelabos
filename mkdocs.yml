@@ -26,6 +26,7 @@ pages:
       - BulletNotes: software/bulletnotes.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
+      - Duplicati: software/duplicati.md
       - Emby: software/emby.md
       - Firefly III: software/firefly.md
       - Gitea: software/gitea.md
@@ -51,4 +52,3 @@ pages:
       - Transmission: software/transmission.md
   - Development:
       - Adding Services: development/adding_services.md
-...
