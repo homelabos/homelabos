@@ -21,7 +21,7 @@ Update the `mkdocs.yml` file with a reference to the newly created doc file.
 The service needs to be added to 3 places within
 `group_vars/all`.
 
-Finally under the `# Enabled List` section.
+First under the `# Enabled List` section.
 All services here should default to `False`.
 Next under the `enabled_services:` section in alphabetical order. 
 Finally under the `services:` section.
