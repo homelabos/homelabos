@@ -11,7 +11,7 @@
     src: docker-compose.mailserver.yml.j2
     dest: /var/homelabos/mailserver/docker-compose.mailserver.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure mailserver systemd service.
   template: src=service.j2 dest=/etc/systemd/system/mailserver.service
@@ -22,4 +22,3 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
-...

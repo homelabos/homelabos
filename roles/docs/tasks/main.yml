@@ -26,25 +26,25 @@
 
 - name: Ensure directory structure exists
   file:
-    path: '/var/homelabos/docs/docs/{{ item.path }}'
+    path: "/var/homelabos/docs/docs/{{ item.path }}"
     state: directory
-  with_filetree: 'docs/'
+  with_filetree: "docs/"
   when: item.state == 'directory'
 
 - name: Configure HomelabOS Documentation.
   template:
-    src: '{{ item.src }}'
-    dest: '/var/homelabos/docs/docs/{{ item.path }}'
-  with_filetree: 'docs/'
+    src: "{{ item.src }}"
+    dest: "/var/homelabos/docs/docs/{{ item.path }}"
+  with_filetree: "docs/"
   when: item.state == 'file'
   vars:
-    tor_domain: "{{ tor_domain_file.stdout }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"
 
 - name: copy configuration files
   copy:
-    src: '{{ item }}'
-    dest: '/var/homelabos/docs/{{ item }}'
+    src: "{{ item }}"
+    dest: "/var/homelabos/docs/{{ item }}"
   loop:
     - Pipfile
     - Pipfile.lock
@@ -65,7 +65,7 @@
     src: docker-compose.docs.yml.j2
     dest: /var/homelabos/docs/docker-compose.docs.yml
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain is defined else '' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure HomelabOS systemd service.
   template: src=service.j2 dest=/etc/systemd/system/docs.service
@@ -76,4 +76,3 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: restarted
-...
