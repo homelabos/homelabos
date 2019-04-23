@@ -1,12 +1,13 @@
 # 0.5 - Release Candidate
 * Added Automated Settings Sync via Git
 * Improved deployment - Each service is now fully independent from each other
-* Added Inventario - Home Inventory Management Software
-* Added Mashio - Home Brewery Management Software
-* Added Homedash - Home Server Dashboard Software
 * Added Airsonic - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
 * Added Bookstack - Simple & Free Wiki Software
+* Added Ghost - Ghost is a platform for building and running a modern online publication
+* Added Homedash - Home Server Dashboard Software
+* Added Inventario - Home Inventory Management Software
 * Added Jellyfin - The Free Software Media System
+* Added Mashio - Home Brewery Management Software
 * Added openLDAP - Open Source LDAP Server
 * Added Zulip - Threaded Chat Software
 * Various improvements and bug fixes

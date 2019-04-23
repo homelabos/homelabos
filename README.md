@@ -55,6 +55,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 * [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 * [Emby](https://emby.media/) - Personal Media Server
 * [Firefly III](https://firefly-iii.org/) - Money management budgeting app
+* [Ghost](https://ghost.org/) - Ghost is a platform for building and running a modern online publication
 * [Gitea](https://gitea.io/en-US/) - Git hosting
 * [Grafana](https://grafana.com/) - Pretty graphs
 * [Home Assistant](https://www.home-assistant.io/) - Home Automation
@@ -144,8 +145,7 @@ If you make changes to the Ansible scripts you can run `make provision` to run t
 
 To deploy just one service you can run `make update_one SERVICE_NAME` e.g. `make update_one zulip`
 
-To run just one set of tags you can do something like
-`ansible-playbook --extra-vars="@config.yml" -i inventory -t tinc-nginx playbook.homelabos.yml`
+To run just one set of tags you can run `make tag TAG_NAME` e.g. `make tag tinc`
 
 ### Working locally on the documentation
 

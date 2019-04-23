@@ -35,12 +35,13 @@ update: logo git_sync
 	@ansible-playbook --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 	@echo "\x1B[01;93m========== Update completed! ==========\n\x1B[0m"
 
-# Update just one HomelabOS service
+# Update just one HomelabOS service `make update_one inventario`
 update_one: logo git_sync
 	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 
-%:
-	@:
+# Run just items tagged with a specific tag `make tag tinc`
+tag: logo git_sync
+	ansible-playbook --extra-vars="@settings/config.yml" -i inventory -t $(filter-out $@,$(MAKECMDGOALS)) playbook.homelabos.yml
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo
@@ -64,3 +65,7 @@ lint: logo
 # Restart all enabled services
 restart: logo
 	@ansible-playbook --extra-vars="@settings/config.yml" -i inventory playbook.restart.yml
+
+# Hacky fix to allow make to accept multiple arguments
+%:
+	@:
