@@ -56,8 +56,8 @@ restore: logo git_sync config
 # Spin up a development stack
 develop: logo git_sync config
 	@#vagrant plugin install vagrant-disksize
-	@vagrant up
-	@vagrant provision
+	@[ -f settings/test_config.yml ] || cp settings/config.yml settings/test_config.yml
+	@vagrant up --provision
 
 # Run linting scripts
 lint: logo git_sync config

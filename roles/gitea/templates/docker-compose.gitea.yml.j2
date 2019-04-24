@@ -15,6 +15,7 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
+      - DB_PASSWD="{{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}"
     restart: unless-stopped
     links:
       - gitea_db:db
@@ -47,7 +48,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=gitea
       - MYSQL_USER=gitea
-      - MYSQL_PASSWORD=gitea
       - MYSQL_DATABASE=gitea
+      - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}"
     volumes:
       - /var/homelabos/gitea_db:/var/lib/mysql

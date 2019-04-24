@@ -19,7 +19,7 @@ services:
       - MYSQL_DATABASE=inventario
       - MYSQL_TEST_DATABASE=inventario_test
       - MYSQL_USER=inventario
-      - MYSQL_PASSWORD=inventario
+      - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/inventario_db_password chars=digits') }}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -42,7 +42,8 @@ services:
     volumes:
       - /var/homelabos/inventario_db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=inventario
+      - MYSQL_ROOT_PASSWORD="{{ lookup('password', './settings/passwords/inventario_db_root_password chars=digits') }}"
+      - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/inventario_db_password chars=digits') }}"
       - MYSQL_DATABASE=inventario
       - MYSQL_TEST_DATABASE=inventario_test
       - MYSQL_USER=inventario

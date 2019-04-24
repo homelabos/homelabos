@@ -14,7 +14,7 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      - DATABASE_URL=postgres://miniflux:EsQMeV35CskJPE9eJwwqeV3ZFfZZ@miniflux_db/miniflux?sslmode=disable
+      - DATABASE_URL=postgres://miniflux:{{ lookup('password', './settings/passwords/miniflux_db_password chars=digits') }}@miniflux_db/miniflux?sslmode=disable
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -34,6 +34,6 @@ services:
     restart: unless-stopped
     environment:
       - POSTGRES_USER=miniflux
-      - POSTGRES_PASSWORD=EsQMeV35CskJPE9eJwwqeV3ZFfZZ
+      - POSTGRES_PASSWORD="{{ lookup('password', './settings/passwords/miniflux_db_password chars=digits') }}"
     volumes:
       - /var/homelabos/miniflux/db:/var/lib/postgresql/data

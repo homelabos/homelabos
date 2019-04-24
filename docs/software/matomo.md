@@ -2,7 +2,9 @@
 
 ## Setup
 
-During the setup wizard, your Database host should be `db` and the database name, user, and password, all `matomo`.
+During the setup wizard, your Database host should be `db` and the database name and user should be `matomo`.
+
+You can find the database password by running `cat settings/passwords/matomo_db_password` from within the HomelabOS root directory.
 
 ## Access
 

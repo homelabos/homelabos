@@ -15,9 +15,9 @@ Vagrant.configure(2) do |config|
     ansible.verbose = "vvv"
     ansible.playbook = "playbook.homelabos.yml"
     ansible.groups = {
-      "homelabos" => ["default"],
+      "homelabos" => ["default","testtinc"],
       "vagrant" => ["default"],
     }
-    ansible.extra_vars = 'config.yml'
+    ansible.extra_vars = 'settings/test_config.yml'
   end
 end
