@@ -30,6 +30,7 @@ pages:
       - Firefly III: software/firefly.md
       - Gitea: software/gitea.md
       - Grafana: software/grafana.md
+      - Guacamole: software/guacamole.md
       - Home Assistant: software/homeassistant.md
       - Inventario: software/inventario.md
       - Jackett: software/jackett.md
@@ -51,4 +52,3 @@ pages:
       - Transmission: software/transmission.md
   - Development:
       - Adding Services: development/adding_services.md
-...

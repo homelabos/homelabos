@@ -1,0 +1,22 @@
+---
+- name: Make guacamole directory.
+  file:
+    path: "/var/homelabos/guacamole"
+    state: directory
+
+- name: Copy guacamole docker-compose.yml file into place.
+  template:
+    src: docker-compose.guacamole.yml.j2
+    dest: /var/homelabos/guacamole/docker-compose.guacamole.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure guacamole systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/guacamole.service
+
+- name: Start guacamole
+  systemd:
+    name: guacamole
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
