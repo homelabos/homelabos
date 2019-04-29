@@ -28,6 +28,7 @@ enable_firefly_iii: False
 enable_ghost: False
 enable_gitea: False
 enable_grafana: False
+enable_guacamole: False
 enable_homeassistant: False
 enable_homedash: False
 enable_inventario: False
@@ -77,6 +78,7 @@ enabled_services:
   ghost: "{{ enable_ghost }}"
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
+  guacamole: "{{ enable_guacamole }}"
   homeassistant: "{{ enable_homeassistant }}"
   homedash: "{{ enable_homedash }}"
   inventario: "{{ enable_inventario }}"
@@ -167,6 +169,7 @@ services:
   - ghost
   - gitea
   - grafana
+  - guacamole
   - homeassistant
   - homedash
   - inventario

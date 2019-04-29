@@ -22,16 +22,16 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ## Features
 
-* One command deployment
-* Automated Backups
-* Easy Restore
-* Automated Apple Health Data import
-* Automated Tor Onion Service access
-* Automated HTTPS via LetsEncrypt
-* [Automated Settings Sync](https://nickbusey.gitlab.io/HomelabOS/setup/installation/#syncing-settings-via-git)
-* OpenVPN
-* OpenLDAP
-* Cloud Bastion Server with Tinc VPN
+- One command deployment
+- Automated Backups
+- Easy Restore
+- Automated Apple Health Data import
+- Automated Tor Onion Service access
+- Automated HTTPS via LetsEncrypt
+- [Automated Settings Sync](https://nickbusey.gitlab.io/HomelabOS/setup/installation/#syncing-settings-via-git)
+- OpenVPN
+- OpenLDAP
+- Cloud Bastion Server with Tinc VPN
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
@@ -45,53 +45,54 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 ## Available Software
 
-* [Airsonic](https://airsonic.github.io/) - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
-* [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
-* [BookStack](https://www.bookstackapp.com/) - Simple & Free Wiki Software
-* [BulletNotes](https://gitlab.com/NickBusey/BulletNotes.git) - Note taking application
-* [Code-Server](https://github.com/codercom/code-server) - Run VS Code on a remote server.
-* [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
-* [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
-* [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
-* [Emby](https://emby.media/) - Personal Media Server
-* [Firefly III](https://firefly-iii.org/) - Money management budgeting app
-* [Ghost](https://ghost.org/) - Ghost is a platform for building and running a modern online publication
-* [Gitea](https://gitea.io/en-US/) - Git hosting
-* [Grafana](https://grafana.com/) - Pretty graphs
-* [Home Assistant](https://www.home-assistant.io/) - Home Automation
-* [Homedash](https://lamarios.github.io/Homedash2/) - Dashboard
-* [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
-* [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management
-* [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
-* [Jellyfin](https://github.com/jellyfin/jellyfin) - The Free Software Media System
-* [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
-* [Mailserver](https://github.com/hardware/mailserver/) - Fully featured mail server
-* [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
-* [Matomo](https://matomo.org/) - Web analytics
-* [Minio](https://minio.io/) - S3 hosting
-* [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
-* [Monica](https://www.monicahq.com/) - Contact / relationship manager
-* [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
-* [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
-* [Paperless](https://github.com/danielquinn/paperless) - Document management
-* [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
-* [Pi-hole](https://pi-hole.net/) - Ad blocking
-* [Plex](https://www.plex.tv/) - Personal Media Server
-* [Portainer](https://www.portainer.io/) - Easy Docker management
-* [Radarr](https://radarr.video/) - Automated movie downloading
-* [Sonarr](https://sonarr.tv/) - Automated TV downloading
-* [Syncthing](https://syncthing.net/) - File syncing software
-* [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
-* [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
-* [Transmission](https://transmissionbt.com/) - BitTorrent client
-* [Zulip](https://github.com/zulip/zulip) - Threaded chat software
+- [Airsonic](https://airsonic.github.io/) - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+- [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
+- [BookStack](https://www.bookstackapp.com/) - Simple & Free Wiki Software
+- [BulletNotes](https://gitlab.com/NickBusey/BulletNotes.git) - Note taking application
+- [Code-Server](https://github.com/codercom/code-server) - Run VS Code on a remote server.
+- [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
+- [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
+- [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
+- [Emby](https://emby.media/) - Personal Media Server
+- [Firefly III](https://firefly-iii.org/) - Money management budgeting app
+- [Ghost](https://ghost.org/) - Ghost is a platform for building and running a modern online publication
+- [Gitea](https://gitea.io/en-US/) - Git hosting
+- [Grafana](https://grafana.com/) - Pretty graphs
+- [Guacamole](https://guacamole.apache.org) - a clientless remote desktop gateway
+- [Home Assistant](https://www.home-assistant.io/) - Home Automation
+- [Homedash](https://lamarios.github.io/Homedash2/) - Dashboard
+- [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
+- [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management
+- [Jackett](https://github.com/Jackett/Jackett) - API Support for your favorite torrent trackers (helps Sonarr and Radarr)
+- [Jellyfin](https://github.com/jellyfin/jellyfin) - The Free Software Media System
+- [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
+- [Mailserver](https://github.com/hardware/mailserver/) - Fully featured mail server
+- [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
+- [Matomo](https://matomo.org/) - Web analytics
+- [Minio](https://minio.io/) - S3 hosting
+- [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
+- [Monica](https://www.monicahq.com/) - Contact / relationship manager
+- [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
+- [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
+- [Paperless](https://github.com/danielquinn/paperless) - Document management
+- [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
+- [Pi-hole](https://pi-hole.net/) - Ad blocking
+- [Plex](https://www.plex.tv/) - Personal Media Server
+- [Portainer](https://www.portainer.io/) - Easy Docker management
+- [Radarr](https://radarr.video/) - Automated movie downloading
+- [Sonarr](https://sonarr.tv/) - Automated TV downloading
+- [Syncthing](https://syncthing.net/) - File syncing software
+- [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
+- [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
+- [Transmission](https://transmissionbt.com/) - BitTorrent client
+- [Zulip](https://github.com/zulip/zulip) - Threaded chat software
 
 ## Requirements
 
 A server with:
 
-* Ubuntu 18.04
-* Passwordless SSH (with ssh keys) to a user that has passwordless sudo.
+- Ubuntu 18.04
+- Passwordless SSH (with ssh keys) to a user that has passwordless sudo.
 
 Ansible version 2.5+ installed on your computer (not the server).
 
@@ -114,9 +115,9 @@ to act as a bastion host via Tinc vpn and nginx.
 
 ## Get Support
 
-* [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
-* [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
-* Threaded support and development discussion on [Zulip](https://homelabos.zulipchat.com/)
+- [File an issue](https://gitlab.com/NickBusey/HomelabOS/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=)
+- [Ask a question on Reddit](https://www.reddit.com/r/HomelabOS/)
+- Threaded support and development discussion on [Zulip](https://homelabos.zulipchat.com/)
 
 ## Give Support
 

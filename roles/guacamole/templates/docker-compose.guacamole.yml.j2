@@ -1,0 +1,71 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+
+  init-guacamole-db:
+    image: guacamole/guacamole:latest
+    command: ["/bin/sh", "-c", "test -e /init/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgres > /init/initdb.sql" ]
+    volumes:
+      - dbinit:/init
+
+  postgres:
+    networks:
+      - traefik_network
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - dbinit:/docker-entrypoint-initdb.d        
+      - /var/homelabos/guacamole/dbdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: guacpostgress
+      POSTGRES_PASSWORD: {{ lookup('password', './settings/passwords/postgres_password chars=digits') }}
+    depends_on:
+      - init-guacamole-db
+
+  guacd:
+    networks:
+      - traefik_network
+    image: guacamole/guacd:latest
+    restart: unless-stopped
+
+  guac:
+    image: guacamole/guacamole:latest
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      GUACD_HOSTNAME: guacd
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_DATABASE: guacpostgress
+      POSTGRES_USER: guacpostgress
+      POSTGRES_PASSWORD: {{ lookup('password', './settings/passwords/postgres_password chars=digits') }}
+    depends_on:
+      - postgres
+      - guacd
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:guacamole.{{ domain }};AddPrefix:/guacamole"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8080"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:guacamole.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8080"
+{% endif %}
+
+volumes:
+  dbinit:
+    driver: local
+  dbdata:
+    driver: local
