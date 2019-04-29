@@ -21,7 +21,7 @@ services:
       - /var/homelabos/monicahq/storage/app/public:/var/www/monica/storage/app/public
     env_file:
       - /var/homelabos/monicahq/monicahq.env
-    env:
+    environment:
       - APP_KEY="{{ lookup('password', './settings/passwords/monicahq_app_key chars=digits length=32') }}"
       - DB_PASSWORD="{{ lookup('password', './settings/passwords/monicahq_db_password chars=digits') }}"
     labels:
@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
     env_file:
       - /var/homelabos/monicahq/monicahq.env
-    env:
+    environment:
       - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/monicahq_db_password chars=digits') }}"
     volumes:
       - /var/homelabos/monicahq/mysql:/var/lib/mysql

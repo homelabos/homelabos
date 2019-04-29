@@ -35,9 +35,11 @@ services:
       - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      {% if enable_tor %}- "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"{% endif %}
+      - "traefik.tor.port=80"
+{% endif %}
     extra_hosts:
 {% for service in services %}
       - {{ service }}.{{ domain }}:{{ homelab_ip }}
