@@ -19,6 +19,11 @@
   tags:
     - dependencies
 
+- name: Configure docker log settings
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+
 - name: Install necessities and nice-to-haves
   apt:
     name:
