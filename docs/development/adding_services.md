@@ -5,6 +5,10 @@
 Copy an existing role folder like 'inventario' from the `roles/` folder,
 then adapt the values as needed.
 
+### Use hardcoded volume paths
+
+All mounted docker volumes should point to a folder named after the service that is using it, and located under `/var/homelabos`.
+
 ## Add Service to Documentation
 
 ### Create a Documentation Page
