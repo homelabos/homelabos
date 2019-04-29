@@ -23,6 +23,7 @@ enable_codeserver: False
 enable_darksky_influx: False
 enable_dasher: False
 enable_docs: False
+enable_duplicati: False
 enable_emby: False
 enable_firefly_iii: False
 enable_ghost: False
@@ -73,6 +74,7 @@ enabled_services:
   darksky_influx: "{{ enable_darksky_influx }}"
   dasher: "{{ enable_dasher }}"
   docs: "{{ enable_docs }}"
+  duplicati: "{{ enable_duplicati }}"
   emby: "{{ enable_emby }}"
   firefly_iii: "{{ enable_firefly_iii }}"
   ghost: "{{ enable_ghost }}"
@@ -164,6 +166,7 @@ services:
   - bulletnotes
   - codeserver
   - docs
+  - duplicati
   - emby
   - firefly_iii
   - ghost
