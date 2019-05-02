@@ -72,6 +72,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Minio](https://minio.io/) - S3 hosting
 - [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
+- [NetData](http://my-netdata.io/) - Monitor your systems and applications, the right way!
 - [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 - [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management

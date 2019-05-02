@@ -41,6 +41,7 @@ pages:
       - Miniflux: software/miniflux.md
       - Minio: software/minio.md
       - Monica: software/monica.md
+      - Netdata: software/netdata.md
       - NextCloud: software/nextcloud.md
       - Paperless: software/paperless.md
       - Pi-hole: software/pihole.md
