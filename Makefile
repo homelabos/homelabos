@@ -20,12 +20,14 @@ logo:
 git_sync:
 	@mkdir -p settings > /dev/null 2>&1
 # If there is a git repo, then attempt to update
-	@[ -d settings/.git/ ] && cd settings && \
+	@if [ -d settings/.git/ ]; then \
+		cd settings && \
 		echo "Git Sync:" && \
-	 	git pull && \
+		git pull && \
 		git add * > /dev/null 2>&1 && \
 		git commit -a -m "Settings update" > /dev/null 2>&1 ; \
-		git push > /dev/null 2>&1
+		git push > /dev/null 2>&1; \
+	fi
 
 # Reset all local settings
 config_reset: logo
