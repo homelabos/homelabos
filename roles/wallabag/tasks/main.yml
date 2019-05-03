@@ -1,0 +1,22 @@
+---
+- name: Make wallabag directory.
+  file:
+    path: "/var/homelabos/wallabag"
+    state: directory
+
+- name: Copy wallabag docker-compose.yml file into place.
+  template:
+    src: docker-compose.wallabag.yml.j2
+    dest: /var/homelabos/wallabag/docker-compose.wallabag.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure wallabag systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/wallabag.service
+
+- name: Start wallabag
+  systemd:
+    name: wallabag
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -59,6 +59,7 @@ enable_syncthing: False
 enable_thelounge: False
 enable_tick: False
 enable_transmission: False
+enable_wallabag: False
 enable_xfinityusageinfluxdb: False
 enable_zulip: False
 
@@ -111,6 +112,7 @@ enabled_services:
   thelounge: "{{ enable_thelounge }}"
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
+  wallabag: "{{ enable_wallabag }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
 
@@ -202,4 +204,5 @@ services:
   - thelounge
   - tick
   - transmission
+  - wallabag
   - zulip
