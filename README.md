@@ -86,6 +86,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client
+- [Wallabag](https://wallabag.org/en) - Save and classify articles. Read them later. Freely.
 - [Zulip](https://github.com/zulip/zulip) - Threaded chat software
 
 ## Requirements
