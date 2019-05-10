@@ -8,5 +8,9 @@
 
 
 [38;5;208m                        created by Nick Busey [0m
+[38;5;208m                         http://nickbusey.com [0m
+
+[38;5;184m               with the help of many great contributors [0m
+[38;5;208m            https://gitlab.com/NickBusey/HomelabOS/graphs/master [0m
 
 
