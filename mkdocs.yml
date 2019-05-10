@@ -38,6 +38,7 @@ pages:
       - Kibitzr: software/kibitzr.md
       - Mashio: software/mashio.md
       - Matomo: software/matomo.md
+      - Mayan: software/mayan.md
       - Miniflux: software/miniflux.md
       - Minio: software/minio.md
       - Monica: software/monica.md

@@ -39,6 +39,7 @@ enable_kibitzr: False
 enable_mailserver: False
 enable_mashio: False
 enable_matomo: False
+enable_mayan: False
 enable_miniflux: False
 enable_minio: False
 enable_monicahq: False
@@ -92,6 +93,7 @@ enabled_services:
   mailserver: "{{ enable_mailserver }}"
   mashio: "{{ enable_mashio }}"
   matomo: "{{ enable_matomo }}"
+  mayan: "{{ enable_mayan }}"
   miniflux: "{{ enable_miniflux }}"
   minio: "{{ enable_minio }}"
   monicahq: "{{ enable_monicahq }}"
@@ -185,6 +187,7 @@ services:
   - mailserver
   - mashio
   - matomo
+  - mayan
   - miniflux
   - minio
   - monicahq
