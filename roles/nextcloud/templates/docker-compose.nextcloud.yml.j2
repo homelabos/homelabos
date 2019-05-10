@@ -7,26 +7,31 @@ networks:
       name: homelabos_traefik
 
 services:
-  # Calendar, Contact, and Photo Sync Server
   nextcloud:
-    image: nextcloud
-    restart: unless-stopped
+    image: hoellen/nextcloud:16.0
     networks:
       - traefik_network
-    links:
-      - nextcloud_db
-    volumes:
-      - /var/homelabos/nextcloud:/var/www/html
-      - /mnt/nas/Documents/Nextcloud:/var/www/html/data
+    depends_on:
+      - nextcloud-db
     environment:
-      - PGID=0
-      - PUID=0
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/nextcloud_db_password chars=digits') }}"
-      - MYSQL_HOST=nextcloud_db
-      - NEXTCLOUD_ADMIN_USER={{ default_username }}
-      - NEXTCLOUD_ADMIN_PASSWORD={{ default_password }}
+      - UID={{ uid }}
+      - GID={{ gid }}
+      - UPLOAD_MAX_SIZE=10G
+      - APC_SHM_SIZE=128M
+      - OPCACHE_MEM_SIZE=128
+      - CRON_PERIOD=15m
+      - TZ=America/NewYork
+      - DOMAIN=localhost
+      - DB_TYPE=mysql
+      - DB_NAME=nextcloud
+      - DB_USER=nextcloud
+      - DB_PASSWORD={{ lookup('password', './settings/passwords/nextcloud_db_password chars=digits') }}
+      - DB_HOST=nextcloud-db
+    volumes:
+      - /var/homelabos/nextcloud/config:/config
+      - /mnt/nas/Documents/NextCloud:/data
+      - /var/homelabos/nextcloud/apps:/apps2
+      - /var/homelabos/nextcloud/themes:/nextcloud/themes
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -34,22 +39,24 @@ services:
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
       - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
+      - "traefik.http.port=8888"
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:nextcloud.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.tor.port=8888"
 {% endif %}
 
-  nextcloud_db:
+  # If using MySQL
+  nextcloud-db:
     image: mariadb:10.4
     networks:
       - traefik_network
-    restart: unless-stopped
     volumes:
       - /var/homelabos/nextcloud_db:/var/lib/mysql
+    restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD="{{ lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits') }}"
-      - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/nextcloud_db_password chars=digits') }}"
+      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits') }}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/nextcloud_db_password chars=digits') }}
+
