@@ -87,11 +87,21 @@
     mode: 0600
     state: touch
 
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
 - name: Configure NAS
   when: enable_nas
   lineinfile:
     path: /etc/fstab
-    line: "{{ nas_path }}  /mnt/nas  cifs  username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid=1000,iocharset=utf8,file_mode=0777,dir_mode=0777  0  0"
+    line: "{{ nas_path }}  /mnt/nas  cifs  username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid={{ uid_output.stdout }},gid={{ gid_output.stdout }},iocharset=utf8,file_mode=0777,dir_mode=0770  0  0"
 
 - name: Mount NAS Drives
   when: enable_nas
