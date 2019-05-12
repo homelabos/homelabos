@@ -9,12 +9,6 @@
   register: tor_http_domain_file
   when: enable_tor
 
-- debug:
-    var: tor_ssh_domain_file
-
-- debug:
-    var: tor_http_domain_file
-
 - name: Deploy enabled services.
   include_role:
     name: "{{ service_item }}"

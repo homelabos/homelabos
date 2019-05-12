@@ -1,0 +1,35 @@
+---
+- name: Make netdata directory.
+  file:
+    path: "/var/homelabos/netdata"
+    state: directory
+
+- name: Install necessities and nice-to-haves
+  apt:
+    name:
+      - apache2-utils
+
+- name: Test Setting Fact.
+  shell: htpasswd -nbB {{ default_username }} "{{ default_password }}" | sed -e s/\\$/\\$\\$/g
+  register: htpasswd
+
+- debug:
+    msg: "{{htpasswd.stdout}}"
+
+- name: Copy netdata docker-compose.yml file into place.
+  template:
+    src: docker-compose.netdata.yml.j2
+    dest: /var/homelabos/netdata/docker-compose.netdata.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    htpasswd: "{{htpasswd.stdout}}"
+
+- name: Configure netdata systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/netdata.service
+
+- name: Start netdata
+  systemd:
+    name: netdata
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

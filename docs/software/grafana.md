@@ -11,6 +11,8 @@ dash and datasource will only with if you have the [TICK](software/tick) stack e
 
 You can login with the default user and pass you setup for HomelabOS.
 
+To reset the admin password run `docker exec -it grafana_grafana_1 grafana-cli admin reset-admin-password 12345`.
+
 ## Access
 
 It is available at [https://grafana.{{ domain }}/](https://grafana.{{ domain }}/) or [http://grafana.{{ domain }}/](http://grafana.{{ domain }}/)

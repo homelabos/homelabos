@@ -38,9 +38,11 @@ pages:
       - Kibitzr: software/kibitzr.md
       - Mashio: software/mashio.md
       - Matomo: software/matomo.md
+      - Mayan: software/mayan.md
       - Miniflux: software/miniflux.md
       - Minio: software/minio.md
       - Monica: software/monica.md
+      - Netdata: software/netdata.md
       - NextCloud: software/nextcloud.md
       - Paperless: software/paperless.md
       - Pi-hole: software/pihole.md

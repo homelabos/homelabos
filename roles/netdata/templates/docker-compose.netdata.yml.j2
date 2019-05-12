@@ -1,0 +1,40 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  netdata:
+    image: netdata/netdata
+    hostname: {{ domain }}
+    networks:
+      - traefik_network
+    ports:
+      - 19999:19999
+    environment:
+      - PGID=116
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:netdata.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=19999"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.frontend.auth.basic={{htpasswd.stdout}}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:netdata.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=19999"
+{% endif %}

@@ -39,9 +39,11 @@ enable_kibitzr: False
 enable_mailserver: False
 enable_mashio: False
 enable_matomo: False
+enable_mayan: False
 enable_miniflux: False
 enable_minio: False
 enable_monicahq: False
+enable_netdata: False
 enable_nextcloud: False
 enable_nzbget: False
 enable_openldap: False
@@ -58,6 +60,7 @@ enable_syncthing: False
 enable_thelounge: False
 enable_tick: False
 enable_transmission: False
+enable_wallabag: False
 enable_xfinityusageinfluxdb: False
 enable_zulip: False
 
@@ -90,9 +93,11 @@ enabled_services:
   mailserver: "{{ enable_mailserver }}"
   mashio: "{{ enable_mashio }}"
   matomo: "{{ enable_matomo }}"
+  mayan: "{{ enable_mayan }}"
   miniflux: "{{ enable_miniflux }}"
   minio: "{{ enable_minio }}"
   monicahq: "{{ enable_monicahq }}"
+  netdata: "{{ enable_netdata }}"
   nextcloud: "{{ enable_nextcloud }}"
   nzbget: "{{ enable_nzbget }}"
   openldap: "{{ enable_openldap }}"
@@ -109,6 +114,7 @@ enabled_services:
   thelounge: "{{ enable_thelounge }}"
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
+  wallabag: "{{ enable_wallabag }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
 
@@ -181,9 +187,11 @@ services:
   - mailserver
   - mashio
   - matomo
+  - mayan
   - miniflux
   - minio
   - monicahq
+  - netdata
   - nextcloud
   - openldap
   - openvpn
@@ -199,4 +207,5 @@ services:
   - thelounge
   - tick
   - transmission
+  - wallabag
   - zulip

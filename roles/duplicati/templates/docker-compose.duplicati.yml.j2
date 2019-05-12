@@ -31,6 +31,6 @@ services:
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:duplicati.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.tor.port=8200"
 {% endif %}
     restart: unless-stopped
