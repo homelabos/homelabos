@@ -19,6 +19,17 @@
   tags:
     - dependencies
 
+- name: Make HomelabOS data directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "1777"
+  loop:
+    - /var/homelabos/traefik
+    - /mnt/nas
+    - /etc/docker
+  ignore_errors: "yes"
+
 - name: Configure docker log settings
   copy:
     src: daemon.json
@@ -67,16 +78,6 @@
   locale_gen:
     name: en_US.UTF-8
     state: present
-
-- name: Make HomelabOS data directories.
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: "1777"
-  loop:
-    - /var/homelabos/traefik
-    - /mnt/nas
-  ignore_errors: "yes"
 
 - name: Configure Traefik.
   template: src=traefik.toml dest=/var/homelabos/traefik/traefik.toml
