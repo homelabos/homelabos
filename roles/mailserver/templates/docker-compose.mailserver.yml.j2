@@ -9,7 +9,6 @@ networks:
 services:
   mailserver:
     image: hardware/mailserver:1.1-stable
-    container_name: mailserver
     restart: unless-stopped
     domainname: {{ domain }}                    # Mail server A/MX/FQDN & reverse PTR = mail.domain.tld.
     hostname: mail
@@ -32,8 +31,7 @@ services:
     # - "995:995"     # POP3S      SSL/TLS  - Optional - For webmails/desktop clients
       - "4190:4190"   # SIEVE      STARTTLS - Optional - Recommended for mail filtering
     environment:
-      {# - DBPASS={{ mail_database_password }}       # MariaDB database password (required) #}
-      - DBPASS="{{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}"
+      - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
       - RSPAMD_PASSWORD={{ default_password }}     # Rspamd WebUI password (required)
     # - ADD_DOMAINS=aa.tld, www.bb.tld...      # Add additional domains separated by commas (needed for dkim keys etc.)
     # - DEBUG_MODE=true                        # Enable Postfix, Dovecot, Rspamd and Unbound verbose logging
@@ -61,7 +59,6 @@ services:
   # Configuration : https://github.com/hardware/mailserver/wiki/Postfixadmin-initial-configuration
   postfixadmin:
     image: hardware/postfixadmin
-    container_name: postfixadmin
     restart: unless-stopped
     domainname: {{ domain }}
     hostname: mail
@@ -84,7 +81,6 @@ services:
   # Configuration : https://github.com/hardware/mailserver/wiki/Rainloop-initial-configuration
   rainloop:
     image: hardware/rainloop
-    container_name: rainloop
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -104,14 +100,13 @@ services:
   # https://mariadb.org/
   mariadb:
     image: mariadb:10.2
-    container_name: mariadb
     restart: unless-stopped
     # Info : These variables are ignored when the volume already exists (if databases was created before).
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=postfix
       - MYSQL_USER=postfix
-      - DBPASS="{{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}"
+      - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     volumes:
       - {{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql
     networks:
@@ -122,7 +117,6 @@ services:
   # https://redis.io/
   redis:
     image: redis:4.0-alpine
-    container_name: redis
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
