@@ -1,6 +1,6 @@
 # Mayan
 
-[Mayan EDMS](https://gitlab.com/NickBusey/mayan) Mayan EDMS is a document management system.
+[Mayan EDMS](https://mayan-edms.com/) Mayan EDMS is a document management system.
 
 ## Access
 
