@@ -6,9 +6,9 @@
     repo: "{{item}}"
     update_cache: false # We will do ourselfs afterwards
   with_items:
-    - "deb http://archive.ubuntu.com/ubuntu bionic universe"
-    - "deb-src http://archive.ubuntu.com/ubuntu bionic universe"
-    - "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+    - "deb http://archive.ubuntu.com/ubuntu {{ubuntu_release}} universe"
+    - "deb-src http://archive.ubuntu.com/ubuntu {{ubuntu_release}} universe"
+    - "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ubuntu_release}} stable"
 
 - apt:
     update_cache: true
