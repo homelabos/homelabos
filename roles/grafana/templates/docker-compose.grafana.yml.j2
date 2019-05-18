@@ -21,11 +21,11 @@ services:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,natel-discrete-panel,petrslavotinek-carpetplot-panel,vonage-status-panel,raintank-worldping-app
 {% if smtp_host %}
       - GF_SMTP_ENABLED=true
-      - GF_SMTP_HOST={{ smtp_host }}:{{ smtp_port }}
-      - GF_SMTP_USER={{ smtp_user }}
-      - GF_SMTP_PASSWORD={{ smtp_pass }}
-      - GF_SMTP_FROM_ADDRESS={{ smtp_from_email }}
-      - GF_SMTP_FROM_NAME={{ smtp_from_name }}
+      - GF_SMTP_HOST={{ smtp.host }}:{{ smtp.port }}
+      - GF_SMTP_USER={{ smtp.user }}
+      - GF_SMTP_PASSWORD={{ smtp.pass }}
+      - GF_SMTP_FROM_ADDRESS={{ smtp.from_email }}
+      - GF_SMTP_FROM_NAME={{ smtp.from_name }}
 {% endif %}
       - GF_SECURITY_ADMIN_USER={{ default_username }}
       - GF_SECURITY_ADMIN_PASSWORD={{ default_password }}

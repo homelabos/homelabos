@@ -14,7 +14,7 @@
 - name: Configure mailserver systemd service.
   template: src=service.j2 dest=/etc/systemd/system/mailserver.service
 
-- name: configure postfix
+- name: Configure postfix to forward to an external SMTP server
   lineinfile:
     path: /var/homelabos/mailserver/mail/postfix/custom.conf
     line: "{{ item }}"
@@ -26,8 +26,9 @@
     - "smtp_sasl_tls_security_options = noanonymous"
     - "smtp_tls_security_level = encrypt"
     - "header_size_limit = 4096000"
-    - "relayhost = [{{ smtp_host }}]:{{ smtp_port }}"
+    - "relayhost = [{{ smtp.host }}]:{{ smtp.port }}"
   become: true
+  when: mailserver.forward_to_smtp
 
 - name: configure sasl
   template:
@@ -38,6 +39,7 @@
     mode: 0600
   become: true
   register: mail_sasl_result
+  when: mailserver.forward_to_smtp
 
 - name: Start mailserver
   systemd:
@@ -46,12 +48,10 @@
     daemon-reload: "yes"
     state: started
 
-# - name: Give postfix time to come online
-#   pause:
-#     seconds: 10
-
 - name: Update postfix password hashes
   shell: docker exec mailserver_mailserver_1 /usr/sbin/postmap /var/mail/postfix/sasl_password
+  when: mailserver.forward_to_smtp
 
 - name: Reload postfix
   shell: docker exec mailserver_mailserver_1  postfix reload
+  when: mailserver.forward_to_smtp
