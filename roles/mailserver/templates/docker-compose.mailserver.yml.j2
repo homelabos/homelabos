@@ -29,8 +29,7 @@ services:
     # - "995:995"     # POP3S      SSL/TLS  - Optional - For webmails/desktop clients
       - "4190:4190"   # SIEVE      STARTTLS - Optional - Recommended for mail filtering
     environment:
-      {# - DBPASS={{ mail_database_password }}       # MariaDB database password (required) #}
-      - DBPASS="{{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}"
+      - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
       - RSPAMD_PASSWORD={{ default_password }}     # Rspamd WebUI password (required)
     # - ADD_DOMAINS=aa.tld, www.bb.tld...      # Add additional domains separated by commas (needed for dkim keys etc.)
     # - DEBUG_MODE=true                        # Enable Postfix, Dovecot, Rspamd and Unbound verbose logging
@@ -106,7 +105,7 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=postfix
       - MYSQL_USER=postfix
-      - DBPASS="{{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}"
+      - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     volumes:
       - {{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql
     networks:

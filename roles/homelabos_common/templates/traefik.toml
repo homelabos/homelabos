@@ -31,3 +31,7 @@ defaultEntryPoints = ["http", "https"]
   onHostRule = true
   [acme.httpChallenge]
     entryPoint = "http"
+
+[[acme.domains]]
+  main = "*.{{ domain }}"
+  sans = ["{{ domain }}"]

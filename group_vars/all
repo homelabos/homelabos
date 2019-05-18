@@ -1,6 +1,8 @@
 # These are the defaults. They are overridden by values in your config.yml file.
 common_timezone: Etc/UTC
 
+ubuntu_release: bionic
+
 domain: localhost
 admin_email: test@test.com
 

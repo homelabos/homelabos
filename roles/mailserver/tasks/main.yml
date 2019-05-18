@@ -4,8 +4,6 @@
     path: "/var/homelabos/mailserver"
     state: directory
 
-# TODO: Remove postfix
-
 - name: Copy mailserver docker-compose.yml file into place.
   template:
     src: docker-compose.mailserver.yml.j2
@@ -16,9 +14,44 @@
 - name: Configure mailserver systemd service.
   template: src=service.j2 dest=/etc/systemd/system/mailserver.service
 
+- name: configure postfix
+  lineinfile:
+    path: /var/homelabos/mailserver/mail/postfix/custom.conf
+    line: "{{ item }}"
+    regexp: "{{ item.split('=')[0] }}"
+  with_items:
+    - "smtp_sasl_auth_enable = yes"
+    - "smtp_sasl_password_maps = hash:/var/mail/postfix/sasl_password"
+    - "smtp_sasl_security_options = noanonymous"
+    - "smtp_sasl_tls_security_options = noanonymous"
+    - "smtp_tls_security_level = encrypt"
+    - "header_size_limit = 4096000"
+    - "relayhost = [{{ smtp_host }}]:{{ smtp_port }}"
+  become: true
+
+- name: configure sasl
+  template:
+    src: sasl_password.j2
+    dest: /var/homelabos/mailserver/mail/postfix/sasl_password
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+  register: mail_sasl_result
+
 - name: Start mailserver
   systemd:
     name: mailserver
     enabled: "yes"
     daemon-reload: "yes"
     state: started
+
+# - name: Give postfix time to come online
+#   pause:
+#     seconds: 10
+
+- name: Update postfix password hashes
+  shell: docker exec mailserver_mailserver_1 /usr/sbin/postmap /var/mail/postfix/sasl_password
+
+- name: Reload postfix
+  shell: docker exec mailserver_mailserver_1  postfix reload
