@@ -16,11 +16,13 @@ services:
       - USER_UID=1000
       - USER_GID=1000
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
+      - SSH_DOMAIN=gitea.{{ domain }}
+      - SSH_PORT=222
     restart: unless-stopped
     links:
       - gitea_db:db
     volumes:
-      - /var/lab/homelabos/gitea:/data
+      - /var/homelabos/gitea:/data
     ports:
       - "3030:3000"
       - "222:22"
