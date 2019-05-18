@@ -55,3 +55,4 @@ pages:
       - Transmission: software/transmission.md
   - Development:
       - Adding Services: development/adding_services.md
+      - Migrations: development/migrations.md
