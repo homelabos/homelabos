@@ -9,9 +9,6 @@
   shell: mv /var/lab/homelabos/gitea /var/homelabos/gitea
   ignore_errors: true
 
-- name: Migrate old folders if needed
-  file: path=/var/lab state=absent
-
 # END MIGRATION
 
 - name: Copy gitea docker-compose.yml file into place.
