@@ -4,152 +4,156 @@
 # These values are REQUIRED for HomelabOS to work.
 
 # Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco 
-ubuntu_release: {{ubuntu_release}}
+ubuntu_release: {{ ubuntu_release }}
 
 # Default user name to create as admin with services
-default_username: {{default_username}}
+default_username: {{ default_username }}
 
 # Default password to go with the default user
-default_password: {{default_password}}
+default_password: {{ default_password }}
 
 # User name used to connect via ssh. Must have passwordless sudo.
-tincserver_ssh_user: {{tincserver_ssh_user}}
-homelab_ssh_user: {{homelab_ssh_user}}
+tincserver_ssh_user: {{ tincserver_ssh_user }}
+homelab_ssh_user: {{ homelab_ssh_user }}
 
 # SSH accessible IP address
-tincserver_ip: {{tincserver_ip}}
-homelab_ip: {{homelab_ip}}
+tincserver_ip: {{ tincserver_ip }}
+homelab_ip: {{ homelab_ip }}
 
 # Timezone of the server
-common_timezone: {{common_timezone}}
+common_timezone: {{ common_timezone }}
 
 # Domain that will be used to point at the server
 # Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
-domain: {{domain}}
+domain: {{ domain }}
 
 # An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
 # Necessary for SSL / LetsEncrypt to work.
-admin_email: {{admin_email}}
+admin_email: {{ admin_email }}
 
 # Features
 
 # You can enable/disable different HomelabOS features here by changing False to True and vice versa.
 
-enable_tinc: {{enable_tinc}}
-enable_tor: {{enable_tor}}
-enable_nas: {{enable_nas}}
+enable_tinc: {{ enable_tinc }}
+enable_tor: {{ enable_tor }}
+enable_nas: {{ enable_nas }}
 
 # Force SSL Usage
 # Only set this to true after everything is working, and https certificates have been generated.
-https_only: {{https_only}}
+https_only: {{ https_only }}
 
 # Services
 
 # Enable HomelabOS documentation
 
-enable_docs: {{enable_docs}}
+enable_docs: {{ enable_docs }}
 
 # You can enable/disable services individually by changing False to True and vice versa.
 
-enable_apple_health_influx: {{enable_apple_health_influx}}
-enable_airsonic: {{enable_airsonic}}
-enable_bitwarden: {{enable_bitwarden}}
-enable_bookstack: {{enable_bookstack}}
-enable_bulletnotes: {{enable_bulletnotes}}
-enable_codeserver: {{enable_codeserver}}
-enable_darksky_influx: {{enable_darksky_influx}}
-enable_dasher: {{enable_dasher}}
-enable_duplicati: {{enable_duplicati}}
-enable_emby: {{enable_emby}}
-enable_firefly_iii: {{enable_firefly_iii}}
-enable_ghost: {{enable_ghost}}
-enable_gitea: {{enable_gitea}}
-enable_grafana: {{enable_grafana}}
-enable_guacamole: {{enable_guacamole}}
-enable_homeassistant: {{enable_homeassistant}}
-enable_homedash: {{enable_homedash}}
-enable_inventario: {{enable_inventario}}
-enable_jackett: {{enable_jackett}}
-enable_jellyfin: {{enable_jellyfin}}
-enable_kibitzr: {{enable_kibitzr}}
-enable_mailserver: {{enable_mailserver}}
-enable_mashio: {{enable_mashio}}
-enable_matomo: {{enable_matomo}}
-enable_mayan: {{enable_mayan}}
-enable_miniflux: {{enable_miniflux}}
-enable_minio: {{enable_minio}}
-enable_monicahq: {{enable_monicahq}}
-enable_netdata: {{enable_netdata}}
-enable_nextcloud: {{enable_nextcloud}}
-enable_nzbget: {{enable_nzbget}}
-enable_openldap: {{enable_openldap}}
-enable_openvpn: {{enable_openvpn}}
-enable_organizr: {{enable_organizr}}
-enable_paperless: {{enable_paperless}}
-enable_pihole: {{enable_pihole}}
-enable_plex: {{enable_plex}}
-enable_portainer: {{enable_portainer}}
-enable_sonarr: {{enable_sonarr}}
-enable_radarr: {{enable_radarr}}
-enable_restic: {{enable_restic}}
-enable_syncthing: {{enable_syncthing}}
-enable_thelounge: {{enable_thelounge}}
-enable_tick: {{enable_tick}}
-enable_transmission: {{enable_transmission}}
-enable_xfinityusageinfluxdb: {{enable_xfinityusageinfluxdb}}
-enable_wallabag: {{enable_wallabag}}
-enable_zulip: {{enable_zulip}}
+enable_apple_health_influx: {{ enable_apple_health_influx }}
+enable_airsonic: {{ enable_airsonic }}
+enable_bitwarden: {{ enable_bitwarden }}
+enable_bookstack: {{ enable_bookstack }}
+enable_bulletnotes: {{ enable_bulletnotes }}
+enable_codeserver: {{ enable_codeserver }}
+enable_darksky_influx: {{ enable_darksky_influx }}
+enable_dasher: {{ enable_dasher }}
+enable_duplicati: {{ enable_duplicati }}
+enable_emby: {{ enable_emby }}
+enable_firefly_iii: {{ enable_firefly_iii }}
+enable_ghost: {{ enable_ghost }}
+enable_gitea: {{ enable_gitea }}
+enable_grafana: {{ enable_grafana }}
+enable_guacamole: {{ enable_guacamole }}
+enable_homeassistant: {{ enable_homeassistant }}
+enable_homedash: {{ enable_homedash }}
+enable_inventario: {{ enable_inventario }}
+enable_jackett: {{ enable_jackett }}
+enable_jellyfin: {{ enable_jellyfin }}
+enable_kibitzr: {{ enable_kibitzr }}
+enable_mailserver: {{ enable_mailserver }}
+enable_mashio: {{ enable_mashio }}
+enable_matomo: {{ enable_matomo }}
+enable_mayan: {{ enable_mayan }}
+enable_miniflux: {{ enable_miniflux }}
+enable_minio: {{ enable_minio }}
+enable_monicahq: {{ enable_monicahq }}
+enable_netdata: {{ enable_netdata }}
+enable_nextcloud: {{ enable_nextcloud }}
+enable_nzbget: {{ enable_nzbget }}
+enable_openldap: {{ enable_openldap }}
+enable_openvpn: {{ enable_openvpn }}
+enable_organizr: {{ enable_organizr }}
+enable_paperless: {{ enable_paperless }}
+enable_pihole: {{ enable_pihole }}
+enable_plex: {{ enable_plex }}
+enable_portainer: {{ enable_portainer }}
+enable_sonarr: {{ enable_sonarr }}
+enable_radarr: {{ enable_radarr }}
+enable_restic: {{ enable_restic }}
+enable_syncthing: {{ enable_syncthing }}
+enable_thelounge: {{ enable_thelounge }}
+enable_tick: {{ enable_tick }}
+enable_transmission: {{ enable_transmission }}
+enable_xfinityusageinfluxdb: {{ enable_xfinityusageinfluxdb }}
+enable_wallabag: {{ enable_wallabag }}
+enable_zulip: {{ enable_zulip }}
 
 ### END REQUIRED ###
 
 ### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
 
 # Your DarkSky API Key. Get one at http://darksky.net/dev
-darksky_key: {{darksky_key}}
+darksky_key: {{ darksky_key }}
 
 # Your location
-latitude: {{latitude}}
-longitude: {{longitude}}
+latitude: {{ latitude }}
+longitude: {{ longitude }}
 
 # VPN For Transmission to use for Downloads
-openvpn_provider: {{openvpn_provider}}
-openvpn_username: {{openvpn_username}}
-openvpn_password: {{openvpn_password}}
-openvpn_config: {{openvpn_config}}
+openvpn_provider: {{ openvpn_provider }}
+openvpn_username: {{ openvpn_username }}
+openvpn_password: {{ openvpn_password }}
+openvpn_config: {{ openvpn_config }}
 
 # NAS Config name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
-nas_path: {{nas_path}}
-nas_user: {{nas_user}}
-nas_pass: {{nas_pass}}
-nas_workgroup: {{nas_workgroup}}
+nas_path: {{ nas_path }}
+nas_user: {{ nas_user }}
+nas_pass: {{ nas_pass }}
+nas_workgroup: {{ nas_workgroup }}
 
 # Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
-s3_access_key: {{s3_access_key}}
-s3_secret_key: {{s3_secret_key}}
-s3_backup_password: {{s3_backup_password}}
+s3_access_key: {{ s3_access_key }}
+s3_secret_key: {{ s3_secret_key }}
+s3_backup_password: {{ s3_backup_password }}
 
 # Example: 0 4 * * *
 # Backup every day at 4:00 AM
-s3_backup_cron: {{s3_backup_cron}}
-s3_path: {{s3_path}}
+s3_backup_cron: {{ s3_backup_cron }}
+s3_path: {{ s3_path }}
 
 # Home Assitant API Key
-homeassistant_api_key: {{homeassistant_api_key}}
+homeassistant_api_key: {{ homeassistant_api_key }}
 
 # Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
-apple_health_nextcloud_username: {{apple_health_nextcloud_username}}
+apple_health_nextcloud_username: {{ apple_health_nextcloud_username }}
 
 # Xfinity Data Usage Settings
-xfinity_user: {{xfinity_user}}
-xfinity_password: {{xfinity_password}}
+xfinity_user: {{ xfinity_user }}
+xfinity_password: {{ xfinity_password }}
 
 # SMTP Settings
-smtp_host: {{smtp_host}}
-smtp_port: {{smtp_port}}
-smtp_user: {{smtp_user}}
-smtp_pass: {{smtp_pass}}
-smtp_from_email: {{smtp_from_email}}
-smtp_from_name: {{smtp_from_name}}
+smtp:
+  host: {{ smtp.host }}
+  port: {{ smtp.port }}
+  user: {{ smtp.user }}
+  pass: {{ smtp.pass }}
+  from_email: {{ smtp.from_email }}
+  from_name: {{ smtp.from_name }}
+
+mailserver:
+  forward_to_smtp: {{ mailserver.forward_to_smtp }}
 
 # LDAP Settings
-ldap_org_name: {{ldap_org_name}}
+ldap_org_name: {{ ldap_org_name }}
