@@ -50,7 +50,7 @@ enable_nextcloud: False
 enable_nzbget: False
 enable_openldap: False
 enable_openvpn: False
-enable_organizr: False
+enable_organizr: True
 enable_paperless: False
 enable_pihole: False
 enable_plex: False
