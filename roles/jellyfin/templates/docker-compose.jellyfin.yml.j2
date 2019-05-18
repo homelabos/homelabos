@@ -23,6 +23,8 @@ services:
       - "traefik.http.frontend.rule=Host:jellyfin.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=8096"
+{% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:jellyfin.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=8096"
+{% endif %}
