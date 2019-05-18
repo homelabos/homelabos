@@ -15,12 +15,10 @@ services:
     labels:
       - traefik.enable=true
       - traefik.frontend.rule=Host:spam.{{ domain }}
+      - traefik.mail.frontend.rule=Host:mail.{{ domain }}
       - traefik.port=11334
       - traefik.docker.network=http_network
 
-    # extra_hosts:                          - Required for external database (on other server or for local databases on host without docker)
-    #  - "mariadb:xx.xx.xx.xx"              - Replace with IP address of MariaDB server
-    #  - "redis:xx.xx.xx.xx"                - Replace with IP address of Redis server
     ports:
       - "25:25"       # SMTP                - Required
     # - "110:110"     # POP3       STARTTLS - Optional - For webmails/desktop clients
@@ -47,6 +45,7 @@ services:
     volumes:
       - {{ volumes_root }}/mailserver/mail:/var/mail
       - {{ volumes_root }}/traefik/acme:/etc/letsencrypt/acme
+      
     depends_on:
       - mariadb
       - redis

@@ -21,3 +21,16 @@ Now run `make update` as normal, and HomelabOS will take care of everything else
 
 Now point your domain name to your cloud server's IP address rather than your home IP address,
 and everything should be happy!
+
+## Access
+
+You can SSH port 22 on your cloud server to access the cloud server itself. Or you can
+SSH to port 2222 and you will be accessing the home server directly.
+
+## sshuttle
+
+You can also use [sshuttle](https://github.com/sshuttle/sshuttle) to access your server
+via a VPN. Install sshuttle then run `sshuttle -r USER@CLOUD_SERVER_DOMAIN 0/0`.
+
+You can now ssh directly to 10.0.0.1 and load http://10.0.0.1:8181 in a browser to
+access the Traefik dashboard for example.

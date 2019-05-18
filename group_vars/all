@@ -50,7 +50,7 @@ enable_nextcloud: False
 enable_nzbget: False
 enable_openldap: False
 enable_openvpn: False
-enable_organizr: False
+enable_organizr: True
 enable_paperless: False
 enable_pihole: False
 enable_plex: False
@@ -139,12 +139,16 @@ apple_health_nextcloud_username:
 xfinity_user:
 xfinity_password:
 monica_db_password:
-smtp_host: false
-smtp_port:
-smtp_user:
-smtp_pass:
-smtp_from_email:
-smtp_from_name:
+smtp:
+  host: false
+  port:
+  user:
+  pass:
+  from_email:
+  from_name:
+
+mailserver:
+  forward_to_smtp: False
 
 #####################################################################################
 #          Leave everything below as is, unless you know what you're doing          #
