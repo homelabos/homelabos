@@ -43,8 +43,14 @@ update: logo git_sync config
 update_one: logo git_sync config
 	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 
+uninstall: logo git_sync config --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
+
+remove_one: logo git_sync config
+	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory playbook.remove.yml
+
 reset_one: logo git_sync config
-	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory playbook.reset.yml
+	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory playbook.remove.yml
+	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 
 # Run just items tagged with a specific tag `make tag tinc`
 tag: logo git_sync config

@@ -5,4 +5,4 @@
   tags: common
 
   roles:
-    - homelabos_reset
+    - homelabos_remove
