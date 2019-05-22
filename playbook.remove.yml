@@ -3,6 +3,10 @@
   become: "True"
   gather_facts: "True"
   tags: common
+  vars_prompt:
+    - name: confirm_remove
+      prompt: "Are you sure you wish to remove this service? (true/false)"
+      private: "False"
 
   roles:
     - homelabos_remove

@@ -1,26 +1,35 @@
 ---
-- name: Read Tor SSH connection info
-  shell: cat /var/lib/tor/ssh-onion/hostname
-  register: tor_ssh_domain_file
-  when: enable_tor
-
-- name: Read Tor connection info
-  shell: cat /var/lib/tor/http-onion/hostname
-  register: tor_http_domain_file
-  when: enable_tor
 
 - name: remove enabled services.
   file:
     state: absent
-    path: "/var/homelabos/{{service_item}}"
-  when: "enabled_services[service_item]"
+    path: "/var/homelabos/{{ service_item }}"
+  when: confirm_remove
   loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-- debug:
+- name: Ensure disabled services are not running
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: false
+  when: "not enabled_services[item] and confirm_remove"
+  with_items:
+    - "{{ services }}"
+  ignore_errors: "yes"
+
+- name: remove enabled services.
+  file:
+    state: absent
+    path: "/etc/systemd/system/{{ service_item }}.service"
+  when: confirm_remove
+  loop: "{{ services|flatten(levels=1) }}"
+  loop_control:
+    loop_var: service_item
+
+- when: confirm_remove
+  debug:
     msg: "Package removed successfully! Go to https://{{ domain }}/ to get started."
 
 - debug:

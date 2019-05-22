@@ -23,7 +23,7 @@ git_sync:
 	@if [ -d settings/.git/ ]; then \
 		cd settings && \
 		echo "Git Sync:" && \
-		git pull && \
+		git pull 2>&1 && \
 		git add * > /dev/null 2>&1 && \
 		git commit -a -m "Settings update" > /dev/null 2>&1 ; \
 		git push > /dev/null 2>&1; \
@@ -43,7 +43,8 @@ update: logo git_sync config
 update_one: logo git_sync config
 	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 
-uninstall: logo git_sync config --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
+uninstall: logo #git_sync config
+	@ansible-playbook --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.remove.yml
 
 remove_one: logo git_sync config
 	@ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory playbook.remove.yml
