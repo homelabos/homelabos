@@ -53,6 +53,7 @@ enable_openvpn: False
 enable_organizr: True
 enable_paperless: False
 enable_pihole: False
+enable_piwigo: False
 enable_plex: False
 enable_portainer: False
 enable_sonarr: False
@@ -107,6 +108,7 @@ enabled_services:
   organizr: "{{ enable_organizr }}"
   paperless: "{{ enable_paperless }}"
   pihole: "{{ enable_pihole }}"
+  piwigo: "{{ enable_piwigo }}"
   plex: "{{ enable_plex }}"
   portainer: "{{ enable_portainer }}"
   sonarr: "{{ enable_sonarr }}"
@@ -204,6 +206,7 @@ services:
   - organizr
   - paperless
   - pihole
+  - piwigo
   - plex
   - portainer
   - sonarr
