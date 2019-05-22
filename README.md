@@ -78,6 +78,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
 - [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
+- [Piwigo](https://piwigo.org/) - Manage your photo collection
 - [Plex](https://www.plex.tv/) - Personal Media Server
 - [Portainer](https://www.portainer.io/) - Easy Docker management
 - [Radarr](https://radarr.video/) - Automated movie downloading

@@ -23,6 +23,7 @@
   systemd:
     name: "{{ item }}"
     state: stopped
+    enabled: false
   when: "not enabled_services[item]"
   with_items:
     - "{{ services }}"

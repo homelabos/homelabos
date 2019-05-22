@@ -39,7 +39,7 @@ services:
       - PUID=0
       - TZ={{ common_timezone }}
       - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
-      - TRANSMISSION_RPC_PASSWORD="{{ default_password }}"
+      - TRANSMISSION_RPC_PASSWORD={{ default_password }}
       - TRANSMISSION_RPC_USERNAME={{ default_username }}
       - TRANSMISSION_SPEED_LIMIT_UP=100
       - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
