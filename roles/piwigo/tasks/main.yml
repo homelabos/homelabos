@@ -1,0 +1,34 @@
+---
+- name: Make piwigo directory.
+  file:
+    path: "/var/homelabos/piwigo"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy piwigo docker-compose.yml file into place.
+  template:
+    src: docker-compose.piwigo.yml.j2
+    dest: /var/homelabos/piwigo/docker-compose.piwigo.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure piwigo systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/piwigo.service
+
+- name: Start piwigo
+  systemd:
+    name: piwigo
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
