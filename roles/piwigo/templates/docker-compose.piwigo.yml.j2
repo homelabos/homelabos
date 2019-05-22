@@ -25,7 +25,6 @@ services:
         - /var/homelabos/piwigo/data/themes:/var/www/themes
         - /var/homelabos/piwigo/cache:/var/www/_data/i
         - /var/homelabos/piwigo/upload:/var/www/upload
-        - /var/log
         - /var/homelabos/piwigo/logs:/var/log/apache2
     labels:
       - "traefik.enable=true"
