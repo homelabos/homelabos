@@ -15,7 +15,7 @@ pages:
   - Getting Started: setup/gettingstarted.md
   - Setup:
       - Backups: setup/backups.md
-      - SMTP: setup/smtp.md
+      - Email: setup/email.md
       - Cloud Bastion Server via Tinc: setup/tinc.md
       - Tor Onion Services: setup/tor.md
       - VPN Setup: setup/vpn.md
