@@ -1,10 +1,9 @@
 ---
 
-- name: Restart all enabled services
+- name: Restart services
   systemd:
     name: "{{ service_item }}"
     state: restarted
-  when: "enabled_services[service_item]"
   loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
