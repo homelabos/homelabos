@@ -6,6 +6,9 @@
 # Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco 
 ubuntu_release: {{ ubuntu_release }}
 
+# SUDO password
+ansible_become_password: {{ ansible_become_password | default() }}
+
 # Default user name to create as admin with services
 default_username: {{ default_username }}
 
@@ -132,7 +135,7 @@ nas_pass: {{ nas_pass }}
 nas_workgroup: {{ nas_workgroup }}
 
 # Mapbox Api keys: Used for OwnPhotos
-mapbox_api_key: {{ mapbox_api_key }}
+mapbox_api_key: {{ mapbox_api_key | default() }}
 
 # Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
 s3_access_key: {{ s3_access_key }}
