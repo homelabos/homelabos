@@ -6,5 +6,5 @@
   tags: restore
 
   roles:
-    - restore
+    - homelabos_restore
 ...
