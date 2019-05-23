@@ -1,0 +1,88 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  proxy:
+    image: guysoft/ownphotos-proxy
+    tty: true
+    networks:
+      - traefik_network
+    restart: always
+    links:
+      - "backend:backend"
+      - "frontend:frontend"
+    ports:
+      - "3000:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:ownphotos.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:ownphotos.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+{% endif %}
+      
+  ownphotos-db:
+    image: postgres
+    networks:
+      - traefik_network
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/ownphotos_db_password chars=digits') }}
+      - POSTGRES_DB=ownphotos
+    volumes:
+      - /var/homelabos/ownphotos/db-data:/var/lib/postgresql/data
+
+  frontend:
+    image: hooram/ownphotos-frontend:dev
+    networks:
+      - traefik_network
+    tty: true
+    environment:
+      - BACKEND_HOST=ownphotos.{{ domain }}
+    links:
+      - "backend:backend"
+
+  backend:
+    image: hooram/ownphotos:dev
+    networks:
+      - traefik_network
+    volumes:
+      - /mnt/nas/Pictures:/data
+      - /var/homelabos/ownphotos/thumbnails/:/code/protected_media
+      - /var/homelabos/ownphotos/logs:/code/logs
+    environment:
+      - SECRET_KEY={{ lookup('password', './settings/passwords/ownphotos_secret_key chars=digits') }}
+      - BACKEND_HOST=backend # DON'T CHANGE ME
+      - ADMIN_EMAIL={{ admin_email }}
+      - ADMIN_USERNAME={{ default_username }}
+      - ADMIN_PASSWORD={{ lookup('password', './settings/passwords/ownphotos_admin_password chars=digits') }}
+      - DEBUG=false
+      - DB_BACKEND=postgresql
+      - DB_NAME=ownphotos
+      - DB_USER=postgres
+      - DB_PASS={{ lookup('password', './settings/passwords/ownphotos_db_password chars=digits') }}
+      - DB_HOST=ownphotos-db
+      - DB_PORT=5432
+      - REDIS_HOST=ownphotos-redis
+      - REDIS_PORT=6379
+      - MAPBOX_API_KEY={{ mapbox_api_key }}
+    links:
+      - "ownphotos-db:ownphotos-db"
+      - "ownphotos-redis:ownphotos-redis"
+  
+  ownphotos-redis:
+    networks:
+      - traefik_network
+    image: redis
+    container_name: ownphotos-redis

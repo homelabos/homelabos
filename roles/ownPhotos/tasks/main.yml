@@ -1,0 +1,22 @@
+---
+- name: Make ownPhotos directory.
+  file:
+    path: "/var/homelabos/ownPhotos"
+    state: directory
+
+- name: Copy ownPhotos docker-compose.yml file into place.
+  template:
+    src: docker-compose.ownPhotos.yml.j2
+    dest: /var/homelabos/ownPhotos/docker-compose.ownPhotos.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure ownPhotos systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/ownPhotos.service
+
+- name: Start ownPhotos
+  systemd:
+    name: ownPhotos
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
