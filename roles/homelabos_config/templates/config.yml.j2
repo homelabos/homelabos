@@ -12,6 +12,10 @@ default_username: {{ default_username }}
 # Default password to go with the default user
 default_password: {{ default_password }}
 
+# Minio access keys
+minio_access_key: {{ minio_access_key | default() }}
+minio_secret_access_key: {{ minio_secret_access_key | default() }}
+
 # User name used to connect via ssh. Must have passwordless sudo.
 tincserver_ssh_user: {{ tincserver_ssh_user }}
 homelab_ssh_user: {{ homelab_ssh_user }}
