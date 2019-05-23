@@ -27,6 +27,7 @@ enable_darksky_influx: False
 enable_dasher: False
 enable_docs: False
 enable_duplicati: False
+enable_drone: False
 enable_emby: False
 enable_firefly_iii: False
 enable_freshrss: True
@@ -86,6 +87,7 @@ enabled_services:
   dasher: "{{ enable_dasher }}"
   docs: "{{ enable_docs }}"
   duplicati: "{{ enable_duplicati }}"
+  drone: "{{ enable_drone }}"
   emby: "{{ enable_emby }}"
   firefly_iii: "{{ enable_firefly_iii }}"
   freshrss: "{{ enable_freshrss }}"
@@ -190,6 +192,7 @@ services:
   - codeserver
   - docs
   - duplicati
+  - drone
   - emby
   - firefly_iii
   - freshrss

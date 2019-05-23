@@ -29,6 +29,7 @@ pages:
       - Dasher: software/dasher.md
       - Duplicati: software/duplicati.md
       - Emby: software/emby.md
+      - Drone: software/drone.md
       - Firefly III: software/firefly.md
       - FreshRSS: software/freshrss.md
       - Gitea: software/gitea.md
