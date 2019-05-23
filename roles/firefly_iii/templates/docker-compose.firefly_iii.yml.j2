@@ -14,8 +14,8 @@ services:
       - FF_DB_HOST=firefly_iii_db
       - FF_DB_NAME=firefly_db
       - FF_DB_USER=firefly_db
-      - FF_DB_PASSWORD="{{ lookup('password', './settings/passwords/firefly_db_password chars=digits') }}"
-      - FF_APP_KEY="{{ lookup('password', './settings/passwords/firefly_app_key chars=digits length=31') }}"
+      - FF_DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=digits') }}
+      - FF_APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=digits length=31') }}
       - FF_APP_ENV=local
       - APP_URL=https://money.{{ domain }}
       - TZ={{ common_timezone }}
@@ -47,7 +47,7 @@ services:
     environment:
       - MYSQL_DATABASE=firefly_db
       - MYSQL_USER=firefly_db
-      - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/firefly_db_password chars=digits') }}"
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=digits') }}
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     image: mariadb
     volumes:
