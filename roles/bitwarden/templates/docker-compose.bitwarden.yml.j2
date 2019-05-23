@@ -9,12 +9,19 @@ networks:
 services:
   # Password Manager
   bitwarden_web:
-    image: mprasil/bitwarden
+    image: bitwardenrs/server:latest
     restart: unless-stopped
     networks:
       - traefik_network
     volumes:
       - /var/homelabos/bitwarden:/data
+    environment:
+      - SMTP_HOST={{ smtp.host }}
+      - SMTP_FROM={{ smtp.from_email }}
+      - SMTP_PORT=587
+      - SMTP_SSL=true
+      - SMTP_USERNAME={{ smtp.user }}
+      - SMTP_PASSWORD={{ smtp.pass }}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
