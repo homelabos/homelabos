@@ -20,8 +20,8 @@ services:
     ports:
       - 9110:9000
     environment:
-      MINIO_ACCESS_KEY: {{default_username}}
-      MINIO_SECRET_KEY: {{default_password}}
+      MINIO_ACCESS_KEY: {{minio_access_key}}
+      MINIO_SECRET_KEY: {{minio_secret_access_key}}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
