@@ -1,0 +1,48 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  calibre-alpine:
+    networks:
+      - traefik_network
+    ports:
+      - '8082:8080'
+    volumes:
+      - /mnt/nas/library:/library
+      - /mnt/nas/library/incoming:/incoming
+    image: lmorel3/calibre-alpine
+
+  calibre-web:
+    networks:
+      - traefik_network
+    restart: always
+    volumes:
+      - /mnt/nas/library:/books
+      - /var/homelabos/calibre/calibre-web/config:/calibre-web/config
+    environment:
+      - USE_CONFIG_DIR=true
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE={{common_timezone}}
+      - PGID={{gid}}
+      - PUID={{uid}}
+    ports:
+      - '8083:8083'
+    image: technosoft2000/calibre-web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:calibre.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8083"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:calibre.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8083"
+{% endif %}
