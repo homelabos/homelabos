@@ -7,7 +7,7 @@ networks:
       name: homelabos_traefik
 
 services:
-  # Home Inventory Management
+  # Web based KVM manager
   app:
     image: odivlad/webvirtmgr
     restart: unless-stopped
@@ -33,4 +33,4 @@ services:
       - "traefik.tor.frontend.rule=Host:webvirtmgr.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=8000"
-{% endif %}
+{% endif %} 

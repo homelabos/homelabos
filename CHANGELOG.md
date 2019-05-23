@@ -22,6 +22,7 @@
 - Added NetData - Monitor your systems and applications, the right way!
 - Added openLDAP - Open Source LDAP Server
 - Added Wallabag - Save and classify articles. Read them later. Freely.
+- Added WebVirtMgr - a complete Kernel Virtual Machine (KVM) hypervisor manager.
 - Added Zulip - Threaded Chat Software
 - Many fixes and improvements across many services
 
