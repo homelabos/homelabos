@@ -98,10 +98,11 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 A server with:
 
-- Ubuntu 18.04
-- Passwordless SSH (with ssh keys) to a user that has passwordless sudo.
+- Ubuntu 18.04 and passwordless SSH via SSH keys
 
-Ansible version 2.5+ installed on your computer (not the server).
+Another computer with:
+
+- Ansible version 2.5+
 
 ## Optional Items
 

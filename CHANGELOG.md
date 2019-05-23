@@ -4,6 +4,7 @@
 - Improved SMTP Configuration - More services set up outgoing SMTP out of the box
 - Improved Bastion Host Proxying - Better routing through iptables
 - Improved documentation
+- Improved security - Passwordless SUDO no longer required
 - Added Automated Settings Sync via Git
 - Added Airsonic - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
 - Added Bookstack - Simple & Free Wiki Software
