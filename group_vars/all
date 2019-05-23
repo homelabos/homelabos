@@ -29,6 +29,7 @@ enable_docs: False
 enable_duplicati: False
 enable_emby: False
 enable_firefly_iii: False
+enable_freshrss: True
 enable_ghost: False
 enable_gitea: False
 enable_grafana: False
@@ -87,6 +88,7 @@ enabled_services:
   duplicati: "{{ enable_duplicati }}"
   emby: "{{ enable_emby }}"
   firefly_iii: "{{ enable_firefly_iii }}"
+  freshrss: "{{ enable_freshrss }}"
   ghost: "{{ enable_ghost }}"
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
@@ -190,6 +192,7 @@ services:
   - duplicati
   - emby
   - firefly_iii
+  - freshrss
   - ghost
   - gitea
   - grafana
