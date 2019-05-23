@@ -1,0 +1,36 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Home Inventory Management
+  app:
+    image: odivlad/webvirtmgr
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - '/var/homelabos/webvirtmgr/data:/data/'
+    environment:
+      - WEBVIRTMGR_ADMIN_USERNAME=admin
+      - WEBVIRTMGR_ADMIN_EMAIL=admin@local.domain
+      - WEBVIRTMGR_ADMIN_PASSWORD={{ lookup('password', './settings/passwords/webvirtmgr_db_password chars=digits') }}
+    ports:
+      - '8000:8000'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:webvirtmgr.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8000"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:webvirtmgr.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8000"
+{% endif %}

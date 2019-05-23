@@ -91,6 +91,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client
 - [Wallabag](https://wallabag.org/en) - Save and classify articles. Read them later. Freely.
+- [WebVirtMg](https://github.com/retspen/webvirtmgr) is a complete Kernel Virtual Machine (KVM) hypervisor manager.
 - [Zulip](https://github.com/zulip/zulip) - Threaded chat software
 
 ## Requirements
