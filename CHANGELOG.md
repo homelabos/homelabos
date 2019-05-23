@@ -1,18 +1,27 @@
 # 0.5 - Release Candidate
 
+- Greatly improved deployment - Each service is now fully independent from each other
+- Improved SMTP Configuration - More services set up outgoing SMTP out of the box
+- Improved Bastion Host Proxying - Better routing through iptables
+- Improved documentation
 - Added Automated Settings Sync via Git
-- Improved deployment - Each service is now fully independent from each other
-- Added Inventario - Home Inventory Management Software
-- Added Mashio - Home Brewery Management Software
-- Added Homedash - Home Server Dashboard Software
 - Added Airsonic - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
 - Added Bookstack - Simple & Free Wiki Software
-- Added Jellyfin - The Free Software Media System
-- Added openLDAP - Open Source LDAP Server
-- Added Zulip - Threaded Chat Software
+- Added Code-Server - Run VS Code on a remote server
 - Added Duplicati - Free backup software to store encrypted backups online. For Windows, macOS and Linux
+- Added Ghost - Ghost is a platform for building and running a modern online publication
 - Added Guacamole - clientless remote desktop gateway
-- Various improvements and bug fixes
+- Added Homedash - Home Server Dashboard Software
+- Added Inventario - Home Inventory Management Software
+- Added Jellyfin - The Free Software Media System
+- Added Mailserver - Full self-hosted mail stack
+- Added Mashio - Home Brewery Management Software
+- Added Mayan EDMS - Free Open Source DMS (document management system).
+- Added NetData - Monitor your systems and applications, the right way!
+- Added openLDAP - Open Source LDAP Server
+- Added Wallabag - Save and classify articles. Read them later. Freely.
+- Added Zulip - Threaded Chat Software
+- Many fixes and improvements across many services
 
 # 0.4
 

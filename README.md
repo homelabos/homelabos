@@ -69,6 +69,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Mailserver](https://github.com/hardware/mailserver/) - Fully featured mail server
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 - [Matomo](https://matomo.org/) - Web analytics
+- [Mayan EDMS](https://gitlab.com/mayan-edms/mayan-edms) - Free Open Source DMS (document management system).
 - [Minio](https://minio.io/) - S3 hosting
 - [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
