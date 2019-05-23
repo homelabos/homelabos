@@ -21,6 +21,7 @@ enable_airsonic: False
 enable_bitwarden: False
 enable_bookstack: False
 enable_bulletnotes: False
+enable_calibre: False
 enable_codeserver: False
 enable_darksky_influx: False
 enable_dasher: False
@@ -76,6 +77,7 @@ enabled_services:
   bitwarden: "{{ enable_bitwarden }}"
   bookstack: "{{ enable_bookstack }}"
   bulletnotes: "{{ enable_bulletnotes }}"
+  calibre: "{{ enable_calibre }}"
   codeserver: "{{ enable_codeserver }}"
   darksky_influx: "{{ enable_darksky_influx }}"
   dasher: "{{ enable_dasher }}"
@@ -178,6 +180,7 @@ services:
   - bitwarden
   - bookstack
   - bulletnotes
+  - calibre
   - codeserver
   - docs
   - duplicati
