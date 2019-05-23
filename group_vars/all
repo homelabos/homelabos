@@ -29,7 +29,7 @@ enable_docs: False
 enable_duplicati: False
 enable_emby: False
 enable_firefly_iii: False
-enable_freshrss: True
+enable_freshrss: False
 enable_ghost: False
 enable_gitea: False
 enable_grafana: False
