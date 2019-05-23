@@ -77,6 +77,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [NetData](http://my-netdata.io/) - Monitor your systems and applications, the right way!
 - [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 - [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
+- [OwnPhotos](https://github.com/hooram/ownphotos) Self hosted Google Photos clone.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
 - [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking

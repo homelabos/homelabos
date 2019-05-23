@@ -86,6 +86,7 @@ enable_nzbget: {{ enable_nzbget }}
 enable_openldap: {{ enable_openldap }}
 enable_openvpn: {{ enable_openvpn }}
 enable_organizr: {{ enable_organizr }}
+enable_ownphotos: {{ enable_ownphotos }}
 enable_paperless: {{ enable_paperless }}
 enable_pihole: {{ enable_pihole }}
 enable_piwigo: {{ enable_piwigo }}
@@ -124,6 +125,9 @@ nas_path: {{ nas_path }}
 nas_user: {{ nas_user }}
 nas_pass: {{ nas_pass }}
 nas_workgroup: {{ nas_workgroup }}
+
+# Mapbox Api keys: Used for OwnPhotos
+mapbox_api_key: {{ mapbox_api_key }}
 
 # Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
 s3_access_key: {{ s3_access_key }}
