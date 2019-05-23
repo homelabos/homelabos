@@ -1,0 +1,47 @@
+---
+# by default, the FreshRSS image can use SQLite (and thus requires no separate database container)
+# some PostgresSQL example information is included for demonstration purposes (especially environment-variable-based configuration)
+
+version: '2.3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # RSS Reader
+  freshrss:
+    image: freshrss/freshrss:alpine
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    environment:
+      - CRON_MIN=*/20
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:freshrss.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.tor.frontend.rule=Host:freshrss.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+    volumes:
+      - '/var/homelabos/freshrss/data:/var/www/FreshRSS/data'
+
+# see https://github.com/FreshRSS/FreshRSS/blob/master/Docker/docker-compose.yml
+#  postgresql:
+#    image: postgres:latest
+#    networks:
+#      - traefik_network
+#    restart: unless-stopped
+#    environment:
+#      - POSTGRES_USER=freshrss
+#      - POSTGRES_DB=freshrss
+#      - POSTGRES_PASSWORD="{{ lookup('password', './settings/passwords/freshrss_db_password chars=digits') }}"
+#      - POSTGRES_PASSWORD=freshrss
+#    volumes:
+#      - /var/homelabos/freshrss/db:/var/lib/postgresql/data

@@ -30,6 +30,7 @@ pages:
       - Duplicati: software/duplicati.md
       - Emby: software/emby.md
       - Firefly III: software/firefly.md
+      - FreshRSS: software/freshrss.md
       - Gitea: software/gitea.md
       - Grafana: software/grafana.md
       - Guacamole: software/guacamole.md
