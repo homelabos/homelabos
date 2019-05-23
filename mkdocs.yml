@@ -24,6 +24,7 @@ pages:
       - Apple Health: software/applehealth.md
       - Bitwarden: software/bitwarden.md
       - BulletNotes: software/bulletnotes.md
+      - Calibre: software/calibre.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
       - Duplicati: software/duplicati.md
