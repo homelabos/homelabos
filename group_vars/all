@@ -67,6 +67,7 @@ enable_tick: False
 enable_transmission: False
 enable_wallabag: False
 enable_xfinityusageinfluxdb: False
+enable_webvirtmgr: False
 enable_zulip: False
 
 enabled_services:
@@ -124,6 +125,7 @@ enabled_services:
   transmission: "{{ enable_transmission }}"
   wallabag: "{{ enable_wallabag }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
+  webvirtmgr: "{{ enable_webvirtmgr }}"
   zulip: "{{ enable_zulip }}"
 
 darksky_key:
@@ -223,4 +225,5 @@ services:
   - tick
   - transmission
   - wallabag
+  - webvirtmgr
   - zulip

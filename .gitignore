@@ -9,3 +9,4 @@ fetch/
 settings/
 /site
 /.vscode
+.DS_Store

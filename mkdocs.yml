@@ -56,6 +56,7 @@ pages:
       - The Lounge: software/thelounge.md
       - TICK: software/tick.md
       - Transmission: software/transmission.md
+      - WebVirtMgr: software/webvirtmgr.md
   - Development:
       - Adding Services: development/adding_services.md
       - Migrations: development/migrations.md
