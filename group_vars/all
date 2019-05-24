@@ -1,76 +1,8 @@
 # These are the defaults. They are overridden by values in your config.yml file.
-common_timezone: Etc/UTC
-
-ubuntu_release: bionic
-
-domain: localhost
-admin_email: test@test.com
-
-enable_tinc: False
-enable_tor: False
-enable_nas: False
-
-https_only: false
 
 volumes_root: /var/homelabos
 
 # Enabled List
-
-enable_apple_health_influx: False
-enable_airsonic: False
-enable_bitwarden: False
-enable_bookstack: False
-enable_bulletnotes: False
-enable_calibre: False
-enable_codeserver: False
-enable_darksky_influx: False
-enable_dasher: False
-enable_docs: False
-enable_duplicati: False
-enable_drone: False
-enable_emby: False
-enable_firefly_iii: False
-enable_freshrss: False
-enable_ghost: False
-enable_gitea: False
-enable_grafana: False
-enable_guacamole: False
-enable_homeassistant: False
-enable_homedash: False
-enable_inventario: False
-enable_jackett: False
-enable_jellyfin: False
-enable_kibitzr: False
-enable_mailserver: False
-enable_mashio: False
-enable_matomo: False
-enable_mayan: False
-enable_miniflux: False
-enable_minio: False
-enable_monicahq: False
-enable_netdata: False
-enable_nextcloud: False
-enable_nzbget: False
-enable_openldap: False
-enable_openvpn: False
-enable_organizr: True
-enable_ownphotos: False
-enable_paperless: False
-enable_pihole: False
-enable_piwigo: False
-enable_plex: False
-enable_portainer: False
-enable_sonarr: False
-enable_radarr: False
-enable_restic: False
-enable_syncthing: False
-enable_thelounge: False
-enable_tick: False
-enable_transmission: False
-enable_wallabag: False
-enable_xfinityusageinfluxdb: False
-enable_webvirtmgr: False
-enable_zulip: False
 
 enabled_services:
   tinc: "{{ enable_tinc }}"
@@ -132,41 +64,12 @@ enabled_services:
   webvirtmgr: "{{ enable_webvirtmgr }}"
   zulip: "{{ enable_zulip }}"
 
-darksky_key:
-latitude:
-longitude:
-openvpn_provider:
-openvpn_username:
-openvpn_password:
-openvpn_config:
-nas_path:
-nas_user:
-nas_pass:
-nas_workgroup:
-s3_access_key:
-s3_secret_key:
-s3_backup_password:
-homeassistant_api_key:
-apple_health_nextcloud_username:
-xfinity_user:
-xfinity_password:
-monica_db_password:
-smtp:
-  host: false
-  port:
-  user:
-  pass:
-  from_email:
-  from_name:
-
-mailserver:
-  forward_to_smtp: False
-
 #####################################################################################
 #          Leave everything below as is, unless you know what you're doing          #
 #####################################################################################
 
 # Tinc Stuff
+enable_tinc: False
 vpn_ip: 10.0.0.1
 netname: homelabos
 physical_ip: 8.8.8.8
@@ -176,11 +79,8 @@ vpn_subnet_cidr_netmask: 32
 tincserver_ip:
 tincserver_ssh_user:
 
-# Backup Stuff
-s3_path: s3:http://minio:9000/restic-backups/
-s3_backup_cron: 0 4 * * *
-
-ldap_org_name: My Family
+smtp:
+mailserver:
 
 # Service List
 services:
