@@ -9,7 +9,6 @@ networks:
 services:
   beets:
     image: linuxserver/beets
-    container_name: beets
     environment:
       - PUID={{ uid }}
       - PGID={{ gid }}
