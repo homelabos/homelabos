@@ -46,6 +46,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 ## Available Software
 
 - [Airsonic](https://airsonic.github.io/) - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+- [Beets](https://beets.io) Beets is the media library management system for obsessive-compulsive music geeks.
 - [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
 - [BookStack](https://www.bookstackapp.com/) - Simple & Free Wiki Software
 - [BulletNotes](https://gitlab.com/NickBusey/BulletNotes.git) - Note taking application

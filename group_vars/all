@@ -10,6 +10,7 @@ enabled_services:
 
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
+  beets: "{{ enable_beets }}"
   bitwarden: "{{ enable_bitwarden }}"
   bookstack: "{{ enable_bookstack }}"
   bulletnotes: "{{ enable_bulletnotes }}"
@@ -85,6 +86,7 @@ mailserver:
 # Service List
 services:
   - airsonic
+  - beets
   - bitwarden
   - bookstack
   - bulletnotes
