@@ -54,6 +54,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
+- [Drone](https://drone.io) - Drone is a self-service continuous delivery platform
 - [Emby](https://emby.media/) - Personal Media Server
 - [Firefly III](https://firefly-iii.org/) - Money management budgeting app
 - [FreshRSS](https://freshrss.org) - A free, self-hostable aggregator

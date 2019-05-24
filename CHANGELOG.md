@@ -10,6 +10,7 @@
 - Added Bookstack - Simple & Free Wiki Software
 - Added Code-Server - Run VS Code on a remote server
 - Added Duplicati - Free backup software to store encrypted backups online. For Windows, macOS and Linux
+- Added Drone - Drone is a self-service continuous delivery platform
 - Added FreshRSS - A free, self-hostable aggregator
 - Added Ghost - Ghost is a platform for building and running a modern online publication
 - Added Guacamole - clientless remote desktop gateway
@@ -60,3 +61,4 @@
 # 0.1
 
 - Initial release
+
