@@ -1,4 +1,4 @@
-# 0.5 - Release Candidate
+# 0.5
 
 - Greatly improved deployment - Each service is now fully independent from each other
 - Improved SMTP Configuration - More services set up outgoing SMTP out of the box
