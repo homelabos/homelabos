@@ -1,0 +1,34 @@
+---
+- name: Make lidarr directory.
+  file:
+    path: "/var/homelabos/lidarr"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy lidarr docker-compose.yml file into place.
+  template:
+    src: docker-compose.lidarr.yml.j2
+    dest: /var/homelabos/lidarr/docker-compose.lidarr.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure lidarr systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/lidarr.service
+
+- name: Start lidarr
+  systemd:
+    name: lidarr
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
