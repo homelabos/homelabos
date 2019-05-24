@@ -40,6 +40,7 @@ enable_inventario: False
 enable_jackett: False
 enable_jellyfin: False
 enable_kibitzr: False
+enable_lidarr: False
 enable_mailserver: False
 enable_mashio: False
 enable_matomo: False
@@ -99,6 +100,7 @@ enabled_services:
   jackett: "{{ enable_jackett }}"
   jellyfin: "{{ enable_jellyfin }}"
   kibitzr: "{{ enable_kibitzr }}"
+  lidarr: "{{ enable_lidarr }}"
   mailserver: "{{ enable_mailserver }}"
   mashio: "{{ enable_mashio }}"
   matomo: "{{ enable_matomo }}"
@@ -202,6 +204,8 @@ services:
   - inventario
   - jackett
   - jellyfin
+  - kibitzr
+  - lidarr
   - mailserver
   - mashio
   - matomo
