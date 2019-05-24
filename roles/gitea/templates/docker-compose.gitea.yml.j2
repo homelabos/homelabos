@@ -9,7 +9,7 @@ networks:
 services:
  # Code Hosting
   gitea:
-    image: gitea/gitea:latest
+    image: gitea/gitea:1.8
     networks:
       - traefik_network
     environment:
@@ -24,7 +24,6 @@ services:
     volumes:
       - /var/homelabos/gitea:/data
     ports:
-      - "3030:3000"
       - "222:22"
     depends_on:
       - gitea_db
