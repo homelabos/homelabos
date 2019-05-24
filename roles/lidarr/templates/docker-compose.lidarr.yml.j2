@@ -1,0 +1,35 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  lidarr:
+    image: hotio/lidarr
+    networks:
+      - traefik_network
+    volumes:
+      - /var/homelabos/lidarr/config:/config
+    environment:
+      - TZ={{ common_timezone }}
+      - PUID={{ uid }}
+      - PGID={{ gid }}
+      - UMASK=022
+      - VERSION=stable
+      - BACKUP=yes
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:lidarr.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8686"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:lidarr.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8686"
+{% endif %}

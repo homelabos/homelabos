@@ -40,6 +40,7 @@ pages:
       - Inventario: software/inventario.md
       - Jackett: software/jackett.md
       - Kibitzr: software/kibitzr.md
+      - Lidarr: software/lidarr.md
       - Mashio: software/mashio.md
       - Matomo: software/matomo.md
       - Mayan: software/mayan.md
