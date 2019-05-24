@@ -22,6 +22,7 @@ pages:
   - Included Software:
       - Airsonic: software/airsonic.md
       - Apple Health: software/applehealth.md
+      - Beets: software/beets.md
       - Bitwarden: software/bitwarden.md
       - BulletNotes: software/bulletnotes.md
       - Calibre: software/calibre.md

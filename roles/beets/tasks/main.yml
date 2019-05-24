@@ -1,0 +1,34 @@
+---
+- name: Make beets directory.
+  file:
+    path: "/var/homelabos/beets"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy beets docker-compose.yml file into place.
+  template:
+    src: docker-compose.beets.yml.j2
+    dest: /var/homelabos/beets/docker-compose.beets.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure beets systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/beets.service
+
+- name: Start beets
+  systemd:
+    name: beets
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
