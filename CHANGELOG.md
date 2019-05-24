@@ -7,6 +7,7 @@
 - Improved security - Passwordless SUDO no longer required
 - Added Automated Settings Sync via Git
 - Added Airsonic - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+- Added Beets - Beets is the media library management system for obsessive-compulsive music geeks.
 - Added Bookstack - Simple & Free Wiki Software
 - Added Code-Server - Run VS Code on a remote server
 - Added Duplicati - Free backup software to store encrypted backups online. For Windows, macOS and Linux
@@ -17,6 +18,7 @@
 - Added Homedash - Home Server Dashboard Software
 - Added Inventario - Home Inventory Management Software
 - Added Jellyfin - The Free Software Media System
+- Added Lidarr - Sonarr but for Music.
 - Added Mailserver - Full self-hosted mail stack
 - Added Mashio - Home Brewery Management Software
 - Added Mayan EDMS - Free Open Source DMS (document management system).
