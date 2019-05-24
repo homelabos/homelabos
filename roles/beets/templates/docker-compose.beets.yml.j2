@@ -17,8 +17,6 @@ services:
       - /var/homelabos/beets/config:/config
       - /mnt/nas/Music:/music
       - /mnt/nas/NewMusic:/downloads
-    ports:
-      - 8337:8337
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
