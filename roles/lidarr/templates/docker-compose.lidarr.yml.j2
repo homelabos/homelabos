@@ -11,8 +11,6 @@ services:
     image: hotio/lidarr
     networks:
       - traefik_network
-    ports:
-      - "8686:8686"
     volumes:
       - /var/homelabos/lidarr/config:/config
     environment:
