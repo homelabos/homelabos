@@ -56,6 +56,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 - [Emby](https://emby.media/) - Personal Media Server
 - [Firefly III](https://firefly-iii.org/) - Money management budgeting app
+- [FreshRSS](https://freshrss.org) - A free, self-hostable aggregator
 - [Ghost](https://ghost.org/) - Ghost is a platform for building and running a modern online publication
 - [Gitea](https://gitea.io/en-US/) - Git hosting
 - [Grafana](https://grafana.com/) - Pretty graphs

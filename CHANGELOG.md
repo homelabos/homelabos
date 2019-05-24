@@ -10,6 +10,7 @@
 - Added Bookstack - Simple & Free Wiki Software
 - Added Code-Server - Run VS Code on a remote server
 - Added Duplicati - Free backup software to store encrypted backups online. For Windows, macOS and Linux
+- Added FreshRSS - A free, self-hostable aggregator
 - Added Ghost - Ghost is a platform for building and running a modern online publication
 - Added Guacamole - clientless remote desktop gateway
 - Added Homedash - Home Server Dashboard Software
@@ -21,6 +22,7 @@
 - Added NetData - Monitor your systems and applications, the right way!
 - Added openLDAP - Open Source LDAP Server
 - Added Wallabag - Save and classify articles. Read them later. Freely.
+- Added WebVirtMgr - a complete Kernel Virtual Machine (KVM) hypervisor manager.
 - Added Zulip - Threaded Chat Software
 - Many fixes and improvements across many services
 

@@ -1,0 +1,22 @@
+---
+- name: Make freshrss directory.
+  file:
+    path: "/var/homelabos/freshrss"
+    state: directory
+
+- name: Copy freshrss docker-compose.yml file into place.
+  template:
+    src: docker-compose.freshrss.yml.j2
+    dest: /var/homelabos/freshrss/docker-compose.freshrss.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure freshrss systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/freshrss.service
+
+- name: Start freshrss
+  systemd:
+    name: freshrss
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
