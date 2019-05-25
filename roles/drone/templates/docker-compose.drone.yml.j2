@@ -11,11 +11,11 @@ services:
   drone-server:
     image: drone/drone:1.0
     restart: unless-stopped
-    depends_on:
-      - gitea
     volumes:
       - /var/homelabos/drone/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik_network
     environment:
       - DRONE_GITEA_SERVER=https://drone.{{ domain }}
       - DRONE_GIT_ALWAYS_AUTH=true
@@ -38,11 +38,13 @@ services:
   drone-agent:
     image: drone/agent:1.0
     restart: always
-    depends_on:
-      - drone-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik_network
     environment:
       - DRONE_SERVER=drone-server:9000
       - DRONE_SECRET={{ lookup('password', './settings/passwords/drone_secret chars=digits') }}
       - DRONE_MAX_PROCS=1
+    labels:
+      - "traefik.enable=false"
