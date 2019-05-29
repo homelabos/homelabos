@@ -106,6 +106,18 @@ restart_one: logo git_sync config
 	@ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.restart.yml
 	@echo "\x1B[01;93m========== Done restarting '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
 
+# Spin up cloud servers with Terraform https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md
+terraform: logo git_sync
+	@echo "\x1B[01;93m========== Deploying cloud server! ==========\n\x1B[0m"
+	@./terraform.sh
+	@echo "\x1B[01;93m========== Done deploying cloud servers! Run 'make' ==========\n\x1B[0m"
+
+# Destroy servers created by Terraform
+terraform_destroy: logo git_sync
+	@echo "\x1B[01;93m========== Destroying cloud services! ==========\n\x1B[0m"
+	@cd settings && terraform destroy
+	@echo "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
+
 # Hacky fix to allow make to accept multiple arguments
 %:
 	@:

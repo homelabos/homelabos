@@ -12,6 +12,13 @@ To change any setting, edit your `settings/config.yml` file, then run `make upda
 
 To reset your settings, run `make config_reset`, then run `make config` again.
 
+## Deploying to Cloud Services with Terraform
+
+You can use our 
+[Terraform scripts](https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md)
+to spin up cloud servers to deploy against rather than needing
+physical servers configured.
+
 ## Syncing Settings via Git
 
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.

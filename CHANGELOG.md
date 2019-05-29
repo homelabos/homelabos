@@ -1,3 +1,8 @@
+# 0.6
+
+- Added Terraform Support - Optionally spin up cloud servers automatically
+- Improved Tooling - Easily add new services not already included in HomelabOS via a Ruby script
+
 # 0.5
 
 - Greatly improved deployment - Each service is now fully independent from each other
