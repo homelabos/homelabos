@@ -3,7 +3,7 @@
 ### REQUIRED ###
 # These values are REQUIRED for HomelabOS to work.
 
-# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco 
+# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
 ubuntu_release: {{ ubuntu_release | default('bionic') }}
 
 # SUDO password
@@ -38,7 +38,7 @@ domain: {{ domain | default('localhost') }}
 # Necessary for SSL / LetsEncrypt to work.
 admin_email: {{ admin_email | default('test@test.com') }}
 
-ansible_ssh_port: {{ ansible_ssh_port | default(22) }}
+ansible_port: {{ ansible_port | default(22) }}
 
 # Servers
 
