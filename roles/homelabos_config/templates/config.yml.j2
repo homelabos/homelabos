@@ -38,6 +38,8 @@ domain: {{ domain | default('localhost') }}
 # Necessary for SSL / LetsEncrypt to work.
 admin_email: {{ admin_email | default('test@test.com') }}
 
+ansible_ssh_port: {{ ansible_ssh_port | default(22) }}
+
 # Servers
 
 aws:
