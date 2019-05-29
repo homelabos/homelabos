@@ -30,8 +30,6 @@ services:
       - CONTAINER_TIMEZONE={{common_timezone}}
       - PGID={{gid}}
       - PUID={{uid}}
-    ports:
-      - '8083:8083'
     image: technosoft2000/calibre-web
     labels:
       - "traefik.enable=true"
