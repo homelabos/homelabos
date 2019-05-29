@@ -37,7 +37,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ## Demo
 
-![demo.gif](demo.gif)
+![static/demo.gif](static/demo.gif)
 
 ### Local Demo
 
