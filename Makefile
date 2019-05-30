@@ -32,8 +32,8 @@ config_reset: logo
 
 # Update config
 set:
-	yq w -i settings/config.yml $(filter-out $@,$(MAKECMDGOALS))
-	make config
+	@yq w -i settings/config.yml $(filter-out $@,$(MAKECMDGOALS))
+	@echo "\n\x1B[01;93m========== Configuration updated! Now run 'make' to apply the configuration.  ==========\n\x1B[0m"
 
 # Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo git_sync config
