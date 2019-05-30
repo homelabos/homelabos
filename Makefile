@@ -30,6 +30,11 @@ config_reset: logo
 	cp config.yml.blank settings/config.yml
 	@echo "\n\x1B[01;93m========== Configuration reset! Now just run 'make config' ==========\n\x1B[0m"
 
+# Update config
+set:
+	yq w -i settings/config.yml $(filter-out $@,$(MAKECMDGOALS))
+	make config
+
 # Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo git_sync config
 	@echo "\x1B[01;93m========== Update HomelabOS ==========\n\x1B[0m"
@@ -109,6 +114,7 @@ restart_one: logo git_sync config
 # Spin up cloud servers with Terraform https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md
 terraform: logo git_sync
 	@echo "\x1B[01;93m========== Deploying cloud server! ==========\n\x1B[0m"
+	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 	@./terraform.sh
 	@echo "\x1B[01;93m========== Done deploying cloud servers! Run 'make' ==========\n\x1B[0m"
 
