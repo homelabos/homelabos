@@ -83,7 +83,10 @@ tincserver_ssh_user:
 
 smtp:
 mailserver:
+
 traefik:
+
+gitea:
 
 # Service List
 services:
