@@ -1,4 +1,4 @@
-# ![HomelabOS](https://gitlab.com/NickBusey/HomelabOS/raw/master/logo.png)
+# ![HomelabOS](https://gitlab.com/NickBusey/HomelabOS/raw/master/static/logo.png)
 
 Your very own offline-first open-source data-center!
 
