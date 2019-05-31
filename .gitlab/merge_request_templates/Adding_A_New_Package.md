@@ -9,3 +9,4 @@
 - [ ] The package has been added to `CHANGELOG.md` for the version currently in development.
 - [ ] The package has been added to `roles/homelabos_config/templates/config.yml.j2` under the `# Services List` section.
 - [ ] This ansible template uses the password module for security.
+- [ ] This Merge Request follows the [contributing](https://nickbusey.gitlab.io/HomelabOS/development/contributing/) guidelines.

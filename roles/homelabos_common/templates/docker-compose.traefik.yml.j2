@@ -13,12 +13,20 @@ services:
     networks:
       - traefik
     ports:
+{% if traefik.expose_internally %}
+      - "8181:8080"
+{% endif %}
       - "80:80"
       - "443:443"
-      - "8181:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/homelabos/traefik/traefik.toml:/traefik.toml
       - /var/homelabos/traefik/acme.json:/acme.json
-
-...
+{% if traefik.expose_externally %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:traefik.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8080"
+{% endif %}

@@ -3,7 +3,7 @@
 ### REQUIRED ###
 # These values are REQUIRED for HomelabOS to work.
 
-# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco 
+# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
 ubuntu_release: {{ ubuntu_release | default('bionic') }}
 
 # SUDO password
@@ -37,6 +37,8 @@ domain: {{ domain | default('localhost') }}
 # An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
 # Necessary for SSL / LetsEncrypt to work.
 admin_email: {{ admin_email | default('test@test.com') }}
+
+ansible_port: {{ ansible_port | default(22) }}
 
 # Servers
 
@@ -182,6 +184,14 @@ smtp:
 
 mailserver:
   forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
+
+traefik:
+  expose_internally: {{ traefik.expose_internally | default(False)  }}
+  expose_externally: {{ traefik.expose_externally | default(True)  }}
+
+gitea:
+  use_mariadb {{ gitea.use_mariadb | default(True)  }}
+  gitea_ssh_port {{ gitea.gitea_ssh_port | default(222) }}
 
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}

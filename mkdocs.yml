@@ -17,6 +17,7 @@ pages:
       - Backups: setup/backups.md
       - Email: setup/email.md
       - Cloud Bastion Server via Tinc: setup/tinc.md
+      - Terraform: setup/terraform.md
       - Tor Onion Services: setup/tor.md
       - VPN Setup: setup/vpn.md
   - Included Software:
@@ -63,4 +64,5 @@ pages:
       - WebVirtMgr: software/webvirtmgr.md
   - Development:
       - Adding Services: development/adding_services.md
+      - Contributing: development/contributing.md
       - Migrations: development/migrations.md
