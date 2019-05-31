@@ -35,7 +35,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
-## [Demo](https://asciinema.org/a/vhxqZK7Qvrwgfsw8NwuU23JgA)
+## [Installation Tutorial / Demo](https://youtu.be/p8cD349BGRI)
 
 ### Local Demo
 

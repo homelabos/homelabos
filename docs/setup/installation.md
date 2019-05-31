@@ -1,5 +1,7 @@
 # Installation
 
+## [Watch Video Tutorial](https://youtu.be/p8cD349BGRI)
+
 [Download the latest version from GitLab](https://gitlab.com/NickBusey/HomelabOS/tags).
 
 Make sure you have Docker installed on your computer.
