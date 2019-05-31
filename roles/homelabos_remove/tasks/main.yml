@@ -1,22 +1,22 @@
 ---
-
 - name: remove enabled services.
   file:
     state: absent
     path: "/var/homelabos/{{ service_item }}"
   when: confirm_remove
-  loop: "{{ services|flatten(levels=1) }}"
+  loop: "{{ enabled_services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 
 - name: Ensure disabled services are not running
   systemd:
-    name: "{{ item }}"
+    name: "{{ service_item }}"
     state: stopped
     enabled: false
-  when: "not enabled_services[item] and confirm_remove"
-  with_items:
-    - "{{ services }}"
+  when: "not lookup('vars', 'enable_' ~ service_item) and confirm_remove"
+  loop: "{{ enabled_services|flatten(levels=1) }}"
+  loop_control:
+    loop_var: service_item
   ignore_errors: "yes"
 
 - name: remove enabled services.
@@ -24,7 +24,7 @@
     state: absent
     path: "/etc/systemd/system/{{ service_item }}.service"
   when: confirm_remove
-  loop: "{{ services|flatten(levels=1) }}"
+  loop: "{{ enabled_services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 

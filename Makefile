@@ -57,9 +57,9 @@ update: logo git_sync config
 # Update just one HomelabOS service `make update_one inventario`
 update_one: logo git_sync config
 	@echo "\x1B[01;93m========== Update $(filter-out $@,$(MAKECMDGOALS)) ==========\n\x1B[0m"
-	@./ansible_helper.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
+	@./ansible_helper.sh ansible-playbook --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.homelabos.yml
 	@echo "\x1B[01;93m========== Restart $(filter-out $@,$(MAKECMDGOALS)) ==========\n\x1B[0m"
-	@./ansible_helper.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.restart.yml
+	@./ansible_helper.sh ansible-playbook --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.restart.yml
 	@echo "\x1B[01;93m========== Update completed! ==========\n\x1B[0m"
 
 # Remove HomelabOS services
@@ -71,15 +71,15 @@ uninstall: logo
 # Remove one service
 remove_one: logo git_sync config
 	@echo "\x1B[01;93m========== Remove data for $(filter-out $@,$(MAKECMDGOALS)) ==========\n\x1B[0m"
-	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.remove.yml
+	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.remove.yml
 	@echo "\x1B[01;93m========== Done removing $(filter-out $@,$(MAKECMDGOALS))! ==========\n\x1B[0m"
 
 # Reset a service's data files
 reset_one: logo git_sync config
 	@echo "\x1B[01;93m========== Removing data for $(filter-out $@,$(MAKECMDGOALS)) ==========\n\x1B[0m"
-	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.remove.yml
+	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.remove.yml
 	@echo "\x1B[01;93m========== Redeploying $(filter-out $@,$(MAKECMDGOALS)) ==========\n\x1B[0m"
-	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory -t deploy playbook.homelabos.yml
+	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory -t deploy playbook.homelabos.yml
 	@echo "\x1B[01;93m========== Done resetting $(filter-out $@,$(MAKECMDGOALS))! ==========\n\x1B[0m"
 
 # Run just items tagged with a specific tag `make tag tinc`
@@ -123,7 +123,7 @@ restart: logo git_sync config
 # Restart one service
 restart_one: logo git_sync config
 	@echo "\x1B[01;93m========== Restarting '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
-	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.restart.yml
+	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.restart.yml
 	@echo "\x1B[01;93m========== Done restarting '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
 
 # Spin up cloud servers with Terraform https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md
