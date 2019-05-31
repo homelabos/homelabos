@@ -2,14 +2,25 @@
 
 [Download the latest version from GitLab](https://gitlab.com/NickBusey/HomelabOS/tags).
 
-Make sure you have Ansible 2.5+ installed on your computer.
+Make sure you have Docker installed on your computer.
 
-Ensure you can access your server with a local IP through [passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login) and your user has sudo access.
+If you are going to be using HomelabOS to provision a cloud server, run
+`make terraform` to walk through that process.
 
-From inside the HomelabOS folder execute the terminal command `make`.
-You can run this command repeatedly with no ill effects.
+Ensure you can access your server with a IP through
+[passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login)
+and your user has sudo access.
 
-To change any setting, edit your `settings/config.yml` file, then run `make` again.
+From inside the HomelabOS folder execute the terminal command `make config`. This
+will configure your local docker images and build your initial `settings/config.yml`
+file.
+
+To change any setting, you can either edit your `settings/config.yml` file, 
+or use the `make set` command, e.g., `make set enable_bitwarden true`.
+
+Once you have updated the `settings/config.yml` file through either method,
+simply run `make` to deploy HomelabOS. You can run `make` as many times as
+needed to get your settings correct.
 
 To reset your settings, run `make config_reset`, then run `make config` again.
 

@@ -106,7 +106,7 @@ A server with:
 
 Another computer with:
 
-- Ansible version 2.5+
+- Docker
 
 ## Optional Items
 
