@@ -190,8 +190,8 @@ traefik:
   expose_externally: {{ traefik.expose_externally | default(True)  }}
 
 gitea:
-  use_mariadb {{ gitea.use_mariadb | default(True)  }}
-  gitea_ssh_port {{ gitea.gitea_ssh_port | default(222) }}
+  use_mariadb: {{ gitea.use_mariadb | default(True)  }}
+  gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
 
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}
