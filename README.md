@@ -1,6 +1,6 @@
 # ![HomelabOS](https://gitlab.com/NickBusey/HomelabOS/raw/master/static/logo.png)
 
-Your very own offline-first open-source data-center!
+Your very own offline-first open-source data-center! Includes over 50 services!
 
 ## Beta Software Warning
 
