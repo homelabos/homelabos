@@ -135,8 +135,8 @@
   lineinfile:
     path: /var/homelabos/homelab_hosts
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: "enabled_services[service_item]"
-  loop: "{{ services|flatten(levels=1) }}"
+  when: "lookup('vars', 'enable_' ~ service_item)"
+  loop: "{{ enabled_services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 
