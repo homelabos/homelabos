@@ -2,6 +2,8 @@
 
 - Added Terraform Support - Optionally spin up cloud servers automatically
 - Improved Tooling - Easily add new services not already included in HomelabOS via a Ruby script
+- Improved Configuration - Added `make set` and `make get` commands to make working with the configuration easier.
+- Changed Requirements - No longer requires Ansible, only requires Docker to be installed.
 
 # 0.5
 
