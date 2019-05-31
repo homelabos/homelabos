@@ -13,8 +13,9 @@ config:
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@echo "\x1B[01;93m========== Updating configuration files ==========\n\x1B[0m"
+	@mkdir -p settings
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
-	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i config_inventory playbook.config.yml > /dev/null
+	@./ansible_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i config_inventory playbook.config.yml 
 	@echo "\x1B[01;93m========== Done with configuration ==========\n\x1B[0m"
 
 # Display the HomelabOS logo and MOTD
