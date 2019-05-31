@@ -11,7 +11,7 @@ It is also available via Tor at [http://git.{{ tor_domain }}/](http://git.{{ tor
 {% endif %}
 
 ### MariaDB
-{% if use_mariadb %}
+{% if gitea.use_mariadb %}
 - Defaults true
 - False allows for SQLite option without database in separate container
 {% endif %}
