@@ -17,7 +17,7 @@ services:
       - USER_GID=1000
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
       - SSH_DOMAIN=gitea.{{ domain }}
-      - SSH_PORT={{ gitea_ssh_port }}
+      - SSH_PORT={{ gitea.gitea_ssh_port }}
     restart: unless-stopped
     volumes:
       - /var/homelabos/gitea:/data
@@ -36,7 +36,8 @@ services:
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=3000"
 {% endif %}
-{% if use_mariadb %}
+
+{% if gitea.use_mariadb %}
     depends_on:
       - gitea_db
     links:

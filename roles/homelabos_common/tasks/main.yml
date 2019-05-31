@@ -134,11 +134,11 @@
 - name: Configure HomelabOS hosts file. You can find it at /var/homelabos/homelab_hosts on your server.
   lineinfile:
     path: /var/homelabos/homelab_hosts
-    line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: "enabled_services[service_item]"
+    line: "{{ ansible_host }} {{ deploy_item }}.{{ domain }} {{ deploy_item }}"
+  when: "enabled_services[deploy_item]"
   loop: "{{ services|flatten(levels=1) }}"
   loop_control:
-    loop_var: service_item
+    loop_var: deploy_item
 
 - name: Pull HomelabOS Traefik Image
   command: docker-compose -f /var/homelabos/traefik/docker-compose.traefik.yml pull

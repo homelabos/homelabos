@@ -17,7 +17,7 @@
   loop_control:
     loop_var: service_item
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain_file is defined else '' }}"
 
 - name: Ensure disabled services are not running
   systemd:
