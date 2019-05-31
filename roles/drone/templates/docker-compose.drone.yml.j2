@@ -17,7 +17,7 @@ services:
     networks:
       - traefik_network
     environment:
-      - DRONE_GITEA_SERVER=https://drone.{{ domain }}
+      - DRONE_GITEA_SERVER=https://gitea.{{ domain }}
       - DRONE_GIT_ALWAYS_AUTH=true
       - DRONE_RUNNER_CAPACITY=1
       - DRONE_SERVER_PROTO=https
