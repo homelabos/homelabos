@@ -1,3 +1,7 @@
+# 0.6.1
+
+- Fixed various deployment issues
+
 # 0.6
 
 - Added Terraform Support - Optionally spin up cloud servers automatically
