@@ -136,7 +136,7 @@ terraform: logo git_sync
 # Destroy servers created by Terraform
 terraform_destroy: logo git_sync
 	@echo "\x1B[01;93m========== Destroying cloud services! ==========\n\x1B[0m"
-	@cd settings && terraform destroy
+	@cd settings && ../docker_helper.sh terraform destroy
 	@echo "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
 
 # Hacky fix to allow make to accept multiple arguments
