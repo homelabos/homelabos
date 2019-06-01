@@ -1,13 +1,12 @@
 ---
+
 - name: Read Tor SSH connection info
   shell: cat /var/lib/tor/ssh-onion/hostname
   register: tor_ssh_domain_file
-  when: enable_tor
 
 - name: Read Tor connection info
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_http_domain_file
-  when: enable_tor
 
 - name: Deploy enabled services.
   include_role:
@@ -17,7 +16,7 @@
   loop_control:
     loop_var: service_item
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout if tor_http_domain_file is defined else '' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Ensure disabled services are not running
   systemd:

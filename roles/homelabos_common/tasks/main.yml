@@ -114,10 +114,32 @@
 - name: Configure HomelabOS systemd service.
   template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
 
+# Hacky ansible workaround. Would love to remove these 4 tasks.
+# Long story short it ensures the `tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"` bit can work.
+- name: Ensure tor host folder exists
+  file:
+    path: /var/lib/tor/ssh-onion/
+    state: directory
+
+- name: Ensure tor host folder exists
+  file:
+    path: /var/lib/tor/http-onion/
+    state: directory
+
+- name: Ensure blank tor host files exist
+  file:
+    path: /var/lib/tor/ssh-onion/hostname
+    state: touch
+
+- name: Ensure blank tor host files exist
+  file:
+    path: /var/lib/tor/http-onion/hostname
+    state: touch
+# / Hack
+
 - name: Read Tor connection info
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_http_domain_file
-  when: enable_tor
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
