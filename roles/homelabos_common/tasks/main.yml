@@ -4,7 +4,8 @@
 
 - apt_repository:
     repo: "{{item}}"
-    update_cache: false # We will do ourselfs afterwards
+    # We will do ourselfs afterwards
+    update_cache: false
   with_items:
     - "deb http://archive.ubuntu.com/ubuntu {{ubuntu_release}} universe"
     - "deb-src http://archive.ubuntu.com/ubuntu {{ubuntu_release}} universe"
@@ -91,12 +92,12 @@
 - name: Get UID
   command: id -u
   register: uid_output
-  become: no
+  become: false
 
 - name: Get GID
   command: id -g
   register: gid_output
-  become: no
+  become: false
 
 - name: Configure NAS
   when: enable_nas
@@ -114,10 +115,32 @@
 - name: Configure HomelabOS systemd service.
   template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
 
+# Hacky ansible workaround. Would love to remove these 4 tasks.
+# Long story short it ensures the `tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"` bit can work.
+- name: Ensure tor host folder exists
+  file:
+    path: /var/lib/tor/ssh-onion/
+    state: directory
+
+- name: Ensure tor host folder exists
+  file:
+    path: /var/lib/tor/http-onion/
+    state: directory
+
+- name: Ensure blank tor host files exist
+  file:
+    path: /var/lib/tor/ssh-onion/hostname
+    state: touch
+
+- name: Ensure blank tor host files exist
+  file:
+    path: /var/lib/tor/http-onion/hostname
+    state: touch
+# / Hack
+
 - name: Read Tor connection info
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_http_domain_file
-  when: enable_tor
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
@@ -134,9 +157,11 @@
 - name: Configure HomelabOS hosts file. You can find it at /var/homelabos/homelab_hosts on your server.
   lineinfile:
     path: /var/homelabos/homelab_hosts
-    line: "{{ ansible_host }} {{ item }}.{{ domain }} {{ item }}"
-  with_items:
-    - "{{ services }}"
+    line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
+  when: "lookup('vars', 'enable_' ~ service_item)"
+  loop: "{{ enabled_services|flatten(levels=1) }}"
+  loop_control:
+    loop_var: service_item
 
 - name: Pull HomelabOS Traefik Image
   command: docker-compose -f /var/homelabos/traefik/docker-compose.traefik.yml pull

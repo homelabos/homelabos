@@ -7,19 +7,18 @@
 - name: Get UID
   command: id -u
   register: uid_output
-  become: no
+  become: false
 
 - name: Get GID
   command: id -g
   register: gid_output
-  become: no
+  become: false
 
 - name: Copy calibre docker-compose.yml file into place.
   template:
     src: docker-compose.calibre.yml.j2
     dest: /var/homelabos/calibre/docker-compose.calibre.yml
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

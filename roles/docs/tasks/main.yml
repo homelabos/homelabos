@@ -19,10 +19,12 @@
 - name: Read Tor connection info
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_domain_file
+  when: enable_tor
 
 - name: Read Tor connection info
   shell: cat /var/lib/tor/ssh-onion/hostname
   register: tor_ssh_domain_file
+  when: enable_tor
 
 - name: Ensure directory structure exists
   file:
@@ -37,9 +39,6 @@
     dest: "/var/homelabos/docs/docs/{{ item.path }}"
   with_filetree: "docs/"
   when: item.state == 'file'
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout }}"
 
 - name: copy configuration files
   copy:
@@ -64,8 +63,7 @@
   template:
     src: docker-compose.docs.yml.j2
     dest: /var/homelabos/docs/docker-compose.docs.yml
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
 
 - name: Configure HomelabOS systemd service.
   template: src=service.j2 dest=/etc/systemd/system/docs.service

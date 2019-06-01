@@ -17,16 +17,12 @@ services:
       - USER_GID=1000
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
       - SSH_DOMAIN=gitea.{{ domain }}
-      - SSH_PORT=222
+      - SSH_PORT={{ gitea.gitea_ssh_port }}
     restart: unless-stopped
-    links:
-      - gitea_db:db
     volumes:
       - /var/homelabos/gitea:/data
     ports:
       - "222:22"
-    depends_on:
-      - gitea_db
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -41,6 +37,12 @@ services:
       - "traefik.tor.port=3000"
 {% endif %}
 
+{% if gitea.use_mariadb %}
+    depends_on:
+      - gitea_db
+    links:
+      - gitea_db:db
+
   gitea_db:
     image: mariadb
     networks:
@@ -53,3 +55,4 @@ services:
       - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
     volumes:
       - /var/homelabos/gitea_db:/var/lib/mysql
+{% endif %}

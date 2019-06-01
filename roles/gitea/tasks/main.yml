@@ -4,19 +4,11 @@
     path: "/var/homelabos/gitea"
     state: directory
 
-# MIGRATION v0.5
-- name: Migrate old folders if needed
-  shell: mv /var/lab/homelabos/gitea /var/homelabos/gitea
-  ignore_errors: true
-
-# END MIGRATION
-
 - name: Copy gitea docker-compose.yml file into place.
   template:
     src: docker-compose.gitea.yml.j2
     dest: /var/homelabos/gitea/docker-compose.gitea.yml
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
 
 - name: Configure gitea systemd service.
   template: src=service.j2 dest=/etc/systemd/system/gitea.service

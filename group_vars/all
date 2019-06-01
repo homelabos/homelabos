@@ -4,10 +4,10 @@ volumes_root: /var/homelabos
 
 # Enabled List
 
-enabled_services:
-  tinc: "{{ enable_tinc }}"
-  tor: "{{ enable_tor }}"
+tinc: "{{ enable_tinc }}"
+tor: "{{ enable_tor }}"
 
+enabled_services:
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
   beets: "{{ enable_beets }}"
@@ -83,59 +83,7 @@ tincserver_ssh_user:
 
 smtp:
 mailserver:
+
 traefik:
 
-# Service List
-services:
-  - airsonic
-  - beets
-  - bitwarden
-  - bookstack
-  - bulletnotes
-  - calibre
-  - codeserver
-  - docs
-  - duplicati
-  - drone
-  - emby
-  - firefly_iii
-  - freshrss
-  - ghost
-  - gitea
-  - grafana
-  - guacamole
-  - homeassistant
-  - homedash
-  - inventario
-  - jackett
-  - jellyfin
-  - kibitzr
-  - lidarr
-  - mailserver
-  - mashio
-  - matomo
-  - mayan
-  - miniflux
-  - minio
-  - monicahq
-  - netdata
-  - nextcloud
-  - openldap
-  - openvpn
-  - organizr
-  - ownphotos
-  - paperless
-  - pihole
-  - piwigo
-  - plex
-  - portainer
-  - sonarr
-  - radarr
-  - restic
-  - syncthing
-  - thelounge
-  - tick
-  - transmission
-  - wallabag
-  - webvirtmgr
-  - zulip
+gitea:

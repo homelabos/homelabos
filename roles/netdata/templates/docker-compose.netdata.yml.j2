@@ -12,8 +12,6 @@ services:
     hostname: {{ domain }}
     networks:
       - traefik_network
-    ports:
-      - 19999:19999
     environment:
       - PGID=116
     cap_add:
