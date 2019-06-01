@@ -18,6 +18,7 @@ enabled_services:
   codeserver: "{{ enable_codeserver }}"
   darksky_influx: "{{ enable_darksky_influx }}"
   dasher: "{{ enable_dasher }}"
+  digikam: "{{ enable_digikam }}"
   docs: "{{ enable_docs }}"
   duplicati: "{{ enable_duplicati }}"
   drone: "{{ enable_drone }}"
