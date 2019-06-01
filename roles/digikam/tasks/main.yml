@@ -1,0 +1,32 @@
+---
+- name: Make digikam directory.
+  file:
+    path: "/var/homelabos/digikam"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy digikam docker-compose.yml file into place.
+  template:
+    src: docker-compose.digikam.yml.j2
+    dest: /var/homelabos/digikam/docker-compose.digikam.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure digikam systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/digikam.service
+
+- name: Start digikam
+  systemd:
+    name: digikam
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
