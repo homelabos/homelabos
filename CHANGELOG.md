@@ -1,6 +1,7 @@
 # 0.6.1
 
 - Fixed various deployment issues
+- Added Digikam - Professional Photo Management with the Power of Open Source
 
 # 0.6
 
@@ -77,4 +78,3 @@
 # 0.1
 
 - Initial release
-
