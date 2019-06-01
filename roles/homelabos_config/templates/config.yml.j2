@@ -47,9 +47,8 @@ aws:
   access_key:
   region:
 
-do:
-  access_token:
-  region:
+do_access_token: {{ do_access_token | default(False) }}
+region: {{ region | default('Heyo') }}
 
 # Features
 

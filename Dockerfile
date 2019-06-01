@@ -33,6 +33,7 @@ RUN set -x && \
       musl-dev \
       libffi-dev \
       openssl-dev \
+      jq \
       python-dev && \
     \
     echo "==> Upgrading apk and system..."  && \
@@ -53,7 +54,13 @@ RUN set -x && \
     echo "==> Adding hosts for convenience..."  && \
     mkdir -p /etc/ansible /ansible && \
     echo "[local]" >> /etc/ansible/hosts && \
-    echo "localhost" >> /etc/ansible/hosts
+    echo "localhost" >> /etc/ansible/hosts && \
+    wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip && \
+    unzip terraform_0.12.0_linux_amd64.zip && \
+    mv terraform /usr/local/bin && \
+    wget https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 && \
+    chmod +x yq_linux_amd64 && \
+    mv yq_linux_amd64 /usr/local/bin
 
 ENV ANSIBLE_GATHERING smart
 ENV ANSIBLE_HOST_KEY_CHECKING false
@@ -64,4 +71,4 @@ ENV PYTHONPATH /ansible/lib
 ENV PATH /ansible/bin:$PATH
 ENV ANSIBLE_LIBRARY /ansible/library
 
-WORKDIR /ansible/playbooks
+WORKDIR /data
