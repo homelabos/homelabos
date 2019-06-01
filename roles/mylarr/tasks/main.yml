@@ -1,0 +1,33 @@
+---
+- name: Make mylarr directory.
+  file:
+    path: "/var/homelabos/mylarr"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy mylarr docker-compose.yml file into place.
+  template:
+    src: docker-compose.mylarr.yml.j2
+    dest: /var/homelabos/mylarr/docker-compose.mylarr.yml
+  vars:
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure mylarr systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/mylarr.service
+
+- name: Start mylarr
+  systemd:
+    name: mylarr
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
