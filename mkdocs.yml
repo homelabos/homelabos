@@ -48,6 +48,7 @@ pages:
       - Miniflux: software/miniflux.md
       - Minio: software/minio.md
       - Monica: software/monica.md
+      - Mylarr: software/mylarr.md
       - Netdata: software/netdata.md
       - NextCloud: software/nextcloud.md
       - OwnPhotos: software/ownPhotos.md
