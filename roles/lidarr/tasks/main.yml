@@ -18,7 +18,7 @@
   template:
     src: docker-compose.lidarr.yml.j2
     dest: /var/homelabos/lidarr/docker-compose.lidarr.yml
-
+  vars:
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

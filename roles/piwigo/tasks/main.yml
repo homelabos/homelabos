@@ -18,7 +18,7 @@
   template:
     src: docker-compose.piwigo.yml.j2
     dest: /var/homelabos/piwigo/docker-compose.piwigo.yml
-
+  vars:
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

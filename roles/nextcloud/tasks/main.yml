@@ -18,7 +18,7 @@
   template:
     src: docker-compose.nextcloud.yml.j2
     dest: /var/homelabos/nextcloud/docker-compose.nextcloud.yml
-
+  vars:
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

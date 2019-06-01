@@ -20,7 +20,7 @@
   template:
     src: docker-compose.netdata.yml.j2
     dest: /var/homelabos/netdata/docker-compose.netdata.yml
-
+  vars:
     htpasswd: "{{htpasswd.stdout}}"
 
 - name: Configure netdata systemd service.
