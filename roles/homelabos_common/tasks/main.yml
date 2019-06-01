@@ -4,7 +4,8 @@
 
 - apt_repository:
     repo: "{{item}}"
-    update_cache: false # We will do ourselfs afterwards
+    # We will do ourselfs afterwards
+    update_cache: false
   with_items:
     - "deb http://archive.ubuntu.com/ubuntu {{ubuntu_release}} universe"
     - "deb-src http://archive.ubuntu.com/ubuntu {{ubuntu_release}} universe"
@@ -91,12 +92,12 @@
 - name: Get UID
   command: id -u
   register: uid_output
-  become: no
+  become: false
 
 - name: Get GID
   command: id -g
   register: gid_output
-  become: no
+  become: false
 
 - name: Configure NAS
   when: enable_nas

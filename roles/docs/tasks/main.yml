@@ -40,8 +40,6 @@
   with_filetree: "docs/"
   when: item.state == 'file'
 
-    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
-
 - name: copy configuration files
   copy:
     src: "{{ item }}"

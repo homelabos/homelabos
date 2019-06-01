@@ -7,12 +7,12 @@
 - name: Get UID
   command: id -u
   register: uid_output
-  become: no
+  become: false
 
 - name: Get GID
   command: id -g
   register: gid_output
-  become: no
+  become: false
 
 - name: Copy nextcloud docker-compose.yml file into place.
   template:
