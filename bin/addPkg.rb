@@ -23,6 +23,7 @@ puts 'Done!'
 puts 'Step 2. Editing role tasks and renaming docker-compose template'
 search_and_replace_in_file("roles/#{package_file_name}/tasks/main.yml", 'pkgtemplate', package_file_name)
 FileUtils.mv "roles/#{package_file_name}/templates/docker-compose.template.yml.j2", "roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2"
+search_and_replace_in_file("roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2", 'pkgNameGoesHere', package_file_name)
 puts 'Done!'
 
 puts 'Step 3. Copying doc template'
