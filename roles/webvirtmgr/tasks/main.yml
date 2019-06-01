@@ -8,8 +8,7 @@
   template:
     src: docker-compose.webvirtmgr.yml.j2
     dest: /var/homelabos/webvirtmgr/docker-compose.webvirtmgr.yml
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
 
 - name: Configure webVirtMgr systemd service.
   template: src=service.j2 dest=/etc/systemd/system/webvirtmgr.service
