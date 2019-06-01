@@ -1,6 +1,7 @@
 # 0.6.1
 
 - Fixed various deployment issues
+- Added Mylarr
 
 # 0.6
 
@@ -77,4 +78,3 @@
 # 0.1
 
 - Initial release
-
