@@ -41,7 +41,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.frontend.rule=Host:wekan.{{ domain }}"
       - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
+      - "traefik.http.port=8080"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
 {% if enable_tor %}
