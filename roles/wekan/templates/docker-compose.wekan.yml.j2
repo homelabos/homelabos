@@ -1,0 +1,51 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  wekan-tier:
+    driver: bridge
+
+services:
+  wekandb:
+    image: mongo:3.2.12
+    container_name: wekan-db
+    restart: unless-stopped
+    command: mongod --smallfiles --oplogSize 128
+    networks:
+      - wekan-tier
+    expose:
+      - 27017
+    volumes:
+      - /var/homelabos/wekan/wekan-db:/data/db
+      - /var/homelabos/wekan/wekan-db-dump:/dump
+
+  wekan:
+    image: quay.io/wekan/wekan
+    container_name: wekan-app
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - wekan-tier
+    environment:
+      - MONGO_URL=mongodb://wekandb:27017/wekan
+      - ROOT_URL=http://localhost
+    depends_on:
+      - wekandb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:wekan.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:wekan.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8080"
+{% endif %}
