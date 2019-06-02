@@ -8,6 +8,7 @@
 # 0.6.1
 
 - Fixed various deployment issues
+- Adds Tautulli
 - Added Digikam - Professional Photo Management with the Power of Open Source
 
 # 0.6
