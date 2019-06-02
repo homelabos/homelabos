@@ -1,0 +1,40 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    # REQUIRED
+    image: 
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - '/var/homelabos/tautulli/config:/config'
+      - '/var/homelabos/plex/Library/Application Support/Plex Media Server/Logs:/plex_logs:ro'
+    environment:
+      - PGID={{ gid }}
+      - PUID={{ uid }}
+      - TZ= {{ common_timezone }}
+    image: tautulli/tautulli
+    ports:
+      - 8181:8181
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:tautulli.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8181"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:tautulli.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8181"
+{% endif %}

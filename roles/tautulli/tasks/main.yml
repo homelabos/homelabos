@@ -1,0 +1,34 @@
+---
+- name: Make tautulli directory.
+  file:
+    path: "/var/homelabos/tautulli"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy tautulli docker-compose.yml file into place.
+  template:
+    src: docker-compose.tautulli.yml.j2
+    dest: /var/homelabos/tautulli/docker-compose.tautulli.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure tautulli systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/tautulli.service
+
+- name: Start tautulli
+  systemd:
+    name: tautulli
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -89,6 +89,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Radarr](https://radarr.video/) - Automated movie downloading
 - [Sonarr](https://sonarr.tv/) - Automated TV downloading
 - [Syncthing](https://syncthing.net/) - File syncing software
+- [Tautulli](https://tautulli.com/) - Monitor your Plex Server
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client

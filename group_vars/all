@@ -58,6 +58,7 @@ enabled_services:
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
   syncthing: "{{ enable_syncthing }}"
+  tautulli: "{{ enable_tautulli }}"
   thelounge: "{{ enable_thelounge }}"
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"

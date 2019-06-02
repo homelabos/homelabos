@@ -58,6 +58,7 @@ pages:
       - Portainer: software/portainer.md
       - Radarr / Sonarr: software/radarr-sonarr.md
       - Synchthing: software/syncthing.md
+      - Tautulli: software/tautulli.md
       - The Lounge: software/thelounge.md
       - TICK: software/tick.md
       - Transmission: software/transmission.md
