@@ -62,6 +62,7 @@ pages:
   - Transmission: software/transmission.md
   - WebVirtMgr: software/webvirtmgr.md
   - Wekan: software/wekan
+  - Watchtower: software/watchtower
 - Development:
   - Adding Services: development/adding_services.md
   - Contributing: development/contributing.md
