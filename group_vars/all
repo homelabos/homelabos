@@ -1,12 +1,7 @@
-# These are the defaults. They are overridden by values in your config.yml file.
-
-volumes_root: /var/homelabos
-
-# Enabled List
-
+---
+volumes_root: "/var/homelabos"
 tinc: "{{ enable_tinc }}"
 tor: "{{ enable_tor }}"
-
 enabled_services:
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
@@ -67,25 +62,17 @@ enabled_services:
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   webvirtmgr: "{{ enable_webvirtmgr }}"
   zulip: "{{ enable_zulip }}"
-
-#####################################################################################
-#          Leave everything below as is, unless you know what you're doing          #
-#####################################################################################
-
-# Tinc Stuff
-enable_tinc: False
+  wekan: "{{ enable_wekan }}"
+enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
 physical_ip: 8.8.8.8
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-tincserver_ip:
-tincserver_ssh_user:
-
-smtp:
-mailserver:
-
-traefik:
-
-gitea:
+tincserver_ip: 
+tincserver_ssh_user: 
+smtp: 
+mailserver: 
+traefik: 
+gitea: 
