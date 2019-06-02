@@ -1,0 +1,44 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  digiKam:
+    image: rpufky/digiKam:6.1.0
+    environment:
+      - USER_ID={{ uid }}
+      - GROUP_ID={{ gid }}
+      - TZ={{ common_timezone }}
+      - KEEP_APP_RUNNING=1
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+      - ENABLE_CJK_FONT=0
+      - VNC_PASSWORD={{ lookup('password', './settings/passwords/digikam_vnc_password chars=digits') }}
+    volumes:
+      - /var/homelabos/digikam/config:/config
+      - /mnt/nas/Pictures:/data
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    ports:
+      - 5800:5800
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:digikam.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=5800"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:digikam.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=5800"
+{% endif %}

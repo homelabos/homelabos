@@ -1,7 +1,11 @@
+# 0.7
+
+- Added Digikam - Professional Photo Management with the Power of Open Source
+- Added Tautulli - Monitor your Plex Server
+
 # 0.6.1
 
 - Fixed various deployment issues
-- Adds Tautulli
 
 # 0.6
 
