@@ -85,6 +85,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [OwnPhotos](https://github.com/hooram/ownphotos) Self hosted Google Photos clone.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
 - [Wekan](https://wekan.github.io/) - Open source Kanban board with MIT license
+- [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
 - [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
@@ -125,6 +126,8 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
 to act as a bastion host via Tinc vpn and nginx.
+
+## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
 ## Alternatives
 
