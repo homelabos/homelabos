@@ -63,6 +63,7 @@ enabled_services:
   webvirtmgr: "{{ enable_webvirtmgr }}"
   zulip: "{{ enable_zulip }}"
   wekan: "{{ enable_wekan }}"
+  watchtower: "{{ enable_watchtower }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
