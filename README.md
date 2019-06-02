@@ -82,6 +82,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 - [OwnPhotos](https://github.com/hooram/ownphotos) Self hosted Google Photos clone.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
+- [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
 - [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
