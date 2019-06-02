@@ -23,7 +23,14 @@ puts 'Done!'
 puts 'Step 2. Editing role tasks and renaming docker-compose template'
 search_and_replace_in_file("roles/#{package_file_name}/tasks/main.yml", 'pkgtemplate', package_file_name)
 FileUtils.mv "roles/#{package_file_name}/templates/docker-compose.template.yml.j2", "roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2"
-search_and_replace_in_file("roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2", 'PackageFileName', package_file_name)
+<<<<<<< HEAD
+<<<<<<< HEAD
+search_and_replace_in_file("roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2", 'pkgNameGoesHere', package_file_name)
+=======
+>>>>>>> New Package Script
+=======
+search_and_replace_in_file("roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2", 'pkgNameGoesHere', package_file_name)
+>>>>>>> templatizes subdomain
 puts 'Done!'
 
 puts 'Step 3. Copying doc template'
@@ -33,7 +40,7 @@ puts 'Done!'
 puts 'Step 4. Editing doc file'
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageURL", "#{package_url}")
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageOneLiner", "#{package_one_liner}")
-search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageFileName", "#{package_file_name}")
+search_and_replace_in_file("docs/software/#{package_file_name}.md", "packageFileName", "#{package_file_name}")
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageTitleCase", "#{package_name}")
 puts 'Done!'
 
