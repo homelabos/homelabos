@@ -5,6 +5,7 @@
 
 # 0.6.1
 
+- Added Watchtower - A process for automating Docker container base image updates
 - Fixed various deployment issues
 
 # 0.6
