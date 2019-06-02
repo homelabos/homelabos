@@ -5,6 +5,7 @@
 
 # 0.6.1
 
+- Added Wekan - Open source Kanban board with MIT license
 - Fixed various deployment issues
 
 # 0.6
