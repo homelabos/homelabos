@@ -1,0 +1,22 @@
+---
+- name: Make pkgtemplate directory.
+  file:
+    path: "/var/homelabos/pkgtemplate"
+    state: directory
+
+- name: Copy pkgtemplate docker-compose.yml file into place.
+  template:
+    src: docker-compose.pkgtemplate.yml.j2
+    dest: /var/homelabos/pkgtemplate/docker-compose.pkgtemplate.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure pkgtemplate systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/pkgtemplate.service
+
+- name: Start pkgtemplate
+  systemd:
+    name: pkgtemplate
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
