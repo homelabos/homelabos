@@ -22,13 +22,10 @@ Update the `mkdocs.yml` file with a reference to the newly created doc file.
 
 ## Add Service to Inventory File
 
-The service needs to be added to 3 places within
+The service needs to be added within
 `group_vars/all`.
 
-First under the `# Enabled List` section.
-All services here should default to `False`.
-Next under the `enabled_services:` section in alphabetical order. 
-Finally under the `services:` section.
+Place it in the `enabled_services:` section in alphabetical order. 
 
 ## Add Service to README
 
