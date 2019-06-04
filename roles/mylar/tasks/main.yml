@@ -1,0 +1,33 @@
+---
+- name: Make mylar directory.
+  file:
+    path: "/var/homelabos/mylar"
+    state: directory
+
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: no
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: no
+
+- name: Copy mylar docker-compose.yml file into place.
+  template:
+    src: docker-compose.mylar.yml.j2
+    dest: /var/homelabos/mylar/docker-compose.mylar.yml
+  vars:
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure mylar systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/mylar.service
+
+- name: Start mylar
+  systemd:
+    name: mylar
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -42,7 +42,7 @@ enabled_services:
   miniflux: "{{ enable_miniflux }}"
   minio: "{{ enable_minio }}"
   monicahq: "{{ enable_monicahq }}"
-  mylarr: "{{ enable_mylarr }}"
+  mylar: "{{ enable_mylar }}"
   netdata: "{{ enable_netdata }}"
   nextcloud: "{{ enable_nextcloud }}"
   nzbget: "{{ enable_nzbget }}"
