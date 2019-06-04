@@ -51,7 +51,7 @@ pages:
       - Monica: software/monica.md
       - Netdata: software/netdata.md
       - NextCloud: software/nextcloud.md
-      - OwnPhotos: software/ownPhotos.md
+      - OwnPhotos: software/ownphotos.md
       - Paperless: software/paperless.md
       - Pi-hole: software/pihole.md
       - Piwigo: software/piwigo.md

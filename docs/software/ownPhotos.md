@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://ownPhotos.{{ domain }}/](https://ownPhotos.{{ domain }}/) or [http://ownPhotos.{{ domain }}/](http://ownPhotos.{{ domain }}/)
+It is available at [https://ownphotos.{{ domain }}/](https://ownphotos.{{ domain }}/) or [http://ownphotos.{{ domain }}/](http://ownphotos.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://ownPhotos.{{ tor_domain }}/](http://ownPhotos.{{ tor_domain }}/)
+It is also available via Tor at [http://ownphotos.{{ tor_domain }}/](http://ownphotos.{{ tor_domain }}/)
 {% endif %}
