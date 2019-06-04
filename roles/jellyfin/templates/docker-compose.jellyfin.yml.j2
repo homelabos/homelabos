@@ -14,9 +14,9 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/jellyfin:/config
-      - /mnt/nas:/mnt/nas
-      - /mnt/nas/tmp:/config/transcoding-temp
+      - /var/homelabos/jellyfin/config:/config
+      - /mnt/nas:/media
+      - /mnt/nas/tmp:/cache
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
