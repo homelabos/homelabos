@@ -2,10 +2,10 @@
 
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added Tautulli - Monitor your Plex Server
+- Added Wekan - Open source Kanban board with MIT license
 
 # 0.6.1
 
-- Added Wekan - Open source Kanban board with MIT license
 - Fixed various deployment issues
 
 # 0.6
