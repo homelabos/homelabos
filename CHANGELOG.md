@@ -2,10 +2,10 @@
 
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added Tautulli - Monitor your Plex Server
+- Added Watchtower - A process for automating Docker container base image updates
 
 # 0.6.1
 
-- Added Watchtower - A process for automating Docker container base image updates
 - Fixed various deployment issues
 
 # 0.6
