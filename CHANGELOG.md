@@ -7,10 +7,7 @@
 
 # 0.6.1
 
-- Added Wekan - Open source Kanban board with MIT license
 - Fixed various deployment issues
-- Adds Tautulli
-- Added Digikam - Professional Photo Management with the Power of Open Source
 
 # 0.6
 
