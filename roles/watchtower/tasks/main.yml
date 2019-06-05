@@ -1,0 +1,20 @@
+---
+- name: Make watchtower directory.
+  file:
+    path: "/var/homelabos/watchtower"
+    state: directory
+
+- name: Copy watchtower docker-compose.yml file into place.
+  template:
+    src: docker-compose.watchtower.yml.j2
+    dest: /var/homelabos/watchtower/docker-compose.watchtower.yml
+
+- name: Configure watchtower systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/watchtower.service
+
+- name: Start watchtower
+  systemd:
+    name: watchtower
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

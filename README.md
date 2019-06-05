@@ -79,13 +79,12 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Minio](https://minio.io/) - S3 hosting
 - [Miniflux](https://miniflux.app/) - Miniflux is a minimalist and opinionated feed reader.
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
-- [Mylarr](https://github.com/evilhero/mylar) - An automated Comic Book manager
+- [Mylar](https://github.com/evilhero/mylar) - An automated Comic Book manager
 - [NetData](http://my-netdata.io/) - Monitor your systems and applications, the right way!
 - [NextCloud](https://nextcloud.com/) - Private Cloud Storage, Calendar, Contacts, etc.
 - [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 - [OwnPhotos](https://github.com/hooram/ownphotos) Self hosted Google Photos clone.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
-- [Wekan](https://wekan.github.io/) - Open source Kanban board with MIT license
 - [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
@@ -99,7 +98,9 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client
 - [Wallabag](https://wallabag.org/en) - Save and classify articles. Read them later. Freely.
+- [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
 - [WebVirtMg](https://github.com/retspen/webvirtmgr) is a complete Kernel Virtual Machine (KVM) hypervisor manager.
+- [Wekan](https://wekan.github.io/) - Open source Kanban board with MIT license
 - [Zulip](https://github.com/zulip/zulip) - Threaded chat software
 
 ## Requirements
@@ -126,6 +127,8 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
 to act as a bastion host via Tinc vpn and nginx.
+
+## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
 ## Alternatives
 
