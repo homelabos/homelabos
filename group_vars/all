@@ -43,6 +43,7 @@ enabled_services:
   netdata: "{{ enable_netdata }}"
   nextcloud: "{{ enable_nextcloud }}"
   nzbget: "{{ enable_nzbget }}"
+  ombi: "{{ enable_ombi }}"
   openldap: "{{ enable_openldap }}"
   openvpn: "{{ enable_openvpn }}"
   organizr: "{{ enable_organizr }}"

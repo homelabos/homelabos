@@ -28,6 +28,7 @@ pages:
       - Dasher: software/dasher.md
       - Digikam: software/digikam.md
       - Duplicati: software/duplicati.md
+      - Emby: software/emby.md
       - Drone: software/drone.md
       - Emby: software/emby.md
       - Firefly III: software/firefly.md
@@ -50,6 +51,7 @@ pages:
       - Mylar: software/mylar.md
       - Netdata: software/netdata.md
       - NextCloud: software/nextcloud.md
+      - Ombi: software/ombi.md
       - OwnPhotos: software/ownphotos.md
       - Paperless: software/paperless.md
       - Pi-hole: software/pihole.md
