@@ -133,6 +133,9 @@ enable_wallabag: {{ enable_wallabag | default(False) }}
 enable_webvirtmgr: {{ enable_wallabag | default(False) }}
 enable_zulip: {{ enable_zulip | default(False) }}
 
+# After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
+plex_claim: {{ plex_claim | default('CHANGE_TO_GIVEN_TOKEN') }}
+
 ### END REQUIRED ###
 
 ### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
