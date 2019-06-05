@@ -1,3 +1,7 @@
+# 0.6.2
+
+- Initial configuration fixes
+
 # 0.6.1
 
 - Fixed various deployment issues
