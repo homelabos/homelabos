@@ -4,6 +4,7 @@
 - Added Mylarr
 - Added Tautulli - Monitor your Plex Server
 - Added Wekan - Open source Kanban board with MIT license
+- Added Mylar
 
 # 0.6.1
 
