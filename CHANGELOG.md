@@ -1,3 +1,7 @@
+# 0.6.3
+
+- Docker fixes
+
 # 0.6.2
 
 - Initial configuration fixes
