@@ -12,6 +12,8 @@ Also, if you trash your server or wreck your data, that's on you. Test your back
 
 ## [Documentation](https://nickbusey.gitlab.io/HomelabOS/)
 
+## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
+
 ## Summary
 
 A set of Ansible scripts to configure a Docker based Homelab server with all sorts of goodies. Following the unix philosophy we gather together many specific tools to build the exact end result desired.
@@ -123,8 +125,6 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
 to act as a bastion host via Tinc vpn and nginx.
-
-## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
 ## Alternatives
 
