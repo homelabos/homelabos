@@ -1,21 +1,26 @@
 # Installation
 
-## [Watch Video Tutorial](https://youtu.be/p8cD349BGRI)
-
-[Download the latest version from GitLab](https://gitlab.com/NickBusey/HomelabOS/tags).
-
-Make sure you have Docker installed on your computer.
-
-If you are going to be using HomelabOS to provision a cloud server, run
-`make terraform` to walk through that process.
-
-Ensure you can access your server with a IP through
+Before beginning make sure you have Docker installed
+on the computer you are deploying _from_. Ensure you
+can access your server with a IP through
 [passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login)
 and your user has sudo access.
 
-From inside the HomelabOS folder execute the terminal command `make config`. This
-will configure your local docker images and build your initial `settings/config.yml`
-file.
+## [Watch Video Tutorial](https://youtu.be/p8cD349BGRI)
+
+# Step 1
+
+[Download the latest version from GitLab](https://gitlab.com/NickBusey/HomelabOS/tags).
+
+## Optional Cloud Services
+If you are going to be using HomelabOS to provision a cloud server, run
+`make terraform` to walk through that process.
+
+# Step 2
+
+Run `make` from inside the HomelabOS directory.
+
+## Updating Settings
 
 To change any setting, you can either edit your `settings/config.yml` file, 
 or use the `make set` command, e.g., `make set enable_bitwarden true`.
@@ -25,13 +30,6 @@ simply run `make` to deploy HomelabOS. You can run `make` as many times as
 needed to get your settings correct.
 
 To reset your settings, run `make config_reset`, then run `make config` again.
-
-## Deploying to Cloud Services with Terraform
-
-You can use our 
-[Terraform scripts](https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md)
-to spin up cloud servers to deploy against rather than needing
-physical servers configured.
 
 ## Syncing Settings via Git
 
