@@ -1,4 +1,39 @@
-# How to Add Services to HomelabOS
+# Using the addPkg.rb script to Add services to HomelabOS
+
+## What does the script do?
+
+addPkg.rb scripts the creation of new service files. You'll need three pieces of information:
+
+- Package Name in Title case - This is used whenever we need a Title for the package.
+- The URL for the package - Used in documentation files to link to package source.
+- A one-line description of the package - Used in documention, etc.
+
+When you have entered those three pieces of information, The script then does the following for you:
+
+- Creates an issue on Gitlab.
+- Creates a branch for, and tied to the issue.
+- Creates an (empty) Merge Request, that resolves the issue.
+- Fetches the new branch, and checks it out.
+- Creates the Service Role Directory
+  - Edits the role/PACKAGENAME/tasks/main.yml
+- Creates the Documentation file
+- Edits mkdocs.yml to include the new documentation file
+- Edits the Readme, and Changelog files
+- Edits the group_var/all file to include the new package in the Enabled Services list
+
+## Pre-requisites
+
+To utilize this script, you'll need a working installation of ruby 2.6. If you've not already done so, install bundler, and run `bundle install` from the root of the project. _You'll only need to do this once._ This installs the various ruby gems that the script relies on.
+
+## Running the script
+
+From the root project directory run:
+`bin/addPkg.rb` and answer the 3 questions.
+Once the script has run, you must edit the `roles/PACKAGENAME/templates/docker-compose.PACKAGENAME.yml.j2 file`
+
+_Please review all other files, before pushing your changes to gitlab._
+
+# How to Manually Add Services to HomelabOS
 
 ## Create Role Folder
 
