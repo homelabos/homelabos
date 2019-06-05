@@ -1,0 +1,20 @@
+---
+- name: Make homebridge directory.
+  file:
+    path: "/var/homelabos/homebridge"
+    state: directory
+
+- name: Copy homebridge docker-compose.yml file into place.
+  template:
+    src: docker-compose.homebridge.yml.j2
+    dest: /var/homelabos/homebridge/docker-compose.homebridge.yml
+
+- name: Configure homebridge systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/homebridge.service
+
+- name: Start homebridge
+  systemd:
+    name: homebridge
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -65,6 +65,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Grafana](https://grafana.com/) - Pretty graphs
 - [Guacamole](https://guacamole.apache.org) - a clientless remote desktop gateway
 - [Home Assistant](https://www.home-assistant.io/) - Home Automation
+- [HomeBridge](https://homebridge.io/) - HomeKit support for the impatient
 - [Homedash](https://lamarios.github.io/Homedash2/) - Dashboard
 - [InfluxDB](https://www.influxdata.com/time-series-platform/influxdb/) - Time series data storage
 - [Inventario](https://gitlab.com/NickBusey/inventario) - Home inventory management

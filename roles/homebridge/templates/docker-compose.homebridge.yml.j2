@@ -1,0 +1,14 @@
+---
+version: '3'
+
+services:
+  homebridge:
+    image: oznu/homebridge:latest
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ={{ common_timezone }}
+      - PGID={{ gid }}
+      - PUID={{ uid }}
+    volumes:
+      - /var/homelabos/homebridge:/homebridge
