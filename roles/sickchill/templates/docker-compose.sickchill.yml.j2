@@ -9,12 +9,17 @@ networks:
       name: homelabos_traefik
 
 services:
-  app:
-    # REQUIRED
-    image: 
+  sickchill:
+    image: sickchill/sickchill:latest
     restart: unless-stopped
     networks:
       - traefik_network
+    ports:
+      - 8081:8081
+    volumes:
+      - /var/homelabos/sickchill/data:/data
+      - /mnt/nas/downloads:/downloads
+      - /mnt/nas/Tv:/tv    
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -28,13 +33,3 @@ services:
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
-    # OPTIONAL 
-    #links: 
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/package_name_db_password chars=digits') }}"
