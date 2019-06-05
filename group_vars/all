@@ -53,9 +53,10 @@ enabled_services:
   piwigo: "{{ enable_piwigo }}"
   plex: "{{ enable_plex }}"
   portainer: "{{ enable_portainer }}"
-  sonarr: "{{ enable_sonarr }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
+  sickchill: "{{ enable_sickchill }}"
+  sonarr: "{{ enable_sonarr }}"
   syncthing: "{{ enable_syncthing }}"
   tautulli: "{{ enable_tautulli }}"
   thelounge: "{{ enable_thelounge }}"
@@ -67,7 +68,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  sickchill: "{{ enable_sickchill }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
