@@ -113,7 +113,7 @@ enable_ownphotos: {{ enable_ownphotos | default(False) }}
 enable_paperless: {{ enable_paperless | default(False) }}
 enable_pihole: {{ enable_pihole | default(False) }}
 enable_piwigo: {{ enable_piwigo | default(False) }}
-enable_plex: {{ enable_plex | default(False) }}
+enable_plex: {{ enable_plex | default(False) }} # Set Plex Claim Token below
 enable_portainer: {{ enable_portainer | default(False) }}
 enable_sonarr: {{ enable_sonarr | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
@@ -128,6 +128,9 @@ enable_xfinityusageinfluxdb: {{ enable_xfinityusageinfluxdb | default(False) }}
 enable_wallabag: {{ enable_wallabag | default(False) }}
 enable_webvirtmgr: {{ enable_wallabag | default(False) }}
 enable_zulip: {{ enable_zulip | default(False) }}
+
+# After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
+plex_claim: {{ plex_claim }}
 
 ### END REQUIRED ###
 

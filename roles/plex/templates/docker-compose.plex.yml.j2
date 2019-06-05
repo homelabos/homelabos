@@ -9,13 +9,29 @@ networks:
 services:
   # Plex Media Server
   plex:
-    image: linuxserver/plex
+    image: plexinc/pms-docker
+    hostname: plex.{{ domain }}
     networks:
       - traefik_network
     restart: unless-stopped
     volumes:
       - /var/homelabos/plex:/config
-      - /mnt/nas:/mnt/nas
+      - /mnt/nas:/data
+      - /mnt/nas/transcode:/transcode
+    environment:
+      - TZ={{ common_timezone }}
+      - PLEX_CLAIM={{ plex_claim }}
+      - ADVERTISE_IP=http://{{ homelab_ip }}:32400/
+    ports:
+      - "32400:32400"
+      - "3005:3005"
+      - "8324:8324"
+      - "32469:32649"
+      - "1900:1900/udp"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
