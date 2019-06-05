@@ -4,6 +4,7 @@
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
 - Added Tautulli - Monitor your Plex Server
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
