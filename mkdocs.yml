@@ -1,70 +1,68 @@
 ---
 site_name: HomelabOS
-
 repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: edit/master/docs
-
 theme:
   name: material
   logo:
     icon: home
-
 pages:
-  - Home: index.md
-  - Installation: setup/installation.md
-  - Getting Started: setup/gettingstarted.md
-  - Setup:
-      - Backups: setup/backups.md
-      - Email: setup/email.md
-      - Cloud Bastion Server via Tinc: setup/tinc.md
-      - Terraform: setup/terraform.md
-      - Tor Onion Services: setup/tor.md
-      - VPN Setup: setup/vpn.md
-  - Included Software:
-      - Airsonic: software/airsonic.md
-      - Apple Health: software/applehealth.md
-      - Beets: software/beets.md
-      - Bitwarden: software/bitwarden.md
-      - BulletNotes: software/bulletnotes.md
-      - Calibre: software/calibre.md
-      - Darksky: software/darksky.md
-      - Dasher: software/dasher.md
-      - Digikam: software/digikam.md
-      - Duplicati: software/duplicati.md
-      - Emby: software/emby.md
-      - Drone: software/drone.md
-      - Firefly III: software/firefly.md
-      - FreshRSS: software/freshrss.md
-      - Gitea: software/gitea.md
-      - Grafana: software/grafana.md
-      - Guacamole: software/guacamole.md
-      - Home Assistant: software/homeassistant.md
-      - Inventario: software/inventario.md
-      - Jackett: software/jackett.md
-      - Kibitzr: software/kibitzr.md
-      - Lidarr: software/lidarr.md
-      - Mashio: software/mashio.md
-      - Matomo: software/matomo.md
-      - Mayan: software/mayan.md
-      - Miniflux: software/miniflux.md
-      - Minio: software/minio.md
-      - Monica: software/monica.md
-      - Netdata: software/netdata.md
-      - NextCloud: software/nextcloud.md
-      - OwnPhotos: software/ownphotos.md
-      - Paperless: software/paperless.md
-      - Pi-hole: software/pihole.md
-      - Piwigo: software/piwigo.md
-      - Plex: software/plex.md
-      - Portainer: software/portainer.md
-      - Radarr / Sonarr: software/radarr-sonarr.md
-      - Synchthing: software/syncthing.md
-      - Tautulli: software/tautulli.md
-      - The Lounge: software/thelounge.md
-      - TICK: software/tick.md
-      - Transmission: software/transmission.md
-      - WebVirtMgr: software/webvirtmgr.md
-  - Development:
-      - Adding Services: development/adding_services.md
-      - Contributing: development/contributing.md
-      - Migrations: development/migrations.md
+- Home: index.md
+- Installation: setup/installation.md
+- Getting Started: setup/gettingstarted.md
+- Setup:
+  - Backups: setup/backups.md
+  - Email: setup/email.md
+  - Cloud Bastion Server via Tinc: setup/tinc.md
+  - Terraform: setup/terraform.md
+  - Tor Onion Services: setup/tor.md
+  - VPN Setup: setup/vpn.md
+- Included Software:
+  - Airsonic: software/airsonic.md
+  - Apple Health: software/applehealth.md
+  - Beets: software/beets.md
+  - Bitwarden: software/bitwarden.md
+  - BulletNotes: software/bulletnotes.md
+  - Calibre: software/calibre.md
+  - Darksky: software/darksky.md
+  - Dasher: software/dasher.md
+  - Digikam: software/digikam.md
+  - Duplicati: software/duplicati.md
+  - Emby: software/emby.md
+  - Drone: software/drone.md
+  - Firefly III: software/firefly.md
+  - FreshRSS: software/freshrss.md
+  - Gitea: software/gitea.md
+  - Grafana: software/grafana.md
+  - Guacamole: software/guacamole.md
+  - Home Assistant: software/homeassistant.md
+  - Inventario: software/inventario.md
+  - Jackett: software/jackett.md
+  - Kibitzr: software/kibitzr.md
+  - Lidarr: software/lidarr.md
+  - Mashio: software/mashio.md
+  - Matomo: software/matomo.md
+  - Mayan: software/mayan.md
+  - Miniflux: software/miniflux.md
+  - Minio: software/minio.md
+  - Monica: software/monica.md
+  - Netdata: software/netdata.md
+  - NextCloud: software/nextcloud.md
+  - OwnPhotos: software/ownPhotos.md
+  - Paperless: software/paperless.md
+  - Pi-hole: software/pihole.md
+  - Piwigo: software/piwigo.md
+  - Plex: software/plex.md
+  - Portainer: software/portainer.md
+  - Radarr / Sonarr: software/radarr-sonarr.md
+  - Synchthing: software/syncthing.md
+  - Tautulli: software/tautulli.md
+  - The Lounge: software/thelounge.md
+  - TICK: software/tick.md
+  - Transmission: software/transmission.md
+  - WebVirtMgr: software/webvirtmgr.md
+  - Wekan: software/wekan
+- Development:
+  - Adding Services: development/adding_services.md
+  - Contributing: development/contributing.md
+  - Migrations: development/migrations.md
