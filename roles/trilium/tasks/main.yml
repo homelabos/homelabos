@@ -1,0 +1,20 @@
+---
+- name: Make trilium directory.
+  file:
+    path: "/var/homelabos/trilium"
+    state: directory
+
+- name: Copy trilium docker-compose.yml file into place.
+  template:
+    src: docker-compose.trilium.yml.j2
+    dest: /var/homelabos/trilium/docker-compose.trilium.yml
+
+- name: Configure trilium systemd service.
+  template: src=service.j2 dest=/etc/systemd/system/trilium.service
+
+- name: Start trilium
+  systemd:
+    name: trilium
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

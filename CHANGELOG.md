@@ -5,6 +5,7 @@
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
 - Added Tautulli - Monitor your Plex Server
+- Added Trilium - Build your personal knowledge base with Trilium Notes
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
 

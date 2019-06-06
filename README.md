@@ -99,6 +99,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client
+- [Trilium](https://github.com/zadam/trilium) - Build your personal knowledge base with Trilium Notes
 - [Wallabag](https://wallabag.org/en) - Save and classify articles. Read them later. Freely.
 - [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
 - [WebVirtMg](https://github.com/retspen/webvirtmgr) is a complete Kernel Virtual Machine (KVM) hypervisor manager.
