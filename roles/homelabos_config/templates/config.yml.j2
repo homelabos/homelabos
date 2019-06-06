@@ -195,8 +195,8 @@ mailserver:
   forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
 
 traefik:
-  expose_internally: {{ traefik.expose_internally | default(False)  }}
-  expose_externally: {{ traefik.expose_externally | default(True)  }}
+  expose_internally: {{ traefik.expose_internally | default(True)  }}
+  expose_externally: {{ traefik.expose_externally | default(False)  }}
 
 gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True)  }}
