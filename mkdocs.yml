@@ -65,6 +65,7 @@ pages:
       - The Lounge: software/thelounge.md
       - TICK: software/tick.md
       - Transmission: software/transmission.md
+      - Trilium: software/trilium
       - WebVirtMgr: software/webvirtmgr.md
       - Wekan: software/wekan
       - Watchtower: software/watchtower

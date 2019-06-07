@@ -62,6 +62,7 @@ enabled_services:
   thelounge: "{{ enable_thelounge }}"
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
+  trilium: "{{ enable_trilium }}"
   wallabag: "{{ enable_wallabag }}"
   webvirtmgr: "{{ enable_webvirtmgr }}"
   wekan: "{{ enable_wekan }}"
