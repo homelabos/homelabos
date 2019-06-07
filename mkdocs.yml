@@ -59,6 +59,7 @@ pages:
       - Plex: software/plex.md
       - Portainer: software/portainer.md
       - Radarr / Sonarr: software/radarr-sonarr.md
+      - SickChill: software/sickchill
       - Synchthing: software/syncthing.md
       - Tautulli: software/tautulli.md
       - The Lounge: software/thelounge.md

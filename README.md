@@ -87,12 +87,13 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 - [OwnPhotos](https://github.com/hooram/ownphotos) Self hosted Google Photos clone.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
-- [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
+- [PhpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
 - [Plex](https://www.plex.tv/) - Personal Media Server
 - [Portainer](https://www.portainer.io/) - Easy Docker management
 - [Radarr](https://radarr.video/) - Automated movie downloading
+- [SickChill](https://sickchill.github.io/) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](https://sonarr.tv/) - Automated TV downloading
 - [Syncthing](https://syncthing.net/) - File syncing software
 - [Tautulli](https://tautulli.com/) - Monitor your Plex Server
