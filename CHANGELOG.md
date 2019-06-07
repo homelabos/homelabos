@@ -10,6 +10,14 @@
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
 
+# 0.6.3
+
+- Docker fixes
+
+# 0.6.2
+
+- Initial configuration fixes
+
 # 0.6.1
 
 - Fixed various deployment issues
