@@ -1,3 +1,7 @@
+# 0.6.4
+
+- Raspberry Pi specific fixes
+
 # 0.6.3
 
 - Docker fixes
