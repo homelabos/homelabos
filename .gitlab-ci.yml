@@ -1,6 +1,22 @@
 ---
 image: python:alpine
 
+lint_yaml_files:
+  script:
+    - pip install yamllint
+    - find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
+
+#test:
+#  script:
+    # Spin up a DO droplet to deploy to using Terraform
+    #- make terraform
+    # Deploy jellyfin to droplet
+
+    # Ensure jellyfin access works
+
+    # Tear down droplet
+
+
 pages:
   script:
     - pip install mkdocs
@@ -13,8 +29,4 @@ pages:
   only:
     - master
 
-lint_yaml_files:
-  script:
-    - pip install yamllint
-    - find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
 ...
