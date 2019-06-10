@@ -1,7 +1,9 @@
 # Tinc
 
+## [Video Tutorial](https://youtu.be/gqw8_PZ42KA)
+
 HomelabOS can optionally use Tinc to configure a cloud based bastion server, which will route
-to your HomelabOS instance without needing to forward ports on your home router.
+traffic to your HomelabOS instance without needing to forward ports on your home router.
 
 This is desirable for three reasons.
 
@@ -13,11 +15,11 @@ This is desirable for three reasons.
 
 First you need a cloud server through a provider such as AWS or Digital Ocean.
 
-Copy the `group_vars/tinc` file to `host_vars/tincserver`. Fill out all the required fields.
+You can use the [HomelabOS Terraform feature](/setup/terraform.md), or set it up manually.
 
-The ansible ssh user should have passwordless SSH and Sudo just like the HomelabOS server.
+Set the `tincserver_ssh_user` and `tincserver_ip` config values to their correct settings.
 
-Now run `make update` as normal, and HomelabOS will take care of everything else.
+Run `make` as usual, and HomelabOS will take care of everything else.
 
 Now point your domain name to your cloud server's IP address rather than your home IP address,
 and everything should be happy!
