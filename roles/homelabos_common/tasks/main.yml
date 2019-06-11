@@ -7,7 +7,6 @@
     mode: "1777"
   loop:
     - /var/homelabos/traefik
-    - /mnt/nas
     - /etc/docker
   ignore_errors: "yes"
 
@@ -21,6 +20,7 @@
     name:
       - apt-transport-https
       - ca-certificates
+      - cifs-utils
       - curl
       - software-properties-common
       - git
@@ -28,6 +28,7 @@
       - iftop
       - iotop
       - mosh
+      - nfs-common
       - screen
       - sudo
       - unattended-upgrades
@@ -79,14 +80,56 @@
   register: gid_output
   become: false
 
-- name: Configure NAS
-  when: enable_nas
+- name: Create Media Folders / NAS Mount Points
+  file:
+    path: "{{ storage_dir }}/{{ item }}"
+    state: directory
+  with_items:
+    - "Backups"
+    - "Books"
+    - "Documents"
+    - "Downloads"
+    - "Music"
+    - "Movies"
+    - "Pictures"
+    - "TV"
+
+- name: Configure NAS - Public NFS Shares
+  when: 
+    - nas_enable
+    - nas_mount_type == "nfs"
   lineinfile:
     path: /etc/fstab
-    line: "{{ nas_path }}  /mnt/nas  cifs  nobrl,username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid={{ uid_output.stdout }},gid={{ gid_output.stdout }},iocharset=utf8,file_mode=0777,dir_mode=0770  0  0"
+    line: "{{ nas_host }}:{{ nas_share_path }}/{{ item }} {{ storage_dir }}/{{ item }} nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0"
+  with_items:
+    - "Backups"
+    - "Books"
+    - "Documents"
+    - "Downloads"
+    - "Music"
+    - "Movies"
+    - "Pictures"
+    - "TV"
+
+- name: Configure NAS - Samba Shares
+  when:
+    - nas_enable
+    - nas_mount_type == "smb"
+  lineinfile:
+    path: /etc/fstab
+    line: "//{{ nas_host }}/{{ item }}  {{ storage_dir }}/{{ item }}  cifs  nobrl,username={{ nas_user }},vers=2.0,dom={{ nas_workgroup }},password={{ nas_pass }},uid={{ uid_output.stdout }},gid={{ gid_output.stdout }},iocharset=utf8,file_mode=0777,dir_mode=0770  0  0"
+  with_items:
+    - "Backups"
+    - "Books"
+    - "Documents"
+    - "Downloads"
+    - "Music"
+    - "Movies"
+    - "Pictures"
+    - "TV"
 
 - name: Mount NAS Drives
-  when: enable_nas
+  when: nas_enable
   command: mount -a
   args:
     warn: "no"

@@ -74,32 +74,60 @@ It is recommended to register an actual domain to point at your Homelab, but if 
 
 When HomelabOS `make` command completes, it creates a file on the server at `/var/homelabos/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
 
-## NAS Network Area Storage Configuration
+## NAS Network Attached Storage Configuration
 
-It is a good idea to keep your files as a whole, media, documents, etc., on a Network Area Storage device or NAS.
+Different HomelabOS services operate on libraries of media (for example: Airsonic, Plex, and Piwigo). Since these libraries can be large, it makes sense to keep them on another machine with lots of storage.
 
-For a typical HomelabOS setup you will want at least the following directories inside your NAS:
+NAS shares are mounted on the HomelabOS host under `{{ storage_dir }}`, which defaults to `/mnt/homelabos/media`. By default, NAS is disabled, and the services that can use it will instead use local folders under `{{ storage_dir }}`.
+
+For example, [Emby](/software/emby) will map `{{ storage_dir }}/TV` and `{{ storage_dir }}/Movies` into its container, and [Paperless](/software/paperless) will mount `{{ storage_dir }}/Documents`.
+
+HomelabOS takes an all-or-nothing approach to remote storage. If you configure a NAS, all services that can use it will. For a full HomelabOS setup, the following shares should be present on your NAS:
 
 ```
 Backups
+Books
+Documents
+Downloads
 Music
 Movies
+Pictures
 TV
-Downloads
-Documents
 ```
 
-All you have to do is enter your NAS network path, username and password into your `host_vars/myserver` file. You can find the template in `host_vars/all` in the `# NAS Config` section.
+These shares will be individually mounted on the HomelabOS host.
 
-It should look something like this, depending on your setup:
+To configure your NAS, edit the `# NAS Config` section of `settings/config.yml`.
+
+1. Enable NAS by setting `nas_enable: True`
+2. Set `nas_host` to the hostname, FQDN, or IP address of your NAS.
+3. Choose your network share type (`nfs` or `smb`) and set `nas_share_type` to that value.
+4. Set your `nas_share_path`, if applicable. SMB shares will probably not have a value for this, but NFS will.
+5. If authenticating to access SMB shares, set your username and password in `nas_user` and `nas_path`.
+6. Set your Windows domain in `nas_workgroup`, if applicable.
+
+Re-run `make` to configure and enable your NAS.
+
+Here's an example NFS configuration, specifically for [unRAID](https://unraid.net):
 
 ```
-nas_path: //192.168.1.1/Mynas
-nas_user: guest
+nas_enable: True
+nas_host: unraid.mydomain.com
+nas_mount_type: nfs
+nas_share_path: /mnt/user
+nas_user:
 nas_pass:
+nas_workgroup:
+```
+
+Here's an SMB configuration for the same server, this time using its IP address and an authenticated user:
+
+```
+nas_enable: True
+nas_host: 192.168.1.12
+nas_mount_type: smb
+nas_share_path:
+nas_user: user
+nas_pass: 12345
 nas_workgroup: WORKGROUP
 ```
-
-This NAS resource will be mounted under `/mnt/nas` in the various containers that would benefit from access.
-
-Assuming you have created the folders above, for [Emby](/software/emby) for example you could point it to `/mnt/nas/TV` and `/mnt/nas/Movies` while [Paperless](/software/paperless) would point at `/mnt/nas/Documents`.
