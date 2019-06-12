@@ -1,5 +1,4 @@
 ---
-
 - name: Install necessities and nice-to-haves
   apt:
     name:
@@ -45,5 +44,3 @@
   locale_gen:
     name: en_US.UTF-8
     state: present
-
-- name: Configure Traefik.
