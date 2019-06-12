@@ -16,8 +16,10 @@ services:
     restart: unless-stopped
     volumes:
       - /var/homelabos/plex:/config
-      - /mnt/nas:/data
-      - /mnt/nas/transcode:/transcode
+      - {{ storage_dir }}/Music:/data/Music
+      - {{ storage_dir }}/Movies:/data/Movies
+      - {{ storage_dir }}/TV:/data/TV
+      - {{ storage_dir }}/temp/transcode:/transcode
     environment:
       - TZ={{ common_timezone }}
       - PLEX_CLAIM={{ plex_claim }}

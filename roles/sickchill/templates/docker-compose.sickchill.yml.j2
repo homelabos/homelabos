@@ -18,8 +18,8 @@ services:
       - 8081:8081
     volumes:
       - /var/homelabos/sickchill/data:/data
-      - /mnt/nas/downloads:/downloads
-      - /mnt/nas/Tv:/tv    
+      - {{ storage_dir }}/downloads:/downloads
+      - {{ storage_dir }}/TV:/tv    
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

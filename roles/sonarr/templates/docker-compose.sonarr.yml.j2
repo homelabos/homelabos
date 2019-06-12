@@ -20,8 +20,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/sonarr/config:/config
-      - /mnt/nas/TV:/tv
-      - /mnt/nas/Downloads/complete/tv:/downloads
+      - {{ storage_dir }}/TV:/tv
+      - {{ storage_dir }}/Downloads/complete/tv:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
