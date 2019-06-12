@@ -29,7 +29,7 @@ services:
       - DB_HOST=nextcloud-db
     volumes:
       - /var/homelabos/nextcloud/config:/config
-      - /mnt/nas/Documents/NextCloud:/data
+      - {{ storage_dir }}/Documents/NextCloud:/data
       - /var/homelabos/nextcloud/apps:/apps2
       - /var/homelabos/nextcloud/themes:/nextcloud/themes
     labels:

@@ -14,7 +14,7 @@ services:
       - traefik_network
     volumes:
       - /var/homelabos/airsonic/data:/airsonic/data
-      - /mnt/nas/Music:/airsonic/music
+      - {{ storage_dir }}/Music:/airsonic/music
       - /var/homelabos/airsonic/playlists:/airsonic/playlists
       - /var/homelabos/airsonic/podcasts:/airsonic/podcasts
     labels:
