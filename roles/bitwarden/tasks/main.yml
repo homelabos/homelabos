@@ -11,7 +11,9 @@
 
 
 - name: Configure bitwarden systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/bitwarden.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/bitwarden.service
 
 - name: Start bitwarden
   systemd:

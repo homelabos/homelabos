@@ -10,7 +10,9 @@
     dest: /var/homelabos/sickchill/docker-compose.sickchill.yml
 
 - name: Configure sickchill systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/sickchill.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/sickchill.service
 
 - name: Start sickchill
   systemd:

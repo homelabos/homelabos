@@ -11,7 +11,9 @@
 
 
 - name: Configure drone systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/drone.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/drone.service
 
 - name: Start drone
   systemd:

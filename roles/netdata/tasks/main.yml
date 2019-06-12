@@ -24,7 +24,9 @@
     htpasswd: "{{htpasswd.stdout}}"
 
 - name: Configure netdata systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/netdata.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/netdata.service
 
 - name: Start netdata
   systemd:
