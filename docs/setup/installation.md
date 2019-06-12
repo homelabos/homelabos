@@ -92,6 +92,7 @@ Downloads
 Music
 Movies
 Pictures
+temp
 TV
 ```
 
