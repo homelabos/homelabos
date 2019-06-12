@@ -1,6 +1,6 @@
 # Getting Started
 
-Alright once you are all setup and ready to go you should be able to load Organizr at [http://{{ domain }}/](http://{{ domain }}/).
+Once you are all setup and ready to go you should be able to load Organizr at [http://{{ domain }}/](http://{{ domain }}/).
 
 If you see `{ domain }` in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.
 

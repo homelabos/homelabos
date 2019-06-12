@@ -10,6 +10,10 @@
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
 
+# 0.6.4
+
+- Raspberry Pi specific fixes
+
 # 0.6.3
 
 - Docker fixes
