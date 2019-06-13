@@ -23,7 +23,9 @@
     gid: "{{ gid_output.stdout }}"
 
 - name: Configure nextcloud systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/nextcloud.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/nextcloud.service
 
 - name: Start nextcloud
   systemd:

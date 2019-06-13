@@ -11,7 +11,9 @@
 
 
 - name: Configure inventario systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/inventario.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/inventario.service
 
 - name: Start inventario
   systemd:

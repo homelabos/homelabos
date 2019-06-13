@@ -23,7 +23,9 @@
     gid: "{{ gid_output.stdout }}"
 
 - name: Configure beets systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/beets.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/beets.service
 
 - name: Start beets
   systemd:

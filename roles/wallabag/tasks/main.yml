@@ -11,7 +11,9 @@
 
 
 - name: Configure wallabag systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/wallabag.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/wallabag.service
 
 - name: Start wallabag
   systemd:
