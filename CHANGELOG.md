@@ -1,5 +1,6 @@
 # 0.7
 
+- Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mylar - An automated Comic Book manager

@@ -19,6 +19,7 @@ pages:
       - VPN Setup: setup/vpn.md
   - Included Software:
       - Airsonic: software/airsonic.md
+      - Apache2: software/apache2.md
       - Apple Health: software/applehealth.md
       - Beets: software/beets.md
       - Bitwarden: software/bitwarden.md

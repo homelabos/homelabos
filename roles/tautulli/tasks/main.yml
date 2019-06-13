@@ -24,7 +24,9 @@
     gid: "{{ gid_output.stdout }}"
 
 - name: Configure tautulli systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/tautulli.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/tautulli.service
 
 - name: Start tautulli
   systemd:

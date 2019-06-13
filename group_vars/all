@@ -3,6 +3,7 @@ volumes_root: "/var/homelabos"
 tinc: "{{ enable_tinc }}"
 tor: "{{ enable_tor }}"
 enabled_services:
+  apache2: "{{ enable_apache2 }}"
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
   beets: "{{ enable_beets }}"

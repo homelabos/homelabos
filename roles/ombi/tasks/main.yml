@@ -12,7 +12,9 @@
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure ombi systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/ombi.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/ombi.service
 
 - name: Start ombi
   systemd:

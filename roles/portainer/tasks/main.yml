@@ -11,7 +11,9 @@
 
 
 - name: Configure portainer systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/portainer.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/portainer.service
 
 - name: Start portainer
   systemd:
