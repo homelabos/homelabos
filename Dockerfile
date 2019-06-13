@@ -1,6 +1,6 @@
 # From https://github.com/walokra/docker-ansible-playbook
 
-FROM alpine:3.7
+FROM python:3.7.3-alpine
 
 ENV ANSIBLE_VERSION 2.6.1
 
@@ -11,15 +11,18 @@ ENV BUILD_PACKAGES \
   openssh-client \
   sshpass \
   git \
-  python \
-  py-boto \
-  py-dateutil \
-  py-httplib2 \
-  py-jinja2 \
-  py-paramiko \
-  py-pip \
-  py-yaml \
+  make \
+  py3-dateutil \
+  py3-httplib2 \
+  py3-jinja2 \
+  py3-paramiko \
+  py3-yaml \
   ca-certificates
+
+ENV PYTHON_PACKAGES \
+  python3-keyczar \
+  boto3 \
+  docker-py
 
 # If installing ansible@testing
 #RUN \
@@ -34,15 +37,17 @@ RUN set -x && \
       libffi-dev \
       openssl-dev \
       jq \
-      python-dev && \
+      python3-dev && \
     \
     echo "==> Upgrading apk and system..."  && \
     apk update && apk upgrade && \
     \
     echo "==> Adding Python runtime..."  && \
     apk add --no-cache ${BUILD_PACKAGES} && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi && \
     pip install --upgrade pip && \
-    pip install python-keyczar docker-py && \
+    pip install ${PYTHON_PACKAGES} && \
     \
     echo "==> Installing Ansible..."  && \
     pip install ansible==${ANSIBLE_VERSION} && \
