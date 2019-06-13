@@ -205,5 +205,7 @@ gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True)  }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
 
+apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
+
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}

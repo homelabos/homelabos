@@ -17,13 +17,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:apache2.{{ domain }}"
+      - "traefik.http.frontend.rule=Host:{{ apache2_subdomain }}.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:apache.{{ tor_domain }}"
+      - "traefik.tor.frontend.rule=Host:{{ apache2_subdomain }}.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
