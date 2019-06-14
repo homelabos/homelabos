@@ -1,0 +1,30 @@
+---
+# Initial setup so Ansible can actually work.
+- name: Install python (required by Ansible).
+  gather_facts: "False"
+  hosts: all
+  become: "True"
+  become_method: sudo
+  pre_tasks:
+    - name: "Update Apt Cache"
+      raw: sudo apt-get update
+      ignore_errors: true
+    - name: "Install Python"
+      raw: sudo apt-get -y install python-simplejson
+
+- name: "Setup wireguard VPN"
+  tags: wireguard
+  hosts: all
+  become: true
+  become_method: sudo
+  roles:
+    - role: homelabos_wireguard
+      when: enable_tinc
+# - name: "Update Tinc Bastion Host with iptables rules"
+#   hosts: tinc
+#   become: true
+#   become_method: sudo
+#   tags: tinc-iptables
+#   roles:
+#     - role: homelabos_tinc_iptables
+#       when: enable_tinc

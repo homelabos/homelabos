@@ -141,6 +141,11 @@ terraform_destroy: logo git_sync
 	@cd settings && ../docker_helper.sh terraform destroy
 	@echo "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
 
+bastion: logo git_sync
+	@echo "\x1B[01;93m========== Deploying to bastion host! ==========\n\x1B[0m"
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i inventory playbook.bastion.yml
+	@echo "\x1B[01;93m========== Done deploying to bastion host! ==========\n\x1B[0m"
+
 # Hacky fix to allow make to accept multiple arguments
 %:
 	@:
