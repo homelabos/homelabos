@@ -1,0 +1,85 @@
+---
+- name: Add the WireGuard PPA repository
+  apt_repository:
+    repo: ppa:wireguard/wireguard
+    state: present
+  register: result
+  until: result is succeeded
+  retries: 10
+  delay: 3
+
+- name: Install WireGuard
+  apt:
+    name: wireguard
+    state: present
+    update_cache: true
+
+- name: Create WireGuard configurations directory
+  file:
+    dest: /etc/wireguard
+    state: directory
+
+- name: Check to see if private key already exists
+  stat:
+    path: /etc/wireguard/privatekey
+  register: private_key
+
+- name: Generate WireGuard private and public keys
+  shell: umask 077 && wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey
+  when: private_key.stat.exists == False
+
+- name: Register WireGuard private key as a variable
+  slurp:
+    src: /etc/wireguard/privatekey
+  register: wg_privatekey
+
+- name: Generate WireGuard server configuration file
+  template:
+    src: wireguard.conf.server.j2
+    dest: /etc/wireguard/wg0.conf
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+  when: inventory_hostname == 'tincserver'
+
+- name: Fetch Server Public Key
+  fetch:
+    src: /etc/wireguard/publickey
+    dest: fetch/server_public_key
+    flat: yes
+  when: inventory_hostname == 'tincserver'
+
+- name: Copy Server public key to myserver
+  copy:
+    src: fetch/server_public_key
+    dest: /etc/wireguard/serverpublickey
+  when: inventory_hostname == 'myserver'
+
+- name: Register Server public key as a variable
+  slurp:
+    src: /etc/wireguard/serverpublickey
+  register: wg_server_publickey
+  when: inventory_hostname == 'myserver'
+
+- name: Generate WireGuard client configuration file
+  hosts: myserver
+  template:
+    src: wireguard.conf.client.j2
+    dest: /etc/wireguard/wg0.conf
+    owner: root
+    group: root
+    mode: 0600
+    force: yes
+  when: inventory_hostname == 'myserver'
+
+- name: Enable WireGuard system service
+  shell: systemctl enable wg-quick@wg0
+  become: True
+
+- name: Start WireGuard service
+  systemd:
+    name: wg-quick@wg0
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

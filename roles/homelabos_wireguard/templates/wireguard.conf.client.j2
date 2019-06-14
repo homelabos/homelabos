@@ -1,0 +1,8 @@
+[Interface]
+Address = {{ wireguard.client_address }}
+PrivateKey = {{ wg_privatekey['content'] | b64decode }}
+
+[Peer]
+PublicKey = {{ wg_server_publickey['content'] | b64decode }}
+Endpoint = {{ domain }}:51820
+AllowedIPs = {{ wireguard.server_address }}
