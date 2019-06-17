@@ -1,5 +1,5 @@
 ---
-image: python:alpine
+image: python:3.7.3-alpine
 
 lint_yaml_files:
   script:
