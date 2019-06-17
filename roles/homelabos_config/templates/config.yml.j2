@@ -15,6 +15,9 @@ default_username: {{ default_username }}
 # Default password to go with the default user
 default_password: {{ default_password }}
 
+# Default storage location for media (These are used as local directories or NAS mount points depending on configuration)
+storage_dir: {{ storage_dir | default('/mnt/homelabos/media') }}
+
 # Minio access keys
 minio_access_key: {{ minio_access_key | default() }}
 minio_secret_access_key: {{ minio_secret_access_key | default() }}
@@ -56,7 +59,6 @@ region: {{ region | default('Heyo') }}
 
 enable_tinc: {{ enable_tinc | default(False) }}
 enable_tor: {{ enable_tor | default(False) }}
-enable_nas: {{ enable_nas | default(False) }}
 
 # Force SSL Usage
 # Only set this to true after everything is working, and https certificates have been generated.
@@ -156,9 +158,12 @@ openvpn_username: {{ openvpn_username | default() }}
 openvpn_password: {{ openvpn_password | default() }}
 openvpn_config: {{ openvpn_config | default() }}
 
-# NAS Config name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
-nas_path: {{ nas_path | default() }}
-nas_user: {{ nas_user | default() }}
+# NAS Config (Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-attached-storage-configuration)
+nas_enable: {{ nas_enable | default(False) }}
+nas_host: {{ nas_host | default() }}
+nas_mount_type: {{ nas_mount_type | default() }}
+nas_share_path: {{ nas_share_path | default() }}
+nas_user: {{ nas_user | default(default_username) }}
 nas_pass: {{ nas_pass | default() }}
 nas_workgroup: {{ nas_workgroup | default() }}
 

@@ -1,10 +1,10 @@
 ---
-
 - name: Install necessities and nice-to-haves
   apt:
     name:
       - apt-transport-https
       - ca-certificates
+      - cifs-utils
       - curl
       - software-properties-common
       - git
@@ -12,6 +12,7 @@
       - iftop
       - iotop
       - mosh
+      - nfs-common
       - screen
       - sudo
       - unattended-upgrades

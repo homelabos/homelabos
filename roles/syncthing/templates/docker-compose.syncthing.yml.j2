@@ -15,8 +15,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/homelabos/syncthing:/config
-      - /mnt/nas/Syncthing:/data
-      - /mnt/nas:/nas
+      - {{ storage_dir }}/Documents/Syncthing:/data
     environment:
       - PGID=1004
       - PUID=1000

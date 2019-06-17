@@ -58,7 +58,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /mnt/nas/Pictures:/data
+      - {{ storage_dir }}/Pictures:/data
       - /var/homelabos/ownphotos/thumbnails/:/code/protected_media
       - /var/homelabos/ownphotos/logs:/code/logs
     environment:

@@ -22,7 +22,7 @@ services:
       - VNC_PASSWORD={{"lookup('password', './settings/passwords/digikam_vnc_password chars=digits')"}}
     volumes:
       - /var/homelabos/digikam/config:/config
-      - /mnt/nas/Pictures:/data
+      - {{ storage_dir }}/Pictures:/data
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     ports:
