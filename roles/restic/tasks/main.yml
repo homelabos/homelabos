@@ -11,7 +11,9 @@
 
 
 - name: Configure restic systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/restic.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/restic.service
 
 - name: Start restic
   systemd:

@@ -19,7 +19,7 @@ services:
       - TZ={{ common_timezone }}
     volumes:
       - /var/homelabos/nzbget:/config
-      - /mnt/nas/Downloads:/downloads
+      - {{ storage_dir }}/Downloads:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

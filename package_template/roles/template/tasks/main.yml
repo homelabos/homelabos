@@ -10,7 +10,9 @@
     dest: /var/homelabos/pkgtemplate/docker-compose.pkgtemplate.yml
 
 - name: Configure pkgtemplate systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/pkgtemplate.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/pkgtemplate.service
 
 - name: Start pkgtemplate
   systemd:

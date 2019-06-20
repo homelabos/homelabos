@@ -1,2 +1,3 @@
 ansible_host: "{{tincserver_ip}}"
+physical_ip: "{{tincserver_ip}}"
 ansible_ssh_user: "{{tincserver_ssh_user}}"

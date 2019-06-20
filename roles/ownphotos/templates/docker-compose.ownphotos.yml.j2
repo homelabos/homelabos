@@ -38,7 +38,7 @@ services:
       - traefik_network
     restart: always
     environment:
-      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/ownphotos_db_password chars=digits') }}
+      - POSTGRES_PASSWORD={{"lookup('password', './settings/passwords/ownphotos_db_password chars=digits')"}}
       - POSTGRES_DB=ownphotos
     volumes:
       - /var/homelabos/ownphotos/db-data:/var/lib/postgresql/data
@@ -58,20 +58,20 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /mnt/nas/Pictures:/data
+      - {{ storage_dir }}/Pictures:/data
       - /var/homelabos/ownphotos/thumbnails/:/code/protected_media
       - /var/homelabos/ownphotos/logs:/code/logs
     environment:
-      - SECRET_KEY={{ lookup('password', './settings/passwords/ownphotos_secret_key chars=digits') }}
+      - SECRET_KEY={{"lookup('password', './settings/passwords/ownphotos_secret_key chars=digits')"}}
       - BACKEND_HOST=backend # DON'T CHANGE ME
       - ADMIN_EMAIL={{ admin_email }}
       - ADMIN_USERNAME={{ default_username }}
-      - ADMIN_PASSWORD={{ lookup('password', './settings/passwords/ownphotos_admin_password chars=digits') }}
+      - ADMIN_PASSWORD={{"lookup('password', './settings/passwords/ownphotos_admin_password chars=digits')"}}
       - DEBUG=false
       - DB_BACKEND=postgresql
       - DB_NAME=ownphotos
       - DB_USER=postgres
-      - DB_PASS={{ lookup('password', './settings/passwords/ownphotos_db_password chars=digits') }}
+      - DB_PASS={{"lookup('password', './settings/passwords/ownphotos_db_password chars=digits')"}}
       - DB_HOST=ownphotos-db
       - DB_PORT=5432
       - REDIS_HOST=ownphotos-redis

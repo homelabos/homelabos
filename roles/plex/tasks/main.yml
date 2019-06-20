@@ -11,7 +11,9 @@
 
 
 - name: Configure plex systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/plex.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/plex.service
 
 - name: Start plex
   systemd:

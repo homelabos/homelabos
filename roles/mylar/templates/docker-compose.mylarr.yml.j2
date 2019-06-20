@@ -14,8 +14,8 @@ services:
       - GID={{ gid }}
     volumes:
       - /var/homelabos/mylar/config:/config
-      - /mnt/nas/Comics:/comics
-      - /mnt/nas/Comics/downloads:/downloads
+      - {{ storage_dir }}/Books/Comics:/comics
+      - {{ storage_dir }}/Downloads/Comics:/downloads
     restart: unless-stopped
     networks:
       - traefik_network

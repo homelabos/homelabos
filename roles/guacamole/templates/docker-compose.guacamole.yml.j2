@@ -24,7 +24,7 @@ services:
       - /var/homelabos/guacamole/dbdata:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: guacpostgress
-      POSTGRES_PASSWORD: {{ lookup('password', './settings/passwords/postgres_password chars=digits') }}
+      POSTGRES_PASSWORD: {{"lookup('password', './settings/passwords/postgres_password chars=digits')"}}
     depends_on:
       - init-guacamole-db
 
@@ -46,7 +46,7 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_DATABASE: guacpostgress
       POSTGRES_USER: guacpostgress
-      POSTGRES_PASSWORD: {{ lookup('password', './settings/passwords/postgres_password chars=digits') }}
+      POSTGRES_PASSWORD: {{"lookup('password', './settings/passwords/postgres_password chars=digits')"}}
     depends_on:
       - postgres
       - guacd

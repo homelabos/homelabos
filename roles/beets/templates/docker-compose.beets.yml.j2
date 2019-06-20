@@ -15,8 +15,8 @@ services:
       - TZ={{ common_timezone }}
     volumes:
       - /var/homelabos/beets/config:/config
-      - /mnt/nas/Music:/music
-      - /mnt/nas/NewMusic:/downloads
+      - {{ storage_dir }}/Music:/music
+      - {{ storage_dir }}/Downloads/Music:/downloads
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

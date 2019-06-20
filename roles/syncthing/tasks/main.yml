@@ -11,7 +11,9 @@
 
 
 - name: Configure syncthing systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/syncthing.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/syncthing.service
 
 - name: Start syncthing
   systemd:

@@ -11,7 +11,9 @@
 
 
 - name: Configure gitea systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/gitea.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/gitea.service
 
 - name: Start gitea
   systemd:

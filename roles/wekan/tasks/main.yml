@@ -10,7 +10,9 @@
     dest: /var/homelabos/wekan/docker-compose.wekan.yml
 
 - name: Configure wekan systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/wekan.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/wekan.service
 
 - name: Start wekan
   systemd:

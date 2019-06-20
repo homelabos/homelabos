@@ -20,8 +20,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/homelabos/radarr/config:/config
-      - /mnt/nas/Movies:/movies
-      - /mnt/nas/Downloads/complete/movies:/downloads
+      - {{ storage_dir }}/Movies:/movies
+      - {{ storage_dir }}/Downloads/complete/movies:/downloads
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

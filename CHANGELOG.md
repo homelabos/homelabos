@@ -1,5 +1,6 @@
 # 0.7
 
+- Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mylar - An automated Comic Book manager
@@ -9,6 +10,10 @@
 - Added Trilium - Build your personal knowledge base with Trilium Notes
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
+
+# 0.6.4
+
+- Raspberry Pi specific fixes
 
 # 0.6.3
 

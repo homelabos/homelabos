@@ -1,0 +1,23 @@
+---
+- name: Make apache2 directory.
+  file:
+    path: "/var/homelabos/apache2"
+    state: directory
+
+- name: Copy apache2 docker-compose.yml file into place.
+  template:
+    src: docker-compose.apache2.yml.j2
+    dest: /var/homelabos/apache2/docker-compose.apache2.yml
+
+
+- name: Configure apache2 systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/apache2.service
+
+- name: Start apache2
+  systemd:
+    name: apache2
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
