@@ -67,7 +67,7 @@ services:
       - traefik.port=8888
       - traefik.docker.network=http_network
     environment:
-      - DBPASS=postfix
+      - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     depends_on:
       - mailserver
       - mariadb
