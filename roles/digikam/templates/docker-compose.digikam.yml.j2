@@ -19,10 +19,10 @@ services:
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
       - ENABLE_CJK_FONT=0
-      - VNC_PASSWORD={{ lookup('password', './settings/passwords/digikam_vnc_password chars=digits') }}
+      - VNC_PASSWORD={{"lookup('password', './settings/passwords/digikam_vnc_password chars=digits')"}}
     volumes:
       - /var/homelabos/digikam/config:/config
-      - /mnt/nas/Pictures:/data
+      - {{ storage_dir }}/Pictures:/data
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     ports:

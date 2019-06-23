@@ -11,7 +11,9 @@
 
 
 - name: Configure guacamole systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/guacamole.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/guacamole.service
 
 - name: Start guacamole
   systemd:

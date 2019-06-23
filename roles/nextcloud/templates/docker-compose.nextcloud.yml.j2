@@ -25,11 +25,11 @@ services:
       - DB_TYPE=mysql
       - DB_NAME=nextcloud
       - DB_USER=nextcloud
-      - DB_PASSWORD={{ lookup('password', './settings/passwords/nextcloud_db_password chars=digits') }}
+      - DB_PASSWORD={{"lookup('password', './settings/passwords/nextcloud_db_password chars=digits')"}}
       - DB_HOST=nextcloud-db
     volumes:
       - /var/homelabos/nextcloud/config:/config
-      - /mnt/nas/Documents/NextCloud:/data
+      - {{ storage_dir }}/Documents/NextCloud:/data
       - /var/homelabos/nextcloud/apps:/apps2
       - /var/homelabos/nextcloud/themes:/nextcloud/themes
     labels:
@@ -55,8 +55,8 @@ services:
       - /var/homelabos/nextcloud_db:/var/lib/mysql
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits') }}
+      - MYSQL_ROOT_PASSWORD={{"lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits')"}}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/nextcloud_db_password chars=digits') }}
+      - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/nextcloud_db_password chars=digits')"}}
 

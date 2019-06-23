@@ -1,12 +1,27 @@
 # 0.7
 
+- Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
 - Added Tautulli - Monitor your Plex Server
+- Added Trilium - Build your personal knowledge base with Trilium Notes
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
+
+# 0.6.4
+
+- Raspberry Pi specific fixes
+
+# 0.6.3
+
+- Docker fixes
+
+# 0.6.2
+
+- Initial configuration fixes
 
 # 0.6.1
 

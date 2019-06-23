@@ -40,6 +40,8 @@ config_reset: logo
 
 # Update config
 set:
+	@mkdir -p settings
+	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 	@SETTING="$(filter-out $@,$(MAKECMDGOALS))" ./save_setting.sh
 	@echo "\n\x1B[01;93m========== Configuration updated! Now run 'make' to apply the configuration.  ==========\n\x1B[0m"
 

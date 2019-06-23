@@ -14,7 +14,9 @@
   template: src=telegraf.conf.j2 dest=/var/homelabos/tick/telegraf.conf
 
 - name: Configure tick systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/tick.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/tick.service
 
 - name: Start tick
   systemd:

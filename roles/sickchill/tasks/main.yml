@@ -1,0 +1,22 @@
+---
+- name: Make sickchill directory.
+  file:
+    path: "/var/homelabos/sickchill"
+    state: directory
+
+- name: Copy sickchill docker-compose.yml file into place.
+  template:
+    src: docker-compose.sickchill.yml.j2
+    dest: /var/homelabos/sickchill/docker-compose.sickchill.yml
+
+- name: Configure sickchill systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/sickchill.service
+
+- name: Start sickchill
+  systemd:
+    name: sickchill
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -46,6 +46,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 ## Available Software
 
 - [Airsonic](https://airsonic.github.io/) - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+- [Apache](https://httpd.apache.org/) - Web server
 - [Beets](https://beets.io) - Beets is the media library management system for obsessive-compulsive music geeks.
 - [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
 - [BookStack](https://www.bookstackapp.com/) - Simple & Free Wiki Software
@@ -87,18 +88,20 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Organizr](https://github.com/causefx/Organizr) - Access all your HomelabOS services in one easy place.
 - [OwnPhotos](https://github.com/hooram/ownphotos) Self hosted Google Photos clone.
 - [Paperless](https://github.com/danielquinn/paperless) - Document management
-- [phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
+- [PhpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
 - [Plex](https://www.plex.tv/) - Personal Media Server
 - [Portainer](https://www.portainer.io/) - Easy Docker management
 - [Radarr](https://radarr.video/) - Automated movie downloading
+- [SickChill](https://sickchill.github.io/) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](https://sonarr.tv/) - Automated TV downloading
 - [Syncthing](https://syncthing.net/) - File syncing software
 - [Tautulli](https://tautulli.com/) - Monitor your Plex Server
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client
+- [Trilium](https://github.com/zadam/trilium) - Build your personal knowledge base with Trilium Notes
 - [Wallabag](https://wallabag.org/en) - Save and classify articles. Read them later. Freely.
 - [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
 - [WebVirtMg](https://github.com/retspen/webvirtmgr) is a complete Kernel Virtual Machine (KVM) hypervisor manager.

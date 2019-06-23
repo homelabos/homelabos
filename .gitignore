@@ -10,3 +10,4 @@ settings/
 /site
 /.vscode
 .DS_Store
+pkg/

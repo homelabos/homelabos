@@ -1,0 +1,35 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  sickchill:
+    image: sickchill/sickchill:latest
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    ports:
+      - 8081:8081
+    volumes:
+      - /var/homelabos/sickchill/data:/data
+      - {{ storage_dir }}/downloads:/downloads
+      - {{ storage_dir }}/TV:/tv    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:sickchill.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:sickchill.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+{% endif %}

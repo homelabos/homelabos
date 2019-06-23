@@ -23,7 +23,9 @@
     gid: "{{ gid_output.stdout }}"
 
 - name: Configure lidarr systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/lidarr.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/lidarr.service
 
 - name: Start lidarr
   systemd:

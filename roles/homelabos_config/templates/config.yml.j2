@@ -15,6 +15,9 @@ default_username: {{ default_username }}
 # Default password to go with the default user
 default_password: {{ default_password }}
 
+# Default storage location for media (These are used as local directories or NAS mount points depending on configuration)
+storage_dir: {{ storage_dir | default('/mnt/homelabos/media') }}
+
 # Minio access keys
 minio_access_key: {{ minio_access_key | default() }}
 minio_secret_access_key: {{ minio_secret_access_key | default() }}
@@ -56,7 +59,6 @@ region: {{ region | default('Heyo') }}
 
 enable_tinc: {{ enable_tinc | default(False) }}
 enable_tor: {{ enable_tor | default(False) }}
-enable_nas: {{ enable_nas | default(False) }}
 
 # Force SSL Usage
 # Only set this to true after everything is working, and https certificates have been generated.
@@ -69,6 +71,7 @@ https_only: {{ https_only | default(False) }}
 enable_docs: {{ enable_docs | default(False) }}
 #== PARSE ###
 # You can enable/disable services individually by changing False to True and vice versa.
+enable_apache2: {{ enable_apache2 | default(False) }}
 enable_apple_health_influx: {{ enable_apple_health_influx | default(False) }}
 enable_airsonic: {{ enable_airsonic | default(False) }}
 enable_bitwarden: {{ enable_bitwarden | default(False) }}
@@ -111,13 +114,14 @@ enable_nzbget: {{ enable_nzbget | default(False) }}
 enable_ombi: {{ enable_ombi | default(False) }}
 enable_openldap: {{ enable_openldap | default(False) }}
 enable_openvpn: {{ enable_openvpn | default(False) }}
-enable_organizr: {{ enable_organizr | default(False) }}
+enable_organizr: {{ enable_organizr | default(True) }}
 enable_ownphotos: {{ enable_ownphotos | default(False) }}
 enable_paperless: {{ enable_paperless | default(False) }}
 enable_pihole: {{ enable_pihole | default(False) }}
 enable_piwigo: {{ enable_piwigo | default(False) }}
 enable_plex: {{ enable_plex | default(False) }} # Set Plex Claim Token below
 enable_portainer: {{ enable_portainer | default(False) }}
+enable_sickchill: {{ enable_sickchill | default(False) }}
 enable_sonarr: {{ enable_sonarr | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
 enable_restic: {{ enable_restic | default(False) }}
@@ -126,6 +130,7 @@ enable_tautulli: {{ enable_tautulli | default(False) }}
 enable_thelounge: {{ enable_thelounge | default(False) }}
 enable_tick: {{ enable_tick | default(False) }}
 enable_transmission: {{ enable_transmission | default(False) }}
+enable_trilium: {{ enable_trilium | default(False) }}
 enable_wekan: {{ enable_wekan | default(False) }}
 enable_watchtower: {{ enable_watchtower | default(False) }}
 enable_xfinityusageinfluxdb: {{ enable_xfinityusageinfluxdb | default(False) }}
@@ -134,7 +139,7 @@ enable_webvirtmgr: {{ enable_wallabag | default(False) }}
 enable_zulip: {{ enable_zulip | default(False) }}
 
 # After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
-plex_claim: {{ plex_claim }}
+plex_claim: {{ plex_claim | default('CHANGE_TO_GIVEN_TOKEN') }}
 
 ### END REQUIRED ###
 
@@ -153,9 +158,12 @@ openvpn_username: {{ openvpn_username | default() }}
 openvpn_password: {{ openvpn_password | default() }}
 openvpn_config: {{ openvpn_config | default() }}
 
-# NAS Config name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-area-storage-configuration
-nas_path: {{ nas_path | default() }}
-nas_user: {{ nas_user | default() }}
+# NAS Config (Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-attached-storage-configuration)
+nas_enable: {{ nas_enable | default(False) }}
+nas_host: {{ nas_host | default() }}
+nas_mount_type: {{ nas_mount_type | default() }}
+nas_share_path: {{ nas_share_path | default() }}
+nas_user: {{ nas_user | default(default_username) }}
 nas_pass: {{ nas_pass | default() }}
 nas_workgroup: {{ nas_workgroup | default() }}
 
@@ -195,12 +203,14 @@ mailserver:
   forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
 
 traefik:
-  expose_internally: {{ traefik.expose_internally | default(False)  }}
-  expose_externally: {{ traefik.expose_externally | default(True)  }}
+  expose_internally: {{ traefik.expose_internally | default(True)  }}
+  expose_externally: {{ traefik.expose_externally | default(False)  }}
 
 gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True)  }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
+
+apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}

@@ -15,8 +15,10 @@ services:
       - traefik_network
     volumes:
       - /var/homelabos/emby:/config
-      - /mnt/nas:/mnt/nas
-      - /mnt/nas/tmp:/config/transcoding-temp
+      - {{ storage_dir }}/Music:/mnt/media/Music
+      - {{ storage_dir }}/Movies:/mnt/media/Movies
+      - {{ storage_dir }}/TV:/mnt/media/TV
+      - {{ storage_dir }}/temp/transcode:/config/transcoding-temp
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

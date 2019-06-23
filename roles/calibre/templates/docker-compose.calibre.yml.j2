@@ -13,8 +13,8 @@ services:
     ports:
       - '8082:8080'
     volumes:
-      - /mnt/nas/library:/library
-      - /mnt/nas/library/incoming:/incoming
+      - {{ storage_dir }}/Books:/library
+      - {{ storage_dir }}/Downloads/Books:/incoming
     image: lmorel3/calibre-alpine
 
   calibre-web:
@@ -22,7 +22,7 @@ services:
       - traefik_network
     restart: always
     volumes:
-      - /mnt/nas/library:/books
+      - {{ storage_dir }}/Books:/books
       - /var/homelabos/calibre/calibre-web/config:/calibre-web/config
     environment:
       - USE_CONFIG_DIR=true
