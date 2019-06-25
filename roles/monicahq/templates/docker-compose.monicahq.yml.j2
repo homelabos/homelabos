@@ -22,7 +22,7 @@ services:
     env_file:
       - /var/homelabos/monicahq/monicahq.env
     environment:
-      - APP_KEY={{"lookup('password', './settings/passwords/monicahq_app_key chars=digits length=32') }}"
+      - APP_KEY={{"lookup('password', './settings/passwords/monicahq_app_key chars=digits length=32')"}}
       - DB_PASSWORD={{"lookup('password', './settings/passwords/monicahq_db_password chars=digits')"}}
     labels:
       - "traefik.enable=true"
