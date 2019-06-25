@@ -23,11 +23,42 @@ minio_access_key: {{ minio_access_key | default() }}
 minio_secret_access_key: {{ minio_secret_access_key | default() }}
 
 # User name used to connect via ssh. Must have passwordless sudo.
-tincserver_ssh_user: {{ tincserver_ssh_user }}
 homelab_ssh_user: {{ homelab_ssh_user }}
 
+# This configuration dictionary sets various details of your bastion host.
+# see the docs for more information about what a bastion host is and how
+# the HomelabOS bastion host works.
+bastion:
+  # should HomelabOS utilize a bastion server?
+  enabled: {{ bastion.enabled | default(False) }}
+  # should HomelabOS reset the bastion server IP tables rules?
+  # you want this enabled, if you wish to modify the forwarded ports during deploy
+  # OR you are switching between Tinc/Wireguard
+  reset_iptables: {{ bastion.reset_iptables | default(False) }}
+  # Bastion host main ethernet interface name
+  interface: {{ bastion.interface | default("eth0") }}
+  # must provide passwordless sudo
+  server_ssh_user: {{ bastion.server_ssh_user }}
+  server_ip: {{ bastion.server_ip }}
+  # Either tinc or wireguard
+  vpn_provider: {{ bastion.vpn_provider | default("wireguard") }}
+  wireguard:
+    bastion_server_address: {{ bastion.wireguard.bastion_server_address | default("10.0.1.1") }}
+    home_server_address: {{ bastion.wireguard.home_server_address | default("10.0.1.1") }}
+    netmask: {{ bastion.wireguard.netmask | default("/24") }}
+    port: {{ bastion.wireguard.port | default("51820") }}
+    keepalive: {{ bastion.wireguard.keepalive | default("25") }}
+  ports_to_forward:
+    2222: 22
+    80: 80
+    443: 443
+    25: 25
+    143: 143
+    587: 587
+    998: 998
+    4190: 4190
+
 # SSH accessible IP address
-tincserver_ip: {{ tincserver_ip }}
 homelab_ip: {{ homelab_ip }}
 
 # Timezone of the server
@@ -57,7 +88,6 @@ region: {{ region | default('Heyo') }}
 
 # You can enable/disable different HomelabOS features here by changing False to True and vice versa.
 
-enable_tinc: {{ enable_tinc | default(False) }}
 enable_tor: {{ enable_tor | default(False) }}
 
 # Force SSL Usage

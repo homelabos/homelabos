@@ -1,8 +1,10 @@
 [Interface]
-Address = {{ wireguard.client_address }}
-PrivateKey = {{ wg_privatekey['content'] | b64decode }}
+ListenPort = 54820
+FwMark = 0xca6c
+PrivateKey = {{ wg_home_server_private_key['content'] | b64decode }}
 
 [Peer]
-PublicKey = {{ wg_server_publickey['content'] | b64decode }}
-Endpoint = {{ domain }}:51820
-AllowedIPs = {{ wireguard.server_address }}
+PublicKey = {{ wg_bastion_server_public_key['content'] | b64decode }}
+AllowedIPs = 0.0.0.0/0, ::/128
+Endpoint = {{ domain }}:{{ bastion.wireguard.port }}
+PersistentKeepalive = {{ bastion.wireguard.keepalive }}

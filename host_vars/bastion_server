@@ -1,0 +1,3 @@
+ansible_host: "{{bastion.server_ip}}"
+physical_ip: "{{bastion.server_ip}}"
+ansible_ssh_user: "{{bastion_server_ssh_user}}"
