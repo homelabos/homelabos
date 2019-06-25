@@ -28,10 +28,55 @@
   shell: umask 077 && wg genkey | tee /etc/wireguard/privatekey | wg pubkey > /etc/wireguard/publickey
   when: private_key.stat.exists == False
 
-- name: Register WireGuard private key as a variable
+- name: Register BastionServer WireGuard private key as a variable
   slurp:
     src: /etc/wireguard/privatekey
-  register: wg_privatekey
+  register: wg_bastion_server_private_key
+  when: inventory_hostname == 'bastion_server'
+
+- name: Register HomeServer WireGuard private key as a variable
+  slurp:
+    src: /etc/wireguard/privatekey
+  register: wg_home_server_private_key
+  when: inventory_hostname == 'myserver'
+
+- name: Fetch BastionServer Public Key
+  fetch:
+    src: /etc/wireguard/publickey
+    dest: fetch/server_public_key
+    flat: yes
+  when: inventory_hostname == 'bastion_server'
+
+- name: Fetch HomeServer Public Key
+  fetch:
+    src: /etc/wireguard/publickey
+    dest: fetch/client_public_key
+    flat: yes
+  when: inventory_hostname == 'myserver'
+
+- name: Copy BastionServer public key to HomeServer
+  copy:
+    src: fetch/server_public_key
+    dest: /etc/wireguard/serverpublickey
+  when: inventory_hostname == 'myserver'
+
+- name: Copy HomeServer public key to BastionServer
+  copy:
+    src: fetch/client_public_key
+    dest: /etc/wireguard/homeserverpublickey
+  when: inventory_hostname == 'bastion_server'
+
+- name: Register BastionServer public key as a variable
+  slurp:
+    src: /etc/wireguard/serverpublickey
+  register: wg_bastion_server_public_key
+  when: inventory_hostname == 'myserver'
+
+- name: Register HomeServer public key as a variable
+  slurp:
+    src: /etc/wireguard/homeserverpublickey
+  register: wg_home_server_public_key
+  when: inventory_hostname == 'bastion_server'
 
 - name: Generate WireGuard server configuration file
   template:
@@ -41,29 +86,9 @@
     group: root
     mode: 0600
     force: yes
-  when: inventory_hostname == 'tincserver'
-
-- name: Fetch Server Public Key
-  fetch:
-    src: /etc/wireguard/publickey
-    dest: fetch/server_public_key
-    flat: yes
-  when: inventory_hostname == 'tincserver'
-
-- name: Copy Server public key to myserver
-  copy:
-    src: fetch/server_public_key
-    dest: /etc/wireguard/serverpublickey
-  when: inventory_hostname == 'myserver'
-
-- name: Register Server public key as a variable
-  slurp:
-    src: /etc/wireguard/serverpublickey
-  register: wg_server_publickey
-  when: inventory_hostname == 'myserver'
+  when: inventory_hostname == 'bastion_server'
 
 - name: Generate WireGuard client configuration file
-  hosts: myserver
   template:
     src: wireguard.conf.client.j2
     dest: /etc/wireguard/wg0.conf
@@ -76,10 +101,38 @@
 - name: Enable WireGuard system service
   shell: systemctl enable wg-quick@wg0
   become: True
+  when: inventory_hostname == 'bastion_server'
 
-- name: Start WireGuard service
+- name: copy wireguard service-up script file to home server
+  template:
+    src: serviceup.j2
+    dest: /etc/wireguard/serviceup.sh
+    mode: 0755
+  when: inventory_hostname == 'myserver'
+
+- name: create wireguard service file
+  template:
+    src: wireguard.service.j2
+    dest: /etc/systemd/system/wireguard-homelabos.service
+    mode: 0755
+  when: inventory_hostname == 'myserver'
+
+- name: Start the Bastion Host WireGuard service
   systemd:
     name: wg-quick@wg0
     enabled: "yes"
     daemon-reload: "yes"
-    state: started
+    state: restarted
+  when: inventory_hostname == 'bastion_server'
+
+- name: Setup ipTables rules for Wireguard
+  include_tasks: wireguard_iptables_rules.yml
+  when: inventory_hostname == 'bastion_server'
+
+- name: Start the HomeServer WireGuard service
+  systemd:
+    name: wireguard-homelabos
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: restarted
+  when: inventory_hostname == 'myserver'

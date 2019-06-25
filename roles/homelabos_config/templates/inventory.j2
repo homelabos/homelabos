@@ -1,7 +1,7 @@
 [homelabos]
 myserver
 
-{% if enable_tinc %}
-[tinc]
-tincserver
+{% if bastion.enabled %}
+[bastion]
+bastion_server
 {% endif %}
