@@ -40,9 +40,21 @@ repo whenever you run `make`, `make update` or `make config`.
 
 ## Debugging
 
-## [WARNING] Ansible is in a world writable directory (../HomelabOS), ignoring it as an ansible.cfg source.
+### Ansible Warnings
 
-Run `chmod 775 HomelabOS/` against the HomelabOS folder.
+If you get `[WARNING] Ansible is in a world writable directory (../HomelabOS), ignoring it as an ansible.cfg source`
+run `chmod 775 HomelabOS/` against the HomelabOS folder.
+
+### Bad Gateway
+
+If Traefik returns a page that just says `Bad Gateway`, that usually
+means DNS and everything is correct, but the service itself is having
+problems. SSH into the server and run `systemctl status SERVICE_NAME`
+replacing SERVICE_NAME with the service you are interested in.
+This should show you any relevant Docker logs. If you want more
+detail from a specific container, you can tail the logs of that
+container. Find the containar name with `docker ps | grep SERVICENAME`
+then access the logs with `docker logs -f --tail 500 CONTAINERNAME`.
 
 ### 404
 
