@@ -60,7 +60,6 @@ search_and_replace_in_file("roles/#{package_file_name}/tasks/main.yml", 'pkgtemp
 FileUtils.mv "roles/#{package_file_name}/templates/docker-compose.template.yml.j2", "roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2"
 search_and_replace_in_file("roles/#{package_file_name}/templates/docker-compose.#{package_file_name}.yml.j2", 'PackageFileName', package_file_name)
 %x{git add roles/#{package_file_name}}
-%x{git commit -m "Adding package folder\n\n Closes ##{@iid}"}
 puts 'Done!'
 
 puts 'Step 3. Copying doc template'
@@ -73,41 +72,37 @@ search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageOneL
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "packageFileName", "#{package_file_name}")
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageTitleCase", "#{package_name}")
 %x{git add docs/software/#{package_file_name}.md}
-%x{git commit -m "Adding docs file"}
 puts 'Done!'
 
 puts 'Step 5. Adding docs to mkdocs.yml'
 # 'pages', 4, 'Included Software'
 add_to_array_at_key('mkdocs.yml', ['pages', 4, 'Included Software'], {"#{package_name}" => "software/#{package_file_name}"})
 %x{git add mkdocs.yml}
-%x{git commit -m "Adding updated mkdocs.yml"}
 puts 'Done!'
 
 puts 'Step 6. Adding service to Inventory file'
 add_to_hash_at_key('group_vars/all', ['enabled_services'], {"#{package_file_name}" => "{{ enable_#{package_file_name} }}"})
 %x{git add group_vars/all}
-%x{git commit -m "Adding updated group_vars/all file"}
 puts 'Done!'
 
 puts 'Step 7. Adding service to Readme.md'
 insert_in_config "README.md", "## Available Software", "- [#{package_name}](#{package_url}) - #{package_one_liner}"
 %x{git add README.md}
-%x{git commit -m "Adding updated README.md"}
 puts 'Done!'
 
 puts 'Step 8. Adding service to Config Template'
 insert_in_config "roles/homelabos_config/templates/config.yml.j2", "#== PARSE ###", "enable_#{package_file_name}: {{ enable_#{package_file_name} | default(False) }}"
 %x{git add roles/homelabos_config/templates/config.yml.j2}
-%x{git commit -m "Adding updated config template"}
 puts 'Done!'
 
 puts 'Step 9. Adding service to Changelog'
 insert_in_config "CHANGELOG.md", '#', "- Added #{package_name} - #{package_one_liner}"
 %x{git add CHANGELOG.md}
-%x{git commit -m "Adding updated Changelog"}
 puts 'Done!'
 
 puts "\nDon't forget to edit the docker-compose file"
+
+puts "\n\nAll files added by this script, with the exception of the docker-compose file have been staged in git."
 
 #Helper Methods
 BEGIN {
