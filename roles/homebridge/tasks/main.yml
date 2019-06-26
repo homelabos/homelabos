@@ -8,6 +8,9 @@
   template:
     src: docker-compose.homebridge.yml.j2
     dest: /var/homelabos/homebridge/docker-compose.homebridge.yml
+  vars:
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
 
 - name: Configure homebridge systemd service.
   template:
