@@ -1,30 +1,65 @@
 # Installation
 
-## [Watch Video Tutorial](https://youtu.be/p8cD349BGRI)
+## [Watch Video Tutorial Cloud Based Server](https://youtu.be/p8cD349BGRI)
+## [Watch Video Tutorial Local Server](https://youtu.be/Zy6Xfl5b5z4)
 
 [Download the latest version from GitLab](https://gitlab.com/NickBusey/HomelabOS/tags).
 
-Make sure you have Docker installed on your computer.
+# Requirements
 
-If you are going to be using HomelabOS to provision a cloud server, run
-`make terraform` to walk through that process.
+## Client:
+    *  Docker
+    
+If you don't want to install docker to your client (or if you're on windows), you can do everything on your server. Just make sure to setup Docker on your server first.
 
+Verify docker is installed correctly on your client
+```
+[client]$ docker run hello-world
+``` 
+
+
+## Server:
+    * Runnign Ubuntu 18.04
+    * passwordless SSH via SSH keys
+    
 Ensure you can access your server with a IP through
 [passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login)
 and your user has sudo access.
 
-From inside the HomelabOS folder execute the terminal command `make config`. This
-will configure your local docker images and build your initial `settings/config.yml`
-file.
+# Set-up
 
-To change any setting, you can either edit your `settings/config.yml` file, 
+1) Download the latest version from the link above to your client computer and extract the folder.
+
+   IF you are going to be using HomelabOS to provision a cloud server, walk through the process. Otherwise you can skip this.
+   ```
+   [client]$ make terraform 
+   ```
+
+
+2) From inside the HomelabOS folder, set up the initial config
+
+    ```
+    [client]$ cd HomelabOS
+    [client]$ make config
+    ``` 
+    You will be prompted for the basic information to get started. The passwords entered here
+    will be stored on the client computer and are used by ansible to configure your server. After you enter the information, 
+    HomelabOS will configure your local docker images and build your initial `settings/config.yml`
+    file.
+
+3) To change any setting, you can either edit your `settings/config.yml` file, 
 or use the `make set` command, e.g., `make set enable_bitwarden true`.
 
-Once you have updated the `settings/config.yml` file through either method,
-simply run `make` to deploy HomelabOS. You can run `make` as many times as
+4) Once you have updated the `settings/config.yml` file through either method,
+simply deploy HomelabOS. You can run `make` as many times as
 needed to get your settings correct.
+    ```
+    [client]$ make
+    ```
 
 To reset your settings, run `make config_reset`, then run `make config` again.
+
+See a full list of commands in the Getting Started Section
 
 ## Deploying to Cloud Services with Terraform
 
@@ -40,11 +75,46 @@ So you can create a private repo on your Gitea instance for example, then clone 
 settings folder. Now any changes you make to `config.yml` will be commited and pushed to that git
 repo whenever you run `make`, `make update` or `make config`.
 
-## Debugging
+# Debugging
 
-## [WARNING] Ansible is in a world writable directory (../HomelabOS), ignoring it as an ansible.cfg source.
+### `make config` throws an error
 
-Run `chmod 775 HomelabOS/` against the HomelabOS folder.
+Build initial docker images on the client.
+
+```
+[client]$ make logo
+```
+
+### `make` command throws a docker related error
+
+1) Make sure homelabOS successfully installed docker on the server. If its not installed, try installing it manually.
+    ```
+    [server]$ docker run hello-world
+    ``` 
+
+2) Check HomelabOS status on the server and make sure it is loaded and active.
+    ```
+    [server]$ systemctl status homelabos
+    ``` 
+
+3) Make sure the admin user specified during `make config` is created.
+    ```
+    [server]$ compgen -u
+    ```
+
+   If the user isn't listed, run the following commands to make one and add it to the sudo and docker groups.
+    ```
+    [server]$ sudo adduser <username>
+    [server]$ sudo usermod -aG sudo <username>
+    [server]$ sudo usermod -aG docker <username>
+    ```
+
+### [WARNING] Ansible is in a world writable directory (../HomelabOS), ignoring it as an ansible.cfg source.
+
+Run chmod 775 against the HomelabOS folder.
+```
+[client]$ chmod 775 HomelabOS/
+```
 
 ### 404
 
@@ -56,10 +126,16 @@ hostname in a browser should load the respective service.
 
 ### No Traefik Dashboard
 
-If you can't even access the dashboard listed above at :8181, check the status of the HomelabOS service with
-`systemctl status homelabos`. This should give you some insight into what the issue is. Also you should be able
-to run `docker ps | grep traefik` and get an output like:
+If you can't even access the dashboard listed above at :8181, check the status of the HomelabOS service.
+```
+[server]$ systemctl status homelabos
+```
 
+This should give you some insight into what the issue is. Also you should be able to run 
+```
+[server]$ docker ps | grep traefik
+```
+and get an output like:
 ```
 8f00f6b3cdb6        traefik                        "/traefik"               13 hours ago        Up 13 hours                     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:8181->8080/tcp           homelabos_traefik_1
 ```
