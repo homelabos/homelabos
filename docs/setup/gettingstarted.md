@@ -35,7 +35,9 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make lint` - Run linting scripts
 
-`[client]$ make logo` - Builds the client docker
+`[client]$ make logo` - Displays the HomelabOS logo, and checks the version
+
+`[client]$ make build` - Builds the HomelabOS deploy docker image
 
 `[client]$ make remove_one <service>` - Removes the specified service e.g. `[client]$ make remove_one inventario`
 
