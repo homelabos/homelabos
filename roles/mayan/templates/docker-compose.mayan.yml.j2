@@ -59,7 +59,7 @@ services:
       results:
         condition: service_healthy
     ports:
-      8000:8000
+      ["8000:8000"]
     environment:
       MAYAN_BROKER_URL: amqp://mayan:mayan@broker:5672/mayan
       MAYAN_CELERY_RESULT_BACKEND: redis://results:6379/0
