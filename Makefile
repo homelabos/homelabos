@@ -20,7 +20,8 @@ logo:
 	@cat homelaboslogo.txt
 	@chmod +x check_version.sh
 	@./check_version.sh
-	@echo "MOTD:\x1B[01;92m" && curl https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD && echo "\n\x1B[0m"
+	@echo "MOTD:\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || echo "Couldn't get MOTD"
+	@echo "\n\x1B[0m"
 	@echo "\x1B[01;93m========== Preparing docker images ==========\n\x1B[0m"
 # First build the docker images needed to deploy
 	@docker build . -t homelabos
