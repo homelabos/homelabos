@@ -9,3 +9,6 @@ It is available at [https://paperless.{{ domain }}/](https://paperless.{{ domain
 {% if enable_tor %}
 It is also available via Tor at [http://paperless.{{ tor_domain }}/](http://paperless.{{ tor_domain }}/)
 {% endif %}
+
+## Create user
+To create a user, ssh into your server and run `docker-compose run paperless createsuperuser`. You will be prompted to enter a username, email (optional) and password.
