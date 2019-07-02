@@ -8,7 +8,7 @@
   template:
     src: docker-compose.pihole.yml.j2
     dest: /var/homelabos/pihole/docker-compose.pihole.yml
-
+  vars:
     services: "{{ enabled_services|flatten(levels=1) }}"
 
 - name: Stop systemd-resolve
