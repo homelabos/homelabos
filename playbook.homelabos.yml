@@ -5,10 +5,10 @@
   hosts: all
   become: "True"
   become_method: sudo
+  any_errors_fatal: true
   pre_tasks:
     - name: "Update Apt Cache"
       raw: sudo apt-get update
-      ignore_errors: true
     - name: "Install Python"
       raw: sudo apt-get -y install python-simplejson
 
@@ -32,26 +32,6 @@
     # Install Docker, configure basic server settings
     - homelabos_common
 
-- name: Setup tinc VPN
-  tags: tinc
-  hosts: all
-  become: true
-  become_method: sudo
-  tasks:
-    - include_role:
-        name: homelabos_tinc
-      when: bastion.vpn_provider == 'tinc'
-
-- name: "Update Tinc Bastion Host with iptables rules"
-  hosts: bastion
-  become: true
-  become_method: sudo
-  tags: tinc-iptables
-  tasks:
-    - include_role:
-        name: homelabos_tinc_iptables
-      when: bastion.vpn_provider == 'tinc'
-
 - name: "Deploy Bastion Host with Wireguard"
   hosts: all
   become: true
@@ -60,7 +40,7 @@
   tasks:
     - include_role:
         name: homelabos_wireguard
-      when: bastion.vpn_provider == 'wireguard'
+      when: bastion.enabled == True
 
 # Install and configure HomelabOS services
 - name: Install and configure HomelabOS services

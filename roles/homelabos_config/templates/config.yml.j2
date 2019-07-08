@@ -3,8 +3,11 @@
 ### REQUIRED ###
 # These values are REQUIRED for HomelabOS to work.
 
-# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
-ubuntu_release: {{ ubuntu_release | default('bionic') }}
+# SSH accessible IP address
+homelab_ip: {{ homelab_ip }}
+
+# User name used to connect via ssh. Must have passwordless sudo.
+homelab_ssh_user: {{ homelab_ssh_user }}
 
 # SUDO password
 ansible_become_password: {{ ansible_become_password | default() }}
@@ -22,8 +25,8 @@ storage_dir: {{ storage_dir | default('/mnt/homelabos/media') }}
 minio_access_key: {{ minio_access_key | default() }}
 minio_secret_access_key: {{ minio_secret_access_key | default() }}
 
-# User name used to connect via ssh. Must have passwordless sudo.
-homelab_ssh_user: {{ homelab_ssh_user }}
+# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
+ubuntu_release: {{ ubuntu_release | default('bionic') }}
 
 # This configuration dictionary sets various details of your bastion host.
 # see the docs for more information about what a bastion host is and how
@@ -31,20 +34,14 @@ homelab_ssh_user: {{ homelab_ssh_user }}
 bastion:
   # should HomelabOS utilize a bastion server?
   enabled: {{ bastion.enabled | default(False) }}
-  # should HomelabOS reset the bastion server IP tables rules?
-  # you want this enabled, if you wish to modify the forwarded ports during deploy
-  # OR you are switching between Tinc/Wireguard
-  reset_iptables: {{ bastion.reset_iptables | default(False) }}
   # Bastion host main ethernet interface name
   interface: {{ bastion.interface | default("eth0") }}
   # must provide passwordless sudo
-  server_ssh_user: {{ bastion.server_ssh_user }}
-  server_ip: {{ bastion.server_ip }}
-  # Either tinc or wireguard
-  vpn_provider: {{ bastion.vpn_provider | default("wireguard") }}
+  server_ssh_user: {{ bastion.server_ssh_user | default('root') }}
+  server_ip: {{ bastion.server_ip | default(False) }}
   wireguard:
-    bastion_server_address: {{ bastion.wireguard.bastion_server_address | default("10.0.1.1") }}
-    home_server_address: {{ bastion.wireguard.home_server_address | default("10.0.1.2") }}
+    bastion_vpn_address: {{ bastion.wireguard.bastion_vpn_address | default("10.0.1.1") }}
+    homelab_vpn_address: {{ bastion.wireguard.home_vpn_address | default("10.0.1.2") }}
     netmask: {{ bastion.wireguard.netmask | default("/24") }}
     port: {{ bastion.wireguard.port | default("51820") }}
     keepalive: {{ bastion.wireguard.keepalive | default("25") }}
@@ -57,9 +54,6 @@ bastion:
     587: 587
     998: 998
     4190: 4190
-
-# SSH accessible IP address
-homelab_ip: {{ homelab_ip }}
 
 # Timezone of the server
 common_timezone: {{ common_timezone | default('Etc/UTC') }}

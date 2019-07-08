@@ -77,9 +77,10 @@ physical_ip: 8.8.8.8
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-bastion_server_ip: 
-bastion_server_ssh_user: 
 smtp: 
 mailserver: 
 traefik: 
 gitea: 
+bastion:
+  wireguard:
+  enabled: False

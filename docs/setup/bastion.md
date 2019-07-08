@@ -1,8 +1,8 @@
-# Tinc
+# Bastion Host
 
 ## [Video Tutorial](https://youtu.be/gqw8_PZ42KA)
 
-HomelabOS can optionally use Tinc to configure a cloud based bastion server, which will route
+HomelabOS can optionally configure a cloud based bastion server, which will route
 traffic to your HomelabOS instance without needing to forward ports on your home router.
 
 This is desirable for three reasons.
@@ -17,7 +17,7 @@ First you need a cloud server through a provider such as AWS or Digital Ocean.
 
 You can use the [HomelabOS Terraform feature](/setup/terraform.md), or set it up manually.
 
-Set the `bastion_server_ssh_user` and `bastion_server_ip` config values to their correct settings.
+Set any `bastion` config values to their correct settings.
 
 Run `make` as usual, and HomelabOS will take care of everything else.
 

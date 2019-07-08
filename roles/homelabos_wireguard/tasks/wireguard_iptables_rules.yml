@@ -3,10 +3,6 @@
   apt:
     name: iptables-persistent
 
-- name: Reset IpTables Rules
-  shell: iptables -t nat -F; iptables -F; iptables -X
-  when: bastion.reset_iptables == True
-
 - name: Set basic IPTables Rules
   iptables:
     chain: INPUT
@@ -29,7 +25,7 @@
     in_interface: "{{ bastion.interface }}"
     protocol: tcp
     destination_port: "{{ item.key }}"
-    to_destination: "{{ bastion.wireguard.home_server_address }}:{{ item.value }}"
+    to_destination: "{{ bastion.wireguard.homelab_vpn_address }}:{{ item.value }}"
     jump: DNAT
   loop: "{{ bastion.ports_to_forward | dict2items }}"
   become: true
@@ -40,7 +36,7 @@
     chain: POSTROUTING
     out_interface: wg0
     protocol: tcp
-    to_source: "{{ bastion.wireguard.bastion_server_address }}"
+    to_source: "{{ bastion.wireguard.bastion_vpn_address }}"
     jump: SNAT
   loop: "{{ bastion.ports_to_forward | dict2items }}"
   become: true
