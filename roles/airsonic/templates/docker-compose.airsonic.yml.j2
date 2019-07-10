@@ -8,15 +8,20 @@ networks:
 
 services:
   airsonic_web:
-    image: airsonic/airsonic
+    image: linuxserver/airsonic
     restart: unless-stopped
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - TZ={{ common_timezone }}
+      - JAVA_OPTS=-Dserver.use-forward-headers=true
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/airsonic/data:/airsonic/data
-      - {{ storage_dir }}/Music:/airsonic/music
-      - /var/homelabos/airsonic/playlists:/airsonic/playlists
-      - /var/homelabos/airsonic/podcasts:/airsonic/podcasts
+      - /var/homelabos/airsonic/config:/config
+      - {{ storage_dir }}/Music:/music
+      - /var/homelabos/airsonic/playlists:/playlists
+      - /var/homelabos/airsonic/podcasts:/podcasts
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
