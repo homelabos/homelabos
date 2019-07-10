@@ -29,9 +29,33 @@ defaultEntryPoints = ["http", "https"]
   storage = "acme.json"
   entryPoint = "https"
   onHostRule = true
+{% if traefik.dns_challenge_provider %}
+  [acme.dnsChallenge]
+   provider = "{{ traefik.dns_challenge_provider }}"
+{% else %}
   [acme.httpChallenge]
     entryPoint = "http"
+{% endif %}
 
 [[acme.domains]]
   main = "*.{{ domain }}"
   sans = ["{{ domain }}"]
+
+{% if traefik.extra_mapping | default(False) %}
+[file]
+
+[backends]
+{% for service_name in traefik.extra_mapping %}
+[backends.{{ service_name }}_backend]
+    [backends.{{ service_name }}_backend.servers.server1]
+    url = "{{ traefik.extra_mapping[service_name] }}"
+{% endfor %}
+
+[frontends]
+{% for service_name in traefik.extra_mapping %}
+  [frontends.{{ service_name }}_frontend]
+  backend = "{{ service_name }}_backend"
+  [frontends.{{ service_name }}_frontend.routes.test_1]
+    rule = "Host: {{ service_name }}.{{ domain }}"
+{% endfor %}
+{% endif %}
