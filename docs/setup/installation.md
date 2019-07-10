@@ -1,13 +1,7 @@
 # Installation
 
-Before beginning make sure you have Docker installed
-on the computer you are deploying _from_. Ensure you
-can access your server with a IP through
-[passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login)
-and your user has sudo access.
-
-## [Watch Video Tutorial Cloud Based Server](https://youtu.be/p8cD349BGRI)
-## [Watch Video Tutorial Local Server](https://youtu.be/Zy6Xfl5b5z4)
+## [Watch Video Tutorial - Cloud Based Server](https://youtu.be/p8cD349BGRI)
+## [Watch Video Tutorial - Local Server](https://youtu.be/Zy6Xfl5b5z4)
 
 # Requirements
 
@@ -23,7 +17,7 @@ Verify docker is installed correctly on your client
 
 
 ## Server:
-    * Runnign Ubuntu 18.04
+    * Running Ubuntu 18.04
     * passwordless SSH via SSH keys
     
 Ensure you can access your server with a IP through
@@ -35,6 +29,7 @@ and your user has sudo access.
 1) Download the latest version from the link above to your client computer and extract the folder.
 
    IF you are going to be using HomelabOS to provision a cloud server, walk through the process. Otherwise you can skip this.
+   
    ```
    [client]$ make terraform 
    ```
@@ -46,10 +41,11 @@ and your user has sudo access.
     [client]$ cd HomelabOS
     [client]$ make config
     ``` 
-    You will be prompted for the basic information to get started. The passwords entered here
-    will be stored on the client computer and are used by ansible to configure your server. After you enter the information, 
-    HomelabOS will configure your local docker images and build your initial `settings/config.yml`
-    file.
+    
+   You will be prompted for the basic information to get started. The passwords entered here
+   will be stored on the client computer and are used by ansible to configure your server. After you enter the information, 
+   HomelabOS will configure your local docker images and build your initial `settings/config.yml`
+   file.
 
 3) To change any setting, you can either edit your `settings/config.yml` file, 
 or use the `make set` command, e.g., `make set enable_bitwarden true`.
@@ -57,6 +53,7 @@ or use the `make set` command, e.g., `make set enable_bitwarden true`.
 4) Once you have updated the `settings/config.yml` file through either method,
 simply deploy HomelabOS. You can run `make` as many times as
 needed to get your settings correct.
+
     ```
     [client]$ make
     ```
@@ -92,21 +89,27 @@ Build initial docker images on the client.
 ### `make` command throws a docker related error
 
 1) Make sure homelabOS successfully installed docker on the server. If its not installed, try installing it manually.
+
     ```
     [server]$ docker run hello-world
     ``` 
 
-2) Check HomelabOS status on the server and make sure it is loaded and active.
+2) Make sure you are running the latest docker and docker compose on both your client and server. The Docker version installed via `apt` can be old. Recommended install directions are [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
+3) Check HomelabOS status on the server and make sure it is loaded and active.
+
     ```
     [server]$ systemctl status homelabos
     ``` 
 
-3) Make sure the admin user specified during `make config` is created.
+4) Make sure the admin user specified during `make config` is created.
+
     ```
     [server]$ compgen -u
     ```
 
    If the user isn't listed, run the following commands to make one and add it to the sudo and docker groups.
+   
     ```
     [server]$ sudo adduser <username>
     [server]$ sudo usermod -aG sudo <username>
