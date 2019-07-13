@@ -22,7 +22,7 @@ services:
     volumes:
       - /var/homelabos/gitea:/data
     ports:
-      - "222:22"
+      - "{{ gitea.gitea_ssh_port }}:22"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
