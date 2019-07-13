@@ -15,7 +15,13 @@ services:
     environment:
       - USER_UID={{ uid_output.stdout }}
       - USER_GID={{ gid_output.stdout }}
-      - DB_PASSWD={{"lookup('password', './settings/passwords/gitea_db_password chars=digits')"}}
+{% if gitea.use_mariadb %}
+      - DB_TYPE=mysql
+      - DB_HOST=gitea_db:3306
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
+{% endif %}
       - SSH_DOMAIN=gitea.{{ domain }}
       - SSH_PORT={{ gitea.gitea_ssh_port }}
       - LFS_START_SERVER=true
@@ -48,10 +54,10 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=gitea
+      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_root_password chars=digits') }}
       - MYSQL_USER=gitea
       - MYSQL_DATABASE=gitea
-      - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/gitea_db_password chars=digits')"}}
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
     volumes:
       - /var/homelabos/gitea_db:/var/lib/mysql
 {% endif %}
