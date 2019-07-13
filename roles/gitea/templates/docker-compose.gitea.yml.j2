@@ -40,8 +40,6 @@ services:
 {% if gitea.use_mariadb %}
     depends_on:
       - gitea_db
-    links:
-      - gitea_db:db
 
   gitea_db:
     image: mariadb
