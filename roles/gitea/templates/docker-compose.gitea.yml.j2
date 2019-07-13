@@ -18,6 +18,7 @@ services:
       - DB_PASSWD={{"lookup('password', './settings/passwords/gitea_db_password chars=digits')"}}
       - SSH_DOMAIN=gitea.{{ domain }}
       - SSH_PORT={{ gitea.gitea_ssh_port }}
+      - LFS_START_SERVER=true
     restart: unless-stopped
     volumes:
       - /var/homelabos/gitea:/data
