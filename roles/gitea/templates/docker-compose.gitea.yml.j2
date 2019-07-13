@@ -13,8 +13,8 @@ services:
     networks:
       - traefik_network
     environment:
-      - USER_UID=1000
-      - USER_GID=1000
+      - USER_UID={{ uid_output.stdout }}
+      - USER_GID={{ gid_output.stdout }}
       - DB_PASSWD={{"lookup('password', './settings/passwords/gitea_db_password chars=digits')"}}
       - SSH_DOMAIN=gitea.{{ domain }}
       - SSH_PORT={{ gitea.gitea_ssh_port }}
