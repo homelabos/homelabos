@@ -38,7 +38,8 @@ bastion:
   interface: {{ bastion.interface | default("eth0") }}
   # must provide passwordless sudo
   server_ssh_user: {{ bastion.server_ssh_user | default('root') }}
-  server_ip: {{ bastion.server_ip | default(False) }}
+  # Can be an IP or a hostname
+  server_address: {{ bastion.server_address | default(False) }}
   wireguard:
     bastion_vpn_address: {{ bastion.wireguard.bastion_vpn_address | default("10.0.1.1") }}
     homelab_vpn_address: {{ bastion.wireguard.home_vpn_address | default("10.0.1.2") }}

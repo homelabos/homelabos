@@ -36,7 +36,7 @@
   hosts: all
   become: true
   become_method: sudo
-  tags: bastion-wireguard
+  tags: bastion
   tasks:
     - include_role:
         name: homelabos_wireguard

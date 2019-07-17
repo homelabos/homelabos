@@ -1,0 +1,5 @@
+[homelabos]
+vagrant
+
+[bastion]
+bastion_server

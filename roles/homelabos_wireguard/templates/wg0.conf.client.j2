@@ -6,5 +6,5 @@ PrivateKey = {{ wg_home_server_private_key['content'] | b64decode }}
 [Peer]
 PublicKey = {{ wg_bastion_server_public_key['content'] | b64decode }}
 AllowedIPs = 0.0.0.0/0, ::/128
-Endpoint = {{ domain }}:{{ bastion.wireguard.port }}
+Endpoint = {{ bastion.server_address }}:{{ bastion.wireguard.port }}
 PersistentKeepalive = {{ bastion.wireguard.keepalive }}
