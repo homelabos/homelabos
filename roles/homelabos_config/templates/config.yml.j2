@@ -55,6 +55,12 @@ bastion:
     587: 587
     998: 998
     4190: 4190
+  # MIGRATION v0.7
+  # Should HomelabOS reset the bastion server IP tables rules?
+  # Enable this if you are upgrading a Tinc bastion host
+  reset_iptables: {{ bastion.reset_iptables | default(False) }}
+  # END MIGRATION
+
 
 # Timezone of the server
 common_timezone: {{ common_timezone | default('Etc/UTC') }}

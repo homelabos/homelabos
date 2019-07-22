@@ -1,4 +1,22 @@
 ---
+
+# MIGRATION v0.7
+
+- name: Remove tinc
+  package:
+    name: tinc
+    state: absent
+
+- name: Reset IpTables Rules
+  shell: iptables -t nat -F; iptables -F; iptables -X
+  when: bastion.reset_iptables == True AND "'bastion' in group_names"
+
+- name: Bring down Tinc interface
+  shell: ip link set dev tun0 down
+  when: bastion.reset_iptables == True
+
+# END MIGRATION
+
 - name: Add the WireGuard PPA repository
   apt_repository:
     repo: ppa:wireguard/wireguard

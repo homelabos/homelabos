@@ -10,6 +10,13 @@
 - Added Trilium - Build your personal knowledge base with Trilium Notes
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
+- Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
+
+## Release Notes
+
+If you are currently using a bastion host via Tinc, when upgrading to 0.7,
+set `bastion.reset_iptables` to True. This will blow away any and all iptables
+rules so use this option with care.
 
 # 0.6.4
 
