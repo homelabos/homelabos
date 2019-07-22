@@ -33,7 +33,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 - [Automated Settings Sync](https://nickbusey.gitlab.io/HomelabOS/setup/installation/#syncing-settings-via-git)
 - OpenVPN
 - OpenLDAP
-- Cloud Bastion Server with Tinc VPN
+- Cloud Bastion Server with WireGuard VPN
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 

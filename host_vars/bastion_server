@@ -1,0 +1,2 @@
+ansible_host: "{{bastion.server_address}}"
+ansible_ssh_user: "{{bastion.server_ssh_user}}"

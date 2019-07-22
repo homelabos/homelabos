@@ -1,0 +1,10 @@
+[Interface]
+ListenPort = 54820
+FwMark = 0xca6c
+PrivateKey = {{ wg_home_server_private_key['content'] | b64decode }}
+
+[Peer]
+PublicKey = {{ wg_bastion_server_public_key['content'] | b64decode }}
+AllowedIPs = 0.0.0.0/0, ::/128
+Endpoint = {{ bastion.server_address }}:{{ bastion.wireguard.port }}
+PersistentKeepalive = {{ bastion.wireguard.keepalive }}
