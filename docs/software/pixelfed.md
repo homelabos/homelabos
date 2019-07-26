@@ -4,6 +4,14 @@
 
 ## Configuration
 
+### Environment variables
+
+Adjust the environment variables (roles/pixelfed/templates/pixelfed.env.j2) to match your needs.
+
+More information about the possible options are available here: [Pixelfed Configuration](https://docs.pixelfed.org/master/)
+
+### Setup
+
 This once requires some manual setup unfortunately.
 
 - Connect to the server with ssh
