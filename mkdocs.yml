@@ -57,6 +57,7 @@ pages:
       - Paperless: software/paperless.md
       - Pi-hole: software/pihole.md
       - Piwigo: software/piwigo.md
+      - Pixelfed: software/pixelfed.md
       - Plex: software/plex.md
       - Portainer: software/portainer.md
       - Radarr / Sonarr: software/radarr-sonarr.md
