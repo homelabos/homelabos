@@ -11,3 +11,4 @@ settings/
 /.vscode
 .DS_Store
 pkg/
+idea/
