@@ -11,3 +11,6 @@ settings/
 /.vscode
 .DS_Store
 pkg/
+
+# ignore swp files
+*.swp
