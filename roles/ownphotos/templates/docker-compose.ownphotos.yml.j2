@@ -13,9 +13,6 @@ services:
     networks:
       - traefik_network
     restart: always
-    links:
-      - "backend:backend"
-      - "frontend:frontend"
     ports:
       - "3000:80"
     labels:
@@ -50,8 +47,6 @@ services:
     tty: true
     environment:
       - BACKEND_HOST=ownphotos.{{ domain }}
-    links:
-      - "backend:backend"
 
   backend:
     image: hooram/ownphotos:dev
@@ -77,9 +72,6 @@ services:
       - REDIS_HOST=ownphotos-redis
       - REDIS_PORT=6379
       - MAPBOX_API_KEY={{ mapbox_api_key }}
-    links:
-      - "ownphotos-db:ownphotos-db"
-      - "ownphotos-redis:ownphotos-redis"
   
   ownphotos-redis:
     networks:

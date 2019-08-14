@@ -13,8 +13,6 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    links:
-      - matomo_db:db
     volumes:
       - /var/homelabos/matomo/data:/data
     labels:

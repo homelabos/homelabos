@@ -13,8 +13,6 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    links:
-      - mashio_db
     environment:
       - MYSQL_DATABASE=mashio
       - MYSQL_TEST_DATABASE=mashio_test

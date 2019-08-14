@@ -25,10 +25,6 @@ services:
       - /var/homelabos/pixelfed/pixelfed.env
     volumes:
       - "/var/homelabos/pixelfed/storage:/var/www/storage"
-    links:
-      - db
-      - worker
-      - redis
 
   worker:  # Comment this whole block if HORIZON_EMBED is true.
     build: https://github.com/pixelfed/pixelfed.git#dev
@@ -41,9 +37,6 @@ services:
     networks:
       - traefik_network
     command: gosu www-data php artisan horizon
-    links:
-      - db
-      - redis
 
   db:
     image: mariadb:10.4

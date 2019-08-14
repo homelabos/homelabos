@@ -21,8 +21,6 @@ services:
       - TZ={{ common_timezone }}
       - ServerName=money.{{ domain }}
     image: jc5x/firefly-iii
-    links:
-      - firefly_iii_db
     networks:
       - traefik_network
     volumes:

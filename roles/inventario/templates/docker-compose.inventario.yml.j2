@@ -13,8 +13,6 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    links:
-      - inventario_db
     environment:
       - MYSQL_DATABASE=inventario
       - MYSQL_TEST_DATABASE=inventario_test

@@ -13,8 +13,6 @@ services:
     networks:
       - traefik_network
     restart: unless-stopped
-    links:
-      - monicahq_db
     ports:
       - 8176:80
     volumes:
