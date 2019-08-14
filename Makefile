@@ -110,7 +110,7 @@ restore: logo build git_sync config
 develop: logo build config
 	@echo "\x1B[01;93m========== Spinning up dev stack ==========\n\x1B[0m"
 	@vagrant plugin install vagrant-disksize
-	@[ -f settings/test_config.yml ] || cp settings/config.yml settings/test_config.yml
+	@cp settings/config.yml settings/test_config.yml
 	@vagrant up --provision
 	@echo "\x1B[01;93m========== Done spinning up dev stack! ==========\n\x1B[0m"
 

@@ -9,11 +9,15 @@
 
 - name: Reset IpTables Rules
   shell: iptables -t nat -F; iptables -F; iptables -X
-  when: bastion.reset_iptables == True AND "'bastion' in group_names"
+  when:
+    - bastion.reset_iptables == True
+    - "'bastion' in group_names"
 
 - name: Bring down Tinc interface
   shell: ip link set dev tun0 down
-  when: bastion.reset_iptables == True
+  when:
+    - bastion.reset_iptables == True
+    - "'bastion' in group_names"
 
 # END MIGRATION
 
