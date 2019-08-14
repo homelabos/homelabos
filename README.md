@@ -91,6 +91,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [PhpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
+- [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - [Plex](https://www.plex.tv/) - Personal Media Server
 - [Portainer](https://www.portainer.io/) - Easy Docker management
 - [Radarr](https://radarr.video/) - Automated movie downloading

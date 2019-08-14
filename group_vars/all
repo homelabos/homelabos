@@ -52,6 +52,7 @@ enabled_services:
   paperless: "{{ enable_paperless }}"
   pihole: "{{ enable_pihole }}"
   piwigo: "{{ enable_piwigo }}"
+  pixelfed: "{{ enable_pixelfed }}"
   plex: "{{ enable_plex }}"
   portainer: "{{ enable_portainer }}"
   radarr: "{{ enable_radarr }}"
