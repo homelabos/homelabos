@@ -103,7 +103,7 @@ docs_build: logo build git_sync config
 # Restore a server with the most recent backup. Assuming Backups were running.
 restore: logo build git_sync config
 	@echo "\x1B[01;93m========== Restoring from backup ==========\n\x1B[0m"
-	@ansible-playbook -i inventory restore.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i inventory restore.yml
 	@echo "\x1B[01;93m========== Done restoring from backup! ==========\n\x1B[0m"
 
 # Spin up a development stack
