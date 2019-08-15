@@ -4,6 +4,16 @@
     path: "/var/homelabos/ombi"
     state: directory
 
+- name: Get UID
+  command: id -u
+  register: uid_output
+  become: false
+
+- name: Get GID
+  command: id -g
+  register: gid_output
+  become: false
+
 - name: Copy ombi docker-compose.yml file into place.
   template:
     src: docker-compose.ombi.yml.j2
