@@ -1,0 +1,84 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  auth:
+    # REQUIRED
+    image: clems4ever/authelia:v3.15.0
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:auth.{{ domain }}"
+      - "traefik.http.port=9091"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:auth.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=9091"
+{% endif %}
+    volumes:
+      - /var/homelabos/authelia/authelia_config.yml:/etc/authelia/config.yml:ro
+  redis:
+    networks:
+      - traefik_network
+    image: redis:5.0.5-alpine
+  mongo:
+    networks:
+      - traefik_network
+    image: mongo:3.4.21-xenial
+    environment:
+      MONGO_INITDB_DATABASE: my_authelia
+    volumes:
+      - mongo_data:/data/db
+  openldap:
+    networks:
+      - traefik_network
+    image: clems4ever/openldap
+    restart: unless-stopped
+    environment:
+      - SLAPD_ORGANISATION=pinguinshow
+      - SLAPD_DOMAIN=pinguinshow.com
+      - SLAPD_PASSWORD=adminPassword
+      - SLAPD_CONFIG_PASSWORD=configPassword
+      - SLAPD_ADDITIONAL_MODULES=memberof
+      - SLAPD_ADDITIONAL_SCHEMAS=openldap
+      - SLAPD_FORCE_RECONFIGURE=true
+    volumes:
+      - /var/homelabos/authelia/ldap/base.ldif:/etc/ldap.dist/prepopulate/base.ldif
+      - /var/homelabos/authelia/ldap/access.rules:/etc/ldap.dist/prepopulate/access.rules
+  phpldapadmin:
+    image: osixia/phpldapadmin:0.8.0
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=authelia_openldap_1
+      - PHPLDAPADMIN_HTTPS=false
+    command: --loglevel debug
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:phpldapadmin.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:phpldapadmin.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=80"
+{% endif %}
+
+volumes:
+  mongo_data:
+  ldap_db:
+  ldap_config:
