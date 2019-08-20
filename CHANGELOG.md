@@ -1,6 +1,7 @@
 # 0.7
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Apache 2 - Web server
+- Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mylar - An automated Comic Book manager
