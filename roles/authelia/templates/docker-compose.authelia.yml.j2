@@ -10,6 +10,7 @@ networks:
 
 services:
   auth:
+    # REQUIRED
     image: clems4ever/authelia:v3.15.0
     restart: unless-stopped
     networks:
@@ -41,6 +42,8 @@ services:
     volumes:
       - mongo_data:/data/db
   openldap:
+    networks:
+      - traefik_network
     image: osixia/openldap:1.2.5
     #container_name: openldap
     environment:
