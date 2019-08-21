@@ -9,6 +9,7 @@ sudo apt install -y make docker.io
 # Download and extract HomelabOS
 [ -d HomelabOS-$VERSION/ ] || wget https://gitlab.com/NickBusey/HomelabOS/-/archive/$VERSION/HomelabOS-$VERSION.tar.gz
 [ -d HomelabOS-$VERSION/ ] || tar -xvzf HomelabOS-$VERSION.tar.gz
+[ -d HomelabOS-$VERSION/ ] || rm HomelabOS-$VERSION.tar.gz
 
 cd HomelabOS-$VERSION
 
