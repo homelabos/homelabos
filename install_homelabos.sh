@@ -12,6 +12,7 @@ sudo apt install -y make docker.io
 [ -d HomelabOS-$VERSION/ ] || rm HomelabOS-$VERSION.tar.gz
 
 cd HomelabOS-$VERSION
+mkdir settings/
 
 # Setup IP configuration
 export HOMELAB_IP=$(sudo ./docker_helper.sh printf "$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')")
