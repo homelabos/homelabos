@@ -16,7 +16,7 @@ mkdir settings/
 
 # Setup IP configuration
 export HOMELAB_IP=$(sudo ./docker_helper.sh printf "$(ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+')")
-printf "homelab_ip: $HOMELAB_IP\nansible_ssh_user: $(whoami)" > settings/config.yml
+printf "homelab_ip: $HOMELAB_IP\nhomelab_ssh_user: $(whoami)" > settings/config.yml
 printf "\n\n\x1B[01;92m========== HomelabOS downloaded! ==========\n\x1B[0m"
 printf "\n\x1B[01;93mRun 'cd HomelabOS-$VERSION/' then './set_setting.sh enable_SERVICENAME true'"
 printf "\nwhere SERVICENAME is a service you would like to have."
