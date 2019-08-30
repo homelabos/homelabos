@@ -21,6 +21,7 @@ pages:
       - Airsonic: software/airsonic.md
       - Apache2: software/apache2.md
       - Apple Health: software/applehealth.md
+      - Authelia: software/authelia
       - Beets: software/beets.md
       - Bitwarden: software/bitwarden.md
       - BulletNotes: software/bulletnotes.md
