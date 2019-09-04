@@ -74,6 +74,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Jellyfin](https://github.com/jellyfin/jellyfin) - The Free Software Media System
 - [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
 - [Lidarr](https://lidarr.audio) - Sonarr but for Music.
+- [MStream](https://www.mstream.io) - All your music, everywhere you go.
 - [Mailserver](https://github.com/hardware/mailserver/) - Fully featured mail server
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 - [Matomo](https://matomo.org/) - Web analytics
