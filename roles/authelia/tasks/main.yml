@@ -4,6 +4,11 @@
     path: "/var/homelabos/authelia"
     state: directory
 
+- name: Create ldif seed data directory.
+  file:
+    path: "/var/homelabos/authelia/ldif"
+    state: directory
+
 - name: Copy authelia docker-compose.yml file into place.
   template:
     src: docker-compose.authelia.yml.j2
@@ -14,20 +19,15 @@
     src: authelia_config.yml.j2
     dest: /var/homelabos/authelia/authelia_config.yml
 
+- name: Copy bootstrap.ldif file into place.
+  template:
+    src: bootstrap.ldif.j2
+    dest: /var/homelabos/authelia/ldif/bootstrap.ldif
+
 - name: Configure authelia systemd service.
   template:
     src: service.j2
     dest: /etc/systemd/system/authelia.service
-
-- name: Configure base ldif file.
-  template:
-    src: base.ldif.j2
-    dest: /var/homelabos/authelia/ldap/base.ldif
-
-- name: Configure access rules.
-  template:
-    src: access.rules.j2
-    dest: /var/homelabos/authelia/ldap/access.rules
 
 - name: Start authelia
   systemd:
