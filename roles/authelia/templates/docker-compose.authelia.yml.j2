@@ -10,7 +10,6 @@ networks:
 
 services:
   auth:
-    # REQUIRED
     image: clems4ever/authelia:v3.15.0
     restart: unless-stopped
     networks:
@@ -20,6 +19,8 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.frontend.rule=Host:auth.{{ domain }}"
       - "traefik.http.port=9091"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:auth.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
@@ -40,23 +41,49 @@ services:
     volumes:
       - mongo_data:/data/db
   openldap:
+    image: osixia/openldap:1.2.5
+    #container_name: openldap
+    environment:
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "{{ open_ldap.organization }}"
+      LDAP_DOMAIN: "{{ open_ldap.domain }}"
+      LDAP_BASE_DN: ""
+      LDAP_ADMIN_PASSWORD: "{{lookup('password', './settings/passwords/openldap_admin_password')}}"
+      LDAP_CONFIG_PASSWORD: "{{lookup('password', './settings/passwords/openldap_config_password')}}"
+      LDAP_READONLY_USER: "false"
+      #LDAP_READONLY_USER_USERNAME: "readonly"
+      #LDAP_READONLY_USER_PASSWORD: "readonly"
+      LDAP_RFC2307BIS_SCHEMA: "false"
+      LDAP_BACKEND: "mdb"
+      LDAP_TLS: "true"
+      LDAP_TLS_CRT_FILENAME: "ldap.crt"
+      LDAP_TLS_KEY_FILENAME: "ldap.key"
+      LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
+      LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
+      LDAP_TLS_ENFORCE: "false"
+      LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0"
+      LDAP_TLS_PROTOCOL_MIN: "3.1"
+      LDAP_TLS_VERIFY_CLIENT: "demand"
+      LDAP_REPLICATION: "false"
+      KEEP_EXISTING_CONFIG: "false"
+      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
+      LDAP_SSL_HELPER_PREFIX: "ldap"
+    tty: true
+    stdin_open: true
+    volumes:
+      - /var/homelabos/authelia/openldap:/var/lib/ldap
+      - /var/homelabos/authelia/openldap:/etc/ldap/slapd.d
+      - /container/service/slapd/assets/certs/
+      - /var/homelabos/authelia/ldif/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
+    hostname: "{{ open_ldap.hostname }}"
     networks:
       - traefik_network
-    image: clems4ever/openldap
-    restart: unless-stopped
-    environment:
-      - SLAPD_ORGANISATION=pinguinshow
-      - SLAPD_DOMAIN=pinguinshow.com
-      - SLAPD_PASSWORD=adminPassword
-      - SLAPD_CONFIG_PASSWORD=configPassword
-      - SLAPD_ADDITIONAL_MODULES=memberof
-      - SLAPD_ADDITIONAL_SCHEMAS=openldap
-      - SLAPD_FORCE_RECONFIGURE=true
-    volumes:
-      - /var/homelabos/authelia/ldap/base.ldif:/etc/ldap.dist/prepopulate/base.ldif
-      - /var/homelabos/authelia/ldap/access.rules:/etc/ldap.dist/prepopulate/access.rules
+{% if open_ldap.enhanced_debugging %}
+    command: --loglevel debug
+{% endif %}
+    command: --copy-service
   phpldapadmin:
-    image: osixia/phpldapadmin:0.8.0
+    image: osixia/phpldapadmin:latest
     restart: unless-stopped
     networks:
       - traefik_network
