@@ -1,0 +1,22 @@
+---
+- name: Make poli directory.
+  file:
+    path: "/var/homelabos/poli"
+    state: directory
+
+- name: Copy poli docker-compose.yml file into place.
+  template:
+    src: docker-compose.poli.yml.j2
+    dest: /var/homelabos/poli/docker-compose.poli.yml
+
+- name: Configure poli systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/poli.service
+
+- name: Start poli
+  systemd:
+    name: poli
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
