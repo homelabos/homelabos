@@ -8,7 +8,7 @@ port: 9091
 # Log level
 #
 # Level of verbosity for logs
-logs_level: debug
+logs_level: {{ authelia.log_level }}
 
 # Default redirection URL
 #
@@ -29,33 +29,123 @@ default_redirection_url: https://auth.{{ domain }}
 totp:
   issuer: {{ domain }}
 
+# Duo Push API
+#
+# Parameters used to contact the Duo API. Those are generated when you protect an application
+# of type "Partner Auth API" in the management panel.
+duo_api:
+  hostname: {{ authelia.duo.hostname }}
+  integration_key: {{ authelia.duo.integration_key }}
+  secret_key: {{ authelia.duo.secret_key }}
+
+# The authentication backend to use for verifying user passwords
+# and retrieve information such as email address and groups
+# users belong to.
+#
+# There are two supported backends: `ldap` and `file`.
 authentication_backend:
+  # LDAP backend configuration.
+  #
+  # This backend allows Authelia to be scaled to more
+  # than one instance and therefore is recommended for
+  # production.
   ldap:
-    url: ldap://openldap
-    base_dn: dc=pinguinshow,dc=com
-    additional_users_dn: ou=users
+    # The url of the ldap server
+    url: ldap://authelia_openldap_1
+
+    # The base dn for every entries
+    base_dn: dc={{ authelia.domain.without_tld}},dc={{ authelia.domain.tld }}
+
+    # An additional dn to define the scope to all users
+    additional_users_dn: ou={{ authelia.users_ou }}
+
+    # The users filter used to find the user DN
+    # {0} is a matcher replaced by username.
+    # 'cn={0}' by default.
     users_filter: cn={0}
-    additional_groups_dn: ou=groups
+
+    # An additional dn to define the scope of groups
+    additional_groups_dn: ou={{ authelia.groups_ou }}
+
+    # The groups filter used for retrieving groups of a given user.
+    # {0} is a matcher replaced by username.
+    # {dn} is a matcher replaced by user DN.
+    # {uid} is a matcher replaced by user uid.
+    # 'member={dn}' by default.
+{% if authelia.use_username %}
+    groups_filter: (&(member={uid})(objectclass=groupOfNames))
+{% else %}
     groups_filter: (&(member={dn})(objectclass=groupOfNames))
+{% endif %}
+
+    # The attribute holding the name of the group
     group_name_attribute: cn
+
+    # The attribute holding the mail address of the user
     mail_attribute: mail
 
     # The username and password of the admin user.
-    user: cn=admin,dc=pinguinshow,dc=com
-    password: admin
+    user: cn=admin,dc={{ authelia.domain.without_tld}},dc={{ authelia.domain.tld }}
+    password: {{lookup('password', './settings/passwords/openldap_admin_password')}}
 
+  # File backend configuration.
+  #
+  # With this backend, the users database is stored in a file
+  # which is updated when users reset their passwords.
+  # Therefore, this backend is meant to be used in a dev environment
+  # and not in production since it prevents Authelia to be scaled to
+  # more than one instance.
+  #
+  ## file:
+  ##   path: ./users_database.yml
+
+
+# Access Control
+#
+# Access control is a list of rules defining the authorizations applied for one
+# resource to users or group of users.
+#
+# If 'access_control' is not defined, ACL rules are disabled and the `bypass`
+# rule is applied, i.e., access is allowed to anyone. Otherwise restrictions follow
+# the rules defined.
+#
+# Note: One can use the wildcard * to match any subdomain.
+# It must stand at the beginning of the pattern. (example: *.mydomain.com)
+#
+# Note: You must put patterns containing wildcards between simple quotes for the YAML
+# to be syntaxically correct.
+#
+# Definition: A `rule` is an object with the following keys: `domain`, `subject`,
+# `policy` and `resources`.
+#
+# - `domain` defines which domain or set of domains the rule applies to.
+#
+# - `subject` defines the subject to apply authorizations to. This parameter is
+#    optional and matching any user if not provided. If provided, the parameter
+#    represents either a user or a group. It should be of the form 'user:<username>'
+#    or 'group:<groupname>'.
+#
+# - `policy` is the policy to apply to resources. It must be either `bypass`,
+#   `one_factor`, `two_factor` or `deny`.
+#
+# - `resources` is a list of regular expressions that matches a set of resources to
+#    apply the policy to. This parameter is optional and matches any resource if not
+#    provided.
+#
+# Note: the order of the rules is important. The first policy matching
+# (domain, resource, subject) applies.
 access_control:
   # Default policy can either be `bypass`, `one_factor`, `two_factor` or `deny`.
   # It is the policy applied to any resource if there is no policy to be applied
   # to the user.
-  default_policy: deny
+  default_policy: {{ authelia.default.policy }}
 
   rules:
     - domain: auth.{{ domain }}
       policy: bypass
 
-    - domain: portainer.{{ domain }}
-      policy: one_factor
+    - domain: '*.{{ domain }}'
+      policy: {{ authelia.default.factor_count }}
 
 # Configuration of session cookies
 #
@@ -65,13 +155,13 @@ session:
   name: authelia_session
 
   # The secret to encrypt the session cookie.
-  secret: change_me_unsecure_session_secret
+  secret: {{lookup('password', './settings/passwords/authelia_session_secret')}}
 
   # The time in ms before the cookie expires and session is reset.
-  expiration: 3600000 # 1 hour
+  expiration: {{ authelia.default.cookie_expiration }}  # 1 hour
 
   # The inactivity time in ms before the session is reset.
-  inactivity: 300000 # 5 minutes
+  inactivity: {{ authelia.default.cookie_inactivity }} # 5 minutes
 
   # The domain to protect.
   # Note: the authenticator must also be in that domain. If empty, the cookie
@@ -91,14 +181,14 @@ session:
 regulation:
   # The number of failed login attempts before user is banned.
   # Set it to 0 to disable regulation.
-  max_retries: 3
+  max_retries: {{ authelia.max.retries }} 
 
   # The time range during which the user can attempt login before being banned.
   # The user is banned if the authenticaction failed `max_retries` times in a `find_time` seconds window.
-  find_time: 120
+  find_time: {{ authelia.max.retries_in_time }}
 
   # The length of time before a banned user can login again.
-  ban_time: 300
+  ban_time: {{ authelia.max.retries_ban_time }}
 
 # Configuration of the storage backend used to store data and secrets.
 #
@@ -133,9 +223,9 @@ notifier:
 
   # Use a SMTP server for sending notifications
   smtp:
-    username: test
-    password: password
-    secure: false
-    host: 127.0.0.1
-    port: 1025
-    sender: admin@example.com
+    username: {{ smtp.user }}
+    password: {{ smtp.pass }}
+    secure: true
+    host: {{ smtp.host }}
+    port: 587
+    sender: {{ smtp.from_email }}
