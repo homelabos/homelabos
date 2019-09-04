@@ -254,5 +254,51 @@ gitea:
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
+# Authelia Settings
+authelia:
+  # Determines how verbose the logs are
+  log_level: {{ authelia.log_level | default(Error) }}
+  # Do you want to login with your common name "john doe" or your username "jdoe"?
+  # defaults to Username
+  use_username: {{ authelia.use_username | default(True) }}
+  # these are needed to determine the ldap DN 
+  domain:
+    # if your domain is foo.com, the domain without tld is 'foo'
+    without_tld: {{ authelia.domain.without_tld | default() }}
+    # the tld is the top level domain, ie: .com, .org, .net etc.
+    tld: {{ authelia.domain.tld | default() }}
+  max:
+    # max # of retries to authenticate (default 5)
+    retries: {{ authelia.max.retries | default(5) }}
+    # max time before the retry count resets (default 2 min)
+    retries_in_time: {{ authelia.max.retries_in_time | default(120) }}
+    # if you exceed the max retry count within the time frame, you're banned
+    # for x seconds. (default 300 seconds /5 min)
+    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }} 
+  default:
+    # the number of authentication factors required by default
+    factor_count: {{ authelia.default.factor_count | default(two_factor) }}
+    # how long it takes for the cookie to expire (default, 1hr)
+    cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
+    # inactivity time for the cookie default (5m)
+    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(300000) }} # 5min
+    # default policy - deny by default
+    policy: {{ authelia.default.policy | default(deny) }}
+  duo:
+    hostname: {{ authelia.duo.hostname | default() }}
+    integration_key: {{ authelia.duo.integration_key | default() }}
+    secret_key: {{ authelia.duo.secret_key | default() }}
+  # Don't change these unless you know what you're doing
+  users_ou: users
+  groups_ou: groups
+
 # LDAP Settings
-ldap_org_name: {{ ldap_org_name | default() }}
+open_ldap:
+  organization: {{ open_ldap.organization | default() }}
+  domain: {{ open_ldap.domain | default() }}
+  # In some rare circumstances the hostname and domain name may differ
+  hostname: {{ open_ldap.hostname | default() }}
+  enhanced_debugging: {{ open_ldap.enhanced_debugging | default(False) }}
+  seed: 
+    first_name: {{ open_ldap.seed.first_name | default() }}
+    last_name: {{ open_ldap.seed.last_name | default() }}
