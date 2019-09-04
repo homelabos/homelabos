@@ -20,5 +20,6 @@ Now append the following lines to your `~/.ssh/config` file:
 Host *.onion
    ProxyCommand /usr/bin/nc -xlocalhost:9150 -X5 %h %p
 ```
-
+{% if enable_tor %}
 Once that is done, you can ssh to your server with `torify ssh {{ ansible_user }}@{{ tor_ssh_domain }}`
+{% endif %}
