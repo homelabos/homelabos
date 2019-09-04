@@ -142,6 +142,9 @@ access_control:
   default_policy: {{ authelia.default.policy }}
 
   rules:
+    - domain: phpldapadmin.{{ domain }}'
+      policy: bypass
+
     - domain: auth.{{ domain }}
       policy: bypass
 
