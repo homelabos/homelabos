@@ -142,8 +142,11 @@ access_control:
   default_policy: {{ authelia.default.policy }}
 
   rules:
-    - domain: phpldapadmin.{{ domain }}'
+    - domain: phpldapadmin.{{ domain }}
       policy: bypass
+
+    - domain: portainer.{{ domain }}
+      policy: one_factor
 
     - domain: auth.{{ domain }}
       policy: bypass
