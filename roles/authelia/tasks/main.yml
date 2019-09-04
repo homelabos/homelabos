@@ -29,16 +29,6 @@
     src: service.j2
     dest: /etc/systemd/system/authelia.service
 
-- name: Configure base ldif file.
-  template:
-    src: base.ldif.j2
-    dest: /var/homelabos/authelia/ldap/base.ldif
-
-- name: Configure access rules.
-  template:
-    src: access.rules.j2
-    dest: /var/homelabos/authelia/ldap/access.rules
-
 - name: Start authelia
   systemd:
     name: authelia
