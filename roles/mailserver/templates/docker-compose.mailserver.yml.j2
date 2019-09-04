@@ -17,7 +17,7 @@ services:
       - traefik.frontend.rule=Host:spam.{{ domain }}
       - traefik.mail.frontend.rule=Host:mail.{{ domain }}
       - traefik.port=11334
-      - traefik.docker.network=http_network
+      - traefik.docker.network=traefik_network
 
     ports:
       - "25:25"       # SMTP                - Required
@@ -29,7 +29,7 @@ services:
     # - "995:995"     # POP3S      SSL/TLS  - Optional - For webmails/desktop clients
       - "4190:4190"   # SIEVE      STARTTLS - Optional - Recommended for mail filtering
     environment:
-      - DBPASS="{{lookup('password', './settings/passwords/postfix_db_password chars=digits')}}"
+      - DBPASS="{{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}"
       - RSPAMD_PASSWORD={{ default_password }}     # Rspamd WebUI password (required)
     # - ADD_DOMAINS=aa.tld, www.bb.tld...      # Add additional domains separated by commas (needed for dkim keys etc.)
     # - DEBUG_MODE=true                        # Enable Postfix, Dovecot, Rspamd and Unbound verbose logging
@@ -44,8 +44,8 @@ services:
     #
     volumes:
       - {{ volumes_root }}/mailserver/mail:/var/mail
-      - {{ volumes_root }}/traefik/acme:/etc/letsencrypt/acme
-      
+      - {{ volumes_root }}/traefik/acme.json:/etc/letsencrypt/acme/acme.json
+
     depends_on:
       - mariadb
       - redis
@@ -65,9 +65,12 @@ services:
       - traefik.enable=true
       - traefik.frontend.rule=Host:postfixadmin.{{ domain }}
       - traefik.port=8888
-      - traefik.docker.network=http_network
+      - traefik.docker.network=traefik_network
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
+    volumes:
+      - {{ volumes_root }}/mailserver/mail/postfix/config.inc.php:/postfixadmin/config.inc.php
+      - {{ volumes_root }}/mailserver/mail/postfix/config.local.php:/postfixadmin/config.local.php
     depends_on:
       - mailserver
       - mariadb
@@ -85,7 +88,7 @@ services:
       - traefik.enable=true
       - traefik.port=8888
       - traefik.frontend.rule=Host:webmail.{{ domain }}
-      - traefik.docker.network=http_network
+      - traefik.docker.network=traefik_network
     volumes:
       - {{ volumes_root }}/mailserver/rainloop:/rainloop/data
     depends_on:
@@ -105,7 +108,7 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=postfix
       - MYSQL_USER=postfix
-      - DBPASS="{{lookup('password', './settings/passwords/postfix_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/postfix_db_password chars=digits')}}"
     volumes:
       - {{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql
     networks:
