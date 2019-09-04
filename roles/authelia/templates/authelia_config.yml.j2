@@ -77,7 +77,11 @@ authentication_backend:
     # {dn} is a matcher replaced by user DN.
     # {uid} is a matcher replaced by user uid.
     # 'member={dn}' by default.
+{% if authelia.use_username %}
+    groups_filter: (&(member={uid})(objectclass=groupOfNames))
+{% else %}
     groups_filter: (&(member={dn})(objectclass=groupOfNames))
+{% endif %}
 
     # The attribute holding the name of the group
     group_name_attribute: cn
