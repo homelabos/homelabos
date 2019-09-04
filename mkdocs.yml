@@ -6,14 +6,15 @@ theme:
   name: material
   logo:
     icon: home
-pages:
+nav:
   - Home: index.md
   - Installation: setup/installation.md
   - Getting Started: setup/gettingstarted.md
   - Setup:
       - Backups: setup/backups.md
+      - Bastion: setup/bastion.md
       - Email: setup/email.md
-      - Cloud Bastion Server via Tinc: setup/tinc.md
+      - Traefik: setup/traefik.md
       - Terraform: setup/terraform.md
       - Tor Onion Services: setup/tor.md
       - VPN Setup: setup/vpn.md
@@ -21,6 +22,7 @@ pages:
       - Airsonic: software/airsonic.md
       - Apache2: software/apache2.md
       - Apple Health: software/applehealth.md
+      - Authelia: software/authelia.md
       - Beets: software/beets.md
       - Bitwarden: software/bitwarden.md
       - BulletNotes: software/bulletnotes.md
@@ -34,15 +36,18 @@ pages:
       - Emby: software/emby.md
       - Firefly III: software/firefly.md
       - FreshRSS: software/freshrss.md
+      - Ghost: software/ghost.md
       - Gitea: software/gitea.md
       - Grafana: software/grafana.md
       - Guacamole: software/guacamole.md
       - Home Assistant: software/homeassistant.md
-      - HomeBridge: software/homebridge
+      - HomeBridge: software/homebridge.md
       - Inventario: software/inventario.md
       - Jackett: software/jackett.md
+      - Jellyfin: software/jellyfin.md
       - Kibitzr: software/kibitzr.md
       - Lidarr: software/lidarr.md
+      - Mailserver: software/mailserver.md
       - Mashio: software/mashio.md
       - Matomo: software/matomo.md
       - Mayan: software/mayan.md
@@ -61,16 +66,18 @@ pages:
       - Plex: software/plex.md
       - Portainer: software/portainer.md
       - Radarr / Sonarr: software/radarr-sonarr.md
-      - SickChill: software/sickchill
+      - SickChill: software/sickchill.md
       - Synchthing: software/syncthing.md
       - Tautulli: software/tautulli.md
       - The Lounge: software/thelounge.md
       - TICK: software/tick.md
       - Transmission: software/transmission.md
-      - Trilium: software/trilium
+      - Trilium: software/trilium.md
+      - Wallabag: software/wallabag.md
       - WebVirtMgr: software/webvirtmgr.md
-      - Wekan: software/wekan
-      - Watchtower: software/watchtower
+      - Wekan: software/wekan.md
+      - Watchtower: software/watchtower.md
+      - Zulip: software/zulip.md
   - Development:
       - Adding Services: development/adding_services.md
       - Contributing: development/contributing.md
