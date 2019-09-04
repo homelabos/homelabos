@@ -11,30 +11,30 @@ networks:
 services:
   app:
     # REQUIRED
-    image: 
+    image: linuxserver/mstream
     restart: unless-stopped
     networks:
       - traefik_network
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - USER={{ default_username }}
+      - PASSWORD= {{ default_password }}
+      - USE_JSON=false
+      - TZ={{ common_timezone }}
+    volumes:
+      - /var/homelabos/mstream/config:/config
+      - {{ storage_dir }}/Music:/music
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.frontend.rule=Host:mstream.{{ domain }}"
       - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
+      - "traefik.http.port=3000"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:mstream.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.tor.port=3000"
 {% endif %}
-    # OPTIONAL 
-    #links: 
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}
