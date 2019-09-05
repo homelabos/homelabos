@@ -11,9 +11,9 @@ networks:
 services:
   app:
     # REQUIRED
-    image: atribe/speedtest-for-influxdb-and-grafana
+    image: roest/docker-speedtest-analyser
     volumes:
-      - /var/homelabos/speedtest/config/config.ini:/src/config.ini
+      - /var/homelabos/speedtest/data:/var/www/html/data
     restart: unless-stopped
     networks:
       - traefik_network
@@ -22,11 +22,11 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.frontend.rule=Host:speedtest.{{ domain }}"
       - "traefik.http.protocol=http"
-      - "traefik.http.port=3000"
+      - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:speedtest.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=3000"
+      - "traefik.tor.port=80"
 {% endif %}
