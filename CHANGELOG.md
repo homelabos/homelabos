@@ -1,4 +1,5 @@
 # 0.7
+- Added Ubooquity - Ubooquity is a free home server for your comics and ebooks library
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
