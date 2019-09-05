@@ -256,3 +256,8 @@ apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}
+
+# Speedtest settings
+# find your local server here: http://www.speedtestserver.com
+speedtest: 
+  server: {{ speedtest.server | default() }}

@@ -17,6 +17,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+    environment:
+      - SPEEDTEST_PARAMS= --server {{ speedtest.server }} 
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
