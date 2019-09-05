@@ -97,6 +97,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Radarr](https://radarr.video/) - Automated movie downloading
 - [SickChill](https://sickchill.github.io/) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](https://sonarr.tv/) - Automated TV downloading
+- [Speedtest](https://github.com/atribe/Speedtest-for-InfluxDB-and-Grafana) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 - [Syncthing](https://syncthing.net/) - File syncing software
 - [Tautulli](https://tautulli.com/) - Monitor your Plex Server
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting

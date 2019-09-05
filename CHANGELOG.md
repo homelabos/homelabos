@@ -1,4 +1,5 @@
 # 0.7
+- Added Speedtest - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
