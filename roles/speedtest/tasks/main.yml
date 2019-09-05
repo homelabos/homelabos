@@ -9,6 +9,11 @@
     src: docker-compose.speedtest.yml.j2
     dest: /var/homelabos/speedtest/docker-compose.speedtest.yml
 
+- name: Copy speedtest config.ini file into place.
+  template:
+    src: config.ini.j2
+    dest: /var/homelabos/speedtest/config/config.ini
+
 - name: Configure speedtest systemd service.
   template:
     src: service.j2
