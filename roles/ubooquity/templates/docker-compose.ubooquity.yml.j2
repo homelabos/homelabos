@@ -23,9 +23,6 @@ services:
       - {{ storage_dir }}/Books:/books
       - {{ storage_dir }}/Comics:/comics
       - {{ storage_dir }}:/files
-    ports:
-      - 2202:2202
-      - 2203:2203
     networks:
       - traefik_network
     labels:
