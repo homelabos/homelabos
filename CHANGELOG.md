@@ -1,4 +1,5 @@
 # 0.7
+- Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
