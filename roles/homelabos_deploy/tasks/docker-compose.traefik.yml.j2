@@ -21,7 +21,7 @@ services:
 {% if traefik.additional_env_vars %}
     environment:
 {% for item in traefik.additional_env_vars | dict2items %}
-      - {{item.key}}:{{item.value}}
+      - {{item.key}}={{item.value}}
 {% endfor %}
 {% endif %}
     volumes:
