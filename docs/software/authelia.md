@@ -10,7 +10,7 @@ On the backend, Authelia authenticates your user to it's own OpenLDAP instance. 
 
 ## Prerequisites
 
-1. Authelia requires a working mailserver to authenticate new users and register devices.
+1. Authelia requires a working SMTP server to authenticate new users and register devices.
 
 ## Configuration
 

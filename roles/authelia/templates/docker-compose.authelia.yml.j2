@@ -71,9 +71,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /var/homelabos/authelia/openldap:/var/lib/ldap
-      - /var/homelabos/authelia/openldap:/etc/ldap/slapd.d
-      - /container/service/slapd/assets/certs/
+      - /var/homelabos/authelia/var/lib/ldap:/var/lib/ldap
+      - /var/homelabos/authelia/etc/ldap:/etc/ldap
       - /var/homelabos/authelia/ldif/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
     hostname: "{{ open_ldap.hostname }}"
     networks:
