@@ -6,6 +6,7 @@ enabled_services:
   apache2: "{{ enable_apache2 }}"
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
+  authelia: "{{ enable_authelia }}"
   beets: "{{ enable_beets }}"
   bitwarden: "{{ enable_bitwarden }}"
   bookstack: "{{ enable_bookstack }}"
@@ -71,7 +72,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  authelia: "{{ enable_authelia }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
