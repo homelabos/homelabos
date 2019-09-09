@@ -77,8 +77,6 @@ services:
       - /var/homelabos/authelia/etc/ldap:/etc/ldap
       - /var/homelabos/authelia/ldif/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
     hostname: "{{ open_ldap.hostname }}"
-    networks:
-      - traefik_network
 {% if open_ldap.enhanced_debugging %}
     command: --loglevel debug
 {% endif %}
