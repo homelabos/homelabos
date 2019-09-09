@@ -1,0 +1,53 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    # REQUIRED
+    image: linuxserver/ubooquity
+    restart: unless-stopped
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - TZ={{ common_timezone }}
+      - MAXMEM=512
+    volumes:
+      - /var/homelabos/ubooquity/config:/config
+      - {{ storage_dir }}/Books:/books
+      - {{ storage_dir }}/Comics:/comics
+      - {{ storage_dir }}:/files
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.user.http.frontend.rule=Host:ubooquity.{{ domain }}"
+      - "traefik.user.http.protocol=http"
+      - "traefik.user.http.port=2202"
+      - "traefik.user.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.user.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+
+      - "traefik.admin.http.frontend.rule=Host:ubooquity-admin.{{ domain }}"
+      - "traefik.admin.http.protocol=http"
+      - "traefik.admin.http.port=2203"
+      - "traefik.admin.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.admin.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.toruser.frontend.rule=Host:ubooquity.{{ tor_domain }}"
+      - "traefik.toruser.protocol=http"
+      - "traefik.toruser.port=2202"
+      - "traefik.toruser.http.middlewares.add-ubooquity.addprefix.prefix=/ubooquity"
+
+      - "traefik.toradmin.frontend.rule=Host:ubooquity-admin.{{ tor_domain }}"
+      - "traefik.toradmin.protocol=http"
+      - "traefik.toradmin.port=2203"
+      - "traefik.toradmin.http.middlewares.add-ubooquity-admin.addprefix.prefix=/ubooquity/admin"
+
+{% endif %}

@@ -1,6 +1,10 @@
 # 0.7
+<<<<<<< HEAD
 - Added MStream - All your music, everywhere you go.
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
+=======
+- Added Ubooquity - Ubooquity is a free home server for your comics and ebooks library
+>>>>>>> 234-Ubooquity
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source

@@ -67,6 +67,7 @@ enabled_services:
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
   trilium: "{{ enable_trilium }}"
+  ubooquity: "{{ enable_ubooquity }}"
   wallabag: "{{ enable_wallabag }}"
   webvirtmgr: "{{ enable_webvirtmgr }}"
   wekan: "{{ enable_wekan }}"
