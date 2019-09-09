@@ -248,6 +248,12 @@ traefik:
     {{ service_name }}: {{ traefik.extra_mapping[service_name] }}
 {% endfor %}
 {% endif %}
+# use key:value pairs here to add additional environment variables to your traefik docker image.
+# for instance, if you're using a dns challenge provider place your api keys etc here.
+  additional_env_vars:
+    # DUMMY_KEY: DUMMY_VALUE
+    CLOUDFLARE_EMAIL: kjp@brightleafsoftware.com
+    CLOUDFLARE_API_KEY: c33fa5fb58812a16628cdc4bed741b0ea98ff
 
 gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True)  }}
