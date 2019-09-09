@@ -39,7 +39,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: my_authelia
     volumes:
-      - mongo_data:/data/db
+      - /var/homelabos/authelia/mongo_data:/data/db
   openldap:
     networks:
       - traefik_network
