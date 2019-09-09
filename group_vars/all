@@ -40,6 +40,7 @@ enabled_services:
   miniflux: "{{ enable_miniflux }}"
   minio: "{{ enable_minio }}"
   monicahq: "{{ enable_monicahq }}"
+  mstream: "{{ enable_mstream }}"
   mylar: "{{ enable_mylar }}"
   netdata: "{{ enable_netdata }}"
   nextcloud: "{{ enable_nextcloud }}"
@@ -71,7 +72,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  mstream: "{{ enable_mstream }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
