@@ -47,8 +47,8 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
   - hostname: unless you know what you're doing, this should match your domain. _required_
   - enhanced_debugging: defaults to False. Enables debug level logging.
   - seed:
-    - first*name: Your first name. \_required*. Used to seed the ldap database.
-    - last*name: Your last name. \_required*. Used to seed the ldap database.
+    - first_name: Your first name. *required*. Used to seed the ldap database.
+    - last_name: Your last name. *required*. Used to seed the ldap database.
 
 ## Post install configuration
 
