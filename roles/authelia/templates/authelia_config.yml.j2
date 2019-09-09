@@ -217,9 +217,10 @@ storage:
 # Use only an available configuration: filesystem, gmail
 notifier:
   # For testing purpose, notifications can be sent in a file
-  ## filesystem:
-  ##   filename: /tmp/authelia/notification.txt
-
+{% if not smtp.username %}
+  filesystem:
+    filename: /tmp/authelia/notification.txt
+{% endif %}
   # Use your email account to send the notifications. You can use an app password.
   # List of valid services can be found here: https://nodemailer.com/smtp/well-known/
   ## email:
@@ -229,6 +230,7 @@ notifier:
   ##   service: gmail
 
   # Use a SMTP server for sending notifications
+{% if smtp.username %}}
   smtp:
     username: {{ smtp.user }}
     password: {{ smtp.pass }}
@@ -236,3 +238,4 @@ notifier:
     host: {{ smtp.host }}
     port: {{ smtp.port }}
     sender: {{ smtp.from_email }}
+{{% endif %}}
