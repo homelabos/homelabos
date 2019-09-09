@@ -90,4 +90,10 @@ gitea:
 bastion:
   wireguard: 
   enabled: false
-speedtest:
+authelia:
+  duo:
+  default:
+  max:
+  domain:
+open_ldap:
+  seed:

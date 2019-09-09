@@ -268,7 +268,7 @@ apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 # Authelia Settings
 authelia:
   # Determines how verbose the logs are
-  log_level: {{ authelia.log_level | default(Error) }}
+  log_level: {{ authelia.log_level | default('Error') }}
   # Do you want to login with your common name "john doe" or your username "jdoe"?
   # defaults to Username
   use_username: {{ authelia.use_username | default(True) }}
@@ -288,13 +288,13 @@ authelia:
     retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }} 
   default:
     # the number of authentication factors required by default
-    factor_count: {{ authelia.default.factor_count | default(two_factor) }}
+    factor_count: {{ authelia.default.factor_count | default('two_factor') }}
     # how long it takes for the cookie to expire (default, 1hr)
     cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
     # inactivity time for the cookie default (5m)
     cookie_inactivity: {{ authelia.default.cookie_inactivity | default(300000) }} # 5min
     # default policy - deny by default
-    policy: {{ authelia.default.policy | default(deny) }}
+    policy: {{ authelia.default.policy | default('deny') }}
   duo:
     hostname: {{ authelia.duo.hostname | default() }}
     integration_key: {{ authelia.duo.integration_key | default() }}
