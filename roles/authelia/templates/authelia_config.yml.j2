@@ -33,10 +33,12 @@ totp:
 #
 # Parameters used to contact the Duo API. Those are generated when you protect an application
 # of type "Partner Auth API" in the management panel.
+{% if duo_api.hostname %}
 duo_api:
   hostname: {{ authelia.duo.hostname }}
   integration_key: {{ authelia.duo.integration_key }}
   secret_key: {{ authelia.duo.secret_key }}
+{% endif %}
 
 # The authentication backend to use for verifying user passwords
 # and retrieve information such as email address and groups
@@ -217,9 +219,10 @@ storage:
 # Use only an available configuration: filesystem, gmail
 notifier:
   # For testing purpose, notifications can be sent in a file
-  ## filesystem:
-  ##   filename: /tmp/authelia/notification.txt
-
+{% if not smtp.username %}
+  filesystem:
+    filename: /tmp/authelia/notification.txt
+{% endif %}
   # Use your email account to send the notifications. You can use an app password.
   # List of valid services can be found here: https://nodemailer.com/smtp/well-known/
   ## email:
@@ -229,6 +232,7 @@ notifier:
   ##   service: gmail
 
   # Use a SMTP server for sending notifications
+{% if smtp.username %}}
   smtp:
     username: {{ smtp.user }}
     password: {{ smtp.pass }}
@@ -236,3 +240,4 @@ notifier:
     host: {{ smtp.host }}
     port: {{ smtp.port }}
     sender: {{ smtp.from_email }}
+{{% endif %}}
