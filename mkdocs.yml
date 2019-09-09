@@ -55,6 +55,7 @@ nav:
       - Minio: software/minio.md
       - Monica: software/monica.md
       - Mylar: software/mylar.md
+      - Mstream: software/mstream.md
       - Netdata: software/netdata.md
       - NextCloud: software/nextcloud.md
       - Ombi: software/ombi.md
@@ -64,6 +65,7 @@ nav:
       - Piwigo: software/piwigo.md
       - Pixelfed: software/pixelfed.md
       - Plex: software/plex.md
+      - Poli: software/poli.md
       - Portainer: software/portainer.md
       - Radarr / Sonarr: software/radarr-sonarr.md
       - SickChill: software/sickchill.md

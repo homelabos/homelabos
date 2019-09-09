@@ -1,5 +1,6 @@
 # 0.7
 - Added MStream - All your music, everywhere you go.
+- Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Apache 2 - Web server
 - Added Digikam - Professional Photo Management with the Power of Open Source
