@@ -26,7 +26,7 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
 - max:
   - retries: this is the maximum number of times someone can _fail_ to authenticate within a given time frame before being locked out. (defaults 5)
   - retries_in_time: this is the time frame that a user has to fail X times in before they're banned. (Defaults to 2min.)
-  - retries_ban_time: How long a user is prohibited from logging in after failing X times in Y mintes, per the first two variables. (defaults to 5 minutes) These three combined (as defaulted), means that a user who \*fails to authenticate 5 times within 2 minutes is banned for 5 minutes.
+  - retries_ban_time: How long a user is prohibited from logging in after failing X times in Y mintes, per the first two variables. (defaults to 5 minutes) These three combined (as defaulted), means that a user who fails to authenticate 5 times within 2 minutes is banned for 5 minutes.
 - default:
   - factor_count: The number of authentication factors required to login. Options are:
     1. bypass - Authelia will not require authentication
