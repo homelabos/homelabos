@@ -65,13 +65,13 @@ enabled_services:
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
   trilium: "{{ enable_trilium }}"
+  ubooquity: "{{ enable_ubooquity }}"
   wallabag: "{{ enable_wallabag }}"
   webvirtmgr: "{{ enable_webvirtmgr }}"
   wekan: "{{ enable_wekan }}"
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  ubooquity: "{{ enable_ubooquity }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
