@@ -37,9 +37,11 @@ defaultEntryPoints = ["http", "https"]
     entryPoint = "http"
 {% endif %}
 
+{% if traefik.dns_challenge_provider %}
 [[acme.domains]]
   main = "*.{{ domain }}"
   sans = ["{{ domain }}"]
+{% endif %}
 
 {% if traefik.extra_mapping | default(False) %}
 [file]
