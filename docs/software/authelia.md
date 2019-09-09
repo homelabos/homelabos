@@ -6,7 +6,7 @@
 
 When enabled, Traefik will forward most requests to Authelia for authentication. Once you login to authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com. Once you authenticate, it will redirect you to firefly.yourdomain.com. This centralizes your authentication for all your homelab servcies. Additionally, Authelia is two-factor enabled. You can either register a new device, ie: google authenticator app, or use the Duo.com push notification service.
 
-On the backend, Authelia authenticates your user to it's own LDAP server. This server is isolated to Authelia, and is different than the openldap service Homelabos offers.
+On the backend, Authelia authenticates your user to it's own OpenLDAP instance. This instance is isolated to Authelia, and is different than the openldap service Homelabos offers.
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
   - factor_count: The number of authentication factors required to login. Options are:
     1. bypass - Authelia will not require authentication
     2. one_factor - only a user/pass is required.
-    3. two*factor - (\_default*) Username/password as well as a second factor is required.
+    3. two_factor - (_default_) Username/password as well as a second factor is required.
     4. deny - authelia will prevent login and access to the services.
   - cookie_expiration: How long the authentication cookie is good for. (default: 1hr)
   - cookie_inactivity: How long the cookie can sit, without being refreshed (ie: user is active) before expiring. (Defaults to 5min)
