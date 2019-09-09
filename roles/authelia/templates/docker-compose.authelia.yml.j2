@@ -39,7 +39,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: my_authelia
     volumes:
-      - mongo_data:/data/db
+      - /var/homelabos/authelia/mongo_data:/data/db
   openldap:
     image: osixia/openldap:1.2.5
     #container_name: openldap
@@ -94,18 +94,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:phpldapadmin.{{ domain }}"
+      - "traefik.http.frontend.rule=Host:authelialdapadmin.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=80"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
       - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:phpldapadmin.{{ tor_domain }}"
+      - "traefik.tor.frontend.rule=Host:authelialdapadmin.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
-
-volumes:
-  mongo_data:
-  ldap_db:
-  ldap_config:
