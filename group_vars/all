@@ -55,6 +55,7 @@ enabled_services:
   piwigo: "{{ enable_piwigo }}"
   pixelfed: "{{ enable_pixelfed }}"
   plex: "{{ enable_plex }}"
+  poli: "{{ enable_poli }}"
   portainer: "{{ enable_portainer }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
@@ -72,7 +73,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  poli: "{{ enable_poli }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
