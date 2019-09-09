@@ -33,7 +33,7 @@ totp:
 #
 # Parameters used to contact the Duo API. Those are generated when you protect an application
 # of type "Partner Auth API" in the management panel.
-{% if duo_api.hostname %}
+{% if authelia.duo.hostname %}
 duo_api:
   hostname: {{ authelia.duo.hostname }}
   integration_key: {{ authelia.duo.integration_key }}
@@ -219,7 +219,7 @@ storage:
 # Use only an available configuration: filesystem, gmail
 notifier:
   # For testing purpose, notifications can be sent in a file
-{% if not smtp.username %}
+{% if not smtp.user %}
   filesystem:
     filename: /tmp/authelia/notification.txt
 {% endif %}
@@ -232,7 +232,7 @@ notifier:
   ##   service: gmail
 
   # Use a SMTP server for sending notifications
-{% if smtp.username %}}
+{% if smtp.user %}
   smtp:
     username: {{ smtp.user }}
     password: {{ smtp.pass }}
@@ -240,4 +240,4 @@ notifier:
     host: {{ smtp.host }}
     port: {{ smtp.port }}
     sender: {{ smtp.from_email }}
-{{% endif %}}
+{% endif %}
