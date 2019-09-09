@@ -9,6 +9,7 @@
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
+- Added Speedtest - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 - Added Tautulli - Monitor your Plex Server
 - Added Trilium - Build your personal knowledge base with Trilium Notes
 - Added Ubooquity - Ubooquity is a free home server for your comics and ebooks library

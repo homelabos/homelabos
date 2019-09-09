@@ -160,6 +160,7 @@ enable_sickchill: {{ enable_sickchill | default(False) }}
 enable_sonarr: {{ enable_sonarr | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
 enable_restic: {{ enable_restic | default(False) }}
+enable_speedtest: {{ enable_speedtest | default(False) }}
 enable_syncthing: {{ enable_syncthing | default(False) }}
 enable_tautulli: {{ enable_tautulli | default(False) }}
 enable_thelounge: {{ enable_thelounge | default(False) }}
@@ -265,3 +266,8 @@ apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
 # LDAP Settings
 ldap_org_name: {{ ldap_org_name | default() }}
+
+# Speedtest settings
+# find your local server here: http://www.speedtestserver.com
+speedtest: 
+  server: {{ speedtest.server | default() }}
