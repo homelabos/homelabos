@@ -85,3 +85,4 @@ gitea:
 bastion:
   wireguard: 
   enabled: false
+speedtest:
