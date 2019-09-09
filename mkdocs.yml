@@ -40,6 +40,7 @@ nav:
       - Gitea: software/gitea.md
       - Grafana: software/grafana.md
       - Guacamole: software/guacamole.md
+      - HealthChecks: software/healthchecks
       - Home Assistant: software/homeassistant.md
       - HomeBridge: software/homebridge.md
       - Inventario: software/inventario.md

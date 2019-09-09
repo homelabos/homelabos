@@ -65,6 +65,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Gitea](https://gitea.io/en-US/) - Git hosting
 - [Grafana](https://grafana.com/) - Pretty graphs
 - [Guacamole](https://guacamole.apache.org) - a clientless remote desktop gateway
+- [HealthChecks](HealthChecks.io) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [Home Assistant](https://www.home-assistant.io/) - Home Automation
 - [HomeBridge](https://homebridge.io/) - HomeKit support for the impatient
 - [Homedash](https://lamarios.github.io/Homedash2/) - Dashboard
