@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://PackageFileName.{{ domain }}/](https://PackageFileName.{{ domain }}/) or [http://PackageFileName.{{ domain }}/](http://PackageFileName.{{ domain }}/)
+It is available at [https://poli.{{ domain }}/](https://poli.{{ domain }}/) or [http://poli.{{ domain }}/](http://poli.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://PackageFileName.{{ tor_domain }}/](http://PackageFileName.{{ tor_domain }}/)
+It is also available via Tor at [http://poli.{{ tor_domain }}/](http://poli.{{ tor_domain }}/)
 {% endif %}
