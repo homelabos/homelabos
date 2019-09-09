@@ -69,7 +69,7 @@ puts 'Done!'
 puts 'Step 4. Editing doc file'
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageURL", "#{package_url}")
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageOneLiner", "#{package_one_liner}")
-search_and_replace_in_file("docs/software/#{package_file_name}.md", "packageFileName", "#{package_file_name}")
+search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageFileName", "#{package_file_name}")
 search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageTitleCase", "#{package_name}")
 %x{git add docs/software/#{package_file_name}.md}
 puts 'Done!'
