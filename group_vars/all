@@ -25,6 +25,7 @@ enabled_services:
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
   guacamole: "{{ enable_guacamole }}"
+  healthchecks: "{{ enable_healthchecks }}"
   homeassistant: "{{ enable_homeassistant }}"
   homebridge: "{{ enable_homebridge }}"
   homedash: "{{ enable_homedash }}"
@@ -71,7 +72,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  healthchecks: "{{ enable_healthchecks }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
