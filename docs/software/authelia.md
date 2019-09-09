@@ -63,5 +63,5 @@ Once you've deployed authelia, you'll need to immediately reset your default use
 It is available at [https://auth.{{ domain }}/](https://auth.{{ domain }}/) or [http://auth.{{ domain }}/](http://auth.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://PackageFileName.{{ tor_domain }}/](http://PackageFileName.{{ tor_domain }}/)
+It is also available via Tor at [http://auth.{{ tor_domain }}/](http://auth.{{ tor_domain }}/)
 {% endif %}
