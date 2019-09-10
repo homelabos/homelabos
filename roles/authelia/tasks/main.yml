@@ -4,6 +4,16 @@
     path: "/var/homelabos/authelia"
     state: directory
 
+- name: Make ldap data directory.
+  file:
+    path: "/var/homelabos/authelia/openldap/var/lib/ldap"
+    state: directory
+
+- name: Make ldap config directory.
+  file:
+    path: "/var/homelabos/authelia/openldap/etc/ldap"
+    state: directory
+
 - name: Create ldif seed data directory.
   file:
     path: "/var/homelabos/authelia/ldif"
