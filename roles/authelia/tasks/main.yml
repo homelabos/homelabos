@@ -28,11 +28,15 @@
   template:
     src: authelia_config.yml.j2
     dest: /var/homelabos/authelia/authelia_config.yml
+  vars:
+    domain_parts: "{{ domain.split('.') }}"
 
 - name: Copy bootstrap.ldif file into place.
   template:
     src: bootstrap.ldif.j2
     dest: /var/homelabos/authelia/ldif/bootstrap.ldif
+  vars:
+    domain_parts: "{{ domain.split('.') }}"
 
 - name: Configure authelia systemd service.
   template:

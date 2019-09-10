@@ -56,7 +56,7 @@ authentication_backend:
     url: ldap://authelia_openldap_1
 
     # The base dn for every entries
-    base_dn: dc={{ authelia.domain.without_tld}},dc={{ authelia.domain.tld }}
+    base_dn: dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
 
     # An additional dn to define the scope to all users
     additional_users_dn: ou={{ authelia.users_ou }}
@@ -88,7 +88,7 @@ authentication_backend:
     mail_attribute: mail
 
     # The username and password of the admin user.
-    user: cn=admin,dc={{ authelia.domain.without_tld}},dc={{ authelia.domain.tld }}
+    user: cn=admin,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
     password: {{lookup('password', './settings/passwords/openldap_admin_password')}}
 
   # File backend configuration.
