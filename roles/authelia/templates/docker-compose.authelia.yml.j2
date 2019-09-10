@@ -73,14 +73,15 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - /var/homelabos/authelia/var/lib/ldap:/var/lib/ldap
-      - /var/homelabos/authelia/etc/ldap:/etc/ldap
       - /var/homelabos/authelia/ldif/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
+      - /var/homelabos/authelia/openldap/var/lib/ldap:/var/lib/ldap
+      - /var/homelabos/authelia/openldap/etc/ldap:/etc/ldap/slapd.d
     hostname: "{{ open_ldap.hostname }}"
 {% if open_ldap.enhanced_debugging %}
-    command: --loglevel debug
-{% endif %}
+    command: --copy-service --loglevel debug
+{% else %}
     command: --copy-service
+{% endif %}
   phpldapadmin:
     image: osixia/phpldapadmin:latest
     restart: unless-stopped
@@ -103,3 +104,7 @@ services:
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
+
+volumes:
+  ldap_db:
+  ldap_config:
