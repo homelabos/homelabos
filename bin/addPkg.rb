@@ -75,8 +75,8 @@ search_and_replace_in_file("docs/software/#{package_file_name}.md", "PackageTitl
 puts 'Done!'
 
 puts 'Step 5. Adding docs to mkdocs.yml'
-# 'pages', 4, 'Included Software'
-add_to_array_at_key('mkdocs.yml', ['pages', 4, 'Included Software'], {"#{package_name}" => "software/#{package_file_name}.md"})
+# 'nav', 4, 'Included Software'
+add_to_array_at_key('mkdocs.yml', ['nav', 4, 'Included Software'], {"#{package_name}" => "software/#{package_file_name}.md"})
 %x{git add mkdocs.yml}
 puts 'Done!'
 
