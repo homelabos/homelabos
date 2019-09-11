@@ -4,30 +4,22 @@
     path: "/var/homelabos/authelia"
     state: directory
 
-- name: install slapd. (needed to generate slapd passwords)
-  apt:
-    name:
-      - slapd
-
-- name: Make ldap data directory.
-  file:
-    path: "/var/homelabos/authelia/openldap/var/lib/ldap"
-    state: directory
-
-- name: Make ldap config directory.
-  file:
-    path: "/var/homelabos/authelia/openldap/etc/ldap"
-    state: directory
-
-- name: Create ldif seed data directory.
-  file:
-    path: "/var/homelabos/authelia/ldif"
-    state: directory
-
 - name: Copy authelia docker-compose.yml file into place.
   template:
     src: docker-compose.authelia.yml.j2
     dest: /var/homelabos/authelia/docker-compose.authelia.yml
+
+- name: Generate new slapd compatible password.
+  shell: mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | base64 | sed -e 's/+/./g' |  cut -b 10-25` '{{default_password}}'
+  register: slappasswd_out
+  become: false
+
+- name: Copy userdb.yml file into place.
+  template:
+    src: userdb.yml.j2
+    dest: /var/homelabos/authelia/userdb.yml
+  vars:
+    slapd_password: "{{ slappasswd_out.stdout }}"
 
 - name: Copy authelia_config.yml file into place.
   template:
@@ -35,19 +27,6 @@
     dest: /var/homelabos/authelia/authelia_config.yml
   vars:
     domain_parts: "{{ domain.split('.') }}"
-
-- name: Generate new slapd compatible password.
-  command: slappasswd -s "{{default_password}}"
-  register: slappasswd_out
-  become: false
-
-- name: Copy bootstrap.ldif file into place.
-  template:
-    src: bootstrap.ldif.j2
-    dest: /var/homelabos/authelia/ldif/bootstrap.ldif
-  vars:
-    domain_parts: "{{ domain.split('.') }}"
-    slapd_password: "{{ slappasswd_out.stdout }}"
 
 - name: Configure authelia systemd service.
   template:
