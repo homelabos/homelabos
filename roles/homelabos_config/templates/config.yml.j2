@@ -272,6 +272,8 @@ authelia:
   # Do you want to login with your common name "john doe" or your username "jdoe"?
   # defaults to Username
   use_username: {{ authelia.use_username | default(True) }}
+  # This must be an address you can recieve mail at!
+  default_user_email: {{authelia.default_user_email | default() }}
   max:
     # max # of retries to authenticate (default 5)
     retries: {{ authelia.max.retries | default(5) }}
@@ -294,19 +296,6 @@ authelia:
     integration_key: {{ authelia.duo.integration_key | default() }}
     secret_key: {{ authelia.duo.secret_key | default() }}
   # Don't change these unless you know what you're doing
-  users_ou: users
-  groups_ou: groups
-
-# LDAP Settings
-open_ldap:
-  organization: {{ open_ldap.organization | default() }}
-  domain: {{ open_ldap.domain | default() }}
-  # In some rare circumstances the hostname and domain name may differ
-  hostname: {{ open_ldap.hostname | default() }}
-  enhanced_debugging: {{ open_ldap.enhanced_debugging | default(False) }}
-  seed: 
-    first_name: {{ open_ldap.seed.first_name | default() }}
-    last_name: {{ open_ldap.seed.last_name | default() }}
-
+  
 speedtest: 
   server: {{ speedtest.server | default (11441) }} 
