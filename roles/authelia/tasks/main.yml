@@ -4,6 +4,11 @@
     path: "/var/homelabos/authelia"
     state: directory
 
+- name: install slapd. (needed to generate slapd passwords)
+  apt:
+    name:
+      - slapd
+
 - name: Make ldap data directory.
   file:
     path: "/var/homelabos/authelia/openldap/var/lib/ldap"
