@@ -31,12 +31,18 @@
   vars:
     domain_parts: "{{ domain.split('.') }}"
 
+- name: Generate new slapd compatible password.
+  command: slappasswd -s "{{default_password}}"
+  register: slappasswd_out
+  become: false
+
 - name: Copy bootstrap.ldif file into place.
   template:
     src: bootstrap.ldif.j2
     dest: /var/homelabos/authelia/ldif/bootstrap.ldif
   vars:
     domain_parts: "{{ domain.split('.') }}"
+    slapd_password: "{{ slappasswd_out.stdout }}"
 
 - name: Configure authelia systemd service.
   template:
