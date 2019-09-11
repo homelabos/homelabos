@@ -4,7 +4,7 @@
 
 ## What is this?
 
-When enabled, Traefik will forward most requests to Authelia for authentication. Once you login to authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com. Once you authenticate, it will redirect you to firefly.yourdomain.com. This centralizes your authentication for all your homelab servcies. Additionally, Authelia is two-factor enabled. You can either register a new device, ie: google authenticator app, or use the Duo.com push notification service.
+When enabled, Traefik will forward most requests to Authelia for authentication. Once you login to authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com. Once you authenticate, it will redirect you back to firefly.yourdomain.com. This centralizes your authentication for all your homelab servcies. Additionally, Authelia is two-factor enabled. You can either register a new device, ie: google authenticator app, or use the Duo.com push notification service.
 
 On the backend, Authelia authenticates your user to it's own OpenLDAP instance. This instance is isolated to Authelia, and is different than the openldap service Homelabos offers.
 
@@ -20,9 +20,6 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
 
 - log_level: defaults to debug, you can set to 'error' as well
 - use_username: Defaults to true. if true, your authellia login name is your config.yml's default username: {{default_username}}. If set to false, it defaults to your first and last names: {{ open_ldap.seed.first_name }} {{ open_ldap.seed.last_name }}
-- domain:
-  - without_tld: is your {{ domain }} without the top level domain. ie: without .com
-  - tld: is your top level domain, ie: .com - these two are needed to generate the configurations Distinguished Name.
 - max:
   - retries: this is the maximum number of times someone can _fail_ to authenticate within a given time frame before being locked out. (defaults 5)
   - retries_in_time: this is the time frame that a user has to fail X times in before they're banned. (Defaults to 2min.)
@@ -47,16 +44,8 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
   - hostname: unless you know what you're doing, this should match your domain. _required_
   - enhanced_debugging: defaults to False. Enables debug level logging.
   - seed:
-    - first_name: Your first name. *required*. Used to seed the ldap database.
-    - last_name: Your last name. *required*. Used to seed the ldap database.
-
-## Post install configuration
-
-Once you've deployed authelia, you'll need to immediately reset your default users' password. Homelabos pre-populates a single user, based on the open_ldap.seed data. However, it doesn't currently set a (valid) password for the user. You must login to phpldapadmin using the following credentials:
-
-> URL: https://phpldapadmin.{{domain}}
-> Login DN: cn=admin,dc={{authelia.domain.without_tld}},dc={{authelia.domain.tld}}
-> Password: Read your password from your settings/passwords/openldap_admin_password file
+    - first*name: Your first name. \_required*. Used to seed the ldap database.
+    - last*name: Your last name. \_required*. Used to seed the ldap database.
 
 ## Access
 
