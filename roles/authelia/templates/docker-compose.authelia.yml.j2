@@ -28,6 +28,7 @@ services:
 {% endif %}
     volumes:
       - /var/homelabos/authelia/authelia_config.yml:/etc/authelia/config.yml:ro
+      - /var/homelabos/authelia/userdb.yml:/etc/authelia/userdb.yml
   redis:
     networks:
       - traefik_network
@@ -35,76 +36,8 @@ services:
   mongo:
     networks:
       - traefik_network
-    image: mongo:3.4.21-xenial
+    image: mongo:latest #3.4.21-xenial
     environment:
       MONGO_INITDB_DATABASE: my_authelia
     volumes:
       - /var/homelabos/authelia/mongo_data:/data/db
-  openldap:
-    networks:
-      - traefik_network
-    image: osixia/openldap:1.2.5
-    #container_name: openldap
-    environment:
-      LDAP_LOG_LEVEL: "256"
-      LDAP_ORGANISATION: "{{ open_ldap.organization }}"
-      LDAP_DOMAIN: "{{ open_ldap.domain }}"
-      LDAP_BASE_DN: ""
-      LDAP_ADMIN_PASSWORD: "{{lookup('password', './settings/passwords/openldap_admin_password')}}"
-      LDAP_CONFIG_PASSWORD: "{{lookup('password', './settings/passwords/openldap_config_password')}}"
-      LDAP_READONLY_USER: "false"
-      #LDAP_READONLY_USER_USERNAME: "readonly"
-      #LDAP_READONLY_USER_PASSWORD: "readonly"
-      LDAP_RFC2307BIS_SCHEMA: "false"
-      LDAP_BACKEND: "mdb"
-      LDAP_TLS: "true"
-      LDAP_TLS_CRT_FILENAME: "ldap.crt"
-      LDAP_TLS_KEY_FILENAME: "ldap.key"
-      LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
-      LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
-      LDAP_TLS_ENFORCE: "false"
-      LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0"
-      LDAP_TLS_PROTOCOL_MIN: "3.1"
-      LDAP_TLS_VERIFY_CLIENT: "demand"
-      LDAP_REPLICATION: "false"
-      KEEP_EXISTING_CONFIG: "false"
-      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
-      LDAP_SSL_HELPER_PREFIX: "ldap"
-    tty: true
-    stdin_open: true
-    volumes:
-      - /var/homelabos/authelia/ldif/bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
-      - /var/homelabos/authelia/openldap/var/lib/ldap:/var/lib/ldap
-      - /var/homelabos/authelia/openldap/etc/ldap:/etc/ldap/slapd.d
-    hostname: "{{ open_ldap.hostname }}"
-{% if open_ldap.enhanced_debugging %}
-    command: --copy-service --loglevel debug
-{% else %}
-    command: --copy-service
-{% endif %}
-  phpldapadmin:
-    image: osixia/phpldapadmin:latest
-    restart: unless-stopped
-    networks:
-      - traefik_network
-    environment:
-      - PHPLDAPADMIN_LDAP_HOSTS=authelia_openldap_1
-      - PHPLDAPADMIN_HTTPS=false
-    command: --loglevel debug
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:authelialdapadmin.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-{% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:authelialdapadmin.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
-{% endif %}
-
-volumes:
-  ldap_db:
-  ldap_config:
