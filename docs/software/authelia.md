@@ -8,6 +8,10 @@ When enabled, Traefik will forward most requests to Authelia for authentication.
 
 On the backend, Authelia authenticates your user to it's own OpenLDAP instance. This instance is isolated to Authelia, and is different than the openldap service Homelabos offers.
 
+## NOTE!!!
+
+Because of the way the openldap container we use works, if your authelia_openldap_1 container fails to start, and stay running, you _MUST_ destroy the authelia_openldap_1 container, and delete the /var/homelabos/authelia/openldap directory. This is because the openldap container is configured with 'fuses' that burn out once that configuration step is completed. This prevents anyone from maliciously updating the container in a way that compromises your setup. Once your initial setup of this container succeeds, updates are fine.
+
 ## Prerequisites
 
 1. Authelia requires a working SMTP server to authenticate new users and register devices.
@@ -28,7 +32,7 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
   - factor_count: The number of authentication factors required to login. Options are:
     1. bypass - Authelia will not require authentication
     2. one_factor - only a user/pass is required.
-    3. two_factor - (_default_) Username/password as well as a second factor is required.
+    3. two*factor - (\_default*) Username/password as well as a second factor is required.
     4. deny - authelia will prevent login and access to the services.
   - cookie_expiration: How long the authentication cookie is good for. (default: 1hr)
   - cookie_inactivity: How long the cookie can sit, without being refreshed (ie: user is active) before expiring. (Defaults to 5min)
