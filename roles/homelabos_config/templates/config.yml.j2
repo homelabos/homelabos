@@ -268,7 +268,7 @@ apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 # Authelia Settings
 authelia:
   # Determines how verbose the logs are
-  log_level: {{ authelia.log_level | default('Error') }}
+  log_level: {{ authelia.log_level | default('debug') }}
   # Do you want to login with your common name "john doe" or your username "jdoe"?
   # defaults to Username
   use_username: {{ authelia.use_username | default(True) }}
