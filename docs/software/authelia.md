@@ -1,6 +1,6 @@
 # Authelia
 
-[Authelia](https://www.authelia.com) is an open-source full-featured authentication server.
+[Authelia](https://www.Authelia.com) is an open-source full-featured authentication server.
 
 ## What is this?
 
@@ -10,7 +10,7 @@ Authelia is a multi-factor, authentication proxy. Used in conjuction with traefi
 - a registered security key, for instance a YubiKey or something similar
 - A Push message to your mobile device throuh the Duo service
 
-When enabled, Traefik will forward most requests (more on this later) to Authelia for authentication. Once you login to authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com for authentication. Once you authenticate, it will redirect you back to firefly.yourdomain.com.
+When enabled, Traefik will forward most requests (more on this later) to Authelia for authentication. Once you login to Authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com for authentication. Once you authenticate, it will redirect you back to firefly.yourdomain.com.
 
 On the backend, Authelia authenticates users against a userdb.yml file. The passwords in this file are hashed with sha512. If you need to manually edit the userdb.yml file, you'll need to create new password hashes with this command:
 
@@ -40,14 +40,14 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
     1. `bypass` - Authelia will not require authentication.
     2. `one_factor` - only a user/pass is required.
     3. `two_factor` - (_default_) Username/password as well as a second factor is required.
-    4. `deny` - authelia will prevent login and access to the services.
+    4. `deny` - Authelia will prevent login and access to the services.
   - cookie*expiration: How long the authentication cookie is good for. (\_default: 1hr*)
   - cookie*inactivity: How long the cookie can sit, without being refreshed (ie: user is active) before expiring. (\_Defaults to 5min*)
   - policy: This is the default policy for any un-named service. This is the policy for everything unless overriten by other service rules.
 
 ## Overriding the default policy
 
-`/var/homelabos/authelia/authelia_config.yml` file is the source of truth for post-deployment configuration settings. If you wish to override the default policy, stated in config.yml, you'll need to hand edit this configuration file and restart authelia. You probably only need to do this if there is a service that you want to excempt from two-factor authentication, or excempt from authelia all together. About 100 lines into the config you'll find a section that looks like this:
+`/var/homelabos/Authelia/Authelia_config.yml` file is the source of truth for post-deployment configuration settings. If you wish to override the default policy, stated in config.yml, you'll need to hand edit this configuration file and restart Authelia. You probably only need to do this if there is a service that you want to excempt from two-factor authentication, or excempt from Authelia all together. About 100 lines into the config you'll find a section that looks like this:
 
 ```yml
 rules:
@@ -58,12 +58,12 @@ rules:
     policy: bypass
 
   - domain: "*.{{ domain }}"
-    policy: { { authelia.default.factor_count } }
+    policy: { { Authelia.default.factor_count } }
 ```
 
 > Right above this section in your config file is a well documented explination of how this works.
 
-Out of the box, the standard config bypasses authelia for authelia itself, and drops portainer down to a single-factor. All other subdomains are locked to the default factor-count, with the final rule. Note, the order of rules matters. The first matching rule wins. If you wish to set a subdomain/service to use something other than your configured default, simply add a clause to the rules section containing at least the following:
+Out of the box, the standard config bypasses Authelia for Authelia itself, and drops portainer down to a single-factor. All other subdomains are locked to the default factor-count, with the final rule. Note, the order of rules matters. The first matching rule wins. If you wish to set a subdomain/service to use something other than your configured default, simply add a clause to the rules section containing at least the following:
 
 ```yml
 - domain: YourExampleSubdomainHere.{{domain}}
