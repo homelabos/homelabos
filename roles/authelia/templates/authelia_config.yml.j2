@@ -99,9 +99,6 @@ access_control:
   default_policy: {{ authelia.default.policy }}
 
   rules:
-    - domain: authelialdapadmin.{{ domain }}
-      policy: bypass
-
     - domain: portainer.{{ domain }}
       policy: one_factor
 
