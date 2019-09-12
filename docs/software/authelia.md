@@ -4,13 +4,19 @@
 
 ## What is this?
 
-When enabled, Traefik will forward most requests to Authelia for authentication. Once you login to authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com. Once you authenticate, it will redirect you back to firefly.yourdomain.com. This centralizes your authentication for all your homelab servcies. Additionally, Authelia is two-factor enabled. You can either register a new device, ie: google authenticator app, or use the Duo.com push notification service.
+Authelia is a multi-factor, authentication proxy. Used in conjuction with traefik (which homelabos already uses) it secures your homelabos services behind authentication. By default you must authenticate with username and password, and at least one other 'factor' ie:
 
-On the backend, Authelia authenticates your user to it's own OpenLDAP instance. This instance is isolated to Authelia, and is different than the openldap service Homelabos offers.
+- one-time password from, say, google authenticator
+- a registered security key, for instance a YubiKey or something similar
+- A Push message to your mobile device throuh the Duo service
 
-## NOTE!!!
+When enabled, Traefik will forward most requests (more on this later) to Authelia for authentication. Once you login to authelia, it will redirect you to the service you requested. For instance, if you navigate to firefly.yourdomain.com, traefik will auto-redirect you to auth.yourname.com for authentication. Once you authenticate, it will redirect you back to firefly.yourdomain.com.
 
-Because of the way the openldap container we use works, if your authelia_openldap_1 container fails to start, and stay running, you _MUST_ destroy the authelia_openldap_1 container, and delete the /var/homelabos/authelia/openldap directory. This is because the openldap container is configured with 'fuses' that burn out once that configuration step is completed. This prevents anyone from maliciously updating the container in a way that compromises your setup. Once your initial setup of this container succeeds, updates are fine.
+On the backend, Authelia authenticates users against a userdb.yml file. The passwords in this file are hashed with sha512. If you need to manually edit the userdb.yml file, you'll need to create new password hashes with this command:
+
+```bash
+mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | base64 | sed -e 's/+/./g' |  cut -b 10-25` 'Your new Password Here'
+```
 
 ## Prerequisites
 
@@ -23,33 +29,48 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
 ### Authelia configuration options
 
 - log_level: defaults to debug, you can set to 'error' as well
-- use_username: Defaults to true. if true, your authellia login name is your config.yml's default username: {{default_username}}. If set to false, it defaults to your first and last names: {{ open_ldap.seed.first_name }} {{ open_ldap.seed.last_name }}
+- use_username: Defaults to true. if true, your authellia login name is your config.yml's default username: `{{default_username}}`.
+
 - max:
   - retries: this is the maximum number of times someone can _fail_ to authenticate within a given time frame before being locked out. (defaults 5)
   - retries_in_time: this is the time frame that a user has to fail X times in before they're banned. (Defaults to 2min.)
   - retries_ban_time: How long a user is prohibited from logging in after failing X times in Y mintes, per the first two variables. (defaults to 5 minutes) These three combined (as defaulted), means that a user who fails to authenticate 5 times within 2 minutes is banned for 5 minutes.
 - default:
   - factor_count: The number of authentication factors required to login. Options are:
-    1. bypass - Authelia will not require authentication
-    2. one_factor - only a user/pass is required.
-    3. two*factor - (\_default*) Username/password as well as a second factor is required.
-    4. deny - authelia will prevent login and access to the services.
-  - cookie_expiration: How long the authentication cookie is good for. (default: 1hr)
-  - cookie_inactivity: How long the cookie can sit, without being refreshed (ie: user is active) before expiring. (Defaults to 5min)
+    1. `bypass` - Authelia will not require authentication.
+    2. `one_factor` - only a user/pass is required.
+    3. `two_factor` - (_default_) Username/password as well as a second factor is required.
+    4. `deny` - authelia will prevent login and access to the services.
+  - cookie*expiration: How long the authentication cookie is good for. (\_default: 1hr*)
+  - cookie*inactivity: How long the cookie can sit, without being refreshed (ie: user is active) before expiring. (\_Defaults to 5min*)
   - policy: This is the default policy for any un-named service. This is the policy for everything unless overriten by other service rules.
-- users_ou: organization unit defining the 'users' attribute. Defaults to users. Unless you know what you're doing, do not edit.
-- groups_ou: organization unit defining the 'groups' attribute. Defaults to groups. Unless you know what you're doing, do not edit.
 
-### Related open_ldap
+## Overriding the default policy
 
-- open_ldap:
-  - organization: the ldap org. _you must specify this_
-  - domain: the ldap domain controlled by this openldap instance. Defaults to: {{ domain }}
-  - hostname: unless you know what you're doing, this should match your domain. _required_
-  - enhanced_debugging: defaults to False. Enables debug level logging.
-  - seed:
-    - first*name: Your first name. \_required*. Used to seed the ldap database.
-    - last*name: Your last name. \_required*. Used to seed the ldap database.
+`/var/homelabos/authelia/authelia_config.yml` file is the source of truth for post-deployment configuration settings. If you wish to override the default policy, stated in config.yml, you'll need to hand edit this configuration file and restart authelia. You probably only need to do this if there is a service that you want to excempt from two-factor authentication, or excempt from authelia all together. About 100 lines into the config you'll find a section that looks like this:
+
+```yml
+rules:
+  - domain: portainer.{{ domain }}
+    policy: one_factor
+
+  - domain: auth.{{ domain }}
+    policy: bypass
+
+  - domain: "*.{{ domain }}"
+    policy: { { authelia.default.factor_count } }
+```
+
+> Right above this section in your config file is a well documented explination of how this works.
+
+Out of the box, the standard config bypasses authelia for authelia itself, and drops portainer down to a single-factor. All other subdomains are locked to the default factor-count, with the final rule. Note, the order of rules matters. The first matching rule wins. If you wish to set a subdomain/service to use something other than your configured default, simply add a clause to the rules section containing at least the following:
+
+```yml
+- domain: YourExampleSubdomainHere.{{domain}}
+  policy: Whatever Policy You'd like for this domain.
+```
+
+> Note, Authelia does understand the concept of groups, and can limit some services to particular groups, ie: administarators. You might use this to limit say, portainer, to admins.
 
 ## Access
 
