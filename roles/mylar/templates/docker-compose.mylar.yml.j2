@@ -10,8 +10,8 @@ services:
   mylar:
     image: linuxserver/mylar
     environment:
-      - UID={{ uid }}
-      - GID={{ gid }}
+      - PUID={{ uid }}
+      - PGID={{ gid }}
     volumes:
       - /var/homelabos/mylar/config:/config
       - {{ storage_dir }}/Books/Comics:/comics
