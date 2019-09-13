@@ -17,6 +17,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - TZ={{ common_timezone }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
     networks:
       - traefik_network
     labels:
