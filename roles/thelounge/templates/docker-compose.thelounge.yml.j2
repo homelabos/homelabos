@@ -13,6 +13,9 @@ services:
     restart: unless-stopped
     volumes:
       - /var/homelabos/thelounge:/config
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
     networks:
       - traefik_network
     labels:
