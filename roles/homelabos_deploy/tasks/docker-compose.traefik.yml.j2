@@ -8,7 +8,7 @@ networks:
 services:
   # Load Balancer / SSL / Web Server
   traefik:
-    image: traefik
+    image: traefik:v1.7.16-alpine
     restart: always
     networks:
       - traefik
