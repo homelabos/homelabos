@@ -284,7 +284,7 @@ authelia:
     retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }} 
   default:
     # the number of authentication factors required by default
-    factor_count: {{ authelia.default.factor_count | default('two_factor') }}
+    factor_count: {{ authelia.default.factor_count | default('one_factor') }}
     # how long it takes for the cookie to expire (default, 1hr)
     cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
     # inactivity time for the cookie default (5m)
