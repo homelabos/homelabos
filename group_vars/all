@@ -6,6 +6,7 @@ enabled_services:
   apache2: "{{ enable_apache2 }}"
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
+  authelia: "{{ enable_authelia }}"
   beets: "{{ enable_beets }}"
   bitwarden: "{{ enable_bitwarden }}"
   bookstack: "{{ enable_bookstack }}"
@@ -89,4 +90,11 @@ gitea:
 bastion:
   wireguard: 
   enabled: false
+authelia:
+  duo:
+  default:
+  max:
+  domain:
+open_ldap:
+  seed:
 speedtest:

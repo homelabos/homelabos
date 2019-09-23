@@ -1,0 +1,50 @@
+version: 1
+
+# Entry 3: ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+dn: ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+objectclass: organizationalUnit
+objectclass: top
+ou: groups
+
+# Entry 4: cn=admin,ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+dn: cn=admin,ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+cn: admin
+gidnumber: 500
+objectclass: posixGroup
+objectclass: top
+
+# Entry 5: cn=developers,ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+dn: cn=developers,ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+cn: developers
+gidnumber: 501
+objectclass: posixGroup
+objectclass: top
+
+# Entry 6: cn=users,ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+dn: cn=users,ou=groups,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+cn: users
+gidnumber: 502
+objectclass: posixGroup
+objectclass: top
+
+# Entry 7: ou=users,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+dn: ou=users,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+objectclass: organizationalUnit
+objectclass: top
+ou: users
+
+# Entry 8: cn={{ open_ldap.seed.first_name }} {{ open_ldap.seed.last_name }},ou=users,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+dn: cn={{ open_ldap.seed.first_name }} {{ open_ldap.seed.last_name }},ou=users,dc={{ domain_parts[0] }},dc={{ domain_parts[1] }}
+cn: {{ open_ldap.seed.first_name}} {{ open_ldap.seed.last_name }}
+gidnumber: 500
+givenname: {{ open_ldap.seed.first_name }}
+homedirectory: /home/{{ default_username }}
+loginshell: /bin/bash
+mail: {{ admin_email }}
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: top
+sn: {{ open_ldap.seed.last_name }}
+uid: {{ default_username }}
+uidnumber: 1000
+userpassword: {{slapd_password}}

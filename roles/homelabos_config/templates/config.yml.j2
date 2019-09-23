@@ -105,6 +105,7 @@ enable_docs: {{ enable_docs | default(False) }}
 enable_apache2: {{ enable_apache2 | default(False) }}
 enable_apple_health_influx: {{ enable_apple_health_influx | default(False) }}
 enable_airsonic: {{ enable_airsonic | default(False) }}
+enable_authelia: {{ enable_authelia | default(False) }}
 enable_bitwarden: {{ enable_bitwarden | default(False) }}
 enable_beets: {{ enable_beets | default(False) }}
 enable_bookstack: {{ enable_bookstack | default(False) }}
@@ -264,10 +265,37 @@ gitea:
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
-# LDAP Settings
-ldap_org_name: {{ ldap_org_name | default() }}
-
-# Speedtest settings
-# find your local server here: http://www.speedtestserver.com
+# Authelia Settings
+authelia:
+  # Determines how verbose the logs are
+  log_level: {{ authelia.log_level | default('debug') }}
+  # Do you want to login with your common name "john doe" or your username "jdoe"?
+  # defaults to Username
+  use_username: {{ authelia.use_username | default(True) }}
+  # This must be an address you can recieve mail at!
+  default_user_email: {{authelia.default_user_email | default() }}
+  max:
+    # max # of retries to authenticate (default 5)
+    retries: {{ authelia.max.retries | default(5) }}
+    # max time before the retry count resets (default 2 min)
+    retries_in_time: {{ authelia.max.retries_in_time | default(120) }}
+    # if you exceed the max retry count within the time frame, you're banned
+    # for x seconds. (default 300 seconds /5 min)
+    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }} 
+  default:
+    # the number of authentication factors required by default
+    factor_count: {{ authelia.default.factor_count | default('one_factor') }}
+    # how long it takes for the cookie to expire (default, 1hr)
+    cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
+    # inactivity time for the cookie default (5m)
+    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(300000) }} # 5min
+    # default policy - deny by default
+    policy: {{ authelia.default.policy | default('deny') }}
+  duo:
+    hostname: {{ authelia.duo.hostname | default() }}
+    integration_key: {{ authelia.duo.integration_key | default() }}
+    secret_key: {{ authelia.duo.secret_key | default() }}
+  # Don't change these unless you know what you're doing
+  
 speedtest: 
-  server: {{ speedtest.server | default() }}
+  server: {{ speedtest.server | default (11441) }} 
