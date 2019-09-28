@@ -18,7 +18,6 @@ volumes:
 
 services:
   broker:
-    container_name: mayan-edms-broker
     image: healthcheck/rabbitmq
     networks:
       - traefik_network    
@@ -26,28 +25,29 @@ services:
       RABBITMQ_DEFAULT_USER: mayan
       RABBITMQ_DEFAULT_PASS: mayan
       RABBITMQ_DEFAULT_VHOST: mayan
+      MAYAN_USER_UID: {{uid_output.stdout}}
+      MAYAN_USER_GUID: {{gid_output.stdout}}
     volumes:
       - /var/homelabos/mayan/broker:/var/lib/rabbitmq
   results:
-    container_name: mayan-edms-results
     networks:
       - traefik_network    
     image: healthcheck/redis
     volumes:
       - /var/homelabos/mayan/results:/data
   db:
-    container_name: mayan-edms-db
     image: healthcheck/postgres
     networks:
-      - traefik_network    
+      - traefik_network
     environment:
       POSTGRES_DB: mayan
       POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/mayan_db_password chars=digits')}}"
       POSTGRES_USER: mayan
+      MAYAN_USER_UID: {{uid_output.stdout}}
+      MAYAN_USER_GUID: {{gid_output.stdout}}
     volumes:
       - /var/homelabos/mayan/db:/var/lib/postgresql/data
   mayan-edms:
-    container_name: mayan-edms-app
     networks:
       - traefik_network
     image: mayanedms/mayanedms:latest
@@ -68,6 +68,8 @@ services:
       MAYAN_DATABASE_NAME: mayan
       MAYAN_DATABASE_PASSWORD: "{{lookup('password', './settings/passwords/mayan_db_password chars=digits')}}"
       MAYAN_DATABASE_USER: mayan
+      MAYAN_USER_UID: {{uid_output.stdout}}
+      MAYAN_USER_GUID: {{gid_output.stdout}}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -83,3 +85,5 @@ services:
 {% endif %}
     volumes:
       - /var/homelabos/mayan/app:/var/lib/mayan
+      - {{ storage_dir }}/Documents/consume:/watched_files
+      - {{ storage_dir }}/Documents/mayan_storage:/var/lib/mayan/document_storage
