@@ -70,6 +70,8 @@ services:
       MAYAN_DATABASE_USER: mayan
       MAYAN_USER_UID: {{uid_output.stdout}}
       MAYAN_USER_GUID: {{gid_output.stdout}}
+      # version 3.2.7 and forward use this version
+      MAYAN_USER_GID: {{gid_output.stdout}}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
