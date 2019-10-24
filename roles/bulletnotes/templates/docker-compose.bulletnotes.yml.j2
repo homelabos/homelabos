@@ -25,8 +25,6 @@ services:
       - traefik_network
     command: meteor --allow-superuser run
     working_dir: /BulletNotes
-    links:
-      - bulletnotes_db
     restart: unless-stopped
     environment:
       - MONGO_URL=mongodb://bulletnotes_db:27017/bulletnotes

@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_DB: 'zulip'
       POSTGRES_USER: 'zulip'
-      POSTGRES_PASSWORD: {{"lookup('password', './settings/passwords/zulip_db_password chars=digits')"}}
+      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/zulip_db_password chars=digits')}}"
     volumes:
       - '/var/homelabos/zulip/postgresql:/var/lib/postgresql/data:rw'
 
@@ -32,7 +32,7 @@ services:
     restart: always
     environment:
         RABBITMQ_DEFAULT_USER: 'zulip'
-        RABBITMQ_DEFAULT_PASS: {{"lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')"}}
+        RABBITMQ_DEFAULT_PASS: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')}}"
     volumes:
       - '/var/homelabos/zulip/rabbitmq:/var/lib/rabbitmq:rw'
 
@@ -51,14 +51,15 @@ services:
       DB_HOST: 'database'
       DB_HOST_PORT: '5432'
       DB_USER: 'zulip'
-      SSL_CERTIFICATE_GENERATION: 'false'
+      SSL_CERTIFICATE_GENERATION: 'self-signed'
+      DISABLE_HTTPS: 'True'
       SETTING_MEMCACHED_LOCATION: 'memcached:11211'
       SETTING_RABBITMQ_HOST: 'rabbitmq'
       SETTING_REDIS_HOST: 'redis'
       SECRETS_email_password: '123456789'
-      SECRETS_rabbitmq_password: {{"lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')"}}
-      SECRETS_postgres_password: {{"lookup('password', './settings/passwords/zulip_db_password chars=digits')"}}
-      SECRETS_secret_key: {{"lookup('password', './settings/passwords/zulip_secret_key chars=digits')"}}
+      SECRETS_rabbitmq_password: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')}}"
+      SECRETS_postgres_password: "{{lookup('password', './settings/passwords/zulip_db_password chars=digits')}}"
+      SECRETS_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=digits')}}"
       SETTING_EXTERNAL_HOST: 'zulip.{{ domain }}'
       SETTING_ZULIP_ADMINISTRATOR: 'admin@example.com'
       SETTING_EMAIL_HOST: ''  # e.g. smtp.example.com

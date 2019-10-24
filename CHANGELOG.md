@@ -1,15 +1,28 @@
 # 0.7
-
 - Added Apache 2 - Web server
+- Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Digikam - Professional Photo Management with the Power of Open Source
+- Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - Added HomeBridge - HomeKit support for the impatient
+- Added MStream - All your music, everywhere you go.
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
+- Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
+- Added Speedtest - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 - Added Tautulli - Monitor your Plex Server
 - Added Trilium - Build your personal knowledge base with Trilium Notes
+- Added Ubooquity - Ubooquity is a free home server for your comics and ebooks library
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
+- Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
+
+## Release Notes
+
+If you are currently using a bastion host via Tinc, when upgrading to 0.7,
+set `bastion.reset_iptables` to True. This will blow away any and all iptables
+rules so use this option with care.
 
 # 0.6.4
 

@@ -9,20 +9,27 @@ networks:
 services:
  # Code Hosting
   gitea:
-    image: gitea/gitea:1.8
+    image: gitea/gitea:1.8.3
     networks:
       - traefik_network
     environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      - DB_PASSWD={{"lookup('password', './settings/passwords/gitea_db_password chars=digits')"}}
+      - USER_UID={{ uid_output.stdout }}
+      - USER_GID={{ gid_output.stdout }}
+{% if gitea.use_mariadb %}
+      - DB_TYPE=mysql
+      - DB_HOST=gitea_db:3306
+      - DB_NAME=gitea
+      - DB_USER=gitea
+      - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
+{% endif %}
       - SSH_DOMAIN=gitea.{{ domain }}
       - SSH_PORT={{ gitea.gitea_ssh_port }}
+      - LFS_START_SERVER=true
     restart: unless-stopped
     volumes:
       - /var/homelabos/gitea:/data
     ports:
-      - "222:22"
+      - "{{ gitea.gitea_ssh_port }}:22"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -40,8 +47,6 @@ services:
 {% if gitea.use_mariadb %}
     depends_on:
       - gitea_db
-    links:
-      - gitea_db:db
 
   gitea_db:
     image: mariadb
@@ -49,10 +54,10 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=gitea
+      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_root_password chars=digits') }}
       - MYSQL_USER=gitea
       - MYSQL_DATABASE=gitea
-      - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/gitea_db_password chars=digits')"}}
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
     volumes:
       - /var/homelabos/gitea_db:/var/lib/mysql
 {% endif %}

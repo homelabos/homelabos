@@ -7,7 +7,7 @@
       private: "False"
 
     - name: homelab_ssh_user
-      prompt: "What is the user you can SSH to the above server with?"
+      prompt: "What is the user you can SSH to your homelab server with?"
       private: "False"
 
     - name: ansible_become_password

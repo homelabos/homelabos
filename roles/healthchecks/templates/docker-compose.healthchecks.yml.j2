@@ -1,0 +1,43 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    image: linuxserver/healthchecks
+    networks:
+      - traefik_network
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - SITE_ROOT=healthchecks.{{ domain }}
+      - SITE_NAME=healthchecks.{{ domain }}
+      - DEFAULT_FROM_EMAIL={{smtp.from_email}}
+      - EMAIL_HOST={{smtp.host}}
+      - EMAIL_PORT={{smtp.port}}
+      - EMAIL_HOST_USER={{smtp.user}}
+      - EMAIL_HOST_PASSWORD={{smtp.pass}}
+      - EMAIL_USE_TLS=False
+    volumes:
+      - /var/homelabos/healthchecks/config:/config
+
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:healthchecks.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8000"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:healthchecks.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8000"
+{% endif %}

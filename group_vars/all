@@ -6,6 +6,7 @@ enabled_services:
   apache2: "{{ enable_apache2 }}"
   apple_health_influx: "{{ enable_apple_health_influx }}"
   airsonic: "{{ enable_airsonic }}"
+  authelia: "{{ enable_authelia }}"
   beets: "{{ enable_beets }}"
   bitwarden: "{{ enable_bitwarden }}"
   bookstack: "{{ enable_bookstack }}"
@@ -25,6 +26,7 @@ enabled_services:
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
   guacamole: "{{ enable_guacamole }}"
+  healthchecks: "{{ enable_healthchecks }}"
   homeassistant: "{{ enable_homeassistant }}"
   homebridge: "{{ enable_homebridge }}"
   homedash: "{{ enable_homedash }}"
@@ -40,6 +42,7 @@ enabled_services:
   miniflux: "{{ enable_miniflux }}"
   minio: "{{ enable_minio }}"
   monicahq: "{{ enable_monicahq }}"
+  mstream: "{{ enable_mstream }}"
   mylar: "{{ enable_mylar }}"
   netdata: "{{ enable_netdata }}"
   nextcloud: "{{ enable_nextcloud }}"
@@ -52,7 +55,9 @@ enabled_services:
   paperless: "{{ enable_paperless }}"
   pihole: "{{ enable_pihole }}"
   piwigo: "{{ enable_piwigo }}"
+  pixelfed: "{{ enable_pixelfed }}"
   plex: "{{ enable_plex }}"
+  poli: "{{ enable_poli }}"
   portainer: "{{ enable_portainer }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
@@ -64,22 +69,32 @@ enabled_services:
   tick: "{{ enable_tick }}"
   transmission: "{{ enable_transmission }}"
   trilium: "{{ enable_trilium }}"
+  ubooquity: "{{ enable_ubooquity }}"
   wallabag: "{{ enable_wallabag }}"
   webvirtmgr: "{{ enable_webvirtmgr }}"
   wekan: "{{ enable_wekan }}"
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
+  speedtest: "{{ enable_speedtest }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
-physical_ip: 8.8.8.8
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-tincserver_ip: 
-tincserver_ssh_user: 
 smtp: 
 mailserver: 
 traefik: 
 gitea: 
+bastion:
+  wireguard: 
+  enabled: false
+authelia:
+  duo:
+  default:
+  max:
+  domain:
+open_ldap:
+  seed:
+speedtest:

@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/bionic64"
   config.disksize.size = "20GB"
 
-  config.ssh.insert_key = false
+  config.ssh.insert_key = true
 
   config.vm.network "forwarded_port", id: "http", guest: 80, host: 2280, auto_correct: true
   config.vm.network "forwarded_port", id: "https", guest: 443, host: 2281, auto_correct: true

@@ -1,0 +1,43 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  auth:
+    image: clems4ever/authelia:v3.15.0
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:auth.{{ domain }}"
+      - "traefik.http.port=9091"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:auth.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=9091"
+{% endif %}
+    volumes:
+      - /var/homelabos/authelia/authelia_config.yml:/etc/authelia/config.yml:ro
+      - /var/homelabos/authelia/userdb.yml:/etc/authelia/userdb.yml
+  redis:
+    networks:
+      - traefik_network
+    image: redis:5.0.5-alpine
+  mongo:
+    networks:
+      - traefik_network
+    image: mongo:latest #3.4.21-xenial
+    environment:
+      MONGO_INITDB_DATABASE: my_authelia
+    volumes:
+      - /var/homelabos/authelia/mongo_data:/data/db

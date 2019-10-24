@@ -1,0 +1,62 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  pixelfed:
+    build: https://github.com/pixelfed/pixelfed.git#dev
+    image: pixelfed
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:pixelfed.{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=80"
+    env_file:
+      - /var/homelabos/pixelfed/pixelfed.env
+    volumes:
+      - "/var/homelabos/pixelfed/storage:/var/www/storage"
+
+  worker:  # Comment this whole block if HORIZON_EMBED is true.
+    build: https://github.com/pixelfed/pixelfed.git#dev
+    image: pixelfed
+    restart: unless-stopped
+    env_file:
+      - /var/homelabos/pixelfed/pixelfed.env
+    volumes:
+      - "/var/homelabos/pixelfed/storage:/var/www/storage"
+    networks:
+      - traefik_network
+    command: gosu www-data php artisan horizon
+
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      - MYSQL_DATABASE=pixelfed
+      - MYSQL_USER=pixelfed
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/pixelfed_db_password chars=digits length=15') }}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    volumes:
+      - /var/homelabos/pixelfed/mariadb:/var/lib/mysql
+
+  redis:
+    image: redis:5-alpine
+    restart: unless-stopped
+    volumes:
+      - "/var/homelabos/pixelfed/redis:/data"
+    networks:
+      - traefik_network
+    command: >
+     --requirepass {{ lookup('password', './settings/passwords/pixelfed_redis_password chars=digits length=15') }}

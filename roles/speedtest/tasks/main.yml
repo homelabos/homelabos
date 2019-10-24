@@ -1,0 +1,22 @@
+---
+- name: Make speedtest directory.
+  file:
+    path: "/var/homelabos/speedtest/data"
+    state: directory
+
+- name: Copy speedtest docker-compose.yml file into place.
+  template:
+    src: docker-compose.speedtest.yml.j2
+    dest: /var/homelabos/speedtest/docker-compose.speedtest.yml
+
+- name: Configure speedtest systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/speedtest.service
+
+- name: Start speedtest
+  systemd:
+    name: speedtest
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

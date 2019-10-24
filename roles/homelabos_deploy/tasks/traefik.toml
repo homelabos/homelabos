@@ -13,7 +13,10 @@ defaultEntryPoints = ["http", "https"]
   [entryPoints.https]
   address = ":443"
   [entryPoints.https.tls]
-
+{% if enable_authelia %}
+  [entryPoints.https.auth.forward]
+  address = "http://auth.{{domain}}/api/verify?rd=https://auth.{{domain}}/%23/"
+{% endif %}
 [retry]
 
 [api]
@@ -29,9 +32,35 @@ defaultEntryPoints = ["http", "https"]
   storage = "acme.json"
   entryPoint = "https"
   onHostRule = true
+{% if traefik.dns_challenge_provider %}
+  [acme.dnsChallenge]
+   provider = "{{ traefik.dns_challenge_provider }}"
+{% else %}
   [acme.httpChallenge]
     entryPoint = "http"
+{% endif %}
 
+{% if traefik.dns_challenge_provider %}
 [[acme.domains]]
   main = "*.{{ domain }}"
   sans = ["{{ domain }}"]
+{% endif %}
+
+{% if traefik.extra_mapping | default(False) %}
+[file]
+
+[backends]
+{% for service_name in traefik.extra_mapping %}
+[backends.{{ service_name }}_backend]
+    [backends.{{ service_name }}_backend.servers.server1]
+    url = "{{ traefik.extra_mapping[service_name] }}"
+{% endfor %}
+
+[frontends]
+{% for service_name in traefik.extra_mapping %}
+  [frontends.{{ service_name }}_frontend]
+  backend = "{{ service_name }}_backend"
+  [frontends.{{ service_name }}_frontend.routes.test_1]
+    rule = "Host: {{ service_name }}.{{ domain }}"
+{% endfor %}
+{% endif %}

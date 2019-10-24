@@ -43,7 +43,7 @@ services:
 #    environment:
 #      - POSTGRES_USER=freshrss
 #      - POSTGRES_DB=freshrss
-#      - POSTGRES_PASSWORD={{"lookup('password', './settings/passwords/freshrss_db_password chars=digits')"}}
+#      - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/freshrss_db_password chars=digits')}}"
 #      - POSTGRES_PASSWORD=freshrss
 #    volumes:
 #      - /var/homelabos/freshrss/db:/var/lib/postgresql/data

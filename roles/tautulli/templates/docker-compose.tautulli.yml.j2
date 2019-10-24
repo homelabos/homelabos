@@ -23,8 +23,6 @@ services:
       - PUID={{ uid }}
       - TZ= {{ common_timezone }}
     image: tautulli/tautulli
-    ports:
-      - 8181:8181
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

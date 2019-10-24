@@ -33,7 +33,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 - [Automated Settings Sync](https://nickbusey.gitlab.io/HomelabOS/setup/installation/#syncing-settings-via-git)
 - OpenVPN
 - OpenLDAP
-- Cloud Bastion Server with Tinc VPN
+- Cloud Bastion Server with WireGuard VPN
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
 
@@ -47,6 +47,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 - [Airsonic](https://airsonic.github.io/) - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
 - [Apache](https://httpd.apache.org/) - Web server
+- [Authelia](https://www.authelia.com) - Authelia is an open-source full-featured authentication server available on Github
 - [Beets](https://beets.io) - Beets is the media library management system for obsessive-compulsive music geeks.
 - [Bitwarden](https://bitwarden.com/) - Password and secrets manager via [bitwarden-rs](https://github.com/dani-garcia/bitwarden_rs)
 - [BookStack](https://www.bookstackapp.com/) - Simple & Free Wiki Software
@@ -65,6 +66,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Gitea](https://gitea.io/en-US/) - Git hosting
 - [Grafana](https://grafana.com/) - Pretty graphs
 - [Guacamole](https://guacamole.apache.org) - a clientless remote desktop gateway
+- [HealthChecks](HealthChecks.io) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [Home Assistant](https://www.home-assistant.io/) - Home Automation
 - [HomeBridge](https://homebridge.io/) - HomeKit support for the impatient
 - [Homedash](https://lamarios.github.io/Homedash2/) - Dashboard
@@ -74,6 +76,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Jellyfin](https://github.com/jellyfin/jellyfin) - The Free Software Media System
 - [Kibitzr](https://kibitzr.github.io/) - IFTTT replacement
 - [Lidarr](https://lidarr.audio) - Sonarr but for Music.
+- [MStream](https://www.mstream.io) - All your music, everywhere you go.
 - [Mailserver](https://github.com/hardware/mailserver/) - Fully featured mail server
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 - [Matomo](https://matomo.org/) - Web analytics
@@ -91,17 +94,21 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [PhpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) - LDAP management interface
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Piwigo](https://piwigo.org/) - Manage your photo collection
+- [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - [Plex](https://www.plex.tv/) - Personal Media Server
+- [Poli](https://github.com/shzlw/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](https://www.portainer.io/) - Easy Docker management
 - [Radarr](https://radarr.video/) - Automated movie downloading
 - [SickChill](https://sickchill.github.io/) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](https://sonarr.tv/) - Automated TV downloading
+- [Speedtest](https://github.com/atribe/Speedtest-for-InfluxDB-and-Grafana) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 - [Syncthing](https://syncthing.net/) - File syncing software
 - [Tautulli](https://tautulli.com/) - Monitor your Plex Server
 - [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/) - Server statistics reporting
 - [The Lounge](https://thelounge.chat/) - Always-on IRC client (IRC bouncer)
 - [Transmission](https://transmissionbt.com/) - BitTorrent client
 - [Trilium](https://github.com/zadam/trilium) - Build your personal knowledge base with Trilium Notes
+- [Ubooquity](https://vaemendis.net/ubooquity/) - Ubooquity is a free home server for your comics and ebooks library
 - [Wallabag](https://wallabag.org/en) - Save and classify articles. Read them later. Freely.
 - [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
 - [WebVirtMg](https://github.com/retspen/webvirtmgr) is a complete Kernel Virtual Machine (KVM) hypervisor manager.

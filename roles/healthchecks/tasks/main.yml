@@ -1,0 +1,22 @@
+---
+- name: Make healthchecks directory.
+  file:
+    path: "/var/homelabos/healthchecks"
+    state: directory
+
+- name: Copy healthchecks docker-compose.yml file into place.
+  template:
+    src: docker-compose.healthchecks.yml.j2
+    dest: /var/homelabos/healthchecks/docker-compose.healthchecks.yml
+
+- name: Configure healthchecks systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/healthchecks.service
+
+- name: Start healthchecks
+  systemd:
+    name: healthchecks
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

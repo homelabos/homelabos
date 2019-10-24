@@ -9,6 +9,20 @@
     src: docker-compose.mailserver.yml.j2
     dest: /var/homelabos/mailserver/docker-compose.mailserver.yml
 
+- name: Make mailserver::postfix directory.
+  file:
+    path: "/var/homelabos/mailserver/mail/postfix"
+    state: directory
+
+- name: Copy root postfix settings into place
+  copy:
+    src: config.inc.php
+    dest: /var/homelabos/mailserver/mail/postfix/config.inc.php
+
+- name: Copy user postfix settings into place
+  copy:
+    src: config.local.php
+    dest: /var/homelabos/mailserver/mail/postfix/config.local.php
 
 - name: Configure mailserver systemd service.
   template:

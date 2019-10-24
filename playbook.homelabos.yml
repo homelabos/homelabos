@@ -5,11 +5,11 @@
   hosts: all
   become: "True"
   become_method: sudo
+  any_errors_fatal: true
   pre_tasks:
-    - name: 'Update Apt Cache'
+    - name: "Update Apt Cache"
       raw: sudo apt-get update
-      ignore_errors: true
-    - name: 'Install Python'
+    - name: "Install Python"
       raw: sudo apt-get -y install python-simplejson
 
 # Configure a TOR hidden service for remote access without a public IP
@@ -23,7 +23,8 @@
       when: enable_tor
 
 # Configure the server itself
-- hosts: all
+- name: configure HomelabOS
+  hosts: all
   become: true
   gather_facts: "True"
   tags: common
@@ -31,26 +32,19 @@
     # Install Docker, configure basic server settings
     - homelabos_common
 
-- name: "Setup tinc VPN"
-  tags: tinc
+- name: "Deploy Bastion Host with Wireguard"
   hosts: all
   become: true
   become_method: sudo
-  roles:
-    - role: homelabos_tinc
-      when: enable_tinc
-
-- name: "Update Tinc Bastion Host with iptables rules"
-  hosts: tinc
-  become: true
-  become_method: sudo
-  tags: tinc-iptables
-  roles:
-    - role: homelabos_tinc_iptables
-      when: enable_tinc
+  tags: bastion
+  tasks:
+    - include_role:
+        name: homelabos_wireguard
+      when: bastion.enabled == True
 
 # Install and configure HomelabOS services
-- hosts: homelabos
+- name: Install and configure HomelabOS services
+  hosts: homelabos
   become: true
   gather_facts: "True"
   tags:
@@ -58,5 +52,3 @@
     - deploy
   roles:
     - homelabos_deploy
-
-...

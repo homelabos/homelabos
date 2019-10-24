@@ -1,0 +1,22 @@
+---
+- name: Make ubooquity directory.
+  file:
+    path: "/var/homelabos/ubooquity"
+    state: directory
+
+- name: Copy ubooquity docker-compose.yml file into place.
+  template:
+    src: docker-compose.ubooquity.yml.j2
+    dest: /var/homelabos/ubooquity/docker-compose.ubooquity.yml
+
+- name: Configure ubooquity systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/ubooquity.service
+
+- name: Start ubooquity
+  systemd:
+    name: ubooquity
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -3,8 +3,11 @@
 ### REQUIRED ###
 # These values are REQUIRED for HomelabOS to work.
 
-# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
-ubuntu_release: {{ ubuntu_release | default('bionic') }}
+# SSH accessible IP address
+homelab_ip: {{ homelab_ip }}
+
+# User name used to connect via ssh. Must have passwordless sudo.
+homelab_ssh_user: {{ homelab_ssh_user }}
 
 # SUDO password
 ansible_become_password: {{ ansible_become_password | default() }}
@@ -22,13 +25,42 @@ storage_dir: {{ storage_dir | default('/mnt/homelabos/media') }}
 minio_access_key: {{ minio_access_key | default() }}
 minio_secret_access_key: {{ minio_secret_access_key | default() }}
 
-# User name used to connect via ssh. Must have passwordless sudo.
-tincserver_ssh_user: {{ tincserver_ssh_user }}
-homelab_ssh_user: {{ homelab_ssh_user }}
+# Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
+ubuntu_release: {{ ubuntu_release | default('bionic') }}
 
-# SSH accessible IP address
-tincserver_ip: {{ tincserver_ip }}
-homelab_ip: {{ homelab_ip }}
+# This configuration dictionary sets various details of your bastion host.
+# see the docs for more information about what a bastion host is and how
+# the HomelabOS bastion host works.
+bastion:
+  # should HomelabOS utilize a bastion server?
+  enabled: {{ bastion.enabled | default(False) }}
+  # Bastion host main ethernet interface name
+  interface: {{ bastion.interface | default("eth0") }}
+  # must provide passwordless sudo
+  server_ssh_user: {{ bastion.server_ssh_user | default('root') }}
+  # Can be an IP or a hostname
+  server_address: {{ bastion.server_address | default(False) }}
+  wireguard:
+    bastion_vpn_address: {{ bastion.wireguard.bastion_vpn_address | default("10.0.1.1") }}
+    homelab_vpn_address: {{ bastion.wireguard.home_vpn_address | default("10.0.1.2") }}
+    netmask: {{ bastion.wireguard.netmask | default("/24") }}
+    port: {{ bastion.wireguard.port | default("51820") }}
+    keepalive: {{ bastion.wireguard.keepalive | default("25") }}
+  ports_to_forward:
+    2222: 22
+    80: 80
+    443: 443
+    25: 25
+    143: 143
+    587: 587
+    998: 998
+    4190: 4190
+  # MIGRATION v0.7
+  # Should HomelabOS reset the bastion server IP tables rules?
+  # Enable this if you are upgrading a Tinc bastion host
+  reset_iptables: {{ bastion.reset_iptables | default(False) }}
+  # END MIGRATION
+
 
 # Timezone of the server
 common_timezone: {{ common_timezone | default('Etc/UTC') }}
@@ -57,7 +89,6 @@ region: {{ region | default('Heyo') }}
 
 # You can enable/disable different HomelabOS features here by changing False to True and vice versa.
 
-enable_tinc: {{ enable_tinc | default(False) }}
 enable_tor: {{ enable_tor | default(False) }}
 
 # Force SSL Usage
@@ -74,6 +105,7 @@ enable_docs: {{ enable_docs | default(False) }}
 enable_apache2: {{ enable_apache2 | default(False) }}
 enable_apple_health_influx: {{ enable_apple_health_influx | default(False) }}
 enable_airsonic: {{ enable_airsonic | default(False) }}
+enable_authelia: {{ enable_authelia | default(False) }}
 enable_bitwarden: {{ enable_bitwarden | default(False) }}
 enable_beets: {{ enable_beets | default(False) }}
 enable_bookstack: {{ enable_bookstack | default(False) }}
@@ -87,11 +119,12 @@ enable_drone: {{ enable_drone | default(False) }}
 enable_duplicati: {{ enable_duplicati | default(False) }}
 enable_emby: {{ enable_emby | default(False) }}
 enable_firefly_iii: {{ enable_firefly_iii | default(False) }}
-enable_freshrss: {{ enable_freshress | default(False) }}
+enable_freshrss: {{ enable_freshrss | default(False) }}
 enable_ghost: {{ enable_ghost | default(False) }}
 enable_gitea: {{ enable_gitea | default(False) }}
 enable_grafana: {{ enable_grafana | default(False) }}
 enable_guacamole: {{ enable_guacamole | default(False) }}
+enable_healthchecks: {{ enable_healthchecks | default(False) }}
 enable_homeassistant: {{ enable_homeassistant | default(False) }}
 enable_homebridge: {{ enable_homebridge | default(False) }}
 enable_homedash: {{ enable_homedash | default(False) }}
@@ -107,6 +140,7 @@ enable_mayan: {{ enable_mayan | default(False) }}
 enable_miniflux: {{ enable_miniflux | default(False) }}
 enable_minio: {{ enable_minio | default(False) }}
 enable_monicahq: {{ enable_monicahq | default(False) }}
+enable_mstream: {{ enable_mstream | default(False) }}
 enable_mylar: {{ enable_mylar | default(False) }}
 enable_netdata: {{ enable_netdata | default(False) }}
 enable_nextcloud: {{ enable_nextcloud | default(False) }}
@@ -119,23 +153,27 @@ enable_ownphotos: {{ enable_ownphotos | default(False) }}
 enable_paperless: {{ enable_paperless | default(False) }}
 enable_pihole: {{ enable_pihole | default(False) }}
 enable_piwigo: {{ enable_piwigo | default(False) }}
+enable_pixelfed: {{ enable_pixelfed | default(False) }}
 enable_plex: {{ enable_plex | default(False) }} # Set Plex Claim Token below
+enable_poli: {{ enable_poli | default(False) }}
 enable_portainer: {{ enable_portainer | default(False) }}
 enable_sickchill: {{ enable_sickchill | default(False) }}
 enable_sonarr: {{ enable_sonarr | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
 enable_restic: {{ enable_restic | default(False) }}
+enable_speedtest: {{ enable_speedtest | default(False) }}
 enable_syncthing: {{ enable_syncthing | default(False) }}
 enable_tautulli: {{ enable_tautulli | default(False) }}
 enable_thelounge: {{ enable_thelounge | default(False) }}
 enable_tick: {{ enable_tick | default(False) }}
 enable_transmission: {{ enable_transmission | default(False) }}
 enable_trilium: {{ enable_trilium | default(False) }}
+enable_ubooquity: {{ enable_ubooquity | default(False) }}
 enable_wekan: {{ enable_wekan | default(False) }}
 enable_watchtower: {{ enable_watchtower | default(False) }}
 enable_xfinityusageinfluxdb: {{ enable_xfinityusageinfluxdb | default(False) }}
 enable_wallabag: {{ enable_wallabag | default(False) }}
-enable_webvirtmgr: {{ enable_wallabag | default(False) }}
+enable_webvirtmgr: {{ enable_webvirtmgr | default(False) }}
 enable_zulip: {{ enable_zulip | default(False) }}
 
 # After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
@@ -205,6 +243,21 @@ mailserver:
 traefik:
   expose_internally: {{ traefik.expose_internally | default(True)  }}
   expose_externally: {{ traefik.expose_externally | default(False)  }}
+  dns_challenge_provider: {{ traefik.dns_challenge_provider | default(False) }}
+# Extra mapping, for name -> internal address, like myservice: 'http://otherhost:12345'
+  extra_mapping:
+#   myservice: http://otherhost:12345
+{% if traefik.extra_mapping | default(False) %}
+{% for service_name in traefik.extra_mapping %}
+    {{ service_name }}: {{ traefik.extra_mapping[service_name] }}
+{% endfor %}
+{% endif %}
+# use key:value pairs here to add additional environment variables to your traefik docker image.
+# for instance, if you're using a dns challenge provider place your api keys etc here.
+  additional_env_vars:
+    # DUMMY_KEY: DUMMY_VALUE
+    CLOUDFLARE_EMAIL: kjp@brightleafsoftware.com
+    CLOUDFLARE_API_KEY: c33fa5fb58812a16628cdc4bed741b0ea98ff
 
 gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True)  }}
@@ -212,5 +265,37 @@ gitea:
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
-# LDAP Settings
-ldap_org_name: {{ ldap_org_name | default() }}
+# Authelia Settings
+authelia:
+  # Determines how verbose the logs are
+  log_level: {{ authelia.log_level | default('debug') }}
+  # Do you want to login with your common name "john doe" or your username "jdoe"?
+  # defaults to Username
+  use_username: {{ authelia.use_username | default(True) }}
+  # This must be an address you can recieve mail at!
+  default_user_email: {{authelia.default_user_email | default() }}
+  max:
+    # max # of retries to authenticate (default 5)
+    retries: {{ authelia.max.retries | default(5) }}
+    # max time before the retry count resets (default 2 min)
+    retries_in_time: {{ authelia.max.retries_in_time | default(120) }}
+    # if you exceed the max retry count within the time frame, you're banned
+    # for x seconds. (default 300 seconds /5 min)
+    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }} 
+  default:
+    # the number of authentication factors required by default
+    factor_count: {{ authelia.default.factor_count | default('one_factor') }}
+    # how long it takes for the cookie to expire (default, 1hr)
+    cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
+    # inactivity time for the cookie default (5m)
+    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(300000) }} # 5min
+    # default policy - deny by default
+    policy: {{ authelia.default.policy | default('deny') }}
+  duo:
+    hostname: {{ authelia.duo.hostname | default() }}
+    integration_key: {{ authelia.duo.integration_key | default() }}
+    secret_key: {{ authelia.duo.secret_key | default() }}
+  # Don't change these unless you know what you're doing
+  
+speedtest: 
+  server: {{ speedtest.server | default (11441) }} 

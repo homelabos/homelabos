@@ -13,8 +13,6 @@ services:
     image: nickbusey/xfinityusageinfluxdb
     networks:
       - traefik_network
-    links:
-      - influxdb
     environment:
       - XFINITY_USER={{ xfinity_user }}
       - XFINITY_PASSWORD={{ xfinity_password }}

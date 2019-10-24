@@ -13,8 +13,6 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    links:
-      - matomo_db:db
     volumes:
       - /var/homelabos/matomo/data:/data
     labels:
@@ -41,5 +39,5 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=matomo
       - MYSQL_USER=matomo
-      - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/matomo_db_password chars=digits')"}}
+      - MYSQL_PASSWORD={{lookup('password', './settings/passwords/matomo_db_password chars=digits')}}
       - MYSQL_DATABASE=matomo
