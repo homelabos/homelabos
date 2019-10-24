@@ -39,6 +39,7 @@ and your user has sudo access.
 
     ```
     [client]$ cd HomelabOS
+    [client]$ make build
     [client]$ make config
     ``` 
     
