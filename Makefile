@@ -6,7 +6,7 @@ deploy: logo build git_sync config
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i inventory playbook.homelabos.yml
 
 # Initial configuration
-config:
+config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@printf "\x1B[01;93m========== Updating configuration files ==========\n\x1B[0m"
