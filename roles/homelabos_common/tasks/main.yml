@@ -20,6 +20,7 @@
       - zsh
       - docker
       - docker-compose
+      - whois
   tags:
     - dependencies
 
