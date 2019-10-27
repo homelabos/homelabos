@@ -256,8 +256,8 @@ traefik:
 # for instance, if you're using a dns challenge provider place your api keys etc here.
   additional_env_vars:
     # DUMMY_KEY: DUMMY_VALUE
-    CLOUDFLARE_EMAIL: kjp@brightleafsoftware.com
-    CLOUDFLARE_API_KEY: c33fa5fb58812a16628cdc4bed741b0ea98ff
+    CLOUDFLARE_EMAIL: {{ traefik.additional_env_vars.CLOUDFLARE_EMAIL | default('kjp@brightleafsoftware.com')  }}
+    CLOUDFLARE_API_KEY: {{ traefik.additional_env_vars.CLOUDFLARE_API_KEY | default('c33fa5fb58812a16628cdc4bed741b0ea98ff')  }}
 
 gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True)  }}
@@ -281,7 +281,7 @@ authelia:
     retries_in_time: {{ authelia.max.retries_in_time | default(120) }}
     # if you exceed the max retry count within the time frame, you're banned
     # for x seconds. (default 300 seconds /5 min)
-    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }} 
+    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }}
   default:
     # the number of authentication factors required by default
     factor_count: {{ authelia.default.factor_count | default('one_factor') }}
@@ -296,6 +296,6 @@ authelia:
     integration_key: {{ authelia.duo.integration_key | default() }}
     secret_key: {{ authelia.duo.secret_key | default() }}
   # Don't change these unless you know what you're doing
-  
-speedtest: 
-  server: {{ speedtest.server | default (11441) }} 
+
+speedtest:
+  server: {{ speedtest.server | default (11441) }}
