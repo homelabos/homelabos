@@ -256,11 +256,11 @@ traefik:
 # for instance, if you're using a dns challenge provider place your api keys etc here.
   additional_env_vars:
     # DUMMY_KEY: DUMMY_VALUE
-    CLOUDFLARE_EMAIL: {{ traefik.additional_env_vars.CLOUDFLARE_EMAIL | default('kjp@brightleafsoftware.com')  }}
-    CLOUDFLARE_API_KEY: {{ traefik.additional_env_vars.CLOUDFLARE_API_KEY | default('c33fa5fb58812a16628cdc4bed741b0ea98ff')  }}
+    CLOUDFLARE_EMAIL: {{ traefik.additional_env_vars.CLOUDFLARE_EMAIL | default('EMAIL') }}
+    CLOUDFLARE_API_KEY: {{ traefik.additional_env_vars.CLOUDFLARE_API_KEY | default('API_KEY') }}
 
 gitea:
-  use_mariadb: {{ gitea.use_mariadb | default(True)  }}
+  use_mariadb: {{ gitea.use_mariadb | default(True) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
