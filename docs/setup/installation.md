@@ -1,11 +1,11 @@
 # Installation
 
-## [Watch Video Tutorial - Cloud Based Server](https://youtu.be/p8cD349BGRI)
-## [Watch Video Tutorial - Local Server](https://youtu.be/Zy6Xfl5b5z4)
+* [Watch Video Tutorial - Cloud Based Server](https://youtu.be/p8cD349BGRI)
+* [Watch Video Tutorial - Local Server](https://youtu.be/Zy6Xfl5b5z4)
 
-# Requirements
+## Requirements
 
-## Client:
+### Client:
     *  Docker
     
 If you don't want to install docker to your client (or if you're on windows), you can do everything on your server. Just make sure to setup Docker on your server first.
@@ -16,7 +16,7 @@ Verify docker is installed correctly on your client
 ``` 
 
 
-## Server:
+### Server:
     * Running Ubuntu 18.04
     * passwordless SSH via SSH keys
     
@@ -24,7 +24,7 @@ Ensure you can access your server with a IP through
 [passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login)
 and your user has sudo access.
 
-# Set-up
+## Set-up
 
 1) Download the latest version from the link above to your client computer and extract the folder.
 
@@ -63,21 +63,21 @@ To reset your settings, run `make config_reset`, then run `make config` again.
 
 See a full list of commands in the Getting Started Section
 
-## Deploying to Cloud Services with Terraform
+### Deploying to Cloud Services with Terraform
 
 You can use our 
 [Terraform scripts](https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md)
 to spin up cloud servers to deploy against rather than needing
 physical servers configured.
 
-## Syncing Settings via Git
+### Syncing Settings via Git
 
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
 So you can create a private repo on your Gitea instance for example, then clone that repo over the
 settings folder. Now any changes you make to `config.yml` will be commited and pushed to that git
 repo whenever you run `make`, `make update` or `make config`.
 
-# Debugging
+## Troubleshooting
 
 ### `make config` throws an error
 
