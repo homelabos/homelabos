@@ -62,7 +62,7 @@ On install `mailserver` creates the details for the `_domainkey` DNS record.  On
 
 A reverse DNS lookup is often needed for sending email to be processed.  Digital Ocean's DNS system does
 not directly provide for creating a PTR record in their networking UI.  You can however, easily create
-this DNS entry, simply name your droplet as `{{ domain }}`.  Digital Ocean will then create the reverse
+this DNS entry, simply name your droplet as `mail.{{ domain }}`.  Digital Ocean will then create the reverse
 lookup you need.
 
 

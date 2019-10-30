@@ -8,7 +8,7 @@ cd settings
 ../docker_helper.sh terraform apply
 
 # Get instance IP for next run
-TERRAFORM_IP=$(../docker_helper.sh terraform show -json | jq '.values.root_module.resources[0].values.ipv4_address')
+TERRAFORM_IP=$(../docker_helper.sh terraform show -json | ../docker_helper.sh jq '.values.root_module.resources[0].values.ipv4_address')
 cd ..
 
 echo "Successfully created a server at $TERRAFORM_IP!\n\nRun 'make' to complete the setup."

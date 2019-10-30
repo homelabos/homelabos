@@ -17,6 +17,8 @@ services:
       - 6789:6789
     environment:
       - TZ={{ common_timezone }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
     volumes:
       - /var/homelabos/nzbget:/config
       - {{ storage_dir }}/Downloads:/downloads
