@@ -3,7 +3,7 @@
   connection: local
   vars_prompt:
     - name: homelab_ip
-      prompt: "What is the local IP of your server that you can SSH to?"
+      prompt: "What is the IP of your server that you can SSH to?"
       private: "False"
 
     - name: homelab_ssh_user
