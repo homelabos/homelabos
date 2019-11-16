@@ -22,15 +22,21 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
+    labels: #- "traefik.frontend.auth.basic={{htpasswd.stdout}}"
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:netdata.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=19999"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.frontend.auth.basic={{htpasswd.stdout}}"
+      - "traefik.http.services.netdata.loadbalancer.server.scheme=http"
+      - "traefik.http.services.netdata.loadbalancer.server.port=19999"
+      - "traefik.http.routers.netdata-http.rule=Host(`netdata.{{ domain }}`)"
+      - "traefik.http.routers.netdata-http.entrypoints=http"
+      - "traefik.http.routers.netdata-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.netdata.rule=Host(`netdata.{{ domain }}`)"
+      - "traefik.http.routers.netdata.entrypoints=https"
+      - "traefik.http.routers.netdata.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.netdata.tls=true"
+      - "traefik.http.routers.netdata.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.netdata.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.routers.netdata.tls.certresolver=cloudflare-dns"
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:netdata.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
