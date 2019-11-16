@@ -19,8 +19,9 @@
   template: src=traefik.yaml dest=/var/homelabos/traefik/traefik.yaml
 
 - name: Configure Traefik conf.d
-  template: src=conf.d dest=/var/homelabos/traefik/conf.d
+  template: src=conf.d/middlewares.yaml dest=/var/homelabos/traefik/conf.d/middlewares.yaml
 
+#Needs passlib
 - name: Write user to basic auth file
   htpasswd:
     path: /basicAuth
@@ -160,7 +161,7 @@
   lineinfile:
     path: /var/homelabos/homelab_hosts
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: "lookup('vars', 'enable_' ~ service_item)"
+  when: "lookup('vars', 'enable_' ~ service_item )"
   loop: "{{ enabled_services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
