@@ -68,7 +68,7 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
    file.
 
 3) To change any setting, you can either edit your `settings/config.yml` file, 
-or use the `make set` command, e.g., `make set enable_bitwarden true`.
+or use the `make set` command, e.g., `make set bitwarden.enable true`.
 
 4) Once you have updated the `settings/config.yml` file through either method,
 simply deploy HomelabOS. You can run `make` as many times as
