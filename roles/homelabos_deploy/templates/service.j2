@@ -4,7 +4,8 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-TimeoutSec=infinity
+TimeoutStartSec=infinity
+TimeoutStopSec=5min
 Restart=always
 RestartSec=3
 
