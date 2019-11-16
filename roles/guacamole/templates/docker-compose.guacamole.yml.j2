@@ -50,14 +50,21 @@ services:
     depends_on:
       - postgres
       - guacd
-    labels:
+    labels: #- "traefik.http.frontend.rule=Host:guacamole.{{ domain }};AddPrefix:/guacamole"
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:guacamole.{{ domain }};AddPrefix:/guacamole"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8080"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.guacamole.loadbalancer.server.scheme=http"
+      - "traefik.http.services.guacamole.loadbalancer.server.port=8080"
+      - "traefik.http.routers.guacamole-http.rule=Host(`guacamole.{{ domain }}`)"
+      - "traefik.http.routers.guacamole-http.entrypoints=http"
+      - "traefik.http.routers.guacamole-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.guacamole.rule=Host(`guacamole.{{ domain }}`)"
+      - "traefik.http.routers.guacamole.entrypoints=https"
+      - "traefik.http.routers.guacamole.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.guacamole.tls=true"
+      - "traefik.http.routers.guacamole.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.guacamole.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.routers.guacamole.tls.certresolver=cloudflare-dns"
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:guacamole.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

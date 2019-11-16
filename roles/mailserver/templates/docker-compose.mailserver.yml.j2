@@ -13,11 +13,20 @@ services:
     domainname: {{ domain }}                    # Mail server A/MX/FQDN & reverse PTR = mail.domain.tld.
     hostname: mail
     labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:spam.{{ domain }}
-      - traefik.mail.frontend.rule=Host:mail.{{ domain }}
-      - traefik.port=11334
-      - traefik.docker.network=traefik_network
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.mail.loadbalancer.server.scheme=http"
+      - "traefik.http.services.mail.loadbalancer.server.port=11334"
+      - "traefik.http.routers.mail-http.rule=Host(`mail.{{ domain }}`)"
+      - "traefik.http.routers.mail-http.entrypoints=http"
+      - "traefik.http.routers.mail-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.mail.rule=Host(`mail.{{ domain }}`)"
+      - "traefik.http.routers.mail.entrypoints=https"
+      - "traefik.http.routers.mail.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.mail.tls=true"
+      - "traefik.http.routers.mail.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mail.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.routers.mail.tls.certresolver=cloudflare-dns"
 
     ports:
       - "25:25"       # SMTP                - Required
@@ -62,10 +71,20 @@ services:
     domainname: {{ domain }}
     hostname: mail
     labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:postfixadmin.{{ domain }}
-      - traefik.port=8888
-      - traefik.docker.network=traefik_network
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.postfixadmin.loadbalancer.server.scheme=http"
+      - "traefik.http.services.postfixadmin.loadbalancer.server.port=8888"
+      - "traefik.http.routers.postfixadmin-http.rule=Host(`postfixadmin.{{ domain }}`)"
+      - "traefik.http.routers.postfixadmin-http.entrypoints=http"
+      - "traefik.http.routers.postfixadmin-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.postfixadmin.rule=Host(`postfixadmin.{{ domain }}`)"
+      - "traefik.http.routers.postfixadmin.entrypoints=https"
+      - "traefik.http.routers.postfixadmin.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.postfixadmin.tls=true"
+      - "traefik.http.routers.postfixadmin.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.postfixadmin.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.routers.postfixadmin.tls.certresolver=cloudflare-dns"
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     volumes:
@@ -85,10 +104,20 @@ services:
     image: hardware/rainloop
     restart: unless-stopped
     labels:
-      - traefik.enable=true
-      - traefik.port=8888
-      - traefik.frontend.rule=Host:webmail.{{ domain }}
-      - traefik.docker.network=traefik_network
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.webmail.loadbalancer.server.scheme=http"
+      - "traefik.http.services.webmail.loadbalancer.server.port=8888"
+      - "traefik.http.routers.webmail-http.rule=Host(`webmail.{{ domain }}`)"
+      - "traefik.http.routers.webmail-http.entrypoints=http"
+      - "traefik.http.routers.webmail-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.webmail.rule=Host(`webmail.{{ domain }}`)"
+      - "traefik.http.routers.webmail.entrypoints=https"
+      - "traefik.http.routers.webmail.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.webmail.tls=true"
+      - "traefik.http.routers.webmail.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.webmail.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.routers.webmail.tls.certresolver=cloudflare-dns"
     volumes:
       - {{ volumes_root }}/mailserver/rainloop:/rainloop/data
     depends_on:
