@@ -24,7 +24,7 @@
 - name: Write user to basic auth file
   htpasswd:
     path: /basicAuth
-    name: {{ default_username }}
+    name: "{{ default_username }}"
     password: '{{ default_password }}'
     owner: root
     group: root
