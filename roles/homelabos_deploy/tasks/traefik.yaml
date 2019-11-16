@@ -1,0 +1,65 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+entryPoints:
+  http:
+    address: :80
+    forwardedHeaders:
+      insecure: true
+      #trustedIPs:
+      #  - "127.0.0.1/32"
+      #  - "172.18.0.3/24"
+      #  - "10.0.1.225/32"
+    proxyProtocol:
+      insecure: true
+  https:
+    address: :443
+    forwardedHeaders:
+      insecure: true
+      #trustedIPs:
+      #  - "127.0.0.1/32"
+      #  - "172.18.0.3/24"
+      #  - "10.0.1.225/32"
+    proxyProtocol:
+      insecure: true
+  smtp: #for healthchecks incoming emails
+    address: :25
+    forwardedHeaders:
+      insecure: true
+      #trustedIPs:
+      #  - "127.0.0.1/32"
+      #  - "172.18.0.3/24"
+      #  - "10.0.1.225/32"
+    proxyProtocol:
+      insecure: true
+
+providers:
+  providersThrottleDuration: 2s
+  docker:
+    watch: true
+    exposedByDefault: false
+    endpoint: unix:///var/run/docker.sock
+    swarmModeRefreshSeconds: 15s
+  file:
+    directory: /conf.d
+    watch: true
+    
+api:
+  dashboard: true
+{% if traefik.expose_internally %}
+  insecure: true
+{% else %}
+  insecure: false
+{% endif %}
+
+log:
+  level: ERROR
+
+certificatesResolvers:
+  cloudflare-dns:
+    acme:
+      email: {{ admin_email | default('test@test.com') }}
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
