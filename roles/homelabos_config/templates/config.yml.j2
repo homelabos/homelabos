@@ -452,8 +452,8 @@ traefik:
 # for instance, if you're using a dns challenge provider place your api keys etc here.
   additional_env_vars:
     # DUMMY_KEY: DUMMY_VALUE
-    CLOUDFLARE_EMAIL: {{ traefik.additional_env_vars.CLOUDFLARE_EMAIL | default('EMAIL') }}
-    CLOUDFLARE_API_KEY: {{ traefik.additional_env_vars.CLOUDFLARE_API_KEY | default('API_KEY') }}
+    CF_API_EMAIL: {{ traefik.additional_env_vars.CF_API_EMAIL | default('EMAIL') }}
+    CF_API_KEY: {{ traefik.additional_env_vars.CF_API_KEY | default('API_KEY') }}
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
