@@ -106,3 +106,4 @@ authelia:
 open_ldap:
   seed: 
 speedtest: 
+  seed:
