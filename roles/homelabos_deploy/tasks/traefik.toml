@@ -13,7 +13,7 @@ defaultEntryPoints = ["http", "https"]
   [entryPoints.https]
   address = ":443"
   [entryPoints.https.tls]
-{% if enable_authelia %}
+{% if enable_authelia.enable %}
   [entryPoints.https.auth.forward]
   address = "http://auth.{{domain}}/api/verify?rd=https://auth.{{domain}}/%23/"
 {% endif %}

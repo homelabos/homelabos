@@ -20,6 +20,6 @@ printf "homelab_ip: $HOMELAB_IP\nhomelab_ssh_user: $(whoami)" > settings/config.
 printf "\n\n\x1B[01;92m========== HomelabOS downloaded! ==========\n\x1B[0m"
 printf "\n\x1B[01;93mRun 'cd HomelabOS-$VERSION/' then './set_setting.sh enable_SERVICENAME true'"
 printf "\nwhere SERVICENAME is a service you would like to have."
-printf "\n\nExample: './set_setting.sh enable_miniflux true'";
+printf "\n\nExample: './set_setting.sh miniflux.enable true'";
 printf "\n\nOnce you have enabled all the services you would like, simply run 'make'.\n\n";
 printf "\x1B[01;92m================== Done.  ==================\n\x1B[0m\n\n"
