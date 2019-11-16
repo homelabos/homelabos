@@ -20,10 +20,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:auth.{{ domain }}"
-      - "traefik.http.port=9091"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.authelia.loadbalancer.server.scheme=http"
+      - "traefik.http.services.authelia.loadbalancer.server.port=9091"
+      - "traefik.http.routers.authelia-http.rule=Host(`auth.{{ domain }}`)"
+      - "traefik.http.routers.authelia-http.entrypoints=http"
+      - "traefik.http.routers.authelia-http.middlewares=customFrameHomelab@file"
+      - "traefik.http.routers.authelia.rule=Host(`auth.{{ domain }}`)"
+      - "traefik.http.routers.authelia.entrypoints=https"
+      - "traefik.http.routers.authelia.middlewares=customFrameHomelab@file"
+      - "traefik.http.routers.authelia.tls=true"
+      - "traefik.http.routers.authelia.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.authelia.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.authelia.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.authelia.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:auth.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

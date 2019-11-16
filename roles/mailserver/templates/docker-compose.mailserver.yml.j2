@@ -26,7 +26,11 @@ services:
       - "traefik.http.routers.mail.tls=true"
       - "traefik.http.routers.mail.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.mail.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.mail.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.mail.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.mail.tls.certresolver=http"
+{% endif %}
 
     ports:
       - "25:25"       # SMTP                - Required
@@ -84,7 +88,11 @@ services:
       - "traefik.http.routers.postfixadmin.tls=true"
       - "traefik.http.routers.postfixadmin.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.postfixadmin.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.postfixadmin.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.postfixadmin.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.postfixadmin.tls.certresolver=http"
+{% endif %}
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     volumes:
@@ -117,7 +125,11 @@ services:
       - "traefik.http.routers.webmail.tls=true"
       - "traefik.http.routers.webmail.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.webmail.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.webmail.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.webmail.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.webmail.tls.certresolver=http"
+{% endif %}
     volumes:
       - {{ volumes_root }}/mailserver/rainloop:/rainloop/data
     depends_on:

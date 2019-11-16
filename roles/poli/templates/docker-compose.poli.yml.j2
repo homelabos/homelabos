@@ -18,11 +18,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:poli.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=6688"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.poli.loadbalancer.server.scheme=http"
+      - "traefik.http.services.poli.loadbalancer.server.port=6688"
+      - "traefik.http.routers.poli-http.rule=Host(`poli.{{ domain }}`)"
+      - "traefik.http.routers.poli-http.entrypoints=http"
+      - "traefik.http.routers.poli-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.poli.rule=Host(`poli.{{ domain }}`)"
+      - "traefik.http.routers.poli.entrypoints=https"
+      - "traefik.http.routers.poli.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.poli.tls=true"
+      - "traefik.http.routers.poli.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.poli.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.poli.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.poli.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:poli.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

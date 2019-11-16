@@ -16,11 +16,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:pixelfed.{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
+      - "traefik.http.services.pixelfed.loadbalancer.server.scheme=http"
+      - "traefik.http.services.pixelfed.loadbalancer.server.port=80"
+      - "traefik.http.routers.pixelfed-http.rule=Host(`pixelfed.{{ domain }}`)"
+      - "traefik.http.routers.pixelfed-http.entrypoints=http"
+      - "traefik.http.routers.pixelfed-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.pixelfed.rule=Host(`pixelfed.{{ domain }}`)"
+      - "traefik.http.routers.pixelfed.entrypoints=https"
+      - "traefik.http.routers.pixelfed.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.pixelfed.tls=true"
+      - "traefik.http.routers.pixelfed.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.pixelfed.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.pixelfed.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.pixelfed.tls.certresolver=http"
+{% endif %}
     env_file:
       - /var/homelabos/pixelfed/pixelfed.env
     volumes:

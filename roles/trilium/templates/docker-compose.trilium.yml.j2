@@ -19,11 +19,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:trilium.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8080"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.trilium.loadbalancer.server.scheme=http"
+      - "traefik.http.services.trilium.loadbalancer.server.port=8080"
+      - "traefik.http.routers.trilium-http.rule=Host(`trilium.{{ domain }}`)"
+      - "traefik.http.routers.trilium-http.entrypoints=http"
+      - "traefik.http.routers.trilium-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.trilium.rule=Host(`trilium.{{ domain }}`)"
+      - "traefik.http.routers.trilium.entrypoints=https"
+      - "traefik.http.routers.trilium.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.trilium.tls=true"
+      - "traefik.http.routers.trilium.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.trilium.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.trilium.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.trilium.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:trilium.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

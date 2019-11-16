@@ -14,7 +14,7 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - /var/homelabos/syncthing:/config
+      - /var/homelabos/syncthingthing:/config
       - {{ storage_dir }}/Documents/Syncthing:/data
     environment:
       - PGID=1004
@@ -25,18 +25,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.sync.loadbalancer.server.scheme=http"
-      - "traefik.http.services.sync.loadbalancer.server.port=8384"
-      - "traefik.http.routers.sync-http.rule=Host(`sync.{{ domain }}`)"
-      - "traefik.http.routers.sync-http.entrypoints=http"
-      - "traefik.http.routers.sync-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
-      - "traefik.http.routers.sync.rule=Host(`sync.{{ domain }}`)"
-      - "traefik.http.routers.sync.entrypoints=https"
-      - "traefik.http.routers.sync.middlewares=auth@file, customFrameHomelab@file"
-      - "traefik.http.routers.sync.tls=true"
-      - "traefik.http.routers.sync.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.sync.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.sync.tls.certresolver=cloudflare-dns"
+      - "traefik.http.services.syncthing.loadbalancer.server.scheme=http"
+      - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
+      - "traefik.http.routers.syncthing-http.rule=Host(`sync.{{ domain }}`)"
+      - "traefik.http.routers.syncthing-http.entrypoints=http"
+      - "traefik.http.routers.syncthing-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.syncthing.rule=Host(`sync.{{ domain }}`)"
+      - "traefik.http.routers.syncthing.entrypoints=https"
+      - "traefik.http.routers.syncthing.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.syncthing.tls=true"
+      - "traefik.http.routers.syncthing.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.syncthing.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.syncthing.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.syncthing.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

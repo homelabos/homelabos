@@ -43,7 +43,11 @@ services:
       - "traefik.http.routers.paperless.tls=true"
       - "traefik.http.routers.paperless.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.paperless.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.paperless.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.paperless.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.paperless.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:paperless.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
