@@ -36,7 +36,11 @@ services:
       - "traefik.http.routers.nzbget.tls=true"
       - "traefik.http.routers.nzbget.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.nzbget.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.nzbget.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.nzbget.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.nzbget.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:nzbget.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

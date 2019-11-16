@@ -21,11 +21,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:ombi.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=5000"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.ombi.loadbalancer.server.scheme=http"
+      - "traefik.http.services.ombi.loadbalancer.server.port=5000"
+      - "traefik.http.routers.ombi-http.rule=Host(`ombi.{{ domain }}`)"
+      - "traefik.http.routers.ombi-http.entrypoints=http"
+      - "traefik.http.routers.ombi-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.ombi.rule=Host(`ombi.{{ domain }}`)"
+      - "traefik.http.routers.ombi.entrypoints=https"
+      - "traefik.http.routers.ombi.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.ombi.tls=true"
+      - "traefik.http.routers.ombi.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.ombi.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.ombi.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.ombi.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:ombi.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

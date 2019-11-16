@@ -36,7 +36,11 @@ services:
       - "traefik.http.routers.airsonic.tls=true"
       - "traefik.http.routers.airsonic.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.airsonic.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.airsonic.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.airsonic.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.airsonic.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:airsonic.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

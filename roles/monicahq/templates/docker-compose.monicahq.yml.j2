@@ -38,7 +38,11 @@ services:
       - "traefik.http.routers.monicahq.tls=true"
       - "traefik.http.routers.monicahq.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.monicahq.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.monicahq.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.monicahq.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.monicahq.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:monica.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

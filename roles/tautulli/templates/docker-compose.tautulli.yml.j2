@@ -24,11 +24,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:tautulli.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8181"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.tautulli.loadbalancer.server.scheme=http"
+      - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
+      - "traefik.http.routers.tautulli-http.rule=Host(`tautulli.{{ domain }}`)"
+      - "traefik.http.routers.tautulli-http.entrypoints=http"
+      - "traefik.http.routers.tautulli-http.middlewares=auth@file, redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.tautulli.rule=Host(`tautulli.{{ domain }}`)"
+      - "traefik.http.routers.tautulli.entrypoints=https"
+      - "traefik.http.routers.tautulli.middlewares=auth@file, customFrameHomelab@file"
+      - "traefik.http.routers.tautulli.tls=true"
+      - "traefik.http.routers.tautulli.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.tautulli.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.tautulli.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.tautulli.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:tautulli.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

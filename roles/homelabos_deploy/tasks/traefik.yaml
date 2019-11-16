@@ -45,9 +45,20 @@ log:
   level: ERROR
 
 certificatesResolvers:
-  cloudflare-dns:
+{% if traefik.dns_challenge_provider %}
+  dns:
     acme:
       email: {{ admin_email | default('test@test.com') }}
       storage: acme.json
       dnsChallenge:
-        provider: cloudflare
+        provider: {{ traefik.dns_challenge_provider }}
+{% else %}
+  http:
+    acme:
+      email: {{ admin_email | default('test@test.com') }}
+      storage: acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web
+{% endif %}
+  

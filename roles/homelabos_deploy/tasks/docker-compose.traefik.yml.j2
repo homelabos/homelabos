@@ -42,6 +42,10 @@ services:
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.tls.domains[0].main={{ domain }}"
       - "traefik.http.routers.traefik.tls.domains[0].sans=*.{{ domain }}"
-      - "traefik.http.routers.traefik.tls.certresolver=cloudflare-dns"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.traefik.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.traefik.tls.certresolver=http"
+{% endif %}
       - "traefik.http.routers.traefik.service=api@internal"
 {% endif %}
