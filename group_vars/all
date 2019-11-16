@@ -84,6 +84,10 @@ apache2:
 apple_health_influx:
 airsonic:
 authelia:
+  duo:
+  default:
+  max:
+  domain:
 beets:
 bitwarden:
 bookstack:
