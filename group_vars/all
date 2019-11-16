@@ -81,6 +81,10 @@ apache2:
 apple_health_influx:
 airsonic:
 authelia:
+  duo:
+  default:
+  max:
+  domain:
 beets:
 bitwarden:
 bookstack:
@@ -163,10 +167,5 @@ traefik:
 bastion:
   wireguard: 
   enabled: false
-authelia:
-  duo:
-  default:
-  max:
-  domain:
 open_ldap:
   seed:
