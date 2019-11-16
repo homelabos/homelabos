@@ -79,7 +79,81 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  
+  speedtest: "{{ enable_speedtest }}"
+apache2:
+apple_health_influx:
+airsonic:
+authelia:
+beets:
+bitwarden:
+bookstack:
+bulletnotes:
+calibre:
+codeserver:
+darksky_influx:
+dasher:
+digikam:
+docs:
+duplicati:
+drone:
+emby:
+firefly_iii:
+freshrss:
+ghost:
+gitea:
+grafana:
+guacamole:
+healthchecks:
+homeassistant:
+homebridge:
+homedash:
+inventario:
+jackett:
+jellyfin:
+kibitzr:
+lidarr:
+mailserver:
+mashio:
+matomo:
+mayan:
+miniflux:
+minio:
+monicahq:
+mstream:
+mylar:
+netdata:
+nextcloud:
+nzbget:
+ombi:
+openldap:
+openvpn:
+organizr:
+ownphotos:
+paperless:
+pihole:
+piwigo:
+pixelfed:
+plex:
+poli:
+portainer:
+radarr:
+restic:
+sickchill:
+sonarr:
+syncthing:
+tautulli:
+thelounge:
+tick:
+transmission:
+trilium:
+ubooquity:
+wallabag:
+webvirtmgr:
+wekan:
+watchtower:
+xfinityusageinfluxdb:
+zulip:
+speedtest:
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
