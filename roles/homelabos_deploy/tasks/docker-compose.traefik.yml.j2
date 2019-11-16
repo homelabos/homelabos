@@ -8,7 +8,7 @@ networks:
 services:
   # Load Balancer / SSL / Web Server
   traefik:
-    image: traefik:v1.7.16-alpine
+    image: traefik:v2.0.4
     restart: always
     networks:
       - traefik
@@ -26,13 +26,22 @@ services:
 {% endif %}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/homelabos/traefik/traefik.toml:/traefik.toml
+      - /var/homelabos/traefik/traefik.yaml:/traefik.yaml
+      - /var/homelabos/traefik/conf.d/:/conf.d/
       - /var/homelabos/traefik/acme.json:/acme.json
 {% if traefik.expose_externally %}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:traefik.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8080"
+      - "traefik.http.routers.traefik-http.rule=Host(`traefik.{{ domain }}`)"
+      - "traefik.http.routers.traefik-http.entrypoints=http"
+      - "traefik.http.routers.traefik-http.middlewares=redirect@file, customFrameHomelab@file"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.{{ domain }}`)"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.middlewares=customFrameHomelab@file"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.routers.traefik.tls.certresolver=cloudflare-dns"
+      - "traefik.http.routers.traefik.service=api@internal"
 {% endif %}
