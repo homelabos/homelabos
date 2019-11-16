@@ -93,19 +93,19 @@ enable_tor: {{ enable_tor | default(False) }}
 
 # Force SSL Usage
 # Only set this to true after everything is working, and https certificates have been generated.
-https_only: {{ https_only | default(False) }}
+# https_only: {{ https_only | default(False) }}
 
 # Services
 
 # Enable HomelabOS documentation
 
-docs: 
+docs:
   enable: {{ docs.enable | default(False) }}
   https_only: {{ docs.https_only | default(False) }}
   auth: {{ docs.auth | default(False) }}
 #== PARSE ###
 # You can enable/disable services individually by changing False to True and vice versa.
-airsonic: 
+airsonic:
   enable: {{ airsonic.enable | default(False) }}
   https_only: {{ airsonic.https_only | default(False) }}
   auth: {{ airsonic.auth | default(False) }}
@@ -115,7 +115,7 @@ apache2:
   auth: {{ apache2.auth | default(False) }}
 apple_health_influx:
   enable: {{ apple_health_influx.enable | default(False) }}
-enable_authelia.enable: 
+enable_authelia.enable:
   enable: {{ enable_authelia.enable | default(False) }}
 beets:
   enable: {{ beets.enable | default(False) }}
@@ -147,8 +147,8 @@ dasher:
   enable: {{ dasher.enable | default(False) }}
 digikam:
   enable: {{ digikam.enable | default(False) }}
-  https_only: {{ digikam.https_only | default(False) }}
   auth: {{ digikam.auth | default(False) }}
+  https_only: {{ digikam.https_only | default(False) }}
 drone:
   enable: {{ drone.enable | default(False) }}
   https_only: {{ drone.https_only | default(False) }}
@@ -173,10 +173,10 @@ ghost:
   enable: {{ ghost.enable | default(False) }}
   https_only: {{ ghost.https_only | default(False) }}
   auth: {{ ghost.auth | default(False) }}
-gitea:
-  enable: {{ gitea.enable | default(False) }}
-  https_only: {{ gitea.https_only | default(False) }}
-  auth: {{ gitea.auth | default(False) }}
+enable_gitea:
+  enable: {{ enable_gitea.enable | default(False) }}
+  https_only: {{ enable_gitea.https_only | default(False) }}
+  auth: {{ enable_gitea.auth | default(False) }}
 grafana:
   enable: {{ grafana.enable | default(False) }}
   https_only: {{ grafana.https_only | default(False) }}
@@ -217,10 +217,10 @@ lidarr:
   enable: {{ lidarr.enable | default(False) }}
   https_only: {{ lidarr.https_only | default(False) }}
   auth: {{ lidarr.auth | default(False) }}
-mailserver:
-  enable: {{ mailserver.enable | default(False) }}
-  https_only: {{ mailserver.https_only | default(False) }}
-  auth: {{ mailserver.auth | default(False) }}
+enable_mailserver:
+  enable: {{ enable_mailserver.enable | default(False) }}
+  https_only: {{ enable_mailserver.https_only | default(False) }}
+  auth: {{ enable_mailserver.auth | default(False) }}
 mashio:
   enable: {{ mashio.enable | default(False) }}
   https_only: {{ mashio.https_only | default(False) }}
@@ -329,6 +329,7 @@ speedtest:
   enable: {{ speedtest.enable | default(False) }}
   https_only: {{ speedtest.https_only | default(False) }}
   auth: {{ speedtest.auth | default(False) }}
+  server: {{ speedtest.server | default (11441) }}
 syncthing:
   enable: {{ syncthing.enable | default(False) }}
   https_only: {{ syncthing.https_only | default(False) }}
@@ -437,7 +438,7 @@ smtp:
   from_name: {{ smtp.from_name | default()  }}
 
 mailserver:
-  forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
+  forward_to_smtp: {{ enable_mailserver.forward_to_smtp | default(False)  }}
 
 traefik:
   https_only: {{ traefik.https_only | default(False) }}
@@ -497,6 +498,3 @@ authelia:
     integration_key: {{ authelia.duo.integration_key | default() }}
     secret_key: {{ authelia.duo.secret_key | default() }}
   # Don't change these unless you know what you're doing
-
-speedtest:
-  server: {{ speedtest.server | default (11441) }}
