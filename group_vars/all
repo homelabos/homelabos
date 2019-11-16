@@ -6,7 +6,7 @@ enabled_services:
   apache2: "{{ apache2.enable }}"
   apple_health_influx: "{{ apple_health_influx.enable }}"
   airsonic: "{{ airsonic.enable }}"
-  authelia: "{{ enable_authelia.enable }}"
+  enable_authelia: "{{ enable_authelia.enable }}"
   beets: "{{ beets.enable }}"
   bitwarden: "{{ bitwarden.enable }}"
   bookstack: "{{ bookstack.enable }}"
@@ -77,6 +77,82 @@ enabled_services:
   xfinityusageinfluxdb: "{{ xfinityusageinfluxdb.enable }}"
   zulip: "{{ zulip.enable }}"
   speedtest: "{{ speedtest.enable }}"
+
+apache2:
+apple_health_influx:
+airsonic:
+enable_authelia:
+beets:
+bitwarden:
+bookstack:
+bulletnotes:
+calibre:
+codeserver:
+darksky_influx:
+dasher:
+digikam:
+docs:
+duplicati:
+drone:
+emby:
+firefly_iii:
+freshrss:
+ghost:
+enable_gitea:
+grafana:
+guacamole:
+healthchecks:
+homeassistant:
+homebridge:
+homedash:
+inventario:
+jackett:
+jellyfin:
+kibitzr:
+lidarr:
+enable_mailserver:
+mashio:
+matomo:
+mayan:
+miniflux:
+minio:
+monicahq:
+mstream:
+mylar:
+netdata:
+nextcloud:
+nzbget:
+ombi:
+openldap:
+openvpn:
+organizr:
+ownphotos:
+paperless:
+pihole:
+piwigo:
+pixelfed:
+plex:
+poli:
+portainer:
+radarr:
+restic:
+sickchill:
+sonarr:
+syncthing:
+tautulli:
+thelounge:
+tick:
+transmission:
+trilium:
+ubooquity:
+wallabag:
+webvirtmgr:
+wekan:
+watchtower:
+xfinityusageinfluxdb:
+zulip:
+speedtest:
+
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
@@ -98,4 +174,3 @@ authelia:
   domain:
 open_ldap:
   seed:
-speedtest:
