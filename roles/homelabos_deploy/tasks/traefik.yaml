@@ -45,14 +45,12 @@ log:
   level: ERROR
 
 certificatesResolvers:
-{% if traefik.dns_challenge_provider %}
   dns:
     acme:
       email: {{ admin_email | default('test@test.com') }}
       storage: acme.json
       dnsChallenge:
         provider: {{ traefik.dns_challenge_provider }}
-{% else %}
   http:
     acme:
       email: {{ admin_email | default('test@test.com') }}
@@ -60,5 +58,4 @@ certificatesResolvers:
       httpChallenge:
         # used during the challenge
         entryPoint: web
-{% endif %}
   
