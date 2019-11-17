@@ -49,10 +49,9 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make restore` - Restores a server with the most recent backup. Assuming Backups were running.
 
-`[client]$ ./set_setting.sh <setting> <value>` - Sets the setting to value, e.g. `[client]$ ./set_setting.sh organizr.enable True`
+`[client]$ ./set_setting.sh <setting> <value>` - Sets the setting to value, e.g. `[client]$ ./set_setting.sh enable_organizr True`
 
-`[client]$ ./get_setting.sh <setting>` - Displays the current setting of value, e.g. `[client]$ ./get_setting.sh organizr.enable`
-
+`[client]$ ./get_setting.sh <setting>` - Displays the current setting of value, e.g. `[client]$ ./get_setting.sh enable_organizr`
 
 `[client]$ make tag <tag>` - Runs just the items tagged with a specific tag e.g. `[client]$ make tag tinc`
 
