@@ -17,6 +17,7 @@
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
+- Updated everything to use traefik version 2
 
 ## Release Notes
 
