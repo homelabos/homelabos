@@ -68,7 +68,7 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
    file.
 
 3) To change any setting, you can either edit your `settings/config.yml` file, 
-or use the `make set` command, e.g., `make set bitwarden.enable true`.
+or use the `make set` command, e.g. `make set enable_bitwarden true`, `make set bitwarden.https_only true` or `make set bitwarden.auth true`.
 
 4) Once you have updated the `settings/config.yml` file through either method,
 simply deploy HomelabOS. You can run `make` as many times as
@@ -242,13 +242,13 @@ nas_pass:
 nas_workgroup:
 ```
 
-Here's an SMB configuration for the same server, this time using its IP address and an authenticated user:
+Here's an example SMB configuration, this time using its IP address, an authenticated user and share name:
 
 ```
 nas_enable: True
 nas_host: 192.168.1.12
 nas_mount_type: smb
-nas_share_path:
+nas_share_path: homelab
 nas_user: user
 nas_pass: 12345
 nas_workgroup: WORKGROUP
