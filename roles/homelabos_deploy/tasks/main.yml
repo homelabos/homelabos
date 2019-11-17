@@ -24,7 +24,7 @@
 #Needs passlib
 - name: Write user to basic auth file
   htpasswd:
-    path: /basicAuth
+    path: /var/homelabos/traefik/basicAuth
     name: "{{ default_username }}"
     password: '{{ default_password }}'
     owner: root
