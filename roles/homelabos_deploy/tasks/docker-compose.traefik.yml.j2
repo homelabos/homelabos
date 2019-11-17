@@ -27,6 +27,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - {{ volumes_root }}/traefik/traefik.yaml:/traefik.yaml
+      - {{ volumes_root }}/traefik/basicAuth:/basicAuth
       - {{ volumes_root }}/traefik/conf.d/:/conf.d/
       - {{ volumes_root }}/traefik/acme.json:/acme.json
 {% if traefik.expose_externally %}
