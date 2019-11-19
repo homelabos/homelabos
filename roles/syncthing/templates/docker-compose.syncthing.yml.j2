@@ -14,7 +14,7 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - {{ volumes_root }}/syncthing:/config
+      - {{ volumes_root }}/syncthing/config:/config
       - {{ storage_dir }}/Documents/Syncthing:/data
     environment:
       - PUID={{ uid_output.stdout }}
