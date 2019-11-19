@@ -14,7 +14,7 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - /var/homelabos/syncthingthing:/config
+      - /var/homelabos/syncthing:/config
       - {{ storage_dir }}/Documents/Syncthing:/data
     environment:
       - PGID=1004
