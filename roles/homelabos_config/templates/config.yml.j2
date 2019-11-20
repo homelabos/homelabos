@@ -540,7 +540,7 @@ tick:
 
 transmission:
   https_only: {{ transmission.https_only | default(False) }}
-  auth: {{ transmission.auth | default(False) }}
+  auth: {{ transmission.auth | default(True) }}
 
 trilium:
   https_only: {{ trilium.https_only | default(False) }}
