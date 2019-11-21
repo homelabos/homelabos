@@ -29,3 +29,5 @@ Once these are set, HomelabOS will back up all it's core data every night at 4 A
 Let's say your machine gets wiped, or you want to migrate to a new machine. To restore your most recent backup, simply run `make restore`. Then proceed with the normal install step of running `make` and boom, you have all your data back with a fully working HomelabOS setup.
 
 Alternatively you can work directly with the Restic backups through it's Docker shell. Using either [Portainer](/software/portainer.md) or your server's CLI, once you gain access to the Restic shell, you can run commands like `restic snapshots` to list all your snapshots.
+
+To restore just your NextCloud data for example, you can run `restic restore latest --include /data/nextcloud --target /`.
