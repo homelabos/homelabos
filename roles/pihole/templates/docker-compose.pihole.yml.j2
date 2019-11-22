@@ -11,7 +11,7 @@ services:
   pihole:
     image: pihole/pihole:latest
     restart: unless-stopped
-    hostname: {{ domain }}
+    hostname: pihole
     dns:
       - 127.0.0.1
       - 1.1.1.1
