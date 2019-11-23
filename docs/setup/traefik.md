@@ -38,6 +38,25 @@ http:
           - url: "http://{ip}:{port}"
 
 ```
+Example tcp service (unifi cloudkey controller with own https)
+```
+tcp:
+  routers:
+    {service_name}-tcp:
+      rule: "HostSNI(`unifi.{{ domain }}`)"
+      entryPoints:
+        - "https"
+      service: "{service_name}"
+      tls:
+        passthrough: true
+
+  services:
+    {service_name}:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - address: "{ip}:8443"
+```
 
 Add as many files/services as you need.
 
