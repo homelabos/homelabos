@@ -9,7 +9,7 @@ networks:
 
 services:
   pixelfed:
-    image: ethibox/pixelfed
+    image: dmacedo/pixelfed:latest
     restart: unless-stopped
     networks:
       - traefik_network
@@ -20,11 +20,15 @@ services:
 {% include './labels.j2' %}
     env_file:
       - "{{ volumes_root }}/pixelfed/pixelfed.env"
+    environment:
+      - APP_KEY="{{ lookup('password', './settings/passwords/pixelfed_app_key chars=ascii_letters length=32') }}"
+      - DB_PASSWORD="{{ lookup('password', './settings/passwords/pixelfed_db_password chars=ascii_letters') }}"
     volumes:
+      - "{{ volumes_root }}/pixelfed/pixelfed.env:/var/www/.env"
       - "{{ volumes_root }}/pixelfed/storage:/var/www/storage"
 
   worker:  # Comment this whole block if HORIZON_EMBED is true.
-    image: ethibox/pixelfed
+    image: dmacedo/pixelfed:latest
     restart: unless-stopped
     env_file:
       - "{{ volumes_root }}/pixelfed/pixelfed.env"
@@ -41,11 +45,11 @@ services:
       - pixelfed
     environment:
       - MYSQL_DATABASE=pixelfed
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/pixelfed_db_password chars=ascii_letters') }}
       - MYSQL_USER=pixelfed
-      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/pixelfed_db_password chars=ascii_letters length=15') }}
-      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_ROOT_PASSWORD="{{ lookup('password', './settings/passwords/pixelfed_db_root_password chars=ascii_letters') }}"
     volumes:
-      - "{{ volumes_root }}/pixelfed/mariadb:/var/lib/mysql"
+      - "{{ volumes_root }}/pixelfed/mysql:/var/lib/mysql"
 
   redis:
     image: redis:5-alpine

@@ -3,8 +3,8 @@
   file:
     state: absent
     path: "{{ volumes_root }}/{{ service_item }}"
-  when: confirm_remove|bool
-  loop: "{{ services|flatten(levels=1) }}"
+  when: "confirm_remove | bool"
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
 
@@ -25,12 +25,12 @@
   file:
     state: absent
     path: "/etc/systemd/system/{{ service_item }}.service"
-  when: confirm_remove|bool
-  loop: "{{ services|flatten(levels=1) }}"
+  when: "confirm_remove | bool"
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
 
-- when: confirm_remove|bool
+- when: "confirm_remove | bool"
   debug:
     msg: "Package removed successfully! Go to https://{{ domain }}/ to get started."
 

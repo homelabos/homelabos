@@ -1,0 +1,98 @@
+---
+- name: Make concourse directory.
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ volumes_root }}/concourse"
+    - "{{ volumes_root }}/concourse/keys/web"
+    - "{{ volumes_root }}/concourse/keys/worker"
+
+- name: Copy concourse docker-compose.yml file into place.
+  template:
+    src: docker-compose.concourse.yml.j2
+    dest: "{{ volumes_root }}/concourse/docker-compose.concourse.yml"
+
+- name: Check for existing session_signing_key
+  stat:
+    path: "{{ volumes_root }}/concourse/keys/web/session_signing_key"
+  register: fssk
+
+- name: Generate TSA Session Signing Key
+  docker_container:
+    name: generate_session_signing_key
+    image: concourse/concourse
+    command: "generate-key -t rsa -f /keys/session_signing_key"
+    volumes:
+      - "{{ volumes_root }}/concourse/keys/web:/keys"
+    keep_volumes: false
+    pull: true
+    state: started
+    restart: false
+    tty: true
+    auto_remove: true
+  when: falset fssk.stat.exists
+
+- name: Check for existing tsa_host_key
+  stat:
+    path: "{{ volumes_root }}/concourse/keys/web/tsa_host_key"
+  register: fthk
+
+- name: Generate TSA Host Key
+  docker_container:
+    name: generate_tsa_host_key
+    image: concourse/concourse
+    command: "generate-key -t ssh -f /keys/tsa_host_key"
+    volumes:
+      - "{{ volumes_root }}/concourse/keys/web:/keys"
+    keep_volumes: false
+    pull: true
+    state: started
+    restart: false
+    tty: true
+    auto_remove: true
+  when: falset fthk.stat.exists
+
+- name: Check for existing worker_key
+  stat:
+    path: "{{ volumes_root }}/concourse/keys/worker/worker_key"
+  register: fwk
+
+- name: Generate Worker Key
+  docker_container:
+    name: generate_worker_key
+    image: concourse/concourse
+    command: "generate-key -t ssh -f /keys/worker_key"
+    volumes:
+      - "{{ volumes_root }}/concourse/keys/worker:/keys"
+    keep_volumes: false
+    pull: true
+    state: started
+    restart: false
+    tty: true
+    auto_remove: true
+  when: falset fwk.stat.exists
+
+- name: Web public key should be added to Workers
+  copy:
+    src: "{{ volumes_root }}/concourse/keys/web/tsa_host_key.pub"
+    dest: "{{ volumes_root }}/concourse/keys/worker/tsa_host_key.pub"
+    remote_src: True
+
+- name: Worker key needs to be in Web authorized_keys for the worker to be able to register
+  copy:
+    src: "{{ volumes_root }}/concourse/keys/worker/worker_key.pub"
+    dest: "{{ volumes_root }}/concourse/keys/web/authorized_worker_keys"
+    remote_src: True
+
+- name: Configure concourse systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/concourse.service
+
+- name: Start concourse
+  systemd:
+    name: concourse
+    enabled: "true"
+    daemon-reload: "true"
+    state: started

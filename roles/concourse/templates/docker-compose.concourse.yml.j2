@@ -1,0 +1,88 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  web:
+    restart: unless-stopped
+    command: web
+    image: concourse/concourse
+    environment:
+      - CONCOURSE_POSTGRES_HOST=concourse_db
+      - CONCOURSE_POSTGRES_USER=concourse_user
+      - CONCOURSE_POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/concourse_db_password chars=ascii_letters') }}
+      - CONCOURSE_POSTGRES_DATABASE=concourse_db
+      - CONCOURSE_EXTERNAL_URL=https://concourse.{{ domain }}
+      - CONCOURSE_ADD_LOCAL_USER={{ default_username }}:{{ concourse.admin_password }}
+      - CONCOURSE_MAIN_TEAM_LOCAL_USER={{ default_username }}
+      - CONCOURSE_WORKER_BAGGAGECLAIM_DRIVER=overlay
+{% if concourse.enable_github %}
+      - CONCOURSE_GITHUB_CLIENT_ID={{ concourse.github_client_id }}
+      - CONCOURSE_GITHUB_CLIENT_SECRET={{ concourse.github_client_secret }}
+      - CONCOURSE_MAIN_TEAM_GITHUB_ORG={{ concourse.main_team_github_org }}
+      - CONCOURSE_MAIN_TEAM_GITHUB_TEAM={{ concourse.main_team_github_team }}
+      - CONCOURSE_MAIN_TEAM_GITHUB_USER={{ concourse.main_team_github_user }}
+{% endif %}
+{% if concourse.enable_github_enterprise %}
+      - CONCOURSE_GITHUB_HOST={{ concourse.github_host }}
+      - CONCOURSE_GITHUB_CA_CERT={{ concourse.github_ca_cert }}
+{% endif %}
+    networks:
+      - traefik_network
+    depends_on:
+      - concourse_db
+    volumes:
+      - "{{ volumes_root }}/concourse/keys/web:/concourse-keys/"
+    ports:
+      - "{{ concourse.ssh_port }}:22"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.routers.concourse.rule=Host(`concourse.{{ domain }}`)"
+      - "traefik.http.routers.concourse.entrypoints=http"
+      - "traefik.http.services.concourse.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.concourse-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.concourse.middlewares=concourse-https-redirect"
+      - "traefik.http.routers.ghconcourseost-secure.entrypoints=https"
+      - "traefik.http.routers.concourse-secure.rule=Host(`concourse.{{ domain }}`)"
+      - "traefik.http.routers.concourse-secure.tls=true"
+      - "traefik.http.routers.concourse-secure.tls.certresolver=letsencrypt"
+      - "traefik.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:concourse.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8080"
+{% endif %}
+  
+  worker:
+    image: concourse/concourse
+    command: worker
+    restart: unless-stopped
+    privileged: true
+    networks:
+      - traefik_network
+    depends_on:
+      - web
+    volumes:
+      - "{{ volumes_root }}/concourse/keys/worker:/concourse-keys/"
+    stop_signal: SIGUSR2
+    environment:
+      CONCOURSE_TSA_HOST: web:{{ concourse.ssh_port }}
+
+  concourse_db:
+    image: "postgres"
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      - POSTGRES_DB=concourse_db
+      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/concourse_db_password chars=ascii_letters') }}
+      - POSTGRES_USER=concourse_user
+      - PGDATA=/database
+    volumes:
+      - "{{ volumes_root }}/concourse/db:/database"

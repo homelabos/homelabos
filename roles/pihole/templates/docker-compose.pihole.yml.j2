@@ -15,6 +15,7 @@ services:
     dns:
       - 127.0.0.1
       - 1.1.1.1
+      - 9.9.9.9
     networks:
       - traefik_network
     cap_add:
@@ -26,14 +27,19 @@ services:
       - WEBPASSWORD={{ default_password }}
       - VIRTUAL_HOST={% if pihole.domain %}{{ pihole.domain }}{% else %}{{ pihole.subdomain + "." + domain }}{% endif %}
       - ServerIP={{ homelab_ip }}
+      - TZ={{ common_timezone }}
+      - DNS1=1.1.1.1
+      - DNS2=9.9.9.9
     ports:
       - 53:53/tcp
       - 53:53/udp
+      - 67:67/udp
     labels:
       - "traefik.http.services.pihole.loadbalancer.server.scheme=http"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
 {% include './labels.j2' %}
     extra_hosts:
+      - pi.hole:127.0.0.1
 {% for service in services %}
       - {{ service }}.{{ domain }}:{{ homelab_ip }}
 {% endfor %}

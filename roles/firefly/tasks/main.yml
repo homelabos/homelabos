@@ -1,0 +1,24 @@
+---
+- name: Make firefly directory.
+  file:
+    path: "{{ volumes_root }}/firefly"
+    state: directory
+
+- name: Copy firefly docker-compose.yml file into place.
+  template:
+    src: docker-compose.firefly.yml.j2
+    dest: "{{ volumes_root }}/firefly/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure firefly systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/firefly.service
+
+- name: Start firefly
+  systemd:
+    name: firefly
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

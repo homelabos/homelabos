@@ -396,14 +396,14 @@ factorio:
   domain: {{ factorio.domain | default(False) }}
   subdomain: {{ factorio.subdomain | default("factorio") }}
   version: {{ factorio.version | default("latest") }}
-firefly_iii:
-  enable: {{ firefly_iii.enable | default(enable_firefly_iii, None) | default(False) }}
-  https_only: {{ firefly_iii.https_only | default(False) }}
-  auth: {{ firefly_iii.auth | default(False) }}
-  domain: {{ firefly_iii.domain | default(False) }}
-  subdomain: {{ firefly_iii.subdomain | default("firefly_iii") }}
-  version: {{ firefly_iii.version | default("latest") }}
-  db_version: {{ firefly_iii.db_version | default("12") }}
+firefly:
+  enable: {{ firefly.enable | default(enable_firefly, None) | default(False) }}
+  https_only: {{ firefly.https_only | default(False) }}
+  auth: {{ firefly.auth | default(False) }}
+  domain: {{ firefly.domain | default(False) }}
+  subdomain: {{ firefly.subdomain | default("firefly") }}
+  version: {{ firefly.version | default("latest") }}
+  db_version: {{ firefly.db_version | default("12") }}
 folding_at_home:
   enable: {{ folding_at_home.enable | default(enable_folding_at_home, None) | default(False) }}
   https_only: {{ folding_at_home.https_only | default(False) }}

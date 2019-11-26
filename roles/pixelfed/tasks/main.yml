@@ -1,8 +1,11 @@
 ---
-- name: Make pixelfed directory.
+- name: Make pixelfed directories
   file:
-    path: "{{ volumes_root }}/pixelfed"
+    path: "{{ item }}"
     state: directory
+  loop:
+    - "{{ volumes_root }}/pixelfed"
+    - "{{ volumes_root }}/pixelfed/storage"
 
 - name: Copy pixelfed docker-compose.yml file into place.
   template:

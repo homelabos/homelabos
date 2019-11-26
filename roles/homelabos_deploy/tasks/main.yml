@@ -166,7 +166,7 @@
   lineinfile:
     path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: query
+  when: "query"
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -214,7 +214,7 @@
 - name: Deploy enabled Services
   include_role:
     name: "{{ service_item }}"
-  when: query
+  when: "query"
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -232,7 +232,7 @@
     name: "{{ service_item }}"
     state: stopped
     enabled: false
-  when: query
+  when: "query"
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -246,7 +246,7 @@
     state: absent
     path: "{{ volumes_root }}/{{ service_item }}/docker-compose.{{ service_item }}.yml"
   when: "query"
-  loop: "{{ services|flatten(levels=1) }}"
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   ignore_errors: "yes"

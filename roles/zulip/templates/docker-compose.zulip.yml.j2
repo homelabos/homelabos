@@ -59,9 +59,9 @@ services:
       SETTING_RABBITMQ_HOST: 'rabbitmq'
       SETTING_REDIS_HOST: 'redis'
       SECRETS_email_password: '123456789'
-      SECRETS_rabbitmq_password: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=ascii_letters')}}"
-      SECRETS_postgres_password: "{{lookup('password', './settings/passwords/zulip_db_password chars=ascii_letters')}}"
-      SECRETS_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
+      SECRETS_rabbitmq_password: "{{ lookup('password', './settings/passwords/zulip_rabbitmq_password chars=ascii_letters') }}"
+      SECRETS_postgres_password: "{{ lookup('password', './settings/passwords/zulip_db_password chars=ascii_letters') }}"
+      SECRETS_secret_key: "{{ lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters') }}"
       SETTING_EXTERNAL_HOST: '{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}'
       SETTING_ZULIP_ADMINISTRATOR: 'admin@example.com'
       SETTING_EMAIL_HOST: ''  # e.g. smtp.example.com

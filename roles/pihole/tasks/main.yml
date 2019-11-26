@@ -11,12 +11,6 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-- name: Pull pihole docker images
-  docker_compose:
-    project_src: "{{ volumes_root}}/pihole"
-    pull: true
-    state: present
-
 - name: Configure pihole systemd service.
   template:
     src: service.j2

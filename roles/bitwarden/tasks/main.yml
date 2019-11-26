@@ -11,7 +11,6 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-
 - name: Configure bitwarden systemd service.
   template:
     src: service.j2

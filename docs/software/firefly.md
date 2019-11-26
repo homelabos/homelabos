@@ -8,8 +8,8 @@ If you attempt to run it on arm and encounter issues,
 
 ## Access
 
-It is available at [https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}/](https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}/) or [http://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}/](http://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}/)
+It is available at [https://{% if firefly.domain %}{{ firefly.domain }}{% else %}{{ firefly.subdomain + "." + domain }}{% endif %}/](https://{% if firefly.domain %}{{ firefly.domain }}{% else %}{{ firefly.subdomain + "." + domain }}{% endif %}/) or [http://{% if firefly.domain %}{{ firefly.domain }}{% else %}{{ firefly.subdomain + "." + domain }}{% endif %}/](http://{% if firefly.domain %}{{ firefly.domain }}{% else %}{{ firefly.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ firefly_iii.subdomain + "." + tor_domain }}/](http://{{ firefly_iii.subdomain + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ firefly.subdomain + "." + tor_domain }}/](http://{{ firefly.subdomain + "." + tor_domain }}/)
 {% endif %}

@@ -19,7 +19,8 @@ services:
       #- freshrss
     restart: unless-stopped
     environment:
-      - CRON_MIN=*/20
+      - CRON_MIN=*/20 
+      - TZ={{ common_timezone }}
     volumes:
       - "{{ volumes_root }}/freshrss/data:/var/www/FreshRSS/data"
     labels:

@@ -2,29 +2,37 @@
 
 FROM python:3.8-alpine
 
-ENV ANSIBLE_VERSION 2.9.6
+ENV ANSIBLE_VERSION 2.9.9
+
+ENV BUILD_DEPS_PACKAGES \
+  gcc \
+  libffi-dev \
+  musl-dev \
+  openssl-dev \
+  python3-dev \
+  wget
 
 ENV BUILD_PACKAGES \
   bash \
+  ca-certificates \
   curl \
-  tar \
-  openssh-client \
-  sshpass \
   git \
+  jq \
   make \
+  openssh-client \
   py3-dateutil \
   py3-httplib2 \
   py3-jinja2 \
   py3-paramiko \
   py3-yaml \
-  ca-certificates \
-  jq
+  sshpass \
+  tar 
 
 ENV PYTHON_PACKAGES \
-  python3-keyczar \
   boto3 \
   docker-py \
-  pyOpenSSL
+  pyOpenSSL \
+  python3-keyczar
 
 # If installing ansible@testing
 #RUN \
@@ -33,13 +41,7 @@ ENV PYTHON_PACKAGES \
 RUN set -x && \
   \
   echo "==> Adding build-dependencies..."  && \
-  apk --update add --virtual build-dependencies \
-  gcc \
-  wget \
-  musl-dev \
-  libffi-dev \
-  openssl-dev \
-  python3-dev && \
+  apk --update add --virtual build-dependencies ${BUILD_DEPS_PACKAGES} && \
   \
   echo "==> Upgrading apk and system..."  && \
   apk update && apk upgrade && \
@@ -75,10 +77,6 @@ RUN set -x && \
   if [ uname -m == "x86_64" ]; then key="yq_linux_amd64"; else key="yq_linux_arm64"; fi && \
   wget $(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep browser_download_url | grep $key | cut -d '"' -f 4) -O /usr/bin/yq && \
   chmod +x /usr/bin/yq
-
-
-
-
 
 ENV ANSIBLE_GATHERING smart
 ENV ANSIBLE_HOST_KEY_CHECKING false
