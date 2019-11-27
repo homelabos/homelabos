@@ -1,0 +1,31 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  searx:
+    image: wonderfall/searx
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+    - /var/homelabos/searx/settings.yml:/usr/local/searx/searx/settings.yml
+    environment:
+      - BASE_URL: http://{{ domain }}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.frontend.rule=Host:searx.{{ domain }}"
+      - "traefik.http.protocol=http"
+      - "traefik.http.port=8888"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
+      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+      - "traefik.tor.frontend.rule=Host:searx.{{ tor_domain }}"
+      - "traefik.tor.protocol=http"
+      - "traefik.tor.port=8888"
+{% endif %}
