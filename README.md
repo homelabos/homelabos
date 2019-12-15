@@ -65,6 +65,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Ghost](https://ghost.org/) - Ghost is a platform for building and running a modern online publication
 - [Gitea](https://gitea.io/en-US/) - Git hosting
 - [Grafana](https://grafana.com/) - Pretty graphs
+- [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Guacamole](https://guacamole.apache.org) - a clientless remote desktop gateway
 - [HealthChecks](HealthChecks.io) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [Home Assistant](https://www.home-assistant.io/) - Home Automation

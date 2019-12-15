@@ -77,6 +77,7 @@ enabled_services:
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
   speedtest: "{{ enable_speedtest }}"
+  grocy: "{{ enable_grocy }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
@@ -85,17 +86,17 @@ vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
 smtp: 
 mailserver: 
-traefik: 
-  additional_env_vars:
+traefik:
+  additional_env_vars: 
 gitea: 
 bastion:
   wireguard: 
   enabled: false
 authelia:
-  duo:
-  default:
-  max:
-  domain:
+  duo: 
+  default: 
+  max: 
+  domain: 
 open_ldap:
-  seed:
-speedtest:
+  seed: 
+speedtest: 
