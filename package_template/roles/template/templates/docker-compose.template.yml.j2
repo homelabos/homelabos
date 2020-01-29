@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-      labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.apache2.loadbalancer.server.scheme=http"
