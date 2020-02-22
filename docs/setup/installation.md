@@ -20,9 +20,7 @@ Verify docker is installed correctly on your client
     * Running Ubuntu 18.04
     * passwordless SSH via SSH keys
     
-Ensure you can access your server with a IP through
-[passwordless SSH](https://www.linuxbabe.com/linux-server/setup-passwordless-ssh-login)
-and your user has sudo access.
+Ensure you can access your server with a IP through [passwordless SSH](https://linuxconfig.org/passwordless-ssh) and your user has sudo access.
 
 ## Set-up
 
