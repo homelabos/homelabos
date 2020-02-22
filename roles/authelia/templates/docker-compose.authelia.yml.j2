@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the pacakge to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -12,6 +12,9 @@ services:
   auth:
     image: clems4ever/authelia:v3.15.0
     restart: unless-stopped
+    depends_on:
+      - redis
+      - mongo
     networks:
       - traefik_network
     labels:
