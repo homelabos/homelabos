@@ -13,6 +13,8 @@ Once the machine is provisioned, you can run `vagrant ssh` then from inside the 
 
 The next step is to set up a host mapping. Edit your `/etc/hosts` file to contain an entry pointing `servicename.yourdomain` to the IP found above.
 
+Now you should be able to hit `servicename.yourdomain` in a browser and have the service page served successfully by Traefik.
+
 ## Resetting Vagrant
 
 Running `vagrant destroy` will erase your vagrant machine image, and let you start fresh.
