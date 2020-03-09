@@ -69,6 +69,7 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
+  mailu: "{{ enable_mailu }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
