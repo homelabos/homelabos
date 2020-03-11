@@ -1,23 +1,50 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the pacakge to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  mail_network:
+    external: false
+
 
 services:
-  app:
-    # REQUIRED
-    image: 
+  # External dependencies
+  redis:
+    image: redis:alpine
     restart: unless-stopped
+    volumes:
+      - "{{ volumes_root }}/mailu/redis:/data"
+    networks:
+      - mail_network
+
+  # Core services
+  front:
+    image: mailu/nginx:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    logging:
+      driver: json-file
+    ports:
+      - "25:25"
+      - "465:465"
+      - "587:587"
+      - "110:110"
+      - "995:995"
+      - "143:143"
+      - "993:993"
+    volumes:
+      - "{{ volumes_root }}/mailu/certs:/certs"
+      - "{{ volumes_root }}/mailu/overrides/nginx:/overrides"
     networks:
       - traefik_network
+      - mail_network
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.docker.network=traefik_network"
       - "traefik.http.frontend.rule=Host:mailu.{{ domain }}"
       - "traefik.http.protocol=http"
       - "traefik.http.port=80"
@@ -28,13 +55,81 @@ services:
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=80"
 {% endif %}
-    # OPTIONAL 
-    #links: 
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD="{{ lookup('password', './settings/passwords/package_name_db_password chars=digits') }}"
+
+  admin:
+    image: mailu/admin:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    volumes:
+      - "{{ volumes_root }}/mailu/data:/data"
+      - "{{ volumes_root }}/mailu/dkim:/dkim"
+    networks:
+      - mail_network
+    depends_on:
+      - redis
+
+  imap:
+    image: mailu/dovecot:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    volumes:
+      - "{{ volumes_root }}/mailu/mail:/mail"
+      - "{{ volumes_root }}/mailu/overrides:/overrides"
+    networks:
+      - mail_network
+    depends_on:
+      - front
+
+  smtp:
+    image: mailu/postfix:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    volumes:
+      - "{{ volumes_root }}/mailu/overrides:/overrides"
+    networks:
+      - mail_network
+    depends_on:
+      - front
+
+  antispam:
+    image: mailu/rspamd:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    volumes:
+      - "{{ volumes_root }}/mailu/filter:/var/lib/rspamd"
+      - "{{ volumes_root }}/mailu/dkim:/dkim"
+      - "{{ volumes_root }}/mailu/overrides/rspamd:/etc/rspamd/override.d"
+    networks:
+      - mail_network
+    depends_on:
+      - front
+
+  # Optional services
+  antivirus:
+    image: mailu/clamav:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    volumes:
+      - "{{ volumes_root }}/mailu/filter:/data"
+    networks:
+      - mail_network
+
+  webdav:
+    image: mailu/radicale:1.7
+    restart: unless-stopped
+    env_file: mailu.env
+    volumes:
+      - "{{ volumes_root }}/mailu/dav:/data"
+    networks:
+      - mail_network
+
+  certdumper:
+    restart: unless-stopped
+    image: mailu/traefik-certdumper:1.7
+    environment:
+      - DOMAIN=mailu.{{ domain }}
+    volumes:
+      # Folder, which contains the acme.json
+      - "{{ volumes_root}}/traefik:/traefik"
+      # Folder, where cert.pem and key.pem will be written
+      - "{{ volumes_root }}/mailu/certs:/output"
