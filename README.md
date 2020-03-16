@@ -119,11 +119,13 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 A server with:
 
-- Ubuntu 18.04 and passwordless SSH via SSH keys
+- Ubuntu 18.04 and [passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 Another computer with:
 
 - Docker
+
+Note: Two separate computers are not required, but are highly recommended. The idea is you have a server and then your personal computer, say a laptop or desktop. You deploy from your personal computer to the server. This way your settings are saved on your personal computer, and can be used to re-build the server and restore from backups if anything goes wrong.
 
 ## Optional Items
 
@@ -139,6 +141,10 @@ Ports 80 and 443 punched through any firewalls and port forwarded at your server
 
 Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
 to act as a bastion host via Tinc vpn and nginx.
+
+### S3 Account
+
+S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back up to. You can use Amazon's service, or one of many other S3 compatible providers. You can also back up to another HomelabOS instance if that other instance is running Minio, a self-hosted S3 service.
 
 ## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 

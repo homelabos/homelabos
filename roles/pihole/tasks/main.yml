@@ -11,12 +11,10 @@
   vars:
     services: "{{ enabled_services|flatten(levels=1) }}"
 
-- name: Stop systemd-resolve
-  systemd:
-    name: systemd-resolved
-    enabled: "no"
-    daemon-reload: "no"
-    state: stopped
+- name: Pull pihole docker images
+  docker_image:
+    name: pihole/pihole
+    pull: True
 
 - name: Configure pihole systemd service.
   template:
@@ -29,3 +27,10 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
+
+- name: Stop systemd-resolve
+  systemd:
+    name: systemd-resolved
+    enabled: "no"
+    daemon-reload: "no"
+    state: stopped
