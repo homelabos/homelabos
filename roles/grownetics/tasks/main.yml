@@ -1,0 +1,25 @@
+---
+- name: Make grownetics directory.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - /var/homelabos/grownetics
+
+- name: Copy grownetics docker-compose.yml file into place.
+  template:
+    src: docker-compose.grownetics.yml.j2
+    dest: /var/homelabos/grownetics/docker-compose.grownetics.yml
+
+- name: Configure grownetics systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/grownetics.service
+
+- name: Start grownetics
+  systemd:
+    name: grownetics
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
