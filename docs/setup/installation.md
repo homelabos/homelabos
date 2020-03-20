@@ -57,6 +57,12 @@ needed to get your settings correct.
     [client]$ make
     ```
 
+You can check YOUR_SERVER_IP:8181 in a browser to see the Traefik dashboard.
+
+If it is empty, images may still be downloading. You can SSH into the server, and run
+`systemctl status SERVICENAME` like `systemctl status organizr` if you want to see if Organizr
+is running. It will show you status and/or errors of the service.
+
 To reset your settings, run `make config_reset`, then run `make config` again.
 
 See a full list of commands in the Getting Started Section
