@@ -16,4 +16,4 @@ services:
       - "1194:1194/udp"
     restart: unless-stopped
     volumes:
-      - /var/homelabos/openvpn:/etc/openvpn
+      - "{{ volumes_root }}/openvpn:/etc/openvpn"

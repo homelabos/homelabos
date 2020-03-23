@@ -16,8 +16,8 @@ services:
       - 389:389
       - 689:689
     volumes:
-      - /var/homelabos/openldap/data:/var/lib/data
-      - /var/homelabos/openldap/config:/etc/ldap/slapd.d
+      - "{{ volumes_root }}/openldap/data:/var/lib/data"
+      - "{{ volumes_root }}/openldap/config:/etc/ldap/slapd.d"
     environment:
       - LDAP_ORGANISATION="{{ ldap_org_name }}"
       - LDAP_DOMAIN="{{ domain }}"

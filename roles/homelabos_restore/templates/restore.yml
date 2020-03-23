@@ -12,5 +12,5 @@ services:
       - BACKUP_CRON={{ s3_backup_cron }}
       - HOSTNAME={{ domain }}
     volumes:
-      - /var/homelabos:/data
+      - "{{ volumes_root }}:/data"
 ...

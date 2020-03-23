@@ -38,7 +38,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/inventario_db:/var/lib/mysql
+      - "{{ volumes_root }}/inventario_db:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_root_password chars=digits')}}"
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_password chars=digits')}}"

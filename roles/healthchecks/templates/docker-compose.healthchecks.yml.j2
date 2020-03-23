@@ -25,7 +25,7 @@ services:
       - EMAIL_HOST_PASSWORD={{smtp.pass}}
       - EMAIL_USE_TLS=False
     volumes:
-      - /var/homelabos/healthchecks/config:/config
+      - "{{ volumes_root }}/healthchecks/config:/config"
 
     restart: unless-stopped
     labels:

@@ -14,9 +14,9 @@ services:
       - PGID={{ gid }}
       - TZ={{ common_timezone }}
     volumes:
-      - /var/homelabos/beets/config:/config
-      - {{ storage_dir }}/Music:/music
-      - {{ storage_dir }}/Downloads/Music:/downloads
+      - "{{ volumes_root }}/beets/config:/config"
+      - "{{ storage_dir }}/Music:/music"
+      - "{{ storage_dir }}/Downloads/Music:/downloads"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

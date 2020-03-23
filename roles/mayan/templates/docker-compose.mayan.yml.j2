@@ -28,13 +28,13 @@ services:
       MAYAN_USER_UID: {{uid_output.stdout}}
       MAYAN_USER_GUID: {{gid_output.stdout}}
     volumes:
-      - /var/homelabos/mayan/broker:/var/lib/rabbitmq
+      - "{{ volumes_root }}/mayan/broker:/var/lib/rabbitmq"
   results:
     networks:
       - traefik_network    
     image: healthcheck/redis
     volumes:
-      - /var/homelabos/mayan/results:/data
+      - "{{ volumes_root }}/mayan/results:/data"
   db:
     image: healthcheck/postgres
     networks:
@@ -46,7 +46,7 @@ services:
       MAYAN_USER_UID: {{uid_output.stdout}}
       MAYAN_USER_GUID: {{gid_output.stdout}}
     volumes:
-      - /var/homelabos/mayan/db:/var/lib/postgresql/data
+      - "{{ volumes_root }}/mayan/db:/var/lib/postgresql/data"
   mayan-edms:
     networks:
       - traefik_network
@@ -86,6 +86,6 @@ services:
       - "traefik.tor.port=8000"
 {% endif %}
     volumes:
-      - /var/homelabos/mayan/app:/var/lib/mayan
-      - {{ storage_dir }}/Documents/consume:/watched_files
-      - {{ storage_dir }}/Documents/mayan_storage:/var/lib/mayan/document_storage
+      - "{{ volumes_root }}/mayan/app:/var/lib/mayan"
+      - "{{ storage_dir }}/Documents/consume:/watched_files"
+      - "{{ storage_dir }}/Documents/mayan_storage:/var/lib/mayan/document_storage"

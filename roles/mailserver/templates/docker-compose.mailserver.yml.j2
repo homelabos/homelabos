@@ -43,8 +43,8 @@ services:
     # Full list : https://github.com/hardware/mailserver#environment-variables
     #
     volumes:
-      - {{ volumes_root }}/mailserver/mail:/var/mail
-      - {{ volumes_root }}/traefik/acme.json:/etc/letsencrypt/acme/acme.json
+      - "{{ volumes_root }}/mailserver/mail:/var/mail"
+      - "{{ volumes_root }}/traefik/acme.json:/etc/letsencrypt/acme/acme.json"
 
     depends_on:
       - mariadb
@@ -69,8 +69,8 @@ services:
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     volumes:
-      - {{ volumes_root }}/mailserver/mail/postfix/config.inc.php:/postfixadmin/config.inc.php
-      - {{ volumes_root }}/mailserver/mail/postfix/config.local.php:/postfixadmin/config.local.php
+      - "{{ volumes_root }}/mailserver/mail/postfix/config.inc.php:/postfixadmin/config.inc.php"
+      - "{{ volumes_root }}/mailserver/mail/postfix/config.local.php:/postfixadmin/config.local.php"
     depends_on:
       - mailserver
       - mariadb
@@ -90,7 +90,7 @@ services:
       - traefik.frontend.rule=Host:webmail.{{ domain }}
       - traefik.docker.network=traefik_network
     volumes:
-      - {{ volumes_root }}/mailserver/rainloop:/rainloop/data
+      - "{{ volumes_root }}/mailserver/rainloop:/rainloop/data"
     depends_on:
       - mailserver
       - mariadb
@@ -110,7 +110,7 @@ services:
       - MYSQL_USER=postfix
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/postfix_db_password chars=digits')}}"
     volumes:
-      - {{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql
+      - "{{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql"
     networks:
       - traefik_network
 
@@ -122,6 +122,6 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
-      - {{ volumes_root }}/mailserver/redis/db:/data
+      - "{{ volumes_root }}/mailserver/redis/db:/data"
     networks:
       - traefik_network

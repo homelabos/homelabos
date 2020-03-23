@@ -13,7 +13,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/apache2/root/:/usr/local/apache2/htdocs/
+      - "{{ volumes_root }}/apache2/root/:/usr/local/apache2/htdocs/"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

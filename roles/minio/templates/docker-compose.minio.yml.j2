@@ -15,8 +15,8 @@ services:
     restart: unless-stopped
     command: server /data
     volumes:
-      - {{ storage_dir }}/Backups/minio:/data
-      - /var/homelabos/minio/config:/root/.minio/
+      - "{{ storage_dir }}/Backups/minio:/data"
+      - "{{ volumes_root }}/minio/config:/root/.minio/"
     ports:
       - 9110:9000
     environment:

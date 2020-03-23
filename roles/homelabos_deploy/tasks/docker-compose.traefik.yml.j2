@@ -26,8 +26,8 @@ services:
 {% endif %}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/homelabos/traefik/traefik.toml:/traefik.toml
-      - /var/homelabos/traefik/acme.json:/acme.json
+      - "{{ volumes_root }}/traefik/traefik.toml:/traefik.toml"
+      - "{{ volumes_root }}/traefik/acme.json:/acme.json"
 {% if traefik.expose_externally %}
     labels:
       - "traefik.enable=true"

@@ -29,7 +29,7 @@ services:
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
       - SYMFONY__ENV__DOMAIN_NAME=https://wallabag.{{ domain }}
     volumes:
-      - /var/homelabos/wallabag/images:/var/www/wallabag/web/assets/images
+      - "{{ volumes_root }}/wallabag/images:/var/www/wallabag/web/assets/images"
     depends_on:
       - wallabag_db
       - redis
@@ -53,7 +53,7 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - /var/homelabos/wallabag_db:/var/lib/mysql
+      - "{{ volumes_root }}/wallabag_db:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/wallabag_db_root_password chars=digits')}}"
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/wallabag_db_password chars=digits')}}"

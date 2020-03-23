@@ -30,8 +30,8 @@ services:
       - "traefik.tor.port=9091"
 {% endif %}
     volumes:
-      - /var/homelabos/authelia/authelia_config.yml:/etc/authelia/config.yml:ro
-      - /var/homelabos/authelia/userdb.yml:/etc/authelia/userdb.yml
+      - "{{ volumes_root }}/authelia/authelia_config.yml:/etc/authelia/config.yml:ro"
+      - "{{ volumes_root }}/authelia/userdb.yml:/etc/authelia/userdb.yml"
   redis:
     networks:
       - traefik_network
@@ -43,4 +43,4 @@ services:
     environment:
       MONGO_INITDB_DATABASE: my_authelia
     volumes:
-      - /var/homelabos/authelia/mongo_data:/data/db
+      - "{{ volumes_root }}/authelia/mongo_data:/data/db"

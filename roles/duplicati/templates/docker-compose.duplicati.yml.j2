@@ -15,9 +15,9 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - /var/homelabos/duplicati/config:/config
-      - /var/homelabos/duplicati/backups:/backups
-      - /var/homelabos/duplicati/source:/source
+      - "{{ volumes_root }}/duplicati/config:/config"
+      - "{{ volumes_root }}/duplicati/backups:/backups"
+      - "{{ volumes_root }}/duplicati/source:/source"
     ports:
       - 8200:8200
     labels:

@@ -3,5 +3,5 @@
     image: nickbusey/healthdata_influx:cron
     restart: unless-stopped
     volumes:
-      - /var/homelabos/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/
-      - /var/homelabos/apple_health_influx/config.yml:/config.yml
+      - "{{ volumes_root }}/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/"
+      - "{{ volumes_root }}/apple_health_influx/config.yml:/config.yml"

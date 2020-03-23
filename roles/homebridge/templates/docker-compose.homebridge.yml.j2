@@ -11,4 +11,4 @@ services:
       - PGID={{ gid }}
       - PUID={{ uid }}
     volumes:
-      - /var/homelabos/homebridge:/homebridge
+      - "{{ volumes_root }}/homebridge:/homebridge"

@@ -16,7 +16,7 @@ services:
       - GID={{ gid }}
       - TZ={{common_timezone}}
     volumes:
-      - /var/homelabos/ombi/config:/config
+      - "{{ volumes_root }}/ombi/config:/config"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"

@@ -12,7 +12,7 @@ services:
     image: drone/drone:1.0
     restart: unless-stopped
     volumes:
-      - /var/homelabos/drone/data:/data
+      - "{{ volumes_root }}/drone/data:/data"
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - traefik_network

@@ -21,8 +21,8 @@ services:
     expose:
       - 27017
     volumes:
-      - /var/homelabos/wekan/wekan-db:/data/db
-      - /var/homelabos/wekan/wekan-db-dump:/dump
+      - "{{ volumes_root }}/wekan/wekan-db:/data/db"
+      - "{{ volumes_root }}/wekan/wekan-db-dump:/dump"
 
   wekan:
     image: quay.io/wekan/wekan

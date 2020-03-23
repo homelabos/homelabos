@@ -38,7 +38,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/mashio_db:/var/lib/mysql
+      - "{{ volumes_root }}/mashio_db:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_root_password chars=digits')}}"
       - MYSQL_DATABASE=mashio

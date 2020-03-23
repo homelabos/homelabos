@@ -18,9 +18,9 @@ services:
     ports:
       - 8176:80
     volumes:
-      - /var/homelabos/monicahq/storage/app/public:/var/www/monica/storage/app/public
+      - "{{ volumes_root }}/monicahq/storage/app/public:/var/www/monica/storage/app/public"
     env_file:
-      - /var/homelabos/monicahq/monicahq.env
+      - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
       - APP_KEY="{{lookup('password', './settings/passwords/monicahq_app_key chars=digits length=32')}}"
       - DB_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
@@ -44,8 +44,8 @@ services:
       - traefik_network
     restart: unless-stopped
     env_file:
-      - /var/homelabos/monicahq/monicahq.env
+      - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
     volumes:
-      - /var/homelabos/monicahq/mysql:/var/lib/mysql
+      - "{{ volumes_root }}/monicahq/mysql:/var/lib/mysql"

@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/bitwarden:/data
+      - "{{ volumes_root }}/bitwarden:/data"
     environment:
       - SMTP_HOST={{ smtp.host }}
       - SMTP_FROM={{ smtp.from_email }}

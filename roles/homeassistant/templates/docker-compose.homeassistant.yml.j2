@@ -11,7 +11,7 @@ services:
   homeassistant:
     image: homeassistant/home-assistant
     volumes:
-      - /var/homelabos/homeassistant:/config
+      - "{{ volumes_root }}/homeassistant:/config"
       - /etc/localtime:/etc/localtime:ro
       - /etc/letsencrypt:/etc/letsencrypt
     restart: unless-stopped

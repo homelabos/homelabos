@@ -12,7 +12,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/lidarr/config:/config
+      - "{{ volumes_root }}/lidarr/config:/config"
     environment:
       - TZ={{ common_timezone }}
       - PUID={{ uid }}

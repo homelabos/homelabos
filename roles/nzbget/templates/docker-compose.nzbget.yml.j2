@@ -20,8 +20,8 @@ services:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
     volumes:
-      - /var/homelabos/nzbget:/config
-      - {{ storage_dir }}/Downloads:/downloads
+      - "{{ volumes_root }}/nzbget:/config"
+      - "{{ storage_dir }}/Downloads:/downloads"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

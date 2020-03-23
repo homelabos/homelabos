@@ -12,5 +12,5 @@ services:
     image: peterdemin/kibitzr
     restart: unless-stopped
     volumes:
-      - /var/homelabos/kibitzr/config:/root/.config/kibitzr
-      - /var/homelabos/kibitzr/pages:/pages
+      - "{{ volumes_root }}/kibitzr/config:/root/.config/kibitzr"
+      - "{{ volumes_root }}/kibitzr/pages:/pages"

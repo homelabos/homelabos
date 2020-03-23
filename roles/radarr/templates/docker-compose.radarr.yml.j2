@@ -19,9 +19,9 @@ services:
       - TZ={{ common_timezone }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos/radarr/config:/config
-      - {{ storage_dir }}/Movies:/movies
-      - {{ storage_dir }}/Downloads/complete/movies:/downloads
+      - "{{ volumes_root }}/radarr/config:/config"
+      - "{{ storage_dir }}/Video/Movies:/movies"
+      - "{{ storage_dir }}/Downloads/complete/movies:/downloads"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

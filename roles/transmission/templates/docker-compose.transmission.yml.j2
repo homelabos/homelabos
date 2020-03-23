@@ -24,10 +24,10 @@ services:
       - 8.8.4.4
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - {{ storage_dir }}/Downloads:/data
-      - {{ storage_dir }}/Downloads/watch:/data/watch
-      - {{ storage_dir }}/Movies:/movies
-      - {{ storage_dir }}/TV:/tv
+      - "{{ storage_dir }}/Downloads:/data"
+      - "{{ storage_dir }}/Downloads/watch:/data/watch"
+      - "{{ storage_dir }}/Video/Movies:/movies"
+      - "{{ storage_dir }}/Video/TV:/tv"
     environment:
       - OPENVPN_PROVIDER={{ openvpn_provider }}
       - OPENVPN_USERNAME={{ openvpn_username }}

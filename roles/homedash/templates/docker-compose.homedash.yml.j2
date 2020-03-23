@@ -11,7 +11,7 @@ services:
     image: gonzague/homedash
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos/homedash:/data
+      - "{{ volumes_root }}/homedash:/data"
     environment:
       - SALT=ivPWITRH5KPJE5oQQAgxuiCgIxBez6MF6idGmasWTUjZzhEx3iAtnI9TSAo6HAevApRoujC5
     restart: unless-stopped

@@ -15,11 +15,11 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - /var/homelabos/plex:/config
-      - {{ storage_dir }}/Music:/data/Music
-      - {{ storage_dir }}/Movies:/data/Movies
-      - {{ storage_dir }}/TV:/data/TV
-      - {{ storage_dir }}/temp/transcode:/transcode
+      - "{{ volumes_root }}/plex:/config"
+      - "{{ storage_dir }}/Music:/data/Music"
+      - "{{ storage_dir }}/Video/Movies:/data/Movies"
+      - "{{ storage_dir }}/Video/TV:/data/TV"
+      - "{{ storage_dir }}/temp/transcode:/transcode"
     environment:
       - TZ={{ common_timezone }}
       - PLEX_CLAIM={{ plex_claim }}

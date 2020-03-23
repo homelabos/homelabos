@@ -24,8 +24,8 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/firefly/export:/var/www/firefly-iii/storage/export
-      - /var/homelabos/firefly/upload:/var/www/firefly-iii/storage/upload
+      - "{{ volumes_root }}/firefly/export:/var/www/firefly-iii/storage/export"
+      - "{{ volumes_root }}/firefly/upload:/var/www/firefly-iii/storage/upload"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -49,4 +49,4 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     image: mariadb
     volumes:
-      - /var/homelabos/firefly/db:/var/lib/mysql
+      - "{{ volumes_root }}/firefly/db:/var/lib/mysql"

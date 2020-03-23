@@ -22,4 +22,4 @@ services:
       - RESTIC_FORGET_ARGS="--prune --keep-last 10 --keep-daily 7 --keep-weekly 52 --keep-monthly 120 --keep-yearly 100"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos:/data:ro
+      - "{{ volumes_root }}:/data:ro"

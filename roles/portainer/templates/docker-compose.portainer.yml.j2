@@ -15,7 +15,7 @@ services:
       - traefik_network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/homelabos/portainer:/data
+      - "{{ volumes_root }}/portainer:/data"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
