@@ -25,6 +25,7 @@ enabled_services:
   ghost: "{{ enable_ghost }}"
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
+  grownetics: "{{ enable_grownetics }}"
   guacamole: "{{ enable_guacamole }}"
   healthchecks: "{{ enable_healthchecks }}"
   homeassistant: "{{ enable_homeassistant }}"
@@ -86,6 +87,7 @@ vpn_subnet_cidr_netmask: 32
 smtp: 
 mailserver: 
 traefik: 
+  additional_env_vars:
 gitea: 
 bastion:
   wireguard: 
