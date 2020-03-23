@@ -47,7 +47,7 @@ Homelabos ships with intelligent defaults for Authelia. However, there are some 
 
 ## Overriding the default policy
 
-`/var/homelabos/Authelia/Authelia_config.yml` file is the source of truth for post-deployment configuration settings. If you wish to override the default policy, stated in config.yml, you'll need to hand edit this configuration file and restart Authelia. You probably only need to do this if there is a service that you want to excempt from two-factor authentication, or excempt from Authelia all together. About 100 lines into the config you'll find a section that looks like this:
+`{{ volumes_root }}/Authelia/Authelia_config.yml` file is the source of truth for post-deployment configuration settings. If you wish to override the default policy, stated in config.yml, you'll need to hand edit this configuration file and restart Authelia. You probably only need to do this if there is a service that you want to excempt from two-factor authentication, or excempt from Authelia all together. About 100 lines into the config you'll find a section that looks like this:
 
 ```yml
 rules:

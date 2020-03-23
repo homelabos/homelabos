@@ -6,7 +6,7 @@ when you aren't.
 ## Configuration
 
 To turn TheLounge from a public instance to a private (highly recommended) run the following commands
-on your server. Run `sed -i 's/public: true/public: false/' /var/homelabos/thelounge/config.js`, then
+on your server. Run `sed -i 's/public: true/public: false/' {{ volumes_root }}/thelounge/config.js`, then
 restart the container with `docker restart homelabos_thelounge_1`, then create a user with
 `docker exec -it homelabos_thelounge_1 thelounge add <username>` and follow the prompts.
 

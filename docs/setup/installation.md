@@ -173,15 +173,15 @@ the status of it's generation.
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
 
-When HomelabOS `make` command completes, it creates a file on the server at `/var/homelabos/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
+When HomelabOS `make` command completes, it creates a file on the server at `{{ volumes_root }}/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
 
 ## NAS Network Attached Storage Configuration
 
-Different HomelabOS services operate on libraries of media (for example: Airsonic, Plex, and Piwigo). Since these libraries can be large, it makes sense to keep them on another machine with lots of storage.
+Different HomelabOS services operate on libraries of media (Airsonic, Plex, and Piwigo as examples). Since these libraries can be large, it makes sense to keep them on another machine with lots of storage.
 
-NAS shares are mounted on the HomelabOS host under `{{ storage_dir }}`, which defaults to `/mnt/homelabos/media`. By default, NAS is disabled, and the services that can use it will instead use local folders under `{{ storage_dir }}`.
+NAS shares are mounted on the HomelabOS host under `{{ storage_dir }}`, which defaults to `/mnt/nas`. By default, NAS is disabled, and the services that can use it will instead use local folders under `{{ storage_dir }}`.
 
-For example, [Emby](/software/emby) will map `{{ storage_dir }}/TV` and `{{ storage_dir }}/Movies` into its container, and [Paperless](/software/paperless) will mount `{{ storage_dir }}/Documents`.
+For example, [Emby](/software/emby) will map `{{ storage_dir }}/Video/TV` and `{{ storage_dir }}/Video/Movies` into its container, and [Paperless](/software/paperless) will mount `{{ storage_dir }}/Documents`. Check the `docker-compose` files for each service to see what directories are used.
 
 HomelabOS takes an all-or-nothing approach to remote storage. If you configure a NAS, all services that can use it will. For a full HomelabOS setup, the following shares should be present on your NAS:
 
@@ -191,10 +191,9 @@ Books
 Documents
 Downloads
 Music
-Movies
 Pictures
 temp
-TV
+Video
 ```
 
 These shares will be individually mounted on the HomelabOS host.

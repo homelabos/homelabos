@@ -16,7 +16,7 @@ for your real server, or fake. For `What is the domain you have pointed at your 
 enter `localhost`.
 
 Now run `make develop` to spin up a local instance inside a Vagrant machine.
-For easy access to the services run `vagrant ssh -c "cat /var/homelabos/homelab_hosts"`. Append the output of this to your
+For easy access to the services run `vagrant ssh -c "cat {{ volumes_root }}/homelab_hosts"`. Append the output of this to your
 machine's host file (usually `/etc/hosts`). Now you should be able to access http://servicename.localhost:2280/
 where `servicename` is the name of any services you have enabled in `config.yml`.
 If you make changes to the Ansible scripts you can run `make provision` to run them again.

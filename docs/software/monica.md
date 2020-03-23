@@ -10,7 +10,7 @@ First make sure all the migrations have completed and that accessing the Monica 
 
 Once that is done, login to your server and stop the services with `systemctl stop homelabos`
 
-Spin up a monica specific app by CDing into the HomelabOS Docker folder `cd /var/homelabos/docker` and then running `docker-compose run monicahq shell`
+Spin up a monica specific app by CDing into the HomelabOS Docker folder `cd {{ volumes_root }}/docker` and then running `docker-compose run monicahq shell`
 
 Once you are inside the Docker container, run `php artisan setup:production` then after that's done `exit` the container. Now you should spin down the DB container left running with `docker stop docker_monicahq_db_1`.
 

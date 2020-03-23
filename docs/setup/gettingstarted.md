@@ -5,7 +5,7 @@ Once you are all setup and ready to go you should be able to load Organizr at [h
 If you see `{ domain }` in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.
 
 ## File locations
-HomelabOS sets up `/var/homelabos` on your server
+HomelabOS sets up `{{ volumes_root }}` on your server, which maps to `/var/homelabos` by default
 
 ## Using Organizr
 
