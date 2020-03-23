@@ -1,13 +1,13 @@
 ---
 - name: Make guacamole directory.
   file:
-    path: "/var/homelabos/guacamole"
+    path: "{{ volumes_root }}/guacamole"
     state: directory
 
 - name: Copy guacamole docker-compose.yml file into place.
   template:
     src: docker-compose.guacamole.yml.j2
-    dest: /var/homelabos/guacamole/docker-compose.guacamole.yml
+    dest: "{{ volumes_root }}/guacamole/docker-compose.guacamole.yml"
 
 
 - name: Configure guacamole systemd service.

@@ -1,13 +1,13 @@
 ---
 - name: Make ubooquity directory.
   file:
-    path: "/var/homelabos/ubooquity"
+    path: "{{ volumes_root }}/ubooquity"
     state: directory
 
 - name: Copy ubooquity docker-compose.yml file into place.
   template:
     src: docker-compose.ubooquity.yml.j2
-    dest: /var/homelabos/ubooquity/docker-compose.ubooquity.yml
+    dest: "{{ volumes_root }}/ubooquity/docker-compose.ubooquity.yml"
 
 - name: Configure ubooquity systemd service.
   template:

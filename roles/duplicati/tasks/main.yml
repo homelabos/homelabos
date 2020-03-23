@@ -1,7 +1,7 @@
 ---
 - name: Make duplicati directory.
   file:
-    path: "/var/homelabos/duplicati"
+    path: "{{ volumes_root }}/duplicati"
     state: directory
 
 - debug:
@@ -10,7 +10,7 @@
 - name: Copy duplicati docker-compose.yml file into place.
   template:
     src: docker-compose.duplicati.yml.j2
-    dest: /var/homelabos/duplicati/docker-compose.duplicati.yml
+    dest: "{{ volumes_root }}/duplicati/docker-compose.duplicati.yml"
 
 
 - name: Configure duplicati systemd service.

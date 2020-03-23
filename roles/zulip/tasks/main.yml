@@ -1,13 +1,13 @@
 ---
 - name: Make zulip directory.
   file:
-    path: "/var/homelabos/zulip"
+    path: "{{ volumes_root }}/zulip"
     state: directory
 
 - name: Copy zulip docker-compose.yml file into place.
   template:
     src: docker-compose.zulip.yml.j2
-    dest: /var/homelabos/zulip/docker-compose.zulip.yml
+    dest: "{{ volumes_root }}/zulip/docker-compose.zulip.yml"
   vars:
     zulip_postgres_pass: "{{lookup('password', './settings/passwords/zulip_postgres_pass chars=digits')}}"
     zulip_rabbitmq_pass: "{{lookup('password', './settings/passwords/zulip_rabbitmq_pass chars=digits')}}"

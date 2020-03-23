@@ -1,13 +1,13 @@
 ---
 - name: Make nzbget directory.
   file:
-    path: "/var/homelabos/nzbget"
+    path: "{{ volumes_root }}/nzbget"
     state: directory
 
 - name: Copy nzbget docker-compose.yml file into place.
   template:
     src: docker-compose.nzbget.yml.j2
-    dest: /var/homelabos/nzbget/docker-compose.nzbget.yml
+    dest: "{{ volumes_root }}/nzbget/docker-compose.nzbget.yml"
 
 
 - name: Configure nzbget systemd service.

@@ -1,13 +1,13 @@
 ---
 - name: Make jellyfin directory.
   file:
-    path: "/var/homelabos/jellyfin"
+    path: "{{ volumes_root }}/jellyfin"
     state: directory
 
 - name: Copy jellyfin docker-compose.yml file into place.
   template:
     src: docker-compose.jellyfin.yml.j2
-    dest: /var/homelabos/jellyfin/docker-compose.jellyfin.yml
+    dest: "{{ volumes_root }}/jellyfin/docker-compose.jellyfin.yml"
 
 - name: Configure jellyfin systemd service.
   template:

@@ -1,7 +1,7 @@
 ---
 - name: Make mylar directory.
   file:
-    path: "/var/homelabos/mylar"
+    path: "{{ volumes_root }}/mylar"
     state: directory
 
 - name: Get UID
@@ -17,7 +17,7 @@
 - name: Copy mylar docker-compose.yml file into place.
   template:
     src: docker-compose.mylar.yml.j2
-    dest: /var/homelabos/mylar/docker-compose.mylar.yml
+    dest: "{{ volumes_root }}/mylar/docker-compose.mylar.yml"
   vars:
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"

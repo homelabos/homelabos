@@ -1,13 +1,13 @@
 ---
 - name: Make authelia directory.
   file:
-    path: "/var/homelabos/authelia"
+    path: "{{ volumes_root }}/authelia"
     state: directory
 
 - name: Copy authelia docker-compose.yml file into place.
   template:
     src: docker-compose.authelia.yml.j2
-    dest: /var/homelabos/authelia/docker-compose.authelia.yml
+    dest: "{{ volumes_root }}/authelia/docker-compose.authelia.yml"
 
 - name: Generate new slapd compatible password.
   shell: mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | base64 | sed -e 's/+/./g' |  cut -b 10-25` '{{default_password}}'
@@ -17,14 +17,14 @@
 - name: Copy userdb.yml file into place.
   template:
     src: userdb.yml.j2
-    dest: /var/homelabos/authelia/userdb.yml
+    dest: "{{ volumes_root }}/authelia/userdb.yml"
   vars:
     slapd_password: "{{ slappasswd_out.stdout }}"
 
 - name: Copy authelia_config.yml file into place.
   template:
     src: authelia_config.yml.j2
-    dest: /var/homelabos/authelia/authelia_config.yml
+    dest: "{{ volumes_root }}/authelia/authelia_config.yml"
   vars:
     domain_parts: "{{ domain.split('.') }}"
 

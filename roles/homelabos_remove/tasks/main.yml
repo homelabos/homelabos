@@ -2,7 +2,7 @@
 - name: remove enabled services.
   file:
     state: absent
-    path: "/var/homelabos/{{ service_item }}"
+    path: "{{ volumes_root }}/{{ service_item }}"
   when: confirm_remove
   loop: "{{ enabled_services|flatten(levels=1) }}"
   loop_control:

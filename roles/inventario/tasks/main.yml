@@ -1,13 +1,13 @@
 ---
 - name: Make inventario directory.
   file:
-    path: "/var/homelabos/inventario"
+    path: "{{ volumes_root }}/inventario"
     state: directory
 
 - name: Copy inventario docker-compose.yml file into place.
   template:
     src: docker-compose.inventario.yml.j2
-    dest: /var/homelabos/inventario/docker-compose.inventario.yml
+    dest: "{{ volumes_root }}/inventario/docker-compose.inventario.yml"
 
 
 - name: Configure inventario systemd service.

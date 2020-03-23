@@ -1,13 +1,13 @@
 ---
 - name: Make mstream directory.
   file:
-    path: "/var/homelabos/mstream"
+    path: "{{ volumes_root }}/mstream"
     state: directory
 
 - name: Copy mstream docker-compose.yml file into place.
   template:
     src: docker-compose.mstream.yml.j2
-    dest: /var/homelabos/mstream/docker-compose.mstream.yml
+    dest: "{{ volumes_root }}/mstream/docker-compose.mstream.yml"
 
 - name: Configure mstream systemd service.
   template:

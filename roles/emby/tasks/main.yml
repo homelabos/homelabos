@@ -1,13 +1,13 @@
 ---
 - name: Make emby directory.
   file:
-    path: "/var/homelabos/emby"
+    path: "{{ volumes_root }}/emby"
     state: directory
 
 - name: Copy emby docker-compose.yml file into place.
   template:
     src: docker-compose.emby.yml.j2
-    dest: /var/homelabos/emby/docker-compose.emby.yml
+    dest: "{{ volumes_root }}/emby/docker-compose.emby.yml"
 
 
 - name: Configure emby systemd service.

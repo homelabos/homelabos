@@ -1,13 +1,13 @@
 ---
 - name: Make healthchecks directory.
   file:
-    path: "/var/homelabos/healthchecks"
+    path: "{{ volumes_root }}/healthchecks"
     state: directory
 
 - name: Copy healthchecks docker-compose.yml file into place.
   template:
     src: docker-compose.healthchecks.yml.j2
-    dest: /var/homelabos/healthchecks/docker-compose.healthchecks.yml
+    dest: "{{ volumes_root }}/healthchecks/docker-compose.healthchecks.yml"
 
 - name: Configure healthchecks systemd service.
   template:

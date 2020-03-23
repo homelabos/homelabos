@@ -5,12 +5,12 @@
     state: directory
     mode: 0777
   loop:
-    - /var/homelabos/grownetics
+    - "{{ volumes_root }}/grownetics"
 
 - name: Copy grownetics docker-compose.yml file into place.
   template:
     src: docker-compose.grownetics.yml.j2
-    dest: /var/homelabos/grownetics/docker-compose.grownetics.yml
+    dest: "{{ volumes_root }}/grownetics/docker-compose.grownetics.yml"
 
 - name: Configure grownetics systemd service.
   template:

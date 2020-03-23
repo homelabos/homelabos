@@ -18,8 +18,11 @@ default_username: {{ default_username }}
 # Default password to go with the default user
 default_password: {{ default_password }}
 
+# Default storage location for service data, such as configuration data
+volumes_root: {{ volumes_root | default('/var/homelabos') }}
+
 # Default storage location for media (These are used as local directories or NAS mount points depending on configuration)
-storage_dir: {{ storage_dir | default('/mnt/homelabos/media') }}
+storage_dir: {{ storage_dir | default('/mnt/nas') }}
 
 # Minio access keys
 minio_access_key: {{ minio_access_key | default() }}

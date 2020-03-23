@@ -1,13 +1,13 @@
 ---
 - name: Make miniflux directory.
   file:
-    path: "/var/homelabos/miniflux"
+    path: "{{ volumes_root }}/miniflux"
     state: directory
 
 - name: Copy miniflux docker-compose.yml file into place.
   template:
     src: docker-compose.miniflux.yml.j2
-    dest: /var/homelabos/miniflux/docker-compose.miniflux.yml
+    dest: "{{ volumes_root }}/miniflux/docker-compose.miniflux.yml"
 
 
 - name: Configure miniflux systemd service.

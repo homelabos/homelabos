@@ -1,13 +1,13 @@
 ---
 - name: Make openldap directory.
   file:
-    path: "/var/homelabos/openldap"
+    path: "{{ volumes_root }}/openldap"
     state: directory
 
 - name: Copy openldap docker-compose.yml file into place.
   template:
     src: docker-compose.openldap.yml.j2
-    dest: /var/homelabos/openldap/docker-compose.openldap.yml
+    dest: "{{ volumes_root }}/openldap/docker-compose.openldap.yml"
 
 
 - name: Configure openldap systemd service.

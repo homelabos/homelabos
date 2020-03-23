@@ -1,5 +1,6 @@
 ---
-volumes_root: "/var/homelabos"
+volumes_root: "{{ volumes_root }}"
+storage_dir: "{{ storage_dir }}"
 tinc: "{{ enable_tinc }}"
 tor: "{{ enable_tor }}"
 enabled_services:
