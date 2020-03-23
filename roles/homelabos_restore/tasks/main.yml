@@ -33,13 +33,13 @@
     dest: "{{ volumes_root }}_restore.yml"
 
 - name: Spin up restore utility.
-  command: "docker-compose -f "{{ volumes_root }}_restore.yml" -p homelabos_restore up -d"
+  command: "docker-compose -f \"{{ volumes_root }}_restore.yml\" -p homelabos_restore up -d"
 
 - name: Restore HomelabOS data. (This could take quite a while depending on how much data you have.)
   command: "docker exec homelabosrestore_restore_1 restic restore latest --target /"
 
 - name: Stop restore utility.
-  command: "docker-compose -f "{{ volumes_root }}_restore.yml" -p homelabos_restore down"
+  command: "docker-compose -f \"{{ volumes_root }}_restore.yml\" -p homelabos_restore down"
 
 - name: Ensure enabled services are restarted
   systemd:

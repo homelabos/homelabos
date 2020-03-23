@@ -14,7 +14,7 @@
 - name: Pull pihole docker images
   docker_image:
     name: pihole/pihole
-    pull: True
+    pull: true
 
 - name: Configure pihole systemd service.
   template:

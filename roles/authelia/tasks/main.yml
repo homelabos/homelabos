@@ -10,7 +10,11 @@
     dest: "{{ volumes_root }}/authelia/docker-compose.authelia.yml"
 
 - name: Generate new slapd compatible password.
-  shell: mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | base64 | sed -e 's/+/./g' |  cut -b 10-25` '{{default_password}}'
+  shell: >
+    mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | 
+    base64 | 
+    sed -e 's/+/./g' | 
+    cut -b 10-25` '{{default_password}}'
   register: slappasswd_out
   become: false
 
