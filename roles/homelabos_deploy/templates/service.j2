@@ -8,8 +8,8 @@ TimeoutSec=infinity
 Restart=always
 RestartSec=3
 
-ExecStart=/usr/bin/docker-compose -f /var/homelabos/{{ service_item }}/docker-compose.{{ service_item }}.yml -p {{ service_item }} up
-ExecStop=/usr/bin/docker-compose -f /var/homelabos/{{ service_item }}/docker-compose.{{ service_item }}.yml -p {{ service_item }} stop
+ExecStart=/usr/bin/docker-compose -f "{{ volumes_root }}/{{ service_item }}/docker-compose.{{ service_item }}.yml" -p {{ service_item }} up
+ExecStop=/usr/bin/docker-compose -f "{{ volumes_root }}/{{ service_item }}/docker-compose.{{ service_item }}.yml" -p {{ service_item }} stop
 
 [Install]
 WantedBy=multi-user.target
