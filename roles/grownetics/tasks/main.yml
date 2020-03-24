@@ -7,6 +7,11 @@
   loop:
     - /var/homelabos/grownetics
 
+- name: Copy grownetics .env file into place.
+  template:
+    src: env.j2
+    dest: /var/homelabos/grownetics/.env
+  
 - name: Copy grownetics docker-compose.yml file into place.
   template:
     src: docker-compose.grownetics.yml.j2

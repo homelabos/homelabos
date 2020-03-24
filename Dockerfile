@@ -64,13 +64,7 @@ RUN set -x && \
     echo "==> Installing necessities..."  && \
     wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip && \
     unzip terraform_0.12.0_linux_amd64.zip && \
-    mv terraform /usr/local/bin && \
-    wget https://github.com/mikefarah/yq/releases/download/2.4.0/yq_linux_amd64 && \
-    chmod +x yq_linux_amd64 && \
-    mv yq_linux_amd64 /usr/local/bin && \
-    wget https://gitlab.com/NickBusey/HomelabOS/-/archive/master/HomelabOS-master.zip && \
-    unzip HomelabOS-master.zip && \
-    mv HomelabOS-master HomelabOS
+    mv terraform /usr/local/bin
 
 ENV ANSIBLE_GATHERING smart
 ENV ANSIBLE_HOST_KEY_CHECKING false
