@@ -24,7 +24,7 @@ services:
       - "traefik.http.services.homedash.loadbalancer.server.port=4567"
       - "traefik.http.routers.homedash-http.rule=Host(`homedash.{{ domain }}`)"
       - "traefik.http.routers.homedash-http.entrypoints=http"
-      - "traefik.http.routers.homedash-http.middlewares={% if homedash.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% if homedash.https_only %}redirect@file, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.homedash-http.middlewares={% if homedash.https_only %}redirect@file, {% else %}{% if homedash.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.homedash.rule=Host(`homedash.{{ domain }}`)"
       - "traefik.http.routers.homedash.entrypoints=https"
       - "traefik.http.routers.homedash.middlewares={% if homedash.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

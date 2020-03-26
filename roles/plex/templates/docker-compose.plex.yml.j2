@@ -41,7 +41,7 @@ services:
       - "traefik.http.services.plex.loadbalancer.server.port=32400"
       - "traefik.http.routers.plex-http.rule=Host(`plex.{{ domain }}`)"
       - "traefik.http.routers.plex-http.entrypoints=http"
-      - "traefik.http.routers.plex-http.middlewares={% if plex.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% if plex.https_only %}redirect@file, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.plex-http.middlewares={% if plex.https_only %}redirect@file, {% else %}{% if plex.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.plex.rule=Host(`plex.{{ domain }}`)"
       - "traefik.http.routers.plex.entrypoints=https"
       - "traefik.http.routers.plex.middlewares={% if plex.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

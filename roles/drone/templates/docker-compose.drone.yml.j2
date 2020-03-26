@@ -30,7 +30,7 @@ services:
       - "traefik.http.services.drone.loadbalancer.server.port=80"
       - "traefik.http.routers.drone-http.rule=Host(`drone.{{ domain }}`)"
       - "traefik.http.routers.drone-http.entrypoints=http"
-      - "traefik.http.routers.drone-http.middlewares={% if drone.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% if drone.https_only %}redirect@file, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.drone-http.middlewares={% if drone.https_only %}redirect@file, {% else %}{% if drone.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.drone.rule=Host(`drone.{{ domain }}`)"
       - "traefik.http.routers.drone.entrypoints=https"
       - "traefik.http.routers.drone.middlewares={% if drone.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

@@ -21,7 +21,7 @@ services:
       - "traefik.http.services.apache2.loadbalancer.server.port=80"
       - "traefik.http.routers.apache2-http.rule=Host(`{{ apache2_subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.apache2-http.entrypoints=http"
-      - "traefik.http.routers.apache2-http.middlewares={% if apache2.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% if apache2.https_only %}redirect@file, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.apache2-http.middlewares={% if apache2.https_only %}redirect@file, {% else %}{% if apache2.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.apache2.rule=Host(`{{ apache2_subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.apache2.entrypoints=https"
       - "traefik.http.routers.apache2.middlewares={% if apache2.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

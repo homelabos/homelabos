@@ -29,7 +29,7 @@ services:
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
       - "traefik.http.routers.sonarr-http.rule=Host(`sonarr.{{ domain }}`)"
       - "traefik.http.routers.sonarr-http.entrypoints=http"
-      - "traefik.http.routers.sonarr-http.middlewares={% if sonarr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% if sonarr.https_only %}redirect@file, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.sonarr-http.middlewares={% if sonarr.https_only %}redirect@file, {% else %}{% if sonarr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sonarr.rule=Host(`sonarr.{{ domain }}`)"
       - "traefik.http.routers.sonarr.entrypoints=https"
       - "traefik.http.routers.sonarr.middlewares={% if sonarr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

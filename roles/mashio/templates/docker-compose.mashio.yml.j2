@@ -25,7 +25,7 @@ services:
       - "traefik.http.services.mashio.loadbalancer.server.port=80"
       - "traefik.http.routers.mashio-http.rule=Host(`mashio.{{ domain }}`)"
       - "traefik.http.routers.mashio-http.entrypoints=http"
-      - "traefik.http.routers.mashio-http.middlewares={% if mashio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% if mashio.https_only %}redirect@file, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mashio-http.middlewares={% if mashio.https_only %}redirect@file, {% else %}{% if mashio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mashio.rule=Host(`mashio.{{ domain }}`)"
       - "traefik.http.routers.mashio.entrypoints=https"
       - "traefik.http.routers.mashio.middlewares={% if mashio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
