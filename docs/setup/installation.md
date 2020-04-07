@@ -5,7 +5,20 @@
 
 ## Requirements
 
+Using at least 2 machines, a client and a server, is the recommended way to deploy HomelabOS.
+
+A typical set up might be the client is a laptop or desktop daily driver, and the server is, a rack server, or raspberry pi, or VPS.
+
+There are two primary reasons to favor this setup over deploying directly to the server.
+
+The first reason is that if you have all of your config settings on your laptop, which is hopefully being backed up regularly, then if your server fails entirely, you can spin up a new server quickly on another machine with minimal data loss. This assumes you are (as you should be) using [restic](/software/restic.md) to back up your server nightly.
+
+The second reason is if in the future HomelabOS supports, and you decide to move to, a multi-server cluster, deployments will not change in any way on the user end. You would simply add the extra node and type `make` on your client as usual.
+
+All of that said, you can still install directly on the server. Just make sure to set the `homelab_ip` to your local network IP rather than `127.0.0.1`. This way the install Docker container can reach itself as expected.
+
 ### Client:
+
     *  Docker
     
 If you don't want to install docker to your client (or if you're on windows), you can do everything on your server. Just make sure to setup Docker on your server first.
@@ -17,6 +30,7 @@ Verify docker is installed correctly on your client
 
 
 ### Server:
+
     * Running Ubuntu 18.04
     * passwordless SSH via SSH keys
     
