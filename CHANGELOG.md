@@ -4,6 +4,7 @@
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - Added HomeBridge - HomeKit support for the impatient
+- Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
 - Added MStream - All your music, everywhere you go.
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!

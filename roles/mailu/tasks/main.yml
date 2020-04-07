@@ -1,0 +1,25 @@
+---
+- name: Make mailu directory.
+  file:
+    path: "/var/homelabos/mailu"
+    state: directory
+
+- name: Copy mailu docker-compose.yml file into place.
+  template:
+    src: docker-compose.mailu.yml.j2
+    dest: /var/homelabos/mailu/docker-compose.mailu.yml
+
+- name: Copy mailu configuration file into place.
+  template:
+    src: mailu.env.j2
+    dest: /var/homelabos/mailu/mailu.env
+
+- name: Configure mailu systemd service.
+  template: src=mailu-service.j2 dest=/etc/systemd/system/mailu.service
+
+- name: Start mailu
+  systemd:
+    name: mailu
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
