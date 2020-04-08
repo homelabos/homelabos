@@ -17,8 +17,8 @@ services:
       - "{{ volumes_root }}/syncthing:/config"
       - "{{ storage_dir }}/Documents/Syncthing:/data"
     environment:
-      - PGID=1004
-      - PUID=1000
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
     ports:
       - 22000:22000
       - 21027:21027/udp
