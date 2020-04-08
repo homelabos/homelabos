@@ -1,0 +1,40 @@
+{{ if .Site.Data.homepage.testimonial.enable }}
+<section class="testimonials section" id="testimonial">
+  <div class="container">
+    {{ with .Site.Data.homepage.testimonial }}
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="heading">
+          <h2>{{ .title | markdownify }}</h2>
+        </div>
+      </div>
+      {{ range .testimonialItem }}
+      <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center">
+        <div class="testimonial-block">
+          <i class="tf-ion-quote"></i>
+          <p>{{ .content | markdownify }}</p>
+          <div class="author-details">
+            <img src="{{ .image | absURL }}" alt="{{ .name }}">
+            <h4>{{ .name }}</h4>
+            <span>{{ .designation }}</span>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+    <div class="row mt-100">
+      <div class="col-md-12 text-center">
+        <button class="snipcart-add-item btn btn-main" {{with .Site.Data.homepage.product }}
+          data-item-id="{{ .name | urlize }}__{{ .price }}" data-item-name="{{ .name }}"
+          data-item-image="{{ .image | absURL }}" data-item-price="{{ .price }}" data-item-url="{{ .Permalink }}"
+          {{ if .colors }} data-item-custom1-name="Choose Color"
+          data-item-custom1-options="{{ range $index, $element:= .colors }}{{ if eq $index 0 }}{{ . | title }}{{ else }}|{{ . | title }}{{ end }}{{ end }}"
+          {{ end }} {{ if .sizes }} data-item-custom2-name="Choose Size"
+          data-item-custom2-options="{{ range $index, $element:= .sizes }}{{ if eq $index 0 }}{{ . | title }}{{ else }}|{{ . | title }}{{ end }}{{ end }}"
+          {{ end }}{{ end }}>Grab You Product Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
