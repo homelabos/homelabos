@@ -12,7 +12,7 @@ Also, if you trash your server or wreck your data, that's on you. Test your back
 
 ## [Documentation](https://nickbusey.gitlab.io/HomelabOS/)
 
-## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
+## [Installation](https://gitlab.com/NickBusey/HomelabOS/-/blob/dev/docs/setup/installation.md#installation)
 
 ## Summary
 

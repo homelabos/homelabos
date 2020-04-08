@@ -2,22 +2,22 @@
 banner:
   enable : true
   title : "Your offline-first privacy-centric personal data center."
-  content : "Includes over 50 services you can self-host easily."
+  content : "Includes over 70 services you can easily self-host."
   image : "images/screenshot.png"
   button: "Install Now"
 
 ############################# Feature ############################
 features:
   enable : true
-  title : "Core Features"
+  title : "Free Private Self-Hosted App Store"
   image : "images/screenshot2.png"
 
   # feature at the left of the image
   leftSide:
     # feature item loop
-  - icon : "tf-ion-thumbsup"
-    title : "One Line Deploy"
-    content : "curl ..."
+  - icon : "tf-ion-star"
+    title : "Over 70 Services"
+    content : "Replace Gmail, Slack, Google Drive, Netflix, and much more with your own self-hosted services!"
     
     # feature item loop
   - icon : "tf-ion-disc"
@@ -33,9 +33,9 @@ features:
   # feature at the right of the image
   rightSide:
     # feature item loop
-  - icon : "tf-ion-star"
-    title : "Over 50 Services"
-    content : "Replace Gmail, Slack, Google Drive, Netflix, and much more with your own self-hosted services!"
+  - icon : "tf-ion-thumbsup"
+    title : "One Line Deploy"
+    content : "$ bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)"
 
     # feature item loop
   - icon : "tf-ion-lock-combination"
@@ -53,41 +53,38 @@ promo:
   enable : true
   image : "images/screenshot3.png"
   title : "Take back control of your internet"
-  content : "Stop hoping services that you rely on won't shut down. Guarantee it. Host them yourself for future proof applications."
+  content : "Stop relying on services that could shut down at any time. Host them yourself for future proof applications."
 
 
 ############################# About Product #######################
 aboutProduct:
   enable : true
-  title : "Why Choose Apple Watch"
+  title : "Internet Optional"
   items:
     # about product item loop
-    - image : "images/showcase/showcase-4.png"
-      title : "Lorem ipsum dolor sit amet."
-      content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, sed, assumenda. Tenetur
-            sed esse, voluptas voluptate est veniam numquam, quis magni. Architecto minus suscipit
-            quas, quo harum deserunt consequatur cumque!"
+    - image : "images/server.jpg"
+      title : "Host over 70 applications on prem"
+      content : "HomelabOS allows anyone to easily deploy, backup, restore, and maintain over 70 different applications and services. Everything from video players, to home automation, to chat services. These services can continue to function at full speed on your LAN even when your external internet is completely offline."
       button:
         enable : true
-        label : "Check Features"
-        link : "#"
+        label : "See Available Apps"
+        link : "https://gitlab.com/NickBusey/HomelabOS#available-software"
         
     # about product item loop
-    - image : "images/showcase/showcase-3.png"
-      title : "Lorem ipsum dolor sit amet."
-      content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, sed, assumenda. Tenetur
-            sed esse, voluptas voluptate est veniam numquam, quis magni. Architecto minus suscipit
-            quas, quo harum deserunt consequatur cumque!"
+    - image : "images/laptop.jpg"
+      title : "Take back control of your data while saving money"
+      content : "Keep your data under your control, and also stop spending money on all those different online services. Run your own services for you, your family, and your friends!"
       button:
         enable : true
-        label : "Check Features"
-        link : "#"
+        label : "Install Now"
+        link : "https://gitlab.com/NickBusey/HomelabOS/-/blob/dev/docs/setup/installation.md#installation"
 
 
 #################################### Gallery ########################
 gallery:
-  enable : true
-  title : "Checkout some amazing Shorts"
+  enable : false
+  title : "Screenshots"
+  bgImage : "images/servers.jpg"
   # Set the image directory to use as base
   directory : "images/showcase"
   # Set the images to show in the gallery
@@ -97,8 +94,8 @@ gallery:
 
 ################################## call to action ###################
 cta:
-  enable : true
-  bgImage : "images/call-to-action.jpg"
+  enable : false
+  bgImage : "images/servers.jpg"
   title : "Get Product Updates"
   content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod"
   placeholder : "Your Email Address Here"
@@ -106,13 +103,13 @@ cta:
 
 ############################## Testimonial ##########################
 testimonial:
-  enable : true
-  title : "Watch Review"
+  enable : false
+  title : "Testimonials"
   testimonialItem:
     # testimonial item loop
     - name : "Jonathon Andrew"
       designation : "CEO, Themefisher"
-      image : "images/avater.png"
+      image : "images/server.jpg"
       content : "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents."
       
     # testimonial item loop
