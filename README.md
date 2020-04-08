@@ -10,7 +10,7 @@ If you like getting your hands dirty in early versions of software, this is for 
 
 Also, if you trash your server or wreck your data, that's on you. Test your backups. Trust nothing.
 
-## [Documentation](https://nickbusey.gitlab.io/HomelabOS/)
+## [Documentation](https://gitlab.com/NickBusey/HomelabOS/-/tree/dev/docs)
 
 ## [Installation](https://gitlab.com/NickBusey/HomelabOS/-/blob/dev/docs/setup/installation.md#installation)
 
