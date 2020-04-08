@@ -19,9 +19,9 @@ pages:
   - hugo -s website -d ../public
   - pip install mkdocs
   - pip install mkdocs-material
-  - mkdocs --version
-  - mkdocs build
-  - mv site public/docs
+  # - mkdocs --version
+  # - mkdocs build
+  # - mv site public/docs
   artifacts:
     paths:
     - public
