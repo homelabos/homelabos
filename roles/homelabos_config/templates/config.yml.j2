@@ -9,24 +9,14 @@ homelab_ip: {{ homelab_ip }}
 # User name used to connect via ssh. Must have passwordless sudo.
 homelab_ssh_user: {{ homelab_ssh_user }}
 
-# SUDO password
-ansible_become_password: {{ ansible_become_password | default() }}
-
 # Default user name to create as admin with services
 default_username: {{ default_username }}
-
-# Default password to go with the default user
-default_password: {{ default_password }}
 
 # Default storage location for service data, such as configuration data
 volumes_root: {{ volumes_root | default('/var/homelabos') }}
 
 # Default storage location for media (These are used as local directories or NAS mount points depending on configuration)
 storage_dir: {{ storage_dir | default('/mnt/nas') }}
-
-# Minio access keys
-minio_access_key: {{ minio_access_key | default() }}
-minio_secret_access_key: {{ minio_secret_access_key | default() }}
 
 # Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
 ubuntu_release: {{ ubuntu_release | default('bionic') }}
@@ -81,16 +71,6 @@ domain: {{ domain | default('localhost') }}
 admin_email: {{ admin_email | default('test@test.com') }}
 
 ansible_port: {{ ansible_port | default(22) }}
-
-# Servers
-
-aws:
-  secret_key:
-  access_key:
-  region:
-
-do_access_token: {{ do_access_token | default(False) }}
-region: {{ region | default('nyc1') }}
 
 # Features
 
@@ -186,9 +166,6 @@ enable_wallabag: {{ enable_wallabag | default(False) }}
 enable_webvirtmgr: {{ enable_webvirtmgr | default(False) }}
 enable_zulip: {{ enable_zulip | default(False) }}
 
-# After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
-plex_claim: {{ plex_claim | default('CHANGE_TO_GIVEN_TOKEN') }}
-
 ### END REQUIRED ###
 
 ### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
@@ -215,97 +192,19 @@ nas_user: {{ nas_user | default(default_username) }}
 nas_pass: {{ nas_pass | default() }}
 nas_workgroup: {{ nas_workgroup | default() }}
 
-# Mapbox Api keys: Used for OwnPhotos
-mapbox_api_key: {{ mapbox_api_key | default() }}
-
-# Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
-s3_access_key: {{ s3_access_key | default() }}
-s3_secret_key: {{ s3_secret_key | default() }}
-s3_backup_password: {{ s3_backup_password | default() }}
-
 # Example: 0 4 * * *
 # Backup every day at 4:00 AM
 s3_backup_cron: {{ s3_backup_cron | default() }}
 s3_path: {{ s3_path | default() }}
 
-# Home Assitant API Key
-homeassistant_api_key: {{ homeassistant_api_key | default() }}
-
-# Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
-apple_health_nextcloud_username: {{ apple_health_nextcloud_username | default()  }}
-
-# Xfinity Data Usage Settings
-xfinity_user: {{ xfinity_user | default()  }}
-xfinity_password: {{ xfinity_password | default()  }}
-
-# SMTP Settings
-smtp:
-  host: {{ smtp.host | default()  }}
-  port: {{ smtp.port | default()  }}
-  user: {{ smtp.user | default()  }}
-  pass: {{ smtp.pass | default()  }}
-  from_email: {{ smtp.from_email | default()  }}
-  from_name: {{ smtp.from_name | default()  }}
-
 mailserver:
   forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
-
-traefik:
-  expose_internally: {{ traefik.expose_internally | default(True)  }}
-  expose_externally: {{ traefik.expose_externally | default(False)  }}
-  dns_challenge_provider: {{ traefik.dns_challenge_provider | default(False) }}
-# Extra mapping, for name -> internal address, like myservice: 'http://otherhost:12345'
-  extra_mapping:
-#   myservice: http://otherhost:12345
-{% if traefik.extra_mapping | default(False) %}
-{% for service_name in traefik.extra_mapping %}
-    {{ service_name }}: {{ traefik.extra_mapping[service_name] }}
-{% endfor %}
-{% endif %}
-# use key:value pairs here to add additional environment variables to your traefik docker image.
-# for instance, if you're using a dns challenge provider place your api keys etc here.
-  additional_env_vars:
-    # DUMMY_KEY: DUMMY_VALUE
-    CLOUDFLARE_EMAIL: {{ traefik.additional_env_vars.CLOUDFLARE_EMAIL | default('EMAIL') }}
-    CLOUDFLARE_API_KEY: {{ traefik.additional_env_vars.CLOUDFLARE_API_KEY | default('API_KEY') }}
 
 gitea:
   use_mariadb: {{ gitea.use_mariadb | default(True) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
-
-# Authelia Settings
-authelia:
-  # Determines how verbose the logs are
-  log_level: {{ authelia.log_level | default('debug') }}
-  # Do you want to login with your common name "john doe" or your username "jdoe"?
-  # defaults to Username
-  use_username: {{ authelia.use_username | default(True) }}
-  # This must be an address you can recieve mail at!
-  default_user_email: {{authelia.default_user_email | default() }}
-  max:
-    # max # of retries to authenticate (default 5)
-    retries: {{ authelia.max.retries | default(5) }}
-    # max time before the retry count resets (default 2 min)
-    retries_in_time: {{ authelia.max.retries_in_time | default(120) }}
-    # if you exceed the max retry count within the time frame, you're banned
-    # for x seconds. (default 300 seconds /5 min)
-    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }}
-  default:
-    # the number of authentication factors required by default
-    factor_count: {{ authelia.default.factor_count | default('one_factor') }}
-    # how long it takes for the cookie to expire (default, 1hr)
-    cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
-    # inactivity time for the cookie default (5m)
-    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(300000) }} # 5min
-    # default policy - deny by default
-    policy: {{ authelia.default.policy | default('deny') }}
-  duo:
-    hostname: {{ authelia.duo.hostname | default() }}
-    integration_key: {{ authelia.duo.integration_key | default() }}
-    secret_key: {{ authelia.duo.secret_key | default() }}
-  # Don't change these unless you know what you're doing
 
 speedtest:
   server: {{ speedtest.server | default (11441) }}

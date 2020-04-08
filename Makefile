@@ -11,8 +11,11 @@ config: logo build
 # yml file so the first attempt at parsing it succeeds
 	@printf "\x1B[01;93m========== Updating configuration files ==========\n\x1B[0m"
 	@mkdir -p settings
+	@[ -f ~/.homelabos_vault_pass ] || ./set_vault_pass.sh
+	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i config_inventory playbook.config.yml 
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
+	@./docker_helper.sh ansible-vault encrypt settings/vault.yml
 	@printf "\x1B[01;93m========== Done with configuration ==========\n\x1B[0m"
 
 # Display the HomelabOS logo and MOTD
@@ -131,6 +134,12 @@ terraform_destroy: logo build git_sync
 	@printf "\x1B[01;93m========== Destroying cloud services! ==========\n\x1B[0m"
 	@cd settings && ../docker_helper.sh terraform destroy
 	@printf "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
+
+decrypt: logo build
+	@printf "\x1B[01;93m========== Decrypting Ansible Vault! ==========\n\x1B[0m"
+	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
+	@printf "\x1B[01;93m========== Valut decrypted! settings/vault.yml ==========\n\x1B[0m"
+
 
 # Hacky fix to allow make to accept multiple arguments
 %:
