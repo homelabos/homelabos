@@ -58,7 +58,7 @@ promo:
 
 ############################# About Product #######################
 aboutProduct:
-  enable : true
+  enable : false
   title : "Why Choose Apple Watch"
   items:
     # about product item loop
@@ -86,8 +86,9 @@ aboutProduct:
 
 #################################### Gallery ########################
 gallery:
-  enable : true
-  title : "Checkout some amazing Shorts"
+  enable : false
+  title : "Screenshots"
+  bgImage : "images/servers.jpg"
   # Set the image directory to use as base
   directory : "images/showcase"
   # Set the images to show in the gallery
@@ -97,8 +98,8 @@ gallery:
 
 ################################## call to action ###################
 cta:
-  enable : true
-  bgImage : "images/call-to-action.jpg"
+  enable : false
+  bgImage : "images/servers.jpg"
   title : "Get Product Updates"
   content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod"
   placeholder : "Your Email Address Here"
@@ -106,8 +107,8 @@ cta:
 
 ############################## Testimonial ##########################
 testimonial:
-  enable : true
-  title : "Watch Review"
+  enable : false
+  title : "Testimonials"
   testimonialItem:
     # testimonial item loop
     - name : "Jonathon Andrew"
