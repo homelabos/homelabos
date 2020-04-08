@@ -63,6 +63,7 @@ enabled_services:
   portainer: "{{ enable_portainer }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
+  searx: "{{ enable_searx }}"
   sickchill: "{{ enable_sickchill }}"
   sonarr: "{{ enable_sonarr }}"
   speedtest: "{{ enable_speedtest }}"
@@ -79,6 +80,7 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
+  
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
@@ -87,17 +89,17 @@ vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
 smtp: 
 mailserver: 
-traefik: 
-  additional_env_vars:
+traefik:
+  additional_env_vars: 
 gitea: 
 bastion:
   wireguard: 
   enabled: false
 authelia:
-  duo:
-  default:
-  max:
-  domain:
+  duo: 
+  default: 
+  max: 
+  domain: 
 open_ldap:
-  seed:
-speedtest:
+  seed: 
+speedtest: 

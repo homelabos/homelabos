@@ -100,6 +100,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Poli](https://github.com/shzlw/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](https://www.portainer.io/) - Easy Docker management
 - [Radarr](https://radarr.video/) - Automated movie downloading
+- [Searx](https://github.com/asciimoo/searx/) - A privacy-respecting, hackable metasearch engine.
 - [SickChill](https://sickchill.github.io/) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](https://sonarr.tv/) - Automated TV downloading
 - [Speedtest](https://github.com/atribe/Speedtest-for-InfluxDB-and-Grafana) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
