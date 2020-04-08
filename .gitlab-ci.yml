@@ -1,29 +1,27 @@
 ---
 image: python:3.7.3-alpine
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  HUGO_VERSION: 0.58.2
+
 lint_yaml_files:
   script:
     - pip install yamllint
     - find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
 
-#test:
-#  script:
-    # Spin up a DO droplet to deploy to using Terraform
-    #- make terraform
-    # Deploy jellyfin to droplet
-
-    # Ensure jellyfin access works
-
-    # Tear down droplet
-
-
 pages:
   script:
+    - apk --no-cache add curl
+    - curl -SL https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz -o /tmp/hugo.tar.gz
+    - tar -xzf /tmp/hugo.tar.gz -C /tmp
+    - mv /tmp/hugo /usr/local/bin/
+    - hugo -s website -d ../public
     - pip install mkdocs
     - pip install mkdocs-material
     - mkdocs build
-    - mv site public
-  artifacts:
+    - mv site public/docs
+    artifacts:
     paths:
       - public
   only:

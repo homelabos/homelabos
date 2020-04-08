@@ -140,6 +140,8 @@ decrypt: logo build
 	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
 	@printf "\x1B[01;93m========== Valut decrypted! settings/vault.yml ==========\n\x1B[0m"
 
+web:
+	cd Website && hugo serve
 
 # Hacky fix to allow make to accept multiple arguments
 %:

@@ -3,22 +3,14 @@ banner:
   enable : true
   title : "Your offline-first privacy-centric personal data center."
   content : "Includes over 50 services you can self-host easily."
-  image : "images/watch.png"
+  image : "images/screenshot.png"
   button: "Install Now"
-
-############################## product ###########################
-product:
-  name : "Smart watch"
-  image : "images/watch.png"
-  price : "199"
-  colors : ["black","white","gray"]
-  sizes : ["small","medium","large"]
 
 ############################# Feature ############################
 features:
   enable : true
   title : "Core Features"
-  image : "images/watch-2.png"
+  image : "images/screenshot2.png"
 
   # feature at the left of the image
   leftSide:
@@ -59,12 +51,9 @@ features:
 ############################# promo ############################
 promo:
   enable : true
-  image : "images/watch.png"
-  title : "Designed by professional , the benefit for creative gigs"
-  content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia vel labore, deleniti minima
-            nisi, velit atque quaerat impedit ea maxime sunt accusamus at obcaecati dolor iure iusto omnis quis eum.
-            <br><br>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis commodi odit, illo, qui aliquam dol"
+  image : "images/screenshot3.png"
+  title : "Take back control of your internet"
+  content : "Stop hoping services that you rely on won't shut down. Guarantee it. Host them yourself for future proof applications."
 
 
 ############################# About Product #######################

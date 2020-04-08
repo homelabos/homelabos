@@ -38,7 +38,7 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 
 ## Set-up
 
-1) Download the latest version from the link above to your client computer and extract the folder.
+1) Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
 
    IF you are going to be using HomelabOS to provision a cloud server, walk through the process. Otherwise you can skip this.
    
