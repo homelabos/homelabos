@@ -13,7 +13,7 @@ services:
     networks:
       - traefik_network
     volumes:
-    - /var/homelabos/searx/settings.yml:/usr/local/searx/searx/settings.yml
+    - "{{ volumes_root }}/searx/settings.yml:/usr/local/searx/searx/settings.yml"
     environment:
       - BASE_URL: http://searx.{{ domain }}"
     labels:
