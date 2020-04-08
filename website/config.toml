@@ -30,8 +30,6 @@ theme = "vex-hugo"
   URL = "js/owl.carousel.min.js"
   [[params.plugins.js]]
   URL = "js/jquery.magnific-popup.min.js"
-  [[params.plugins.js]]
-  URL = "https://cdn.snipcart.com/themes/v3.0.3/default/snipcart.js"
 
 
 ###################################### Navigation ######################################
