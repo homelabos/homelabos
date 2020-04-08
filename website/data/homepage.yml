@@ -75,9 +75,9 @@ aboutProduct:
       title : "Take back control of your data while saving money"
       content : "Keep your data under your control, and also stop spending money on all those different online services. Run your own services for you, your family, and your friends!"
       button:
-        enable : false
-        label : "Check Features"
-        link : "#"
+        enable : true
+        label : "Install Now"
+        link : "https://gitlab.com/NickBusey/HomelabOS/-/blob/dev/docs/setup/installation.md#installation"
 
 
 #################################### Gallery ########################
