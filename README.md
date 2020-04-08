@@ -27,7 +27,6 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 - One command deployment
 - Automated Backups
 - Easy Restore
-- Automated Apple Health Data import
 - Automated Tor Onion Service access
 - Automated HTTPS via LetsEncrypt
 - [Automated Settings Sync](https://nickbusey.gitlab.io/HomelabOS/setup/installation/#syncing-settings-via-git)
