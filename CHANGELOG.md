@@ -1,6 +1,6 @@
 # 0.7
 
-- Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault.
+- Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Digikam - Professional Photo Management with the Power of Open Source

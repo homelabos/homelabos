@@ -66,3 +66,4 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make uninstall` - Removes HomelabOS services
 
+`[client]$ make decrypt` - Decrypts the settings/vault.yml file so you can edit it.
