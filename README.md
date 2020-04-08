@@ -149,6 +149,11 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 ## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
+## Roadmap
+
+* Actual OS bundle with everything pre-configured
+* Web interface to enable/disable services
+
 ## Alternatives
 
 - [Ansible NAS](https://github.com/davestephens/ansible-nas)
