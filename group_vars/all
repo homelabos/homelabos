@@ -89,7 +89,11 @@ vpn_subnet_cidr_netmask: 32
 smtp: 
 mailserver: 
 traefik:
-  additional_env_vars: 
+  additional_env_vars:
+  dns_challenge_provider:
+  expose_internally:
+  expose_externally:
+  extra_mapping:
 gitea: 
 bastion:
   wireguard: 

@@ -36,7 +36,12 @@ Verify docker is installed correctly on your client
     
 Ensure you can access your server with a IP through [passwordless SSH](https://linuxconfig.org/passwordless-ssh) and your user has sudo access.
 
-## Set-up
+## Automatic Set-up
+
+1) On your server run: `sudo bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
+2) Make sure to back up your `/var/homelabos/install` directory nightly.
+
+## Manual Set-up
 
 1) Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
 
