@@ -1,13 +1,13 @@
 ---
 - name: Make openvpn directory.
   file:
-    path: "/var/homelabos/openvpn"
+    path: "{{ volumes_root }}/openvpn"
     state: directory
 
 - name: Copy openvpn docker-compose.yml file into place.
   template:
     src: docker-compose.openvpn.yml.j2
-    dest: /var/homelabos/openvpn/docker-compose.openvpn.yml
+    dest: "{{ volumes_root }}/openvpn/docker-compose.openvpn.yml"
 
 
 - name: Configure openvpn systemd service.

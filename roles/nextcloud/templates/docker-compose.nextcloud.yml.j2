@@ -28,10 +28,10 @@ services:
       - DB_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=digits')}}"
       - DB_HOST=nextcloud-db
     volumes:
-      - /var/homelabos/nextcloud/config:/config
-      - {{ storage_dir }}/Documents/NextCloud:/data
-      - /var/homelabos/nextcloud/apps:/apps2
-      - /var/homelabos/nextcloud/themes:/nextcloud/themes
+      - "{{ volumes_root }}/nextcloud/config:/config"
+      - "{{ storage_dir }}/Documents/NextCloud:/data"
+      - "{{ volumes_root }}/nextcloud/apps:/apps2"
+      - "{{ volumes_root }}/nextcloud/themes:/nextcloud/themes"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -52,7 +52,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/nextcloud_db:/var/lib/mysql
+      - "{{ volumes_root }}/nextcloud_db:/var/lib/mysql"
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits')}}"

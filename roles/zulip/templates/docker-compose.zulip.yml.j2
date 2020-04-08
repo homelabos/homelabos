@@ -16,7 +16,7 @@ services:
       POSTGRES_USER: 'zulip'
       POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/zulip_db_password chars=digits')}}"
     volumes:
-      - '/var/homelabos/zulip/postgresql:/var/lib/postgresql/data:rw'
+      - '{{ volumes_root }}/zulip/postgresql:/var/lib/postgresql/data:rw'
 
   memcached:
     image: 'quay.io/sameersbn/memcached:latest'
@@ -34,14 +34,14 @@ services:
         RABBITMQ_DEFAULT_USER: 'zulip'
         RABBITMQ_DEFAULT_PASS: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')}}"
     volumes:
-      - '/var/homelabos/zulip/rabbitmq:/var/lib/rabbitmq:rw'
+      - '{{ volumes_root }}/zulip/rabbitmq:/var/lib/rabbitmq:rw'
 
   redis:
     image: 'quay.io/sameersbn/redis:latest'
     networks:
       - traefik_network
     volumes:
-      - '/var/homelabos/zulip/redis:/var/lib/redis:rw'
+      - '{{ volumes_root }}/zulip/redis:/var/lib/redis:rw'
 
   zulip:
     image: 'zulip/docker-zulip:2.0.2-0'
@@ -72,7 +72,7 @@ services:
       # Uncomment this when configuring the mobile push notifications service
       # SETTING_PUSH_NOTIFICATION_BOUNCER_URL: 'https://push.zulipchat.com'
     volumes:
-      - '/var/homelabos/zulip/zulip:/data:rw'
+      - '{{ volumes_root }}/zulip/zulip:/data:rw'
     ulimits:
       nofile:
         soft: 40000

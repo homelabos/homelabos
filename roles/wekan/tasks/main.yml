@@ -1,13 +1,13 @@
 ---
 - name: Make wekan directory.
   file:
-    path: "/var/homelabos/wekan"
+    path: "{{ volumes_root }}/wekan"
     state: directory
 
 - name: Copy wekan docker-compose.yml file into place.
   template:
     src: docker-compose.wekan.yml.j2
-    dest: /var/homelabos/wekan/docker-compose.wekan.yml
+    dest: "{{ volumes_root }}/wekan/docker-compose.wekan.yml"
 
 - name: Configure wekan systemd service.
   template:

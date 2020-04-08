@@ -19,10 +19,10 @@ services:
       - TZ={{ common_timezone }}
       - MAXMEM=512
     volumes:
-      - /var/homelabos/ubooquity/config:/config
-      - {{ storage_dir }}/Books:/books
-      - {{ storage_dir }}/Comics:/comics
-      - {{ storage_dir }}:/files
+      - "{{ volumes_root }}/ubooquity/config:/config"
+      - "{{ storage_dir }}/Books:/books"
+      - "{{ storage_dir }}/Books/Comics:/comics"
+      - "{{ storage_dir }}:/files"
     networks:
       - traefik_network
     labels:

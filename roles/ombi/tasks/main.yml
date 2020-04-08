@@ -1,7 +1,7 @@
 ---
 - name: Make ombi directory.
   file:
-    path: "/var/homelabos/ombi"
+    path: "{{ volumes_root }}/ombi"
     state: directory
 
 - name: Get UID
@@ -17,7 +17,7 @@
 - name: Copy ombi docker-compose.yml file into place.
   template:
     src: docker-compose.ombi.yml.j2
-    dest: /var/homelabos/ombi/docker-compose.ombi.yml
+    dest: "{{ volumes_root }}/ombi/docker-compose.ombi.yml"
   vars:
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"

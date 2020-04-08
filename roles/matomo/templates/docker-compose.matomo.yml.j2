@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/matomo/data:/data
+      - "{{ volumes_root }}/matomo/data:/data"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -35,7 +35,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/matomo/db:/var/lib/mysql
+      - "{{ volumes_root }}/matomo/db:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=matomo
       - MYSQL_USER=matomo

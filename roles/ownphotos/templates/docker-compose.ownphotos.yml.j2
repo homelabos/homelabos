@@ -38,7 +38,7 @@ services:
       - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/ownphotos_db_password chars=digits')}}"
       - POSTGRES_DB=ownphotos
     volumes:
-      - /var/homelabos/ownphotos/db-data:/var/lib/postgresql/data
+      - "{{ volumes_root }}/ownphotos/db-data:/var/lib/postgresql/data"
 
   frontend:
     image: hooram/ownphotos-frontend:dev
@@ -53,9 +53,9 @@ services:
     networks:
       - traefik_network
     volumes:
-      - {{ storage_dir }}/Pictures:/data
-      - /var/homelabos/ownphotos/thumbnails/:/code/protected_media
-      - /var/homelabos/ownphotos/logs:/code/logs
+      - "{{ storage_dir }}/Pictures:/data"
+      - "{{ volumes_root }}/ownphotos/thumbnails/:/code/protected_media"
+      - "{{ volumes_root }}/ownphotos/logs:/code/logs"
     environment:
       - SECRET_KEY="{{lookup('password', './settings/passwords/ownphotos_secret_key chars=digits')}}"
       - BACKEND_HOST=backend # DON'T CHANGE ME

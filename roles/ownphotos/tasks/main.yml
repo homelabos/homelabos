@@ -1,13 +1,13 @@
 ---
 - name: Make ownPhotos directory.
   file:
-    path: "/var/homelabos/ownphotos"
+    path: "{{ volumes_root }}/ownphotos"
     state: directory
 
 - name: Copy ownPhotos docker-compose.yml file into place.
   template:
     src: docker-compose.ownphotos.yml.j2
-    dest: /var/homelabos/ownphotos/docker-compose.ownphotos.yml
+    dest: "{{ volumes_root }}/ownphotos/docker-compose.ownphotos.yml"
 
 - name: Configure ownPhotos systemd service.
   template:

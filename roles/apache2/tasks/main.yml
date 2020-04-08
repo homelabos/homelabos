@@ -1,13 +1,13 @@
 ---
 - name: Make apache2 directory.
   file:
-    path: "/var/homelabos/apache2"
+    path: "{{ volumes_root }}/apache2"
     state: directory
 
 - name: Copy apache2 docker-compose.yml file into place.
   template:
     src: docker-compose.apache2.yml.j2
-    dest: /var/homelabos/apache2/docker-compose.apache2.yml
+    dest: "{{ volumes_root }}/apache2/docker-compose.apache2.yml"
 
 
 - name: Configure apache2 systemd service.

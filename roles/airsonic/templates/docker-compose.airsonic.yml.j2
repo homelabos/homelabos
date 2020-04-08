@@ -18,10 +18,10 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/airsonic/config:/config
-      - {{ storage_dir }}/Music:/music
-      - /var/homelabos/airsonic/playlists:/playlists
-      - /var/homelabos/airsonic/podcasts:/podcasts
+      - "{{ volumes_root }}/airsonic/config:/config"
+      - "{{ volumes_root }}/airsonic/playlists:/playlists"
+      - "{{ storage_dir }}/Music:/music"
+      - "{{ storage_dir }}/Music/Podcasts:/podcasts"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

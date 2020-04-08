@@ -1,13 +1,13 @@
 ---
 - name: Make plex directory.
   file:
-    path: "/var/homelabos/plex"
+    path: "{{ volumes_root }}/plex"
     state: directory
 
 - name: Copy plex docker-compose.yml file into place.
   template:
     src: docker-compose.plex.yml.j2
-    dest: /var/homelabos/plex/docker-compose.plex.yml
+    dest: "{{ volumes_root }}/plex/docker-compose.plex.yml"
 
 
 - name: Configure plex systemd service.

@@ -1,13 +1,13 @@
 ---
 - name: Make freshrss directory.
   file:
-    path: "/var/homelabos/freshrss"
+    path: "{{ volumes_root }}/freshrss"
     state: directory
 
 - name: Copy freshrss docker-compose.yml file into place.
   template:
     src: docker-compose.freshrss.yml.j2
-    dest: /var/homelabos/freshrss/docker-compose.freshrss.yml
+    dest: "{{ volumes_root }}/freshrss/docker-compose.freshrss.yml"
 
 
 - name: Configure freshrss systemd service.

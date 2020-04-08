@@ -12,7 +12,7 @@ services:
     image: linuxserver/thelounge
     restart: unless-stopped
     volumes:
-      - /var/homelabos/thelounge:/config
+      - "{{ volumes_root }}/thelounge:/config"
     environment:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}

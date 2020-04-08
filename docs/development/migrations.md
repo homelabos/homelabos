@@ -9,7 +9,7 @@ The next tagged release after the version in the comment, these tasks will be re
 ## Example
 
 Gitea had an incorrect path in it's docker-compose yml file. It was pointing the `/data`
-mount at `/var/lab/homelabos/gitea` instead of `/var/homelabos/gitea` where it should have been.
+mount at `/var/lab/homelabos/gitea` instead of `{{ volumes_root }}/gitea` where it should have been.
 
 So two tasks were created, one to copy the folder to it's proper place, the next to make sure the
 old folder was absent. The first task will fail if the folder to be copied doesn't exist, which
@@ -19,7 +19,7 @@ true` is included.
 ```
 # MIGRATION v0.5
 - name: Migrate old folders if needed
-  shell: mv /var/lab/homelabos/gitea /var/homelabos/gitea
+  shell: mv /var/lab/homelabos/gitea {{ volumes_root }}/gitea
   ignore_errors: true
 
 # END MIGRATION

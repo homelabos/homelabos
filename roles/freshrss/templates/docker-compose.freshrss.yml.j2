@@ -32,7 +32,7 @@ services:
       - "traefik.tor.port=80"
 {% endif %}
     volumes:
-      - '/var/homelabos/freshrss/data:/var/www/FreshRSS/data'
+      - "{{ volumes_root }}/freshrss/data:/var/www/FreshRSS/data"
 
 # see https://github.com/FreshRSS/FreshRSS/blob/master/Docker/docker-compose.yml
 #  postgresql:
@@ -46,4 +46,4 @@ services:
 #      - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/freshrss_db_password chars=digits')}}"
 #      - POSTGRES_PASSWORD=freshrss
 #    volumes:
-#      - /var/homelabos/freshrss/db:/var/lib/postgresql/data
+#      - "{{ volumes_root }}/freshrss/db:/var/lib/postgresql/data"

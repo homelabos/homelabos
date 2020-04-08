@@ -9,20 +9,18 @@ networks:
       name: homelabos_traefik
 
 services:
-  app:
-    # REQUIRED
-    image: 
+  tautulli:
+    image: linuxserver/tautulli 
     restart: unless-stopped
     networks:
       - traefik_network
     volumes:
-      - '/var/homelabos/tautulli/config:/config'
-      - '/var/homelabos/plex/Library/Application Support/Plex Media Server/Logs:/plex_logs:ro'
+      - "{{ volumes_root }}/tautulli/config:/config"
+      - "{{ volumes_root }}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro"
     environment:
-      - PGID={{ gid }}
-      - PUID={{ uid }}
-      - TZ= {{ common_timezone }}
-    image: tautulli/tautulli
+      - PGID={{ gid_output.stdout }}
+      - PUID={{ uid_output.stdout }}
+      - TZ={{ common_timezone }}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

@@ -1,13 +1,13 @@
 ---
 - name: Make mayan directory.
   file:
-    path: "/var/homelabos/mayan"
+    path: "{{ volumes_root }}/mayan"
     state: directory
 
 - name: Copy mayan docker-compose.yml file into place.
   template:
     src: docker-compose.mayan.yml.j2
-    dest: /var/homelabos/mayan/docker-compose.mayan.yml
+    dest: "{{ volumes_root }}/mayan/docker-compose.mayan.yml"
 
 
 - name: Configure mayan systemd service.

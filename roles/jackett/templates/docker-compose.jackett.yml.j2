@@ -12,8 +12,8 @@ services:
     image: linuxserver/jackett
     restart: unless-stopped
     volumes:
-      - /var/homelabos/jackett/config:/config
-      - /var/homelabos/jackett/downloads:/downloads
+      - "{{ volumes_root }}/jackett/config:/config"
+      - "{{ volumes_root }}/jackett/downloads:/downloads"
       - /etc/localtime:/etc/localtime:ro
     environment:
       - TZ={{ common_timezone }}

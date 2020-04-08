@@ -1,13 +1,13 @@
 ---
 - name: Make paperless directory.
   file:
-    path: "/var/homelabos/paperless"
+    path: "{{ volumes_root }}/paperless"
     state: directory
 
 - name: Copy paperless docker-compose.yml file into place.
   template:
     src: docker-compose.paperless.yml.j2
-    dest: /var/homelabos/paperless/docker-compose.paperless.yml
+    dest: "{{ volumes_root }}/paperless/docker-compose.paperless.yml"
 
 
 - name: Configure paperless systemd service.

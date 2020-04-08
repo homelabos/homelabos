@@ -6,5 +6,5 @@ services:
     image: v2tec/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/homelabos/watchtower/config.json:/config.json
+      - "{{ volumes_root }}/watchtower/config.json:/config.json"
     command: --interval 900 #15 minutes

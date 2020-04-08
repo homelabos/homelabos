@@ -1,23 +1,13 @@
 ---
 - name: Make piwigo directory.
   file:
-    path: "/var/homelabos/piwigo"
+    path: "{{ volumes_root }}/piwigo"
     state: directory
-
-- name: Get UID
-  command: id -u
-  register: uid_output
-  become: false
-
-- name: Get GID
-  command: id -g
-  register: gid_output
-  become: false
 
 - name: Copy piwigo docker-compose.yml file into place.
   template:
     src: docker-compose.piwigo.yml.j2
-    dest: /var/homelabos/piwigo/docker-compose.piwigo.yml
+    dest: "{{ volumes_root }}/piwigo/docker-compose.piwigo.yml"
   vars:
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"

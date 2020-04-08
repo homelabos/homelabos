@@ -8,4 +8,4 @@ services:
     restart: unless-stopped
     network_mode: host
     volumes:
-      - /var/homelabos/dasher/config.json:/usr/src/app/config/config.json
+      - "{{ volumes_root }}/dasher/config.json:/usr/src/app/config/config.json"

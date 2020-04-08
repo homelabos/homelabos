@@ -1,13 +1,13 @@
 ---
 - name: Make sonarr directory.
   file:
-    path: "/var/homelabos/sonarr"
+    path: "{{ volumes_root }}/sonarr"
     state: directory
 
 - name: Copy sonarr docker-compose.yml file into place.
   template:
     src: docker-compose.sonarr.yml.j2
-    dest: /var/homelabos/sonarr/docker-compose.sonarr.yml
+    dest: "{{ volumes_root }}/sonarr/docker-compose.sonarr.yml"
 
 
 - name: Configure sonarr systemd service.

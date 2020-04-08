@@ -38,4 +38,4 @@ services:
       - POSTGRES_USER=miniflux
       - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/miniflux_db_password chars=digits')}}"
     volumes:
-      - /var/homelabos/miniflux/db:/var/lib/postgresql/data
+      - "{{ volumes_root }}/miniflux/db:/var/lib/postgresql/data"

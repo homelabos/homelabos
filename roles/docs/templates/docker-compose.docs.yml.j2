@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/docs/site:/var/www
+      - "{{ volumes_root }}/docs/site:/var/www"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

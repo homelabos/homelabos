@@ -1,13 +1,13 @@
 ---
 - name: Make firefly_iii directory.
   file:
-    path: "/var/homelabos/firefly_iii"
+    path: "{{ volumes_root }}/firefly_iii"
     state: directory
 
 - name: Copy firefly_iii docker-compose.yml file into place.
   template:
     src: docker-compose.firefly_iii.yml.j2
-    dest: /var/homelabos/firefly_iii/docker-compose.firefly_iii.yml
+    dest: "{{ volumes_root }}/firefly_iii/docker-compose.firefly_iii.yml"
 
 
 - name: Configure firefly_iii systemd service.

@@ -11,7 +11,7 @@ needed database migrations for `postfix` to operate.  Use the form to generate a
 configure the admin user.
 
 You will need to capture the hash noted.  Shell into your instance and update
-`/var/homelabos/mailserver/mail/postfix` and edit `config.inc.php`.  Update `$CONF['setup_password']`
+`{{ volumes_root }}/mailserver/mail/postfix` and edit `config.inc.php`.  Update `$CONF['setup_password']`
 with the hash.  Also update `$CONF['configured']` to `true`.  Now restart using homelabos
 using `make restart mailserver`.
 
@@ -56,7 +56,7 @@ v=spf1 mx a:instance_ip4 ~all
 ##### DKIM Hash
 
 On install `mailserver` creates the details for the `_domainkey` DNS record.  On the instance in
-`/var/homelabos/mailserver/mail/dkim/{{ domain }}` there are two files.  The `public.key` file contains the details needed for the DNS record.
+`{{ volumes_root }}/mailserver/mail/dkim/{{ domain }}` there are two files.  The `public.key` file contains the details needed for the DNS record.
 
 ##### Digital Ocean PTR
 

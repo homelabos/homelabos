@@ -1,13 +1,13 @@
 ---
 - name: Make homedash directory.
   file:
-    path: "/var/homelabos/homedash"
+    path: "{{ volumes_root }}/homedash"
     state: directory
 
 - name: Copy homedash docker-compose.yml file into place.
   template:
     src: docker-compose.homedash.yml.j2
-    dest: /var/homelabos/homedash/docker-compose.homedash.yml
+    dest: "{{ volumes_root }}/homedash/docker-compose.homedash.yml"
 
 
 - name: Configure homedash systemd service.

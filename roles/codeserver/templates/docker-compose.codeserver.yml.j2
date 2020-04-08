@@ -10,7 +10,7 @@ services:
   code-server:
     image: codercom/code-server
     volumes:
-      - /var/homelabos/codeserver/code:/root/project
+      - "{{ volumes_root }}/codeserver/code:/root/project"
     restart: unless-stopped
     networks:
       - traefik_network

@@ -23,8 +23,8 @@ services:
       - USE_JSON=false
       - TZ={{ common_timezone }}
     volumes:
-      - /var/homelabos/mstream/config:/config
-      - {{ storage_dir }}/Music:/music
+      - "{{ volumes_root }}/mstream/config:/config"
+      - "{{ storage_dir }}/Music:/music"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

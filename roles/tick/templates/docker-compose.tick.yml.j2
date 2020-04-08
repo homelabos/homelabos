@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/tick/telegraf.conf:/etc/telegraf/telegraf.conf
+      - "{{ volumes_root }}/tick/telegraf.conf:/etc/telegraf/telegraf.conf"
       - /var/run/docker.sock:/var/run/docker.sock
       - /sys:/rootfs/sys:ro
       - /proc:/rootfs/proc:ro
@@ -28,6 +28,6 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/influxdb:/var/lib/influxdb
+      - "{{ volumes_root }}/influxdb:/var/lib/influxdb"
     ports:
       - 8086:8086

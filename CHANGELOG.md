@@ -1,4 +1,5 @@
 # 0.7
+
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Digikam - Professional Photo Management with the Power of Open Source
@@ -22,9 +23,11 @@
 
 ## Release Notes
 
-If you are currently using a bastion host via Tinc, when upgrading to 0.7,
-set `bastion.reset_iptables` to True. This will blow away any and all iptables
-rules so use this option with care.
+If you are currently using a bastion host via Tinc, when upgrading to 0.7, set `bastion.reset_iptables` to True. This will blow away any and all iptables rules so use this option with care.
+
+The default storage location has been moved from `/mnt/homelabos/media` to `/mnt/nas`. Both the storage location and the HomelabOS installation directories are now configurable with `storage_dir` and `volumes_root`.
+
+The `TV`, `Movies`, and `Comics` folders have moved to living inside `Video`. The new default location for TV for example would be `/mnt/nas/Video/TV`.
 
 # 0.6.4
 

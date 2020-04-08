@@ -1,13 +1,13 @@
 ---
 - name: Make homeassistant directory.
   file:
-    path: "/var/homelabos/homeassistant"
+    path: "{{ volumes_root }}/homeassistant"
     state: directory
 
 - name: Copy homeassistant docker-compose.yml file into place.
   template:
     src: docker-compose.homeassistant.yml.j2
-    dest: /var/homelabos/homeassistant/docker-compose.homeassistant.yml
+    dest: "{{ volumes_root }}/homeassistant/docker-compose.homeassistant.yml"
 
 
 - name: Configure homeassistant systemd service.

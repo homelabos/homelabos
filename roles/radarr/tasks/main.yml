@@ -1,14 +1,13 @@
 ---
 - name: Make radarr directory.
   file:
-    path: "/var/homelabos/radarr"
+    path: "{{ volumes_root }}/radarr"
     state: directory
 
 - name: Copy radarr docker-compose.yml file into place.
   template:
     src: docker-compose.radarr.yml.j2
-    dest: /var/homelabos/radarr/docker-compose.radarr.yml
-
+    dest: "{{ volumes_root }}/radarr/docker-compose.radarr.yml"
 
 - name: Configure radarr systemd service.
   template:

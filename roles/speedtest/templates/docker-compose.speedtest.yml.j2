@@ -13,7 +13,7 @@ services:
     # REQUIRED
     image: roest/docker-speedtest-analyser
     volumes:
-      - /var/homelabos/speedtest/data:/var/www/html/data
+      - "{{ volumes_root }}/speedtest/data:/var/www/html/data"
     restart: unless-stopped
     networks:
       - traefik_network

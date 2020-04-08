@@ -1,13 +1,13 @@
 ---
 - name: Make xfinityusageinfluxdb directory.
   file:
-    path: "/var/homelabos/xfinityusageinfluxdb"
+    path: "{{ volumes_root }}/xfinityusageinfluxdb"
     state: directory
 
 - name: Copy xfinityusageinfluxdb docker-compose.yml file into place.
   template:
     src: docker-compose.xfinityusageinfluxdb.yml.j2
-    dest: /var/homelabos/xfinityusageinfluxdb/docker-compose.xfinityusageinfluxdb.yml
+    dest: "{{ volumes_root }}/xfinityusageinfluxdb/docker-compose.xfinityusageinfluxdb.yml"
 
 
 - name: Configure xfinityusageinfluxdb systemd service.

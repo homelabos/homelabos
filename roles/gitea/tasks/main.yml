@@ -1,13 +1,13 @@
 ---
 - name: Make gitea directory.
   file:
-    path: "/var/homelabos/gitea"
+    path: "{{ volumes_root }}/gitea"
     state: directory
 
 - name: Copy gitea docker-compose.yml file into place.
   template:
     src: docker-compose.gitea.yml.j2
-    dest: /var/homelabos/gitea/docker-compose.gitea.yml
+    dest: "{{ volumes_root }}/gitea/docker-compose.gitea.yml"
 
 
 - name: Configure gitea systemd service.

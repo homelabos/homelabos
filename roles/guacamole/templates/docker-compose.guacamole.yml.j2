@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     volumes:
       - dbinit:/docker-entrypoint-initdb.d        
-      - /var/homelabos/guacamole/dbdata:/var/lib/postgresql/data
+      - "{{ volumes_root }}/guacamole/dbdata:/var/lib/postgresql/data"
     environment:
       POSTGRES_USER: guacpostgress
       POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=digits')}}"

@@ -1,13 +1,13 @@
 ---
 - name: Make sickchill directory.
   file:
-    path: "/var/homelabos/sickchill"
+    path: "{{ volumes_root }}/sickchill"
     state: directory
 
 - name: Copy sickchill docker-compose.yml file into place.
   template:
     src: docker-compose.sickchill.yml.j2
-    dest: /var/homelabos/sickchill/docker-compose.sickchill.yml
+    dest: "{{ volumes_root }}/sickchill/docker-compose.sickchill.yml"
 
 - name: Configure sickchill systemd service.
   template:

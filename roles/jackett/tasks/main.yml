@@ -1,13 +1,13 @@
 ---
 - name: Make jackett directory.
   file:
-    path: "/var/homelabos/jackett"
+    path: "{{ volumes_root }}/jackett"
     state: directory
 
 - name: Copy jackett docker-compose.yml file into place.
   template:
     src: docker-compose.jackett.yml.j2
-    dest: /var/homelabos/jackett/docker-compose.jackett.yml
+    dest: "{{ volumes_root }}/jackett/docker-compose.jackett.yml"
 
 
 - name: Configure jackett systemd service.

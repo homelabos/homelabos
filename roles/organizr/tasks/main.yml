@@ -1,13 +1,13 @@
 ---
 - name: Make organizr directory.
   file:
-    path: "/var/homelabos/organizr"
+    path: "{{ volumes_root }}/organizr"
     state: directory
 
 - name: Copy organizr docker-compose.yml file into place.
   template:
     src: docker-compose.organizr.yml.j2
-    dest: /var/homelabos/organizr/docker-compose.organizr.yml
+    dest: "{{ volumes_root }}/organizr/docker-compose.organizr.yml"
 
 
 - name: Configure organizr systemd service.

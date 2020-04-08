@@ -1,13 +1,13 @@
 ---
 - name: Make matomo directory.
   file:
-    path: "/var/homelabos/matomo"
+    path: "{{ volumes_root }}/matomo"
     state: directory
 
 - name: Copy matomo docker-compose.yml file into place.
   template:
     src: docker-compose.matomo.yml.j2
-    dest: /var/homelabos/matomo/docker-compose.matomo.yml
+    dest: "{{ volumes_root }}/matomo/docker-compose.matomo.yml"
 
 
 - name: Configure matomo systemd service.

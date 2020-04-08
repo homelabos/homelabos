@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - '/var/homelabos/webvirtmgr/data:/data/'
+      - '{{ volumes_root }}/webvirtmgr/data:/data/'
     environment:
       - WEBVIRTMGR_ADMIN_USERNAME=admin
       - WEBVIRTMGR_ADMIN_EMAIL=admin@local.domain

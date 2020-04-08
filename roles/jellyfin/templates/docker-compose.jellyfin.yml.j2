@@ -14,11 +14,11 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/jellyfin/config:/config
-      - {{ storage_dir }}/Music:/media/Music
-      - {{ storage_dir }}/Movies:/media/Movies
-      - {{ storage_dir }}/TV:/media/TV
-      - {{ storage_dir }}/temp:/cache
+      - "{{ volumes_root }}/jellyfin/config:/config"
+      - "{{ storage_dir }}/Music:/media/Music"
+      - "{{ storage_dir }}/Video/Movies:/media/Movies"
+      - "{{ storage_dir }}/Video/TV:/media/TV"
+      - "{{ storage_dir }}/temp:/cache"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

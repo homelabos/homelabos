@@ -42,7 +42,7 @@ then adapt the values as needed.
 
 ### Use hardcoded volume paths
 
-All mounted docker volumes should point to a folder named after the service that is using it, and located under `/var/homelabos`.
+All mounted docker volumes should point to a folder named after the service that is using it, and located under `{{ volumes_root }}`.
 
 ## Add Service to Documentation
 
@@ -79,5 +79,5 @@ how it's doing.
 If it's not running with an error like `(code=exited, status=1/FAILURE)`
 
 Grab the value of the ExecStart line, and run it by hand. So if the ExecStart line looks like:
-`ExecStart=/usr/bin/docker-compose -f /var/homelabos/zulip/docker-compose.zulip.yml -p zulip up`
-then manually run the bit after the =, `/usr/bin/docker-compose -f /var/homelabos/zulip/docker-compose.zulip.yml -p zulip up` to see the error output directly.
+`ExecStart=/usr/bin/docker-compose -f "{{ volumes_root }}/zulip/docker-compose.zulip.yml" -p zulip up`
+then manually run the bit after the =, `/usr/bin/docker-compose -f "{{ volumes_root }}/zulip/docker-compose.zulip.yml" -p zulip up` to see the error output directly.

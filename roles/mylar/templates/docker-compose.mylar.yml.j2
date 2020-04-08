@@ -13,9 +13,9 @@ services:
       - PUID={{ uid }}
       - PGID={{ gid }}
     volumes:
-      - /var/homelabos/mylar/config:/config
-      - {{ storage_dir }}/Books/Comics:/comics
-      - {{ storage_dir }}/Downloads/Comics:/downloads
+      - "{{ volumes_root }}/mylar/config:/config"
+      - "{{ storage_dir }}/Books/Comics:/comics"
+      - "{{ storage_dir }}/Downloads/Books/Comics:/downloads"
     restart: unless-stopped
     networks:
       - traefik_network

@@ -13,7 +13,7 @@ services:
     image: 'zadam/trilium:latest'
     restart: unless-stopped
     volumes:
-      - /var/homelabos/trilium/trilium-data:/root/trilium-data
+      - "{{ volumes_root }}/trilium/trilium-data:/root/trilium-data"
     networks:
       - traefik_network
     labels:
