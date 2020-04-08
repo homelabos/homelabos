@@ -12,7 +12,7 @@ services:
     image: guacamole/guacamole:latest
     command: ["/bin/sh", "-c", "test -e /init/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgres > /init/initdb.sql" ]
     volumes:
-      - dbinit:/init
+      - "{{ volumes_root }}/guacamole/dbinit:/init"
 
   postgres:
     networks:
@@ -20,7 +20,7 @@ services:
     image: postgres:latest
     restart: unless-stopped
     volumes:
-      - dbinit:/docker-entrypoint-initdb.d        
+      - "{{ volumes_root }}/guacamole/dbinit:/docker-entrypoint-initdb.d"
       - "{{ volumes_root }}/guacamole/dbdata:/var/lib/postgresql/data"
     environment:
       POSTGRES_USER: guacpostgress
@@ -63,9 +63,3 @@ services:
       - "traefik.tor.protocol=http"
       - "traefik.tor.port=8080"
 {% endif %}
-
-volumes:
-  dbinit:
-    driver: local
-  dbdata:
-    driver: local
