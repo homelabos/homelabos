@@ -29,6 +29,11 @@ features:
     title : "Always Free"
     content : "HomelabOS is open source and free-as-in-speech."
 
+        # feature item loop
+  - icon : "tf-ion-key"
+    title : "TOR Hidden Services"
+    content : "HomelabOS can configure your services to be reachable as TOR hidden services. No need for a bastion server or port forwarding."
+
 
   # feature at the right of the image
   rightSide:
@@ -46,6 +51,11 @@ features:
   - icon : "tf-ion-home"
     title : "Own Your Data"
     content : "Keep your data where it belongs. On servers controlled by you."
+
+        # feature item loop
+  - icon : "tf-ion-network"
+    title : "Bastion Server Deploy"
+    content : "HomelabOS can use Terraform to automatically deploy and configure a Bastion server to act as a reverse proxy. Stop worrying about your server's IP / ports."
 
 
 ############################# promo ############################
@@ -94,7 +104,7 @@ gallery:
 
 ################################## call to action ###################
 cta:
-  enable : false
+  enable : true
   bgImage : "images/servers.jpg"
   title : "Get Product Updates"
   content : "Join our mailing list and get notified about new releases."
