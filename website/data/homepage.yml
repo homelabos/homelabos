@@ -94,10 +94,10 @@ gallery:
 
 ################################## call to action ###################
 cta:
-  enable : false
+  enable : true
   bgImage : "images/servers.jpg"
   title : "Get Product Updates"
-  content : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod"
+  content : "Join our mailing list and get notified about new releases."
   placeholder : "Your Email Address Here"
 
 
@@ -109,5 +109,5 @@ testimonial:
     # testimonial item loop
     - name : "Nick Busey"
       designation : "Developer"
-      # image : "images/server.jpg"
+      image : "images/testimonial-1.jpg"
       content : "It seems to work."
