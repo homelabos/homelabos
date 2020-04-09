@@ -92,13 +92,13 @@ aboutProduct:
 
 #################################### Gallery ########################
 gallery:
-  enable : false
+  enable : true
   title : "Screenshots"
   bgImage : "images/servers.jpg"
   # Set the image directory to use as base
   directory : "images/showcase"
   # Set the images to show in the gallery
-  images : ["showcase-1.png", "showcase-2.png", "showcase-3.png", "showcase-4.png", "showcase-5.png", "showcase-6.png", "showcase-7.png", "showcase-8.png"]
+  images : ["showcase-1.png", "showcase-2.png"]
 
 
 
