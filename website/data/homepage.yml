@@ -94,7 +94,7 @@ gallery:
 
 ################################## call to action ###################
 cta:
-  enable : true
+  enable : false
   bgImage : "images/servers.jpg"
   title : "Get Product Updates"
   content : "Join our mailing list and get notified about new releases."
