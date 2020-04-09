@@ -31,8 +31,10 @@ Verify docker is installed correctly on your client
 
 ### Server:
 
-    * Running Ubuntu 18.04
-    * passwordless SSH via SSH keys
+    * Running one of
+        * Ubuntu 18.04
+        * Debian 10.3
+    * Passwordless SSH via SSH keys
     
 Ensure you can access your server with a IP through [passwordless SSH](https://linuxconfig.org/passwordless-ssh) and your user has sudo access.
 
