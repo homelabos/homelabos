@@ -86,7 +86,7 @@ services:
         - ./tmp:/tmp:cached
 
   nginx:
-    image: grownetics/nginx:latest
+    image: grownetics/nginx:${VERSION}
     networks:
         - traefik_network
     volumes:
@@ -94,30 +94,30 @@ services:
         - ./html/images/nginx/:/var/www/templates
         - ./html/images/nginx/conf.d/growdash.dashonly.conf:/etc/nginx/conf.d/default.conf
     restart: always
-   labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.grownetics.loadbalancer.server.scheme=http"
-      - "traefik.http.services.grownetics.loadbalancer.server.port=8080"
-      - "traefik.http.routers.grownetics-http.rule=Host(`grownetics.{{ domain }}`)"
-      - "traefik.http.routers.grownetics-http.entrypoints=http"
-      - "traefik.http.routers.grownetics-http.middlewares={% if grownetics.https_only %}redirect@file, {% else %}{% if grownetics.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grownetics.rule=Host(`grownetics.{{ domain }}`)"
-      - "traefik.http.routers.grownetics.entrypoints=https"
-      - "traefik.http.routers.grownetics.middlewares={% if grownetics.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grownetics.tls=true"
-      - "traefik.http.routers.grownetics.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.grownetics.tls.domains[0].sans=*.{{ domain }}"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.grownetics.tls.certresolver=dns"
-{% else %}
-      - "traefik.http.routers.grownetics.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:grownetics.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
-{% endif %}
+    labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=homelabos_traefik"
+        - "traefik.http.services.grownetics.loadbalancer.server.scheme=http"
+        - "traefik.http.services.grownetics.loadbalancer.server.port=8080"
+        - "traefik.http.routers.grownetics-http.rule=Host(`grownetics.{{ domain }}`)"
+        - "traefik.http.routers.grownetics-http.entrypoints=http"
+        - "traefik.http.routers.grownetics-http.middlewares={% if grownetics.https_only %}redirect@file, {% else %}{% if grownetics.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+        - "traefik.http.routers.grownetics.rule=Host(`grownetics.{{ domain }}`)"
+        - "traefik.http.routers.grownetics.entrypoints=https"
+        - "traefik.http.routers.grownetics.middlewares={% if grownetics.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+        - "traefik.http.routers.grownetics.tls=true"
+        - "traefik.http.routers.grownetics.tls.domains[0].main={{ domain }}"
+        - "traefik.http.routers.grownetics.tls.domains[0].sans=*.{{ domain }}"
+    {% if traefik.dns_challenge_provider %}
+        - "traefik.http.routers.grownetics.tls.certresolver=dns"
+    {% else %}
+        - "traefik.http.routers.grownetics.tls.certresolver=http"
+    {% endif %}
+    {% if enable_tor %}
+        - "traefik.tor.frontend.rule=Host:grownetics.{{ tor_domain }}"
+        - "traefik.tor.protocol=http"
+        - "traefik.tor.port=80"
+    {% endif %}
 
   appdb:
     image: mariadb #:10.3
