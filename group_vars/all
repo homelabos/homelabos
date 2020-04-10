@@ -166,13 +166,10 @@ vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
 smtp: 
-mailserver: 
 traefik:
   additional_env_vars:
-gitea: 
 bastion:
   wireguard: 
   enabled: false
 open_ldap:
   seed: 
-speedtest:
