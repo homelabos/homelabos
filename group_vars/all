@@ -60,6 +60,7 @@ enabled_services:
   plex: "{{ enable_plex }}"
   poli: "{{ enable_poli }}"
   portainer: "{{ enable_portainer }}"
+  privatebin: "{{ enable_privatebin }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
   searx: "{{ enable_searx }}"
@@ -79,7 +80,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  privatebin: "{{ enable_privatebin }}"
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
