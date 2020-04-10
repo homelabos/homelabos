@@ -451,6 +451,8 @@ thelounge:
   auth: {{ thelounge.auth | default(False) }}
 
 tick:
+  https_only: {{ thelounge.https_only | default(False) }}
+  auth: {{ thelounge.auth | default(False) }}
 
 transmission:
   https_only: {{ transmission.https_only | default(False) }}
