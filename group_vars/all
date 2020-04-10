@@ -106,6 +106,7 @@ freshrss:
 ghost:
 gitea:
 grafana:
+grownetics:
 guacamole:
 healthchecks:
 homeassistant:
@@ -168,20 +169,10 @@ smtp:
 mailserver: 
 traefik:
   additional_env_vars:
-  dns_challenge_provider:
-  expose_internally:
-  expose_externally:
-  extra_mapping:
 gitea: 
 bastion:
   wireguard: 
   enabled: false
-authelia:
-  duo: 
-  default: 
-  max: 
-  domain: 
 open_ldap:
   seed: 
-speedtest: 
-  seed:
+speedtest:
