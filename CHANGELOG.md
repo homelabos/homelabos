@@ -30,6 +30,8 @@
 
 ## Release Notes
 
+When upgrading to v0.7 you must run `make restart` for your services to show back up afterwards.
+
 If you are currently using a bastion host via Tinc, when upgrading to 0.7, set `bastion.reset_iptables` to True. This will blow away any and all iptables rules so use this option with care.
 
 The default storage location has been moved from `/mnt/homelabos/media` to `/mnt/nas`. Both the storage location and the HomelabOS installation directories are now configurable with `storage_dir` and `volumes_root`.
