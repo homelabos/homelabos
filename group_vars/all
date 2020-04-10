@@ -79,7 +79,6 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  speedtest: "{{ enable_speedtest }}"
 apache2:
 apple_health_influx:
 airsonic:
