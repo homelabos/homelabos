@@ -37,9 +37,9 @@ services:
       - PGID=0
       - PUID=0
       - TZ={{ common_timezone }}
-      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
-      - TRANSMISSION_RPC_PASSWORD={{ default_password }}
-      - TRANSMISSION_RPC_USERNAME={{ default_username }}
+      #- TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+      #- TRANSMISSION_RPC_PASSWORD={{ default_password }}
+      #- TRANSMISSION_RPC_USERNAME={{ default_username }}
       - TRANSMISSION_SPEED_LIMIT_UP=100
       - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
       - TRANSMISSION_SPEED_LIMIT_DOWN=100
@@ -49,9 +49,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:transmission.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=9091"
+      - "traefik.http.services.transmission.loadbalancer.server.scheme=http"
+      - "traefik.http.services.transmission.loadbalancer.server.port=9091"
+      - "traefik.http.routers.transmission-http.rule=Host(`transmission.{{ domain }}`)"
+      - "traefik.http.routers.transmission-http.entrypoints=http"
+      - "traefik.http.routers.transmission-http.middlewares={% if transmission.https_only %}redirect@file, {% else %}{% if transmission.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.transmission.rule=Host(`transmission.{{ domain }}`)"
+      - "traefik.http.routers.transmission.entrypoints=https"
+      - "traefik.http.routers.transmission.middlewares={% if transmission.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.transmission.tls=true"
+      - "traefik.http.routers.transmission.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.transmission.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.transmission.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.transmission.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:transmission.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

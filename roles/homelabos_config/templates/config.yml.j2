@@ -80,7 +80,7 @@ enable_tor: {{ enable_tor | default(False) }}
 
 # Force SSL Usage
 # Only set this to true after everything is working, and https certificates have been generated.
-https_only: {{ https_only | default(False) }}
+# https_only: {{ https_only | default(False) }}
 
 # Services
 
@@ -146,11 +146,11 @@ enable_pixelfed: {{ enable_pixelfed | default(False) }}
 enable_plex: {{ enable_plex | default(False) }} # Set Plex Claim Token below
 enable_poli: {{ enable_poli | default(False) }}
 enable_portainer: {{ enable_portainer | default(False) }}
-enable_searx: {{ enable_searx | default(False) }}
 enable_sickchill: {{ enable_sickchill | default(False) }}
 enable_sonarr: {{ enable_sonarr | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
 enable_restic: {{ enable_restic | default(False) }}
+enable_searx: {{ enable_searx | default(False) }}
 enable_speedtest: {{ enable_speedtest | default(False) }}
 enable_syncthing: {{ enable_syncthing | default(False) }}
 enable_tautulli: {{ enable_tautulli | default(False) }}
@@ -197,14 +197,291 @@ nas_workgroup: {{ nas_workgroup | default() }}
 s3_backup_cron: {{ s3_backup_cron | default() }}
 s3_path: {{ s3_path | default() }}
 
-mailserver:
-  forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
-
-gitea:
-  use_mariadb: {{ gitea.use_mariadb | default(True) }}
-  gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
+# Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
+apple_health_nextcloud_username: {{ apple_health_nextcloud_username | default()  }}
 
 apache2_subdomain: {{ apache2_subdomain | default('apache2') }}
 
+# Individual per service settings
+
+airsonic:
+  https_only: {{ airsonic.https_only | default(False) }}
+  auth: {{ airsonic.auth | default(False) }}
+
+apache2:
+  https_only: {{ apache2.https_only | default(False) }}
+  auth: {{ apache2.auth | default(False) }}
+
+apple_health_influx:
+
+beets:
+  https_only: {{ beets.https_only | default(False) }}
+  auth: {{ beets.auth | default(False) }}
+
+bitwarden:
+  https_only: {{ bitwarden.https_only | default(False) }}
+  auth: {{ bitwarden.auth | default(False) }}
+
+bookstack:
+  https_only: {{ bookstack.https_only | default(False) }}
+  auth: {{ bookstack.auth | default(False) }}
+
+bulletnotes:
+  https_only: {{ bulletnotes.https_only | default(False) }}
+  auth: {{ bulletnotes.auth | default(False) }}
+
+calibre:
+  https_only: {{ calibre.https_only | default(False) }}
+  auth: {{ calibre.auth | default(False) }}
+
+codeserver:
+  https_only: {{ codeserver.https_only | default(False) }}
+  auth: {{ codeserver.auth | default(False) }}
+
+darksky_influx:
+
+dasher:
+
+digikam:
+  auth: {{ digikam.auth | default(False) }}
+  https_only: {{ digikam.https_only | default(False) }}
+
+docs:
+  https_only: {{ docs.https_only | default(False) }}
+  auth: {{ docs.auth | default(False) }}
+
+drone:
+  https_only: {{ drone.https_only | default(False) }}
+  auth: {{ drone.auth | default(False) }}
+
+duplicati:
+  https_only: {{ duplicati.https_only | default(False) }}
+  auth: {{ duplicati.auth | default(False) }}
+
+emby:
+  https_only: {{ emby.https_only | default(False) }}
+  auth: {{ emby.auth | default(False) }}
+
+firefly_iii:
+  https_only: {{ firefly_iii.https_only | default(False) }}
+  auth: {{ firefly_iii.auth | default(False) }}
+
+freshrss:
+  https_only: {{ freshrss.https_only | default(False) }}
+  auth: {{ freshrss.auth | default(False) }}
+
+ghost:
+  https_only: {{ ghost.https_only | default(False) }}
+  auth: {{ ghost.auth | default(False) }}
+
+gitea:
+  https_only: {{ gitea.https_only | default(False) }}
+  auth: {{ gitea.auth | default(False) }}
+  use_mariadb: {{ gitea.use_mariadb | default(True) }}
+  gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
+
+grafana:
+  https_only: {{ grafana.https_only | default(False) }}
+  auth: {{ grafana.auth | default(False) }}
+
+grownetics:
+  https_only: {{ grownetics.https_only | default(False) }}
+  auth: {{ grownetics.auth | default(False) }}
+
+guacamole:
+  https_only: {{ guacamole.https_only | default(False) }}
+  auth: {{ guacamole.auth | default(False) }}
+
+healthchecks:
+  https_only: {{ healthchecks.https_only | default(False) }}
+  auth: {{ healthchecks.auth | default(False) }}
+
+homeassistant:
+  https_only: {{ homeassistant.https_only | default(False) }}
+  auth: {{ homeassistant.auth | default(False) }}
+
+homebridge:
+
+homedash:
+  https_only: {{ homedash.https_only | default(False) }}
+  auth: {{ homedash.auth | default(False) }}
+
+inventario:
+  https_only: {{ inventario.https_only | default(False) }}
+  auth: {{ inventario.auth | default(False) }}
+
+jackett:
+  https_only: {{ jackett.https_only | default(False) }}
+  auth: {{ jackett.auth | default(False) }}
+
+jellyfin:
+  https_only: {{ jellyfin.https_only | default(False) }}
+  auth: {{ jellyfin.auth | default(False) }}
+
+kibitzr:
+
+lidarr:
+  https_only: {{ lidarr.https_only | default(False) }}
+  auth: {{ lidarr.auth | default(False) }}
+
+mailserver:
+  https_only: {{ mailserver.https_only | default(False) }}
+  auth: {{ mailserver.auth | default(False) }}
+  forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
+
+mashio:
+  https_only: {{ mashio.https_only | default(False) }}
+  auth: {{ mashio.auth | default(False) }}
+
+matomo:
+  https_only: {{ matomo.https_only | default(False) }}
+  auth: {{ matomo.auth | default(False) }}
+
+mayan:
+  https_only: {{ mayan.https_only | default(False) }}
+  auth: {{ mayan.auth | default(False) }}
+
+miniflux:
+  https_only: {{ miniflux.https_only | default(False) }}
+  auth: {{ miniflux.auth | default(False) }}
+
+minio:
+  https_only: {{ minio.https_only | default(False) }}
+  auth: {{ minio.auth | default(False) }}
+
+monicahq:
+  https_only: {{ monicahq.https_only | default(False) }}
+  auth: {{ monicahq.auth | default(False) }}
+
+mstream:
+  https_only: {{ mstream.https_only | default(False) }}
+  auth: {{ mstream.auth | default(False) }}
+
+mylar:
+  https_only: {{ mylar.https_only | default(False) }}
+  auth: {{ mylar.auth | default(False) }}
+
+netdata:
+  https_only: {{ netdata.https_only | default(False) }}
+  auth: {{ netdata.auth | default(False) }}
+
+nextcloud:
+  https_only: {{ nextcloud.https_only | default(False) }}
+  auth: {{ nextcloud.auth | default(False) }}
+
+nzbget:
+  https_only: {{ nzbget.https_only | default(False) }}
+  auth: {{ nzbget.auth | default(False) }}
+
+ombi:
+  https_only: {{ ombi.https_only | default(False) }}
+  auth: {{ ombi.auth | default(False) }}
+
+openldap:
+  https_only: {{ openldap.https_only | default(False) }}
+  auth: {{ openldap.auth | default(False) }}
+
+openvpn:
+
+organizr:
+  https_only: {{ organizr.https_only | default(False) }}
+  auth: {{ organizr.auth | default(False) }}
+
+ownphotos:
+  https_only: {{ ownphotos.https_only | default(False) }}
+  auth: {{ ownphotos.auth | default(False) }}
+
+paperless:
+  https_only: {{ paperless.https_only | default(False) }}
+  auth: {{ paperless.auth | default(False) }}
+
+pihole:
+  https_only: {{ pihole.https_only | default(False) }}
+  auth: {{ pihole.auth | default(False) }}
+
+piwigo:
+  https_only: {{ piwigo.https_only | default(False) }}
+  auth: {{ piwigo.auth | default(False) }}
+
+pixelfed:
+  https_only: {{ pixelfed.https_only | default(False) }}
+  auth: {{ pixelfed.auth | default(False) }}
+
+plex:
+  https_only: {{ plex.https_only | default(False) }}
+  auth: {{ plex.auth | default(False) }}
+
+poli:
+  https_only: {{ poli.https_only | default(False) }}
+  auth: {{ poli.auth | default(False) }}
+
+portainer:
+  https_only: {{ portainer.https_only | default(False) }}
+  auth: {{ portainer.auth | default(False) }}
+
+sickchill:
+  https_only: {{ sickchill.https_only | default(False) }}
+  auth: {{ sickchill.auth | default(False) }}
+
+sonarr:
+  https_only: {{ sonarr.https_only | default(False) }}
+  auth: {{ sonarr.auth | default(False) }}
+
+radarr:
+  https_only: {{ radarr.https_only | default(False) }}
+  auth: {{ radarr.auth | default(False) }}
+
+restic:
+
 speedtest:
+  https_only: {{ speedtest.https_only | default(False) }}
+  auth: {{ speedtest.auth | default(False) }}
   server: {{ speedtest.server | default (11441) }}
+
+syncthing:
+  https_only: {{ syncthing.https_only | default(False) }}
+  auth: {{ syncthing.auth | default(False) }}
+
+tautulli:
+  https_only: {{ tautulli.https_only | default(False) }}
+  auth: {{ tautulli.auth | default(False) }}
+
+thelounge:
+  https_only: {{ thelounge.https_only | default(False) }}
+  auth: {{ thelounge.auth | default(False) }}
+
+tick:
+  https_only: {{ tick.https_only | default(False) }}
+  auth: {{ tick.auth | default(False) }}
+
+transmission:
+  https_only: {{ transmission.https_only | default(False) }}
+  auth: {{ transmission.auth | default(True) }}
+
+trilium:
+  https_only: {{ trilium.https_only | default(False) }}
+  auth: {{ trilium.auth | default(False) }}
+
+ubooquity:
+  https_only: {{ ubooquity.https_only | default(False) }}
+  auth: {{ ubooquity.auth | default(False) }}
+
+wallabag:
+  https_only: {{ wallabag.https_only | default(False) }}
+  auth: {{ wallabag.auth | default(False) }}
+
+webvirtmgr:
+  https_only: {{ webvirtmgr.https_only | default(False) }}
+  auth: {{ webvirtmgr.auth | default(False) }}
+
+wekan:
+  https_only: {{ wekan.https_only | default(False) }}
+  auth: {{ wekan.auth | default(False) }}
+
+watchtower:
+
+xfinityusageinfluxdb:
+
+zulip:
+  https_only: {{ zulip.https_only | default(False) }}
+  auth: {{ zulip.auth | default(False) }}

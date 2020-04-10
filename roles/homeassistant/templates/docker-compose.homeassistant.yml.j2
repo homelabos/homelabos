@@ -25,9 +25,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:homeassistant.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8123"
+      - "traefik.http.services.homeassistant.loadbalancer.server.scheme=http"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+      - "traefik.http.routers.homeassistant-http.rule=Host(`homeassistant.{{ domain }}`)"
+      - "traefik.http.routers.homeassistant-http.entrypoints=http"
+      - "traefik.http.routers.homeassistant-http.middlewares={% if homeassistant.https_only %}redirect@file, {% else %}{% if homeassistant.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.{{ domain }}`)"
+      - "traefik.http.routers.homeassistant.entrypoints=https"
+      - "traefik.http.routers.homeassistant.middlewares={% if homeassistant.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.homeassistant.tls=true"
+      - "traefik.http.routers.homeassistant.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.homeassistant.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.homeassistant.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.homeassistant.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:homeassistant.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

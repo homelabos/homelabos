@@ -14,8 +14,8 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - "{{ volumes_root }}/syncthing:/config"
-      - "{{ storage_dir }}/Documents/Syncthing:/data"
+      - {{ volumes_root }}/syncthing/config:/config
+      - {{ storage_dir }}/Documents/Syncthing:/data
     environment:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
@@ -25,11 +25,22 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:sync.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8384"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.syncthing.loadbalancer.server.scheme=http"
+      - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
+      - "traefik.http.routers.syncthing-http.rule=Host(`sync.{{ domain }}`)"
+      - "traefik.http.routers.syncthing-http.entrypoints=http"
+      - "traefik.http.routers.syncthing-http.middlewares={% if syncthing.https_only %}redirect@file, {% else %}{% if syncthing.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.syncthing.rule=Host(`sync.{{ domain }}`)"
+      - "traefik.http.routers.syncthing.entrypoints=https"
+      - "traefik.http.routers.syncthing.middlewares={% if syncthing.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.syncthing.tls=true"
+      - "traefik.http.routers.syncthing.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.syncthing.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.syncthing.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.syncthing.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:sync.{{ tor_domain }}"
       - "traefik.tor.protocol=http"

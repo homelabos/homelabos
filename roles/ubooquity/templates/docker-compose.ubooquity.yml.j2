@@ -28,17 +28,39 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.user.http.frontend.rule=Host:ubooquity.{{ domain }}"
-      - "traefik.user.http.protocol=http"
-      - "traefik.user.http.port=2202"
-      - "traefik.user.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.user.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.ubooquity.loadbalancer.server.scheme=http"
+      - "traefik.http.services.ubooquity.loadbalancer.server.port=2202"
+      - "traefik.http.routers.ubooquity-http.rule=Host(`ubooquity.{{ domain }}`)"
+      - "traefik.http.routers.ubooquity-http.entrypoints=http"
+      - "traefik.http.routers.ubooquity-http.middlewares={% if ubooquity.https_only %}redirect@file, {% else %}{% if ubooquity.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ubooquity.rule=Host(`ubooquity.{{ domain }}`)"
+      - "traefik.http.routers.ubooquity.entrypoints=https"
+      - "traefik.http.routers.ubooquity.middlewares={% if ubooquity.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ubooquity.tls=true"
+      - "traefik.http.routers.ubooquity.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.ubooquity.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.ubooquity.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.ubooquity.tls.certresolver=http"
+{% endif %}
 
-      - "traefik.admin.http.frontend.rule=Host:ubooquity-admin.{{ domain }}"
-      - "traefik.admin.http.protocol=http"
-      - "traefik.admin.http.port=2203"
-      - "traefik.admin.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.admin.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.ubooquity-admin.loadbalancer.server.scheme=http"
+      - "traefik.http.services.ubooquity-admin.loadbalancer.server.port=2203"
+      - "traefik.http.routers.ubooquity-admin-http.rule=Host(`ubooquity-admin.{{ domain }}`)"
+      - "traefik.http.routers.ubooquity-admin-http.entrypoints=http"
+      - "traefik.http.routers.ubooquity-admin-http.middlewares={% if ubooquity.https_only %}redirect@file, {% else %}{% if ubooquity.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ubooquity-admin.rule=Host(`ubooquity-admin.{{ domain }}`)"
+      - "traefik.http.routers.ubooquity-admin.entrypoints=https"
+      - "traefik.http.routers.ubooquity-admin.middlewares={% if ubooquity.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ubooquity-admin.tls=true"
+      - "traefik.http.routers.ubooquity-admin.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.ubooquity-admin.tls.domains[0].sans=*.{{ domain }}"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.ubooquity-admin.tls.certresolver=dns"
+{% else %}
+      - "traefik.http.routers.ubooquity-admin.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
       - "traefik.toruser.frontend.rule=Host:ubooquity.{{ tor_domain }}"
       - "traefik.toruser.protocol=http"
@@ -49,5 +71,4 @@ services:
       - "traefik.toradmin.protocol=http"
       - "traefik.toradmin.port=2203"
       - "traefik.toradmin.http.middlewares.add-ubooquity-admin.addprefix.prefix=/ubooquity/admin"
-
 {% endif %}

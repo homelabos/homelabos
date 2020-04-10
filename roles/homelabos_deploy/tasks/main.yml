@@ -6,6 +6,7 @@
     mode: "1777"
   loop:
     - "{{ volumes_root }}/traefik"
+    - "{{ volumes_root }}/traefik/conf.d"
     - /etc/docker
   ignore_errors: "yes"
 
@@ -14,8 +15,21 @@
     src: daemon.json
     dest: /etc/docker/daemon.json
 
-- name: Configure Traefik.
-  template: src=traefik.toml dest="{{ volumes_root }}/traefik/traefik.toml"
+- name: Configure Traefik .yaml
+  template: src=traefik.yaml dest=/var/homelabos/traefik/traefik.yaml
+
+- name: Configure Traefik conf.d
+  template: src=conf.d/middlewares.yaml dest=/var/homelabos/traefik/conf.d/middlewares.yaml
+
+# Needs passlib
+- name: Write user to basic auth file
+  htpasswd:
+    path: "{{ volumes_root }}/traefik/basicAuth"
+    name: "{{ default_username }}"
+    password: '{{ default_password }}'
+    owner: root
+    group: root
+    mode: 0640
 
 - name: Configure SSL
   file:
@@ -141,7 +155,7 @@
   lineinfile:
     path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: "lookup('vars', 'enable_' ~ service_item)"
+  when: "lookup('vars', 'enable_' ~ service_item )"
   loop: "{{ enabled_services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
