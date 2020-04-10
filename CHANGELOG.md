@@ -17,6 +17,7 @@
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
+- Added PrivateBin - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - Added Searx - A privacy-respecting, hackable metasearch engine.
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.

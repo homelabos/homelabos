@@ -99,6 +99,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 - [Plex](https://www.plex.tv/) - Personal Media Server
 - [Poli](https://github.com/shzlw/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](https://www.portainer.io/) - Easy Docker management
+- [PrivateBin](privatebin) - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - [Radarr](https://radarr.video/) - Automated movie downloading
 - [Searx](https://github.com/asciimoo/searx/) - A privacy-respecting, hackable metasearch engine.
 - [SickChill](https://sickchill.github.io/) - SickChill is an automatic Video Library Manager for TV Shows.
