@@ -28,7 +28,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-<<<<<<< HEAD
       - "traefik.http.services.ubooquity.loadbalancer.server.scheme=http"
       - "traefik.http.services.ubooquity.loadbalancer.server.port=2202"
       - "traefik.http.routers.ubooquity-http.rule=Host(`ubooquity.{{ domain }}`)"
@@ -62,25 +61,6 @@ services:
 {% else %}
       - "traefik.http.routers.ubooquity-admin.tls.certresolver=http"
 {% endif %}
-=======
-      - "traefik.user.http.frontend.rule=Host:ubooquity.{{ domain }}"
-      - "traefik.user.http.protocol=http"
-      - "traefik.user.http.port=2202"
-      - "traefik.user.http.frontend.redirect.regex=^https://ubooquity.{{ domain }}/$$"
-      - "traefik.user.http.frontend.redirect.replacement=https://ubooquity.{{ domain }}/ubooquity/"
-      - "traefik.user.http.frontend.redirect.permanent=true"
-      - "traefik.user.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.user.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-
-      - "traefik.admin.http.frontend.rule=Host:ubooquity-admin.{{ domain }}"
-      - "traefik.admin.http.protocol=http"
-      - "traefik.admin.http.port=2203"
-      - "traefik.admin.http.frontend.redirect.regex=^https://ubooquity-admin.{{ domain }}/$$"
-      - "traefik.admin.http.frontend.redirect.replacement=https://ubooquity-admin.{{ domain }}/ubooquity/admin/"
-      - "traefik.admin.http.frontend.redirect.permanent=true"
-      - "traefik.admin.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.admin.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
->>>>>>> cranikus/HomelabOS-dev
 {% if enable_tor %}
       - "traefik.toruser.frontend.rule=Host:ubooquity.{{ tor_domain }}"
       - "traefik.toruser.protocol=http"
@@ -91,9 +71,4 @@ services:
       - "traefik.toradmin.protocol=http"
       - "traefik.toradmin.port=2203"
       - "traefik.toradmin.http.middlewares.add-ubooquity-admin.addprefix.prefix=/ubooquity/admin"
-<<<<<<< HEAD
 {% endif %}
-=======
-
-{% endif %}
->>>>>>> cranikus/HomelabOS-dev
