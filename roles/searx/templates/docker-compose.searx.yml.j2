@@ -20,7 +20,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.searx.loadbalancer.server.scheme=http"
-      - "traefik.http.services.searx.loadbalancer.server.port=8080"
+      - "traefik.http.services.searx.loadbalancer.server.port=8888"
       - "traefik.http.routers.searx-http.rule=Host(`searx.{{ domain }}`)"
       - "traefik.http.routers.searx-http.entrypoints=http"
       - "traefik.http.routers.searx-http.middlewares={% if searx.https_only %}redirect@file, {% else %}{% if searx.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -38,5 +38,5 @@ services:
 {% if enable_tor %}
       - "traefik.tor.frontend.rule=Host:searx.{{ tor_domain }}"
       - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.tor.port=8888"
 {% endif %}
