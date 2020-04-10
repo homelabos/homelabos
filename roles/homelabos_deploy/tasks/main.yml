@@ -5,8 +5,8 @@
     state: directory
     mode: "1777"
   loop:
-    - {{ volumes_root }}/traefik
-    - {{ volumes_root }}/traefik/conf.d
+    - "{{ volumes_root }}/traefik"
+    - "{{ volumes_root }}/traefik/conf.d"
     - /etc/docker
   ignore_errors: "yes"
 
@@ -21,7 +21,7 @@
 - name: Configure Traefik conf.d
   template: src=conf.d/middlewares.yaml dest=/var/homelabos/traefik/conf.d/middlewares.yaml
 
-#Needs passlib
+# Needs passlib
 - name: Write user to basic auth file
   htpasswd:
     path: "{{ volumes_root }}/traefik/basicAuth"
