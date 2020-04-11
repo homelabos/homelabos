@@ -8,7 +8,7 @@ theme:
   palette:
     primary: orange
   icon:
-    logo: material/house
+    logo: material/home
 nav:
   - Home: index.md
   - Installation: setup/installation.md
