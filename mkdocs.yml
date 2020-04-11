@@ -5,8 +5,10 @@ repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: /edit/master/docs
 theme:
   name: material
+  palette:
+    primary: orange
   icon:
-    logo: material/home
+    logo: material/house
 nav:
   - Home: index.md
   - Installation: setup/installation.md
