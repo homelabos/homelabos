@@ -121,3 +121,26 @@ testimonial:
       designation : "Developer"
       image : "images/testimonial-1.jpg"
       content : "It seems to work."
+
+############################# Community #######################
+community:
+  enable : true
+  title : "Community"
+  items:
+    # about product item loop
+    - image : "images/zulip.png"
+      title : "Zulip Chat"
+      content : "Join over 150 people in our online chat!"
+      button:
+        enable : true
+        label : "Join the Chat"
+        link : "https://homelabos.zulipchat.com/"
+        
+    # about product item loop
+    - image : "images/reddit.png"
+      title : "Reddit"
+      content : "Join 400+ Redditors discussing HomelabOS"
+      button:
+        enable : true
+        label : "Visit HomelabOS on Reddit"
+        link : "https://reddit.com/r/HomelabOS"

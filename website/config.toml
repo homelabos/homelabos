@@ -38,17 +38,22 @@ theme = "vex-hugo"
   [[menu.main]]
   name = "Features"
   URL = "feature"
-  weight = 2
+  weight = 20
   
-  # [[menu.main]]
-  # name = "Gallery"
-  # URL = "gallery"
-  # weight = 3
+  [[menu.main]]
+  name = "Gallery"
+  URL = "gallery"
+  weight = 30
   
-  # [[menu.main]]
-  # name = "Testimonial"
-  # URL = "testimonial"
-  # weight = 4
+  [[menu.main]]
+  name = "Testimonial"
+  URL = "testimonial"
+  weight = 40
+
+  [[menu.main]]
+  name = "Community"
+  URL = "community"
+  weight = 50
 
 
 ########################### Default parameters ##########################
