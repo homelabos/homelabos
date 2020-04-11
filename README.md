@@ -25,7 +25,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 ## Features
 
 - One command deployment `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
-- Manual deployment - [Installation](https://gitlab.com/NickBusey/HomelabOS/-/blob/dev/docs/setup/installation.md)
+- Manual deployment - [Installation](https://homelabos.com/docs/setup/installation/#manual-set-up)
 - Automated Backups
 - Easy Restore
 - Automated Tor Onion Service access
