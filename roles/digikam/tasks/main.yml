@@ -19,7 +19,6 @@
     src: docker-compose.digikam.yml.j2
     dest: "{{ volumes_root }}/digikam/docker-compose.digikam.yml"
   vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 
