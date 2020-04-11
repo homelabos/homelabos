@@ -143,8 +143,6 @@
   template:
     src: docker-compose.traefik.yml.j2
     dest: "{{ volumes_root }}/traefik/docker-compose.traefik.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Create HomelabOS hosts file.
   file:
@@ -200,6 +198,7 @@
     loop_var: service_item
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
 - name: Ensure disabled services are not running
   systemd:
