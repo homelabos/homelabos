@@ -78,7 +78,7 @@ aboutProduct:
       button:
         enable : true
         label : "See Available Apps"
-        link : "https://gitlab.com/NickBusey/HomelabOS#available-software"
+        link : "https://homelabos.com/docs/#available-software"
         
     # about product item loop
     - image : "images/laptop.jpg"
@@ -87,7 +87,7 @@ aboutProduct:
       button:
         enable : true
         label : "Install Now"
-        link : "https://gitlab.com/NickBusey/HomelabOS/-/blob/dev/docs/setup/installation.md#installation"
+        link : "https://homelabos.com/docs/setup/installation/"
 
 
 #################################### Gallery ########################
