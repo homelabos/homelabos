@@ -49,7 +49,7 @@ If you have the latest version of Vagrant and Virtual Box setup you can demo thi
 
 A server with:
 
-- Ubuntu 18.04 or Debian 10.3
+- Ubuntu Server 18.04 or Debian 10.3
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 Another computer with:

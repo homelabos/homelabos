@@ -32,7 +32,7 @@ Verify docker is installed correctly on your client
 ### Server:
 
     * Running one of
-        * Ubuntu 18.04
+        * Ubuntu Server 18.04
         * Debian 10.3
     * Passwordless SSH via SSH keys
     
