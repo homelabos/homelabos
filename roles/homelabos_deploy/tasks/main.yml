@@ -31,13 +31,13 @@
     mode: 0600
     state: touch
 
-- name: Get UID
-  command: id -u
+- name: Get UID 
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
@@ -190,12 +190,12 @@
   when: "lookup('vars', 'enable_tor')"
 
 - name: Get UID
-  command: id -u
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
