@@ -14,6 +14,24 @@
   register: gid_output
   become: false
 
+# Migration v0.7
+- name: folder nextcloud_db present
+  stat: path={{ volumes_root }}/nextcloud_db
+  register: folder_present
+
+- name: Stop nextcloud
+  systemd:
+    name: nextcloud
+    enabled: "no"
+    daemon-reload: "yes"
+    state: stopped
+  when: folder_present.stat.exists
+
+- name: Move nextcloud_db to nextcloud/db
+  command: mv "{{ volumes_root }}/nextcloud_db" "{{ volumes_root }}/nextcloud/db"
+  when: folder_present.stat.exists
+# End Migration v0.7
+
 - name: Copy nextcloud docker-compose.yml file into place.
   template:
     src: docker-compose.nextcloud.yml.j2
