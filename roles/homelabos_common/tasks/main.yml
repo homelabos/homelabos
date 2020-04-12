@@ -21,7 +21,7 @@
       - docker
       - docker-compose
       - whois
-      - python-passlib # for ansible basic auth
+      - python-passlib
   tags:
     - dependencies
 

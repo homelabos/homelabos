@@ -17,7 +17,7 @@
     dest: "{{ volumes_root }}/pixelfed/pixelfed.env"
 
 - name: Configure pixelfed systemd service.
-  template: 
+  template:
     src: service.j2
     dest: /etc/systemd/system/pixelfed.service
 
