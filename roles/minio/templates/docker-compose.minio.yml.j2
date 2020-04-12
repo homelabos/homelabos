@@ -20,6 +20,8 @@ services:
     ports:
       - 9110:9000
     environment:
+      MINIO_UID: {{ uid_output.stdout }}
+      MINIO_GID: {{ gid_output.stdout }}
       MINIO_ACCESS_KEY: {{minio_access_key}}
       MINIO_SECRET_KEY: {{minio_secret_access_key}}
     labels:
