@@ -72,6 +72,7 @@ nav:
     - Plex: software/plex.md
     - Poli: software/poli.md
     - Portainer: software/portainer.md
+    - PrivateBin: software/privatebin.md
     - Radarr / Sonarr: software/radarr-sonarr.md
     - Searx: software/searx.md
     - SickChill: software/sickchill.md

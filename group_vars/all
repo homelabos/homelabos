@@ -60,6 +60,7 @@ enabled_services:
   plex: "{{ enable_plex }}"
   poli: "{{ enable_poli }}"
   portainer: "{{ enable_portainer }}"
+  privatebin: "{{ enable_privatebin }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
   searx: "{{ enable_searx }}"
@@ -140,6 +141,7 @@ pixelfed:
 plex:
 poli:
 portainer:
+privatebin:
 radarr:
 restic:
 sickchill:

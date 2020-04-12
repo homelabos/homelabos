@@ -1,0 +1,42 @@
+---
+- name: Make privatebin directory.
+  file:
+    path: "{{ volumes_root }}/privatebin"
+    state: directory
+
+- name: Make privatebin data directory with correct permissions.
+  file:
+    path: "{{ volumes_root }}/privatebin/data"
+    state: directory
+    owner: 65534
+    group: 82
+
+- name: Make privatebin conf directory with correct permissions.
+  file:
+    path: "{{ volumes_root }}/privatebin/cfg"
+    state: directory
+    owner: 65534
+    group: 82
+
+- name: Copy privatebin conf.php file into place if it doesn't exist.
+  template:
+    src: conf.php.j2
+    dest: "{{ volumes_root }}/privatebin/cfg/conf.php"
+    force: no
+
+- name: Copy privatebin docker-compose.yml file into place.
+  template:
+    src: docker-compose.privatebin.yml.j2
+    dest: "{{ volumes_root }}/privatebin/docker-compose.privatebin.yml"
+
+- name: Configure privatebin systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/privatebin.service
+
+- name: Start privatebin
+  systemd:
+    name: privatebin
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

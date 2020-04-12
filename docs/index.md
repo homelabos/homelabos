@@ -126,6 +126,7 @@ If you are having problems you can:
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Poli](https://github.com/shzlw/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](https://www.portainer.io/) - Easy Docker management
+- [PrivateBin](https://privatebin.info) PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - [Searx](https://github.com/asciimoo/searx/) - A privacy-respecting, hackable metasearch engine.
 - [Ubooquity](https://vaemendis.net/ubooquity/) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates
