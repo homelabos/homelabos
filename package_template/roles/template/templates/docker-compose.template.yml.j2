@@ -27,23 +27,17 @@ services:
       - "traefik.http.routers.PackageFileName.entrypoints=https"
       - "traefik.http.routers.PackageFileName.middlewares={% if PackageFileName.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.PackageFileName.tls=true"
-      - "traefik.http.routers.PackageFileName.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.PackageFileName.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.PackageFileName.tls.certresolver=dns"
+      - "traefik.http.routers.PackageFileName.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.PackageFileName.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.PackageFileName.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.PackageFileName-tor-http.rule=Host(`PackageFileName.{{{ tor_domain }}`)"
       - "traefik.http.routers.PackageFileName-tor-http.entrypoints=http"
-      - "traefik.http.routers.PackageFileName-tor-http.middlewares={% if PackageFileName.https_only %}redirect@file, {% else %}{% if PackageFileName.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.PackageFileName-tor.rule=Host(`PackageFileName.{{{ tor_domain }}`)"
-      - "traefik.http.routers.PackageFileName-tor.entrypoints=https"
-      - "traefik.http.routers.PackageFileName-tor.middlewares={% if PackageFileName.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.PackageFileName-tor.tls=true"
-      - "traefik.http.routers.PackageFileName-tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.PackageFileName-tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.PackageFileName-tor-http.middlewares={% if PackageFileName.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     # OPTIONAL 
     #links: 

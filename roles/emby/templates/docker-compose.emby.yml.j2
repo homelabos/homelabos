@@ -31,21 +31,15 @@ services:
       - "traefik.http.routers.emby.entrypoints=https"
       - "traefik.http.routers.emby.middlewares={% if emby.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.emby.tls=true"
-      - "traefik.http.routers.emby.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.emby.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.emby.tls.certresolver=dns"
+      - "traefik.http.routers.emby.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.emby.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.emby.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.emby-tor-http.rule=Host(`emby.{{ tor_domain }}`)"
       - "traefik.http.routers.emby-tor-http.entrypoints=http"
-      - "traefik.http.routers.emby-tor-http.middlewares={% if emby.https_only %}redirect@file, {% else %}{% if emby.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.emby-tor.rule=Host(`emby.{{ tor_domain }}`)"
-      - "traefik.http.routers.emby-tor.entrypoints=https"
-      - "traefik.http.routers.emby-tor.middlewares={% if emby.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.emby-tor.tls=true"
-      - "traefik.http.routers.emby-tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.emby-tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.emby-tor-http.middlewares={% if emby.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
