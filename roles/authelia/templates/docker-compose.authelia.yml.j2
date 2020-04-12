@@ -10,11 +10,11 @@ networks:
 
 services:
   auth:
-    image: clems4ever/authelia:v3.15.0
+    image: authelia/authelia:4.13.1
     restart: unless-stopped
     depends_on:
       - redis
-      - mongo
+      - postgres
     networks:
       - traefik_network
     labels:
@@ -36,19 +36,47 @@ services:
 {% else %}
       - "traefik.http.routers.authelia.tls.certresolver=http"
 {% endif %}
+    volumes:
+      - "{{ volumes_root }}/authelia/authelia_config.yml:/etc/authelia/configuration.yml:ro"
+      - "{{ volumes_root }}/authelia/userdb.yml:/etc/authelia/userdb.yml"
+
 {% if enable_tor %}
+  auth-tor:
+    image: authelia/authelia:4.13.1
+    restart: unless-stopped
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.authelia.loadbalancer.server.scheme=http"
+      - "traefik.http.services.authelia.loadbalancer.server.port=9091"
       - "traefik.http.routers.authelia-tor-http.rule=Host(`auth.{{ tor_domain }}`)"
       - "traefik.http.routers.authelia-tor-http.entrypoints=http"
-{% endif %}
     volumes:
-      - "{{ volumes_root }}/authelia/authelia_config.yml:/etc/authelia/config.yml:ro"
+      - "{{ volumes_root }}/authelia/authelia_config-tor.yml:/etc/authelia/configuration.yml:ro"
       - "{{ volumes_root }}/authelia/userdb.yml:/etc/authelia/userdb.yml"
+{% endif %}
 
   redis:
     networks:
       - traefik_network
     image: redis:5.0.5-alpine
     
+  postgres:
+    networks:
+      - traefik_network
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: my_authelia
+      POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/authelia_postgres_password')}}
+    volumes:
+      - "{{ volumes_root }}/authelia/postgres_data:/var/lib/postgresql/data"
+
+# Migration v0.7 Authelia v4 does not use mongo anymore
   mongo:
     networks:
       - traefik_network
@@ -56,4 +84,5 @@ services:
     environment:
       MONGO_INITDB_DATABASE: my_authelia
     volumes:
-      - "{{ volumes_root }}/authelia/mongo_data:/data/db"
+      - /var/homelabos/authelia/mongo_data:/data/db
+# End Migration
