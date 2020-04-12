@@ -54,23 +54,17 @@ services:
       - "traefik.http.routers.mailu.entrypoints=https"
       - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mailu.tls=true"
-      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.mailu.tls.certresolver=dns"
+      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.mailu.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.mailu-tor-http.rule=Host(`mailu.{{ tor_domain }}`)"
       - "traefik.http.routers.mailu-tor-http.entrypoints=http"
-      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.https_only %}redirect@file, {% else %}{% if mailu.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu-tor.rule=Host(`mailu.{{ tor_domain }}`)"
-      - "traefik.http.routers.mailu-tor.entrypoints=https"
-      - "traefik.http.routers.mailu-tor.middlewares={% if mailu.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu-tor.tls=true"
-      - "traefik.http.routers.mailu-tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.mailu-tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   admin:

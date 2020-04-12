@@ -46,21 +46,15 @@ services:
       - "traefik.http.routers.plex.entrypoints=https"
       - "traefik.http.routers.plex.middlewares={% if plex.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.plex.tls=true"
-      - "traefik.http.routers.plex.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.plex.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.plex.tls.certresolver=dns"
+      - "traefik.http.routers.plex.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.plex.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.plex.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.plex-tor-http.rule=Host(`plex.{{ tor_domain }}`)"
       - "traefik.http.routers.plex-tor-http.entrypoints=http"
-      - "traefik.http.routers.plex-tor-http.middlewares={% if plex.https_only %}redirect@file, {% else %}{% if plex.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.plex-tor.rule=Host(`plex.{{ tor_domain }}`)"
-      - "traefik.http.routers.plex-tor.entrypoints=https"
-      - "traefik.http.routers.plex-tor.middlewares={% if plex.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.plex-tor.tls=true"
-      - "traefik.http.routers.plex-tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.plex-tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.plex-tor-http.middlewares={% if plex.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

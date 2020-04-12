@@ -35,23 +35,17 @@ services:
       - "traefik.http.routers.drone.entrypoints=https"
       - "traefik.http.routers.drone.middlewares={% if drone.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.drone.tls=true"
-      - "traefik.http.routers.drone.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.drone.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.drone.tls.certresolver=dns"
+      - "traefik.http.routers.drone.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.drone.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.drone.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.drone-tor-http.rule=Host(`drone.{{ tor_domain }}`)"
       - "traefik.http.routers.drone-tor-http.entrypoints=http"
-      - "traefik.http.routers.drone-tor-http.middlewares={% if drone.https_only %}redirect@file, {% else %}{% if drone.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.drone-tor.rule=Host(`drone.{{ tor_domain }}`)"
-      - "traefik.http.routers.drone-tor.entrypoints=https"
-      - "traefik.http.routers.drone-tor.middlewares={% if drone.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.drone-tor.tls=true"
-      - "traefik.http.routers.drone-tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.drone-tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.drone-tor-http.middlewares={% if drone.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   drone-agent:

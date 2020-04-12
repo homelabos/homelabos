@@ -34,21 +34,15 @@ services:
       - "traefik.http.routers.minio.entrypoints=https"
       - "traefik.http.routers.minio.middlewares={% if minio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.minio.tls=true"
-      - "traefik.http.routers.minio.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.minio.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.minio.tls.certresolver=dns"
+      - "traefik.http.routers.minio.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.minio.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.minio.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.minio-tor-http.rule=Host(`minio.{{ tor_domain }}`)"
       - "traefik.http.routers.minio-tor-http.entrypoints=http"
-      - "traefik.http.routers.minio-tor-http.middlewares={% if minio.https_only %}redirect@file, {% else %}{% if minio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minio-tor.rule=Host(`minio.{{ tor_domain }}`)"
-      - "traefik.http.routers.minio-tor.entrypoints=https"
-      - "traefik.http.routers.minio-tor.middlewares={% if minio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minio-tor.tls=true"
-      - "traefik.http.routers.minio-tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.minio-tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.minio-tor-http.middlewares={% if minio.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
