@@ -1,6 +1,16 @@
 #!/bin/bash
 
 VERSION=dev
+REPO=NickBusey
+
+while getopts r:v: option
+do
+case "${option}"
+in
+v) VERSION=${OPTARG};;
+r) REPO=${OPTARG};;
+esac
+done
 
 printf "\x1B[01;93m========== Updating system ==========\n\x1B[0m"
 sudo apt update
@@ -21,7 +31,7 @@ grep -Fxq "$KEY" ~/.ssh/authorized_keys || cat ~/.ssh/id_rsa.pub >> ~/.ssh/autho
 
 # Download and extract HomelabOS
 printf "\x1B[01;93m========== Download and extract HomelabOS ==========\n\x1B[0m"
-wget https://gitlab.com/NickBusey/HomelabOS/-/archive/$VERSION/HomelabOS-$VERSION.tar.gz
+wget https://gitlab.com/$REPO/HomelabOS/-/archive/$VERSION/HomelabOS-$VERSION.tar.gz
 tar -xvzf HomelabOS-$VERSION.tar.gz
 rm HomelabOS-$VERSION.tar.gz
 
