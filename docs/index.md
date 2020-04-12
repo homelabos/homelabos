@@ -72,7 +72,7 @@ If you are having problems you can:
 
 ### E-Books
 
-- [Calibre](https://calibre-ebook.com) - Complete ebook library management.
+- [Calibre](https://calibre-ebook.com) - Calibre and Calibre Web - Complete ebook library management.
 
 ### Email
 
