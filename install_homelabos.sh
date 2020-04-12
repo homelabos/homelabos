@@ -39,7 +39,7 @@ printf "\x1B[01;93m========== Configure networking ==========\n\x1B[0m"
 export HOMELAB_IP=$(hostname -I | awk '{print $1}')
 printf "homelab_ip: $HOMELAB_IP\nhomelab_ssh_user: $(whoami)" > settings/config.yml
 
-printf "We have detected and set your homelab_ip to: $HOMELAB_IP\nIf this is incorrect, edit your /var/homelabos/data/settings/config.yml file to fix it.\n"
+printf "We have detected and set your homelab_ip to: $HOMELAB_IP\nIf this is incorrect, edit your /var/homelabos/install/settings/config.yml file to fix it.\n"
 printf "\n\n\x1B[01;92m========== HomelabOS downloaded! ==========\n\x1B[0m"
 make
 printf "\n\x1B[01;93mYou can check the status of Organizr with 'systemctl status homelabos' or 'sudo docker ps'"

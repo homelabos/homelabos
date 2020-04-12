@@ -19,4 +19,4 @@ http:
         customFrameOptionsValue: "ALLOW-FROM http://{{ domain }} ALLOW-FROM https://{{ domain }}"
     customFrameHomelab-tor:
       headers:
-        customFrameOptionsValue: "ALLOW-FROM http://{{ tor_domain }} ALLOW-FROM https://{{ tor_domain }}"
+        customFrameOptionsValue: "ALLOW-FROM http://{{ tor_domain }}

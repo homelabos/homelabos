@@ -10,7 +10,7 @@
 - name: Copy grownetics .env file into place.
   template:
     src: env.j2
-    dest: /var/homelabos/grownetics/.env
+    dest: "{{ volumes_root }}/grownetics/.env"
 
 - name: Copy grownetics docker-compose.yml file into place.
   template:
