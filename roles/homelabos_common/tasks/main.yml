@@ -49,6 +49,6 @@
 
 - name: adding existing user '{{ homelab_ssh_user }}' to group docker
   user:
-    name: '{{ homelab_ssh_user }}'
+    name: "{{ homelab_ssh_user }}"
     groups: docker
     append: yes
