@@ -14,7 +14,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/grocy/config:/config
+      - "{{ volumes_root }}/grocy/config:/config"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

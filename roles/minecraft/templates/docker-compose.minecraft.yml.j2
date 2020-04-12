@@ -1,0 +1,20 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    image: itzg/minecraft-server
+    volumes:
+      - "{{ volumes_root }}/minecraft/data:/data"
+    environment:
+      - EULA=TRUE
+    ports:
+      - 25565:25565
+    restart: unless-stopped

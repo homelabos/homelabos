@@ -123,6 +123,7 @@ If you are having problems you can:
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 - [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
+- [Minecraft](https://hub.docker.com/r/itzg/minecraft-server) Minecraft server with select-able version 
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Poli](https://github.com/shzlw/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
