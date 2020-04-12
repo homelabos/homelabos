@@ -1,7 +1,7 @@
 ---
 - name: Configure Dasher
-  template: 
-    src: dasher.config.json 
+  template:
+    src: dasher.config.json
     dest: "{{ volumes_root }}/dasher/config.json"
 
 - name: Make dasher directory.

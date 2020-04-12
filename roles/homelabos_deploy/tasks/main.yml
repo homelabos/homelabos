@@ -104,8 +104,8 @@
   ignore_errors: "yes"
 
 - name: Configure HomelabOS systemd service.
-  template: 
-    src: homelabos.service 
+  template:
+    src: homelabos.service
     dest: /etc/systemd/system/homelabos.service
 
 # Hacky ansible workaround. Would love to remove these 4 tasks.
@@ -136,13 +136,13 @@
   register: tor_http_domain_file
 
 - name: Configure Traefik .yaml
-  template: 
-    src: traefik.yaml 
+  template:
+    src: traefik.yaml
     dest: "{{ volumes_root }}/traefik/traefik.yaml"
 
 - name: Configure Traefik conf.d
-  template: 
-    src: conf.d/middlewares.yaml 
+  template:
+    src: conf.d/middlewares.yaml
     dest: "{{ volumes_root }}/traefik/conf.d/middlewares.yaml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"

@@ -18,13 +18,13 @@
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure grafana influx datasource
-  template: 
-    src: grafana.datasource.influxdb.yaml 
+  template:
+    src: grafana.datasource.influxdb.yaml
     dest: "{{ volumes_root }}/grafana/datasources/"
 
 - name: Configure grafana influx dashboard
-  template: 
-    src: {{ item }} 
+  template:
+    src: {{ item }}
     dest: "{{ volumes_root }}/grafana/dashboards/"
   loop:
     - grafana.dashboards.yaml
