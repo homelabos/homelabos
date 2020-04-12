@@ -8,7 +8,8 @@
   template:
     src: docker-compose.minio.yml.j2
     dest: "{{ volumes_root }}/minio/docker-compose.minio.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure minio systemd service.
   template:

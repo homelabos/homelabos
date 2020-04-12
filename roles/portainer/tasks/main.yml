@@ -8,6 +8,8 @@
   template:
     src: docker-compose.portainer.yml.j2
     dest: "{{ volumes_root }}/portainer/docker-compose.portainer.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure portainer systemd service.
   template:

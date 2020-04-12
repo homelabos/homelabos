@@ -35,7 +35,13 @@ services:
       - "traefik.http.routers.docs.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:docs.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.docs-tor-http.rule=Host(`docs.{{ tor_domain }}`)"
+      - "traefik.http.routers.docs-tor-http.entrypoints=http"
+      - "traefik.http.routers.docs-tor-http.middlewares={% if docs.https_only %}redirect@file, {% else %}{% if docs.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.docs-tor.rule=Host(`docs.{{ tor_domain }}`)"
+      - "traefik.http.routers.docs-tor.entrypoints=https"
+      - "traefik.http.routers.docs-tor.middlewares={% if docs.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.docs-tor.tls=true"
+      - "traefik.http.routers.docs-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.docs-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}

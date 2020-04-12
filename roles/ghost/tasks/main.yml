@@ -8,6 +8,8 @@
   template:
     src: docker-compose.ghost.yml.j2
     dest: "{{ volumes_root }}/ghost/docker-compose.ghost.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure ghost systemd service.
   template:

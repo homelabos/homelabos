@@ -36,9 +36,15 @@ services:
       - "traefik.http.routers.ghost.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:ghost.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=2368"
+      - "traefik.http.routers.ghost-tor-http.rule=Host(`ghost.{{ tor_domain }}`)"
+      - "traefik.http.routers.ghost-tor-http.entrypoints=http"
+      - "traefik.http.routers.ghost-tor-http.middlewares={% if ghost.https_only %}redirect@file, {% else %}{% if ghost.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ghost-tor.rule=Host(`ghost.{{ tor_domain }}`)"
+      - "traefik.http.routers.ghost-tor.entrypoints=https"
+      - "traefik.http.routers.ghost-tor.middlewares={% if ghost.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ghost-tor.tls=true"
+      - "traefik.http.routers.ghost-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.ghost-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}
     # environment:
       ## see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables

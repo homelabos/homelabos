@@ -8,6 +8,8 @@
   template:
     src: docker-compose.trilium.yml.j2
     dest: "{{ volumes_root }}/trilium/docker-compose.trilium.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure trilium systemd service.
   template:

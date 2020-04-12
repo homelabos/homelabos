@@ -8,7 +8,8 @@
   template:
     src: docker-compose.guacamole.yml.j2
     dest: "{{ volumes_root }}/guacamole/docker-compose.guacamole.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure guacamole systemd service.
   template:

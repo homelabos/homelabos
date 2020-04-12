@@ -56,7 +56,13 @@ services:
       - "traefik.http.routers.wekan.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:wekan.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8080"
+      - "traefik.http.routers.wekan-tor-http.rule=Host(`wekan.{{ tor_domain }}`)"
+      - "traefik.http.routers.wekan-tor-http.entrypoints=http"
+      - "traefik.http.routers.wekan-tor-http.middlewares={% if wekan.https_only %}redirect@file, {% else %}{% if wekan.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.wekan-tor.rule=Host(`wekan.{{ tor_domain }}`)"
+      - "traefik.http.routers.wekan-tor.entrypoints=https"
+      - "traefik.http.routers.wekan-tor.middlewares={% if wekan.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.wekan-tor.tls=true"
+      - "traefik.http.routers.wekan-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.wekan-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}
