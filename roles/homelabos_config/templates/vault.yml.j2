@@ -2,7 +2,7 @@
 ansible_become_password: {{ ansible_become_password | default() }}
 
 # Default password to go with the default user
-default_password: {{ default_password }}
+default_password: "{{ default_password }}"
 
 # Minio access keys
 minio_access_key: {{ minio_access_key | default() }}
