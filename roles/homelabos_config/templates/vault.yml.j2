@@ -88,3 +88,6 @@ authelia:
     integration_key: {{ authelia.duo.integration_key | default() }}
     secret_key: {{ authelia.duo.secret_key | default() }}
   # Don't change these unless you know what you're doing
+  # Migration v0.7
+  migration: {{ authelia.migration | default(False) }}
+  # End Migration v0.7

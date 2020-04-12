@@ -34,10 +34,24 @@
   vars:
     domain_parts: "{{ domain.split('.') }}"
 
+- name: Copy authelia_config-tor.yml file into place.
+  template:
+    src: authelia_config-tor.yml.j2
+    dest: "{{ volumes_root }}/authelia/authelia_config-tor.yml"
+  vars:
+    domain_parts: "{{ domain.split('.') }}"
+
 - name: Configure authelia systemd service.
   template:
     src: service.j2
     dest: /etc/systemd/system/authelia.service
+
+# Migration v0.7
+# Authelia v3 to v4
+- name: Migrate Authelia v3 to v4
+  shell: "docker run --rm -v {{ volumes_root }}/authelia/authelia_config.yml:/config.yml --net=homelabos_traefik authelia/authelia authelia migrate mongo --config=/config.yml --url=mongodb://authelia_mongo_1 --database=my_authelia"
+  when: authelia.migration == True
+# End Migration v0.7
 
 - name: Start authelia
   systemd:
