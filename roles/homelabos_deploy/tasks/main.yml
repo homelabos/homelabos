@@ -15,19 +15,6 @@
     src: daemon.json
     dest: /etc/docker/daemon.json
 
-- name: Configure Traefik .yaml
-  template: src=traefik.yaml dest=/var/homelabos/traefik/traefik.yaml
-
-# Needed to run `make update`
-- name: Read Tor connection info
-  shell: cat /var/lib/tor/http-onion/hostname
-  register: tor_http_domain_file
-
-- name: Configure Traefik conf.d
-  template: src=conf.d/middlewares.yaml dest=/var/homelabos/traefik/conf.d/middlewares.yaml
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
 # Needs passlib
 - name: Write user to basic auth file
   htpasswd:
@@ -145,6 +132,14 @@
 - name: Read Tor connection info
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_http_domain_file
+
+- name: Configure Traefik .yaml
+  template: src=traefik.yaml dest=/var/homelabos/traefik/traefik.yaml
+
+- name: Configure Traefik conf.d
+  template: src=conf.d/middlewares.yaml dest=/var/homelabos/traefik/conf.d/middlewares.yaml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
