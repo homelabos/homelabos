@@ -8,7 +8,8 @@
   template:
     src: docker-compose.sonarr.yml.j2
     dest: "{{ volumes_root }}/sonarr/docker-compose.sonarr.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure sonarr systemd service.
   template:

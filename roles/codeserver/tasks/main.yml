@@ -8,7 +8,8 @@
   template:
     src: docker-compose.codeserver.yml.j2
     dest: "{{ volumes_root }}/codeserver/docker-compose.codeserver.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure code-server systemd service.
   template:

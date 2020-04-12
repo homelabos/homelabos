@@ -4,6 +4,12 @@ http:
       forwardAuth:
         address: "http://auth:9091/api/verify?rd=https://auth.{{ domain }}/%23/"
         trustForwardHeader: true
+{% if enable_tor %}
+    authelia-tor:
+      forwardAuth:
+        address: "http://auth:9091/api/verify?rd=http://auth.{{ tor_domain }}/%23/"
+        trustForwardHeader: true
+{% endif %}
     basicAuth:
       basicAuth:
         usersFile: "/basicAuth"
@@ -13,3 +19,8 @@ http:
     customFrameHomelab:
       headers:
         customFrameOptionsValue: "ALLOW-FROM http://{{ domain }} ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+    customFrameHomelab-tor:
+      headers:
+        customFrameOptionsValue: "ALLOW-FROM http://{{ tor_domain }}"
+{% endif %}

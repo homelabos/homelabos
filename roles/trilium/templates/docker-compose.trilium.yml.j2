@@ -28,15 +28,15 @@ services:
       - "traefik.http.routers.trilium.entrypoints=https"
       - "traefik.http.routers.trilium.middlewares={% if trilium.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.trilium.tls=true"
-      - "traefik.http.routers.trilium.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.trilium.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.trilium.tls.certresolver=dns"
+      - "traefik.http.routers.trilium.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.trilium.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.trilium.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:trilium.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8080"
+      - "traefik.http.routers.trilium-tor-http.rule=Host(`trilium.{{ tor_domain }}`)"
+      - "traefik.http.routers.trilium-tor-http.entrypoints=http"
+      - "traefik.http.routers.trilium-tor-http.middlewares={% if trilium.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

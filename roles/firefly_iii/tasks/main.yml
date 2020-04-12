@@ -8,7 +8,8 @@
   template:
     src: docker-compose.firefly_iii.yml.j2
     dest: "{{ volumes_root }}/firefly_iii/docker-compose.firefly_iii.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure firefly_iii systemd service.
   template:

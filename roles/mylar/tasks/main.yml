@@ -5,12 +5,12 @@
     state: directory
 
 - name: Get UID
-  command: id -u
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
@@ -19,6 +19,7 @@
     src: docker-compose.mylar.yml.j2
     dest: "{{ volumes_root }}/mylar/docker-compose.mylar.yml"
   vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

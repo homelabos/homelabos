@@ -8,7 +8,8 @@
   template:
     src: docker-compose.openvpn.yml.j2
     dest: "{{ volumes_root }}/openvpn/docker-compose.openvpn.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure openvpn systemd service.
   template:

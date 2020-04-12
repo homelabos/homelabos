@@ -8,7 +8,8 @@
   template:
     src: docker-compose.monicahq.yml.j2
     dest: "{{ volumes_root }}/monicahq/docker-compose.monicahq.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Copy monicahq .env file into place.
   template:

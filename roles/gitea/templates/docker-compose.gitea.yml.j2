@@ -42,17 +42,17 @@ services:
       - "traefik.http.routers.gitea.entrypoints=https"
       - "traefik.http.routers.gitea.middlewares={% if gitea.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.gitea.tls=true"
-      - "traefik.http.routers.gitea.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.gitea.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.gitea.tls.certresolver=dns"
+      - "traefik.http.routers.gitea.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.gitea.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.gitea.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:gitea.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=3000"
+      - "traefik.http.routers.gitea-tor-http.rule=Host(`gitea.{{ tor_domain }}`)"
+      - "traefik.http.routers.gitea-tor-http.entrypoints=http"
+      - "traefik.http.routers.gitea-tor-http.middlewares={% if gitea.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
 {% if gitea.use_mariadb %}

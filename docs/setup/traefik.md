@@ -3,7 +3,7 @@
 [Traefik v2](https://traefik.io/) is a modern HTTP reverse proxy and load balancer, which is used by HomelabOS to automatically make accessible all the docker containers, both on http and https (with Let's Encrypt certificate).
 If you want to add other services - either hosted on the same host, or somewhere else - to benefit from the provided convenience, you have to create a file on the homelabos host.
 
-The file needs to be in the folder /var/homelabos/traefik/conf.d/ and could be named {service_name}.yaml
+The file needs to be in the folder `{{ volumes_root }}/traefik/conf.d/` and could be named `{service_name}.yaml`
 
 Example configuration:
 ```
@@ -13,14 +13,14 @@ http:
       rule: "Host(`{service_name}.{domain}`)"
       entryPoints:
         - "http"
-      middlewares: #https://docs.{{ domain }}/setup/traefik/
+      middlewares:
         - "auth@file"
       service: "{service_name}"
     {service_name}:
       rule: "Host(`{service_name}.{domain}`)"
       entryPoints:
         - "https"
-      middlewares: #https://docs.{{ domain }}/setup/traefik/
+      middlewares:
         - "redirect@file"
       service: "{service_name}"
       tls:
@@ -65,10 +65,15 @@ This will make your service accessible under https://{service_name}.{{ domain }}
 ## Middlewares
 
 * authelia@file (Authelia authentification)
+* authelia-tor@file (Authelia authentification / tor domain redirect)
 * basicAuth@file (basic auth using default username and password)
 * customFrameHomelab (default frame Headers)
+* customFrameHomelab-tor (default tor domain frame Headers)
 * redirect@file (redirect to https)
 
 ### customFrameHomelab
-* ALLOW-FROM http://homelab.{{ domain }}
-* ALLOW-FROM https://homelab.{{ domain }}
+* ALLOW-FROM http://{{ domain }}
+* ALLOW-FROM https://{{ domain }}
+
+### customFrameHomelab-tor
+* ALLOW-FROM http://{{ tor_domain }}

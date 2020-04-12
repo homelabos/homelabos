@@ -7,7 +7,7 @@ networks:
       name: homelabos_traefik
 
 services:
-  code-server:
+  codeserver:
     image: codercom/code-server
     volumes:
       - "{{ volumes_root }}/codeserver/code:/root/project"
@@ -19,24 +19,24 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.code-server.loadbalancer.server.scheme=http"
-      - "traefik.http.services.code-server.loadbalancer.server.port=8443"
-      - "traefik.http.routers.code-server-http.rule=Host(`code-server.{{ domain }}`)"
-      - "traefik.http.routers.code-server-http.entrypoints=http"
-      - "traefik.http.routers.code-server-http.middlewares={% if codeserver.https_only %}redirect@file, {% else %}{% if codeserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.code-server.rule=Host(`code-server.{{ domain }}`)"
-      - "traefik.http.routers.code-server.entrypoints=https"
-      - "traefik.http.routers.code-server.middlewares={% if codeserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.code-server.tls=true"
-      - "traefik.http.routers.code-server.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.code-server.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.services.codeserver.loadbalancer.server.scheme=http"
+      - "traefik.http.services.codeserver.loadbalancer.server.port=8443"
+      - "traefik.http.routers.codeserver-http.rule=Host(`codeserver.{{ domain }}`)"
+      - "traefik.http.routers.codeserver-http.entrypoints=http"
+      - "traefik.http.routers.codeserver-http.middlewares={% if codeserver.https_only %}redirect@file, {% else %}{% if codeserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.codeserver.rule=Host(`codeserver.{{ domain }}`)"
+      - "traefik.http.routers.codeserver.entrypoints=https"
+      - "traefik.http.routers.codeserver.middlewares={% if codeserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.codeserver.tls=true"
 {% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.code-server.tls.certresolver=dns"
+      - "traefik.http.routers.codeserver.tls.certresolver=dns"
+      - "traefik.http.routers.codeserver.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.codeserver.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
-      - "traefik.http.routers.code-server.tls.certresolver=http"
+      - "traefik.http.routers.codeserver.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:code-server.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8443"
+      - "traefik.http.routers.codeserver-tor-http.rule=Host(`codeserver.{{ tor_domain }}`)"
+      - "traefik.http.routers.codeserver-tor-http.entrypoints=http"
+      - "traefik.http.routers.codeserver-tor-http.middlewares={% if codeserver.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

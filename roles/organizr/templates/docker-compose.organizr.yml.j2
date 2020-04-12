@@ -27,23 +27,15 @@ services:
       - "traefik.http.routers.organizr.entrypoints=https"
       - "traefik.http.routers.organizr.middlewares={% if organizr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.organizr.tls=true"
-      - "traefik.http.routers.organizr.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.organizr.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.organizr.tls.certresolver=dns"
+      - "traefik.http.routers.organizr.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.organizr.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.organizr.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.services.tor.loadbalancer.server.scheme=http"
-      - "traefik.http.services.tor.loadbalancer.server.port=80"
-      - "traefik.http.routers.tor-http.rule=Host(`{{ tor_domain }}`)"
-      - "traefik.http.routers.tor-http.entrypoints=http"
-      - "traefik.http.routers.tor-http.middlewares={% if organizr.https_only %}redirect@file, {% else %}{% if organizr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.tor.rule=Host(`{{ tor_domain }}`)"
-      - "traefik.http.routers.tor.entrypoints=https"
-      - "traefik.http.routers.tor.middlewares={% if organizr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.tor.tls=true"
-      - "traefik.http.routers.tor.tls.domains[0].main={{ tor_domain }}"
-      - "traefik.http.routers.tor.tls.domains[0].sans=*.{{ tor_domain }}"
+      - "traefik.http.routers.organizr-tor-http.rule=Host(`{{ tor_domain }}`)"
+      - "traefik.http.routers.organizr-tor-http.entrypoints=http"
+      - "traefik.http.routers.organizr-tor-http.middlewares={% if organizr.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

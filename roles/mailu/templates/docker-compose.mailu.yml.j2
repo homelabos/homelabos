@@ -45,26 +45,26 @@ services:
    labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.miniflux.loadbalancer.server.scheme=http"
-      - "traefik.http.services.miniflux.loadbalancer.server.port=80"
-      - "traefik.http.routers.miniflux-http.rule=Host(`miniflux.{{ domain }}`)"
-      - "traefik.http.routers.miniflux-http.entrypoints=http"
-      - "traefik.http.routers.miniflux-http.middlewares={% if miniflux.https_only %}redirect@file, {% else %}{% if miniflux.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.miniflux.rule=Host(`miniflux.{{ domain }}`)"
-      - "traefik.http.routers.miniflux.entrypoints=https"
-      - "traefik.http.routers.miniflux.middlewares={% if miniflux.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.miniflux.tls=true"
-      - "traefik.http.routers.miniflux.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.miniflux.tls.domains[0].sans=*.{{ domain }}"
+      - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
+      - "traefik.http.services.mailu.loadbalancer.server.port=80"
+      - "traefik.http.routers.mailu-http.rule=Host(`mailu.{{ domain }}`)"
+      - "traefik.http.routers.mailu-http.entrypoints=http"
+      - "traefik.http.routers.mailu-http.middlewares={% if mailu.https_only %}redirect@file, {% else %}{% if mailu.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mailu.rule=Host(`mailu.{{ domain }}`)"
+      - "traefik.http.routers.mailu.entrypoints=https"
+      - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mailu.tls=true"
 {% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.miniflux.tls.certresolver=dns"
+      - "traefik.http.routers.mailu.tls.certresolver=dns"
+      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
-      - "traefik.http.routers.miniflux.tls.certresolver=http"
+      - "traefik.http.routers.mailu.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:miniflux.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.mailu-tor-http.rule=Host(`mailu.{{ tor_domain }}`)"
+      - "traefik.http.routers.mailu-tor-http.entrypoints=http"
+      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   admin:

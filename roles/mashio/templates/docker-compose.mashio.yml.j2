@@ -30,17 +30,17 @@ services:
       - "traefik.http.routers.mashio.entrypoints=https"
       - "traefik.http.routers.mashio.middlewares={% if mashio.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mashio.tls=true"
-      - "traefik.http.routers.mashio.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mashio.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.mashio.tls.certresolver=dns"
+      - "traefik.http.routers.mashio.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mashio.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.mashio.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:mashio.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.mashio-tor-http.rule=Host(`mashio.{{ tor_domain }}`)"
+      - "traefik.http.routers.mashio-tor-http.entrypoints=http"
+      - "traefik.http.routers.mashio-tor-http.middlewares={% if mashio.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   mashio_db:

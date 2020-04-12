@@ -27,15 +27,15 @@ services:
       - "traefik.http.routers.poli.entrypoints=https"
       - "traefik.http.routers.poli.middlewares={% if poli.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.poli.tls=true"
-      - "traefik.http.routers.poli.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.poli.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.poli.tls.certresolver=dns"
+      - "traefik.http.routers.poli.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.poli.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.poli.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:poli.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=6688"
+      - "traefik.http.routers.poli-tor-http.rule=Host(`poli.{{ tor_domain }}`)"
+      - "traefik.http.routers.poli-tor-http.entrypoints=http"
+      - "traefik.http.routers.poli-tor-http.middlewares={% if poli.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

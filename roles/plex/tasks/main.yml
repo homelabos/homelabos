@@ -8,7 +8,8 @@
   template:
     src: docker-compose.plex.yml.j2
     dest: "{{ volumes_root }}/plex/docker-compose.plex.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure plex systemd service.
   template:

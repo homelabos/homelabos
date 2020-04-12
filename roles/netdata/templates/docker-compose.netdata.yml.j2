@@ -34,15 +34,15 @@ services:
       - "traefik.http.routers.netdata.entrypoints=https"
       - "traefik.http.routers.netdata.middlewares={% if netdata.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.netdata.tls=true"
-      - "traefik.http.routers.netdata.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.netdata.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.netdata.tls.certresolver=dns"
+      - "traefik.http.routers.netdata.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.netdata.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.netdata.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:netdata.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=19999"
+      - "traefik.http.routers.netdata-tor-http.rule=Host(`netdata.{{ tor_domain }}`)"
+      - "traefik.http.routers.netdata-tor-http.entrypoints=http"
+      - "traefik.http.routers.netdata-tor-http.middlewares={% if netdata.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

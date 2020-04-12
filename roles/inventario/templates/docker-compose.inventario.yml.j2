@@ -30,17 +30,17 @@ services:
       - "traefik.http.routers.inventario.entrypoints=https"
       - "traefik.http.routers.inventario.middlewares={% if inventario.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.inventario.tls=true"
-      - "traefik.http.routers.inventario.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.inventario.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.inventario.tls.certresolver=dns"
+      - "traefik.http.routers.inventario.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.inventario.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.inventario.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:inventario.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.inventario-tor-http.rule=Host(`inventario.{{ tor_domain }}`)"
+      - "traefik.http.routers.inventario-tor-http.entrypoints=http"
+      - "traefik.http.routers.inventario-tor-http.middlewares={% if inventario.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   inventario_db:

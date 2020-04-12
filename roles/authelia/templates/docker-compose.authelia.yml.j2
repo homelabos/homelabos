@@ -29,25 +29,26 @@ services:
       - "traefik.http.routers.authelia.entrypoints=https"
       - "traefik.http.routers.authelia.middlewares=customFrameHomelab@file"
       - "traefik.http.routers.authelia.tls=true"
-      - "traefik.http.routers.authelia.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.authelia.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.authelia.tls.certresolver=dns"
+      - "traefik.http.routers.authelia.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.authelia.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.authelia.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:auth.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=9091"
+      - "traefik.http.routers.authelia-tor-http.rule=Host(`auth.{{ tor_domain }}`)"
+      - "traefik.http.routers.authelia-tor-http.entrypoints=http"
 {% endif %}
     volumes:
       - "{{ volumes_root }}/authelia/authelia_config.yml:/etc/authelia/config.yml:ro"
       - "{{ volumes_root }}/authelia/userdb.yml:/etc/authelia/userdb.yml"
+
   redis:
     networks:
       - traefik_network
     image: redis:5.0.5-alpine
+    
   mongo:
     networks:
       - traefik_network

@@ -8,7 +8,8 @@
   template:
     src: docker-compose.wallabag.yml.j2
     dest: "{{ volumes_root }}/wallabag/docker-compose.wallabag.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure wallabag systemd service.
   template:

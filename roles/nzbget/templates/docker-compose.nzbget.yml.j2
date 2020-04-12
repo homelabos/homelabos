@@ -34,15 +34,15 @@ services:
       - "traefik.http.routers.nzbget.entrypoints=https"
       - "traefik.http.routers.nzbget.middlewares={% if nzbget.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.nzbget.tls=true"
-      - "traefik.http.routers.nzbget.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.nzbget.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.nzbget.tls.certresolver=dns"
+      - "traefik.http.routers.nzbget.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nzbget.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.nzbget.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:nzbget.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=6789"
+      - "traefik.http.routers.nzbget-tor-http.rule=Host(`nzbget.{{ tor_domain }}`)"
+      - "traefik.http.routers.nzbget-tor-http.entrypoints=http"
+      - "traefik.http.routers.nzbget-tor-http.middlewares={% if nzbget.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

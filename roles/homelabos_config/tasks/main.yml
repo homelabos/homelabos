@@ -1,10 +1,15 @@
 ---
 - name: Copy HomelabOS config file into place
-  template: src='config.yml.j2' dest='{{ playbook_dir }}/settings/config.yml'
+  template:
+    src: "config.yml.j2"
+    dest: "{{ playbook_dir }}/settings/config.yml"
 
 - name: Copy HomelabOS vault file into place
-  template: src='vault.yml.j2' dest='{{ playbook_dir }}/settings/vault.yml'
+  template:
+    src: "vault.yml.j2"
+    dest: "{{ playbook_dir }}/settings/vault.yml"
 
 - name: Generate Ansible inventory file
-  template: src='inventory.j2' dest='{{ playbook_dir }}/inventory'
-...
+  template:
+    src: "inventory.j2"
+    dest: "{{ playbook_dir }}/inventory"

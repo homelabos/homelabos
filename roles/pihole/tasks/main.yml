@@ -9,6 +9,7 @@
     src: docker-compose.pihole.yml.j2
     dest: "{{ volumes_root }}/pihole/docker-compose.pihole.yml"
   vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     services: "{{ enabled_services|flatten(levels=1) }}"
 
 - name: Pull pihole docker images

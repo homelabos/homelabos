@@ -54,17 +54,17 @@ services:
       - "traefik.http.routers.chronograf.entrypoints=https"
       - "traefik.http.routers.chronograf.middlewares={% if tick.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.chronograf.tls=true"
-      - "traefik.http.routers.chronograf.tls.domains[0].main=homelab.evers.sh"
-      - "traefik.http.routers.chronograf.tls.domains[0].sans=*.homelab.evers.sh"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.chronograf.tls.certresolver=dns"
+      - "traefik.http.routers.chronograf.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.chronograf.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.chronograf.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:chronograf.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8888"
+      - "traefik.http.routers.chronograf-tor-http.rule=Host(`chronograf.{{ tor_domain }}`)"
+      - "traefik.http.routers.chronograf-tor-http.entrypoints=http"
+      - "traefik.http.routers.chronograf-tor-http.middlewares={% if tick.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   # Define a Kapacitor service

@@ -14,13 +14,18 @@
   template:
     src: docker-compose.grafana.yml.j2
     dest: "{{ volumes_root }}/grafana/docker-compose.grafana.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure grafana influx datasource
-  template: src=grafana.datasource.influxdb.yaml dest="{{ volumes_root }}/grafana/datasources/"
+  template:
+    src: grafana.datasource.influxdb.yaml
+    dest: "{{ volumes_root }}/grafana/datasources/"
 
 - name: Configure grafana influx dashboard
-  template: src={{ item }} dest="{{ volumes_root }}/grafana/dashboards/"
+  template:
+    src: {{item}}
+    dest: "{{ volumes_root }}/grafana/dashboards/"
   loop:
     - grafana.dashboards.yaml
     - grafana.dash.homelab.json

@@ -8,6 +8,8 @@
   template:
     src: docker-compose.mstream.yml.j2
     dest: "{{ volumes_root }}/mstream/docker-compose.mstream.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure mstream systemd service.
   template:

@@ -41,7 +41,7 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 ## Automatic Set-up
 
 1) On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
-2) Make sure to back up your `/var/homelabos/install` directory nightly.
+2) Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
 ## Manual Set-up
 

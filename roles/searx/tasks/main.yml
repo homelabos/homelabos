@@ -1,18 +1,20 @@
 ---
 - name: Make searx directory.
   file:
-    path: "/var/homelabos/searx"
+    path: "{{ volumes_root }}/searx"
     state: directory
 
 - name: Copy Searx settins file.
   template:
     src: settings.yml.j2
-    dest: /var/homelabos/searx/settings.yml
+    dest: "{{ volumes_root }}/searx/settings.yml"
 
 - name: Copy searx docker-compose.yml file into place.
   template:
     src: docker-compose.searx.yml.j2
-    dest: /var/homelabos/searx/docker-compose.searx.yml
+    dest: "{{ volumes_root }}/searx/docker-compose.searx.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure searx systemd service.
   template:

@@ -38,17 +38,17 @@ services:
       - "traefik.http.routers.piwigo.entrypoints=https"
       - "traefik.http.routers.piwigo.middlewares={% if piwigo.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.piwigo.tls=true"
-      - "traefik.http.routers.piwigo.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.piwigo.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.piwigo.tls.certresolver=dns"
+      - "traefik.http.routers.piwigo.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.piwigo.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.piwigo.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:piwigo.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.piwigo-tor-http.rule=Host(`piwigo.{{ tor_domain }}`)"
+      - "traefik.http.routers.piwigo-tor-http.entrypoints=http"
+      - "traefik.http.routers.piwigo-tor-http.middlewares={% if piwigo.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   mysqlpiwigo:

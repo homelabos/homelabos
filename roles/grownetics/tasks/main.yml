@@ -10,12 +10,14 @@
 - name: Copy grownetics .env file into place.
   template:
     src: env.j2
-    dest: /var/homelabos/grownetics/.env
+    dest: "{{ volumes_root }}/grownetics/.env"
 
 - name: Copy grownetics docker-compose.yml file into place.
   template:
     src: docker-compose.grownetics.yml.j2
     dest: "{{ volumes_root }}/grownetics/docker-compose.grownetics.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure grownetics systemd service.
   template:

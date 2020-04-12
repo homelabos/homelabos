@@ -8,7 +8,8 @@
   template:
     src: docker-compose.emby.yml.j2
     dest: "{{ volumes_root }}/emby/docker-compose.emby.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure emby systemd service.
   template:

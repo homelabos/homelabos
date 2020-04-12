@@ -12,3 +12,27 @@ services:
       - PGID={{ gid_output.stdout }}
     volumes:
       - "{{ volumes_root }}/homebridge:/homebridge"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.homebridge.loadbalancer.server.scheme=http"
+      - "traefik.http.services.homebridge.loadbalancer.server.port=8123"
+      - "traefik.http.routers.homebridge-http.rule=Host(`homebridge.{{ domain }}`)"
+      - "traefik.http.routers.homebridge-http.entrypoints=http"
+      - "traefik.http.routers.homebridge-http.middlewares={% if homebridge.https_only %}redirect@file, {% else %}{% if homebridge.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.homebridge.rule=Host(`homebridge.{{ domain }}`)"
+      - "traefik.http.routers.homebridge.entrypoints=https"
+      - "traefik.http.routers.homebridge.middlewares={% if homebridge.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.homebridge.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.homebridge.tls.certresolver=dns"
+      - "traefik.http.routers.homebridge.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.homebridge.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.homebridge.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.homebridge-tor-http.rule=Host(`homebridge.{{ tor_domain }}`)"
+      - "traefik.http.routers.homebridge-tor-http.entrypoints=http"
+      - "traefik.http.routers.homebridge-tor-http.middlewares={% if homebridge.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}

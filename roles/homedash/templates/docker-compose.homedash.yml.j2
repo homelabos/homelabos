@@ -29,15 +29,15 @@ services:
       - "traefik.http.routers.homedash.entrypoints=https"
       - "traefik.http.routers.homedash.middlewares={% if homedash.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.homedash.tls=true"
-      - "traefik.http.routers.homedash.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.homedash.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.homedash.tls.certresolver=dns"
+      - "traefik.http.routers.homedash.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.homedash.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.homedash.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:homedash.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=4567"
+      - "traefik.http.routers.homedash-tor-http.rule=Host(`homedash.{{ tor_domain }}`)"
+      - "traefik.http.routers.homedash-tor-http.entrypoints=http"
+      - "traefik.http.routers.homedash-tor-http.middlewares={% if homedash.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

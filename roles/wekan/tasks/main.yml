@@ -8,6 +8,8 @@
   template:
     src: docker-compose.wekan.yml.j2
     dest: "{{ volumes_root }}/wekan/docker-compose.wekan.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure wekan systemd service.
   template:

@@ -41,17 +41,17 @@ services:
       - "traefik.http.routers.pihole.entrypoints=https"
       - "traefik.http.routers.pihole.middlewares={% if pihole.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.pihole.tls=true"
-      - "traefik.http.routers.pihole.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.pihole.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.pihole.tls.certresolver=dns"
+      - "traefik.http.routers.pihole.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.pihole.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.pihole.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:pihole.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.pihole-tor-http.rule=Host(`pihole.{{ tor_domain }}`)"
+      - "traefik.http.routers.pihole-tor-http.entrypoints=http"
+      - "traefik.http.routers.pihole-tor-http.middlewares={% if pihole.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     extra_hosts:
 {% for service in services %}

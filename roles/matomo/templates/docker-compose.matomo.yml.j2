@@ -27,17 +27,17 @@ services:
       - "traefik.http.routers.matomo.entrypoints=https"
       - "traefik.http.routers.matomo.middlewares={% if matomo.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.matomo.tls=true"
-      - "traefik.http.routers.matomo.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.matomo.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.matomo.tls.certresolver=dns"
+      - "traefik.http.routers.matomo.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.matomo.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.matomo.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:matomo.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.matomo-tor-http.rule=Host(`matomo.{{ tor_domain }}`)"
+      - "traefik.http.routers.matomo-tor-http.entrypoints=http"
+      - "traefik.http.routers.matomo-tor-http.middlewares={% if matomo.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   matomo_db:

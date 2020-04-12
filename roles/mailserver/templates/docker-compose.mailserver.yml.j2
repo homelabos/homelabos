@@ -24,12 +24,17 @@ services:
       - "traefik.http.routers.mail.entrypoints=https"
       - "traefik.http.routers.mail.middlewares={% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mail.tls=true"
-      - "traefik.http.routers.mail.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mail.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.mail.tls.certresolver=dns"
+      - "traefik.http.routers.mail.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mail.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.mail.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.mail-tor-http.rule=Host(`mail.{{ tor_domain }}`)"
+      - "traefik.http.routers.mail-tor-http.entrypoints=http"
+      - "traefik.http.routers.mail-tor-http.middlewares={% if mail.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
     ports:
@@ -86,12 +91,17 @@ services:
       - "traefik.http.routers.postfixadmin.entrypoints=https"
       - "traefik.http.routers.postfixadmin.middlewares={% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.postfixadmin.tls=true"
-      - "traefik.http.routers.postfixadmin.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.postfixadmin.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.postfixadmin.tls.certresolver=dns"
+      - "traefik.http.routers.postfixadmin.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.postfixadmin.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.postfixadmin.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.postfixadmin-tor-http.rule=Host(`postfixadmin.{{ tor_domain }}`)"
+      - "traefik.http.routers.postfixadmin-tor-http.entrypoints=http"
+      - "traefik.http.routers.postfixadmin-tor-http.middlewares={% if postfixadmin.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
@@ -123,12 +133,17 @@ services:
       - "traefik.http.routers.webmail.entrypoints=https"
       - "traefik.http.routers.webmail.middlewares={% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.webmail.tls=true"
-      - "traefik.http.routers.webmail.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.webmail.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.webmail.tls.certresolver=dns"
+      - "traefik.http.routers.webmail.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.webmail.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.webmail.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.webmail-tor-http.rule=Host(`webmail.{{ tor_domain }}`)"
+      - "traefik.http.routers.webmail-tor-http.entrypoints=http"
+      - "traefik.http.routers.webmail-tor-http.middlewares={% if webmail.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     volumes:
       - "{{ volumes_root }}/mailserver/rainloop:/rainloop/data"

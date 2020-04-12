@@ -8,7 +8,8 @@
   template:
     src: docker-compose.mayan.yml.j2
     dest: "{{ volumes_root }}/mayan/docker-compose.mayan.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure mayan systemd service.
   template:

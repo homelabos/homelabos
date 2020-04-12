@@ -8,6 +8,8 @@
   template:
     src: docker-compose.watchtower.yml.j2
     dest: "{{ volumes_root }}/watchtower/docker-compose.watchtower.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure watchtower systemd service.
   template:

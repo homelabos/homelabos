@@ -8,6 +8,8 @@
   template:
     src: docker-compose.pixelfed.yml.j2
     dest: "{{ volumes_root }}/pixelfed/docker-compose.pixelfed.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Copy pixelfed .env file into place.
   template:
@@ -15,7 +17,9 @@
     dest: "{{ volumes_root }}/pixelfed/pixelfed.env"
 
 - name: Configure pixelfed systemd service.
-  template: src=service.j2 dest=/etc/systemd/system/pixelfed.service
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/pixelfed.service
 
 - name: Start pixelfed
   systemd:

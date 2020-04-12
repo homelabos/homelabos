@@ -8,6 +8,8 @@
   template:
     src: docker-compose.pkgtemplate.yml.j2
     dest: "{{ volumes_root }}/pkgtemplate/docker-compose.pkgtemplate.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure pkgtemplate systemd service.
   template:

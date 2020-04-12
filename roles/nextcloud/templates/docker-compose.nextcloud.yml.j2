@@ -44,17 +44,17 @@ services:
       - "traefik.http.routers.nextcloud.entrypoints=https"
       - "traefik.http.routers.nextcloud.middlewares={% if nextcloud.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.nextcloud.tls=true"
-      - "traefik.http.routers.nextcloud.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.nextcloud.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.nextcloud.tls.certresolver=dns"
+      - "traefik.http.routers.nextcloud.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nextcloud.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.nextcloud.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:nextcloud.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8888"
+      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`nextcloud.{{ tor_domain }}`)"
+      - "traefik.http.routers.nextcloud-tor-http.entrypoints=http"
+      - "traefik.http.routers.nextcloud-tor-http.middlewares={% if nextcloud.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   # If using MySQL

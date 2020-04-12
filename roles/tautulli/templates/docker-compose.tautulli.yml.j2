@@ -33,15 +33,15 @@ services:
       - "traefik.http.routers.tautulli.entrypoints=https"
       - "traefik.http.routers.tautulli.middlewares={% if tautulli.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.tautulli.tls=true"
-      - "traefik.http.routers.tautulli.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.tautulli.tls.domains[0].sans=*.{{ domain }}"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.tautulli.tls.certresolver=dns"
+      - "traefik.http.routers.tautulli.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.tautulli.tls.domains[0].sans=*.{{ domain }}"
 {% else %}
       - "traefik.http.routers.tautulli.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:tautulli.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8181"
+      - "traefik.http.routers.tautulli-tor-http.rule=Host(`tautulli.{{ tor_domain }}`)"
+      - "traefik.http.routers.tautulli-tor-http.entrypoints=http"
+      - "traefik.http.routers.tautulli-tor-http.middlewares={% if tautulli.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

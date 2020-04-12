@@ -301,6 +301,8 @@ homeassistant:
   auth: {{ homeassistant.auth | default(False) }}
 
 homebridge:
+  https_only: {{ homebridge.https_only | default(False) }}
+  auth: {{ homebridge.auth | default(False) }}
 
 homedash:
   https_only: {{ homedash.https_only | default(False) }}
