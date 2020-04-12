@@ -31,7 +31,7 @@
     mode: 0600
     state: touch
 
-- name: Get UID 
+- name: Get UID
   command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
