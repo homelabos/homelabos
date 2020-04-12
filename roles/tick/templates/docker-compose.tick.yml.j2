@@ -62,9 +62,15 @@ services:
       - "traefik.http.routers.chronograf.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:chronograf.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8888"
+      - "traefik.http.routers.chronograf-tor-http.rule=Host(`chronograf.{{ tor_domain }}`)"
+      - "traefik.http.routers.chronograf-tor-http.entrypoints=http"
+      - "traefik.http.routers.chronograf-tor-http.middlewares={% if tick.https_only %}redirect@file, {% else %}{% if tick.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.chronograf-tor.rule=Host(`chronograf.{{ tor_domain }}`)"
+      - "traefik.http.routers.chronograf-tor.entrypoints=https"
+      - "traefik.http.routers.chronograf-tor.middlewares={% if tick.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.chronograf-tor.tls=true"
+      - "traefik.http.routers.chronograf-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.chronograf-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}
 
   # Define a Kapacitor service

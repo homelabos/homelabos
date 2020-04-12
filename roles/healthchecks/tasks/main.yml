@@ -8,6 +8,8 @@
   template:
     src: docker-compose.healthchecks.yml.j2
     dest: "{{ volumes_root }}/healthchecks/docker-compose.healthchecks.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure healthchecks systemd service.
   template:

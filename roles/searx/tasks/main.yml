@@ -13,6 +13,8 @@
   template:
     src: docker-compose.searx.yml.j2
     dest: /var/homelabos/searx/docker-compose.searx.yml
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure searx systemd service.
   template:

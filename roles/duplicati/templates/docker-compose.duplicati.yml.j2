@@ -40,8 +40,14 @@ services:
       - "traefik.http.routers.duplicati.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:duplicati.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8200"
+      - "traefik.http.routers.duplicati-tor-http.rule=Host(`duplicati.{{ tor_domain }}`)"
+      - "traefik.http.routers.duplicati-tor-http.entrypoints=http"
+      - "traefik.http.routers.duplicati-tor-http.middlewares={% if duplicati.https_only %}redirect@file, {% else %}{% if duplicati.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.duplicati-tor.rule=Host(`duplicati.{{ tor_domain }}`)"
+      - "traefik.http.routers.duplicati-tor.entrypoints=https"
+      - "traefik.http.routers.duplicati-tor.middlewares={% if duplicati.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.duplicati-tor.tls=true"
+      - "traefik.http.routers.duplicati-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.duplicati-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}
     restart: unless-stopped

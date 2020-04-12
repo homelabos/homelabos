@@ -11,7 +11,8 @@
   template:
     src: docker-compose.duplicati.yml.j2
     dest: "{{ volumes_root }}/duplicati/docker-compose.duplicati.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure duplicati systemd service.
   template:

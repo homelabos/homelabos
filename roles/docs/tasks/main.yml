@@ -63,7 +63,8 @@
   template:
     src: docker-compose.docs.yml.j2
     dest: "{{ volumes_root }}/docs/docker-compose.docs.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure HomelabOS systemd service.
   template:

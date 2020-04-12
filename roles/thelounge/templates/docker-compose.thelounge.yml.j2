@@ -38,7 +38,13 @@ services:
       - "traefik.http.routers.thelounge.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:thelounge.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=9000"
+      - "traefik.http.routers.thelounge-tor-http.rule=Host(`thelounge.{{ tor_domain }}`)"
+      - "traefik.http.routers.thelounge-tor-http.entrypoints=http"
+      - "traefik.http.routers.thelounge-tor-http.middlewares={% if thelounge.https_only %}redirect@file, {% else %}{% if thelounge.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.thelounge-tor.rule=Host(`thelounge.{{ tor_domain }}`)"
+      - "traefik.http.routers.thelounge-tor.entrypoints=https"
+      - "traefik.http.routers.thelounge-tor.middlewares={% if thelounge.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.thelounge-tor.tls=true"
+      - "traefik.http.routers.thelounge-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.thelounge-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}

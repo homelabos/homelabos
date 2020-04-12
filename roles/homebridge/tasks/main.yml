@@ -9,6 +9,7 @@
     src: docker-compose.homebridge.yml.j2
     dest: "{{ volumes_root }}/homebridge/docker-compose.homebridge.yml"
   vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

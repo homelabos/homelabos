@@ -8,7 +8,8 @@
   template:
     src: docker-compose.gitea.yml.j2
     dest: "{{ volumes_root }}/gitea/docker-compose.gitea.yml"
-
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure gitea systemd service.
   template:

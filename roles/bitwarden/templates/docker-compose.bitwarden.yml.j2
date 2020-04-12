@@ -42,7 +42,13 @@ services:
       - "traefik.http.routers.bitwarden.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:bitwarden.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.bitwarden-tor-http.rule=Host(`bitwarden.{{ tor_domain }}`)"
+      - "traefik.http.routers.bitwarden-tor-http.entrypoints=http"
+      - "traefik.http.routers.bitwarden-tor-http.middlewares={% if bitwarden.https_only %}redirect@file, {% else %}{% if bitwarden.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.bitwarden-tor.rule=Host(`bitwarden.{{ tor_domain }}`)"
+      - "traefik.http.routers.bitwarden-tor.entrypoints=https"
+      - "traefik.http.routers.bitwarden-tor.middlewares={% if bitwarden.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.bitwarden-tor.tls=true"
+      - "traefik.http.routers.bitwarden-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.bitwarden-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}

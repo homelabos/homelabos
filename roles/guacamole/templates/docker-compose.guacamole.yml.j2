@@ -70,7 +70,13 @@ services:
       - "traefik.http.routers.guacamole.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:guacamole.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8080"
+      - "traefik.http.routers.guacamole-tor-http.rule=Host(`guacamole.{{ tor_domain }}`)"
+      - "traefik.http.routers.guacamole-tor-http.entrypoints=http"
+      - "traefik.http.routers.guacamole-tor-http.middlewares={% if guacamole.https_only %}redirect@file, {% else %}{% if guacamole.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.guacamole-tor.rule=Host(`guacamole.{{ tor_domain }}`)"
+      - "traefik.http.routers.guacamole-tor.entrypoints=https"
+      - "traefik.http.routers.guacamole-tor.middlewares={% if guacamole.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.guacamole-tor.tls=true"
+      - "traefik.http.routers.guacamole-tor.tls.domains[0].main={{ tor_domain }}"
+      - "traefik.http.routers.guacamole-tor.tls.domains[0].sans=*.{{ tor_domain }}"
 {% endif %}

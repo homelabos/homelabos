@@ -8,6 +8,8 @@
   template:
     src: docker-compose.mailserver.yml.j2
     dest: "{{ volumes_root }}/mailserver/docker-compose.mailserver.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Make mailserver::postfix directory.
   file:

@@ -8,6 +8,8 @@
   template:
     src: docker-compose.ubooquity.yml.j2
     dest: "{{ volumes_root }}/ubooquity/docker-compose.ubooquity.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure ubooquity systemd service.
   template:
