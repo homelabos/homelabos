@@ -1,6 +1,6 @@
 # HealthChecks
 
-[HealthChecks](HealthChecks.io) A Cron Monitoring Tool written in Python & Django https://healthchecks.io
+[HealthChecks](https://HealthChecks.io) A Cron Monitoring Tool written in Python & Django
 
 ## Access
 

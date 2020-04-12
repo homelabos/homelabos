@@ -123,7 +123,7 @@ restart_one: logo build git_sync config
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.restart.yml
 	@printf "\x1B[01;93m========== Done restarting '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
 
-# Spin up cloud servers with Terraform https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md
+# Spin up cloud servers with Terraform https://homelabos.com/docs/setup/terraform/
 terraform: logo build git_sync
 	@printf "\x1B[01;93m========== Deploying cloud server! ==========\n\x1B[0m"
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml

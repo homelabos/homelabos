@@ -32,7 +32,7 @@ Verify docker is installed correctly on your client
 ### Server:
 
     * Running one of
-        * Ubuntu 18.04
+        * Ubuntu Server 18.04
         * Debian 10.3
     * Passwordless SSH via SSH keys
     
@@ -90,10 +90,7 @@ See a full list of commands in the Getting Started Section
 
 ### Deploying to Cloud Services with Terraform
 
-You can use our 
-[Terraform scripts](https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md)
-to spin up cloud servers to deploy against rather than needing
-physical servers configured.
+You can use our  [Terraform scripts](https://homelabos.com/docs/setup/terraform/) to spin up cloud servers to deploy against rather than needing physical servers configured.
 
 ### Syncing Settings via Git
 

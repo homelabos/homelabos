@@ -55,7 +55,7 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make tag <tag>` - Runs just the items tagged with a specific tag e.g. `[client]$ make tag tinc`
 
-`[client]$ make terraform` - Spin up cloud servers with Terraform [See documentation](https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md)
+`[client]$ make terraform` - Spin up cloud servers with Terraform [See documentation](https://homelabos.com/docs/setup/terraform/)
 
 `[client]$ make terraform_destroy` - Destroy servers created by Terraform
 

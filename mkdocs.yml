@@ -1,11 +1,14 @@
 ---
 site_name: HomelabOS
+repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
-edit_uri: edit/master/docs
+edit_uri: /edit/master/docs
 theme:
   name: material
-  logo:
-    icon: home
+  palette:
+    primary: orange
+  icon:
+    logo: material/home
 nav:
   - Home: index.md
   - Installation: setup/installation.md
@@ -40,7 +43,7 @@ nav:
     - Gitea: software/gitea.md
     - Grafana: software/grafana.md
     - Guacamole: software/guacamole.md
-    - HealthChecks: software/healthchecks
+    - HealthChecks: software/healthchecks.md
     - Home Assistant: software/homeassistant.md
     - HomeBridge: software/homebridge.md
     - Inventario: software/inventario.md
@@ -72,7 +75,7 @@ nav:
     - Radarr / Sonarr: software/radarr-sonarr.md
     - Searx: software/searx.md
     - SickChill: software/sickchill.md
-    - Speedtest: software/speedtest
+    - Speedtest: software/speedtest.md
     - Synchthing: software/syncthing.md
     - Tautulli: software/tautulli.md
     - The Lounge: software/thelounge.md
@@ -89,3 +92,4 @@ nav:
     - Adding Services: development/adding_services.md
     - Contributing: development/contributing.md
     - Migrations: development/migrations.md
+    - Vagrant: development/vagrant.md
