@@ -10,6 +10,7 @@
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Digikam - Professional Photo Management with the Power of Open Source
+- Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.

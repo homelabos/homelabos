@@ -42,6 +42,7 @@ nav:
     - Ghost: software/ghost.md
     - Gitea: software/gitea.md
     - Grafana: software/grafana.md
+    - Grocy: software/grocy.md
     - Guacamole: software/guacamole.md
     - HealthChecks: software/healthchecks.md
     - Home Assistant: software/homeassistant.md

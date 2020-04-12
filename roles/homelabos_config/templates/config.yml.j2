@@ -110,6 +110,7 @@ enable_freshrss: {{ enable_freshrss | default(False) }}
 enable_ghost: {{ enable_ghost | default(False) }}
 enable_gitea: {{ enable_gitea | default(False) }}
 enable_grafana: {{ enable_grafana | default(False) }}
+enable_grocy: {{ enable_grocy | default(False) }}
 enable_grownetics: {{ enable_grownetics | default(False) }}
 enable_guacamole: {{ enable_guacamole | default(False) }}
 enable_healthchecks: {{ enable_healthchecks | default(False) }}
@@ -284,6 +285,10 @@ gitea:
 grafana:
   https_only: {{ grafana.https_only | default(False) }}
   auth: {{ grafana.auth | default(False) }}
+
+grocy:
+  https_only: {{ grocy.https_only | default(False) }}
+  auth: {{ grocy.auth | default(False) }}
 
 grownetics:
   https_only: {{ grownetics.https_only | default(False) }}

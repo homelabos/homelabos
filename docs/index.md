@@ -121,6 +121,7 @@ If you are having problems you can:
 - [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
+- [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
