@@ -58,7 +58,6 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 
     ```
     [client]$ cd HomelabOS
-    [client]$ make build
     [client]$ make config
     ``` 
     
