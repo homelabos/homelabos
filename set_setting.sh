@@ -1,7 +1,8 @@
 # Decrypt vault
 make decrypt
 
-echo "Finding value: $1" 
+echo "Finding key: $1" 
+echo "New setting: $2"
 FILE=settings/config.yml
 grep -Fq "$1" $FILE || FILE=settings/vault.yml
 

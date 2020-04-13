@@ -47,13 +47,13 @@ log:
 certificatesResolvers:
   dns:
     acme:
-      email: {{ admin_email | default('test@test.com') }}
+      email: {{ ((admin_email == None) | ternary('test@test.com', admin_email)) }}
       storage: acme.json
       dnsChallenge:
         provider: {{ traefik.dns_challenge_provider }}
   http:
     acme:
-      email: {{ admin_email | default('test@test.com') }}
+      email: {{ ((admin_email == None) | ternary('test@test.com', admin_email)) }}
       storage: acme.json
       httpChallenge:
         # used during the challenge
