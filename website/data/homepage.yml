@@ -127,7 +127,6 @@ community:
   enable : true
   title : "Community"
   items:
-    # about product item loop
     - image : "images/zulip.png"
       title : "Zulip Chat"
       content : "Join over 150 people in our online chat!"
@@ -136,11 +135,34 @@ community:
         label : "Join the Chat"
         link : "https://homelabos.zulipchat.com/"
         
-    # about product item loop
     - image : "images/reddit.png"
       title : "Reddit"
       content : "Join 400+ Redditors discussing HomelabOS"
       button:
         enable : true
-        label : "Visit HomelabOS on Reddit"
+        label : "HomelabOS on Reddit"
         link : "https://reddit.com/r/HomelabOS"
+
+    - image : "images/twitch.png"
+      title : "Twitch"
+      content : "Watch Nick Busey work on HomelabOS in real time live on Twitch.tv. Get in the chat and talk about the development."
+      button:
+        enable : true
+        label : "NickBusey on Twitch"
+        link : "https://twitch.tv/NickBusey"
+
+    - image : "images/youtube.png"
+      title : "YouTube"
+      content : "Watch installation and set up tutorials on YouTube."
+      button:
+        enable : true
+        label : "NickBusey on YouTube"
+        link : "https://youtube.com/NickBusey"
+
+    - title : "Twitter"
+      image : "images/twitter.png"
+      content : "Follow HomelabOS on Twitter for announcements and news."
+      button:
+        enable : true
+        label : "HomelabOS on Twitter"
+        link : "https://twitter.com/HomelabOS"
