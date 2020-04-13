@@ -40,6 +40,7 @@ enabled_services:
   mashio: "{{ enable_mashio }}"
   matomo: "{{ enable_matomo }}"
   mayan: "{{ enable_mayan }}"
+  minecraft: "{{ enable_minecraft }}"
   miniflux: "{{ enable_miniflux }}"
   minio: "{{ enable_minio }}"
   monicahq: "{{ enable_monicahq }}"
@@ -63,6 +64,7 @@ enabled_services:
   privatebin: "{{ enable_privatebin }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
+  sabnzbd: "{{ enable_sabnzbd }}"
   searx: "{{ enable_searx }}"
   sickchill: "{{ enable_sickchill }}"
   sonarr: "{{ enable_sonarr }}"
@@ -80,8 +82,7 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-  minecraft: "{{ enable_minecraft }}"
-  sabnzbd: "{{ enable_sabnzbd }}"
+
 apache2: 
 apple_health_influx: 
 airsonic: 
@@ -147,7 +148,9 @@ portainer:
 privatebin: 
 radarr: 
 restic: 
+sabnzbd:
 sickchill: 
+speedtest: 
 sonarr: 
 syncthing: 
 tautulli: 
@@ -162,7 +165,7 @@ wekan:
 watchtower: 
 xfinityusageinfluxdb: 
 zulip: 
-speedtest: 
+
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
