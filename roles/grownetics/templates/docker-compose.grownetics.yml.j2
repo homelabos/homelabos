@@ -115,9 +115,9 @@ services:
         - "traefik.http.routers.grownetics.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.grownetics-tor-http.rule=Host(`grownetics.{{ tor_domain }}`)"
-      - "traefik.http.routers.grownetics-tor-http.entrypoints=http"
-      - "traefik.http.routers.grownetics-tor-http.middlewares={% if grownetics.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+        - "traefik.http.routers.grownetics-tor-http.rule=Host(`grownetics.{{ tor_domain }}`)"
+        - "traefik.http.routers.grownetics-tor-http.entrypoints=http"
+        - "traefik.http.routers.grownetics-tor-http.middlewares={% if grownetics.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   appdb:
@@ -144,8 +144,6 @@ services:
   growsocket:
     image: grownetics/socketio:latest
     restart: always
-    ports:
-        - "8989:8989"
     links:
         - rabbitmq
         - nginx

@@ -22,7 +22,7 @@
   template:
     src: conf.php.j2
     dest: "{{ volumes_root }}/privatebin/cfg/conf.php"
-    force: no
+    force: false
 
 - name: Copy privatebin docker-compose.yml file into place.
   template:

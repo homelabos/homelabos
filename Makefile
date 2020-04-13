@@ -109,8 +109,7 @@ develop: logo build config
 # Run linting scripts
 lint: logo build
 	@printf "[38;5;208mLint: [0m"
-	@pip install yamllint
-	@find . -type f -name '*.yml' | sed 's|\./||g' | egrep -v '(\.kitchen/|\[warning\]|\.molecule/)' | xargs yamllint -c yamllint.conf -f parsable
+	@./docker_helper.sh ./lint.sh
 
 # Restart all enabled services
 restart: logo build git_sync config
