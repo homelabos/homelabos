@@ -124,13 +124,13 @@ restart_one: logo build git_sync config
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.restart.yml
 	@printf "\x1B[01;93m========== Done restarting '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
 
-# Restart all enabled services
+# Stop all enabled services
 stop: logo build git_sync config
 	@printf "\x1B[01;93m========== Restarting all services ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i inventory playbook.stop.yml
 	@printf "\x1B[01;93m========== Done restarting all services! ==========\n\x1B[0m"
 
-# Restart one service
+# Stop one service
 stop_one: logo build git_sync config
 	@printf "\x1B[01;93m========== Restarting '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"enabled_services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.stop.yml
