@@ -138,6 +138,8 @@ services:
   redis:
     image: redis
     restart: always
+    networks:
+        - traefik_network
 
   growsocket:
     image: grownetics/socketio:latest
@@ -150,6 +152,8 @@ services:
     labels:
         io.rancher.container.pull_image: always
         io.rancher.scheduler.affinity:host_label_ne: onsite=true
+    networks:
+        - traefik_network
 
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
@@ -162,5 +166,7 @@ services:
     ports:
         - "15672:15672"
         - "5672:5672"
+    networks:
+        - traefik_network
 
 
