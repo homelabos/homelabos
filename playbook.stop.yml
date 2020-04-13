@@ -6,10 +6,10 @@
   tags: common
 
   tasks:
-    - name: Restart services
+    - name: Stop services
       systemd:
         name: "{{ service_item }}"
-        state: restarted
+        state: stopped
       when: "lookup('vars', 'enable_' ~ service_item)"
       loop: "{{ enabled_services|flatten(levels=1) }}"
       loop_control:
