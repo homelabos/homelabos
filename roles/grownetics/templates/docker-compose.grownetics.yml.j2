@@ -144,6 +144,8 @@ services:
   growsocket:
     image: grownetics/socketio:latest
     restart: always
+    ports:
+        - 8989:8989
     links:
         - rabbitmq
         - nginx

@@ -1,0 +1,171 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  redis-cache:
+    image: redis:latest
+    restart: on-failure
+    volumes:
+      - "{{ volumes_root }}/erpnext/redis-cache-vol:/data"
+
+  redis-queue:
+    image: redis:latest
+    restart: on-failure
+    volumes:
+      - "{{ volumes_root }}/erpnext/redis-queue-vol:/data"
+
+  redis-socketio:
+    image: redis:latest
+    restart: on-failure
+    volumes:
+      - "{{ volumes_root }}/erpnext/redis-socketi-vol:/data"
+
+  mariadb:
+    image: mariadb:10.3
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - "{{ volumes_root }}/erpnext/frappe-mariadb.cnf:/etc/mysql/conf.d/frappe.cnf"
+      - "{{ volumes_root }}/erpnext/mariadb-vol:/var/lib/mysql"
+
+  erpnext-nginx:
+    image: frappe/erpnext-nginx:${VERSION}
+    restart: on-failure
+    environment:
+      - FRAPPE_PY=erpnext-python
+      - FRAPPE_PY_PORT=8000
+      - FRAPPE_SOCKETIO=frappe-socketio
+      - SOCKETIO_PORT=9000
+      - LETSENCRYPT_HOST=${SITES}
+      - VIRTUAL_HOST=${SITES}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    depends_on:
+      - erpnext-python
+      - frappe-socketio
+      - frappe-worker-default
+      - frappe-worker-long
+      - frappe-worker-short
+    links:
+      - erpnext-python
+      - frappe-socketio
+      - frappe-worker-default
+      - frappe-worker-long
+      - frappe-worker-short
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/var/www/html/sites"
+      - "{{ volumes_root }}/erpnext/assets-vol:/assets"
+    networks:
+      - traefik_network
+    labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=homelabos_traefik"
+        - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
+        - "traefik.http.services.erpnext.loadbalancer.server.port=80"
+        - "traefik.http.routers.erpnext-http.rule=Host(`erpnext.{{ domain }}`)"
+        - "traefik.http.routers.erpnext-http.entrypoints=http"
+        - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, {% else %}{% if erpnext.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+        - "traefik.http.routers.erpnext.rule=Host(`erpnext.{{ domain }}`)"
+        - "traefik.http.routers.erpnext.entrypoints=https"
+        - "traefik.http.routers.erpnext.middlewares={% if erpnext.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+        - "traefik.http.routers.erpnext.tls=true"
+{% if traefik.dns_challenge_provider %}
+        - "traefik.http.routers.erpnext.tls.certresolver=dns"
+        - "traefik.http.routers.erpnext.tls.domains[0].main={{ domain }}"
+        - "traefik.http.routers.erpnext.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+        - "traefik.http.routers.erpnext.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+        - "traefik.http.routers.erpnext-tor-http.rule=Host(`erpnext.{{ tor_domain }}`)"
+        - "traefik.http.routers.erpnext-tor-http.entrypoints=http"
+        - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+  erpnext-python:
+    image: frappe/erpnext-worker:${VERSION}
+    restart: on-failure
+    environment:
+      - MARIADB_HOST=${MARIADB_HOST}
+      - REDIS_CACHE=redis-cache:6379
+      - REDIS_QUEUE=redis-queue:6379
+      - REDIS_SOCKETIO=redis-socketio:6379
+      - SOCKETIO_PORT=9000
+      - AUTO_MIGRATE=1
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+      - "{{ volumes_root }}/erpnext/assets-vol:/home/frappe/frappe-bench/sites/assets"
+
+  frappe-socketio:
+    image: frappe/frappe-socketio:${VERSION}
+    restart: on-failure
+    depends_on:
+      - redis-socketio
+    links:
+      - redis-socketio
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+
+
+  frappe-worker-default:
+    image: frappe/erpnext-worker:${VERSION}
+    restart: on-failure
+    command: worker
+    depends_on:
+      - redis-queue
+      - redis-cache
+    links:
+      - redis-queue
+      - redis-cache
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+
+  frappe-worker-short:
+    image: frappe/erpnext-worker:${VERSION}
+    restart: on-failure
+    command: worker
+    environment:
+      - WORKER_TYPE=short
+    depends_on:
+      - redis-queue
+      - redis-cache
+    links:
+      - redis-queue
+      - redis-cache
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+
+  frappe-worker-long:
+    image: frappe/erpnext-worker:${VERSION}
+    restart: on-failure
+    command: worker
+    environment:
+      - WORKER_TYPE=long
+    depends_on:
+      - redis-queue
+      - redis-cache
+    links:
+      - redis-queue
+      - redis-cache
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+
+  frappe-schedule:
+    image: frappe/erpnext-worker:${VERSION}
+    restart: on-failure
+    command: schedule
+    depends_on:
+      - redis-queue
+      - redis-cache
+    links:
+      - redis-queue
+      - redis-cache
+    volumes:
+      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"

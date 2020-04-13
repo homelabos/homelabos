@@ -2,6 +2,8 @@
 
 ## Features
 
+- Added Chowdown -  Simple recipes in Markdown format
+- Added ERPNext - Open Source ERP for Everyone.
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
 - Added Minecraft - Minecraft server with select-able version 
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`

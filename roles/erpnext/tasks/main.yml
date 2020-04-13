@@ -1,0 +1,34 @@
+---
+- name: Make erpnext directory.
+  file:
+    path: "{{ volumes_root }}/erpnext"
+    state: directory
+
+- name: Copy erpnext docker-compose.yml file into place.
+  template:
+    src: docker-compose.erpnext.yml.j2
+    dest: "{{ volumes_root }}/erpnext/docker-compose.erpnext.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy erpnext env file into place.
+  template:
+    src: env.j2
+    dest: "{{ volumes_root }}/erpnext/.env"
+
+- name: Copy erpnext frappe-mariadb.cnf file into place.
+  template:
+    src: frappe-mariadb.cnf
+    dest: "{{ volumes_root }}/erpnext/frappe-mariadb.cnf"
+
+- name: Configure erpnext systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/erpnext.service
+
+- name: Start erpnext
+  systemd:
+    name: erpnext
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

@@ -122,9 +122,11 @@ If you are having problems you can:
 
 ### Misc/Other
 
+- [Chowdown](https://hub.docker.com/r/gregyankovoy/chowdown)  Simple recipes in Markdown format
 - [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
+- [ERPNext](https://github.com/frappe/frappe_docker) Open Source ERP for Everyone.
 - [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Grownetics](https://grownetics.co) - Open source environmental mapping with plant management and tracking
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software

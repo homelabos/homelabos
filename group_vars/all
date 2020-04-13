@@ -11,6 +11,7 @@ enabled_services:
   bookstack: "{{ enable_bookstack }}"
   bulletnotes: "{{ enable_bulletnotes }}"
   calibre: "{{ enable_calibre }}"
+  chowdown: "{{ enable_chowdown }}"
   codeserver: "{{ enable_codeserver }}"
   darksky_influx: "{{ enable_darksky_influx }}"
   dasher: "{{ enable_dasher }}"
@@ -19,6 +20,7 @@ enabled_services:
   duplicati: "{{ enable_duplicati }}"
   drone: "{{ enable_drone }}"
   emby: "{{ enable_emby }}"
+  erpnext: "{{ enable_erpnext }}"
   firefly_iii: "{{ enable_firefly_iii }}"
   freshrss: "{{ enable_freshrss }}"
   ghost: "{{ enable_ghost }}"
@@ -96,6 +98,7 @@ bitwarden:
 bookstack: 
 bulletnotes: 
 calibre: 
+chowdown:
 codeserver: 
 darksky_influx: 
 dasher: 
@@ -104,6 +107,7 @@ docs:
 duplicati: 
 drone: 
 emby: 
+erpnext:
 firefly_iii: 
 freshrss: 
 ghost: 
@@ -148,7 +152,7 @@ portainer:
 privatebin: 
 radarr: 
 restic: 
-sabnzbd:
+sabnzbd: 
 sickchill: 
 speedtest: 
 sonarr: 

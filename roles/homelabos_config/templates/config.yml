@@ -98,6 +98,7 @@ enable_beets: {{ enable_beets | default(False) }}
 enable_bookstack: {{ enable_bookstack | default(False) }}
 enable_bulletnotes: {{ enable_bulletnotes | default(False) }}
 enable_calibre: {{ enable_calibre | default(False) }}
+enable_chowdown: {{ enable_chowdown | default(False) }}
 enable_codeserver: {{ enable_codeserver | default(False) }}
 enable_darksky_influx: {{ enable_darksky_influx | default(False) }}
 enable_dasher: {{ enable_dasher | default(False) }}
@@ -105,6 +106,7 @@ enable_digikam: {{ enable_digikam | default(False) }}
 enable_drone: {{ enable_drone | default(False) }}
 enable_duplicati: {{ enable_duplicati | default(False) }}
 enable_emby: {{ enable_emby | default(False) }}
+enable_erpnext: {{ enable_erpnext | default(False) }}
 enable_firefly_iii: {{ enable_firefly_iii | default(False) }}
 enable_freshrss: {{ enable_freshrss | default(False) }}
 enable_ghost: {{ enable_ghost | default(False) }}
@@ -238,6 +240,10 @@ calibre:
   https_only: {{ calibre.https_only | default(False) }}
   auth: {{ calibre.auth | default(False) }}
 
+chowdown:
+  https_only: {{ chowdown.https_only | default(False) }}
+  auth: {{ chowdown.auth | default(False) }}
+
 codeserver:
   https_only: {{ codeserver.https_only | default(False) }}
   auth: {{ codeserver.auth | default(False) }}
@@ -265,6 +271,10 @@ duplicati:
 emby:
   https_only: {{ emby.https_only | default(False) }}
   auth: {{ emby.auth | default(False) }}
+
+erpnext:
+  https_only: {{ erpnext.https_only | default(False) }}
+  auth: {{ erpnext.auth | default(False) }}
 
 firefly_iii:
   https_only: {{ firefly_iii.https_only | default(False) }}
