@@ -21,14 +21,10 @@ When you have entered those three pieces of information, The script then does th
 - Edits the Readme, and Changelog files
 - Edits the group_var/all file to include the new package in the Enabled Services list
 
-## Pre-requisites
-
-To utilize this script, you'll need a working installation of ruby 2.6. If you've not already done so, install bundler, and run `bundle install` from the root of the project. _You'll only need to do this once._ This installs the various ruby gems that the script relies on.
-
 ## Running the script
 
 From the root project directory run:
-`bin/addPkg.rb` and answer the 3 questions.
+`./add_package.sh` and answer the 3 questions.
 Once the script has run, you must edit the `roles/PACKAGENAME/templates/docker-compose.PACKAGENAME.yml.j2 file`
 
 _Please review all other files, before pushing your changes to gitlab._
