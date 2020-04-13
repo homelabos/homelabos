@@ -43,6 +43,7 @@ nav:
   - Gitea: software/gitea.md
   - Grafana: software/grafana.md
   - Grocy: software/grocy.md
+  - Grownetics: software/grownetics.md
   - Guacamole: software/guacamole.md
   - HealthChecks: software/healthchecks.md
   - Home Assistant: software/homeassistant.md

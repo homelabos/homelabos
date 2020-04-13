@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://docker.{{ domain }}/](https://docker.{{ domain }}/) or [http://docker.{{ domain }}/](http://docker.{{ domain }}/)
+It is available at [https://portainer.{{ domain }}/](https://portainer.{{ domain }}/) or [http://portainer.{{ domain }}/](http://portainer.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://docker.{{ tor_domain }}/](http://docker.{{ tor_domain }}/)
+It is also available via Tor at [http://portainer.{{ tor_domain }}/](http://portainer.{{ tor_domain }}/)
 {% endif %}

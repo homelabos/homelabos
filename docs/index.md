@@ -125,6 +125,7 @@ If you are having problems you can:
 - [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 - [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
+- [Grownetics](https://grownetics.co) - Open source environmental mapping with plant management and tracking
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
 - [Minecraft](https://hub.docker.com/r/itzg/minecraft-server) Minecraft server with select-able version 
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
