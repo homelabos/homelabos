@@ -1,6 +1,4 @@
 ---
-# by default, the Ghost image will use SQLite (and thus requires no separate database container)
-# we have used MySQL here merely for demonstration purposes (especially environment-variable-based configuration)
 
 version: '3.1'
 
@@ -12,10 +10,21 @@ networks:
 services:
 
   ghost:
-    image: ghost:1-alpine
+    image: ghost:3.13.1-alpine
     networks:
       - traefik_network
     restart: unless-stopped
+    environment:
+      url: "https://ghost.{{ domain }}"
+{% if smtp.user %}
+      mail__transport: SMTP
+      mail__from: "'Blog {{ domain }}' <{{ smtp.from_email }}>"
+      mail__options__host: {{ smtp.host }}
+      mail__options__port: {{ smtp.port }}
+      mail__options__secureConnection: "true"
+      mail__options__auth__user: {{ smtp.user }}
+      mail__options__auth__pass: {{ smtp.pass }}
+{% endif %}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -40,16 +49,3 @@ services:
       - "traefik.http.routers.ghost-tor-http.entrypoints=http"
       - "traefik.http.routers.ghost-tor-http.middlewares={% if ghost.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-    # environment:
-      ## see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables
-      # database__client: mysql
-      # database__connection__host: db
-      # database__connection__user: root
-      # database__connection__password: example
-      # database__connection__database: ghost
-
-  # db:
-    # image: mysql:5.7
-    # restart: always
-    # environment:
-      # MYSQL_ROOT_PASSWORD: example

@@ -15,6 +15,7 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/bitwarden:/data"
+    {% if smtp.host %}
     environment:
       - SMTP_HOST={{ smtp.host }}
       - SMTP_FROM={{ smtp.from_email }}
@@ -22,6 +23,7 @@ services:
       - SMTP_SSL=true
       - SMTP_USERNAME={{ smtp.user }}
       - SMTP_PASSWORD={{ smtp.pass }}
+      {% endif %}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

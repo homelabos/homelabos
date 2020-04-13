@@ -8,7 +8,7 @@ networks:
 
 services:
   nextcloud:
-    image: hoellen/nextcloud:16.0
+    image: hoellen/nextcloud:18.0
     networks:
       - traefik_network
     depends_on:
@@ -20,7 +20,7 @@ services:
       - APC_SHM_SIZE=128M
       - OPCACHE_MEM_SIZE=128
       - CRON_PERIOD=15m
-      - TZ=America/NewYork
+      - TZ={{ common_timezone }}
       - DOMAIN=localhost
       - DB_TYPE=mysql
       - DB_NAME=nextcloud
@@ -63,7 +63,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - "{{ volumes_root }}/nextcloud_db:/var/lib/mysql"
+      - "{{ volumes_root }}/nextcloud/db:/var/lib/mysql"
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits')}}"

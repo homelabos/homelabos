@@ -4,12 +4,15 @@ Welcome to HomelabOS! Your very own offline-first open-source data-center!
 
 HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.
 
+## [Getting Started](/setup/gettingstarted)
+
 ## Getting Help
 
 If you are having problems you can:
-- [File an issue on GitLab](https://gitlab.com/NickBusey/HomelabOS/issues).
-- [Ask a question on HomelabOS Reddit](https://www.reddit.com/r/HomelabOS/)
-- [Ask a question HomelabOS Zulip Chat](https://homelabos.zulipchat.com/)
+
+  - [File an issue on GitLab](https://gitlab.com/NickBusey/HomelabOS/issues).
+  - [Ask a question on HomelabOS Reddit](https://www.reddit.com/r/HomelabOS/)
+  - [Ask a question HomelabOS Zulip Chat](https://homelabos.zulipchat.com/)
 
 ## Available Software
 
