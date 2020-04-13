@@ -13,7 +13,7 @@ log_level: {{ authelia.log_level }}
 # The secret used to generate JWT tokens when validating user identity by
 # email confirmation.
 # This secret can also be set using the env variables AUTHELIA_JWT_SECRET
-jwt_secret: {{lookup('password', './settings/passwords/authelia_jwt_secret')}}
+jwt_secret: {{lookup('password', './settings/passwords/authelia-tor_jwt_secret')}}
 
 # Default redirection URL
 #
@@ -25,7 +25,7 @@ jwt_secret: {{lookup('password', './settings/passwords/authelia_jwt_secret')}}
 #
 # Note: this parameter is optional. If not provided, user won't
 # be redirected upon successful authentication.
-default_redirection_url: https://auth.{{ domain }}
+default_redirection_url: http://auth.{{ tor_domain }}
 
 # Google Analytics Tracking ID to track the usage of the portal
 # using a Google Analytics dashboard.
@@ -37,7 +37,7 @@ default_redirection_url: https://auth.{{ domain }}
 # This will be the issuer name displayed in Google Authenticator
 # See: https://github.com/google/google-authenticator/wiki/Key-Uri-Format for more info on issuer names
 totp:
-  issuer: {{ domain }}
+  issuer: {{ tor_domain }}
   # The period in seconds a one-time password is current for. Changing this will require all users to register
   # their TOTP applications again.
   # Warning: before changing period read the docs link below.
@@ -126,13 +126,13 @@ access_control:
   default_policy: {{ authelia.default.policy }}
 
   rules:
-    - domain: portainer.{{ domain }}
+    - domain: portainer.{{ tor_domain }}
       policy: one_factor
 
-    - domain: auth.{{ domain }}
+    - domain: auth.{{ tor_domain }}
       policy: bypass
 
-    - domain: '*.{{ domain }}'
+    - domain: '*.{{ tor_domain }}'
       policy: {{ authelia.default.factor_count }}
 
 # Configuration of session cookies
@@ -140,10 +140,10 @@ access_control:
 # The session cookies identify the user once logged in.
 session:
   # The name of the session cookie. (default: authelia_session).
-  name: authelia_session
+  name: authelia-tor_session
 
   # The secret to encrypt the session cookie.
-  secret: {{lookup('password', './settings/passwords/authelia_session_secret')}}
+  secret: {{lookup('password', './settings/passwords/authelia-tor_session_secret')}}
 
   # The time in ms before the cookie expires and session is reset.
   expiration: {{ authelia.default.cookie_expiration }}  # 1 hour
@@ -161,7 +161,7 @@ session:
   # The domain to protect.
   # Note: the authenticator must also be in that domain. If empty, the cookie
   # is restricted to the subdomain of the issuer.
-  domain: {{ domain }}
+  domain: {{ tor_domain }}
 
   # The redis connection details
   redis:
@@ -240,7 +240,7 @@ notifier:
     sender: {{ smtp.from_email }}
     # Subject configuration of the emails sent.
     # {title} is replaced by the text from the notifier
-    subject: "[Authelia] {title}"
+    subject: "[Authelia-Tor] {title}"
     ## disable_require_tls: false
     ## disable_verify_cert: false
     ## trusted_cert: ""

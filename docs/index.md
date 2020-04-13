@@ -75,7 +75,7 @@ If you are having problems you can:
 
 ### E-Books
 
-- [Calibre](https://calibre-ebook.com) - Complete ebook library management.
+- [Calibre](https://calibre-ebook.com) - Calibre and Calibre Web - Complete ebook library management.
 
 ### Email
 
@@ -124,11 +124,14 @@ If you are having problems you can:
 - [Darksky](http://darksky.net/) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
+- [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software
+- [Minecraft](https://hub.docker.com/r/itzg/minecraft-server) Minecraft server with select-able version 
 - [Monica](https://www.monicahq.com/) - Contact / relationship manager
 - [Pi-hole](https://pi-hole.net/) - Ad blocking
 - [Poli](https://github.com/shzlw/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](https://www.portainer.io/) - Easy Docker management
+- [PrivateBin](https://privatebin.info) PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - [Searx](https://github.com/asciimoo/searx/) - A privacy-respecting, hackable metasearch engine.
 - [Ubooquity](https://vaemendis.net/ubooquity/) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](https://containrrr.github.io/watchtower/) - A process for automating Docker container base image updates

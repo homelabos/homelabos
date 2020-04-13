@@ -110,6 +110,7 @@ enable_freshrss: {{ enable_freshrss | default(False) }}
 enable_ghost: {{ enable_ghost | default(False) }}
 enable_gitea: {{ enable_gitea | default(False) }}
 enable_grafana: {{ enable_grafana | default(False) }}
+enable_grocy: {{ enable_grocy | default(False) }}
 enable_grownetics: {{ enable_grownetics | default(False) }}
 enable_guacamole: {{ enable_guacamole | default(False) }}
 enable_healthchecks: {{ enable_healthchecks | default(False) }}
@@ -126,6 +127,7 @@ enable_mailu: {{ enable_mailu | default(False) }}
 enable_mashio: {{ enable_mashio | default(False) }}
 enable_matomo: {{ enable_matomo | default(False) }}
 enable_mayan: {{ enable_mayan | default(False) }}
+enable_minecraft: {{ enable_minecraft | default(False) }}
 enable_miniflux: {{ enable_miniflux | default(False) }}
 enable_minio: {{ enable_minio | default(False) }}
 enable_monicahq: {{ enable_monicahq | default(False) }}
@@ -146,11 +148,12 @@ enable_pixelfed: {{ enable_pixelfed | default(False) }}
 enable_plex: {{ enable_plex | default(False) }} # Set Plex Claim Token below
 enable_poli: {{ enable_poli | default(False) }}
 enable_portainer: {{ enable_portainer | default(False) }}
-enable_sickchill: {{ enable_sickchill | default(False) }}
-enable_sonarr: {{ enable_sonarr | default(False) }}
+enable_privatebin: {{ enable_privatebin | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
 enable_restic: {{ enable_restic | default(False) }}
 enable_searx: {{ enable_searx | default(False) }}
+enable_sickchill: {{ enable_sickchill | default(False) }}
+enable_sonarr: {{ enable_sonarr | default(False) }}
 enable_speedtest: {{ enable_speedtest | default(False) }}
 enable_syncthing: {{ enable_syncthing | default(False) }}
 enable_tautulli: {{ enable_tautulli | default(False) }}
@@ -283,6 +286,10 @@ gitea:
 grafana:
   https_only: {{ grafana.https_only | default(False) }}
   auth: {{ grafana.auth | default(False) }}
+
+grocy:
+  https_only: {{ grocy.https_only | default(False) }}
+  auth: {{ grocy.auth | default(False) }}
 
 grownetics:
   https_only: {{ grownetics.https_only | default(False) }}
@@ -420,6 +427,10 @@ poli:
 portainer:
   https_only: {{ portainer.https_only | default(False) }}
   auth: {{ portainer.auth | default(False) }}
+
+privatebin:
+  https_only: {{ privatebin.https_only | default(False) }}
+  auth: {{ privatebin.auth | default(False) }}
 
 sickchill:
   https_only: {{ sickchill.https_only | default(False) }}

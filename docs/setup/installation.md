@@ -67,6 +67,8 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
    HomelabOS will configure your local docker images and build your initial `settings/config.yml`
    file.
 
+Note: If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
+
 3) To change any setting, you can either edit your `settings/config.yml` file, 
 or use the `make set` command, e.g. `make set enable_bitwarden true`, `make set bitwarden.https_only true` or `make set bitwarden.auth true`.
 

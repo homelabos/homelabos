@@ -3,6 +3,7 @@
 ## Features
 
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
+- Added Minecraft - Minecraft server with select-able version 
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 
 ## Services
@@ -10,6 +11,7 @@
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Digikam - Professional Photo Management with the Power of Open Source
+- Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - Added HomeBridge - HomeKit support for the impatient
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
@@ -17,6 +19,7 @@
 - Added Mylar - An automated Comic Book manager
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
+- Added PrivateBin - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - Added Searx - A privacy-respecting, hackable metasearch engine.
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.

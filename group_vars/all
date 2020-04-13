@@ -60,6 +60,7 @@ enabled_services:
   plex: "{{ enable_plex }}"
   poli: "{{ enable_poli }}"
   portainer: "{{ enable_portainer }}"
+  privatebin: "{{ enable_privatebin }}"
   radarr: "{{ enable_radarr }}"
   restic: "{{ enable_restic }}"
   searx: "{{ enable_searx }}"
@@ -79,85 +80,88 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-apache2:
-apple_health_influx:
-airsonic:
+  minecraft: "{{ enable_minecraft }}"
+apache2: 
+apple_health_influx: 
+airsonic: 
 authelia:
-  duo:
-  default:
-  max:
-  domain:
-beets:
-bitwarden:
-bookstack:
-bulletnotes:
-calibre:
-codeserver:
-darksky_influx:
-dasher:
-digikam:
-docs:
-duplicati:
-drone:
-emby:
-firefly_iii:
-freshrss:
-ghost:
-gitea:
-grafana:
-grownetics:
-guacamole:
-healthchecks:
-homeassistant:
-homebridge:
-homedash:
-inventario:
-jackett:
-jellyfin:
-kibitzr:
-lidarr:
-mailserver:
-mashio:
-matomo:
-mayan:
-miniflux:
-minio:
-monicahq:
-mstream:
-mylar:
-netdata:
-nextcloud:
-nzbget:
-ombi:
-openldap:
-openvpn:
-organizr:
-ownphotos:
-paperless:
-pihole:
-piwigo:
-pixelfed:
-plex:
-poli:
-portainer:
-radarr:
-restic:
-sickchill:
-sonarr:
-syncthing:
-tautulli:
-thelounge:
-tick:
-transmission:
-trilium:
-ubooquity:
-wallabag:
-webvirtmgr:
-wekan:
-watchtower:
-xfinityusageinfluxdb:
-zulip:
-speedtest:
+  duo: 
+  default: 
+  max: 
+  domain: 
+beets: 
+bitwarden: 
+bookstack: 
+bulletnotes: 
+calibre: 
+codeserver: 
+darksky_influx: 
+dasher: 
+digikam: 
+docs: 
+duplicati: 
+drone: 
+emby: 
+firefly_iii: 
+freshrss: 
+ghost: 
+gitea: 
+grafana: 
+grocy: 
+grownetics: 
+guacamole: 
+healthchecks: 
+homeassistant: 
+homebridge: 
+homedash: 
+inventario: 
+jackett: 
+jellyfin: 
+kibitzr: 
+lidarr: 
+mailserver: 
+mashio: 
+matomo: 
+mayan: 
+miniflux: 
+minio: 
+monicahq: 
+mstream: 
+mylar: 
+netdata: 
+nextcloud: 
+nzbget: 
+ombi: 
+openldap: 
+openvpn: 
+organizr: 
+ownphotos: 
+paperless: 
+pihole: 
+piwigo: 
+pixelfed: 
+plex: 
+poli: 
+portainer: 
+privatebin: 
+radarr: 
+restic: 
+sickchill: 
+sonarr: 
+syncthing: 
+tautulli: 
+thelounge: 
+tick: 
+transmission: 
+trilium: 
+ubooquity: 
+wallabag: 
+webvirtmgr: 
+wekan: 
+watchtower: 
+xfinityusageinfluxdb: 
+zulip: 
+speedtest: 
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
@@ -166,7 +170,7 @@ vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
 smtp: 
 traefik:
-  additional_env_vars:
+  additional_env_vars: 
 bastion:
   wireguard: 
   enabled: false
