@@ -17,6 +17,16 @@ The second reason is if in the future HomelabOS supports, and you decide to move
 
 All of that said, you can still install directly on the server. Just make sure to set the `homelab_ip` to your local network IP rather than `127.0.0.1`. This way the install Docker container can reach itself as expected.
 
+### Domain
+
+It's easiest to have an actual domain to point at your services, but you can `fake` it by adding DNS overrides to your `/etc/hosts` file on *nix and MacOS if needed or for testing.
+
+Many people hang their HomelabOS services off of a subdomain like `homelab.mydomain.com`. This lets you continue to serve things from `mydomain.com` without HomelabOS interfering in any way. 
+
+#### Changing your domain
+
+If you need to change your domain (or subdomain) simply run `./set_setting.sh domain new.domain.com` then run `make` again.
+
 ### Client:
 
     *  Docker
@@ -41,6 +51,7 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 ## Automatic Set-up
 
 1) On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
+
 2) Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
 ## Manual Set-up

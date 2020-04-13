@@ -64,7 +64,7 @@ update_one: logo build git_sync config
 # Remove HomelabOS services
 uninstall: logo build
 	@printf "\x1B[01;93m========== Uninstall HomelabOS completely ==========\n\x1B[0m"
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" -i inventory -t deploy playbook.remove.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.remove.yml
 	@printf "\x1B[01;93m========== Uninstall completed! ==========\n\x1B[0m"
 
 # Remove one service
