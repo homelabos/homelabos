@@ -81,6 +81,7 @@ enabled_services:
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
   minecraft: "{{ enable_minecraft }}"
+  sabnzbd: "{{ enable_sabnzbd }}"
 apache2: 
 apple_health_influx: 
 airsonic: 

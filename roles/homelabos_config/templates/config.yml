@@ -151,6 +151,7 @@ enable_portainer: {{ enable_portainer | default(False) }}
 enable_privatebin: {{ enable_privatebin | default(False) }}
 enable_radarr: {{ enable_radarr | default(False) }}
 enable_restic: {{ enable_restic | default(False) }}
+enable_sabnzbd: {{ enable_sabnzbd | default(False) }}
 enable_searx: {{ enable_searx | default(False) }}
 enable_sickchill: {{ enable_sickchill | default(False) }}
 enable_sonarr: {{ enable_sonarr | default(False) }}
@@ -431,6 +432,10 @@ portainer:
 privatebin:
   https_only: {{ privatebin.https_only | default(False) }}
   auth: {{ privatebin.auth | default(False) }}
+
+sabnzbd: 
+  https_only: {{ sabnzbd.https_only | default(False) }}
+  auth: {{ sabnzbd.auth | default(False) }}
 
 sickchill:
   https_only: {{ sickchill.https_only | default(False) }}
