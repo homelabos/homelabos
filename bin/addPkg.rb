@@ -91,8 +91,8 @@ insert_in_config "README.md", "## Available Software", "- [#{package_name}](#{pa
 puts 'Done!'
 
 puts 'Step 8. Adding service to Config Template'
-insert_in_config "roles/homelabos_config/templates/config.yml.j2", "#== PARSE ###", "enable_#{package_file_name}: {{ enable_#{package_file_name} | default(False) }}"
-%x{git add roles/homelabos_config/templates/config.yml.j2}
+insert_in_config "roles/homelabos_config/templates/config.yml", "#== PARSE ###", "enable_#{package_file_name}: {{ enable_#{package_file_name} | default(False) }}"
+%x{git add roles/homelabos_config/templates/config.yml}
 puts 'Done!'
 
 puts 'Step 9. Adding service to Changelog'
