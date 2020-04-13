@@ -1,0 +1,24 @@
+---
+- name: Make folding_at_home directory.
+  file:
+    path: "{{ volumes_root }}/folding_at_home"
+    state: directory
+
+- name: Copy folding_at_home docker-compose.yml file into place.
+  template:
+    src: docker-compose.folding_at_home.yml.j2
+    dest: "{{ volumes_root }}/folding_at_home/docker-compose.folding_at_home.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure folding_at_home systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/folding_at_home.service
+
+- name: Start folding_at_home
+  systemd:
+    name: folding_at_home
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

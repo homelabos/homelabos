@@ -33,6 +33,7 @@
 - Added Watchtower - A process for automating Docker container base image updates
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
+- Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Updated everything to use traefik version 2
 
 ## Release Notes

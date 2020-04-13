@@ -1,0 +1,18 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    # REQUIRED
+    image: johnktims/folding-at-home
+    command: FAHClient --web-allow=0/0:7396 --allow=0/0:7396 --user={{ folding_at_home.username}} --team={{ folding_at_home.team }}  --power={{ folding_at_home.power }}
+    restart: unless-stopped
+    ports:
+      - 7396:7396

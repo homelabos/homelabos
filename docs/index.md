@@ -127,6 +127,7 @@ If you are having problems you can:
 - [Dasher](https://github.com/maddox/dasher) - Amazon Dash button support
 - [Documentation](https://nickbusey.gitlab.io/HomelabOS/) - Offline, searchable documentation via [MkDocs](https://www.mkdocs.org/)
 - [ERPNext](https://github.com/frappe/frappe_docker) Open Source ERP for Everyone.
+- [Folding@home](https://hub.docker.com/r/johnktims/folding-at-home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - [Grocy](https://grocy.info) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Grownetics](https://grownetics.co) - Open source environmental mapping with plant management and tracking
 - [Mashio](https://gitlab.com/NickBusey/mashio) - Home brewery management software

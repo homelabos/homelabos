@@ -84,7 +84,7 @@ enabled_services:
   watchtower: "{{ enable_watchtower }}"
   xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
   zulip: "{{ enable_zulip }}"
-
+  folding_at_home: "{{ enable_folding_at_home }}"
 apache2: 
 apple_health_influx: 
 airsonic: 
@@ -98,7 +98,7 @@ bitwarden:
 bookstack: 
 bulletnotes: 
 calibre: 
-chowdown:
+chowdown: 
 codeserver: 
 darksky_influx: 
 dasher: 
@@ -107,7 +107,8 @@ docs:
 duplicati: 
 drone: 
 emby: 
-erpnext:
+erpnext: 
+folding_at_home:
 firefly_iii: 
 freshrss: 
 ghost: 
@@ -169,7 +170,6 @@ wekan:
 watchtower: 
 xfinityusageinfluxdb: 
 zulip: 
-
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos

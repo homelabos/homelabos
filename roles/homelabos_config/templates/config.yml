@@ -108,6 +108,7 @@ enable_duplicati: {{ enable_duplicati | default(False) }}
 enable_emby: {{ enable_emby | default(False) }}
 enable_erpnext: {{ enable_erpnext | default(False) }}
 enable_firefly_iii: {{ enable_firefly_iii | default(False) }}
+enable_folding_at_home: {{ enable_folding_at_home | default(False) }}
 enable_freshrss: {{ enable_freshrss | default(False) }}
 enable_ghost: {{ enable_ghost | default(False) }}
 enable_gitea: {{ enable_gitea | default(False) }}
@@ -275,6 +276,13 @@ emby:
 erpnext:
   https_only: {{ erpnext.https_only | default(False) }}
   auth: {{ erpnext.auth | default(False) }}
+
+folding_at_home:
+  username: {{ folding_at_home.username | default( default_username ) }}
+  # Team HomelabOS - https://stats.foldingathome.org/team/261443
+  team: {{ folding_at_home.team | default( "261443" ) }}
+  # Valid values are 'light', 'medium' or 'full'
+  power: {{ folding_at_home.power | default("full")}}
 
 firefly_iii:
   https_only: {{ firefly_iii.https_only | default(False) }}
