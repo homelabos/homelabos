@@ -4,7 +4,7 @@
 
 ## Access
 
-A dashboard is available at http://{{ HOMELAB_IP }}:7396
+A dashboard is available at http://{{ homelab_ip }}:7396
 
 ## Settings
 
