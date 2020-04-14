@@ -158,6 +158,17 @@ Run chmod 775 against the HomelabOS folder.
 [client]$ chmod 775 HomelabOS/
 ```
 
+### I have pointed my domain at my IP but hitting the domain returns nothing
+
+1) If you ping your domain, do you get the IP you expect?
+    * If not you have DNS issues. Get those resolved befor moving on.
+2) Does the IP you expect actually lead to port 80 on your server?
+    * You may need to set up port forwarding on your router, unblock some ports on your modem, or contact your ISP to see if they are being blocked. If these aren't an option for you, try the [bastion host](/setup/bastion) set up.
+3) Does the domain you're trying to hit match what is listed in the Traefik dashboard?
+    * If you don't see your domain under the 'HTTP' section in Traefik, then you have something configured wrong.
+
+If you can hit DOMAIN.com and get SERVER_IP where port 80 and 443 are forwarded and DOMAIN.com is listed in Traefik as the Organizr endpoint, and you STILL can't load the page, ask in [chat](https://homelabos.zulipchat.com/) or open an issue on [GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues).
+
 ### 404
 
 If you're up and running, but getting a 404, load [http://YOURSERVERIP:8181/]. This is the Traefik dashboard.
