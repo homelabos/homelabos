@@ -24,7 +24,7 @@
 
 - name: Configure grafana influx dashboard
   template:
-    src: {{item}}
+    src: "{{item}}"
     dest: "{{ volumes_root }}/grafana/dashboards/"
   loop:
     - grafana.dashboards.yaml
