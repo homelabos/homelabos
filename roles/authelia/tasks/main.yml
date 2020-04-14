@@ -49,7 +49,10 @@
 # Migration v0.7
 # Authelia v3 to v4
 - name: Migrate Authelia v3 to v4
-  shell: "docker run --rm -v {{ volumes_root }}/authelia/authelia_config.yml:/config.yml --net=homelabos_traefik authelia/authelia authelia migrate mongo --config=/config.yml --url=mongodb://authelia_mongo_1 --database=my_authelia"
+  shell: >
+    docker run --rm -v {{ volumes_root }}/authelia/authelia_config.yml:/config.yml
+    --net=homelabos_traefik authelia/authelia authelia migrate mongo
+    --config=/config.yml --url=mongodb://authelia_mongo_1 --database=my_authelia
   when: authelia.migration == True
 # End Migration v0.7
 
