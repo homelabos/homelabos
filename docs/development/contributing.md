@@ -32,3 +32,7 @@ Follow the [MkDocs Material Theme setup directions](https://squidfunk.github.io/
 Then run `mkdocs serve`.
 
 To build changes to the docs run `make docs`.
+
+## Working locally on the website
+
+To work on the [HomelabOS webiste](https://homelabos.com/) just type `make web` to serve it locally.

@@ -4,8 +4,8 @@ Welcome to HomelabOS! Your very own offline-first open-source data-center!
 
 HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.
 
-## [Installation](/setup/installation)
-## [Getting Started](/setup/gettingstarted)
+## [Installation](setup/installation)
+## [Getting Started](setup/gettingstarted)
 
 ## Getting Help
 

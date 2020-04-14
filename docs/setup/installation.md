@@ -21,7 +21,11 @@ All of that said, you can still install directly on the server. Just make sure t
 
 It's easiest to have an actual domain to point at your services, but you can `fake` it by adding DNS overrides to your `/etc/hosts` file on *nix and MacOS if needed or for testing.
 
-Many people hang their HomelabOS services off of a subdomain like `homelab.mydomain.com`. This lets you continue to serve things from `mydomain.com` without HomelabOS interfering in any way. 
+Many people hang their HomelabOS services off of a subdomain like `homelab.mydomain.com`. This lets you continue to serve things from `mydomain.com` without HomelabOS interfering in any way. Just set whatever value you want to `domain` in your settings.
+
+#### DNS Settings
+
+You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP address your HomelabOS install is accessible at. If you are using a [bastion](/docs/setup/bastion) host, then you would point at that IP. If you are using your home IP address, you would point it at that IP. You need to set up a wildcard DNS entry because all the services are served off of subdomains such as `emby.{{ domain }}`
 
 #### Changing your domain
 
@@ -50,22 +54,22 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 
 ## Automatic Set-up
 
-1) On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
+* On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 
-2) Make sure to back up your `{{ volumes_root }}/install` directory nightly.
+* Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
 ## Manual Set-up
 
-1) Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
+* Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
 
-   IF you are going to be using HomelabOS to provision a cloud server, walk through the process. Otherwise you can skip this.
+   If you are going to be using HomelabOS to provision a [bastion](/docs/setup/bastion) server, walk through the process. Otherwise you can skip this.
    
    ```
    [client]$ make terraform 
    ```
 
 
-2) From inside the HomelabOS folder, set up the initial config
+* From inside the HomelabOS folder, set up the initial config
 
     ```
     [client]$ cd HomelabOS
@@ -79,10 +83,10 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 
 Note: If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
 
-3) To change any setting, you can either edit your `settings/config.yml` file, 
+* To change any setting, you can either edit your `settings/config.yml` file, 
 or use the `make set` command, e.g. `make set enable_bitwarden true`, `make set bitwarden.https_only true` or `make set bitwarden.auth true`.
 
-4) Once you have updated the `settings/config.yml` file through either method,
+* Once you have updated the `settings/config.yml` file through either method,
 simply deploy HomelabOS. You can run `make` as many times as
 needed to get your settings correct.
 
@@ -98,7 +102,7 @@ is running. It will show you status and/or errors of the service.
 
 To reset your settings, run `make config_reset`, then run `make config` again.
 
-See a full list of commands in the Getting Started Section
+See a full list of commands in the [Getting Started Section](/docs/setup/gettingstarted)
 
 ### Deploying to Cloud Services with Terraform
 
@@ -160,13 +164,17 @@ Run chmod 775 against the HomelabOS folder.
 
 ### I have pointed my domain at my IP but hitting the domain returns nothing
 
-* If you ping your domain, do you get the IP you expect?
-    * If not you have DNS issues. Get those resolved befor moving on.
+* If you ping your `{{ domain }}`, do you get the IP you expect?
+    * If not you have DNS issues. Get those resolved before moving on.
+* If you ping `subdomain.{{ domain }}`, do you get the IP you expect?
+    * If not you have DNS issues. You probably don't have a wildcard set up.
 * Does the IP you expect actually lead to port 80 on your server?
     * You may need to set up port forwarding on your router, unblock some ports on your modem, or contact your ISP to see if they are being blocked. If these aren't an option for you, try the [bastion host](/setup/bastion) set up.
 * Does the domain you're trying to hit match what is listed in the Traefik dashboard?
     * If you don't see your domain under the 'HTTP' section in Traefik, then you have something configured wrong.
-* Are your services running? Check `docker ps` and `systemctl SERVICENAME status` e.g. `systemctl organizr status` on the server.
+* Are your services running? Check `docker ps` and `systemctl SERVICENAME status`
+    * E.g. `systemctl organizr status` on the server.
+* Are your services listed in the Traefik dashboard? Hit http://{{ homelab_ip }}:8181/
 
 If you can hit DOMAIN.com and get SERVER_IP where port 80 and 443 are forwarded and DOMAIN.com is listed in Traefik as the Organizr endpoint, and you STILL can't load the page, ask in [chat](https://homelabos.zulipchat.com/) or open an issue on [GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues).
 
