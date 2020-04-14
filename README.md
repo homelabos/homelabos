@@ -30,7 +30,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 - Easy Restore
 - Automated Tor Onion Service access
 - Automated HTTPS via LetsEncrypt
-- [Automated Settings Sync](https://nickbusey.gitlab.io/HomelabOS/setup/installation/#syncing-settings-via-git)
+- [Automated Settings Sync](https://homelabos.com/docs/setup/installation/#syncing-settings-via-git)
 - OpenVPN
 - OpenLDAP
 - Cloud Bastion Server with WireGuard VPN
@@ -68,7 +68,7 @@ A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at 
 
 Ports 80 and 443 punched through any firewalls and port forwarded at your server in question. (This is also optional due to Tor access, but again highly recommended.)
 
-### [Cloud Bastion Server](https://nickbusey.gitlab.io/HomelabOS/setup/tinc/)
+### [Cloud Bastion Server](https://homelabos.com/docs/setup/bastion/)
 
 Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
 to act as a bastion host via Tinc vpn and nginx.
@@ -76,8 +76,6 @@ to act as a bastion host via Tinc vpn and nginx.
 ### S3 Account
 
 S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back up to. You can use Amazon's service, or one of many other S3 compatible providers. You can also back up to another HomelabOS instance if that other instance is running Minio, a self-hosted S3 service.
-
-## [Installation](https://nickbusey.gitlab.io/HomelabOS/setup/installation/)
 
 ## Roadmap
 

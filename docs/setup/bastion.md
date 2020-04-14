@@ -1,4 +1,4 @@
-# Bastion Host
+# Cloud Bastion Server
 
 ## [Video Tutorial](https://youtu.be/gqw8_PZ42KA)
 

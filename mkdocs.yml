@@ -15,7 +15,7 @@ nav:
 - Getting Started: setup/gettingstarted.md
 - Setup:
   - Backups: setup/backups.md
-  - Bastion: setup/bastion.md
+  - Bastion Server: setup/bastion.md
   - Email: setup/email.md
   - Traefik: setup/traefik.md
   - Terraform: setup/terraform.md
