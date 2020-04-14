@@ -1,6 +1,6 @@
-# folding_at_home
+# Folding@home
 
-[folding_at_home](https://hub.docker.com/r/johnktims/folding-at-home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
+[Folding@home](https://hub.docker.com/r/johnktims/folding-at-home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 
 ## Access
 
@@ -9,3 +9,6 @@ A dashboard is available at http://{{ HOMELAB_IP }}:7396
 ## Settings
 
 In `settings/config.yml` you can edit several settings included `power` which says how hard it will work.
+
+The `team` setting defaults to the [HomelabOS Folding@home team](https://stats.foldingathome.org/team/261443). Join us in the fight against disease!
+
