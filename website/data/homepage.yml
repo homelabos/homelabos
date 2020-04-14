@@ -166,3 +166,11 @@ community:
         enable : true
         label : "HomelabOS on Twitter"
         link : "https://twitter.com/HomelabOS"
+
+    - title : "Patreon"
+      # image : "images/.png"
+      content : "Support HomelabOS development financially on Patreon."
+      button:
+        enable : true
+        label : "Nick Busey on Patreon"
+        link : "https://patreon.com/NickBusey"
