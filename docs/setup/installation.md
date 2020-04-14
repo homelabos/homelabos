@@ -123,27 +123,27 @@ Build initial docker images on the client.
 
 ### `make` command throws a docker related error
 
-1) Make sure homelabOS successfully installed docker on the server. If its not installed, try installing it manually.
+* Make sure homelabOS successfully installed docker on the server. If its not installed, try installing it manually.
 
     ```
     [server]$ docker run hello-world
     ``` 
 
-2) Make sure you are running the latest docker and docker compose on both your client and server. The Docker version installed via `apt` can be old. Recommended install directions are [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+* Make sure you are running the latest docker and docker compose on both your client and server. The Docker version installed via `apt` can be old. Recommended install directions are [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-3) Check HomelabOS status on the server and make sure it is loaded and active.
+* Check HomelabOS status on the server and make sure it is loaded and active.
 
     ```
     [server]$ systemctl status homelabos
     ``` 
 
-4) Make sure the admin user specified during `make config` is created.
+* Make sure the admin user specified during `make config` is created.
 
     ```
     [server]$ compgen -u
     ```
 
-   If the user isn't listed, run the following commands to make one and add it to the sudo and docker groups.
+* If the user isn't listed, run the following commands to make one and add it to the sudo and docker groups.
    
     ```
     [server]$ sudo adduser <username>
@@ -160,11 +160,11 @@ Run chmod 775 against the HomelabOS folder.
 
 ### I have pointed my domain at my IP but hitting the domain returns nothing
 
-1) If you ping your domain, do you get the IP you expect?
+* If you ping your domain, do you get the IP you expect?
     * If not you have DNS issues. Get those resolved befor moving on.
-2) Does the IP you expect actually lead to port 80 on your server?
+* Does the IP you expect actually lead to port 80 on your server?
     * You may need to set up port forwarding on your router, unblock some ports on your modem, or contact your ISP to see if they are being blocked. If these aren't an option for you, try the [bastion host](/setup/bastion) set up.
-3) Does the domain you're trying to hit match what is listed in the Traefik dashboard?
+* Does the domain you're trying to hit match what is listed in the Traefik dashboard?
     * If you don't see your domain under the 'HTTP' section in Traefik, then you have something configured wrong.
 
 If you can hit DOMAIN.com and get SERVER_IP where port 80 and 443 are forwarded and DOMAIN.com is listed in Traefik as the Organizr endpoint, and you STILL can't load the page, ask in [chat](https://homelabos.zulipchat.com/) or open an issue on [GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues).
