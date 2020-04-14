@@ -30,13 +30,15 @@ nav:
   - Bitwarden: software/bitwarden.md
   - BulletNotes: software/bulletnotes.md
   - Calibre: software/calibre.md
+  - Chowdown: software/chowdown.md
   - Darksky: software/darksky.md
   - Dasher: software/dasher.md
   - Digikam: software/digikam.md
   - Duplicati: software/duplicati.md
   - Emby: software/emby.md
+  - ERPNext: software/erpnext.md
+  - Folding@home: software/folding_at_home.md
   - Drone: software/drone.md
-  - Emby: software/emby.md
   - Firefly III: software/firefly.md
   - FreshRSS: software/freshrss.md
   - Ghost: software/ghost.md
@@ -58,6 +60,7 @@ nav:
   - Mashio: software/mashio.md
   - Matomo: software/matomo.md
   - Mayan: software/mayan.md
+  - Minecraft: software/minecraft.md
   - Miniflux: software/miniflux.md
   - Minio: software/minio.md
   - Monica: software/monica.md
@@ -75,6 +78,7 @@ nav:
   - Poli: software/poli.md
   - Portainer: software/portainer.md
   - PrivateBin: software/privatebin.md
+  - Sabnzbd: software/sabnzbd.md
   - Radarr / Sonarr: software/radarr-sonarr.md
   - Searx: software/searx.md
   - SickChill: software/sickchill.md
@@ -91,11 +95,6 @@ nav:
   - Wekan: software/wekan.md
   - Watchtower: software/watchtower.md
   - Zulip: software/zulip.md
-  - Minecraft: software/minecraft.md
-  - Sabnzbd: software/sabnzbd.md
-  - ERPNext: software/erpnext.md
-  - Chowdown: software/chowdown.md
-  - folding_at_home: software/folding_at_home.md
 - Development:
   - Adding Services: development/adding_services.md
   - Contributing: development/contributing.md
