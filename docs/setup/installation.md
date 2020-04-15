@@ -204,7 +204,7 @@ and get an output like:
 8f00f6b3cdb6        traefik                        "/traefik"               13 hours ago        Up 13 hours                     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:8181->8080/tcp           homelabos_traefik_1
 ```
 
-### Bad Gateway
+### Bad Gateway or Services Restarting
 
 If Traefik returns a page that just says `Bad Gateway`, that usually
 means DNS and everything is correct, but the service itself is having
