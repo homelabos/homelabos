@@ -1,8 +1,8 @@
 # From https://github.com/walokra/docker-ansible-playbook
 
-FROM python:3.7.3-alpine
+FROM python:3.8-alpine
 
-ENV ANSIBLE_VERSION 2.6.1
+ENV ANSIBLE_VERSION 2.9.6
 
 ENV BUILD_PACKAGES \
   bash \
