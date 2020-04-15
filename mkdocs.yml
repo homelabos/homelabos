@@ -3,6 +3,8 @@ site_name: HomelabOS
 repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
+markdown_extensions:
+  - admonition
 theme:
   name: material
   palette:
