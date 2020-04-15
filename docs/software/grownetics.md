@@ -1,6 +1,6 @@
 # Grownetics
 
-[Grownetics](https://grownetics.com/) is an open source environmental mapping with plant management and tracking software suite.
+[Grownetics](https://grownetics.co/) is an open source environmental mapping with plant management and tracking software suite.
 
 ## Setup
 
