@@ -2,7 +2,7 @@
 site_name: HomelabOS
 repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
-edit_uri: "/edit/master/docs"
+edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
 theme:
   name: material
   palette:
