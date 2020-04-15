@@ -10,9 +10,9 @@ minio_secret_access_key: {{ minio_secret_access_key | default() }}
 
 # Cloud Servers
 aws:
-  secret_key:
-  access_key:
-  region:
+  secret_key: {{ aws.secret_key | default() }}
+  access_key: {{ aws.access_key | default() }}
+  region: {{ aws.region | default() }}
 
 do_access_token: {{ do_access_token | default(False) }}
 do_region: {{ do_region | default('nyc1') }}
