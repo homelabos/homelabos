@@ -15,9 +15,7 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/jellyfin/config:/config"
-      - "{{ storage_dir }}/Music:/media/Music"
-      - "{{ storage_dir }}/Video/Movies:/media/Movies"
-      - "{{ storage_dir }}/Video/TV:/media/TV"
+      - "{{ storage_dir }}:/media"
       - "{{ storage_dir }}/temp:/cache"
     labels:
       - "traefik.enable=true"
