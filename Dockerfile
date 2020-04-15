@@ -22,7 +22,8 @@ ENV BUILD_PACKAGES \
 ENV PYTHON_PACKAGES \
   python3-keyczar \
   boto3 \
-  docker-py
+  docker-py \
+  pyOpenSSL
 
 # If installing ansible@testing
 #RUN \

@@ -22,6 +22,7 @@
       - docker-compose
       - whois
       - python-passlib
+      - python-openssl
   tags:
     - dependencies
 

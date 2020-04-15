@@ -1,0 +1,42 @@
+---
+- name: Make gitlab directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ volumes_root }}/gitlab"
+    - "{{ volumes_root }}/gitlab/certs"
+    - "{{ volumes_root }}/gitlab/registry"
+
+- name: Generate Registry OpenSSL private key with the default values (4096 bits, RSA)
+  openssl_privatekey:
+    path: "{{ volumes_root }}/gitlab/certs/registry.pem"
+
+- name: Generate Registry OpenSSL Certificate Signing Request
+  openssl_csr:
+    path: "{{ volumes_root }}/gitlab/certs/registry.csr"
+    privatekey_path: "{{ volumes_root }}/gitlab/certs/registry.pem"
+
+- name: Generate Registry OpenSSL Certificate
+  openssl_certificate:
+    path: "{{ volumes_root }}/gitlab/certs/registry.crt"
+    privatekey_path: "{{ volumes_root }}/gitlab/certs/registry.pem"
+    csr_path: "{{ volumes_root }}/gitlab/certs/registry.csr"
+    provider: selfsigned
+
+- name: Copy gitlab docker-compose.yml file into place.
+  template:
+    src: docker-compose.gitlab.yml.j2
+    dest: "{{ volumes_root }}/gitlab/docker-compose.gitlab.yml"
+
+- name: Configure gitlab systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/gitlab.service
+
+- name: Start gitlab
+  systemd:
+    name: gitlab
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
