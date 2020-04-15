@@ -165,9 +165,9 @@ Run chmod 775 against the HomelabOS folder.
 ### I have pointed my domain at my IP but hitting the domain returns nothing
 
 * If you ping your `{{ domain }}`, do you get the IP you expect?
-    * If not you have DNS issues. Get those resolved before moving on.
+    * If not you have [DNS issues](/docs/setup/installation/#dns-settings). Get those resolved before moving on.
 * If you ping `subdomain.{{ domain }}`, do you get the IP you expect?
-    * If not you have DNS issues. You probably don't have a wildcard set up.
+    * If not you have [DNS issues](/docs/setup/installation/#dns-settings). You probably don't have a wildcard set up.
 * Does the IP you expect actually lead to port 80 on your server?
     * You may need to set up port forwarding on your router, unblock some ports on your modem, or contact your ISP to see if they are being blocked. If these aren't an option for you, try the [bastion host](/setup/bastion) set up.
 * Does the domain you're trying to hit match what is listed in the Traefik dashboard?
