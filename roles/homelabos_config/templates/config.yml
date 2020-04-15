@@ -228,6 +228,10 @@ beets:
 bitwarden:
   https_only: {{ bitwarden.https_only | default(False) }}
   auth: {{ bitwarden.auth | default(False) }}
+  # Enable admin page
+  # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
+  # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
+  token: {{ bitwarden.token | default(False) }}
 
 bookstack:
   https_only: {{ bookstack.https_only | default(False) }}

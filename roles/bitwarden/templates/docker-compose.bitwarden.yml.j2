@@ -23,6 +23,7 @@ services:
       - SMTP_SSL=true
       - SMTP_USERNAME={{ smtp.user }}
       - SMTP_PASSWORD={{ smtp.pass }}
+      - ADMIN_TOKEN={{ bitwarden.token }}
       {% endif %}
     labels:
       - "traefik.enable=true"
