@@ -15,7 +15,7 @@ This is desirable for three reasons.
 
 First you need a cloud server through a provider such as AWS or Digital Ocean.
 
-You can use the [HomelabOS Terraform feature](/setup/terraform.md), or set it up manually.
+You can use the [HomelabOS Terraform feature](/docs/setup/terraform), or set it up manually.
 
 Set any `bastion` config values to their correct settings.
 
