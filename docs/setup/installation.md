@@ -27,6 +27,8 @@ Many people hang their HomelabOS services off of a subdomain like `homelab.mydom
 
 You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP address your HomelabOS install is accessible at. If you are using a [bastion](/docs/setup/bastion) host, then you would point at that IP. If you are using your home IP address, you would point it at that IP. You need to set up a wildcard DNS entry because all the services are served off of subdomains such as `emby.{{ domain }}`
 
+Note: If you are not using a real domain, but using `/etc/hosts` entries to 'fake' it, wildcard entries do not work in `/etc/hosts`. You need to create an entry for each service enabled. You can use the `/var/homelabos/homelab_hosts` file.
+
 #### Changing your domain
 
 If you need to change your domain (or subdomain) simply run `./set_setting.sh domain new.domain.com` then run `make` again.
