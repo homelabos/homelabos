@@ -20,7 +20,7 @@
   htpasswd:
     path: "{{ volumes_root }}/traefik/basicAuth"
     name: "{{ default_username }}"
-    password: '{{ default_password }}'
+    password: "{{ default_password }}"
     owner: root
     group: root
     mode: 0640
@@ -42,6 +42,8 @@
   become: false
 
 - name: Create Media Folders / NAS Mount Points
+  when:
+    - nas_enable
   file:
     path: "{{ storage_dir }}/{{ item }}"
     state: directory
