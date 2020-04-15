@@ -4,7 +4,12 @@ Once you are all setup and ready to go you should be able to load Organizr at [h
 
 If you see `{ domain }` in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.
 
+## Securing Services
+
+If you want to add an extra layer of authentication to a service, all you have to do is set `servicename.auth` to true. If [Authelia](/docs/software/authelia/) is enabled, it will handle authentication. Otherwise, Traefik will use HTTP Basic Auth with `default_username` and `default_password` as the credentials.
+
 ## File locations
+
 HomelabOS sets up `{{ volumes_root }}` on your server, which maps to `/var/homelabos` by default
 
 ## Using Organizr
