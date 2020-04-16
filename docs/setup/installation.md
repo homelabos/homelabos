@@ -5,55 +5,59 @@
 
 ## Requirements
 
-Using at least 2 machines, a client and a server, is the recommended way to deploy HomelabOS.
+### Server
 
-A typical set up might be the client is a laptop or desktop daily driver, and the server is, a rack server, or raspberry pi, or VPS.
+- Ubuntu Server 18.04 or Debian 10.3
+- [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
-There are two primary reasons to favor this setup over deploying directly to the server.
+## Optional Items
 
-The first reason is that if you have all of your config settings on your laptop, which is hopefully being backed up regularly, then if your server fails entirely, you can spin up a new server quickly on another machine with minimal data loss. This assumes you are (as you should be) using [restic](/software/restic.md) to back up your server nightly.
+### Client Computer
 
-The second reason is if in the future HomelabOS supports, and you decide to move to, a multi-server cluster, deployments will not change in any way on the user end. You would simply add the extra node and type `make` on your client as usual.
+* Docker installed and working.
 
-All of that said, you can still install directly on the server. Just make sure to set the `homelab_ip` to your local network IP rather than `127.0.0.1`. This way the install Docker container can reach itself as expected.
+!!! Note
+    Two separate computers are not required, but are highly recommended. The idea is you have a server and then your personal computer, say a laptop or desktop. You deploy from your personal computer to the server. This way your settings are saved on your personal computer, and can be used to re-build the server and restore from backups if anything goes wrong.
 
-### Domain
+!!! Warning
+    If you do install HomelabOS directly on the server and deploy from there, make sure to back up your `settings/` folder from the server to somewhere safe, otherwise you could lose your settings.
 
-It's easiest to have an actual domain to point at your services, but you can `fake` it by adding DNS overrides to your `/etc/hosts` file on *nix and MacOS if needed or for testing.
+### Domain Name
 
-Many people hang their HomelabOS services off of a subdomain like `homelab.mydomain.com`. This lets you continue to serve things from `mydomain.com` without HomelabOS interfering in any way. Just set whatever value you want to `domain` in your settings.
+A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at your server's IP address. You can also use a subdomain as well, so `*.homelab.yourdomain.com` would work.
+
+!!! Note
+    This is optional because you can use Tor to access your services without registering a domain. For best support from 3rd party clients an actual domain is highly recommended. Also certain services do not work through TOR at the moment.
+
+!!! Note
+    It's easiest to have an actual domain to point at your services, but you can `fake` it by adding DNS overrides to your `/etc/hosts` file on *nix and MacOS if needed or for testing.
 
 #### DNS Settings
 
 You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP address your HomelabOS install is accessible at. If you are using a [bastion](/docs/setup/bastion) host, then you would point at that IP. If you are using your home IP address, you would point it at that IP. You need to set up a wildcard DNS entry because all the services are served off of subdomains such as `emby.{{ domain }}`
 
-!!! Note
+!!! Warning
     If you are not using a real domain, but using `/etc/hosts` entries to 'fake' it, wildcard entries do not work in `/etc/hosts`. You need to create an entry for each service enabled. You can use the `/var/homelabos/homelab_hosts` file.
 
 #### Changing your domain
 
 If you need to change your domain (or subdomain) simply run `./set_setting.sh domain new.domain.com` then run `make` again.
 
-### Client:
+### Port Forwarding
 
-    *  Docker
-    
-If you don't want to install docker to your client (or if you're on windows), you can do everything on your server. Just make sure to setup Docker on your server first.
+Ports 80 and 443 punched through any firewalls and port forwarded at your server in question.
 
-Verify docker is installed correctly on your client
-```
-[client]$ docker run hello-world
-``` 
+!!! Note
+    This is optional because if you are using the [bastion](bastion.md) server or [TOR access](tor.md), you do not need to deal with port forwarding or firewalls.
 
+### [Cloud Bastion Server](bastion.md)
 
-### Server:
+Rather than pointing the domain at your home IP and having to manage DDNS, you can utilize a cloud server
+to act as a bastion host via Tinc vpn and nginx.
 
-    * Running one of
-        * Ubuntu Server 18.04
-        * Debian 10.3
-    * Passwordless SSH via SSH keys
-    
-Ensure you can access your server with a IP through [passwordless SSH](https://linuxconfig.org/passwordless-ssh) and your user has sudo access.
+### S3 Account
+
+S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back up to. You can use Amazon's service, or one of many other S3 compatible providers. You can also back up to another HomelabOS instance if that other instance is running Minio, a self-hosted S3 service.
 
 ## Automatic Set-up (One-liner)
 
@@ -65,72 +69,40 @@ Ensure you can access your server with a IP through [passwordless SSH](https://l
 
 * Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
 
-   If you are going to be using HomelabOS to provision a [bastion](/docs/setup/bastion) server, walk through the process. Otherwise you can skip this.
-   
-   ```
-   [client]$ make terraform 
-   ```
+!!! Note
+    If you are using HomelabOS to provision a [bastion](bastion.md) server, run: `$ make terraform`
 
+* From inside the HomelabOS folder, set up the initial config: `make config`
 
-* From inside the HomelabOS folder, set up the initial config
+!!! Note
+    You will be prompted for the basic information to get started. The passwords entered here will be stored on the client computer and are used by ansible to configure your server. After you enter the information, HomelabOS will configure your local docker images and build your initial `settings/` files.
 
-    ```
-    [client]$ cd HomelabOS
-    [client]$ make config
-    ``` 
-    
-   You will be prompted for the basic information to get started. The passwords entered here
-   will be stored on the client computer and are used by ansible to configure your server. After you enter the information, 
-   HomelabOS will configure your local docker images and build your initial `settings/config.yml`
-   file.
+!!! Warning
+    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
 
-Note: If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
-
-* To change any setting, you can either edit your `settings/config.yml` file, 
-or use the `make set` command, e.g. `make set enable_bitwarden true`, `make set bitwarden.https_only true` or `make set bitwarden.auth true`.
-
-* Once you have updated the `settings/config.yml` file through either method,
-simply deploy HomelabOS. You can run `make` as many times as
+* Once you have updated your settings simply deploy HomelabOS with `make`. You can run `make` as many times as
 needed to get your settings correct.
 
-    ```
-    [client]$ make
-    ```
-
-You can check YOUR_SERVER_IP:8181 in a browser to see the Traefik dashboard.
+You can check http://{{ homelab_ip }}:8181 in a browser to see the Traefik dashboard.
 
 If it is empty, images may still be downloading. You can SSH into the server, and run
 `systemctl status SERVICENAME` like `systemctl status organizr` if you want to see if Organizr
 is running. It will show you status and/or errors of the service.
 
-To reset your settings, run `make config_reset`, then run `make config` again.
-
 See a full list of commands in the [Getting Started Section](/docs/setup/gettingstarted)
-
-### Deploying to Cloud Services with Terraform
-
-You can use our  [Terraform scripts](https://homelabos.com/docs/setup/terraform/) to spin up cloud servers to deploy against rather than needing physical servers configured.
 
 ### Syncing Settings via Git
 
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
 So you can create a private repo on your Gitea instance for example, then clone that repo over the
-settings folder. Now any changes you make to `config.yml` will be commited and pushed to that git
+settings folder. Now any changes you make to `settings/` files will be commited and pushed to that git
 repo whenever you run `make`, `make update` or `make config`.
 
 ## Troubleshooting / FAQ
 
-### `make config` throws an error
-
-Build initial docker images on the client.
-
-```
-[client]$ make logo
-```
-
 ### `make` command throws a docker related error
 
-* Make sure homelabOS successfully installed docker on the server. If its not installed, try installing it manually.
+* Make sure HomelabOS successfully installed docker on the server. If its not installed, try installing it manually.
 
     ```
     [server]$ docker run hello-world
