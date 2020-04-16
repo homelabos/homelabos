@@ -29,10 +29,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.minio.loadbalancer.server.scheme=http"
       - "traefik.http.services.minio.loadbalancer.server.port=9000"
-      - "traefik.http.routers.minio-http.rule=Host(`minio.{{ domain }}`)"
+      - "traefik.http.routers.minio-http.rule=Host(`{{ services.minio.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.minio-http.entrypoints=http"
       - "traefik.http.routers.minio-http.middlewares={% if services.minio.https_only %}redirect@file, {% else %}{% if services.minio.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minio.rule=Host(`minio.{{ domain }}`)"
+      - "traefik.http.routers.minio.rule=Host(`{{ services.minio.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.minio.entrypoints=https"
       - "traefik.http.routers.minio.middlewares={% if services.minio.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.minio.tls=true"
@@ -44,7 +44,7 @@ services:
       - "traefik.http.routers.minio.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.minio-tor-http.rule=Host(`minio.{{ tor_domain }}`)"
+      - "traefik.http.routers.minio-tor-http.rule=Host(`{{ services.minio.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.minio-tor-http.entrypoints=http"
       - "traefik.http.routers.minio-tor-http.middlewares={% if services.minio.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -50,15 +50,15 @@ services:
     depends_on:
       - postgres
       - guacd
-    labels: #- "traefik.http.frontend.rule=Host:guacamole.{{ domain }};AddPrefix:/guacamole"
+    labels: #- "traefik.http.frontend.rule=Host:{{ services.guacamole.subdomain }}.{{ domain }};AddPrefix:/guacamole"
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.guacamole.loadbalancer.server.scheme=http"
       - "traefik.http.services.guacamole.loadbalancer.server.port=8080"
-      - "traefik.http.routers.guacamole-http.rule=Host(`guacamole.{{ domain }}`)"
+      - "traefik.http.routers.guacamole-http.rule=Host(`{{ services.guacamole.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.guacamole-http.entrypoints=http"
       - "traefik.http.routers.guacamole-http.middlewares={% if services.guacamole.https_only %}redirect@file, {% else %}{% if services.guacamole.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.guacamole.rule=Host(`guacamole.{{ domain }}`)"
+      - "traefik.http.routers.guacamole.rule=Host(`{{ services.guacamole.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.guacamole.entrypoints=https"
       - "traefik.http.routers.guacamole.middlewares={% if services.guacamole.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.guacamole.tls=true"
@@ -70,7 +70,7 @@ services:
       - "traefik.http.routers.guacamole.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.guacamole-tor-http.rule=Host(`guacamole.{{ tor_domain }}`)"
+      - "traefik.http.routers.guacamole-tor-http.rule=Host(`{{ services.guacamole.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.guacamole-tor-http.entrypoints=http"
       - "traefik.http.routers.guacamole-tor-http.middlewares={% if services.guacamole.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

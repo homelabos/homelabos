@@ -27,10 +27,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.radarr.loadbalancer.server.scheme=http"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
-      - "traefik.http.routers.radarr-http.rule=Host(`radarr.{{ domain }}`)"
+      - "traefik.http.routers.radarr-http.rule=Host(`{{ services.radarr.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.radarr-http.entrypoints=http"
       - "traefik.http.routers.radarr-http.middlewares={% if services.radarr.https_only %}redirect@file, {% else %}{% if services.radarr.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.radarr.rule=Host(`radarr.{{ domain }}`)"
+      - "traefik.http.routers.radarr.rule=Host(`{{ services.radarr.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.radarr.entrypoints=https"
       - "traefik.http.routers.radarr.middlewares={% if services.radarr.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.radarr.tls=true"
@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.radarr.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.radarr-tor-http.rule=Host(`radarr.{{ tor_domain }}`)"
+      - "traefik.http.routers.radarr-tor-http.rule=Host(`{{ services.radarr.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.radarr-tor-http.entrypoints=http"
       - "traefik.http.routers.radarr-tor-http.middlewares={% if services.radarr.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

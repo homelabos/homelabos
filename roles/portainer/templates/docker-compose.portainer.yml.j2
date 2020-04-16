@@ -21,10 +21,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.portainer.loadbalancer.server.scheme=http"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-      - "traefik.http.routers.portainer-http.rule=Host(`portainer.{{ domain }}`)"
+      - "traefik.http.routers.portainer-http.rule=Host(`{{ services.portainer.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.portainer-http.entrypoints=http"
       - "traefik.http.routers.portainer-http.middlewares={% if services.portainer.https_only %}redirect@file, {% else %}{% if services.portainer.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.{{ domain }}`)"
+      - "traefik.http.routers.portainer.rule=Host(`{{ services.portainer.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.portainer.entrypoints=https"
       - "traefik.http.routers.portainer.middlewares={% if services.portainer.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.portainer.tls=true"
@@ -36,7 +36,7 @@ services:
       - "traefik.http.routers.portainer.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.portainer-tor-http.rule=Host(`portainer.{{ tor_domain }}`)"
+      - "traefik.http.routers.portainer-tor-http.rule=Host(`{{ services.portainer.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.portainer-tor-http.entrypoints=http"
       - "traefik.http.routers.portainer-tor-http.middlewares={% if services.portainer.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

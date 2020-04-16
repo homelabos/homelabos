@@ -23,10 +23,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mashio.loadbalancer.server.scheme=http"
       - "traefik.http.services.mashio.loadbalancer.server.port=80"
-      - "traefik.http.routers.mashio-http.rule=Host(`mashio.{{ domain }}`)"
+      - "traefik.http.routers.mashio-http.rule=Host(`{{ services.mashio.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mashio-http.entrypoints=http"
       - "traefik.http.routers.mashio-http.middlewares={% if services.mashio.https_only %}redirect@file, {% else %}{% if services.mashio.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mashio.rule=Host(`mashio.{{ domain }}`)"
+      - "traefik.http.routers.mashio.rule=Host(`{{ services.mashio.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mashio.entrypoints=https"
       - "traefik.http.routers.mashio.middlewares={% if services.mashio.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mashio.tls=true"
@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.mashio.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.mashio-tor-http.rule=Host(`mashio.{{ tor_domain }}`)"
+      - "traefik.http.routers.mashio-tor-http.rule=Host(`{{ services.mashio.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.mashio-tor-http.entrypoints=http"
       - "traefik.http.routers.mashio-tor-http.middlewares={% if services.mashio.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
