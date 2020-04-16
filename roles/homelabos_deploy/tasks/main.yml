@@ -169,7 +169,7 @@
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
-  vars: 
+  vars:
     query: "{{ service_item + '.enabled' }}"
 
 - name: Pull HomelabOS Traefik Image
@@ -210,7 +210,7 @@
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
-  vars: 
+  vars:
     query: "{{ service_item + '.enabled' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
