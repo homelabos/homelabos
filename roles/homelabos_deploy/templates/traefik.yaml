@@ -1,6 +1,6 @@
 global:
   checkNewVersion: true
-  sendAnonymousUsage: true
+  sendAnonymousUsage: {{ traefik.send_anonymous_usage }}
 
 entryPoints:
   http:
