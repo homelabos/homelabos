@@ -114,6 +114,7 @@ services:
     https_only: {{ services.bitwarden.https_only | default(False) }}
     auth: {{ services.authelia.enabled | default(False) }}
     subdomain: {{ services.bitwarden.subdomain | default("bitwarden") }} 
+    token: {{ services.bitwarden.token | default(default_password) }}
   beets: 
     enabled: {{ services.beets.enabled | default(False) }}
     https_only: {{ services.beets.https_only | default(False) }}
