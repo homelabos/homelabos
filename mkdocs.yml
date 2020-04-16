@@ -5,6 +5,8 @@ repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
 markdown_extensions:
   - admonition
+  - toc:
+      permalink: true
 theme:
   name: material
   palette:

@@ -55,7 +55,7 @@ Verify docker is installed correctly on your client
     
 Ensure you can access your server with a IP through [passwordless SSH](https://linuxconfig.org/passwordless-ssh) and your user has sudo access.
 
-## Automatic Set-up
+## Automatic Set-up (One-liner)
 
 * On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 
@@ -118,7 +118,7 @@ So you can create a private repo on your Gitea instance for example, then clone 
 settings folder. Now any changes you make to `config.yml` will be commited and pushed to that git
 repo whenever you run `make`, `make update` or `make config`.
 
-## Troubleshooting
+## Troubleshooting / FAQ
 
 ### `make config` throws an error
 
@@ -181,7 +181,7 @@ Run chmod 775 against the HomelabOS folder.
 
 If you can hit DOMAIN.com and get SERVER_IP where port 80 and 443 are forwarded and DOMAIN.com is listed in Traefik as the Organizr endpoint, and you STILL can't load the page, ask in [chat](https://homelabos.zulipchat.com/) or open an issue on [GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues).
 
-### 404
+### I get a 404
 
 If you're up and running, but getting a 404, load [http://YOURSERVERIP:8181/]. This is the Traefik dashboard.
 Each service under the `Frontends` column has a section `Route Rule - Host:`. The hostname after `Host:` is the
