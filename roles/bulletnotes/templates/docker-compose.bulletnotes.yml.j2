@@ -36,10 +36,10 @@ services:
       - "traefik.http.services.bulletnotes.loadbalancer.server.port=3000"
       - "traefik.http.routers.bulletnotes-http.rule=Host(`bulletnotes.{{ domain }}`)"
       - "traefik.http.routers.bulletnotes-http.entrypoints=http"
-      - "traefik.http.routers.bulletnotes-http.middlewares={% if bulletnotes.https_only %}redirect@file, {% else %}{% if bulletnotes.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.bulletnotes-http.middlewares={% if services.services.services.bulletnotes.https_only %}redirect@file, {% else %}{% if services.services.services.bulletnotes.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.bulletnotes.rule=Host(`bulletnotes.{{ domain }}`)"
       - "traefik.http.routers.bulletnotes.entrypoints=https"
-      - "traefik.http.routers.bulletnotes.middlewares={% if bulletnotes.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.bulletnotes.middlewares={% if services.services.services.bulletnotes.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.bulletnotes.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.bulletnotes.tls.certresolver=dns"
@@ -51,5 +51,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.bulletnotes-tor-http.rule=Host(`bulletnotes.{{ tor_domain }}`)"
       - "traefik.http.routers.bulletnotes-tor-http.entrypoints=http"
-      - "traefik.http.routers.bulletnotes-tor-http.middlewares={% if bulletnotes.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.bulletnotes-tor-http.middlewares={% if services.services.services.bulletnotes.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

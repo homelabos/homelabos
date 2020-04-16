@@ -50,11 +50,13 @@
     - mkdocs.yml
 
 - name: fetch pipenv dependencies
-  shell: pipenv install
+  become: yes
+  shell: sudo pipenv install
   args:
     chdir: "{{ volumes_root }}/docs"
 
 - name: build the documentation with mkdocs
+  become: yes
   shell: pipenv run mkdocs build
   args:
     chdir: "{{ volumes_root }}/docs"

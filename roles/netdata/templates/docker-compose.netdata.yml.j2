@@ -29,10 +29,10 @@ services:
       - "traefik.http.services.netdata.loadbalancer.server.port=19999"
       - "traefik.http.routers.netdata-http.rule=Host(`netdata.{{ domain }}`)"
       - "traefik.http.routers.netdata-http.entrypoints=http"
-      - "traefik.http.routers.netdata-http.middlewares={% if netdata.https_only %}redirect@file, {% else %}{% if netdata.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.netdata-http.middlewares={% if services.netdata.https_only %}redirect@file, {% else %}{% if services.netdata.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.netdata.rule=Host(`netdata.{{ domain }}`)"
       - "traefik.http.routers.netdata.entrypoints=https"
-      - "traefik.http.routers.netdata.middlewares={% if netdata.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.netdata.middlewares={% if services.netdata.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.netdata.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.netdata.tls.certresolver=dns"
@@ -44,5 +44,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.netdata-tor-http.rule=Host(`netdata.{{ tor_domain }}`)"
       - "traefik.http.routers.netdata-tor-http.entrypoints=http"
-      - "traefik.http.routers.netdata-tor-http.middlewares={% if netdata.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.netdata-tor-http.middlewares={% if services.netdata.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

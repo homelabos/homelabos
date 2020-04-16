@@ -1,7 +1,7 @@
 ---
 - hosts: all
   become: "True"
-  gather_facts: "True"
+  # gather_facts: "True"
   tags: common
   vars_prompt:
     - name: confirm_remove

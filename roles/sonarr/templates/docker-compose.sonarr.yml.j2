@@ -29,10 +29,10 @@ services:
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
       - "traefik.http.routers.sonarr-http.rule=Host(`sonarr.{{ domain }}`)"
       - "traefik.http.routers.sonarr-http.entrypoints=http"
-      - "traefik.http.routers.sonarr-http.middlewares={% if sonarr.https_only %}redirect@file, {% else %}{% if sonarr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.sonarr-http.middlewares={% if services.sonarr.https_only %}redirect@file, {% else %}{% if services.sonarr.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sonarr.rule=Host(`sonarr.{{ domain }}`)"
       - "traefik.http.routers.sonarr.entrypoints=https"
-      - "traefik.http.routers.sonarr.middlewares={% if sonarr.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.sonarr.middlewares={% if services.sonarr.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sonarr.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.sonarr.tls.certresolver=dns"
@@ -44,5 +44,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.sonarr-tor-http.rule=Host(`sonarr.{{ tor_domain }}`)"
       - "traefik.http.routers.sonarr-tor-http.entrypoints=http"
-      - "traefik.http.routers.sonarr-tor-http.middlewares={% if sonarr.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.sonarr-tor-http.middlewares={% if services.sonarr.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

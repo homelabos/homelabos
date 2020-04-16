@@ -34,6 +34,7 @@
     name: wireguard
     state: present
     update_cache: true
+    cache_valid_time: 86400
 
 - name: Create WireGuard configurations directory
   file:

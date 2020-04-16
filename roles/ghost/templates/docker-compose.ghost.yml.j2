@@ -32,10 +32,10 @@ services:
       - "traefik.http.services.ghost.loadbalancer.server.port=2368"
       - "traefik.http.routers.ghost-http.rule=Host(`ghost.{{ domain }}`)"
       - "traefik.http.routers.ghost-http.entrypoints=http"
-      - "traefik.http.routers.ghost-http.middlewares={% if ghost.https_only %}redirect@file, {% else %}{% if ghost.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ghost-http.middlewares={% if services.ghost.https_only %}redirect@file, {% else %}{% if services.ghost.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ghost.rule=Host(`ghost.{{ domain }}`)"
       - "traefik.http.routers.ghost.entrypoints=https"
-      - "traefik.http.routers.ghost.middlewares={% if ghost.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ghost.middlewares={% if services.ghost.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ghost.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.ghost.tls.certresolver=dns"
@@ -47,5 +47,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.ghost-tor-http.rule=Host(`ghost.{{ tor_domain }}`)"
       - "traefik.http.routers.ghost-tor-http.entrypoints=http"
-      - "traefik.http.routers.ghost-tor-http.middlewares={% if ghost.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.ghost-tor-http.middlewares={% if services.ghost.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

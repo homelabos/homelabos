@@ -2,7 +2,7 @@
 
 - hosts: all
   become: "True"
-  gather_facts: "True"
+  # gather_facts: "True"
   tags: common
 
   tasks:

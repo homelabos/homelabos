@@ -22,10 +22,10 @@ services:
       - "traefik.http.services.miniflux.loadbalancer.server.port=8080"
       - "traefik.http.routers.miniflux-http.rule=Host(`miniflux.{{ domain }}`)"
       - "traefik.http.routers.miniflux-http.entrypoints=http"
-      - "traefik.http.routers.miniflux-http.middlewares={% if miniflux.https_only %}redirect@file, {% else %}{% if miniflux.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.miniflux-http.middlewares={% if services.miniflux.https_only %}redirect@file, {% else %}{% if services.miniflux.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.miniflux.rule=Host(`miniflux.{{ domain }}`)"
       - "traefik.http.routers.miniflux.entrypoints=https"
-      - "traefik.http.routers.miniflux.middlewares={% if miniflux.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.miniflux.middlewares={% if services.miniflux.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.miniflux.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.miniflux.tls.certresolver=dns"
@@ -37,7 +37,7 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.miniflux-tor-http.rule=Host(`miniflux.{{ tor_domain }}`)"
       - "traefik.http.routers.miniflux-tor-http.entrypoints=http"
-      - "traefik.http.routers.miniflux-tor-http.middlewares={% if miniflux.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.miniflux-tor-http.middlewares={% if services.miniflux.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   miniflux_db:

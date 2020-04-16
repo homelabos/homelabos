@@ -36,10 +36,10 @@ services:
       - "traefik.http.services.digikam.loadbalancer.server.port=5800"
       - "traefik.http.routers.digikam-http.rule=Host(`digikam.{{ domain }}`)"
       - "traefik.http.routers.digikam-http.entrypoints=http"
-      - "traefik.http.routers.digikam-http.middlewares={% if codeserver.https_only %}redirect@file, {% else %}{% if digikam.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.digikam-http.middlewares={% if services.digikam.https_only %}redirect@file, {% else %}{% if services.digikam.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.digikam.rule=Host(`digikam.{{ domain }}`)"
       - "traefik.http.routers.digikam.entrypoints=https"
-      - "traefik.http.routers.digikam.middlewares={% if digikam.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.digikam.middlewares={% if services.digikam.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.digikam.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.digikam.tls.certresolver=dns"
@@ -51,5 +51,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.digikam-tor-http.rule=Host(`digikam.{{ tor_domain }}`)"
       - "traefik.http.routers.digikam-tor-http.entrypoints=http"
-      - "traefik.http.routers.digikam-tor-http.middlewares={% if digikam.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.digikam-tor-http.middlewares={% if services.digikam.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

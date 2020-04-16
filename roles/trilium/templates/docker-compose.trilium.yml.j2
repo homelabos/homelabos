@@ -23,10 +23,10 @@ services:
       - "traefik.http.services.trilium.loadbalancer.server.port=8080"
       - "traefik.http.routers.trilium-http.rule=Host(`trilium.{{ domain }}`)"
       - "traefik.http.routers.trilium-http.entrypoints=http"
-      - "traefik.http.routers.trilium-http.middlewares={% if trilium.https_only %}redirect@file, {% else %}{% if trilium.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.trilium-http.middlewares={% if services.trilium.https_only %}redirect@file, {% else %}{% if services.trilium.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.trilium.rule=Host(`trilium.{{ domain }}`)"
       - "traefik.http.routers.trilium.entrypoints=https"
-      - "traefik.http.routers.trilium.middlewares={% if trilium.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.trilium.middlewares={% if services.trilium.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.trilium.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.trilium.tls.certresolver=dns"
@@ -38,5 +38,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.trilium-tor-http.rule=Host(`trilium.{{ tor_domain }}`)"
       - "traefik.http.routers.trilium-tor-http.entrypoints=http"
-      - "traefik.http.routers.trilium-tor-http.middlewares={% if trilium.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.trilium-tor-http.middlewares={% if services.trilium.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -28,10 +28,10 @@ services:
       - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
       - "traefik.http.routers.tautulli-http.rule=Host(`tautulli.{{ domain }}`)"
       - "traefik.http.routers.tautulli-http.entrypoints=http"
-      - "traefik.http.routers.tautulli-http.middlewares={% if tautulli.https_only %}redirect@file, {% else %}{% if tautulli.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.tautulli-http.middlewares={% if services.tautulli.https_only %}redirect@file, {% else %}{% if services.tautulli.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.tautulli.rule=Host(`tautulli.{{ domain }}`)"
       - "traefik.http.routers.tautulli.entrypoints=https"
-      - "traefik.http.routers.tautulli.middlewares={% if tautulli.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.tautulli.middlewares={% if services.tautulli.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.tautulli.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.tautulli.tls.certresolver=dns"
@@ -43,5 +43,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.tautulli-tor-http.rule=Host(`tautulli.{{ tor_domain }}`)"
       - "traefik.http.routers.tautulli-tor-http.entrypoints=http"
-      - "traefik.http.routers.tautulli-tor-http.middlewares={% if tautulli.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.tautulli-tor-http.middlewares={% if services.tautulli.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

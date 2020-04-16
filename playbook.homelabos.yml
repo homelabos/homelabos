@@ -9,8 +9,10 @@
   pre_tasks:
     - name: "Update Apt Cache"
       raw: sudo apt-get update
+      run_once: true
     - name: "Install Python"
       raw: sudo apt-get -y install python-simplejson
+      run_once: true
 
 # Configure a TOR hidden service for remote access without a public IP
 - name: "Setup TOR"
@@ -26,7 +28,7 @@
 - name: configure HomelabOS
   hosts: all
   become: true
-  gather_facts: "True"
+  # gather_facts: "True"
   tags: common
   roles:
     # Install Docker, configure basic server settings
@@ -46,7 +48,7 @@
 - name: Install and configure HomelabOS services
   hosts: homelabos
   become: true
-  gather_facts: "True"
+  # gather_facts: "True"
   tags:
     - homelabos
     - deploy

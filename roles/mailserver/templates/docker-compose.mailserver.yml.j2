@@ -19,10 +19,10 @@ services:
       - "traefik.http.services.mail.loadbalancer.server.port=11334"
       - "traefik.http.routers.mail-http.rule=Host(`mail.{{ domain }}`)"
       - "traefik.http.routers.mail-http.entrypoints=http"
-      - "traefik.http.routers.mail-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mail-http.middlewares={% if services.mailserver.https_only %}redirect@file, {% else %}{% if services.mailserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mail.rule=Host(`mail.{{ domain }}`)"
       - "traefik.http.routers.mail.entrypoints=https"
-      - "traefik.http.routers.mail.middlewares={% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mail.middlewares={% if services.mailserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mail.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.mail.tls.certresolver=dns"
@@ -34,7 +34,7 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.mail-tor-http.rule=Host(`mail.{{ tor_domain }}`)"
       - "traefik.http.routers.mail-tor-http.entrypoints=http"
-      - "traefik.http.routers.mail-tor-http.middlewares={% if mail.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.mail-tor-http.middlewares={% if mail.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
     ports:
@@ -86,10 +86,10 @@ services:
       - "traefik.http.services.postfixadmin.loadbalancer.server.port=8888"
       - "traefik.http.routers.postfixadmin-http.rule=Host(`postfixadmin.{{ domain }}`)"
       - "traefik.http.routers.postfixadmin-http.entrypoints=http"
-      - "traefik.http.routers.postfixadmin-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.postfixadmin-http.middlewares={% if services.mailserver.https_only %}redirect@file, {% else %}{% if services.mailserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.postfixadmin.rule=Host(`postfixadmin.{{ domain }}`)"
       - "traefik.http.routers.postfixadmin.entrypoints=https"
-      - "traefik.http.routers.postfixadmin.middlewares={% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.postfixadmin.middlewares={% if services.mailserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.postfixadmin.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.postfixadmin.tls.certresolver=dns"
@@ -101,7 +101,7 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.postfixadmin-tor-http.rule=Host(`postfixadmin.{{ tor_domain }}`)"
       - "traefik.http.routers.postfixadmin-tor-http.entrypoints=http"
-      - "traefik.http.routers.postfixadmin-tor-http.middlewares={% if postfixadmin.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.postfixadmin-tor-http.middlewares={% if postfixadmin.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
@@ -128,10 +128,10 @@ services:
       - "traefik.http.services.webmail.loadbalancer.server.port=8888"
       - "traefik.http.routers.webmail-http.rule=Host(`webmail.{{ domain }}`)"
       - "traefik.http.routers.webmail-http.entrypoints=http"
-      - "traefik.http.routers.webmail-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.webmail-http.middlewares={% if services.mailserver.https_only %}redirect@file, {% else %}{% if services.mailserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.webmail.rule=Host(`webmail.{{ domain }}`)"
       - "traefik.http.routers.webmail.entrypoints=https"
-      - "traefik.http.routers.webmail.middlewares={% if mailserver.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.webmail.middlewares={% if services.mailserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.webmail.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.webmail.tls.certresolver=dns"
@@ -143,7 +143,7 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.webmail-tor-http.rule=Host(`webmail.{{ tor_domain }}`)"
       - "traefik.http.routers.webmail-tor-http.entrypoints=http"
-      - "traefik.http.routers.webmail-tor-http.middlewares={% if webmail.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.webmail-tor-http.middlewares={% if webmail.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     volumes:
       - "{{ volumes_root }}/mailserver/rainloop:/rainloop/data"
