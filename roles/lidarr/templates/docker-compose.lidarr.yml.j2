@@ -25,9 +25,11 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.lidarr.loadbalancer.server.scheme=http"
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+{% if not services.lidarr.https_only %}
       - "traefik.http.routers.lidarr-http.rule=Host(`{{ services.lidarr.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.lidarr-http.entrypoints=http"
       - "traefik.http.routers.lidarr-http.middlewares={% if services.lidarr.https_only %}redirect@file, {% else %}{% if services.lidarr.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% endif %}
       - "traefik.http.routers.lidarr.rule=Host(`{{ services.lidarr.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.lidarr.entrypoints=https"
       - "traefik.http.routers.lidarr.middlewares={% if services.lidarr.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

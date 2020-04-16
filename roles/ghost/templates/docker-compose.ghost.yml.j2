@@ -30,9 +30,11 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ghost.loadbalancer.server.scheme=http"
       - "traefik.http.services.ghost.loadbalancer.server.port=2368"
+{% if not services.ghost.https_only %}
       - "traefik.http.routers.ghost-http.rule=Host(`{{ services.ghost.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.ghost-http.entrypoints=http"
       - "traefik.http.routers.ghost-http.middlewares={% if services.ghost.https_only %}redirect@file, {% else %}{% if services.ghost.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% endif %}
       - "traefik.http.routers.ghost.rule=Host(`{{ services.ghost.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.ghost.entrypoints=https"
       - "traefik.http.routers.ghost.middlewares={% if services.ghost.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
