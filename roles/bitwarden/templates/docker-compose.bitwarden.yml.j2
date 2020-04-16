@@ -24,7 +24,7 @@ services:
       - SMTP_USERNAME={{ smtp.user }}
       - SMTP_PASSWORD={{ smtp.pass }}
     {% endif %}
-      - ADMIN_TOKEN={{ bitwarden.token }}
+      - ADMIN_TOKEN={{ services.bitwarden.token }}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
