@@ -80,6 +80,7 @@ enable_tor: {{ enable_tor | default(False) }}
 
 # Force SSL Usage
 # Only set this to true after everything is working, and https certificates have been generated.
+# DEPRECATED: as of HomelabOS 0.7 this has been replaced by the individual service configs below
 # https_only: {{ https_only | default(False) }}
 
 # Services
