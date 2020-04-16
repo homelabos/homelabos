@@ -1,5 +1,13 @@
 # Installation
 
+!!! Warning "Beta Software Warning"
+
+    This software has not reached version 1.0 and should therefore be considered unstable. While any tagged version should work well on its own, a nice friendly upgrade path from one version to another is not guaranteed.
+
+    If you like getting your hands dirty in early versions of software, this is for you. If you prefer to wait till things are stable and friendly, maybe hold off for a while.
+
+    Also, if you trash your server or wreck your data, that's on you. Test your backups. Trust nothing.
+
 * [Watch Video Tutorial - Cloud Based Server](https://youtu.be/p8cD349BGRI)
 * [Watch Video Tutorial - Local Server](https://youtu.be/Zy6Xfl5b5z4)
 

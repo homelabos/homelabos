@@ -2,17 +2,11 @@
 
 Your very own offline-first open-source data-center! Includes over 50 services!
 
-## Beta Software Warning
-
-This software has not reached version 1.0 and should therefore be considered unstable. While any tagged version should work well on its own, a nice friendly upgrade path from one version to another is not guaranteed.
-
-If you like getting your hands dirty in early versions of software, this is for you. If you prefer to wait till things are stable and friendly, maybe hold off for a while.
-
-Also, if you trash your server or wreck your data, that's on you. Test your backups. Trust nothing.
-
 ## [Documentation](https://homelabos.com/docs/)
 
 ## [Installation](https://homelabos.com/docs/setup/installation/)
+
+### [Installation Tutorial / Demo Video](https://youtu.be/p8cD349BGRI)
 
 ## Summary
 
@@ -34,8 +28,6 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 - Optional Cloud Bastion Server with WireGuard VPN
 
 ### [Planned Features](https://gitlab.com/NickBusey/HomelabOS/issues?label_name%5B%5D=enhancement)
-
-## [Installation Tutorial / Demo Video](https://youtu.be/p8cD349BGRI)
 
 ## [Available Software](https://homelabos.com/docs/#available-software)
 
