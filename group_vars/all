@@ -23,6 +23,7 @@ enabled_services:
   erpnext: "{{ enable_erpnext }}"
   firefly_iii: "{{ enable_firefly_iii }}"
   freshrss: "{{ enable_freshrss }}"
+  grocy: "{{ enable_grocy }}"
   ghost: "{{ enable_ghost }}"
   gitea: "{{ enable_gitea }}"
   grafana: "{{ enable_grafana }}"
