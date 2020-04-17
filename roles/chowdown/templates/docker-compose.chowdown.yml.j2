@@ -16,12 +16,12 @@ services:
     networks:
       - traefik_network
     volumes:
-      - ./config:/config
+      - "{{ volumes_root }}/chowdown/config:/config"
     labels:
         - "traefik.enable=true"
         - "traefik.docker.network=homelabos_traefik"
         - "traefik.http.services.chowdown.loadbalancer.server.scheme=http"
-        - "traefik.http.services.chowdown.loadbalancer.server.port=80"
+        - "traefik.http.services.chowdown.loadbalancer.server.port=4000"
         - "traefik.http.routers.chowdown-http.rule=Host(`chowdown.{{ domain }}`)"
         - "traefik.http.routers.chowdown-http.entrypoints=http"
         - "traefik.http.routers.chowdown-http.middlewares={% if chowdown.https_only %}redirect@file, {% else %}{% if chowdown.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
