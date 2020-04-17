@@ -17,7 +17,7 @@ services:
       - SABNZBD_UID={{ uid_output.stdout }}
       - SABNZBD_GID={{ gid_output.stdout }}
     volumes:
-      - "{{ volumes_root }}/sabnzbd/datadir:/sabnzbd/datadir"
+      - "{{ volumes_root }}/sabnzbd/datadir:/datadir"
       - "{{ storage_dir }}:/media"
     networks:
       - traefik_network
