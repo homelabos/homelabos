@@ -25,11 +25,11 @@ services:
 {% if not services.chowdown.https_only %}
         - "traefik.http.routers.chowdown-http.rule=Host(`{{ services.chowdown.subdomain }}.{{ domain }}`)"
         - "traefik.http.routers.chowdown-http.entrypoints=http"
-        - "traefik.http.routers.chowdown-http.middlewares={% if services.services.services.chowdown.https_only %}redirect@file, {% else %}{% if services.services.services.chowdown.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+        - "traefik.http.routers.chowdown-http.middlewares={% if services.chowdown.https_only %}redirect@file, {% else %}{% if services.chowdown.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
 {% endif %}
         - "traefik.http.routers.chowdown.rule=Host(`{{ services.chowdown.subdomain }}.{{ domain }}`)"
         - "traefik.http.routers.chowdown.entrypoints=https"
-        - "traefik.http.routers.chowdown.middlewares={% if services.services.services.chowdown.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+        - "traefik.http.routers.chowdown.middlewares={% if services.chowdown.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
         - "traefik.http.routers.chowdown.tls=true"
 {% if traefik.dns_challenge_provider %}
         - "traefik.http.routers.chowdown.tls.certresolver=dns"
@@ -41,5 +41,5 @@ services:
 {% if enable_tor %}
         - "traefik.http.routers.chowdown-tor-http.rule=Host(`{{ services.chowdown.subdomain }}.{{ tor_domain }}`)"
         - "traefik.http.routers.chowdown-tor-http.entrypoints=http"
-        - "traefik.http.routers.chowdown-tor-http.middlewares={% if services.services.services.chowdown.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+        - "traefik.http.routers.chowdown-tor-http.middlewares={% if services.chowdown.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

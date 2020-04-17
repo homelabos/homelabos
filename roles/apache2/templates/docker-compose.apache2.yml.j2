@@ -21,10 +21,10 @@ services:
       - "traefik.http.services.apache2.loadbalancer.server.port=80"
       - "traefik.http.routers.apache2-http.rule=Host(`{{ apache2_subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.apache2-http.entrypoints=http"
-      - "traefik.http.routers.apache2-http.middlewares={% if services.services.services.apache2.https_only %}redirect@file, {% else %}{% if services.services.services.apache2.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.apache2-http.middlewares={% if services.apache2.https_only %}redirect@file, {% else %}{% if services.apache2.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.apache2.rule=Host(`{{ apache2_subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.apache2.entrypoints=https"
-      - "traefik.http.routers.apache2.middlewares={% if services.services.services.apache2.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.apache2.middlewares={% if services.apache2.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.apache2.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.apache2.tls.certresolver=dns"
@@ -36,5 +36,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.apache2-tor-http.rule=Host(`{{ apache2_subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.apache2-tor-http.entrypoints=http"
-      - "traefik.http.routers.apache2-tor-http.middlewares={% if services.services.services.apache2.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.apache2-tor-http.middlewares={% if services.apache2.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
