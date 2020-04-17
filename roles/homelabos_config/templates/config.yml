@@ -114,7 +114,16 @@ bitwarden:
   https_only: {{ bitwarden.https_only | default(False) }}
   auth: {{ bitwarden.auth | default(False) }}
   subdomain: {{ bitwarden.subdomain | default("bitwarden") }} 
+  # Enable admin page
+  # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
+  # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
   token: {{ bitwarden.token | default(default_password) }}
+  signups_allowed: {{ bitwarden.signups_allowed | default("true") }}
+  # Only allow signups from certain domains (set signups_allowed to "false")
+  # Note that no e-mail validation is done, only e-mail domain that's provided on registration
+  # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
+  signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist | default(False) }}
+
 beets: 
   enable: {{ beets.enable | default(enable_beets, None) | default(False) }}
   https_only: {{ beets.https_only | default(False) }}
