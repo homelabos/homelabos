@@ -10,7 +10,6 @@ networks:
   mail_network:
     external: false
 
-
 services:
   # External dependencies
   redis:
@@ -42,7 +41,7 @@ services:
     networks:
       - traefik_network
       - mail_network
-   labels:
+    labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mailu.loadbalancer.server.scheme=http"

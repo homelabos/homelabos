@@ -362,6 +362,10 @@ mailserver:
   auth: {{ mailserver.auth | default(False) }}
   forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
 
+mailu:
+  https_only: {{ mailu.https_only | default(False) }}
+  auth: {{ mailu.auth | default(False) }}
+
 mashio:
   https_only: {{ mashio.https_only | default(False) }}
   auth: {{ mashio.auth | default(False) }}
