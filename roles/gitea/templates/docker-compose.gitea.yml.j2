@@ -15,7 +15,7 @@ services:
     environment:
       - USER_UID={{ uid_output.stdout }}
       - USER_GID={{ gid_output.stdout }}
-{% if gitea.use_mariadb %}
+{% if services.gitea.use_mariadb %}
       - DB_TYPE=mysql
       - DB_HOST=gitea_db:3306
       - DB_NAME=gitea
@@ -23,22 +23,25 @@ services:
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
 {% endif %}
       - SSH_DOMAIN={{ services.gitea.subdomain }}.{{ domain }}
-      - SSH_PORT={{ gitea.gitea_ssh_port }}
+      - SSH_PORT={{ services.gitea.gitea_ssh_port }}
       - LFS_START_SERVER=true
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/gitea:/data"
     ports:
-      - "{{ gitea.gitea_ssh_port }}:22"
+      - "{{ services.gitea.gitea_ssh_port }}:22"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.gitea.loadbalancer.server.scheme=http"
       - "traefik.http.services.gitea.loadbalancer.server.port=3000"
-{% if not services.gitea.https_only %}
       - "traefik.http.routers.gitea-http.rule=Host(`{{ services.gitea.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.gitea-http.entrypoints=http"
+{% if not services.gitea.https_only %}
       - "traefik.http.routers.gitea-http.middlewares={% if services.gitea.https_only %}redirect@file, {% else %}{% if services.gitea.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.gitea-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.gitea.rule=Host(`{{ services.gitea.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.gitea.entrypoints=https"
@@ -57,7 +60,7 @@ services:
       - "traefik.http.routers.gitea-tor-http.middlewares={% if services.gitea.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
-{% if gitea.use_mariadb %}
+{% if services.gitea.use_mariadb %}
     depends_on:
       - gitea_db
 
