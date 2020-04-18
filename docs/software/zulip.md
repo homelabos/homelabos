@@ -2,6 +2,10 @@
 
 [Zulip](https://github.com/zulip/zulip) is a threaded chat service.
 
+## Setup
+
+[https://github.com/zulip/docker-zulip](https://github.com/zulip/docker-zulip)
+
 ## Access
 
 It is available at [https://zulip.{{ domain }}/](https://zulip.{{ domain }}/) or [http://zulip.{{ domain }}/](http://zulip.{{ domain }}/)
