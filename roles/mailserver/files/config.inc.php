@@ -652,7 +652,7 @@ $CONF['theme_custom_css'] = '';
 // This should be only of use if you wish to use e.g the
 // Postfixadmin-Squirrelmail package
 //  change to boolean true to enable xmlrpc
-$CONF['xmlrpc_enabled'] = false;
+$CONF['xmlrpc_enable'] = false;
 
 // If you want to keep most settings at default values and/or want to ensure 
 // that future updates work without problems, you can use a separate config 

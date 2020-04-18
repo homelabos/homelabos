@@ -311,7 +311,7 @@ urls = ["http://influxdb:8086"]
 #
 #   ## Template Config
 #   ## Set to true if you want telegraf to manage its index template.
-#   ## If enabled it will create a recommended index template for telegraf indexes
+#   ## If enable it will create a recommended index template for telegraf indexes
 #   manage_template = true
 #   ## The template name used for telegraf indexes
 #   template_name = "telegraf"
@@ -692,7 +692,7 @@ urls = ["http://influxdb:8086"]
 #   # expiration_interval = "60s"
 #
 #   ## Collectors to enable, valid entries are "gocollector" and "process".
-#   ## If unset, both are enabled.
+#   ## If unset, both are enable.
 #   collectors_exclude = ["gocollector", "process"]
 #
 #   # Send string metrics as Prometheus labels.
@@ -717,7 +717,7 @@ urls = ["http://influxdb:8086"]
 #   # measurement_as_attribute = false
 #
 #   ## Send string metrics as Riemann event states.
-#   ## Unless enabled all string metrics will be ignored
+#   ## Unless enable all string metrics will be ignored
 #   # string_as_state = false
 #
 #   ## A list of tag keys whose values get sent as Riemann tags.
@@ -2042,7 +2042,7 @@ ignore_fs = ["tmpfs", "devtmpfs", "devfs"]
 #   timeout = 100
 #   ## A list of Mesos masters.
 #   masters = ["http://localhost:5050"]
-#   ## Master metrics groups to be collected, by default, all enabled.
+#   ## Master metrics groups to be collected, by default, all enable.
 #   master_collections = [
 #     "resources",
 #     "master",
@@ -2056,7 +2056,7 @@ ignore_fs = ["tmpfs", "devtmpfs", "devfs"]
 #   ]
 #   ## A list of Mesos slaves, default is []
 #   # slaves = []
-#   ## Slave metrics groups to be collected, by default, all enabled.
+#   ## Slave metrics groups to be collected, by default, all enable.
 #   # slave_collections = [
 #   #   "resources",
 #   #   "agent",

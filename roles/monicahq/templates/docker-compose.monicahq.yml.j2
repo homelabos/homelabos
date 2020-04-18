@@ -29,17 +29,17 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.monicahq.loadbalancer.server.scheme=http"
       - "traefik.http.services.monicahq.loadbalancer.server.port=80"
-      - "traefik.http.routers.monicahq-http.rule=Host(`{{ services.monicahq.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.monicahq-http.rule=Host(`{{ monicahq.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.monicahq-http.entrypoints=http"
-{% if not services.monicahq.https_only %}
-      - "traefik.http.routers.monicahq-http.middlewares={% if services.monicahq.https_only %}redirect@file, {% else %}{% if services.monicahq.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% if not monicahq.https_only %}
+      - "traefik.http.routers.monicahq-http.middlewares={% if monicahq.https_only %}redirect@file, {% else %}{% if monicahq.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
 {% else %}
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.monicahq-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.monicahq.rule=Host(`{{ services.monicahq.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.monicahq.rule=Host(`{{ monicahq.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.monicahq.entrypoints=https"
-      - "traefik.http.routers.monicahq.middlewares={% if services.monicahq.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.monicahq.middlewares={% if monicahq.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.monicahq.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.monicahq.tls.certresolver=dns"
@@ -49,9 +49,9 @@ services:
       - "traefik.http.routers.monicahq.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ services.monicahq.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ monicahq.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.monicahq-tor-http.entrypoints=http"
-      - "traefik.http.routers.monicahq-tor-http.middlewares={% if services.monicahq.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.monicahq-tor-http.middlewares={% if monicahq.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   monicahq_db:

@@ -92,10 +92,10 @@ puts 'Done!'
 
 puts 'Step 8. Adding service to Config Template'
 to_insert = {"#{package_name}"=>{
-  "enabled" => "{{ services.#{package_name}.enabled or enable_#{package_name} | default(False) }}",
-  "https_only"=> "{{ services.#{package_name}.https_only | default(False) }}",
-  "auth"=> "{{ services.authelia.enabled or enable_authelia | default(False) }}",
-  "subdomain"=> "{{ services.#{package_name}.subdomain | default(\"#{package_name}\") }}"
+  "enable" => "{{ #{package_name}.enable or enable_#{package_name} | default(False) }}",
+  "https_only"=> "{{ #{package_name}.https_only | default(False) }}",
+  "auth"=> "{{ authelia.enable or enable_authelia | default(False) }}",
+  "subdomain"=> "{{ #{package_name}.subdomain | default(\"#{package_name}\") }}"
   }
 }
 add_to_hash_at_key "roles/homelabos_config/templates/config.yml", ['services'], to_insert

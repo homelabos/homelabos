@@ -42,7 +42,7 @@
   tasks:
     - include_role:
         name: homelabos_wireguard
-      when: bastion.enabled == True
+      when: bastion.enable == True
 
 # Install and configure HomelabOS services
 - name: Install and configure HomelabOS services

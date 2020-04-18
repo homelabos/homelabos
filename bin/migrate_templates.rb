@@ -41,17 +41,17 @@ BEGIN {
       '      - "traefik.docker.network=homelabos_traefik"',
       "      - \"traefik.http.services.#{service}.loadbalancer.server.scheme=http\"",
       "      - \"traefik.http.services.#{service}.loadbalancer.server.port=#{port}\"",
-      "      - \"traefik.http.routers.#{service}-http.rule=Host(`{{ services.#{service}.subdomain }}.{{ domain }}`)\"",
+      "      - \"traefik.http.routers.#{service}-http.rule=Host(`{{ #{service}.subdomain }}.{{ domain }}`)\"",
       "      - \"traefik.http.routers.#{service}-http.entrypoints=http\"",
-      "{% if not services.#{service}.https_only %}",
-      "      - \"traefik.http.routers.#{service}-http.middlewares={% if services.#{service}.https_only %}redirect@file, {% else %}{% if services.#{service}.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file\"",
+      "{% if not #{service}.https_only %}",
+      "      - \"traefik.http.routers.#{service}-http.middlewares={% if #{service}.https_only %}redirect@file, {% else %}{% if #{service}.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file\"",
       '{% else %}',
       '      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"',
       "      - \"traefik.http.routers.#{service}-http.middlewares=redirect-to-https\"",
       '{% endif %}',
-      "      - \"traefik.http.routers.#{service}.rule=Host(`{{ services.#{service}.subdomain }}.{{ domain }}`)\"",
+      "      - \"traefik.http.routers.#{service}.rule=Host(`{{ #{service}.subdomain }}.{{ domain }}`)\"",
       "      - \"traefik.http.routers.#{service}.entrypoints=https\"",
-      "      - \"traefik.http.routers.#{service}.middlewares={% if services.#{service}.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file\"",
+      "      - \"traefik.http.routers.#{service}.middlewares={% if #{service}.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file\"",
       "      - \"traefik.http.routers.#{service}.tls=true\""
     ]
     lines.insert(start_index, *array_to_insert)

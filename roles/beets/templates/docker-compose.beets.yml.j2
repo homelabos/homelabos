@@ -23,17 +23,17 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.beets.loadbalancer.server.scheme=http"
       - "traefik.http.services.beets.loadbalancer.server.port=8337"
-      - "traefik.http.routers.beets-http.rule=Host(`{{ services.beets.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.beets-http.rule=Host(`{{ beets.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.beets-http.entrypoints=http"
-{% if not services.beets.https_only %}
-      - "traefik.http.routers.beets-http.middlewares={% if services.beets.https_only %}redirect@file, {% else %}{% if services.beets.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% if not beets.https_only %}
+      - "traefik.http.routers.beets-http.middlewares={% if beets.https_only %}redirect@file, {% else %}{% if beets.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
 {% else %}
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.beets-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.beets.rule=Host(`{{ services.beets.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.beets.rule=Host(`{{ beets.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.beets.entrypoints=https"
-      - "traefik.http.routers.beets.middlewares={% if services.beets.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.beets.middlewares={% if beets.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.beets.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.beets.tls.certresolver=dns"
@@ -43,7 +43,7 @@ services:
       - "traefik.http.routers.beets.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.beets-tor-http.rule=Host(`{{ services.beets.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.beets-tor-http.rule=Host(`{{ beets.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.beets-tor-http.entrypoints=http"
-      - "traefik.http.routers.beets-tor-http.middlewares={% if services.beets.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.beets-tor-http.middlewares={% if beets.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

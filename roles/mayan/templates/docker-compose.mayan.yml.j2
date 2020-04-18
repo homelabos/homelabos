@@ -77,17 +77,17 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mayan.loadbalancer.server.scheme=http"
       - "traefik.http.services.mayan.loadbalancer.server.port=8000"
-      - "traefik.http.routers.mayan-http.rule=Host(`{{ services.mayan.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mayan-http.rule=Host(`{{ mayan.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mayan-http.entrypoints=http"
-{% if not services.mayan.https_only %}
-      - "traefik.http.routers.mayan-http.middlewares={% if services.mayan.https_only %}redirect@file, {% else %}{% if services.mayan.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% if not mayan.https_only %}
+      - "traefik.http.routers.mayan-http.middlewares={% if mayan.https_only %}redirect@file, {% else %}{% if mayan.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
 {% else %}
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.mayan-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.mayan.rule=Host(`{{ services.mayan.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mayan.rule=Host(`{{ mayan.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mayan.entrypoints=https"
-      - "traefik.http.routers.mayan.middlewares={% if services.mayan.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mayan.middlewares={% if mayan.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mayan.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.mayan.tls.certresolver=dns"
@@ -97,9 +97,9 @@ services:
       - "traefik.http.routers.mayan.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.mayan-tor-http.rule=Host(`{{ services.mayan.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.mayan-tor-http.rule=Host(`{{ mayan.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.mayan-tor-http.entrypoints=http"
-      - "traefik.http.routers.mayan-tor-http.middlewares={% if services.mayan.auth %}{% if services.authelia.enabled %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.mayan-tor-http.middlewares={% if mayan.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     volumes:
       - "{{ volumes_root }}/mayan/app:/var/lib/mayan"
