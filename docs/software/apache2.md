@@ -12,8 +12,8 @@ from `apache2` to something else.
 
 ## Access
 
-It is available at [https://{{ services.apache2.subdomain }}.{{ domain }}/](https://{{ services.apache2.subdomain }}.{{ domain }}/) or [http://{{ services.apache2.subdomain }}.{{ domain }}/](http://{{ services.apache2.subdomain }}.{{ domain }}/)
+It is available at [https://{{ apache2.subdomain }}.{{ domain }}/](https://{{ apache2.subdomain }}.{{ domain }}/) or [http://{{ apache2.subdomain }}.{{ domain }}/](http://{{ apache2.subdomain }}.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ services.apache2.subdomain }}.{{ tor_domain }}/](http://{{ services.apache2.subdomain }}.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ apache2.subdomain }}.{{ tor_domain }}/](http://{{ apache2.subdomain }}.{{ tor_domain }}/)
 {% endif %}

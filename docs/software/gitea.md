@@ -17,6 +17,6 @@ It is also available via Tor at [http://{{services.gitea.subdomain}}.{{ tor_doma
 {% endif %}
 
 ### SSH Port
-{{ services.gitea.gitea_ssh_port }} - defaults to 222, can be adjusted
+{{ gitea.gitea_ssh_port }} - defaults to 222, can be adjusted
 - Default is 222
 - Adjust in settings/config.yml
