@@ -20,11 +20,27 @@ end
 BEGIN {
 
   def search_and_replace_in_template(filepath, service)
+    lines = File.readlines(filepath)
+    start_index = 0
+    port = 0
+    lines.dup.each_with_index do |l, i|
+      if l.include? 'labels:'
+        start_index = i + 1
+        start_index.freeze
+        next
+      end
+      if l.include? "traefik.http.services.#{service}.loadbalancer.server.port="
+        port = l.scan(/\d{1,5}/).last
+      end
+      break if l.include? 'if traefik.dns_challenge_provider'
+
+      lines.delete_at start_index if start_index != 0
+    end
     array_to_insert = [
       '      - "traefik.enable=true"',
       '      - "traefik.docker.network=homelabos_traefik"',
       "      - \"traefik.http.services.#{service}.loadbalancer.server.scheme=http\"",
-      "      - \"traefik.http.services.#{service}.loadbalancer.server.port=3000\"",
+      "      - \"traefik.http.services.#{service}.loadbalancer.server.port=#{port}\"",
       "      - \"traefik.http.routers.#{service}-http.rule=Host(`{{ services.#{service}.subdomain }}.{{ domain }}`)\"",
       "      - \"traefik.http.routers.#{service}-http.entrypoints=http\"",
       "{% if not services.#{service}.https_only %}",
@@ -38,18 +54,6 @@ BEGIN {
       "      - \"traefik.http.routers.#{service}.middlewares={% if services.#{service}.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file\"",
       "      - \"traefik.http.routers.#{service}.tls=true\""
     ]
-    lines = File.readlines(filepath)
-    start_index = 0
-    lines.dup.each_with_index do |l, i|
-      if l.include? 'labels:'
-        start_index = i + 1
-        start_index.freeze
-        next
-      end
-      break if l.include? 'if traefik.dns_challenge_provider'
-
-      lines.delete_at start_index if start_index != 0
-    end
     lines.insert(start_index, *array_to_insert)
     File.open(filepath, 'w+') do |f|
       f.puts(lines)
