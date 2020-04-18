@@ -2,7 +2,7 @@
 # Restore HomelabOS from the most recent backup.
 - hosts: all
   become: "True"
-  gather_facts: "True"
+  # gather_facts: "True"
   tags: restore
 
   roles:

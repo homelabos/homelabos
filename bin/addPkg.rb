@@ -27,26 +27,26 @@ puts 'Enter one-liner package description: '
 unsafe_package_one_liner = gets
 package_one_liner = unsafe_package_one_liner.chomp
 
-if gl
-  puts 'Creating gitlab issue'
-  issue_result = gl.create_issue(HOMELABOS_PROJECT_ID, 
-                "Add #{package_name}", 
-                :description => "Please add #{package_name}", 
-                :labels => 'package,enhancement', :assignee_id => gl.user.id)
-  @branch_name = "#{issue_result.iid}-#{package_name.gsub(/ /, '-')}"
-  if issue_result.iid
-    @iid = issue_result.iid
-    branch_result = gl.create_branch(HOMELABOS_PROJECT_ID, 
-                                      @branch_name,
-                                      'HEAD')
-    if !branch_result.nil?
-      mr_result = gl.create_merge_request(HOMELABOS_PROJECT_ID, 
-                                "WIP: Resolve \"#{issue_result.title}\"", 
-                                :source_branch => @branch_name, 
-                                :target_branch => 'dev')
-    end
-  end
-end
+# if gl
+#   puts 'Creating gitlab issue'
+#   issue_result = gl.create_issue(HOMELABOS_PROJECT_ID, 
+#                 "Add #{package_name}", 
+#                 :description => "Please add #{package_name}", 
+#                 :labels => 'package,enhancement', :assignee_id => gl.user.id)
+#   @branch_name = "#{issue_result.iid}-#{package_name.gsub(/ /, '-')}"
+#   if issue_result.iid
+#     @iid = issue_result.iid
+#     branch_result = gl.create_branch(HOMELABOS_PROJECT_ID, 
+#                                       @branch_name,
+#                                       'HEAD')
+#     if !branch_result.nil?
+#       mr_result = gl.create_merge_request(HOMELABOS_PROJECT_ID, 
+#                                 "WIP: Resolve \"#{issue_result.title}\"", 
+#                                 :source_branch => @branch_name, 
+#                                 :target_branch => 'ConfigRefactor')
+#     end
+#   end
+# end
 
 %x{git fetch}
 %x{git checkout #{@branch_name} }
@@ -76,12 +76,12 @@ puts 'Done!'
 
 puts 'Step 5. Adding docs to mkdocs.yml'
 # 'nav', 4, 'Included Software'
-add_to_array_at_key('mkdocs.yml', ['nav', 4, 'Included Software'], {"#{package_name}" => "software/#{package_file_name}.md"})
+add_to_array_at_key('mkdocs.yml', ['nav', 4, 'Included Software', 13, 'Misc/Other'], {"#{package_name}" => "software/#{package_file_name}.md"})
 %x{git add mkdocs.yml}
 puts 'Done!'
 
 puts 'Step 6. Adding service to Inventory file'
-add_to_hash_at_key('group_vars/all', ['enabled_services'], {"#{package_file_name}" => "{{ enable_#{package_file_name} }}"})
+add_to_hash_at_key('group_vars/all', ['services'], {"#{package_file_name}" => "nil"})
 %x{git add group_vars/all}
 puts 'Done!'
 
@@ -91,7 +91,15 @@ insert_in_config "README.md", "## Available Software", "- [#{package_name}](#{pa
 puts 'Done!'
 
 puts 'Step 8. Adding service to Config Template'
-insert_in_config "roles/homelabos_config/templates/config.yml", "#== PARSE ###", "enable_#{package_file_name}: {{ enable_#{package_file_name} | default(False) }}"
+to_insert = {"#{package_name}"=>{
+  "enable" => "{{ #{package_name}.enable or enable_#{package_name} | default(False) }}",
+  "https_only"=> "{{ #{package_name}.https_only | default(False) }}",
+  "auth"=> "{{ authelia.enable or enable_authelia | default(False) }}",
+  "subdomain"=> "{{ #{package_name}.subdomain | default(\"#{package_name}\") }}"
+  }
+}
+add_to_hash_at_key "roles/homelabos_config/templates/config.yml", ['services'], to_insert
+# insert_in_config "roles/homelabos_config/templates/config.yml", to_insert
 %x{git add roles/homelabos_config/templates/config.yml}
 puts 'Done!'
 
@@ -122,6 +130,8 @@ BEGIN {
   def add_to_hash_at_key(ymlfile, key, to_append)
     yml = Psych.load_file ymlfile
     yml.dig(*key).merge!(to_append)
+    yml[key.first] = yml[key.first].sort.to_h
+    binding.pry
     File.write ymlfile, Psych.dump(yml)
   end
 

@@ -65,17 +65,22 @@ services:
     networks:
       - traefik_network
     labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=homelabos_traefik"
-        - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
-        - "traefik.http.services.erpnext.loadbalancer.server.port=80"
-        - "traefik.http.routers.erpnext-http.rule=Host(`erpnext.{{ domain }}`)"
-        - "traefik.http.routers.erpnext-http.entrypoints=http"
-        - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, {% else %}{% if erpnext.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-        - "traefik.http.routers.erpnext.rule=Host(`erpnext.{{ domain }}`)"
-        - "traefik.http.routers.erpnext.entrypoints=https"
-        - "traefik.http.routers.erpnext.middlewares={% if erpnext.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-        - "traefik.http.routers.erpnext.tls=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
+      - "traefik.http.services.erpnext.loadbalancer.server.port=80"
+      - "traefik.http.routers.erpnext-http.rule=Host(`{{ erpnext.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.erpnext-http.entrypoints=http"
+{% if not erpnext.https_only %}
+      - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, {% else %}{% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.erpnext-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.erpnext.rule=Host(`{{ erpnext.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.erpnext.entrypoints=https"
+      - "traefik.http.routers.erpnext.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.erpnext.tls=true"
 {% if traefik.dns_challenge_provider %}
         - "traefik.http.routers.erpnext.tls.certresolver=dns"
         - "traefik.http.routers.erpnext.tls.domains[0].main={{ domain }}"
@@ -84,9 +89,9 @@ services:
         - "traefik.http.routers.erpnext.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-        - "traefik.http.routers.erpnext-tor-http.rule=Host(`erpnext.{{ tor_domain }}`)"
+        - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ erpnext.subdomain }}.{{ tor_domain }}`)"
         - "traefik.http.routers.erpnext-tor-http.entrypoints=http"
-        - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+        - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   erpnext-python:

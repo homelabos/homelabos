@@ -32,6 +32,6 @@
 - name: Stop systemd-resolve
   systemd:
     name: systemd-resolved
-    enabled: "no"
+    enable: "no"
     daemon-reload: "no"
     state: stopped

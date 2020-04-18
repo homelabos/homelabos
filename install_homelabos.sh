@@ -53,7 +53,7 @@ printf "We have detected and set your homelab_ip to: $HOMELAB_IP\nIf this is inc
 printf "\n\n\x1B[01;92m========== HomelabOS downloaded! ==========\n\x1B[0m"
 make
 printf "\n\x1B[01;93mYou can check the status of Organizr with 'systemctl status homelabos' or 'sudo docker ps'"
-printf "\nTo enable more services, run 'cd /var/homelabos/install' then './set_setting.sh enable_servicename true'"
+printf "\nTo enable more services, run 'cd /var/homelabos/install' then './set_setting.sh servicename.enable true'"
 printf "\nwhere servicename is a service you would like to have."
 printf "\n\nExample: [38;5;184m'./set_setting.sh enable_miniflux true'";
 printf "\n\n\x1B[01;93mOnce you have enabled all the services you would like, simply run \x1B[38;5;184m'make'.\x1B[01;93m\n\n";

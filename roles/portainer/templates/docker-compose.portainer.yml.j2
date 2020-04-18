@@ -21,12 +21,17 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.portainer.loadbalancer.server.scheme=http"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-      - "traefik.http.routers.portainer-http.rule=Host(`portainer.{{ domain }}`)"
+      - "traefik.http.routers.portainer-http.rule=Host(`{{ portainer.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.portainer-http.entrypoints=http"
-      - "traefik.http.routers.portainer-http.middlewares={% if portainer.https_only %}redirect@file, {% else %}{% if portainer.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.{{ domain }}`)"
+{% if not portainer.https_only %}
+      - "traefik.http.routers.portainer-http.middlewares={% if portainer.https_only %}redirect@file, {% else %}{% if portainer.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.portainer-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.portainer.rule=Host(`{{ portainer.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.portainer.entrypoints=https"
-      - "traefik.http.routers.portainer.middlewares={% if portainer.auth %}{% if enable_authelia %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.portainer.middlewares={% if portainer.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.portainer.tls=true"
 {% if traefik.dns_challenge_provider %}
       - "traefik.http.routers.portainer.tls.certresolver=dns"
@@ -36,7 +41,7 @@ services:
       - "traefik.http.routers.portainer.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.portainer-tor-http.rule=Host(`portainer.{{ tor_domain }}`)"
+      - "traefik.http.routers.portainer-tor-http.rule=Host(`{{ portainer.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.portainer-tor-http.entrypoints=http"
-      - "traefik.http.routers.portainer-tor-http.middlewares={% if portainer.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.portainer-tor-http.middlewares={% if portainer.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

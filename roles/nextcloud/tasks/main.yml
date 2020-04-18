@@ -22,7 +22,7 @@
 - name: Stop nextcloud
   systemd:
     name: nextcloud
-    enabled: "no"
+    enable: "no"
     daemon-reload: "yes"
     state: stopped
   when: folder_present.stat.exists
