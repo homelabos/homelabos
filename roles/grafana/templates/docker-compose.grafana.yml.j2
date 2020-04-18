@@ -34,10 +34,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.grafana.loadbalancer.server.scheme=http"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-{% if not services.grafana.https_only %}
       - "traefik.http.routers.grafana-http.rule=Host(`{{ services.grafana.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.grafana-http.entrypoints=http"
+{% if not services.grafana.https_only %}
       - "traefik.http.routers.grafana-http.middlewares={% if services.grafana.https_only %}redirect@file, {% else %}{% if services.grafana.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.grafana-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.grafana.rule=Host(`{{ services.grafana.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.grafana.entrypoints=https"

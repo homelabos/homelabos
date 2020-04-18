@@ -26,10 +26,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.tautulli.loadbalancer.server.scheme=http"
       - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
-{% if not services.tautulli.https_only %}
       - "traefik.http.routers.tautulli-http.rule=Host(`{{ services.tautulli.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.tautulli-http.entrypoints=http"
+{% if not services.tautulli.https_only %}
       - "traefik.http.routers.tautulli-http.middlewares={% if services.tautulli.https_only %}redirect@file, {% else %}{% if services.tautulli.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.tautulli-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.tautulli.rule=Host(`{{ services.tautulli.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.tautulli.entrypoints=https"

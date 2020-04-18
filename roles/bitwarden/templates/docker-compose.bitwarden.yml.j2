@@ -30,10 +30,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.bitwarden.loadbalancer.server.scheme=http"
       - "traefik.http.services.bitwarden.loadbalancer.server.port=80"
-{% if not services.bitwarden.https_only %}
       - "traefik.http.routers.bitwarden-http.rule=Host(`{{ services.bitwarden.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bitwarden-http.entrypoints=http"
+{% if not services.bitwarden.https_only %}
       - "traefik.http.routers.bitwarden-http.middlewares={% if services.bitwarden.https_only %}redirect@file, {% else %}{% if services.bitwarden.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.bitwarden-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.bitwarden.rule=Host(`{{ services.bitwarden.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bitwarden.entrypoints=https"

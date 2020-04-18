@@ -1,3 +1,19 @@
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.restic.loadbalancer.server.scheme=http"
+      - "traefik.http.services.restic.loadbalancer.server.port=0"
+      - "traefik.http.routers.restic-http.rule=Host(`{{ services.restic.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.restic-http.entrypoints=http"
+{% if not services.restic.https_only %}
+      - "traefik.http.routers.restic-http.middlewares={% if services.restic.https_only %}redirect@file, {% else %}{% if services.restic.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.restic-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.restic.rule=Host(`{{ services.restic.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.restic.entrypoints=https"
+      - "traefik.http.routers.restic.middlewares={% if services.restic.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.restic.tls=true"
 ---
 version: '3'
 

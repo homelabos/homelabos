@@ -31,10 +31,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.piwigo.loadbalancer.server.scheme=http"
       - "traefik.http.services.piwigo.loadbalancer.server.port=80"
-{% if not services.piwigo.https_only %}
       - "traefik.http.routers.piwigo-http.rule=Host(`{{ services.piwigo.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.piwigo-http.entrypoints=http"
+{% if not services.piwigo.https_only %}
       - "traefik.http.routers.piwigo-http.middlewares={% if services.piwigo.https_only %}redirect@file, {% else %}{% if services.piwigo.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.piwigo-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.piwigo.rule=Host(`{{ services.piwigo.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.piwigo.entrypoints=https"

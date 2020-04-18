@@ -17,10 +17,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.homebridge.loadbalancer.server.scheme=http"
       - "traefik.http.services.homebridge.loadbalancer.server.port=8123"
-{% if not services.homebridge.https_only %}
       - "traefik.http.routers.homebridge-http.rule=Host(`{{ services.homebridge.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.homebridge-http.entrypoints=http"
+{% if not services.homebridge.https_only %}
       - "traefik.http.routers.homebridge-http.middlewares={% if services.homebridge.https_only %}redirect@file, {% else %}{% if services.homebridge.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.homebridge-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.homebridge.rule=Host(`{{ services.homebridge.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.homebridge.entrypoints=https"

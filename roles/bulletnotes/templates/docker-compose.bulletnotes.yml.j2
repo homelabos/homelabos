@@ -34,10 +34,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.bulletnotes.loadbalancer.server.scheme=http"
       - "traefik.http.services.bulletnotes.loadbalancer.server.port=3000"
-{% if not services.bulletnotes.https_only %}
       - "traefik.http.routers.bulletnotes-http.rule=Host(`{{ services.bulletnotes.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bulletnotes-http.entrypoints=http"
+{% if not services.bulletnotes.https_only %}
       - "traefik.http.routers.bulletnotes-http.middlewares={% if services.bulletnotes.https_only %}redirect@file, {% else %}{% if services.bulletnotes.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.bulletnotes-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.bulletnotes.rule=Host(`{{ services.bulletnotes.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bulletnotes.entrypoints=https"

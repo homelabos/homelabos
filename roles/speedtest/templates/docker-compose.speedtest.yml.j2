@@ -24,10 +24,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.speedtest.loadbalancer.server.scheme=http"
       - "traefik.http.services.speedtest.loadbalancer.server.port=80"
-{% if not services.speedtest.https_only %}
       - "traefik.http.routers.speedtest-http.rule=Host(`{{ services.speedtest.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.speedtest-http.entrypoints=http"
+{% if not services.speedtest.https_only %}
       - "traefik.http.routers.speedtest-http.middlewares={% if services.speedtest.https_only %}redirect@file, {% else %}{% if services.speedtest.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.speedtest-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.speedtest.rule=Host(`{{ services.speedtest.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.speedtest.entrypoints=https"

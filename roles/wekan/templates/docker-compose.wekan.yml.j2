@@ -41,10 +41,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.wekan.loadbalancer.server.scheme=http"
       - "traefik.http.services.wekan.loadbalancer.server.port=8080"
-{% if not services.wekan.https_only %}
       - "traefik.http.routers.wekan-http.rule=Host(`{{ services.wekan.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.wekan-http.entrypoints=http"
+{% if not services.wekan.https_only %}
       - "traefik.http.routers.wekan-http.middlewares={% if services.wekan.https_only %}redirect@file, {% else %}{% if services.wekan.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.wekan-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.wekan.rule=Host(`{{ services.wekan.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.wekan.entrypoints=https"

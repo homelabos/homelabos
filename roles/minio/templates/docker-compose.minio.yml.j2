@@ -29,10 +29,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.minio.loadbalancer.server.scheme=http"
       - "traefik.http.services.minio.loadbalancer.server.port=9000"
-{% if not services.minio.https_only %}
       - "traefik.http.routers.minio-http.rule=Host(`{{ services.minio.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.minio-http.entrypoints=http"
+{% if not services.minio.https_only %}
       - "traefik.http.routers.minio-http.middlewares={% if services.minio.https_only %}redirect@file, {% else %}{% if services.minio.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.minio-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.minio.rule=Host(`{{ services.minio.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.minio.entrypoints=https"

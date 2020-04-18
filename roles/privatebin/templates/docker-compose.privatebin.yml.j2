@@ -22,10 +22,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.privatebin.loadbalancer.server.scheme=http"
       - "traefik.http.services.privatebin.loadbalancer.server.port=8080"
-{% if not services.privatebin.https_only %}
       - "traefik.http.routers.privatebin-http.rule=Host(`{{ services.privatebin.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.privatebin-http.entrypoints=http"
+{% if not services.privatebin.https_only %}
       - "traefik.http.routers.privatebin-http.middlewares={% if services.privatebin.https_only %}redirect@file, {% else %}{% if services.privatebin.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.privatebin-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.privatebin.rule=Host(`{{ services.privatebin.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.privatebin.entrypoints=https"

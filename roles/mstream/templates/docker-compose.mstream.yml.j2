@@ -30,10 +30,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mstream.loadbalancer.server.scheme=http"
       - "traefik.http.services.mstream.loadbalancer.server.port=3000"
-{% if not services.mstream.https_only %}
       - "traefik.http.routers.mstream-http.rule=Host(`{{ services.mstream.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mstream-http.entrypoints=http"
+{% if not services.mstream.https_only %}
       - "traefik.http.routers.mstream-http.middlewares={% if services.mstream.https_only %}redirect@file, {% else %}{% if services.mstream.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.mstream-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.mstream.rule=Host(`{{ services.mstream.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mstream.entrypoints=https"

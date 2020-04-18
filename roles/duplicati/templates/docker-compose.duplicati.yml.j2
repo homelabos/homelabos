@@ -25,10 +25,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.duplicati.loadbalancer.server.scheme=http"
       - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
-{% if not services.duplicati.https_only %}
       - "traefik.http.routers.duplicati-http.rule=Host(`{{ services.duplicati.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.duplicati-http.entrypoints=http"
+{% if not services.duplicati.https_only %}
       - "traefik.http.routers.duplicati-http.middlewares={% if services.duplicati.https_only %}redirect@file, {% else %}{% if services.duplicati.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.duplicati-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.duplicati.rule=Host(`{{ services.duplicati.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.duplicati.entrypoints=https"

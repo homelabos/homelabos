@@ -29,10 +29,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.monicahq.loadbalancer.server.scheme=http"
       - "traefik.http.services.monicahq.loadbalancer.server.port=80"
-{% if not services.monicahq.https_only %}
       - "traefik.http.routers.monicahq-http.rule=Host(`{{ services.monicahq.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.monicahq-http.entrypoints=http"
+{% if not services.monicahq.https_only %}
       - "traefik.http.routers.monicahq-http.middlewares={% if services.monicahq.https_only %}redirect@file, {% else %}{% if services.monicahq.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.monicahq-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.monicahq.rule=Host(`{{ services.monicahq.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.monicahq.entrypoints=https"

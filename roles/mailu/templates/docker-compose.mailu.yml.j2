@@ -47,10 +47,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
       - "traefik.http.services.mailu.loadbalancer.server.port=80"
-{% if not services.mailu.https_only %}
       - "traefik.http.routers.mailu-http.rule=Host(`{{ services.mailu.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mailu-http.entrypoints=http"
+{% if not services.mailu.https_only %}
       - "traefik.http.routers.mailu-http.middlewares={% if services.mailu.https_only %}redirect@file, {% else %}{% if services.mailu.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.mailu-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.mailu.rule=Host(`{{ services.mailu.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mailu.entrypoints=https"

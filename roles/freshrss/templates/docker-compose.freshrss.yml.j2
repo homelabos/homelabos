@@ -23,10 +23,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.freshrss.loadbalancer.server.scheme=http"
       - "traefik.http.services.freshrss.loadbalancer.server.port=80"
-{% if not services.freshrss.https_only %}
       - "traefik.http.routers.freshrss-http.rule=Host(`{{ services.freshrss.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.freshrss-http.entrypoints=http"
+{% if not services.freshrss.https_only %}
       - "traefik.http.routers.freshrss-http.middlewares={% if services.freshrss.https_only %}redirect@file, {% else %}{% if services.freshrss.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.freshrss-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.freshrss.rule=Host(`{{ services.freshrss.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.freshrss.entrypoints=https"

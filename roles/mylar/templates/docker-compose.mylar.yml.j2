@@ -20,25 +20,17 @@ services:
     networks:
       - traefik_network
     labels:
-      # needs to be added as middleware
-      #- "traefik.frontend.passHostHeader=true"
-      #- "traefik.frontend.headers.SSLRedirect=true"
-      #- "traefik.frontend.headers.STSSeconds=315360000"
-      #- "traefik.frontend.headers.browserXSSFilter=true"
-      #- "traefik.frontend.headers.contentTypeNosniff=true"
-      #- "traefik.frontend.headers.forceSTSHeader=true"
-      #- "traefik.frontend.headers.SSLHost=${DOMAIN_NAME}"
-      #- "traefik.frontend.headers.STSIncludeSubdomains=true"
-      #- "traefik.frontend.headers.STSPreload=true"
-      #- "traefik.frontend.headers.frameDeny=true"
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mylar.loadbalancer.server.scheme=http"
       - "traefik.http.services.mylar.loadbalancer.server.port=8090"
-{% if not services.mylar.https_only %}
       - "traefik.http.routers.mylar-http.rule=Host(`{{ services.mylar.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mylar-http.entrypoints=http"
+{% if not services.mylar.https_only %}
       - "traefik.http.routers.mylar-http.middlewares={% if services.mylar.https_only %}redirect@file, {% else %}{% if services.mylar.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.mylar-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.mylar.rule=Host(`{{ services.mylar.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mylar.entrypoints=https"

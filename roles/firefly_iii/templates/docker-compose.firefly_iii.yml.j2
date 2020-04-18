@@ -31,10 +31,15 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.firefly_iii.loadbalancer.server.scheme=http"
       - "traefik.http.services.firefly_iii.loadbalancer.server.port=80"
-      - "traefik.http.routers.firefly_iii-http.rule=Host(`money.{{ domain }}`)"
+      - "traefik.http.routers.firefly_iii-http.rule=Host(`{{ services.firefly_iii.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.firefly_iii-http.entrypoints=http"
+{% if not services.firefly_iii.https_only %}
       - "traefik.http.routers.firefly_iii-http.middlewares={% if services.firefly_iii.https_only %}redirect@file, {% else %}{% if services.firefly_iii.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.firefly_iii.rule=Host(`money.{{ domain }}`)"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.firefly_iii-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.firefly_iii.rule=Host(`{{ services.firefly_iii.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.firefly_iii.entrypoints=https"
       - "traefik.http.routers.firefly_iii.middlewares={% if services.firefly_iii.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.firefly_iii.tls=true"

@@ -77,10 +77,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mayan.loadbalancer.server.scheme=http"
       - "traefik.http.services.mayan.loadbalancer.server.port=8000"
-{% if not services.mayan.https_only %}
       - "traefik.http.routers.mayan-http.rule=Host(`{{ services.mayan.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mayan-http.entrypoints=http"
+{% if not services.mayan.https_only %}
       - "traefik.http.routers.mayan-http.middlewares={% if services.mayan.https_only %}redirect@file, {% else %}{% if services.mayan.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.mayan-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.mayan.rule=Host(`{{ services.mayan.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.mayan.entrypoints=https"

@@ -40,10 +40,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.bookstack.loadbalancer.server.scheme=http"
       - "traefik.http.services.bookstack.loadbalancer.server.port=80"
-{% if not services.bookstack.https_only %}
       - "traefik.http.routers.bookstack-http.rule=Host(`{{ services.bookstack.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bookstack-http.entrypoints=http"
+{% if not services.bookstack.https_only %}
       - "traefik.http.routers.bookstack-http.middlewares={% if services.bookstack.https_only %}redirect@file, {% else %}{% if services.bookstack.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.bookstack-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.bookstack.rule=Host(`{{ services.bookstack.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bookstack.entrypoints=https"

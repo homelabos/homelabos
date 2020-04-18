@@ -20,10 +20,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
       - "traefik.http.services.docs.loadbalancer.server.port=80"
-{% if not services.docs.https_only %}
       - "traefik.http.routers.docs-http.rule=Host(`{{ services.docs.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.docs-http.entrypoints=http"
+{% if not services.docs.https_only %}
       - "traefik.http.routers.docs-http.middlewares={% if services.docs.https_only %}redirect@file, {% else %}{% if services.docs.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.docs-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.docs.rule=Host(`{{ services.docs.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.docs.entrypoints=https"

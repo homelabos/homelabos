@@ -21,10 +21,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.codeserver.loadbalancer.server.scheme=http"
       - "traefik.http.services.codeserver.loadbalancer.server.port=8443"
-{% if not services.codeserver.https_only %}
       - "traefik.http.routers.codeserver-http.rule=Host(`{{ services.codeserver.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.codeserver-http.entrypoints=http"
+{% if not services.codeserver.https_only %}
       - "traefik.http.routers.codeserver-http.middlewares={% if services.codeserver.https_only %}redirect@file, {% else %}{% if services.codeserver.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.codeserver-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.codeserver.rule=Host(`{{ services.codeserver.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.codeserver.entrypoints=https"

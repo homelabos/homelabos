@@ -27,10 +27,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.nzbget.loadbalancer.server.scheme=http"
       - "traefik.http.services.nzbget.loadbalancer.server.port=6789"
-{% if not services.nzbget.https_only %}
       - "traefik.http.routers.nzbget-http.rule=Host(`{{ services.nzbget.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.nzbget-http.entrypoints=http"
+{% if not services.nzbget.https_only %}
       - "traefik.http.routers.nzbget-http.middlewares={% if services.nzbget.https_only %}redirect@file, {% else %}{% if services.nzbget.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.nzbget-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.nzbget.rule=Host(`{{ services.nzbget.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.nzbget.entrypoints=https"

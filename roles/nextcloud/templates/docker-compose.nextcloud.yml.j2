@@ -37,10 +37,13 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.nextcloud.loadbalancer.server.scheme=http"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=8888"
-{% if not services.nextcloud.https_only %}
       - "traefik.http.routers.nextcloud-http.rule=Host(`{{ services.nextcloud.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.nextcloud-http.entrypoints=http"
+{% if not services.nextcloud.https_only %}
       - "traefik.http.routers.nextcloud-http.middlewares={% if services.nextcloud.https_only %}redirect@file, {% else %}{% if services.nextcloud.auth %}{% if services.authelia.enabled %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.nextcloud-http.middlewares=redirect-to-https"
 {% endif %}
       - "traefik.http.routers.nextcloud.rule=Host(`{{ services.nextcloud.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.nextcloud.entrypoints=https"
