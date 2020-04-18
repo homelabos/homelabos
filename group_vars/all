@@ -91,6 +91,7 @@ apache2:
 apple_health_influx:
 airsonic:
 authelia:  
+  enable:
 bitwarden:
 beets: 
 bookstack: 

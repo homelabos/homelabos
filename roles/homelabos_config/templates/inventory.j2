@@ -1,7 +1,7 @@
 [homelabos]
 myserver
 
-{% if bastion.enable %}
+{% if 'enable' in bastion and bastion.enable %}
 [bastion]
 bastion_server
 {% endif %}
