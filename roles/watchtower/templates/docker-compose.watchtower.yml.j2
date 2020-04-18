@@ -8,6 +8,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ volumes_root }}/watchtower/config.json:/config.json"
     command: --interval 900 #15 minutes
+    labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.watchtower.loadbalancer.server.scheme=http"
