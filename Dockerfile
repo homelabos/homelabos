@@ -72,6 +72,7 @@ ENV ANSIBLE_RETRY_FILES_ENABLED false
 ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 ENV ANSIBLE_SSH_PIPELINING True
 ENV ANSIBLE_VAULT_PASSWORD_FILE /ansible_vault_pass
+ENV ANSIBLE_CONFIG=/data/ansible.cfg
 ENV PYTHONPATH /ansible/lib
 ENV PATH /ansible/bin:$PATH
 ENV ANSIBLE_LIBRARY /ansible/library

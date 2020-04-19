@@ -3,5 +3,5 @@
   service:
     name: tor
     state: reloaded
-    enable: yes
+    enabled: yes
   when: ansible_distribution != "MaxOSX"

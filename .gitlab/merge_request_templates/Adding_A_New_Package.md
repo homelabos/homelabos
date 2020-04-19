@@ -4,7 +4,7 @@
 - [ ] The ansible role to install this package has been created.
 - [ ] The documentation page for this package has been added.
 - [ ] `mkdocs.yml` has been updated with a link to this package's documentation.
-- [ ] The package has been added to `group_vars/all` under the `# Enabled List`, `enabled_services:`, and `services:` sections.
+- [ ] The package has been added to `group_vars/all` under the `# Enabled List`, `services:`, and `services:` sections.
 - [ ] The package has been added to `group_vars/all` as a standalone section.
 - [ ] The package has been added to `README.md`.
 - [ ] The package has been added to `CHANGELOG.md` for the version currently in development.

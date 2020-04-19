@@ -39,7 +39,7 @@
     service:
       name: tor
       state: started
-      enable: yes
+      enabled: yes
   - name: wait for all tor hidden services hostname files
     wait_for: state=present path="{{ item.dir }}/hostname" delay=5
     with_items: "{{ tor_hidden_services }}"

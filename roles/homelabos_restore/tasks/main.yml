@@ -10,7 +10,7 @@
     state: stopped
     enable: false
   when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+  loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 
@@ -47,7 +47,7 @@
     state: started
     enable: false
   when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+  loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 
