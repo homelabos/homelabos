@@ -4,14 +4,14 @@
 
 ## Access
 
-It is available at [https://{{services.gitea.subdomain}}.{{ domain }}/](https://{{services.gitea.subdomain}}.{{ domain }}/) or [http://{{services.gitea.subdomain}}.{{ domain }}/](http://{{services.gitea.subdomain}}.{{ domain }}/)
+It is available at [https://{{gitea.subdomain}}.{{ domain }}/](https://{{gitea.subdomain}}.{{ domain }}/) or [http://{{gitea.subdomain}}.{{ domain }}/](http://{{gitea.subdomain}}.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{services.gitea.subdomain}}.{{ tor_domain }}/](http://{{services.gitea.subdomain}}.{{ tor_domain }}/)
+It is also available via Tor at [http://{{gitea.subdomain}}.{{ tor_domain }}/](http://{{gitea.subdomain}}.{{ tor_domain }}/)
 {% endif %}
 
 ### MariaDB
-{% if services.gitea.use_mariadb %}
+{% if gitea.use_mariadb %}
 - Defaults true
 - False allows for SQLite option without database in separate container
 {% endif %}
