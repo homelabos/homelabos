@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.PackageFileName.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.PackageFileName-tor-http.rule=Host(`PackageFileName.{{{ tor_domain }}`)"
+      - "traefik.http.routers.PackageFileName-tor-http.rule=Host(`PackageFileName.{{ tor_domain }}`)"
       - "traefik.http.routers.PackageFileName-tor-http.entrypoints=http"
       - "traefik.http.routers.PackageFileName-tor-http.middlewares={% if PackageFileName.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

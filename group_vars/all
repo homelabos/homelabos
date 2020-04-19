@@ -70,6 +70,7 @@ services:
   sabnzbd:
   searx: 
   sickchill: 
+  snibox: 
   sonarr: 
   speedtest: 
   syncthing: 
@@ -156,6 +157,7 @@ restic:
 sabnzbd:
 searx: 
 sickchill: 
+snibox: 
 sonarr: 
 speedtest: 
 syncthing: 

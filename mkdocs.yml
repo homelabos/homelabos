@@ -124,6 +124,7 @@ nav:
     - Codeserver: software/codeserver.md
     - Drone: software/drone.md
     - Gitea: software/gitea.md
+    - Snibox: software/snibox.md
   - Task management/To-do lists:
     - Wekan: software/wekan.md
   - VPN:

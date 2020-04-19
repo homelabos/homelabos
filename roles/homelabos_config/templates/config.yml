@@ -432,6 +432,11 @@ sickchill:
   https_only: {{ sickchill.https_only | default(False) }}
   auth: {{ sickchill.auth | default(False) }}
   subdomain: {{ sickchill.subdomain | default("sickchill") }} 
+snibox: 
+  enable: {{ snibox.enable | default(enable_snibox, None) | default(False) }}
+  https_only: {{ snibox.https_only | default(False) }}
+  auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
+  subdomain: {{ snibox.subdomain | default("snibox") }} 
 sonarr: 
   enable: {{ sonarr.enable | default(enable_sonarr, None) | default(False) }}
   https_only: {{ sonarr.https_only | default(False) }}

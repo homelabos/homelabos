@@ -1,0 +1,89 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  snibox:
+
+services:
+  frontend:
+    image: snibox/nginx-puma:1.15.9
+    networks:
+      - traefik_network
+      - snibox
+    volumes:
+      #- '{{ volumes_root }}/snibox/static-files:/var/www/html'
+      - static-files:/var/www/html
+    depends_on:
+      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.snibox.loadbalancer.server.scheme=http"
+      - "traefik.http.services.snibox.loadbalancer.server.port=80"
+      - "traefik.http.routers.snibox-http.rule=Host(`{{ snibox.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.snibox-http.entrypoints=http"
+{% if not snibox.https_only %}
+      - "traefik.http.routers.snibox-http.middlewares={% if snibox.https_only %}redirect@file, {% else %}{% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.snibox-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.snibox.rule=Host(`{{ snibox.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.snibox.entrypoints=https"
+      - "traefik.http.routers.snibox.middlewares={% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.snibox.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.snibox.tls.certresolver=dns"
+      - "traefik.http.routers.snibox.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.snibox.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.snibox.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.snibox-tor-http.rule=Host(`{{ snibox.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.snibox-tor-http.entrypoints=http"
+      - "traefik.http.routers.snibox-tor-http.middlewares={% if snibox.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+  backend:
+    image: snibox/snibox:latest
+    command: sh -c "rm -rf tmp/pids && ./bin/rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      DB_NAME: "postgres"
+      DB_USER: "postgres"
+      #DB_PASS: "${DB_PASS}"
+      DB_HOST: "database"
+      DB_PORT: "5432"
+      FORCE_SSL: "false"
+      #MAILGUN_SMTP_PORT: "${MAILGUN_SMTP_PORT}"
+      #MAILGUN_SMTP_SERVER: "${MAILGUN_SMTP_SERVER}"
+      #MAILGUN_SMTP_LOGIN: "${MAILGUN_SMTP_LOGIN}"
+      #MAILGUN_SMTP_PASSWORD: "${MAILGUN_SMTP_PASSWORD}"
+      #MAILGUN_API_KEY: "${MAILGUN_API_KEY}"
+      #MAILGUN_DOMAIN: "${MAILGUN_DOMAIN}"
+      #MAILGUN_PUBLIC_KEY: "${MAILGUN_PUBLIC_KEY}"
+      SECRET_KEY_BASE: "{{lookup('password', './settings/passwords/snibox_secret_key chars=digits')}}"
+    volumes:
+      #- '{{ volumes_root }}/snibox/static-files:/app/public'
+      - static-files:/app/public
+    depends_on:
+      - database
+    networks:
+      - snibox
+
+  database:
+    image: postgres:10.7-alpine
+    volumes:
+      #- '{{ volumes_root }}/snibox/pg-data:/var/lib/postgresql/data'
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - snibox
+    
+volumes:
+  pg-data:
+  static-files:
