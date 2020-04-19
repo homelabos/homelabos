@@ -151,7 +151,7 @@ terraform_destroy: logo build git_sync
 decrypt: logo build
 	@printf "\x1B[01;93m========== Decrypting Ansible Vault! ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
-	@printf "\x1B[01;93m========== Valut decrypted! settings/vault.yml ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Vault decrypted! settings/vault.yml ==========\n\x1B[0m"
 
 web:
 	cd Website && hugo serve
