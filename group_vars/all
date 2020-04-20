@@ -1,36 +1,35 @@
 ---
-# This is to iterate over during deployment
 services:
-  docs:
-  apache2:
-  apple_health_influx:
-  airsonic:
-  authelia:  
-  bitwarden:
+  airsonic: 
+  apache2: 
+  apple_health_influx: 
+  authelia: 
   beets: 
+  bitwarden: 
   bookstack: 
   bulletnotes: 
-  calibre:
-  chowdown:
+  calibre: 
+  chowdown: 
   codeserver: 
-  dark_sky:
+  dark_sky: 
   dasher: 
   digikam: 
+  docs: 
   drone: 
-  duplicati:  
-  emby:  
-  erpnext:  
+  duplicati: 
+  emby: 
+  erpnext: 
   firefly_iii: 
-  folding_at_home:
+  folding_at_home: 
   freshrss: 
-  ghost:  
-  gitea:
-  grafana:
-  grocy:
-  grownetics:  
+  ghost: 
+  gitea: 
+  grafana: 
+  grocy: 
+  grownetics: 
   guacamole: 
   healthchecks: 
-  homeassistant:
+  homeassistant: 
   homebridge: 
   homedash: 
   inventario: 
@@ -39,35 +38,36 @@ services:
   kibitzr: 
   lidarr: 
   mailserver: 
-  mailu:
-  mashio:  
+  mailu: 
+  mashio: 
   matomo: 
-  mayan:  
+  mayan: 
   minecraft: 
   miniflux: 
-  minio:  
+  minio: 
   monicahq: 
-  mstream:  
+  mstream: 
   mylar: 
   netdata: 
   nextcloud: 
   nzbget: 
-  ombi:  
+  ombi: 
   openldap: 
   openvpn: 
-  organizr:  
+  organizr: 
   ownphotos: 
-  paperless:
-  pihole:  
-  piwigo:  
-  pixelfed:
-  plex:  
-  poli:  
+  paperless: 
+  photoprism: 
+  pihole: 
+  piwigo: 
+  pixelfed: 
+  plex: 
+  poli: 
   portainer: 
   privatebin: 
-  radarr:  
+  radarr: 
   restic: 
-  sabnzbd:
+  sabnzbd: 
   searx: 
   sickchill: 
   snibox: 
@@ -80,44 +80,43 @@ services:
   transmission: 
   trilium: 
   ubooquity: 
-  wekan: 
+  wallabag: 
   watchtower: 
-  xfinityusageinfluxdb:
-  wallabag:
   webvirtmgr: 
+  wekan: 
+  xfinityusageinfluxdb: 
   zulip: 
-
-docs:
-apache2:
-apple_health_influx:
-airsonic:
-authelia:  
-  enable:
-bitwarden:
+docs: 
+apache2: 
+apple_health_influx: 
+airsonic: 
+authelia:
+  enable: 
+bitwarden: 
 beets: 
 bookstack: 
 bulletnotes: 
-calibre:
-chowdown:
+calibre: 
+chowdown: 
 codeserver: 
-dark_sky:
+dark_sky: 
 dasher: 
 digikam: 
 drone: 
-duplicati:  
-emby:  
-erpnext:  
+duplicati: 
+emby: 
+erpnext: 
 firefly_iii: 
-folding_at_home:
+folding_at_home: 
 freshrss: 
-ghost:  
-gitea:
-grafana:
-grocy:
-grownetics:  
+ghost: 
+gitea: 
+grafana: 
+grocy: 
+grownetics: 
 guacamole: 
 healthchecks: 
-homeassistant:
+homeassistant: 
 homebridge: 
 homedash: 
 inventario: 
@@ -126,35 +125,36 @@ jellyfin:
 kibitzr: 
 lidarr: 
 mailserver: 
-mailu:
-mashio:  
+mailu: 
+mashio: 
 matomo: 
-mayan:  
+mayan: 
 minecraft: 
 miniflux: 
-minio:  
+minio: 
 monicahq: 
-mstream:  
+mstream: 
 mylar: 
 netdata: 
 nextcloud: 
 nzbget: 
-ombi:  
+ombi: 
 openldap: 
 openvpn: 
-organizr:  
+organizr: 
 ownphotos: 
-paperless:
-pihole:  
-piwigo:  
-pixelfed:
-plex:  
-poli:  
+paperless: 
+photoprism:
+pihole: 
+piwigo: 
+pixelfed: 
+plex: 
+poli: 
 portainer: 
 privatebin: 
-radarr:  
+radarr: 
 restic: 
-sabnzbd:
+sabnzbd: 
 searx: 
 sickchill: 
 snibox: 
@@ -169,11 +169,10 @@ trilium:
 ubooquity: 
 wekan: 
 watchtower: 
-xfinityusageinfluxdb:
-wallabag:
+xfinityusageinfluxdb: 
+wallabag: 
 webvirtmgr: 
 zulip: 
-
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos

@@ -4,10 +4,10 @@ repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - toc:
-      permalink: true
+- admonition
+- pymdownx.details
+- toc:
+    permalink: true
 theme:
   name: material
   palette:
@@ -15,7 +15,7 @@ theme:
   icon:
     logo: material/home
   features:
-    - instant
+  - instant
 nav:
 - Home: index.md
 - Installation: setup/installation.md
@@ -119,6 +119,7 @@ nav:
     - OwnPhotos: software/ownphotos.md
     - Piwigo: software/piwigo.md
     - Pixelfed: software/pixelfed.md
+    - PhotoPrism: software/photoprism.md
   - Read it Later Lists:
     - Wallabag: software/wallabag.md
   - Software Development:
