@@ -1,9 +1,9 @@
 ---
 services:
-  airsonic:
-  apache2:
-  apple_health_influx:
-  authelia:  
+  airsonic: 
+  apache2: 
+  apple_health_influx: 
+  authelia: 
   beets: 
   bitwarden: 
   bookstack: 
@@ -80,7 +80,7 @@ services:
   transmission: 
   trilium: 
   ubooquity: 
-  wallabag:
+  wallabag: 
   watchtower: 
   webvirtmgr: 
   wekan: 
