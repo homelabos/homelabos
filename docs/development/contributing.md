@@ -8,6 +8,14 @@ during the review, will have the label removed. Make the changes/fixes requested
 then add the label back to the Merge Request to be considered during the next
 review session.
 
+# Working with Issues
+
+## Labels
+
+`enhancement` is for any issue that changes how HomelabOS itself deploys/operates.
+`package` is for new packages people would like added to HomelabOS. These should not be marked as `enhancement`s.
+`bug` is for bugs. :)
+
 ## Developing Locally
 
 You can play around with the stack locally without needing an actual server to spin it up against.
