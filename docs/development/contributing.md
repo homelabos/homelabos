@@ -13,7 +13,9 @@ review session.
 ## Labels
 
 `enhancement` is for any issue that changes how HomelabOS itself deploys/operates.
+
 `package` is for new packages people would like added to HomelabOS. These should not be marked as `enhancement`s.
+
 `bug` is for bugs. :)
 
 ## Developing Locally
