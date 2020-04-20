@@ -18,6 +18,9 @@
 - Ubuntu Server 18.04 or Debian 10.3
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
+!!! Warning
+    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
+
 ## Optional Items
 
 ### Client Computer
@@ -84,9 +87,6 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 !!! Note
     You will be prompted for the basic information to get started. The passwords entered here will be stored on the client computer and are used by ansible to configure your server. After you enter the information, HomelabOS will configure your local docker images and build your initial `settings/` files.
-
-!!! Warning
-    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
 
 * Once you have updated your settings simply deploy HomelabOS with `make`. You can run `make` as many times as
 needed to get your settings correct.
