@@ -3,7 +3,7 @@
   file:
     state: absent
     path: "{{ volumes_root }}/{{ service_item }}"
-  when: confirm_remove
+  when: confirm_remove|bool
   loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
@@ -13,22 +13,24 @@
     name: "{{ service_item }}"
     state: stopped
     enable: false
-  when: "not lookup('vars', 'enable_' ~ service_item) and confirm_remove"
+  when: "not query and confirm_remove"
   loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
   ignore_errors: "yes"
+  vars:
+    query: "{{ service_item + '.enable' }}"
 
 - name: remove enable services.
   file:
     state: absent
     path: "/etc/systemd/system/{{ service_item }}.service"
-  when: confirm_remove
+  when: confirm_remove|bool
   loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 
-- when: confirm_remove
+- when: confirm_remove|bool
   debug:
     msg: "Package removed successfully! Go to https://{{ domain }}/ to get started."
 

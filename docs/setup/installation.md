@@ -171,6 +171,9 @@ repo whenever you run `make`, `make update` or `make config`.
 ??? note "SSL Not working"
     Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. So it may take several days before all of your services get valid SSL certs generated for them. You can tail the logs of the traefik container to see the status of it's generation.
 
+??? note "I can't certain config values like Authelia"
+    Check your `config/vault.yml` file. If it's encrypted just run `make decrypt`
+
 ## Network Configuration
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
