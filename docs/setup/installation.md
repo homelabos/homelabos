@@ -129,12 +129,6 @@ repo whenever you run `make`, `make update` or `make config`.
     [server]$ sudo usermod -aG docker <username>
     ```
 
-??? note "[WARNING] Ansible is in a world writable directory (../HomelabOS), ignoring it as an ansible.cfg source."
-    Run chmod 775 against the HomelabOS folder.
-    ```
-    [client]$ chmod 775 HomelabOS/
-    ```
-
 ??? note "I have pointed my domain at my IP but hitting the domain returns nothing"
     * If you ping your `{{ domain }}`, do you get the IP you expect?
         * If not you have [DNS issues](/docs/setup/installation/#dns-settings). Get those resolved before moving on.
@@ -153,7 +147,7 @@ repo whenever you run `make`, `make update` or `make config`.
 ??? note "I get a 404"
     If you're up and running, but getting a 404, load [http://YOURSERVERIP:8181/]. This is the Traefik dashboard.
 
-    Each service under the `Frontends` column has a section `Route Rule - Host:`. The hostname after `Host:` is the hostname that Traefik is listening to for that particular service. You need to be able to `ping` that hostname from your computer, and you should get back the IP address of your server. Once that is the case, accessing the hostname in a browser should load the respective service.
+    Each service under the `Http` page has a section. The hostname inside `Host()` in the rule column is the hostname that Traefik is listening to for that particular service. You need to be able to `ping` that hostname from your computer, and you should get back the IP address of your server. Once that is the case, accessing the hostname in a browser should load the respective service.
 
     Traefik serves based on domain names, not IP addresses. It has to know what service you want to return. You need to be able to hit {{ domain }} or servicename.{{ domain }} in order for Traefik to serve the correct service.
 
