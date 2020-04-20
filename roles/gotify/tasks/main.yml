@@ -1,0 +1,24 @@
+---
+- name: Make gotify directory.
+  file:
+    path: "{{ volumes_root }}/gotify"
+    state: directory
+
+- name: Copy gotify docker-compose.yml file into place.
+  template:
+    src: docker-compose.gotify.yml.j2
+    dest: "{{ volumes_root }}/gotify/docker-compose.gotify.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure gotify systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/gotify.service
+
+- name: Start gotify
+  systemd:
+    name: gotify
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
