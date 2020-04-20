@@ -9,6 +9,7 @@
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 - Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 
+
 ## Services
 
 - Added Apache 2 - Web server
@@ -36,6 +37,7 @@
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Updated everything to use traefik version 2
+- Added Barcode Buddy - Barcode system for Grocy
 
 ## Release Notes
 
