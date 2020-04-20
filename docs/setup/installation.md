@@ -171,8 +171,11 @@ repo whenever you run `make`, `make update` or `make config`.
 ??? note "SSL Not working"
     Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. So it may take several days before all of your services get valid SSL certs generated for them. You can tail the logs of the traefik container to see the status of it's generation.
 
-??? note "I can't certain config values like Authelia"
+??? note "I can't find certain config values like Authelia"
     Check your `config/vault.yml` file. If it's encrypted just run `make decrypt`
+
+??? note "I get `exec user process caused 'exec format error'`"
+    You are trying to run AMD code on ARM infrastructure. Make sure you have set `arm` to True in your config file.
 
 ## Network Configuration
 
