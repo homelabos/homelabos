@@ -206,6 +206,11 @@ gitea:
   subdomain: {{ gitea.subdomain | default("gitea") }} 
   use_mariadb: {{ gitea.use_mariadb | default(True) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
+gotify:
+  enable: {{ gotify.enable | default(enable_gotify, None) | default(False) }}
+  https_only: {{ gotify.https_only | default(False) }}
+  auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
+  subdomain: {{ gotify.subdomain | default("gotify")}}
 grafana:
   enable: {{ grafana.enable | default(enable_grafana, None) | default(False) }}
   https_only: {{ grafana.https_only | default(False) }}
@@ -545,3 +550,4 @@ s3_path: {{ s3_path | default() }}
 
 # Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
 apple_health_nextcloud_username: {{ apple_health_nextcloud_username | default()  }}
+
