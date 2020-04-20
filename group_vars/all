@@ -1,13 +1,12 @@
 ---
 # This is to iterate over during deployment
 services:
-  docs:
+  airsonic:
   apache2:
   apple_health_influx:
-  airsonic:
   authelia:  
-  bitwarden:
   beets: 
+  bitwarden:
   bookstack: 
   bulletnotes: 
   calibre:
@@ -15,7 +14,8 @@ services:
   codeserver: 
   dark_sky:
   dasher: 
-  digikam: 
+  digikam:
+  docs: 
   drone: 
   duplicati:  
   emby:  
@@ -80,11 +80,11 @@ services:
   transmission: 
   trilium: 
   ubooquity: 
-  wekan: 
-  watchtower: 
-  xfinityusageinfluxdb:
   wallabag:
+  watchtower: 
   webvirtmgr: 
+  wekan: 
+  xfinityusageinfluxdb:
   zulip: 
 
 docs:
