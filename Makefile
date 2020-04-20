@@ -29,9 +29,9 @@ logo:
 
 # Build the HomelabOS docker images
 build:
-	@printf "\x1B[01;93m========== Preparing docker images ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Preparing HomelabOS docker image ==========\n\x1B[0m"
 # First build the docker images needed to deploy
-	@sudo docker build . -t homelabos
+	@docker inspect --type=image homelabos > /dev/null && printf "\x1B[01;93m========== Docker image already built ==========\n\x1B[0m" || sudo docker build . -t homelabos
 
 # Attempt to sync user settings to a git repo
 git_sync:
