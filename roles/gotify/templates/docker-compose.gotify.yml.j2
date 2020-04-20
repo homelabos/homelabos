@@ -15,7 +15,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - "{{ volumes_root }}"/gotify/data:/app/data 
+      - "{{ volumes_root }}/gotify/data:/app/data"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
