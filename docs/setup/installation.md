@@ -177,6 +177,15 @@ repo whenever you run `make`, `make update` or `make config`.
 ??? note "I get `exec user process caused 'exec format error'`"
     You are trying to run AMD code on ARM infrastructure. Make sure you have set `arm` to True in your config file.
 
+??? note "How do I tell if a service is enabled?"
+    On your server run `systemctl status servicename` or `sudo systemctl status servicename` if you are not logged in as root.
+
+??? note "I get `Unit servicename.service could not be found.`"
+    The service isn't being deployed. Check your `settings/` files.
+
+??? note "Is it OK to manually edit my `settings/` files?"
+    Yes.
+
 ## Network Configuration
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
