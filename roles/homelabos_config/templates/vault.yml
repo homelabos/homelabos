@@ -66,7 +66,7 @@ authelia:
   enable: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
   https_only: {{ authelia.https_only | default(False) }}
   auth: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
-  subdomain: {{ authelia.subdomain | default("auth") }} 
+  subdomain: {{ authelia.subdomain | default("auth") }}
   # Determines how verbose the logs are
   log_level: {{ authelia.log_level | default('debug') }}
   # Do you want to login with your common name "john doe" or your username "jdoe"?
