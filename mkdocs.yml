@@ -1,5 +1,6 @@
 ---
 site_name: HomelabOS
+site_url: https://homelabos.com/docs/
 repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
