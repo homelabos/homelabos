@@ -33,22 +33,31 @@ package_one_liner = unsafe_package_one_liner.chomp
 
 if gl
   puts 'Creating gitlab issue'
-  issue_result = gl.create_issue(HOMELABOS_PROJECT_ID,
-                "Add #{package_name}",
-                :description => "Please add #{package_name}",
-                :labels => 'package,enhancement', :assignee_id => gl.user.id)
-  @branch_name = "#{issue_result.iid}-#{package_name.gsub(/ /, '-')}"
-  if issue_result.iid
-    @iid = issue_result.iid
-    branch_result = gl.create_branch(HOMELABOS_PROJECT_ID,
-                                      @branch_name,
-                                      'HEAD')
-    if !branch_result.nil?
-      mr_result = gl.create_merge_request(HOMELABOS_PROJECT_ID,
-                                "WIP: Resolve \"#{issue_result.title}\"",
-                                :source_branch => @branch_name,
-                                :target_branch => 'dev')
+  begin
+    issue_result = gl.create_issue(HOMELABOS_PROJECT_ID,
+                  "Add #{package_name}",
+                  :description => "Please add #{package_name}",
+                  :labels => 'package', :assignee_id => gl.user.id)
+    @branch_name = "#{issue_result.iid}-#{package_name.gsub(/ /, '-')}"
+    if issue_result.iid
+      @iid = issue_result.iid
+      branch_result = gl.create_branch(HOMELABOS_PROJECT_ID,
+                                        @branch_name,
+                                        'HEAD')
+      if !branch_result.nil?
+        mr_result = gl.create_merge_request(HOMELABOS_PROJECT_ID,
+                                  "WIP: Resolve \"#{issue_result.title}\"",
+                                  :source_branch => @branch_name,
+                                  :target_branch => 'dev')
+      end
     end
+  rescue
+    puts 'Gitlab returned an error, working in offline mode'
+  ensure
+    @branch_name = "Adds-#{package_name.gsub(/ /, '-')}"
+    `git fetch`
+    `git checkout dev`
+    `git branch #{@branch_name}`
   end
 end
 
@@ -86,6 +95,7 @@ puts 'Done!'
 
 puts 'Step 6. Adding service to Inventory file'
 add_to_hash_at_key('group_vars/all', ['services'], { package_file_name.to_s => nil })
+insert_service_name_into_group_vars_second_instance(package_file_name)
 `git add group_vars/all`
 puts 'Done!'
 
@@ -107,7 +117,8 @@ puts 'Done!'
 puts <<-FINAL
 
 Two things: 
-1. This script places the docs page in the misc/other section. Please edit mkdocs.yml to place this package in the appropriate section.
+1. This script places the docs page in the misc/other section. 
+    Please edit mkdocs.yml to place this package in the appropriate section.
 2. Please Don't forget to edit the docker-compose file
 FINAL
 # puts "\n\nAll files added by this script, with the exception of the docker-compose file have been staged in git."
@@ -145,6 +156,25 @@ BEGIN {
     ordered[index+1]
   end
 
+  def insert_service_name_into_group_vars_second_instance(to_insert)
+    next_name = find_name_index_for_next_service to_insert
+    service_name = to_insert + ':'
+    filename = 'group_vars/all'
+    lines = File.readlines filename
+    first_instance_found = false
+    lines.dup.each_with_index do |line, index|
+      next unless line.strip == "#{next_name}:"
+      if first_instance_found 
+        lines.insert index, service_name
+      else
+        first_instance_found = true
+      end
+    end
+    File.open(filename, 'w+') do |f|
+      f.puts(lines)
+    end
+  end
+
   def insert_new_service_in_config_template(filename, to_insert)
 
 config_block = <<~CONFIG
@@ -152,7 +182,7 @@ config_block = <<~CONFIG
   enable: {{ #{to_insert}.enable | default(enable_#{to_insert}, None) | default(False) }}
   https_only: {{ #{to_insert}.https_only | default(False) }}
   auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
-  subdomain: {{ #{to_insert}.subdomain | default("#{to_insert})"}}
+  subdomain: {{ #{to_insert}.subdomain | default("#{to_insert}")}}
 CONFIG
     next_name = find_name_index_for_next_service to_insert
     lines = File.readlines filename
