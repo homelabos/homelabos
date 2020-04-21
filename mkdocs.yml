@@ -76,6 +76,7 @@ nav:
     - Beets: software/beets.md
     - Emby: software/emby.md
     - Jellyfin: software/jellyfin.md
+    - MassiveDecks: software/massivedecks.md
     - Mstream: software/mstream.md
     - Plex: software/plex.md
   - Misc/Other:
@@ -84,6 +85,7 @@ nav:
     - Dasher: software/dasher.md
     - ERPNext: software/erpnext.md
     - Folding@home: software/folding_at_home.md
+    - Gotify: software/gotify.md
     - Grocy: software/grocy.md
     - Grownetics: software/grownetics.md
     - Inventario: software/inventario.md
@@ -98,11 +100,6 @@ nav:
     - Searx: software/searx.md
     - Ubooquity: software/ubooquity.md
     - Watchtower: software/watchtower.md
-<<<<<<< HEAD
-    - Gotify: software/gotify.md
-=======
-    - MassiveDecks: software/massivedecks.md
->>>>>>> 352-MassiveDecks
   - Money, Budgeting and Management:
     - Firefly III: software/firefly.md
   - Monitoring:
@@ -123,9 +120,9 @@ nav:
   - Photo and Video Galleries:
     - Digikam: software/digikam.md
     - OwnPhotos: software/ownphotos.md
+    - PhotoPrism: software/photoprism.md
     - Piwigo: software/piwigo.md
     - Pixelfed: software/pixelfed.md
-    - PhotoPrism: software/photoprism.md
   - Read it Later Lists:
     - Wallabag: software/wallabag.md
   - Software Development:
