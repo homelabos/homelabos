@@ -465,7 +465,7 @@ sickchill:
 snibox:
   enable: {{ snibox.enable | default(enable_snibox, None) | default(False) }}
   https_only: {{ snibox.https_only | default(False) }}
-  auth: {{ snibox.auth | defaultphotoprism(False) }}
+  auth: {{ snibox.auth | default(False) }}
   subdomain: {{ snibox.subdomain | default("snibox") }}
 sonarr:
   enable: {{ sonarr.enable | default(enable_sonarr, None) | default(False) }}

@@ -49,5 +49,5 @@ services:
 {% if enable_tor %}
       - "traefik.http.routers.massivedecks-tor-http.rule=Host(`massivedecks.{{ tor_domain }}`)"
       - "traefik.http.routers.massivedecks-tor-http.entrypoints=http"
-      - "traefik.http.routers.massivedecks-tor-http.middlewares={% if massivedecks.auth %}{% if enable_authelia %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+      - "traefik.http.routers.massivedecks-tor-http.middlewares={% if massivedecks.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

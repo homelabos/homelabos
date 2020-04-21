@@ -63,9 +63,9 @@ traefik:
 
 # Authelia Settings
 authelia:
-  enable: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
+  enable: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
   https_only: {{ authelia.https_only | default(False) }}
-  auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
+  auth: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
   subdomain: {{ authelia.subdomain | default("auth") }} 
   # Determines how verbose the logs are
   log_level: {{ authelia.log_level | default('debug') }}
