@@ -181,7 +181,7 @@ config_block = <<~CONFIG
 #{to_insert}:
   enable: {{ #{to_insert}.enable | default(enable_#{to_insert}, None) | default(False) }}
   https_only: {{ #{to_insert}.https_only | default(False) }}
-  auth: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
+  auth: {{ #{to_insert}.auth | default(False) }}
   subdomain: {{ #{to_insert}.subdomain | default("#{to_insert}")}}
 CONFIG
     next_name = find_name_index_for_next_service to_insert
