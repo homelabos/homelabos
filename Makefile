@@ -1,5 +1,7 @@
 .PHONY: logo build deploy docs_build restore develop lint
 
+VERSION := $(cat VERSION)
+
 # Deploy HomelabOS - `make`
 deploy: logo build git_sync config
 	@printf "\x1B[01;93m========== Deploying HomelabOS ==========\n\x1B[0m"
@@ -23,15 +25,16 @@ config: logo build
 logo:
 	@cat homelaboslogo.txt
 	@chmod +x check_version.sh
+	@$(eval VERSION=`cat VERSION`)
 	@./check_version.sh
 	@printf "MOTD:\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
 	@printf "\n\x1B[0m"
 
 # Build the HomelabOS docker images
 build:
-	@printf "\x1B[01;93m========== Preparing docker images ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Preparing HomelabOS docker image ==========\n\x1B[0m"
 # First build the docker images needed to deploy
-	@sudo docker build . -t homelabos
+	@docker inspect --type=image homelabos:$(VERSION) > /dev/null && printf "\x1B[01;93m========== Docker image already built ==========\n\x1B[0m" || sudo docker build . -t homelabos:$(VERSION)
 
 # Attempt to sync user settings to a git repo
 git_sync:
