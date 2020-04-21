@@ -5,10 +5,10 @@ repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
 markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - toc:
-      permalink: true
+- admonition
+- pymdownx.details
+- toc:
+    permalink: true
 theme:
   name: material
   palette:
@@ -16,7 +16,7 @@ theme:
   icon:
     logo: material/home
   features:
-    - instant
+  - instant
 nav:
 - Home: index.md
 - Installation: setup/installation.md
@@ -98,6 +98,7 @@ nav:
     - Searx: software/searx.md
     - Ubooquity: software/ubooquity.md
     - Watchtower: software/watchtower.md
+    - Gotify: software/gotify.md
   - Money, Budgeting and Management:
     - Firefly III: software/firefly.md
   - Monitoring:
