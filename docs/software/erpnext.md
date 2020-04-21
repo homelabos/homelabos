@@ -2,6 +2,13 @@
 
 [ERPNext](https://github.com/frappe/frappe_docker) Open Source ERP for Everyone.
 
+## Setup
+
+On your server run:
+```
+docker exec -it -e "SITE_NAME=SITE" -e "ADMIN_PASSWORD=PASS" -e "INSTALL_APPS=erpnext" erpnext_erpnext-python_1 docker-entrypoint.sh new
+```
+
 ## Access
 
 It is available at [https://erpnext.{{ domain }}/](https://erpnext.{{ domain }}/) or [http://erpnext.{{ domain }}/](http://erpnext.{{ domain }}/)

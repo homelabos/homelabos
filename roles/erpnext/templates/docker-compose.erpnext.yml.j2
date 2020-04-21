@@ -10,24 +10,32 @@ networks:
 
 services:
   redis-cache:
+    networks:
+      - traefik_network
     image: redis:latest
     restart: on-failure
     volumes:
       - "{{ volumes_root }}/erpnext/redis-cache-vol:/data"
 
   redis-queue:
+    networks:
+      - traefik_network
     image: redis:latest
     restart: on-failure
     volumes:
       - "{{ volumes_root }}/erpnext/redis-queue-vol:/data"
 
   redis-socketio:
+    networks:
+      - traefik_network
     image: redis:latest
     restart: on-failure
     volumes:
       - "{{ volumes_root }}/erpnext/redis-socketi-vol:/data"
 
   mariadb:
+    networks:
+      - traefik_network
     image: mariadb:10.3
     restart: on-failure
     environment:
@@ -97,6 +105,8 @@ services:
   erpnext-python:
     image: frappe/erpnext-worker:${VERSION}
     restart: on-failure
+    networks:
+      - traefik_network
     environment:
       - MARIADB_HOST=${MARIADB_HOST}
       - REDIS_CACHE=redis-cache:6379
@@ -109,6 +119,8 @@ services:
       - "{{ volumes_root }}/erpnext/assets-vol:/home/frappe/frappe-bench/sites/assets"
 
   frappe-socketio:
+    networks:
+      - traefik_network
     image: frappe/frappe-socketio:${VERSION}
     restart: on-failure
     depends_on:
@@ -120,6 +132,8 @@ services:
 
 
   frappe-worker-default:
+    networks:
+      - traefik_network
     image: frappe/erpnext-worker:${VERSION}
     restart: on-failure
     command: worker
@@ -134,6 +148,8 @@ services:
 
   frappe-worker-short:
     image: frappe/erpnext-worker:${VERSION}
+    networks:
+      - traefik_network
     restart: on-failure
     command: worker
     environment:
@@ -149,6 +165,8 @@ services:
 
   frappe-worker-long:
     image: frappe/erpnext-worker:${VERSION}
+    networks:
+      - traefik_network
     restart: on-failure
     command: worker
     environment:
@@ -164,6 +182,8 @@ services:
 
   frappe-schedule:
     image: frappe/erpnext-worker:${VERSION}
+    networks:
+      - traefik_network
     restart: on-failure
     command: schedule
     depends_on:
