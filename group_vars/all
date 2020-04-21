@@ -25,10 +25,7 @@ services:
   freshrss: 
   ghost: 
   gitea: 
-<<<<<<< HEAD
   gotify: 
-=======
->>>>>>> btaidm/HomelabOS-barcode-buddy
   grafana: 
   grocy: 
   grownetics: 
@@ -45,10 +42,7 @@ services:
   mailserver: 
   mailu: 
   mashio: 
-<<<<<<< HEAD
   massivedecks: 
-=======
->>>>>>> btaidm/HomelabOS-barcode-buddy
   matomo: 
   mayan: 
   minecraft: 
@@ -66,10 +60,7 @@ services:
   organizr: 
   ownphotos: 
   paperless: 
-<<<<<<< HEAD
   photoprism: 
-=======
->>>>>>> btaidm/HomelabOS-barcode-buddy
   pihole: 
   piwigo: 
   pixelfed: 
@@ -123,10 +114,7 @@ folding_at_home:
 freshrss: 
 ghost: 
 gitea: 
-<<<<<<< HEAD
 gotify:
-=======
->>>>>>> btaidm/HomelabOS-barcode-buddy
 grafana: 
 grocy: 
 grownetics: 
@@ -142,10 +130,7 @@ kibitzr:
 lidarr: 
 mailserver: 
 mailu: 
-<<<<<<< HEAD
 massivedecks:
-=======
->>>>>>> btaidm/HomelabOS-barcode-buddy
 mashio: 
 matomo: 
 mayan: 
@@ -164,10 +149,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
-<<<<<<< HEAD
 photoprism:
-=======
->>>>>>> btaidm/HomelabOS-barcode-buddy
 pihole: 
 piwigo: 
 pixelfed: 
