@@ -5,6 +5,7 @@
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 
+
 ## Services
 
 - Added Apache 2 - Web server
@@ -39,6 +40,7 @@
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Updated everything to use traefik version 2
+- Added Barcode Buddy - Barcode system for Grocy
 
 ## Release Notes
 

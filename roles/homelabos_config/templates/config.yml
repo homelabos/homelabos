@@ -103,6 +103,12 @@ airsonic:
   https_only: {{ airsonic.https_only | default(False) }}
   auth: {{ airsonic.auth | default(False) }}
   subdomain: {{ airsonic.subdomain | default("airsonic") }}
+barcodebuddy:
+  enable: {{ barcodebuddy.enable | default(enable_barcodebuddy, None) | default(False) }}
+  https_only: {{ barcodebuddy.https_only | default(False) }}
+  auth: {{ barcodebuddy.auth | default(False) }}
+  subdomain: {{ barcodebuddy.subdomain | default("barcodebuddy") }}
+  image_tag: {{ barcodebuddy.image_tag | default("latest") }}
 bitwarden:
   enable: {{ bitwarden.enable | default(enable_bitwarden, None) | default(False) }}
   https_only: {{ bitwarden.https_only | default(False) }}
