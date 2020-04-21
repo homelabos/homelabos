@@ -24,10 +24,7 @@ services:
   freshrss: 
   ghost: 
   gitea: 
-<<<<<<< HEAD
   gotify: 
-=======
->>>>>>> 352-MassiveDecks
   grafana: 
   grocy: 
   grownetics: 
@@ -44,10 +41,7 @@ services:
   mailserver: 
   mailu: 
   mashio: 
-<<<<<<< HEAD
-=======
   massivedecks: 
->>>>>>> 352-MassiveDecks
   matomo: 
   mayan: 
   minecraft: 
@@ -65,6 +59,7 @@ services:
   organizr: 
   ownphotos: 
   paperless: 
+  photoprism: 
   pihole: 
   piwigo: 
   pixelfed: 
@@ -118,10 +113,7 @@ folding_at_home:
 freshrss: 
 ghost: 
 gitea: 
-<<<<<<< HEAD
 gotify:
-=======
->>>>>>> 352-MassiveDecks
 grafana: 
 grocy: 
 grownetics: 
@@ -137,10 +129,7 @@ kibitzr:
 lidarr: 
 mailserver: 
 mailu: 
-<<<<<<< HEAD
-=======
 massivedecks:
->>>>>>> 352-MassiveDecks
 mashio: 
 matomo: 
 mayan: 
@@ -159,6 +148,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
+photoprism:
 pihole: 
 piwigo: 
 pixelfed: 

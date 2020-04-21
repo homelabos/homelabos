@@ -382,6 +382,11 @@ paperless:
   https_only: {{ paperless.https_only | default(False) }}
   auth: {{ paperless.auth | default(False) }}
   subdomain: {{ paperless.subdomain | default("paperless") }} 
+photoprism:
+  enable: {{ photoprism.enable | default(enable_photoprism, None) | default(False) }},
+  https_only: {{ photoprism.https_only | default(False) }},
+  auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }},
+  subdomain: {{ photoprism.subdomain | default("photoprism") }}
 pihole: 
   enable: {{ pihole.enable | default(enable_pihole, None) | default(False) }}
   https_only: {{ pihole.https_only | default(False) }}

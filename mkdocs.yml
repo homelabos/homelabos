@@ -125,6 +125,7 @@ nav:
     - OwnPhotos: software/ownphotos.md
     - Piwigo: software/piwigo.md
     - Pixelfed: software/pixelfed.md
+    - PhotoPrism: software/photoprism.md
   - Read it Later Lists:
     - Wallabag: software/wallabag.md
   - Software Development:
