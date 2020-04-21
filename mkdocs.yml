@@ -98,7 +98,11 @@ nav:
     - Searx: software/searx.md
     - Ubooquity: software/ubooquity.md
     - Watchtower: software/watchtower.md
+<<<<<<< HEAD
     - Gotify: software/gotify.md
+=======
+    - MassiveDecks: software/massivedecks.md
+>>>>>>> 352-MassiveDecks
   - Money, Budgeting and Management:
     - Firefly III: software/firefly.md
   - Monitoring:

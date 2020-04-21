@@ -1,0 +1,24 @@
+---
+- name: Make massivedecks directory.
+  file:
+    path: "{{ volumes_root }}/massivedecks"
+    state: directory
+
+- name: Copy massivedecks docker-compose.yml file into place.
+  template:
+    src: docker-compose.massivedecks.yml.j2
+    dest: "{{ volumes_root }}/massivedecks/docker-compose.massivedecks.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure massivedecks systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/massivedecks.service
+
+- name: Start massivedecks
+  systemd:
+    name: massivedecks
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

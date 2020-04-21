@@ -5,7 +5,11 @@
 - Added Chowdown -  Simple recipes in Markdown format
 - Added ERPNext - Open Source ERP for Everyone.
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
+<<<<<<< HEAD
 - Added Gotify - A simple server for sending and receiving messages in real-time per WebSocket. (Includes a sleek web-ui)
+=======
+- Added MassiveDecks - Massive Decks is a comedy party game based on Cards against Humanity. Play with friends! It works great with a bunch of people in the same room on phones, or on voice chat online.
+>>>>>>> 352-MassiveDecks
 - Added Minecraft - Minecraft server with select-able version 
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 - Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.

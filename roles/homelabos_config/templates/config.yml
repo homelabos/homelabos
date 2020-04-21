@@ -292,6 +292,11 @@ mashio:
   https_only: {{ mashio.https_only | default(False) }}
   auth: {{ mashio.auth | default(False) }}
   subdomain: {{ mashio.subdomain | default("mashio") }} 
+massivedecks:
+  enable: {{ massivedecks.enable | default(enable_massivedecks, None) | default(False) }}
+  https_only: {{ massivedecks.https_only | default(False) }}
+  auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
+  subdomain: {{ massivedecks.subdomain | default("massivedecks") }}
 matomo: 
   enable: {{ matomo.enable | default(enable_matomo, None) | default(False) }}
   https_only: {{ matomo.https_only | default(False) }}
@@ -550,4 +555,3 @@ s3_path: {{ s3_path | default() }}
 
 # Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
 apple_health_nextcloud_username: {{ apple_health_nextcloud_username | default()  }}
-
