@@ -2,7 +2,7 @@
 
 FROM python:3.8-alpine
 
-ENV ANSIBLE_VERSION 2.9.6
+ENV ANSIBLE_VERSION 2.9.7
 
 ENV BUILD_PACKAGES \
   bash \
