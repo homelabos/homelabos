@@ -83,6 +83,7 @@ services:
   tautulli: 
   thelounge: 
   tick: 
+  tiddlywiki: 
   transmission: 
   trilium: 
   ubooquity: 
@@ -175,6 +176,7 @@ syncthing:
 tautulli: 
 thelounge: 
 tick: 
+tiddlywiki:
 transmission: 
 trilium: 
 ubooquity: 
