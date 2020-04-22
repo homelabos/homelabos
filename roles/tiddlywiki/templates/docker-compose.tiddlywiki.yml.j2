@@ -16,7 +16,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - "{{ volumes_root }}/tiddlywiki/:/tiddlywiki"
+      - "{{ volumes_root }}/tiddlywiki:/tiddlywiki"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
