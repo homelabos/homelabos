@@ -1,9 +1,9 @@
 ---
 services:
-  airsonic:
-  apache2:
-  apple_health_influx:
-  authelia:  
+  airsonic: 
+  apache2: 
+  apple_health_influx: 
+  authelia: 
   barcodebuddy:
   beets: 
   bitwarden: 
@@ -35,6 +35,7 @@ services:
   homeassistant: 
   homebridge: 
   homedash: 
+  huginn: 
   inventario: 
   jackett: 
   jellyfin: 
@@ -125,6 +126,7 @@ healthchecks:
 homeassistant: 
 homebridge: 
 homedash: 
+huginn:
 inventario: 
 jackett: 
 jellyfin: 

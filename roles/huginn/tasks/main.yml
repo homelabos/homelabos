@@ -1,0 +1,24 @@
+---
+- name: Make huginn directory.
+  file:
+    path: "{{ volumes_root }}/huginn"
+    state: directory
+
+- name: Copy huginn docker-compose.yml file into place.
+  template:
+    src: docker-compose.huginn.yml.j2
+    dest: "{{ volumes_root }}/huginn/docker-compose.huginn.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure huginn systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/huginn.service
+
+- name: Start huginn
+  systemd:
+    name: huginn
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

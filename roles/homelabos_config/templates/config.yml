@@ -271,6 +271,11 @@ homedash:
   https_only: {{ homedash.https_only | default(False) }}
   auth: {{ homedash.auth | default(False) }}
   subdomain: {{ homedash.subdomain | default("homedash") }}
+huginn:
+  enable: {{ huginn.enable | default(enable_huginn, None) | default(False) }}
+  https_only: {{ huginn.https_only | default(False) }}
+  auth: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
+  subdomain: {{ huginn.subdomain | default("huginn")}}
 inventario:
   enable: {{ inventario.enable | default(enable_inventario, None) | default(False) }}
   https_only: {{ inventario.https_only | default(False) }}
