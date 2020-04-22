@@ -156,6 +156,16 @@ decrypt: logo build
 	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
 	@printf "\x1B[01;93m========== Vault decrypted! settings/vault.yml ==========\n\x1B[0m"
 
+set: logo
+	@printf "\x1B[01;93m========== Setting '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
+	@./set_setting.sh '$(filter-out $@,$(MAKECMDGOALS))'
+	@printf "\x1B[01;93m========== Done! ==========\n\x1B[0m"
+
+get: logo
+	@printf "\x1B[01;93m========== Getting '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
+	@./get_setting.sh '$(filter-out $@,$(MAKECMDGOALS))'
+	@printf "\x1B[01;93m========== Done! ==========\n\x1B[0m"
+
 web:
 	cd Website && hugo serve
 

@@ -165,7 +165,7 @@
   lineinfile:
     path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: query == true
+  when: query
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -208,7 +208,7 @@
 - name: Deploy enabled Services
   include_role:
     name: "{{ service_item }}"
-  when: query == true
+  when: query
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -231,7 +231,7 @@
     query: "{{ service_item + '.enable' }}"
 
 - debug:
-    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started."
+    msg: "HomelabOS Installed successfully! Go to https://organizr.{{ domain }}/ or http://{{ homelab_ip }}:8181 to get started."
 
 - debug:
     msg: "You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}"

@@ -20,6 +20,7 @@ services:
   duplicati: 
   emby: 
   erpnext: 
+  factorio: 
   firefly_iii: 
   folding_at_home: 
   freshrss: 
@@ -109,6 +110,7 @@ drone:
 duplicati: 
 emby: 
 erpnext: 
+factorio: 
 firefly_iii: 
 folding_at_home: 
 freshrss: 
