@@ -11,6 +11,11 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
+- name: Copy tiddlywiki.info file into place.
+  template:
+    src: tiddlywiki.info
+    dest: "{{ volumes_root }}/tiddlywiki/tiddlywiki.info"
+
 - name: Configure tiddlywiki systemd service.
   template:
     src: service.j2
