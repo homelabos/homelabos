@@ -19,6 +19,7 @@ theme:
   - instant
 nav:
 - Home: index.md
+- Introduction: setup/introduction.md
 - Installation: setup/installation.md
 - Getting Started: setup/gettingstarted.md
 - Troubleshooting / FAQ: setup/faq.md
@@ -69,6 +70,9 @@ nav:
     - SickChill: software/sickchill.md
     - Synchthing: software/syncthing.md
     - Transmission: software/transmission.md
+  - Games:
+    - Factorio: software/factorio.md
+    - Minecraft: software/minecraft.md
   - Gateways and terminal sharing:
     - Guacamole: software/guacamole.md
     - WebVirtMgr: software/webvirtmgr.md
@@ -91,7 +95,6 @@ nav:
     - Grownetics: software/grownetics.md
     - Inventario: software/inventario.md
     - Mashio: software/mashio.md
-    - Minecraft: software/minecraft.md
     - Monica: software/monica.md
     - Pi-hole: software/pihole.md
     - Poli: software/poli.md

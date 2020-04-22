@@ -107,6 +107,11 @@ If you are having problems you can:
 - [Syncthing](software/syncthing) - File syncing software
 - [Transmission](software/transmission) - BitTorrent client
 
+### Games
+
+- [Factorio](software/factorio.md) Factorio headless server in a Docker container
+- [Minecraft](software/minecraft.md) Minecraft server with select-able version
+
 ### Gateways and terminal sharing
 
 - [Guacamole](software/guacamole) - a clientless remote desktop gateway
@@ -133,7 +138,6 @@ If you are having problems you can:
 - [Grownetics](software/grownetics) - Open source environmental mapping with plant management and tracking
 - [Inventario](software/inventario) - Home inventory software
 - [Mashio](software/mashio) - Home brewery management software
-- [Minecraft](software/minecraft) Minecraft server with select-able version 
 - [Monica](software/monica) - Contact / relationship manager
 - [Pi-hole](software/pihole) - Ad blocking
 - [Poli](software/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.

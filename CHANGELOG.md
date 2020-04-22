@@ -13,6 +13,7 @@
 - Added Chowdown -  Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added ERPNext - Open Source ERP for Everyone.
+- Added Factorio - Factorio headless server in a Docker container 
 - Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - Added Gotify - A simple server for sending and receiving messages in real-time per WebSocket. (Includes a sleek web-ui)
 - Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io

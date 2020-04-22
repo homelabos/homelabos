@@ -189,6 +189,11 @@ erpnext:
   https_only: {{ erpnext.https_only | default(False) }}
   auth: {{ erpnext.auth | default(False) }}
   subdomain: {{ erpnext.subdomain | default("erpnext") }}
+factorio:
+  enable: {{ factorio.enable | default(enable_factorio, None) | default(False) }}
+  https_only: {{ factorio.https_only | default(False) }}
+  auth: {{ factorio.auth | default(False) }}
+  subdomain: {{ factorio.subdomain | default("factorio") }}
 firefly_iii:
   enable: {{ firefly_iii.enable | default(enable_firefly_iii, None) | default(False) }}
   https_only: {{ firefly_iii.https_only | default(False) }}
