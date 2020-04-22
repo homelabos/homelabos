@@ -13,6 +13,7 @@ services:
     # REQUIRED
     image: elasticdog/tiddlywiki
     restart: unless-stopped
+    command: ./ --listen host=0.0.0.0
     networks:
       - traefik_network
     volumes:
