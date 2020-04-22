@@ -5,8 +5,15 @@
 ## Setup
 
 On your server run:
+
 ```
-docker exec -it -e "SITE_NAME=SITE" -e "ADMIN_PASSWORD=PASS" -e "INSTALL_APPS=erpnext" erpnext_erpnext-python_1 docker-entrypoint.sh new
+chmod -R 777 /var/homelabos/erpnext/
+```
+
+then
+
+```
+docker exec -it -e "SITE_NAME=erpnext.{{ domain }}" -e "SITES=erpnext.{{ domain }}" -e "ADMIN_PASSWORD=PASS" -e "INSTALL_APPS=erpnext" -e "FORCE=1" erpnext_erpnext-python_1 docker-entrypoint.sh new
 ```
 
 ## Access

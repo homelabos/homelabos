@@ -1,0 +1,85 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  mariadb:
+    image: mariadb:10.3
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
+      - HUGINN_DATABASE_PASSWORD={{lookup('password', './settings/passwords/huginn_db_password chars=ascii_letters')}}
+      - HUGINN_DB_ROOT_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
+      - HUGINN_DATABASE_USERNAME=root
+      - HUGINN_DATABASE_NAME=huginn
+    volumes:
+      - "{{ volumes_root }}/huginn/mysql-data:/var/lib/mysql"
+
+  web:
+    networks:
+      - traefik_network
+    image: huginn/huginn-single-process
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
+      - HUGINN_DATABASE_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
+      - MYSQL_PORT_3306_TCP_ADDR=mariadb
+      - HUGINN_DATABASE_USERNAME=root
+      - HUGINN_DATABASE_NAME=huginn
+      - APP_SECRET_TOKEN={{lookup('password', './settings/passwords/huginn_appToken_password length=128')}}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.huginn.loadbalancer.server.scheme=http"
+      - "traefik.http.services.huginn.loadbalancer.server.port=3000"
+      - "traefik.http.routers.huginn-http.rule=Host(`{{ huginn.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.huginn-http.entrypoints=http"
+{% if not huginn.https_only %}
+      - "traefik.http.routers.huginn-http.middlewares={% if huginn.https_only %}redirect@file, {% else %}{% if huginn.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.huginn-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.huginn.rule=Host(`{{ huginn.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.huginn.entrypoints=https"
+      - "traefik.http.routers.huginn.middlewares={% if huginn.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.huginn.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.huginn.tls.certresolver=dns"
+      - "traefik.http.routers.huginn.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.huginn.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.huginn.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.huginn-tor-http.rule=Host(`huginn.{{ tor_domain }}`)"
+      - "traefik.http.routers.huginn-tor-http.entrypoints=http"
+      - "traefik.http.routers.huginn-tor-http.middlewares={% if huginn.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+    depends_on:
+      - mariadb
+
+  threaded:
+    networks:
+      - traefik_network
+    image: huginn/huginn-single-process
+    command: /scripts/init bin/threaded.rb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
+      - HUGINN_DATABASE_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
+      - MYSQL_PORT_3306_TCP_ADDR=mariadb
+      - HUGINN_DATABASE_USERNAME=root
+      - HUGINN_DATABASE_NAME=huginn
+      - APP_SECRET_TOKEN={{lookup('password', './settings/passwords/huginn_appToken_password length=128')}}
+    depends_on:
+      - mariadb
+      - web

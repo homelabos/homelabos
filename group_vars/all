@@ -35,6 +35,7 @@ services:
   homeassistant: 
   homebridge: 
   homedash: 
+  huginn: 
   inventario: 
   jackett: 
   jellyfin: 
@@ -126,6 +127,7 @@ healthchecks:
 homeassistant: 
 homebridge: 
 homedash: 
+huginn:
 inventario: 
 jackett: 
 jellyfin: 
