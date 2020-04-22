@@ -25,6 +25,7 @@ config: logo build
 logo:
 	@cat homelaboslogo.txt
 	@chmod +x check_version.sh
+	@$(eval VERSION=`cat VERSION`)
 	@./check_version.sh
 	@printf "MOTD:\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
 	@printf "\n\x1B[0m"
