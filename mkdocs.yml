@@ -21,6 +21,7 @@ nav:
 - Home: index.md
 - Installation: setup/installation.md
 - Getting Started: setup/gettingstarted.md
+- Troubleshooting / FAQ: setup/faq.md
 - Setup:
   - Backups: setup/backups.md
   - Bastion Server: setup/bastion.md
