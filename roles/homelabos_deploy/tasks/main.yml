@@ -165,7 +165,7 @@
   lineinfile:
     path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: query
+  when: query == true
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -205,10 +205,10 @@
   register: gid_output
   become: false
 
-- name: Deploy enable Services
+- name: Deploy enabled Services
   include_role:
     name: "{{ service_item }}"
-  when: query
+  when: query == true
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
