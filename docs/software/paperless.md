@@ -11,11 +11,6 @@ It is also available via Tor at [http://paperless.{{ tor_domain }}/](http://pape
 {% endif %}
 
 ## Create user
-To create a user, ssh into your server and run the following:
-
-`
-cd /var/homelabos/paperless
-docker-compose -f docker-compose.*.yml -p paperless run paperless createsuperuser
-`
+To create a user, ssh into your server and run the following: `docker exec -it paperless_paperless_1 ./manage.py createsuperuser`
 
 You will be prompted to enter a username, email (optional) and password.  Once the user has been created successfully, you may need to break (Ctrl+C)  This is the login info that can be used at [https://paperless.{{ domain }}/](https://paperless.{{ domain }}/) or [http://paperless.{{ domain }}/](http://paperless.{{ domain }}/)
