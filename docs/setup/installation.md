@@ -19,7 +19,7 @@
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 !!! Warning
-    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `./set_setting.sh arm True`
+    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `make set arm True`
 
 ## Optional Items
 
@@ -52,7 +52,7 @@ You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP add
 
 #### Changing your domain
 
-If you need to change your domain (or subdomain) simply run `./set_setting.sh domain new.domain.com` then run `make` again.
+If you need to change your domain (or subdomain) simply run `make set domain new.domain.com` then run `make` again.
 
 ### Port Forwarding
 
