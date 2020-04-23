@@ -104,4 +104,5 @@ services:
     volumes:
       - "{{ volumes_root }}/mayan/app:/var/lib/mayan"
       - "{{ storage_dir }}/Documents/consume:/watched_files"
+      - "{{ storage_dir }}/Documents/export:/staged_files"
       - "{{ storage_dir }}/Documents/mayan_storage:/var/lib/mayan/document_storage"
