@@ -89,7 +89,7 @@ puts 'Done!'
 
 puts 'Step 5. Adding docs to mkdocs.yml'
 # 'nav', 4, 'Included Software'
-add_to_array_at_key('mkdocs.yml', ['nav', 4, 'Included Software', 13, 'Misc/Other'], { package_name.to_s => "software/#{package_file_name}.md" })
+add_to_array_at_key('mkdocs.yml', ['nav', 6, 'Included Software', 16, 'Misc/Other'], { package_name.to_s => "software/#{package_file_name}.md" })
 `git add mkdocs.yml`
 puts 'Done!'
 
