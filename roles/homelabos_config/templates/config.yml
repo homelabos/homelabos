@@ -491,6 +491,11 @@ tick:
   https_only: {{ tick.https_only | default(False) }}
   auth: {{ tick.auth | default(False) }}
   subdomain: {{ tick.subdomain | default("tick") }}
+tiddlywiki:
+  enable: {{ tiddlywiki.enable | default(enable_tiddlywiki, None) | default(False) }}
+  https_only: {{ tiddlywiki.https_only | default(False) }}
+  auth: {{ tiddlywiki.auth | default(False) }}
+  subdomain: {{ tiddlywiki.subdomain | default("tiddlywiki")}}
 transmission:
   enable: {{ transmission.enable | default(enable_transmission, None) | default(False) }}
   https_only: {{ transmission.https_only | default(False) }}

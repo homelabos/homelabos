@@ -4,7 +4,7 @@ services:
   apache2: 
   apple_health_influx: 
   authelia: 
-  barcodebuddy:
+  barcodebuddy: 
   beets: 
   bitwarden: 
   bookstack: 
@@ -82,6 +82,7 @@ services:
   tautulli: 
   thelounge: 
   tick: 
+  tiddlywiki: 
   transmission: 
   trilium: 
   ubooquity: 
@@ -117,7 +118,7 @@ folding_at_home:
 freshrss: 
 ghost: 
 gitea: 
-gotify:
+gotify: 
 grafana: 
 grocy: 
 grownetics: 
@@ -134,7 +135,7 @@ kibitzr:
 lidarr: 
 mailserver: 
 mailu: 
-massivedecks:
+massivedecks: 
 mashio: 
 matomo: 
 mayan: 
@@ -153,7 +154,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
-photoprism:
+photoprism: 
 pihole: 
 piwigo: 
 pixelfed: 
@@ -173,6 +174,7 @@ syncthing:
 tautulli: 
 thelounge: 
 tick: 
+tiddlywiki:
 transmission: 
 trilium: 
 ubooquity: 

@@ -208,3 +208,4 @@ If you are having problems you can:
 ### Wikis
 
 - [BookStack](software/bookstack) - Simple & Free Wiki Software
+- [TiddlyWiki](software/tiddlywiki) - A non-linear personal web notebook 

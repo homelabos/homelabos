@@ -89,7 +89,7 @@ puts 'Done!'
 
 puts 'Step 5. Adding docs to mkdocs.yml'
 # 'nav', 4, 'Included Software'
-add_to_array_at_key('mkdocs.yml', ['nav', 4, 'Included Software', 13, 'Misc/Other'], { package_name.to_s => "software/#{package_file_name}.md" })
+add_to_array_at_key('mkdocs.yml', ['nav', 5, 'Included Software', 13, 'Misc/Other'], { package_name.to_s => "software/#{package_file_name}.md" })
 `git add mkdocs.yml`
 puts 'Done!'
 
@@ -126,22 +126,34 @@ FINAL
 # Helper Methods
 BEGIN {
   def search_and_replace_in_file(filepath, search_for, replace_with)
-    IO.write(filepath, File.open(filepath) do |f|
-      f.read.gsub(search_for, replace_with)
-    end)
+    begin
+      IO.write(filepath, File.open(filepath) do |f|
+        f.read.gsub(search_for, replace_with)
+      end)
+    rescue
+      p 'Failed to execute sarch and replace in file'
+    end
   end
 
   def add_to_array_at_key(ymlfile, key, to_append)
-    yml = Psych.load_file ymlfile
-    yml.dig(*key) << to_append
-    File.write ymlfile, Psych.dump(yml)
+    begin
+      yml = Psych.load_file ymlfile
+      yml.dig(*key) << to_append
+      File.write ymlfile, Psych.dump(yml)
+    rescue
+      p "Failed to add to array at key: #{ymlfile}, #{key}, #{to_append}"
+    end
   end
 
   def add_to_hash_at_key(ymlfile, key, to_append)
-    yml = Psych.load_file ymlfile
-    yml.dig(*key).merge!(to_append)
-    yml[key.first] = yml[key.first].sort.to_h
-    File.write ymlfile, Psych.dump(yml)
+    begin
+      yml = Psych.load_file ymlfile
+      yml.dig(*key).merge!(to_append)
+      yml[key.first] = yml[key.first].sort.to_h
+      File.write ymlfile, Psych.dump(yml)
+    rescue
+      p "Failed to add to hash at key: #{ymlfile}, #{key}, #{to_append}"
+    end
   end
 
   def get_array_of_services
