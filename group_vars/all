@@ -48,6 +48,7 @@ services:
   matomo: 
   mayan: 
   minecraft: 
+  minecraftbedrockserver: 
   miniflux: 
   minio: 
   monicahq: 
@@ -127,7 +128,7 @@ healthchecks:
 homeassistant: 
 homebridge: 
 homedash: 
-huginn:
+huginn: 
 inventario: 
 jackett: 
 jellyfin: 
@@ -140,6 +141,7 @@ mashio:
 matomo: 
 mayan: 
 minecraft: 
+minecraftbedrockserver:
 miniflux: 
 minio: 
 monicahq: 

@@ -320,6 +320,29 @@ minecraft:
   https_only: {{ minecraft.https_only | default(False) }}
   auth: {{ minecraft.auth | default(False) }}
   subdomain: {{ minecraft.subdomain | default("minecraft") }}
+minecraftbedrockserver:
+  enable: {{ minecraftbedrockserver.enable | default(enable_minecraftbedrockserver, None) | default(False) }}
+  https_only: {{ minecraftbedrockserver.https_only | default(False) }}
+  auth: {{ minecraftbedrockserver.auth | default(False) }}
+  subdomain: {{ minecraftbedrockserver.subdomain | default("minecraftbedrockserver")}}
+  eula: {{ minecraftbedrockserver.eula | default("TRUE") }}
+  server_name: {{ minecraftbedrockserver.server_name | default("HomelabOS") }} #any string
+  server_port: {{ minecraftbedrockserver.server_port | default("19132") }} #any integer, 19132 is default
+  gamemode: {{ minecraftbedrockserver.gamemode | default("survival") }} # [survival, creative, adventure]
+  difficulty: {{ minecraftbedrockserver.difficulty | default("easy") }} # [peaceful, easy, normal, hard]
+  level_type: {{ minecraftbedrockserver.level_type | default("DEFAULT")}} # [FLAT, LEGACY, DEFAULT]
+  allow_cheats: {{ minecraftbedrockserver.allow_cheats | default("false", true)}} #[true, false]
+  max_players: {{ minecraftbedrockserver.max_players | default(10) }} #any positive integer
+  online_mode: {{ minecraftbedrockserver.online_mode | default("true", true)}} #[true, false]
+  white_list: {{ minecraftbedrockserver.white_list | default("false", true)}} #[true, false]
+  view_distance: {{ minecraftbedrockserver.view_distance | default(10)}} #any integer
+  tick_distance: {{ minecraftbedrockserver.tick_distance | default(4)}} #an integer between 4-12
+  player_idle_timeout: {{ minecraftbedrockserver.player_idle_timeout | default(30)}} #any integer
+  max_threads: {{ minecraftbedrockserver.max_threads | default(8)}} #any integer
+  level_name: {{ minecraftbedrockserver.level_name | default("HomelabOS")}} #any string
+  level_seed: {{ minecraftbedrockserver.level_seed | default("HomelabOS")}} #used to randomize the world
+  default_player_permission_level: {{ minecraftbedrockserver.default_player_permission_level | default("member")}} #visitor, member, or operator
+  texturepack_required: {{ mine.texturepack_required | default("false", true)}}
 miniflux:
   enable: {{ miniflux.enable | default(enable_miniflux, None) | default(False) }}
   https_only: {{ miniflux.https_only | default(False) }}
