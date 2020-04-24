@@ -27,6 +27,8 @@ services:
     volumes:
       - "{{ volumes_root }}/funkwhale:/data"
       - "{{ storage_dir }}/Music:/data/music"
+    ports:
+      - "5000:80"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
