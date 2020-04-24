@@ -1,0 +1,24 @@
+---
+- name: Make minecraftbedrockserver directory.
+  file:
+    path: "{{ volumes_root }}/minecraftbedrockserver"
+    state: directory
+
+- name: Copy minecraftbedrockserver docker-compose.yml file into place.
+  template:
+    src: docker-compose.minecraftbedrockserver.yml.j2
+    dest: "{{ volumes_root }}/minecraftbedrockserver/docker-compose.minecraftbedrockserver.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure minecraftbedrockserver systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/minecraftbedrockserver.service
+
+- name: Start minecraftbedrockserver
+  systemd:
+    name: minecraftbedrockserver
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

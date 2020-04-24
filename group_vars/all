@@ -49,6 +49,7 @@ services:
   matomo: 
   mayan: 
   minecraft: 
+  minecraftbedrockserver: 
   miniflux: 
   minio: 
   monicahq: 
@@ -142,6 +143,7 @@ mashio:
 matomo: 
 mayan: 
 minecraft: 
+minecraftbedrockserver:
 miniflux: 
 minio: 
 monicahq: 

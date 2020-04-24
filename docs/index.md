@@ -111,6 +111,7 @@ If you are having problems you can:
 
 - [Factorio](software/factorio.md) Factorio headless server in a Docker container
 - [Minecraft](software/minecraft.md) Minecraft server with select-able version
+- [MinecraftBedrockServer](software/minecraftbedrockserver) Minecraft Bedrock Server
 
 ### Gateways and terminal sharing
 
