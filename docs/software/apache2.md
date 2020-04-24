@@ -7,7 +7,7 @@ It is included with HomelabOS to serve directory listings or static sites.
 After enabling apache2 and running `make`, just place the files you want to
 server in `{{ volumes_root }}/apache2/root/` on your server.
 
-You can set the `apache2_subdomain` config setting to change the subdomain
+You can set the `apache2.subdomain` config setting to change the subdomain
 from `apache2` to something else.
 
 ## Access
