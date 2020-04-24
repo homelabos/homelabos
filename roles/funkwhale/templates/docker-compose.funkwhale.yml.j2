@@ -22,18 +22,16 @@ services:
       - FUNKWHALE_PROTOCOL=https
       - MEDIA_ROOT=/srv/funkwhale/data/media
       - DJANGO_SETTINGS_MODULE=config.settings.production
-      - DJANGO_SECRET_KEY={{"lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters length=128')"}}
+      - DJANGO_SECRET_KEY={{lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters length=128')}}
       - FUNKWHALE_FRONTEND_PATH=/srv/funkwhale/front/dist
     volumes:
-      - "{{ volumes_root }}/funkwhale/data:/data"
-      - "{{ storage_dir }}/Music:/mnt/media/Music"
-    ports:
-      - "5000:80"
+      - "{{ volumes_root }}/funkwhale:/data"
+      - "{{ storage_dir }}/Music:/data/music"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.funkwhale.loadbalancer.server.scheme=http"
-      - "traefik.http.services.funkwhale.loadbalancer.server.port=3000"
+      - "traefik.http.services.funkwhale.loadbalancer.server.port=80"
       - "traefik.http.routers.funkwhale-http.rule=Host(`{{ funkwhale.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.funkwhale-http.entrypoints=http"
 {% if not funkwhale.https_only %}
