@@ -44,6 +44,7 @@
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Updated everything to use traefik version 2
 - Added Barcode Buddy - Barcode system for Grocy
+- Added Funkwhale - A social platform to enjoy and share music
 
 ## Release Notes
 

@@ -4,7 +4,7 @@ services:
   apache2: 
   apple_health_influx: 
   authelia: 
-  barcodebuddy:
+  barcodebuddy: 
   beets: 
   bitwarden: 
   bookstack: 
@@ -24,6 +24,7 @@ services:
   firefly_iii: 
   folding_at_home: 
   freshrss: 
+  funkwhale: 
   ghost: 
   gitea: 
   gotify: 
@@ -115,9 +116,10 @@ factorio:
 firefly_iii: 
 folding_at_home: 
 freshrss: 
+funkwhale:
 ghost: 
 gitea: 
-gotify:
+gotify: 
 grafana: 
 grocy: 
 grownetics: 
@@ -126,7 +128,7 @@ healthchecks:
 homeassistant: 
 homebridge: 
 homedash: 
-huginn:
+huginn: 
 inventario: 
 jackett: 
 jellyfin: 
@@ -134,7 +136,7 @@ kibitzr:
 lidarr: 
 mailserver: 
 mailu: 
-massivedecks:
+massivedecks: 
 mashio: 
 matomo: 
 mayan: 
@@ -153,7 +155,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
-photoprism:
+photoprism: 
 pihole: 
 piwigo: 
 pixelfed: 
