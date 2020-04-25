@@ -8,6 +8,12 @@ default_password: "{{ default_password }}"
 minio_access_key: {{ minio_access_key | default() }}
 minio_secret_access_key: {{ minio_secret_access_key | default() }}
 
+# VPN For Transmission to use for Downloads
+openvpn_provider: {{ openvpn_provider | default() }}
+openvpn_username: {{ openvpn_username | default() }}
+openvpn_password: {{ openvpn_password | default() }}
+openvpn_config: {{ openvpn_config | default() }}
+
 # Cloud Servers
 aws:
   secret_key: {{ aws.secret_key | default() }}

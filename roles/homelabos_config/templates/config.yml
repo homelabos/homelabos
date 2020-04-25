@@ -579,12 +579,6 @@ darksky_key: {{ darksky_key | default() }}
 latitude: {{ latitude | default() }}
 longitude: {{ longitude | default() }}
 
-# VPN For Transmission to use for Downloads
-openvpn_provider: {{ openvpn_provider | default() }}
-openvpn_username: {{ openvpn_username | default() }}
-openvpn_password: {{ openvpn_password | default() }}
-openvpn_config: {{ openvpn_config | default() }}
-
 # NAS Config (Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-attached-storage-configuration)
 nas_enable: {{ nas_enable | default(False) }}
 nas_host: {{ nas_host | default() }}
