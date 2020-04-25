@@ -10,10 +10,10 @@ It is available at [https://funkwhale.{{ domain }}/](https://funkwhale.{{ domain
 It is also available via Tor at [http://funkwhale.{{ tor_domain }}/](http://funkwhale.{{ tor_domain }}/)
 {% endif %}
 
-Once your funkwhale instance is running, you'll need to connect to the docker instance and run the following command.
+Once your funkwhale instance is running, you'll need to SSH into your server and run:
 
 ```
-python /app/api/manage.py createsuperuser
+docker exec -it funkwhale_app_1 python /app/api/manage.py createsuperuser
 ```
 
 Additionally, you'll want to read [this document on importing your music](https://docs.funkwhale.audio/admin/importing-music.html).
