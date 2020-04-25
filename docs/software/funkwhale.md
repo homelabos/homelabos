@@ -16,9 +16,16 @@ Once your funkwhale instance is running, you'll need to SSH into your server and
 docker exec -it funkwhale_app_1 python /app/api/manage.py createsuperuser
 ```
 
-Additionally, you'll want to read [this document on importing your music](https://docs.funkwhale.audio/admin/importing-music.html).
+Now login to your funkwhale instance, and create a Library at [http://funkwhale.{{ domain }}/content/libraries](http://funkwhale.{{ domain }}/content/libraries)
 
-> Note, HomelabOS has already mounted your music folder from the nas in ```/srv/funkwhale/data/music``` 
+Get the library ID by grabbing the last bit of the URL for the new library. It should look like `e42019fe-14fe-475c-a5e6-a84dea4184cd`
+
+Now import your music with:
+
+```
+export LIBRARY_ID="<YOUR_LIBRARY_ID>"
+docker exec -it funkwhale_app_1 python /app/api/manage.py import_files $LIBRARY_ID "/data/music/" --recursive --noinput
+```
 
 ## Security enable/disable https_only and auth
 
