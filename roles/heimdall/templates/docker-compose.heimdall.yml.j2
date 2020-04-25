@@ -1,0 +1,52 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  heimdall:
+    # REQUIRED
+    image: linuxserver/heimdall
+    restart: unless-stopped
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - TZ={{ common_timezone }}
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/heimdall/config:/config"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
+      - "traefik.http.services.heimdall.loadbalancer.server.port=80"
+      - "traefik.http.routers.heimdall-http.rule=Host(`{{ heimdall.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.heimdall-http.entrypoints=http"
+{% if not heimdall.https_only %}
+      - "traefik.http.routers.heimdall-http.middlewares={% if heimdall.https_only %}redirect@file, {% else %}{% if heimdall.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.heimdall-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.heimdall.rule=Host(`{{ heimdall.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.heimdall.entrypoints=https"
+      - "traefik.http.routers.heimdall.middlewares={% if heimdall.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.heimdall.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.heimdall.tls.certresolver=dns"
+      - "traefik.http.routers.heimdall.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.heimdall.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.heimdall.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.heimdall-tor-http.rule=Host(`heimdall.{{ tor_domain }}`)"
+      - "traefik.http.routers.heimdall-tor-http.entrypoints=http"
+      - "traefik.http.routers.heimdall-tor-http.middlewares={% if heimdall.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}

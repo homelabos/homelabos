@@ -126,6 +126,7 @@ nav:
   - Password Managers:
     - Bitwarden: software/bitwarden.md
   - Personal Dashboards:
+    - Heimdall: software/heimdall.md
     - Homedash: software/homedash.md
     - Organizr: software/organizr.md
   - Photo and Video Galleries:

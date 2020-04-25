@@ -33,6 +33,7 @@ services:
   grownetics: 
   guacamole: 
   healthchecks: 
+  heimdall: 
   homeassistant: 
   homebridge: 
   homedash: 
@@ -130,6 +131,7 @@ grocy:
 grownetics: 
 guacamole: 
 healthchecks: 
+heimdall:
 homeassistant: 
 homebridge: 
 homedash: 

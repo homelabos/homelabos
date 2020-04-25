@@ -7,7 +7,6 @@
 - Added Minecraft - Minecraft server with select-able version 
 - Added NodeRED - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
-- Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 
 ## Services
 
@@ -47,10 +46,11 @@
 - Added qBittorrent - An open-source alternative to µTorrent
 - Added n8n - n8n is a free and open node based Workflow Automation Tool.
 - Updated everything to use traefik version 2
+- Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 - Added Barcode Buddy - Barcode system for Grocy
 - Added MinecraftBedrockServer - Minecraft Bedrock Server
 - Added Funkwhale - A social platform to enjoy and share music
-
+- Added Heimdall - Heimdall Application Dashboard is a dashboard for all your web applications.
 
 ## Release Notes
 
