@@ -197,6 +197,11 @@ freshrss:
   https_only: {{ freshrss.https_only | default(False) }}
   auth: {{ freshrss.auth | default(False) }}
   subdomain: {{ freshrss.subdomain | default("freshrss") }}
+funkwhale:
+  enable: {{ funkwhale.enable | default(enable_funkwhale, None) | default(False) }}
+  https_only: {{ funkwhale.https_only | default(False) }}
+  auth: {{ funkwhale.auth | default(False) }}
+  subdomain: {{ funkwhale.subdomain | default("funkwhale")}}
 ghost:
   enable: {{ ghost.enable | default(enable_ghost, None) | default(False) }}
   https_only: {{ ghost.https_only | default(False) }}

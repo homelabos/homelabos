@@ -24,6 +24,7 @@ services:
   firefly_iii: 
   folding_at_home: 
   freshrss: 
+  funkwhale: 
   ghost: 
   gitea: 
   gotify: 
@@ -117,6 +118,7 @@ factorio:
 firefly_iii: 
 folding_at_home: 
 freshrss: 
+funkwhale:
 ghost: 
 gitea: 
 gotify: 

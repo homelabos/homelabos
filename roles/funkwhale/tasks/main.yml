@@ -1,0 +1,29 @@
+---
+- name: Make funkwhale directory.
+  file:
+    path: "{{ volumes_root }}/funkwhale"
+    state: directory
+
+- name: Make funkwhale media directory.
+  file:
+    path: "{{ volumes_root }}/funkwhale/media"
+    state: directory
+
+- name: Copy funkwhale docker-compose.yml file into place.
+  template:
+    src: docker-compose.funkwhale.yml.j2
+    dest: "{{ volumes_root }}/funkwhale/docker-compose.funkwhale.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure funkwhale systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/funkwhale.service
+
+- name: Start funkwhale
+  systemd:
+    name: funkwhale
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
