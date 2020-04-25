@@ -15,13 +15,13 @@ services:
     volumes:
     - "{{ volumes_root }}/searx/settings.yml:/usr/local/searx/searx/settings.yml"
     environment:
-      - BASE_URL: http://{{ searx.subdomain }}.{{ domain }}"
+      - BASE_URL: http://{% if searx.custom_domain %}{{ searx.custom_domain }}{% else %}{{ searx.subdomain + "." + domain }}{% endif %}"
    labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.searx.loadbalancer.server.scheme=http"
       - "traefik.http.services.searx.loadbalancer.server.port=8888"
-      - "traefik.http.routers.searx-http.rule=Host(`{{ searx.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.searx-http.rule=Host(`{% if searx.custom_domain %}{{ searx.custom_domain }}{% else %}{{ searx.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.searx-http.entrypoints=http"
 {% if not searx.https_only %}
       - "traefik.http.routers.searx-http.middlewares={% if searx.https_only %}redirect@file, {% else %}{% if searx.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -29,7 +29,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.searx-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.searx.rule=Host(`{{ searx.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.searx.rule=Host(`{% if searx.custom_domain %}{{ searx.custom_domain }}{% else %}{{ searx.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.searx.entrypoints=https"
       - "traefik.http.routers.searx.middlewares={% if searx.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.searx.tls=true"

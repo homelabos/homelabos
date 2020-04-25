@@ -60,7 +60,7 @@ services:
       SECRETS_rabbitmq_password: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')}}"
       SECRETS_postgres_password: "{{lookup('password', './settings/passwords/zulip_db_password chars=digits')}}"
       SECRETS_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=digits')}}"
-      SETTING_EXTERNAL_HOST: '{{ zulip.subdomain }}.{{ domain }}'
+      SETTING_EXTERNAL_HOST: '{% if zulip.custom_domain %}{{ zulip.custom_domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}'
       SETTING_ZULIP_ADMINISTRATOR: 'admin@example.com'
       SETTING_EMAIL_HOST: ''  # e.g. smtp.example.com
       SETTING_EMAIL_HOST_USER: 'noreply@example.com'
@@ -82,7 +82,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.zulip.loadbalancer.server.scheme=http"
       - "traefik.http.services.zulip.loadbalancer.server.port=80"
-      - "traefik.http.routers.zulip-http.rule=Host(`{{ zulip.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.zulip-http.rule=Host(`{% if zulip.custom_domain %}{{ zulip.custom_domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.zulip-http.entrypoints=http"
 {% if not zulip.https_only %}
       - "traefik.http.routers.zulip-http.middlewares={% if zulip.https_only %}redirect@file, {% else %}{% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -90,7 +90,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.zulip-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.zulip.rule=Host(`{{ zulip.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.zulip.rule=Host(`{% if zulip.custom_domain %}{{ zulip.custom_domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.zulip.entrypoints=https"
       - "traefik.http.routers.zulip.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.zulip.tls=true"

@@ -45,7 +45,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.minecraftbedrockserver.loadbalancer.server.scheme=http"
       - "traefik.http.services.minecraftbedrockserver.loadbalancer.server.port=3000"
-      - "traefik.http.routers.minecraftbedrockserver-http.rule=Host(`{{ minecraftbedrockserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.minecraftbedrockserver-http.rule=Host(`{% if minecraftbedrockserver.custom_domain %}{{ minecraftbedrockserver.custom_domain }}{% else %}{{ minecraftbedrockserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.minecraftbedrockserver-http.entrypoints=http"
 {% if not minecraftbedrockserver.https_only %}
       - "traefik.http.routers.minecraftbedrockserver-http.middlewares={% if minecraftbedrockserver.https_only %}redirect@file, {% else %}{% if minecraftbedrockserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -53,7 +53,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.minecraftbedrockserver-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.minecraftbedrockserver.rule=Host(`{{ minecraftbedrockserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.minecraftbedrockserver.rule=Host(`{% if minecraftbedrockserver.custom_domain %}{{ minecraftbedrockserver.custom_domain }}{% else %}{{ minecraftbedrockserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.minecraftbedrockserver.entrypoints=https"
       - "traefik.http.routers.minecraftbedrockserver.middlewares={% if minecraftbedrockserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.minecraftbedrockserver.tls=true"

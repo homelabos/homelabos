@@ -100,7 +100,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.grownetics.loadbalancer.server.scheme=http"
       - "traefik.http.services.grownetics.loadbalancer.server.port=80"
-      - "traefik.http.routers.grownetics-http.rule=Host(`{{ grownetics.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.grownetics-http.rule=Host(`{% if grownetics.custom_domain %}{{ grownetics.custom_domain }}{% else %}{{ grownetics.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.grownetics-http.entrypoints=http"
 {% if not grownetics.https_only %}
       - "traefik.http.routers.grownetics-http.middlewares={% if grownetics.https_only %}redirect@file, {% else %}{% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -108,7 +108,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.grownetics-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.grownetics.rule=Host(`{{ grownetics.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.grownetics.rule=Host(`{% if grownetics.custom_domain %}{{ grownetics.custom_domain }}{% else %}{{ grownetics.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.grownetics.entrypoints=https"
       - "traefik.http.routers.grownetics.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.grownetics.tls=true"

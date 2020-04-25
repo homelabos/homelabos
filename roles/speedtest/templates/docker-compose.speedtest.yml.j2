@@ -24,7 +24,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.speedtest.loadbalancer.server.scheme=http"
       - "traefik.http.services.speedtest.loadbalancer.server.port=80"
-      - "traefik.http.routers.speedtest-http.rule=Host(`{{ speedtest.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.speedtest-http.rule=Host(`{% if speedtest.custom_domain %}{{ speedtest.custom_domain }}{% else %}{{ speedtest.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.speedtest-http.entrypoints=http"
 {% if not speedtest.https_only %}
       - "traefik.http.routers.speedtest-http.middlewares={% if speedtest.https_only %}redirect@file, {% else %}{% if speedtest.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -32,7 +32,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.speedtest-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.speedtest.rule=Host(`{{ speedtest.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.speedtest.rule=Host(`{% if speedtest.custom_domain %}{{ speedtest.custom_domain }}{% else %}{{ speedtest.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.speedtest.entrypoints=https"
       - "traefik.http.routers.speedtest.middlewares={% if speedtest.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.speedtest.tls=true"

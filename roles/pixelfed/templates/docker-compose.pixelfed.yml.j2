@@ -18,7 +18,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.pixelfed.loadbalancer.server.scheme=http"
       - "traefik.http.services.pixelfed.loadbalancer.server.port=80"
-      - "traefik.http.routers.pixelfed-http.rule=Host(`{{ pixelfed.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.pixelfed-http.rule=Host(`{% if pixelfed.custom_domain %}{{ pixelfed.custom_domain }}{% else %}{{ pixelfed.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.pixelfed-http.entrypoints=http"
 {% if not pixelfed.https_only %}
       - "traefik.http.routers.pixelfed-http.middlewares={% if pixelfed.https_only %}redirect@file, {% else %}{% if pixelfed.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -26,7 +26,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.pixelfed-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.pixelfed.rule=Host(`{{ pixelfed.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.pixelfed.rule=Host(`{% if pixelfed.custom_domain %}{{ pixelfed.custom_domain }}{% else %}{{ pixelfed.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.pixelfed.entrypoints=https"
       - "traefik.http.routers.pixelfed.middlewares={% if pixelfed.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.pixelfed.tls=true"

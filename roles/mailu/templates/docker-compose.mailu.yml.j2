@@ -46,7 +46,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
       - "traefik.http.services.mailu.loadbalancer.server.port=80"
-      - "traefik.http.routers.mailu-http.rule=Host(`{{ mailu.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mailu-http.rule=Host(`{% if mailu.custom_domain %}{{ mailu.custom_domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.mailu-http.entrypoints=http"
 {% if not mailu.https_only %}
       - "traefik.http.routers.mailu-http.middlewares={% if mailu.https_only %}redirect@file, {% else %}{% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -54,7 +54,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.mailu-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.mailu.rule=Host(`{{ mailu.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mailu.rule=Host(`{% if mailu.custom_domain %}{{ mailu.custom_domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.mailu.entrypoints=https"
       - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mailu.tls=true"
@@ -142,7 +142,7 @@ services:
     restart: unless-stopped
     image: mailu/traefik-certdumper:1.7
     environment:
-      - DOMAIN={{ mailu.subdomain }}.{{ domain }}
+      - DOMAIN={% if mailu.custom_domain %}{{ mailu.custom_domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}
     volumes:
       # Folder, which contains the acme.json
       - "{{ volumes_root}}/traefik:/traefik"

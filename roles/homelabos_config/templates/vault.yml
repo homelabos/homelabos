@@ -52,6 +52,7 @@ smtp:
 
 traefik:
   https_only: {{ traefik.https_only | default(False) }}
+  custom_domain: {{ traefik.custom_domain | default(False) }}
   subdomain: {{ traefik.subdomain | default("traefik") }}
   auth: {{ traefik.auth | default(False) }}
   expose_internally: {{ traefik.expose_internally | default(True)  }}
@@ -72,6 +73,7 @@ authelia:
   enable: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
   https_only: {{ authelia.https_only | default(False) }}
   auth: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
+  custom_domain: {{ authelia.custom_domain | default(False) }}
   subdomain: {{ authelia.subdomain | default("auth") }}
   # Determines how verbose the logs are
   log_level: {{ authelia.log_level | default('debug') }}
@@ -110,6 +112,7 @@ bitwarden:
   enable: {{ bitwarden.enable | default(enable_bitwarden, None) | default(False) }}
   https_only: {{ bitwarden.https_only | default(False) }}
   auth: {{ bitwarden.auth | default(False) }}
+  custom_domain: {{ bitwarden.custom_domain | default(False) }}
   subdomain: {{ bitwarden.subdomain | default("bitwarden") }}
   # Enable admin page
   # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.

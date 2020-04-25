@@ -21,7 +21,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.codeserver.loadbalancer.server.scheme=http"
       - "traefik.http.services.codeserver.loadbalancer.server.port=8443"
-      - "traefik.http.routers.codeserver-http.rule=Host(`{{ codeserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.codeserver-http.rule=Host(`{% if codeserver.custom_domain %}{{ codeserver.custom_domain }}{% else %}{{ codeserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.codeserver-http.entrypoints=http"
 {% if not codeserver.https_only %}
       - "traefik.http.routers.codeserver-http.middlewares={% if codeserver.https_only %}redirect@file, {% else %}{% if codeserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -29,7 +29,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.codeserver-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.codeserver.rule=Host(`{{ codeserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.codeserver.rule=Host(`{% if codeserver.custom_domain %}{{ codeserver.custom_domain }}{% else %}{{ codeserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.codeserver.entrypoints=https"
       - "traefik.http.routers.codeserver.middlewares={% if codeserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.codeserver.tls=true"

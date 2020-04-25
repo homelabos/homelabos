@@ -17,7 +17,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mailserver.loadbalancer.server.scheme=http"
       - "traefik.http.services.mailserver.loadbalancer.server.port=0"
-      - "traefik.http.routers.mailserver-http.rule=Host(`{{ mailserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mailserver-http.rule=Host(`{% if mailserver.custom_domain %}{{ mailserver.custom_domain }}{% else %}{{ mailserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.mailserver-http.entrypoints=http"
 {% if not mailserver.https_only %}
       - "traefik.http.routers.mailserver-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -25,7 +25,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.mailserver-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.mailserver.rule=Host(`{{ mailserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mailserver.rule=Host(`{% if mailserver.custom_domain %}{{ mailserver.custom_domain }}{% else %}{{ mailserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.mailserver.entrypoints=https"
       - "traefik.http.routers.mailserver.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mailserver.tls=true"

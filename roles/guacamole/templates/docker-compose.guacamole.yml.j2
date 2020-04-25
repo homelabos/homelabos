@@ -50,12 +50,12 @@ services:
     depends_on:
       - postgres
       - guacd
-    labels: #- "traefik.http.frontend.rule=Host:{{ guacamole.subdomain }}.{{ domain }};AddPrefix:/guacamole"
+    labels: #- "traefik.http.frontend.rule=Host:{% if guacamole.custom_domain %}{{ guacamole.custom_domain }}{% else %}{{ guacamole.subdomain + "." + domain }}{% endif %};AddPrefix:/guacamole"
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.guacamole.loadbalancer.server.scheme=http"
       - "traefik.http.services.guacamole.loadbalancer.server.port=8080"
-      - "traefik.http.routers.guacamole-http.rule=Host(`{{ guacamole.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.guacamole-http.rule=Host(`{% if guacamole.custom_domain %}{{ guacamole.custom_domain }}{% else %}{{ guacamole.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.guacamole-http.entrypoints=http"
 {% if not guacamole.https_only %}
       - "traefik.http.routers.guacamole-http.middlewares={% if guacamole.https_only %}redirect@file, {% else %}{% if guacamole.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -63,7 +63,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.guacamole-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.guacamole.rule=Host(`{{ guacamole.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.guacamole.rule=Host(`{% if guacamole.custom_domain %}{{ guacamole.custom_domain }}{% else %}{{ guacamole.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.guacamole.entrypoints=https"
       - "traefik.http.routers.guacamole.middlewares={% if guacamole.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.guacamole.tls=true"

@@ -36,7 +36,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.calibre.loadbalancer.server.scheme=http"
       - "traefik.http.services.calibre.loadbalancer.server.port=8083"
-      - "traefik.http.routers.calibre-http.rule=Host(`{{ calibre.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.calibre-http.rule=Host(`{% if calibre.custom_domain %}{{ calibre.custom_domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.calibre-http.entrypoints=http"
 {% if not calibre.https_only %}
       - "traefik.http.routers.calibre-http.middlewares={% if calibre.https_only %}redirect@file, {% else %}{% if calibre.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -44,7 +44,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.calibre-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.calibre.rule=Host(`{{ calibre.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.calibre.rule=Host(`{% if calibre.custom_domain %}{{ calibre.custom_domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.calibre.entrypoints=https"
       - "traefik.http.routers.calibre.middlewares={% if calibre.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.calibre.tls=true"

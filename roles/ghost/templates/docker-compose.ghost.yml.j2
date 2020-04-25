@@ -15,7 +15,7 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      url: "https://{{ ghost.subdomain }}.{{ domain }}"
+      url: "https://{% if ghost.custom_domain %}{{ ghost.custom_domain }}{% else %}{{ ghost.subdomain + "." + domain }}{% endif %}"
 {% if smtp.user %}
       mail__transport: SMTP
       mail__from: "'Blog {{ domain }}' <{{ smtp.from_email }}>"
@@ -30,7 +30,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ghost.loadbalancer.server.scheme=http"
       - "traefik.http.services.ghost.loadbalancer.server.port=2368"
-      - "traefik.http.routers.ghost-http.rule=Host(`{{ ghost.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ghost-http.rule=Host(`{% if ghost.custom_domain %}{{ ghost.custom_domain }}{% else %}{{ ghost.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.ghost-http.entrypoints=http"
 {% if not ghost.https_only %}
       - "traefik.http.routers.ghost-http.middlewares={% if ghost.https_only %}redirect@file, {% else %}{% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -38,7 +38,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.ghost-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.ghost.rule=Host(`{{ ghost.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ghost.rule=Host(`{% if ghost.custom_domain %}{{ ghost.custom_domain }}{% else %}{{ ghost.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.ghost.entrypoints=https"
       - "traefik.http.routers.ghost.middlewares={% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ghost.tls=true"

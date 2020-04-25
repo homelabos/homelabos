@@ -20,7 +20,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.PackageFileName.loadbalancer.server.scheme=http"
       - "traefik.http.services.PackageFileName.loadbalancer.server.port=3000"
-      - "traefik.http.routers.PackageFileName-http.rule=Host(`{{ PackageFileName.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.PackageFileName-http.rule=Host(`{% if PackageFileName.custom_domain %}{{ PackageFileName.custom_domain }}{% else %}{{ PackageFileName.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.PackageFileName-http.entrypoints=http"
 {% if not PackageFileName.https_only %}
       - "traefik.http.routers.PackageFileName-http.middlewares={% if PackageFileName.https_only %}redirect@file, {% else %}{% if PackageFileName.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -28,7 +28,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.PackageFileName-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.PackageFileName.rule=Host(`{{ PackageFileName.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.PackageFileName.rule=Host(`{% if PackageFileName.custom_domain %}{{ PackageFileName.custom_domain }}{% else %}{{ PackageFileName.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.PackageFileName.entrypoints=https"
       - "traefik.http.routers.PackageFileName.middlewares={% if PackageFileName.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.PackageFileName.tls=true"
@@ -40,7 +40,7 @@ services:
       - "traefik.http.routers.PackageFileName.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.PackageFileName-tor-http.rule=Host(`PackageFileName.{{ tor_domain }}`)"
+      - "traefik.http.routers.PackageFileName-tor-http.rule=Host(`{{ PackageFileName.subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.PackageFileName-tor-http.entrypoints=http"
       - "traefik.http.routers.PackageFileName-tor-http.middlewares={% if PackageFileName.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

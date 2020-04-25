@@ -24,7 +24,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.emby.loadbalancer.server.scheme=http"
       - "traefik.http.services.emby.loadbalancer.server.port=8096"
-      - "traefik.http.routers.emby-http.rule=Host(`{{ emby.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.emby-http.rule=Host(`{% if emby.custom_domain %}{{ emby.custom_domain }}{% else %}{{ emby.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.emby-http.entrypoints=http"
 {% if not emby.https_only %}
       - "traefik.http.routers.emby-http.middlewares={% if emby.https_only %}redirect@file, {% else %}{% if emby.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -32,7 +32,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.emby-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.emby.rule=Host(`{{ emby.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.emby.rule=Host(`{% if emby.custom_domain %}{{ emby.custom_domain }}{% else %}{{ emby.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.emby.entrypoints=https"
       - "traefik.http.routers.emby.middlewares={% if emby.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.emby.tls=true"

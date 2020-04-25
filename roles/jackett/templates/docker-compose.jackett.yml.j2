@@ -26,7 +26,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.jackett.loadbalancer.server.scheme=http"
       - "traefik.http.services.jackett.loadbalancer.server.port=9117"
-      - "traefik.http.routers.jackett-http.rule=Host(`{{ jackett.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.jackett-http.rule=Host(`{% if jackett.custom_domain %}{{ jackett.custom_domain }}{% else %}{{ jackett.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.jackett-http.entrypoints=http"
 {% if not jackett.https_only %}
       - "traefik.http.routers.jackett-http.middlewares={% if jackett.https_only %}redirect@file, {% else %}{% if jackett.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -34,7 +34,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.jackett-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.jackett.rule=Host(`{{ jackett.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.jackett.rule=Host(`{% if jackett.custom_domain %}{{ jackett.custom_domain }}{% else %}{{ jackett.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.jackett.entrypoints=https"
       - "traefik.http.routers.jackett.middlewares={% if jackett.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.jackett.tls=true"

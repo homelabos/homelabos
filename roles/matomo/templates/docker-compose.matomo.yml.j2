@@ -20,7 +20,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.matomo.loadbalancer.server.scheme=http"
       - "traefik.http.services.matomo.loadbalancer.server.port=80"
-      - "traefik.http.routers.matomo-http.rule=Host(`{{ matomo.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.matomo-http.rule=Host(`{% if matomo.custom_domain %}{{ matomo.custom_domain }}{% else %}{{ matomo.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.matomo-http.entrypoints=http"
 {% if not matomo.https_only %}
       - "traefik.http.routers.matomo-http.middlewares={% if matomo.https_only %}redirect@file, {% else %}{% if matomo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -28,7 +28,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.matomo-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.matomo.rule=Host(`{{ matomo.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.matomo.rule=Host(`{% if matomo.custom_domain %}{{ matomo.custom_domain }}{% else %}{{ matomo.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.matomo.entrypoints=https"
       - "traefik.http.routers.matomo.middlewares={% if matomo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.matomo.tls=true"

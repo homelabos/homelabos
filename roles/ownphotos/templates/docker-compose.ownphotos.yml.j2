@@ -20,7 +20,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ownphotos.loadbalancer.server.scheme=http"
       - "traefik.http.services.ownphotos.loadbalancer.server.port=80"
-      - "traefik.http.routers.ownphotos-http.rule=Host(`{{ ownphotos.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ownphotos-http.rule=Host(`{% if ownphotos.custom_domain %}{{ ownphotos.custom_domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.ownphotos-http.entrypoints=http"
 {% if not ownphotos.https_only %}
       - "traefik.http.routers.ownphotos-http.middlewares={% if ownphotos.https_only %}redirect@file, {% else %}{% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -28,7 +28,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.ownphotos-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.ownphotos.rule=Host(`{{ ownphotos.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ownphotos.rule=Host(`{% if ownphotos.custom_domain %}{{ ownphotos.custom_domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.ownphotos.entrypoints=https"
       - "traefik.http.routers.ownphotos.middlewares={% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ownphotos.tls=true"
@@ -62,7 +62,7 @@ services:
       - traefik_network
     tty: true
     environment:
-      - BACKEND_HOST={{ ownphotos.subdomain }}.{{ domain }}
+      - BACKEND_HOST={% if ownphotos.custom_domain %}{{ ownphotos.custom_domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}
 
   backend:
     image: hooram/ownphotos:dev

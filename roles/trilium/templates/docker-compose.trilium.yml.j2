@@ -21,7 +21,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.trilium.loadbalancer.server.scheme=http"
       - "traefik.http.services.trilium.loadbalancer.server.port=8080"
-      - "traefik.http.routers.trilium-http.rule=Host(`{{ trilium.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.trilium-http.rule=Host(`{% if trilium.custom_domain %}{{ trilium.custom_domain }}{% else %}{{ trilium.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.trilium-http.entrypoints=http"
 {% if not trilium.https_only %}
       - "traefik.http.routers.trilium-http.middlewares={% if trilium.https_only %}redirect@file, {% else %}{% if trilium.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -29,7 +29,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.trilium-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.trilium.rule=Host(`{{ trilium.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.trilium.rule=Host(`{% if trilium.custom_domain %}{{ trilium.custom_domain }}{% else %}{{ trilium.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.trilium.entrypoints=https"
       - "traefik.http.routers.trilium.middlewares={% if trilium.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.trilium.tls=true"
