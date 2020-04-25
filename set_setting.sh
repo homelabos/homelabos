@@ -4,7 +4,7 @@ make decrypt
 echo "Finding key: $1" 
 echo "New setting: $2"
 FILE=settings/config.yml
-grep -Fq "$1" $FILE || FILE=settings/vault.yml
+sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r $FILE $1 $2 || FILE=settings/vault.yml
 
 echo "Found value in file: $FILE"
 
