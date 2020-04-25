@@ -122,6 +122,7 @@ If you are having problems you can:
 - [Airsonic](software/airsonic) - Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
 - [Beets](software/beets) - Beets is the media library management system for obsessive-compulsive music geeks.
 - [Emby](software/emby) - Personal Media Server
+- [Funkwhale](software/funkwhale) - A social platform to enjoy and share music
 - [Jellyfin](software/jellyfin) - The Free Software Media System
 - [MStream](software/mstream) - All your music, everywhere you go.
 - [Plex](software/plex) - Personal Media Server
