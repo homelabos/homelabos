@@ -55,6 +55,7 @@ services:
   monicahq: 
   mstream: 
   mylar: 
+  n8n: 
   netdata: 
   nextcloud: 
   nzbget: 
@@ -118,7 +119,7 @@ factorio:
 firefly_iii: 
 folding_at_home: 
 freshrss: 
-funkwhale:
+funkwhale: 
 ghost: 
 gitea: 
 gotify: 
@@ -143,12 +144,13 @@ mashio:
 matomo: 
 mayan: 
 minecraft: 
-minecraftbedrockserver:
+minecraftbedrockserver: 
 miniflux: 
 minio: 
 monicahq: 
 mstream: 
 mylar: 
+n8n:
 netdata: 
 nextcloud: 
 nzbget: 
@@ -178,7 +180,7 @@ syncthing:
 tautulli: 
 thelounge: 
 tick: 
-tiddlywiki:
+tiddlywiki: 
 transmission: 
 trilium: 
 ubooquity: 
