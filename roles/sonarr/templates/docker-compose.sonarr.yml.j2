@@ -21,7 +21,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - "{{ volumes_root }}/sonarr/config:/config"
       - "{{ storage_dir }}/Video/TV:/tv"
-      - "{{ storage_dir }}/Downloads/TV:/downloads"
+      - "{{ storage_dir }}/Downloads/complete/tv:/downloads"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
