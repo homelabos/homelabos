@@ -1,13 +1,13 @@
 ---
 - name: Make mashio directory.
   file:
-    path: "/var/homelabos/mashio"
+    path: "{{ volumes_root }}/mashio"
     state: directory
 
 - name: Copy mashio docker-compose.yml file into place.
   template:
     src: docker-compose.mashio.yml.j2
-    dest: /var/homelabos/mashio/docker-compose.mashio.yml
+    dest: "{{ volumes_root }}/mashio/docker-compose.mashio.yml"
 
 
 - name: Configure mashio systemd service.

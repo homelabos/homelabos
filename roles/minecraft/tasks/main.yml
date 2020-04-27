@@ -1,0 +1,24 @@
+---
+- name: Make minecraft directory.
+  file:
+    path: "{{ volumes_root }}/minecraft"
+    state: directory
+
+- name: Copy minecraft docker-compose.yml file into place.
+  template:
+    src: docker-compose.minecraft.yml.j2
+    dest: "{{ volumes_root }}/minecraft/docker-compose.minecraft.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure minecraft systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/minecraft.service
+
+- name: Start minecraft
+  systemd:
+    name: minecraft
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

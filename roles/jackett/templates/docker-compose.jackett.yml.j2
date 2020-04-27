@@ -12,8 +12,8 @@ services:
     image: linuxserver/jackett
     restart: unless-stopped
     volumes:
-      - /var/homelabos/jackett/config:/config
-      - /var/homelabos/jackett/downloads:/downloads
+      - "{{ volumes_root }}/jackett/config:/config"
+      - "{{ volumes_root }}/jackett/downloads:/downloads"
       - /etc/localtime:/etc/localtime:ro
     environment:
       - TZ={{ common_timezone }}
@@ -24,13 +24,29 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:jackett.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=9117"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.jackett.loadbalancer.server.scheme=http"
+      - "traefik.http.services.jackett.loadbalancer.server.port=9117"
+      - "traefik.http.routers.jackett-http.rule=Host(`{{ jackett.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.jackett-http.entrypoints=http"
+{% if not jackett.https_only %}
+      - "traefik.http.routers.jackett-http.middlewares={% if jackett.https_only %}redirect@file, {% else %}{% if jackett.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.jackett-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.jackett.rule=Host(`{{ jackett.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.jackett.entrypoints=https"
+      - "traefik.http.routers.jackett.middlewares={% if jackett.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.jackett.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.jackett.tls.certresolver=dns"
+      - "traefik.http.routers.jackett.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.jackett.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.jackett.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:jackett.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=9117"
+      - "traefik.http.routers.jackett-tor-http.rule=Host(`{{ jackett.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.jackett-tor-http.entrypoints=http"
+      - "traefik.http.routers.jackett-tor-http.middlewares={% if jackett.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -1,14 +1,15 @@
 ---
 - name: Make transmission directory.
   file:
-    path: "/var/homelabos/transmission"
+    path: "{{ volumes_root }}/transmission"
     state: directory
 
 - name: Copy transmission docker-compose.yml file into place.
   template:
     src: docker-compose.transmission.yml.j2
-    dest: /var/homelabos/transmission/docker-compose.transmission.yml
-
+    dest: "{{ volumes_root }}/transmission/docker-compose.transmission.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure transmission systemd service.
   template:

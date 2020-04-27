@@ -22,26 +22,42 @@ services:
       - DB_USER=gitea
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
 {% endif %}
-      - SSH_DOMAIN=gitea.{{ domain }}
+      - SSH_DOMAIN={{ gitea.subdomain }}.{{ domain }}
       - SSH_PORT={{ gitea.gitea_ssh_port }}
       - LFS_START_SERVER=true
     restart: unless-stopped
     volumes:
-      - /var/homelabos/gitea:/data
+      - "{{ volumes_root }}/gitea:/data"
     ports:
       - "{{ gitea.gitea_ssh_port }}:22"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:gitea.{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=3000"
+      - "traefik.http.services.gitea.loadbalancer.server.scheme=http"
+      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
+      - "traefik.http.routers.gitea-http.rule=Host(`{{ gitea.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.gitea-http.entrypoints=http"
+{% if not gitea.https_only %}
+      - "traefik.http.routers.gitea-http.middlewares={% if gitea.https_only %}redirect@file, {% else %}{% if gitea.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.gitea-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.gitea.rule=Host(`{{ gitea.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.gitea.entrypoints=https"
+      - "traefik.http.routers.gitea.middlewares={% if gitea.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.gitea.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.gitea.tls.certresolver=dns"
+      - "traefik.http.routers.gitea.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.gitea.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.gitea.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:gitea.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=3000"
+      - "traefik.http.routers.gitea-tor-http.rule=Host(`{{ gitea.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.gitea-tor-http.entrypoints=http"
+      - "traefik.http.routers.gitea-tor-http.middlewares={% if gitea.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
 {% if gitea.use_mariadb %}
@@ -59,5 +75,5 @@ services:
       - MYSQL_DATABASE=gitea
       - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
     volumes:
-      - /var/homelabos/gitea_db:/var/lib/mysql
+      - "{{ volumes_root }}/gitea_db:/var/lib/mysql"
 {% endif %}

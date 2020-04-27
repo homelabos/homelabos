@@ -34,6 +34,7 @@
     name: wireguard
     state: present
     update_cache: true
+    cache_valid_time: 86400
 
 - name: Create WireGuard configurations directory
   file:
@@ -65,14 +66,14 @@
   fetch:
     src: /etc/wireguard/publickey
     dest: fetch/server_public_key
-    flat: yes
+    flat: true
   when: "'bastion' in group_names"
 
 - name: Fetch HomeServer Public Key
   fetch:
     src: /etc/wireguard/publickey
     dest: fetch/client_public_key
-    flat: yes
+    flat: true
   when: "'homelabos' in group_names"
 
 - name: Copy BastionServer public key to HomeServer
@@ -106,7 +107,7 @@
     owner: root
     group: root
     mode: 0600
-    force: yes
+    force: true
   when: "'bastion' in group_names"
 
 - name: Generate WireGuard client configuration file
@@ -116,12 +117,12 @@
     owner: root
     group: root
     mode: 0600
-    force: yes
+    force: true
   when: "'homelabos' in group_names"
 
 - name: Enable WireGuard system service
   shell: systemctl enable wg-quick@wg0
-  become: True
+  become: true
   when: "'bastion' in group_names"
 
 - name: copy wireguard service-up script file to home server

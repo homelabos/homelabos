@@ -2,8 +2,17 @@
 
 - hosts: all
   become: "True"
-  gather_facts: "True"
-  tags: common
 
-  roles:
-    - homelabos_restart
+  tasks:
+    - name: Restart services
+      systemd:
+        name: "{{ service_item }}"
+        state: restarted
+        enabled: true
+      when: "query"
+      loop: "{{ services | flatten(1) }}"
+      loop_control:
+        loop_var: service_item
+      ignore_errors: "yes"
+      vars:
+        query: "{{ service_item + '.enable' }}"

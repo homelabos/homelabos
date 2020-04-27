@@ -5,7 +5,8 @@
     state: directory
     mode: "1777"
   loop:
-    - /var/homelabos/traefik
+    - "{{ volumes_root }}/traefik"
+    - "{{ volumes_root }}/traefik/conf.d"
     - /etc/docker
   ignore_errors: "yes"
 
@@ -14,40 +15,47 @@
     src: daemon.json
     dest: /etc/docker/daemon.json
 
-- name: Configure Traefik.
-  template: src=traefik.toml dest=/var/homelabos/traefik/traefik.toml
+# Needs passlib
+- name: Write user to basic auth file
+  htpasswd:
+    path: "{{ volumes_root }}/traefik/basicAuth"
+    name: "{{ default_username }}"
+    password: "{{ default_password }}"
+    owner: root
+    group: root
+    mode: 0640
 
 - name: Configure SSL
   file:
-    path: /var/homelabos/traefik/acme.json
+    path: "{{ volumes_root }}/traefik/acme.json"
     mode: 0600
     state: touch
 
 - name: Get UID
-  command: id -u
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
 - name: Create Media Folders / NAS Mount Points
+  when:
+    - nas_enable
   file:
     path: "{{ storage_dir }}/{{ item }}"
     state: directory
   with_items:
     - "Backups"
     - "Books"
-    - "Comics"
     - "Documents"
     - "Downloads"
     - "Music"
-    - "Movies"
     - "Pictures"
     - "temp"
-    - "TV"
+    - "Video"
 
 - name: Configure NAS - Public NFS Shares
   when:
@@ -61,14 +69,12 @@
   with_items:
     - "Backups"
     - "Books"
-    - "Comics"
     - "Documents"
     - "Downloads"
     - "Music"
-    - "Movies"
     - "Pictures"
     - "temp"
-    - "TV"
+    - "Video"
 
 - name: Configure NAS - Samba Shares
   when:
@@ -85,14 +91,12 @@
   with_items:
     - "Backups"
     - "Books"
-    - "Comics"
     - "Documents"
     - "Downloads"
     - "Music"
-    - "Movies"
     - "Pictures"
     - "temp"
-    - "TV"
+    - "Video"
 
 - name: Mount NAS Drives
   when: nas_enable
@@ -102,7 +106,9 @@
   ignore_errors: "yes"
 
 - name: Configure HomelabOS systemd service.
-  template: src=homelabos.service dest=/etc/systemd/system/homelabos.service
+  template:
+    src: homelabos.service
+    dest: /etc/systemd/system/homelabos.service
 
 # Hacky ansible workaround. Would love to remove these 4 tasks.
 # Long story short it ensures the `tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"` bit can work.
@@ -131,29 +137,45 @@
   shell: cat /var/lib/tor/http-onion/hostname
   register: tor_http_domain_file
 
+- name: Configure Traefik .yaml
+  template:
+    src: traefik.yaml
+    dest: "{{ volumes_root }}/traefik/traefik.yaml"
+
+- name: Configure Traefik conf.d
+  template:
+    src: conf.d/middlewares.yaml
+    dest: "{{ volumes_root }}/traefik/conf.d/middlewares.yaml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
     src: docker-compose.traefik.yml.j2
-    dest: /var/homelabos/traefik/docker-compose.traefik.yml
+    dest: "{{ volumes_root }}/traefik/docker-compose.traefik.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Create HomelabOS hosts file.
   file:
-    path: /var/homelabos/homelab_hosts
+    path: "{{ volumes_root }}/homelab_hosts"
     state: touch
 
-- name: Configure HomelabOS hosts file. You can find it at /var/homelabos/homelab_hosts on your server.
+- name: Configure HomelabOS hosts file. You can find it at {{ volumes_root }}/homelab_hosts on your server.
   lineinfile:
-    path: /var/homelabos/homelab_hosts
+    path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+  when: query
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
+  vars:
+    query: "{{ service_item + '.enable' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
 - name: Pull HomelabOS Traefik Image
-  command: docker-compose -f /var/homelabos/traefik/docker-compose.traefik.yml pull
+  command: docker-compose -f "{{ volumes_root }}/traefik/docker-compose.traefik.yml" pull
 
 - name: Start HomelabOS
   systemd:
@@ -174,38 +196,42 @@
   when: "lookup('vars', 'enable_tor')"
 
 - name: Get UID
-  command: id -u
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
-- name: Deploy enabled services.
+- name: Deploy enabled Services
   include_role:
     name: "{{ service_item }}"
-  when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+  when: query
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   vars:
+    query: "{{ service_item + '.enable' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
 - name: Ensure disabled services are not running
   systemd:
     name: "{{ service_item }}"
     state: stopped
-    enabled: false
-  when: "not lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+    enable: false
+  when: "not query"
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   ignore_errors: "yes"
+  vars:
+    query: "{{ service_item + '.enable' }}"
 
 - debug:
-    msg: "HomelabOS Installed successfully! Go to https://{{ domain }}/ to get started."
+    msg: "HomelabOS Installed successfully! Go to https://organizr.{{ domain }}/ or http://{{ homelab_ip }}:8181 to get started."
 
 - debug:
     msg: "You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}"

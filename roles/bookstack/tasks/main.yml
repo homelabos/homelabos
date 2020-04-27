@@ -1,14 +1,15 @@
 ---
 - name: Make bookstack directory.
   file:
-    path: "/var/homelabos/bookstack"
+    path: "{{ volumes_root }}/bookstack"
     state: directory
 
 - name: Copy bookstack docker-compose.yml file into place.
   template:
     src: docker-compose.bookstack.yml.j2
-    dest: /var/homelabos/bookstack/docker-compose.bookstack.yml
-
+    dest: "{{ volumes_root }}/bookstack/docker-compose.bookstack.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure bookstack systemd service.
   template:

@@ -21,14 +21,10 @@ When you have entered those three pieces of information, The script then does th
 - Edits the Readme, and Changelog files
 - Edits the group_var/all file to include the new package in the Enabled Services list
 
-## Pre-requisites
-
-To utilize this script, you'll need a working installation of ruby 2.6. If you've not already done so, install bundler, and run `bundle install` from the root of the project. _You'll only need to do this once._ This installs the various ruby gems that the script relies on.
-
 ## Running the script
 
 From the root project directory run:
-`bin/addPkg.rb` and answer the 3 questions.
+`./add_package.sh` and answer the 3 questions.
 Once the script has run, you must edit the `roles/PACKAGENAME/templates/docker-compose.PACKAGENAME.yml.j2 file`
 
 _Please review all other files, before pushing your changes to gitlab._
@@ -42,7 +38,7 @@ then adapt the values as needed.
 
 ### Use hardcoded volume paths
 
-All mounted docker volumes should point to a folder named after the service that is using it, and located under `/var/homelabos`.
+All mounted docker volumes should point to a folder named after the service that is using it, and located under `{{ volumes_root }}`.
 
 ## Add Service to Documentation
 
@@ -60,7 +56,7 @@ Update the `mkdocs.yml` file with a reference to the newly created doc file.
 The service needs to be added within
 `group_vars/all`.
 
-Place it in the `enabled_services:` section in alphabetical order. 
+Place it in the `services:` section in alphabetical order. 
 
 ## Add Service to README
 
@@ -79,5 +75,5 @@ how it's doing.
 If it's not running with an error like `(code=exited, status=1/FAILURE)`
 
 Grab the value of the ExecStart line, and run it by hand. So if the ExecStart line looks like:
-`ExecStart=/usr/bin/docker-compose -f /var/homelabos/zulip/docker-compose.zulip.yml -p zulip up`
-then manually run the bit after the =, `/usr/bin/docker-compose -f /var/homelabos/zulip/docker-compose.zulip.yml -p zulip up` to see the error output directly.
+`ExecStart=/usr/bin/docker-compose -f "{{ volumes_root }}/zulip/docker-compose.zulip.yml" -p zulip up`
+then manually run the bit after the =, `/usr/bin/docker-compose -f "{{ volumes_root }}/zulip/docker-compose.zulip.yml" -p zulip up` to see the error output directly.

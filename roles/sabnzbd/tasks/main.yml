@@ -1,0 +1,24 @@
+---
+- name: Make sabnzbd directory.
+  file:
+    path: "{{ volumes_root }}/sabnzbd"
+    state: directory
+
+- name: Copy sabnzbd docker-compose.yml file into place.
+  template:
+    src: docker-compose.sabnzbd.yml.j2
+    dest: "{{ volumes_root }}/sabnzbd/docker-compose.sabnzbd.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure sabnzbd systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/sabnzbd.service
+
+- name: Start sabnzbd
+  systemd:
+    name: sabnzbd
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

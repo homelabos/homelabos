@@ -1,23 +1,23 @@
 ---
 - name: Make digikam directory.
   file:
-    path: "/var/homelabos/digikam"
+    path: "{{ volumes_root }}/digikam"
     state: directory
 
 - name: Get UID
-  command: id -u
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
 - name: Copy digikam docker-compose.yml file into place.
   template:
     src: docker-compose.digikam.yml.j2
-    dest: /var/homelabos/digikam/docker-compose.digikam.yml
+    dest: "{{ volumes_root }}/digikam/docker-compose.digikam.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"

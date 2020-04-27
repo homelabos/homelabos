@@ -1,17 +1,20 @@
 ---
 - name: Make tick directory.
   file:
-    path: "/var/homelabos/tick"
+    path: "{{ volumes_root }}/tick"
     state: directory
 
 - name: Copy tick docker-compose.yml file into place.
   template:
     src: docker-compose.tick.yml.j2
-    dest: /var/homelabos/tick/docker-compose.tick.yml
-
+    dest: "{{ volumes_root }}/tick/docker-compose.tick.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure telegraf
-  template: src=telegraf.conf.j2 dest=/var/homelabos/tick/telegraf.conf
+  template:
+    src: telegraf.conf.j2
+    dest: "{{ volumes_root }}/tick/telegraf.conf"
 
 - name: Configure tick systemd service.
   template:

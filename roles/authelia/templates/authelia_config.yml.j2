@@ -8,7 +8,12 @@ port: 9091
 # Log level
 #
 # Level of verbosity for logs
-logs_level: {{ authelia.log_level }}
+log_level: {{ authelia.log_level }}
+
+# The secret used to generate JWT tokens when validating user identity by
+# email confirmation.
+# This secret can also be set using the env variables AUTHELIA_JWT_SECRET
+jwt_secret: {{lookup('password', './settings/passwords/authelia_jwt_secret')}}
 
 # Default redirection URL
 #
@@ -22,12 +27,25 @@ logs_level: {{ authelia.log_level }}
 # be redirected upon successful authentication.
 default_redirection_url: https://auth.{{ domain }}
 
+# Google Analytics Tracking ID to track the usage of the portal
+# using a Google Analytics dashboard.
+#
+## google_analytics: UA-00000-01
+
 # TOTP Issuer Name
 #
 # This will be the issuer name displayed in Google Authenticator
 # See: https://github.com/google/google-authenticator/wiki/Key-Uri-Format for more info on issuer names
 totp:
   issuer: {{ domain }}
+  # The period in seconds a one-time password is current for. Changing this will require all users to register
+  # their TOTP applications again.
+  # Warning: before changing period read the docs link below.
+  period: 30
+  # The skew controls number of one-time passwords either side of the current one that are valid.
+  # Warning: before changing skew read the docs link below.
+  skew: 1
+  #  See: https://docs.authelia.com/configuration/one-time-password.html#period-and-skew to read the documentation.
 
 # Duo Push API
 #
@@ -46,6 +64,8 @@ duo_api:
 #
 # There are two supported backends: `ldap` and `file`.
 authentication_backend:
+  # Disable both the HTML element and the API for reset password functionality
+  disable_reset_password: false
 
   # File backend configuration.
   #
@@ -57,6 +77,13 @@ authentication_backend:
   #
   file:
     path: /etc/authelia/userdb.yml
+    ##   password:
+    ##     algorithm: argon2id
+    ##     iterations: 1
+    ##     key_length: 32
+    ##     salt_length: 16
+    ##     memory: 1024
+    ##     parallelism: 8
 
 # Access Control
 #
@@ -124,6 +151,13 @@ session:
   # The inactivity time in ms before the session is reset.
   inactivity: {{ authelia.default.cookie_inactivity }} # 5 minutes
 
+  # The remember me duration.
+  # Value of 0 disables remember me.
+  # Value is in seconds, or duration notation. See: https://docs.authelia.com/configuration/index.html#duration-notation-format
+  # Longer periods are considered less secure because a stolen cookie will last longer giving attackers more time to spy
+  # or attack. Currently the default is 1M or 1 month.
+  remember_me_duration: 1M
+
   # The domain to protect.
   # Note: the authenticator must also be in that domain. If empty, the cookie
   # is restricted to the subdomain of the issuer.
@@ -153,16 +187,29 @@ regulation:
 
 # Configuration of the storage backend used to store data and secrets.
 #
-# You must use only an available configuration: local, mongo
+# You must use only an available configuration: local, mysql, postgres
 storage:
   # The directory where the DB files will be saved
   ## local:
-  ##   path: /var/lib/authelia/store
+  ##   path: /var/lib/authelia/db.sqlite3
 
-  # Settings to connect to mongo server
-  mongo:
-    url: mongodb://authelia_mongo_1
+  # Settings to connect to MySQL server
+  # mysql:
+  #  host: 127.0.0.1
+  #  port: 3306
+  #  database: authelia
+  #  username: authelia
+  #  # This secret can also be set using the env variables AUTHELIA_STORAGE_MYSQL_PASSWORD
+  #  password: mypassword
+
+  # Settings to connect to PostgreSQL server
+  postgres:
+    host: authelia_postgres_1
+    port: 5432
     database: my_authelia
+    username: postgres
+    # This secret can also be set using the env variables AUTHELIA_STORAGE_POSTGRES_PASSWORD
+    password: {{lookup('password', './settings/passwords/authelia_postgres_password')}}
 
 # Configuration of the notification system.
 #
@@ -188,8 +235,13 @@ notifier:
   smtp:
     username: {{ smtp.user }}
     password: {{ smtp.pass }}
-    secure: false
     host: {{ smtp.host }}
     port: {{ smtp.port }}
     sender: {{ smtp.from_email }}
+    # Subject configuration of the emails sent.
+    # {title} is replaced by the text from the notifier
+    subject: "[Authelia] {title}"
+    ## disable_require_tls: false
+    ## disable_verify_cert: false
+    ## trusted_cert: ""
 {% endif %}

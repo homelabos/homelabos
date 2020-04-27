@@ -16,7 +16,7 @@ services:
       POSTGRES_USER: 'zulip'
       POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/zulip_db_password chars=digits')}}"
     volumes:
-      - '/var/homelabos/zulip/postgresql:/var/lib/postgresql/data:rw'
+      - '{{ volumes_root }}/zulip/postgresql:/var/lib/postgresql/data:rw'
 
   memcached:
     image: 'quay.io/sameersbn/memcached:latest'
@@ -34,14 +34,14 @@ services:
         RABBITMQ_DEFAULT_USER: 'zulip'
         RABBITMQ_DEFAULT_PASS: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')}}"
     volumes:
-      - '/var/homelabos/zulip/rabbitmq:/var/lib/rabbitmq:rw'
+      - '{{ volumes_root }}/zulip/rabbitmq:/var/lib/rabbitmq:rw'
 
   redis:
     image: 'quay.io/sameersbn/redis:latest'
     networks:
       - traefik_network
     volumes:
-      - '/var/homelabos/zulip/redis:/var/lib/redis:rw'
+      - '{{ volumes_root }}/zulip/redis:/var/lib/redis:rw'
 
   zulip:
     image: 'zulip/docker-zulip:2.0.2-0'
@@ -60,7 +60,7 @@ services:
       SECRETS_rabbitmq_password: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=digits')}}"
       SECRETS_postgres_password: "{{lookup('password', './settings/passwords/zulip_db_password chars=digits')}}"
       SECRETS_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=digits')}}"
-      SETTING_EXTERNAL_HOST: 'zulip.{{ domain }}'
+      SETTING_EXTERNAL_HOST: '{{ zulip.subdomain }}.{{ domain }}'
       SETTING_ZULIP_ADMINISTRATOR: 'admin@example.com'
       SETTING_EMAIL_HOST: ''  # e.g. smtp.example.com
       SETTING_EMAIL_HOST_USER: 'noreply@example.com'
@@ -72,7 +72,7 @@ services:
       # Uncomment this when configuring the mobile push notifications service
       # SETTING_PUSH_NOTIFICATION_BOUNCER_URL: 'https://push.zulipchat.com'
     volumes:
-      - '/var/homelabos/zulip/zulip:/data:rw'
+      - '{{ volumes_root }}/zulip/zulip:/data:rw'
     ulimits:
       nofile:
         soft: 40000
@@ -80,13 +80,29 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:zulip.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.zulip.loadbalancer.server.scheme=http"
+      - "traefik.http.services.zulip.loadbalancer.server.port=80"
+      - "traefik.http.routers.zulip-http.rule=Host(`{{ zulip.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.zulip-http.entrypoints=http"
+{% if not zulip.https_only %}
+      - "traefik.http.routers.zulip-http.middlewares={% if zulip.https_only %}redirect@file, {% else %}{% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.zulip-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.zulip.rule=Host(`{{ zulip.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.zulip.entrypoints=https"
+      - "traefik.http.routers.zulip.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.zulip.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.zulip.tls.certresolver=dns"
+      - "traefik.http.routers.zulip.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.zulip.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.zulip.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:zulip.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.zulip-tor-http.rule=Host(`{{ zulip.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.zulip-tor-http.entrypoints=http"
+      - "traefik.http.routers.zulip-tor-http.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

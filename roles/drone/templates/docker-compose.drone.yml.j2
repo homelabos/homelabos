@@ -12,7 +12,7 @@ services:
     image: drone/drone:1.0
     restart: unless-stopped
     volumes:
-      - /var/homelabos/drone/data:/data
+      - "{{ volumes_root }}/drone/data:/data"
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - traefik_network
@@ -21,18 +21,36 @@ services:
       - DRONE_GIT_ALWAYS_AUTH=true
       - DRONE_RUNNER_CAPACITY=1
       - DRONE_SERVER_PROTO=https
-      - DRONE_SERVER_HOST=drone.{{ domain }}
+      - DRONE_SERVER_HOST={{ drone.subdomain }}.{{ domain }}
       - DRONE_TLS_AUTOCERT=false
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:drone.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
+      - "traefik.http.services.drone.loadbalancer.server.scheme=http"
+      - "traefik.http.services.drone.loadbalancer.server.port=80"
+      - "traefik.http.routers.drone-http.rule=Host(`{{ drone.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.drone-http.entrypoints=http"
+{% if not drone.https_only %}
+      - "traefik.http.routers.drone-http.middlewares={% if drone.https_only %}redirect@file, {% else %}{% if drone.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.drone-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.drone.rule=Host(`{{ drone.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.drone.entrypoints=https"
+      - "traefik.http.routers.drone.middlewares={% if drone.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.drone.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.drone.tls.certresolver=dns"
+      - "traefik.http.routers.drone.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.drone.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.drone.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:drone.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.drone-tor-http.rule=Host(`{{ drone.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.drone-tor-http.entrypoints=http"
+      - "traefik.http.routers.drone-tor-http.middlewares={% if drone.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   drone-agent:

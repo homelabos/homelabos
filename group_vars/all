@@ -1,83 +1,193 @@
 ---
-volumes_root: "/var/homelabos"
-tinc: "{{ enable_tinc }}"
-tor: "{{ enable_tor }}"
-enabled_services:
-  apache2: "{{ enable_apache2 }}"
-  apple_health_influx: "{{ enable_apple_health_influx }}"
-  airsonic: "{{ enable_airsonic }}"
-  authelia: "{{ enable_authelia }}"
-  beets: "{{ enable_beets }}"
-  bitwarden: "{{ enable_bitwarden }}"
-  bookstack: "{{ enable_bookstack }}"
-  bulletnotes: "{{ enable_bulletnotes }}"
-  calibre: "{{ enable_calibre }}"
-  codeserver: "{{ enable_codeserver }}"
-  darksky_influx: "{{ enable_darksky_influx }}"
-  dasher: "{{ enable_dasher }}"
-  digikam: "{{ enable_digikam }}"
-  docs: "{{ enable_docs }}"
-  duplicati: "{{ enable_duplicati }}"
-  drone: "{{ enable_drone }}"
-  emby: "{{ enable_emby }}"
-  firefly_iii: "{{ enable_firefly_iii }}"
-  freshrss: "{{ enable_freshrss }}"
-  ghost: "{{ enable_ghost }}"
-  gitea: "{{ enable_gitea }}"
-  grafana: "{{ enable_grafana }}"
-  grownetics: "{{ enable_grownetics }}"
-  guacamole: "{{ enable_guacamole }}"
-  healthchecks: "{{ enable_healthchecks }}"
-  homeassistant: "{{ enable_homeassistant }}"
-  homebridge: "{{ enable_homebridge }}"
-  homedash: "{{ enable_homedash }}"
-  inventario: "{{ enable_inventario }}"
-  jackett: "{{ enable_jackett }}"
-  jellyfin: "{{ enable_jellyfin }}"
-  kibitzr: "{{ enable_kibitzr }}"
-  lidarr: "{{ enable_lidarr }}"
-  mailserver: "{{ enable_mailserver }}"
-  mashio: "{{ enable_mashio }}"
-  matomo: "{{ enable_matomo }}"
-  mayan: "{{ enable_mayan }}"
-  miniflux: "{{ enable_miniflux }}"
-  minio: "{{ enable_minio }}"
-  monicahq: "{{ enable_monicahq }}"
-  mstream: "{{ enable_mstream }}"
-  mylar: "{{ enable_mylar }}"
-  netdata: "{{ enable_netdata }}"
-  nextcloud: "{{ enable_nextcloud }}"
-  nzbget: "{{ enable_nzbget }}"
-  ombi: "{{ enable_ombi }}"
-  openldap: "{{ enable_openldap }}"
-  openvpn: "{{ enable_openvpn }}"
-  organizr: "{{ enable_organizr }}"
-  ownphotos: "{{ enable_ownphotos }}"
-  paperless: "{{ enable_paperless }}"
-  pihole: "{{ enable_pihole }}"
-  piwigo: "{{ enable_piwigo }}"
-  pixelfed: "{{ enable_pixelfed }}"
-  plex: "{{ enable_plex }}"
-  poli: "{{ enable_poli }}"
-  portainer: "{{ enable_portainer }}"
-  radarr: "{{ enable_radarr }}"
-  restic: "{{ enable_restic }}"
-  sickchill: "{{ enable_sickchill }}"
-  sonarr: "{{ enable_sonarr }}"
-  syncthing: "{{ enable_syncthing }}"
-  tautulli: "{{ enable_tautulli }}"
-  thelounge: "{{ enable_thelounge }}"
-  tick: "{{ enable_tick }}"
-  transmission: "{{ enable_transmission }}"
-  trilium: "{{ enable_trilium }}"
-  ubooquity: "{{ enable_ubooquity }}"
-  wallabag: "{{ enable_wallabag }}"
-  webvirtmgr: "{{ enable_webvirtmgr }}"
-  wekan: "{{ enable_wekan }}"
-  watchtower: "{{ enable_watchtower }}"
-  xfinityusageinfluxdb: "{{ enable_xfinityusageinfluxdb }}"
-  zulip: "{{ enable_zulip }}"
-  speedtest: "{{ enable_speedtest }}"
+services:
+  airsonic: 
+  apache2: 
+  apple_health_influx: 
+  authelia: 
+  barcodebuddy: 
+  beets: 
+  bitwarden: 
+  bookstack: 
+  bulletnotes: 
+  calibre: 
+  chowdown: 
+  codeserver: 
+  dark_sky: 
+  dasher: 
+  digikam: 
+  docs: 
+  drone: 
+  duplicati: 
+  emby: 
+  erpnext: 
+  factorio: 
+  firefly_iii: 
+  folding_at_home: 
+  freshrss: 
+  funkwhale: 
+  ghost: 
+  gitea: 
+  gotify: 
+  grafana: 
+  grocy: 
+  grownetics: 
+  guacamole: 
+  healthchecks: 
+  homeassistant: 
+  homebridge: 
+  homedash: 
+  huginn: 
+  inventario: 
+  jackett: 
+  jellyfin: 
+  kibitzr: 
+  lidarr: 
+  mailserver: 
+  mailu: 
+  mashio: 
+  massivedecks: 
+  matomo: 
+  mayan: 
+  minecraft: 
+  minecraftbedrockserver: 
+  miniflux: 
+  minio: 
+  monicahq: 
+  mstream: 
+  mylar: 
+  netdata: 
+  nextcloud: 
+  nzbget: 
+  ombi: 
+  openldap: 
+  openvpn: 
+  organizr: 
+  ownphotos: 
+  paperless: 
+  photoprism: 
+  pihole: 
+  piwigo: 
+  pixelfed: 
+  plex: 
+  poli: 
+  portainer: 
+  privatebin: 
+  radarr: 
+  restic: 
+  sabnzbd: 
+  searx: 
+  sickchill: 
+  snibox: 
+  sonarr: 
+  speedtest: 
+  syncthing: 
+  tautulli: 
+  thelounge: 
+  tick: 
+  tiddlywiki: 
+  transmission: 
+  trilium: 
+  ubooquity: 
+  wallabag: 
+  watchtower: 
+  webvirtmgr: 
+  wekan: 
+  xfinityusageinfluxdb: 
+  zulip: 
+docs: 
+apache2: 
+apple_health_influx: 
+airsonic: 
+authelia:
+  enable: 
+bitwarden: 
+beets: 
+bookstack: 
+bulletnotes: 
+calibre: 
+chowdown: 
+codeserver: 
+dark_sky: 
+dasher: 
+digikam: 
+drone: 
+duplicati: 
+emby: 
+erpnext: 
+factorio: 
+firefly_iii: 
+folding_at_home: 
+freshrss: 
+funkwhale:
+ghost: 
+gitea: 
+gotify: 
+grafana: 
+grocy: 
+grownetics: 
+guacamole: 
+healthchecks: 
+homeassistant: 
+homebridge: 
+homedash: 
+huginn: 
+inventario: 
+jackett: 
+jellyfin: 
+kibitzr: 
+lidarr: 
+mailserver: 
+mailu: 
+massivedecks: 
+mashio: 
+matomo: 
+mayan: 
+minecraft: 
+minecraftbedrockserver:
+miniflux: 
+minio: 
+monicahq: 
+mstream: 
+mylar: 
+netdata: 
+nextcloud: 
+nzbget: 
+ombi: 
+openldap: 
+openvpn: 
+organizr: 
+ownphotos: 
+paperless: 
+photoprism: 
+pihole: 
+piwigo: 
+pixelfed: 
+plex: 
+poli: 
+portainer: 
+privatebin: 
+radarr: 
+restic: 
+sabnzbd: 
+searx: 
+sickchill: 
+snibox: 
+sonarr: 
+speedtest: 
+syncthing: 
+tautulli: 
+thelounge: 
+tick: 
+tiddlywiki:
+transmission: 
+trilium: 
+ubooquity: 
+wekan: 
+watchtower: 
+xfinityusageinfluxdb: 
+wallabag: 
+webvirtmgr: 
+zulip: 
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
@@ -85,18 +195,12 @@ vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
 smtp: 
-mailserver: 
-traefik: 
-  additional_env_vars:
-gitea: 
+traefik:
+  additional_env_vars: 
 bastion:
   wireguard: 
-  enabled: false
-authelia:
-  duo:
-  default:
-  max:
-  domain:
+  enable: false
 open_ldap:
-  seed:
-speedtest:
+  seed: 
+tinc: "{{ enable_tinc }}"
+tor: "{{ enable_tor }}"

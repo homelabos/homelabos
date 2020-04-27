@@ -1,0 +1,29 @@
+---
+- name: Make tiddlywiki directory.
+  file:
+    path: "{{ volumes_root }}/tiddlywiki"
+    state: directory
+
+- name: Copy tiddlywiki docker-compose.yml file into place.
+  template:
+    src: docker-compose.tiddlywiki.yml.j2
+    dest: "{{ volumes_root }}/tiddlywiki/docker-compose.tiddlywiki.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy tiddlywiki.info file into place.
+  template:
+    src: tiddlywiki.info
+    dest: "{{ volumes_root }}/tiddlywiki/tiddlywiki.info"
+
+- name: Configure tiddlywiki systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/tiddlywiki.service
+
+- name: Start tiddlywiki
+  systemd:
+    name: tiddlywiki
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

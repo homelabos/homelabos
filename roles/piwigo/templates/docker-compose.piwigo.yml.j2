@@ -18,26 +18,42 @@ services:
       - 8088:80
     image: mathieuruellan/piwigo
     volumes:
-        - /var/homelabos/piwigo/config:/config
-        - /var/homelabos/piwigo/data/galleries:/var/www/galleries
-        - /var/homelabos/piwigo/data/local:/var/www/local
-        - /var/homelabos/piwigo/data/plugins:/var/www/plugins
-        - /var/homelabos/piwigo/data/themes:/var/www/themes
-        - /var/homelabos/piwigo/cache:/var/www/_data/i
-        - /var/homelabos/piwigo/upload:/var/www/upload
-        - /var/homelabos/piwigo/logs:/var/log/apache2
+        - "{{ volumes_root }}/piwigo/config:/config"
+        - "{{ volumes_root }}/piwigo/data/galleries:/var/www/galleries"
+        - "{{ volumes_root }}/piwigo/data/local:/var/www/local"
+        - "{{ volumes_root }}/piwigo/data/plugins:/var/www/plugins"
+        - "{{ volumes_root }}/piwigo/data/themes:/var/www/themes"
+        - "{{ volumes_root }}/piwigo/cache:/var/www/_data/i"
+        - "{{ volumes_root }}/piwigo/upload:/var/www/upload"
+        - "{{ volumes_root }}/piwigo/logs:/var/log/apache2"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:piwigo.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.piwigo.loadbalancer.server.scheme=http"
+      - "traefik.http.services.piwigo.loadbalancer.server.port=80"
+      - "traefik.http.routers.piwigo-http.rule=Host(`{{ piwigo.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.piwigo-http.entrypoints=http"
+{% if not piwigo.https_only %}
+      - "traefik.http.routers.piwigo-http.middlewares={% if piwigo.https_only %}redirect@file, {% else %}{% if piwigo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.piwigo-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.piwigo.rule=Host(`{{ piwigo.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.piwigo.entrypoints=https"
+      - "traefik.http.routers.piwigo.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.piwigo.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.piwigo.tls.certresolver=dns"
+      - "traefik.http.routers.piwigo.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.piwigo.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.piwigo.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:piwigo.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.piwigo-tor-http.rule=Host(`{{ piwigo.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.piwigo-tor-http.entrypoints=http"
+      - "traefik.http.routers.piwigo-tor-http.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   mysqlpiwigo:
@@ -46,7 +62,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/piwigo/mysql/:/var/lib/mysql
+      - "{{ volumes_root }}/piwigo/mysql/:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/piwigo_root_db_password chars=digits')}}"
       - MYSQL_DATABASE=piwigo

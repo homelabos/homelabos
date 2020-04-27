@@ -1,3 +1,19 @@
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.kibitzr.loadbalancer.server.scheme=http"
+      - "traefik.http.services.kibitzr.loadbalancer.server.port=0"
+      - "traefik.http.routers.kibitzr-http.rule=Host(`{{ kibitzr.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.kibitzr-http.entrypoints=http"
+{% if not kibitzr.https_only %}
+      - "traefik.http.routers.kibitzr-http.middlewares={% if kibitzr.https_only %}redirect@file, {% else %}{% if kibitzr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.kibitzr-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.kibitzr.rule=Host(`{{ kibitzr.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.kibitzr.entrypoints=https"
+      - "traefik.http.routers.kibitzr.middlewares={% if kibitzr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.kibitzr.tls=true"
 ---
 version: '3'
 
@@ -12,5 +28,5 @@ services:
     image: peterdemin/kibitzr
     restart: unless-stopped
     volumes:
-      - /var/homelabos/kibitzr/config:/root/.config/kibitzr
-      - /var/homelabos/kibitzr/pages:/pages
+      - "{{ volumes_root }}/kibitzr/config:/root/.config/kibitzr"
+      - "{{ volumes_root }}/kibitzr/pages:/pages"

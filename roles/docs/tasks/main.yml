@@ -11,9 +11,13 @@
     name: pipenv
     executable: /usr/bin/pip
 
+- name: Install Passlib
+  pip:
+    name: passlib
+
 - name: Make HomelabOS documentation directory.
   file:
-    path: "/var/homelabos/docs"
+    path: "{{ volumes_root }}/docs"
     state: directory
 
 - name: Read Tor connection info
@@ -28,7 +32,7 @@
 
 - name: Ensure directory structure exists
   file:
-    path: "/var/homelabos/docs/docs/{{ item.path }}"
+    path: "{{ volumes_root }}/docs/docs/{{ item.path }}"
     state: directory
   with_filetree: "docs/"
   when: item.state == 'directory'
@@ -36,14 +40,14 @@
 - name: Configure HomelabOS Documentation.
   template:
     src: "{{ item.src }}"
-    dest: "/var/homelabos/docs/docs/{{ item.path }}"
+    dest: "{{ volumes_root }}/docs/docs/{{ item.path }}"
   with_filetree: "docs/"
   when: item.state == 'file'
 
 - name: copy configuration files
   copy:
     src: "{{ item }}"
-    dest: "/var/homelabos/docs/{{ item }}"
+    dest: "{{ volumes_root }}/docs/{{ item }}"
   loop:
     - Pipfile
     - Pipfile.lock
@@ -52,18 +56,19 @@
 - name: fetch pipenv dependencies
   shell: pipenv install
   args:
-    chdir: "/var/homelabos/docs"
+    chdir: "{{ volumes_root }}/docs"
 
 - name: build the documentation with mkdocs
   shell: pipenv run mkdocs build
   args:
-    chdir: "/var/homelabos/docs"
+    chdir: "{{ volumes_root }}/docs"
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
     src: docker-compose.docs.yml.j2
-    dest: /var/homelabos/docs/docker-compose.docs.yml
-
+    dest: "{{ volumes_root }}/docs/docker-compose.docs.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure HomelabOS systemd service.
   template:

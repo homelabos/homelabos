@@ -1,28 +1,30 @@
 ---
 - name: Make mailserver directory.
   file:
-    path: "/var/homelabos/mailserver"
+    path: "{{ volumes_root }}/mailserver"
     state: directory
 
 - name: Copy mailserver docker-compose.yml file into place.
   template:
     src: docker-compose.mailserver.yml.j2
-    dest: /var/homelabos/mailserver/docker-compose.mailserver.yml
+    dest: "{{ volumes_root }}/mailserver/docker-compose.mailserver.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Make mailserver::postfix directory.
   file:
-    path: "/var/homelabos/mailserver/mail/postfix"
+    path: "{{ volumes_root }}/mailserver/mail/postfix"
     state: directory
 
 - name: Copy root postfix settings into place
   copy:
     src: config.inc.php
-    dest: /var/homelabos/mailserver/mail/postfix/config.inc.php
+    dest: "{{ volumes_root }}/mailserver/mail/postfix/config.inc.php"
 
 - name: Copy user postfix settings into place
   copy:
     src: config.local.php
-    dest: /var/homelabos/mailserver/mail/postfix/config.local.php
+    dest: "{{ volumes_root }}/mailserver/mail/postfix/config.local.php"
 
 - name: Configure mailserver systemd service.
   template:
@@ -31,7 +33,7 @@
 
 - name: Configure postfix to forward to an external SMTP server
   lineinfile:
-    path: /var/homelabos/mailserver/mail/postfix/custom.conf
+    path: "{{ volumes_root }}/mailserver/mail/postfix/custom.conf"
     line: "{{ item }}"
     regexp: "{{ item.split('=')[0] }}"
   with_items:
@@ -48,7 +50,7 @@
 - name: configure sasl
   template:
     src: sasl_password.j2
-    dest: /var/homelabos/mailserver/mail/postfix/sasl_password
+    dest: "{{ volumes_root }}/mailserver/mail/postfix/sasl_password"
     owner: root
     group: root
     mode: 0600

@@ -16,18 +16,34 @@ services:
       - GID={{ gid }}
       - TZ={{common_timezone}}
     volumes:
-      - /var/homelabos/ombi/config:/config
+      - "{{ volumes_root }}/ombi/config:/config"
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:ombi.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=5000"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.ombi.loadbalancer.server.scheme=http"
+      - "traefik.http.services.ombi.loadbalancer.server.port=5000"
+      - "traefik.http.routers.ombi-http.rule=Host(`{{ ombi.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ombi-http.entrypoints=http"
+{% if not ombi.https_only %}
+      - "traefik.http.routers.ombi-http.middlewares={% if ombi.https_only %}redirect@file, {% else %}{% if ombi.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.ombi-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.ombi.rule=Host(`{{ ombi.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ombi.entrypoints=https"
+      - "traefik.http.routers.ombi.middlewares={% if ombi.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.ombi.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.ombi.tls.certresolver=dns"
+      - "traefik.http.routers.ombi.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.ombi.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.ombi.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:ombi.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=5000"
+      - "traefik.http.routers.ombi-tor-http.rule=Host(`{{ ombi.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.ombi-tor-http.entrypoints=http"
+      - "traefik.http.routers.ombi-tor-http.middlewares={% if ombi.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

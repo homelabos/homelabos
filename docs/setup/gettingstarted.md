@@ -4,8 +4,13 @@ Once you are all setup and ready to go you should be able to load Organizr at [h
 
 If you see `{ domain }` in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.
 
+## Securing Services
+
+If you want to add an extra layer of authentication to a service, all you have to do is set `servicename.auth` to true. If [Authelia](/docs/software/authelia/) is enabled, it will handle authentication. Otherwise, Traefik will use HTTP Basic Auth with `default_username` and `default_password` as the credentials.
+
 ## File locations
-HomelabOS sets up `/var/homelabos` on your server
+
+HomelabOS sets up `{{ volumes_root }}` on your server, which maps to `/var/homelabos` by default
 
 ## Using Organizr
 
@@ -49,14 +54,13 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make restore` - Restores a server with the most recent backup. Assuming Backups were running.
 
-`[client]$ ./set_setting.sh <setting> <value>` - Sets the setting to value, e.g. `[client]$ ./set_setting.sh enable_organizr True`
+`[client]$ make set <setting> <value>` - Sets the setting to value, e.g. `[client]$ make set organizr.enable True`
 
-`[client]$ ./get_setting.sh <setting>` - Displays the current setting of value, e.g. `[client]$ ./get_setting.sh enable_organizr`
-
+`[client]$ make get <setting>` - Displays the current setting of value, e.g. `[client]$ make get organizr.enable`
 
 `[client]$ make tag <tag>` - Runs just the items tagged with a specific tag e.g. `[client]$ make tag tinc`
 
-`[client]$ make terraform` - Spin up cloud servers with Terraform [See documentation](https://gitlab.com/NickBusey/HomelabOS/blob/dev/docs/setup/terraform.md)
+`[client]$ make terraform` - Spin up cloud servers with Terraform [See documentation](https://homelabos.com/docs/setup/terraform/)
 
 `[client]$ make terraform_destroy` - Destroy servers created by Terraform
 
@@ -66,3 +70,8 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make uninstall` - Removes HomelabOS services
 
+`[client]$ make decrypt` - Decrypts the settings/vault.yml file so you can edit it.
+
+`[client]$ make stop` - Stops all enabled services
+
+`[client]$ make stop_one <service>` - Stops the specified service e.g. `[client]$ make stop_one inventario`

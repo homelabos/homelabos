@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION_CURRENT=$(cat VERSION)
-VERSION_LATEST=$(curl -s https://gitlab.com/NickBusey/HomelabOS/raw/master/VERSION)
+VERSION_LATEST=$(curl -s -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/VERSION)
 
 function version_gt() { test "$(echo "$@" | tr " " "\n" | sort | head -n 1)" != "$1"; }
 

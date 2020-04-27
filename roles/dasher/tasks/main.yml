@@ -1,17 +1,20 @@
 ---
 - name: Configure Dasher
-  template: src=dasher.config.json dest=/var/homelabos/dasher/config.json
+  template:
+    src: dasher.config.json
+    dest: "{{ volumes_root }}/dasher/config.json"
 
 - name: Make dasher directory.
   file:
-    path: "/var/homelabos/dasher"
+    path: "{{ volumes_root }}/dasher"
     state: directory
 
 - name: Copy dasher docker-compose.yml file into place.
   template:
     src: docker-compose.dasher.yml.j2
-    dest: /var/homelabos/dasher/docker-compose.dasher.yml
-
+    dest: "{{ volumes_root }}/dasher/docker-compose.dasher.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure dasher systemd service.
   template:

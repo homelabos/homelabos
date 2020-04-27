@@ -1,13 +1,15 @@
 ---
 - name: Make watchtower directory.
   file:
-    path: "/var/homelabos/watchtower"
+    path: "{{ volumes_root }}/watchtower"
     state: directory
 
 - name: Copy watchtower docker-compose.yml file into place.
   template:
     src: docker-compose.watchtower.yml.j2
-    dest: /var/homelabos/watchtower/docker-compose.watchtower.yml
+    dest: "{{ volumes_root }}/watchtower/docker-compose.watchtower.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure watchtower systemd service.
   template:

@@ -1,13 +1,15 @@
 ---
 - name: Make poli directory.
   file:
-    path: "/var/homelabos/poli"
+    path: "{{ volumes_root }}/poli"
     state: directory
 
 - name: Copy poli docker-compose.yml file into place.
   template:
     src: docker-compose.poli.yml.j2
-    dest: /var/homelabos/poli/docker-compose.poli.yml
+    dest: "{{ volumes_root }}/poli/docker-compose.poli.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure poli systemd service.
   template:

@@ -11,7 +11,7 @@ services:
     image: gonzague/homedash
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/homelabos/homedash:/data
+      - "{{ volumes_root }}/homedash:/data"
     environment:
       - SALT=ivPWITRH5KPJE5oQQAgxuiCgIxBez6MF6idGmasWTUjZzhEx3iAtnI9TSAo6HAevApRoujC5
     restart: unless-stopped
@@ -20,13 +20,29 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:homedash.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=4567"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.homedash.loadbalancer.server.scheme=http"
+      - "traefik.http.services.homedash.loadbalancer.server.port=4567"
+      - "traefik.http.routers.homedash-http.rule=Host(`{{ homedash.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.homedash-http.entrypoints=http"
+{% if not homedash.https_only %}
+      - "traefik.http.routers.homedash-http.middlewares={% if homedash.https_only %}redirect@file, {% else %}{% if homedash.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.homedash-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.homedash.rule=Host(`{{ homedash.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.homedash.entrypoints=https"
+      - "traefik.http.routers.homedash.middlewares={% if homedash.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.homedash.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.homedash.tls.certresolver=dns"
+      - "traefik.http.routers.homedash.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.homedash.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.homedash.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:homedash.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=4567"
+      - "traefik.http.routers.homedash-tor-http.rule=Host(`{{ homedash.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.homedash-tor-http.entrypoints=http"
+      - "traefik.http.routers.homedash-tor-http.middlewares={% if homedash.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

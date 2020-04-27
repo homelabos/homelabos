@@ -20,18 +20,34 @@ services:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
     volumes:
-      - /var/homelabos/nzbget:/config
-      - {{ storage_dir }}/Downloads:/downloads
+      - "{{ volumes_root }}/nzbget:/config"
+      - "{{ storage_dir }}/Downloads:/downloads"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:nzbget.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=6789"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.nzbget.loadbalancer.server.scheme=http"
+      - "traefik.http.services.nzbget.loadbalancer.server.port=6789"
+      - "traefik.http.routers.nzbget-http.rule=Host(`{{ nzbget.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.nzbget-http.entrypoints=http"
+{% if not nzbget.https_only %}
+      - "traefik.http.routers.nzbget-http.middlewares={% if nzbget.https_only %}redirect@file, {% else %}{% if nzbget.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.nzbget-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.nzbget.rule=Host(`{{ nzbget.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.nzbget.entrypoints=https"
+      - "traefik.http.routers.nzbget.middlewares={% if nzbget.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.nzbget.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.nzbget.tls.certresolver=dns"
+      - "traefik.http.routers.nzbget.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nzbget.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.nzbget.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:nzbget.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=6789"
+      - "traefik.http.routers.nzbget-tor-http.rule=Host(`{{ nzbget.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.nzbget-tor-http.entrypoints=http"
+      - "traefik.http.routers.nzbget-tor-http.middlewares={% if nzbget.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -23,18 +23,34 @@ services:
       - USE_JSON=false
       - TZ={{ common_timezone }}
     volumes:
-      - /var/homelabos/mstream/config:/config
-      - {{ storage_dir }}/Music:/music
+      - "{{ volumes_root }}/mstream/config:/config"
+      - "{{ storage_dir }}/Music:/music"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:mstream.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=3000"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.mstream.loadbalancer.server.scheme=http"
+      - "traefik.http.services.mstream.loadbalancer.server.port=3000"
+      - "traefik.http.routers.mstream-http.rule=Host(`{{ mstream.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mstream-http.entrypoints=http"
+{% if not mstream.https_only %}
+      - "traefik.http.routers.mstream-http.middlewares={% if mstream.https_only %}redirect@file, {% else %}{% if mstream.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.mstream-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.mstream.rule=Host(`{{ mstream.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mstream.entrypoints=https"
+      - "traefik.http.routers.mstream.middlewares={% if mstream.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mstream.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.mstream.tls.certresolver=dns"
+      - "traefik.http.routers.mstream.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mstream.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.mstream.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:mstream.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=3000"
+      - "traefik.http.routers.mstream-tor-http.rule=Host(`{{ mstream.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.mstream-tor-http.entrypoints=http"
+      - "traefik.http.routers.mstream-tor-http.middlewares={% if mstream.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

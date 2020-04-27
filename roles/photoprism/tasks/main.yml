@@ -1,0 +1,24 @@
+---
+- name: Make photoprism directory.
+  file:
+    path: "{{ volumes_root }}/photoprism"
+    state: directory
+
+- name: Copy photoprism docker-compose.yml file into place.
+  template:
+    src: docker-compose.photoprism.yml.j2
+    dest: "{{ volumes_root }}/photoprism/docker-compose.photoprism.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure photoprism systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/photoprism.service
+
+- name: Start photoprism
+  systemd:
+    name: photoprism
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

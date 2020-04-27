@@ -1,0 +1,57 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    image: gotify/server
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/gotify/data:/app/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.gotify.loadbalancer.server.scheme=http"
+      - "traefik.http.services.gotify.loadbalancer.server.port=80"
+      - "traefik.http.routers.gotify-http.rule=Host(`{{ gotify.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.gotify-http.entrypoints=http"
+{% if not gotify.https_only %}
+      - "traefik.http.routers.gotify-http.middlewares={% if gotify.https_only %}redirect@file, {% else %}{% if gotify.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.gotify-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.gotify.rule=Host(`{{ gotify.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.gotify.entrypoints=https"
+      - "traefik.http.routers.gotify.middlewares={% if gotify.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.gotify.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.gotify.tls.certresolver=dns"
+      - "traefik.http.routers.gotify.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.gotify.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.gotify.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.gotify-tor-http.rule=Host(`gotify.{{ tor_domain }}`)"
+      - "traefik.http.routers.gotify-tor-http.entrypoints=http"
+      - "traefik.http.routers.gotify-tor-http.middlewares={% if gotify.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+    # OPTIONAL 
+    #links: 
+    #  - inventario_db
+    #environment:
+    #  - MYSQL_DATABASE=package_name
+    #  - MYSQL_TEST_DATABASE=package_name
+    #  - MYSQL_USER=package_name
+    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
+    # folder so that your service password doesn't change on every deploy.
+    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}

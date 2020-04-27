@@ -1,30 +1,43 @@
 ---
 - name: Make authelia directory.
   file:
-    path: "/var/homelabos/authelia"
+    path: "{{ volumes_root }}/authelia"
     state: directory
 
 - name: Copy authelia docker-compose.yml file into place.
   template:
     src: docker-compose.authelia.yml.j2
-    dest: /var/homelabos/authelia/docker-compose.authelia.yml
+    dest: "{{ volumes_root }}/authelia/docker-compose.authelia.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Generate new slapd compatible password.
-  shell: mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | base64 | sed -e 's/+/./g' |  cut -b 10-25` '{{default_password}}'
+  shell: >
+    mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random |
+    base64 |
+    sed -e 's/+/./g' |
+    cut -b 10-25` '{{default_password}}'
   register: slappasswd_out
   become: false
 
 - name: Copy userdb.yml file into place.
   template:
     src: userdb.yml.j2
-    dest: /var/homelabos/authelia/userdb.yml
+    dest: "{{ volumes_root }}/authelia/userdb.yml"
   vars:
     slapd_password: "{{ slappasswd_out.stdout }}"
 
 - name: Copy authelia_config.yml file into place.
   template:
     src: authelia_config.yml.j2
-    dest: /var/homelabos/authelia/authelia_config.yml
+    dest: "{{ volumes_root }}/authelia/authelia_config.yml"
+  vars:
+    domain_parts: "{{ domain.split('.') }}"
+
+- name: Copy authelia_config-tor.yml file into place.
+  template:
+    src: authelia_config-tor.yml.j2
+    dest: "{{ volumes_root }}/authelia/authelia_config-tor.yml"
   vars:
     domain_parts: "{{ domain.split('.') }}"
 
@@ -32,6 +45,16 @@
   template:
     src: service.j2
     dest: /etc/systemd/system/authelia.service
+
+# Migration v0.7
+# Authelia v3 to v4
+- name: Migrate Authelia v3 to v4
+  shell: >
+    docker run --rm -v {{ volumes_root }}/authelia/authelia_config.yml:/config.yml
+    --net=homelabos_traefik authelia/authelia authelia migrate mongo
+    --config=/config.yml --url=mongodb://authelia_mongo_1 --database=my_authelia
+  when: authelia.migration == True
+# End Migration v0.7
 
 - name: Start authelia
   systemd:

@@ -8,7 +8,7 @@ networks:
 
 services:
   nextcloud:
-    image: hoellen/nextcloud:16.0
+    image: hoellen/nextcloud:18.0
     networks:
       - traefik_network
     depends_on:
@@ -20,7 +20,7 @@ services:
       - APC_SHM_SIZE=128M
       - OPCACHE_MEM_SIZE=128
       - CRON_PERIOD=15m
-      - TZ=America/NewYork
+      - TZ={{ common_timezone }}
       - DOMAIN=localhost
       - DB_TYPE=mysql
       - DB_NAME=nextcloud
@@ -28,22 +28,38 @@ services:
       - DB_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=digits')}}"
       - DB_HOST=nextcloud-db
     volumes:
-      - /var/homelabos/nextcloud/config:/config
-      - {{ storage_dir }}/Documents/NextCloud:/data
-      - /var/homelabos/nextcloud/apps:/apps2
-      - /var/homelabos/nextcloud/themes:/nextcloud/themes
+      - "{{ volumes_root }}/nextcloud/config:/config"
+      - "{{ storage_dir }}/Documents/NextCloud:/data"
+      - "{{ volumes_root }}/nextcloud/apps:/apps2"
+      - "{{ volumes_root }}/nextcloud/themes:/nextcloud/themes"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:nextcloud.{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=8888"
+      - "traefik.http.services.nextcloud.loadbalancer.server.scheme=http"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=8888"
+      - "traefik.http.routers.nextcloud-http.rule=Host(`{{ nextcloud.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.nextcloud-http.entrypoints=http"
+{% if not nextcloud.https_only %}
+      - "traefik.http.routers.nextcloud-http.middlewares={% if nextcloud.https_only %}redirect@file, {% else %}{% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.nextcloud-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.nextcloud.rule=Host(`{{ nextcloud.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.nextcloud.entrypoints=https"
+      - "traefik.http.routers.nextcloud.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.nextcloud.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.nextcloud.tls.certresolver=dns"
+      - "traefik.http.routers.nextcloud.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nextcloud.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.nextcloud.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:nextcloud.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=8888"
+      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`{{ nextcloud.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.nextcloud-tor-http.entrypoints=http"
+      - "traefik.http.routers.nextcloud-tor-http.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
   # If using MySQL
@@ -52,7 +68,7 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/nextcloud_db:/var/lib/mysql
+      - "{{ volumes_root }}/nextcloud/db:/var/lib/mysql"
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits')}}"

@@ -21,18 +21,34 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:freshrss.{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
+      - "traefik.http.services.freshrss.loadbalancer.server.scheme=http"
+      - "traefik.http.services.freshrss.loadbalancer.server.port=80"
+      - "traefik.http.routers.freshrss-http.rule=Host(`{{ freshrss.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.freshrss-http.entrypoints=http"
+{% if not freshrss.https_only %}
+      - "traefik.http.routers.freshrss-http.middlewares={% if freshrss.https_only %}redirect@file, {% else %}{% if freshrss.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.freshrss-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.freshrss.rule=Host(`{{ freshrss.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.freshrss.entrypoints=https"
+      - "traefik.http.routers.freshrss.middlewares={% if freshrss.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.freshrss.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.freshrss.tls.certresolver=dns"
+      - "traefik.http.routers.freshrss.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.freshrss.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.freshrss.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:freshrss.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.freshrss-tor-http.rule=Host(`{{ freshrss.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.freshrss-tor-http.entrypoints=http"
+      - "traefik.http.routers.freshrss-tor-http.middlewares={% if freshrss.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     volumes:
-      - '/var/homelabos/freshrss/data:/var/www/FreshRSS/data'
+      - "{{ volumes_root }}/freshrss/data:/var/www/FreshRSS/data"
 
 # see https://github.com/FreshRSS/FreshRSS/blob/master/Docker/docker-compose.yml
 #  postgresql:
@@ -46,4 +62,4 @@ services:
 #      - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/freshrss_db_password chars=digits')}}"
 #      - POSTGRES_PASSWORD=freshrss
 #    volumes:
-#      - /var/homelabos/freshrss/db:/var/lib/postgresql/data
+#      - "{{ volumes_root }}/freshrss/db:/var/lib/postgresql/data"

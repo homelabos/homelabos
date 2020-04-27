@@ -17,19 +17,35 @@ services:
     ports:
       - 8081:8081
     volumes:
-      - /var/homelabos/sickchill/data:/data
-      - {{ storage_dir }}/downloads:/downloads
-      - {{ storage_dir }}/TV:/tv    
+      - "{{ volumes_root }}/sickchill/data:/data"
+      - "{{ storage_dir }}/Downloads:/downloads"
+      - "{{ storage_dir }}/Video/TV:/tv"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:sickchill.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.sickchill.loadbalancer.server.scheme=http"
+      - "traefik.http.services.sickchill.loadbalancer.server.port=80"
+      - "traefik.http.routers.sickchill-http.rule=Host(`{{ sickchill.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.sickchill-http.entrypoints=http"
+{% if not sickchill.https_only %}
+      - "traefik.http.routers.sickchill-http.middlewares={% if sickchill.https_only %}redirect@file, {% else %}{% if sickchill.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.sickchill-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.sickchill.rule=Host(`{{ sickchill.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.sickchill.entrypoints=https"
+      - "traefik.http.routers.sickchill.middlewares={% if sickchill.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.sickchill.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.sickchill.tls.certresolver=dns"
+      - "traefik.http.routers.sickchill.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.sickchill.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.sickchill.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:sickchill.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.sickchill-tor-http.rule=Host(`{{ sickchill.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.sickchill-tor-http.entrypoints=http"
+      - "traefik.http.routers.sickchill-tor-http.middlewares={% if sickchill.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

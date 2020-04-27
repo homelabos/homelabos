@@ -10,32 +10,61 @@ networks:
 
 services:
   auth:
-    image: clems4ever/authelia:v3.15.0
+    image: authelia/authelia:4.13.1
     restart: unless-stopped
     depends_on:
       - redis
-      - mongo
+      - postgres
     networks:
       - traefik_network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:auth.{{ domain }}"
-      - "traefik.http.port=9091"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.authelia.loadbalancer.server.scheme=http"
+      - "traefik.http.services.authelia.loadbalancer.server.port=9091"
+      - "traefik.http.routers.authelia-http.rule=Host(`{{ authelia.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.authelia-http.entrypoints=http"
+{% if not authelia.https_only %}
+      - "traefik.http.routers.authelia-http.middlewares={% if authelia.https_only %}redirect@file, {% else %}{% if authelia.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.authelia-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.authelia.rule=Host(`{{ authelia.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.authelia.entrypoints=https"
+      - "traefik.http.routers.authelia.middlewares={% if authelia.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.authelia.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.authelia.tls.certresolver=dns"
+      - "traefik.http.routers.authelia.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.authelia.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.authelia.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:auth.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=9091"
+      - "traefik.http.routers.authelia-tor-http.rule=Host(`auth.{{ tor_domain }}`)"
+      - "traefik.http.routers.authelia-tor-http.entrypoints=http"
 {% endif %}
     volumes:
-      - /var/homelabos/authelia/authelia_config.yml:/etc/authelia/config.yml:ro
-      - /var/homelabos/authelia/userdb.yml:/etc/authelia/userdb.yml
+      - "{{ volumes_root }}/authelia/authelia_config.yml:/etc/authelia/configuration.yml:ro"
+      - "{{ volumes_root }}/authelia/userdb.yml:/etc/authelia/userdb.yml"
+
   redis:
     networks:
       - traefik_network
     image: redis:5.0.5-alpine
+    
+  postgres:
+    networks:
+      - traefik_network
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: my_authelia
+      POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/authelia_postgres_password')}}
+    volumes:
+      - "{{ volumes_root }}/authelia/postgres_data:/var/lib/postgresql/data"
+
+# Migration v0.7 Authelia v4 does not use mongo anymore
   mongo:
     networks:
       - traefik_network
@@ -44,3 +73,4 @@ services:
       MONGO_INITDB_DATABASE: my_authelia
     volumes:
       - /var/homelabos/authelia/mongo_data:/data/db
+# End Migration

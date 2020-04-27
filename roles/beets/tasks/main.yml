@@ -1,24 +1,25 @@
 ---
 - name: Make beets directory.
   file:
-    path: "/var/homelabos/beets"
+    path: "{{ volumes_root }}/beets"
     state: directory
 
 - name: Get UID
-  command: id -u
+  command: id -u {{ homelab_ssh_user }}
   register: uid_output
   become: false
 
 - name: Get GID
-  command: id -g
+  command: id -g {{ homelab_ssh_user }}
   register: gid_output
   become: false
 
 - name: Copy beets docker-compose.yml file into place.
   template:
     src: docker-compose.beets.yml.j2
-    dest: /var/homelabos/beets/docker-compose.beets.yml
+    dest: "{{ volumes_root }}/beets/docker-compose.beets.yml"
   vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"
     gid: "{{ gid_output.stdout }}"
 

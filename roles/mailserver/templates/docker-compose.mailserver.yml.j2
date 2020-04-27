@@ -13,17 +13,40 @@ services:
     domainname: {{ domain }}                    # Mail server A/MX/FQDN & reverse PTR = mail.domain.tld.
     hostname: mail
     labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:spam.{{ domain }}
-      - traefik.mail.frontend.rule=Host:mail.{{ domain }}
-      - traefik.port=11334
-      - traefik.docker.network=traefik_network
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.mailserver.loadbalancer.server.scheme=http"
+      - "traefik.http.services.mailserver.loadbalancer.server.port=0"
+      - "traefik.http.routers.mailserver-http.rule=Host(`{{ mailserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mailserver-http.entrypoints=http"
+{% if not mailserver.https_only %}
+      - "traefik.http.routers.mailserver-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.mailserver-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.mailserver.rule=Host(`{{ mailserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.mailserver.entrypoints=https"
+      - "traefik.http.routers.mailserver.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.mailserver.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.mail.tls.certresolver=dns"
+      - "traefik.http.routers.mail.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.mail.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.mail.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.mail-tor-http.rule=Host(`mail.{{ tor_domain }}`)"
+      - "traefik.http.routers.mail-tor-http.entrypoints=http"
+      - "traefik.http.routers.mail-tor-http.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
 
     ports:
       - "25:25"       # SMTP                - Required
     # - "110:110"     # POP3       STARTTLS - Optional - For webmails/desktop clients
       - "143:143"     # IMAP       STARTTLS - Optional - For webmails/desktop clients
-      - "465:465"     # SMTPS      SSL/TLS  - Optional - Enabled for compatibility reason, otherwise disabled
+      - "465:465"     # SMTPS      SSL/TLS  - Optional - enable for compatibility reason, otherwise disabled
       - "587:587"     # Submission STARTTLS - Optional - For webmails/desktop clients
       - "993:993"     # IMAPS      SSL/TLS  - Optional - For webmails/desktop clients
     # - "995:995"     # POP3S      SSL/TLS  - Optional - For webmails/desktop clients
@@ -43,8 +66,8 @@ services:
     # Full list : https://github.com/hardware/mailserver#environment-variables
     #
     volumes:
-      - {{ volumes_root }}/mailserver/mail:/var/mail
-      - {{ volumes_root }}/traefik/acme.json:/etc/letsencrypt/acme/acme.json
+      - "{{ volumes_root }}/mailserver/mail:/var/mail"
+      - "{{ volumes_root }}/traefik/acme.json:/etc/letsencrypt/acme/acme.json"
 
     depends_on:
       - mariadb
@@ -62,15 +85,34 @@ services:
     domainname: {{ domain }}
     hostname: mail
     labels:
-      - traefik.enable=true
-      - traefik.frontend.rule=Host:postfixadmin.{{ domain }}
-      - traefik.port=8888
-      - traefik.docker.network=traefik_network
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.postfixadmin.loadbalancer.server.scheme=http"
+      - "traefik.http.services.postfixadmin.loadbalancer.server.port=8888"
+      - "traefik.http.routers.postfixadmin-http.rule=Host(`postfixadmin.{{ domain }}`)"
+      - "traefik.http.routers.postfixadmin-http.entrypoints=http"
+      - "traefik.http.routers.postfixadmin-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.postfixadmin.rule=Host(`postfixadmin.{{ domain }}`)"
+      - "traefik.http.routers.postfixadmin.entrypoints=https"
+      - "traefik.http.routers.postfixadmin.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.postfixadmin.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.postfixadmin.tls.certresolver=dns"
+      - "traefik.http.routers.postfixadmin.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.postfixadmin.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.postfixadmin.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.postfixadmin-tor-http.rule=Host(`postfixadmin.{{ tor_domain }}`)"
+      - "traefik.http.routers.postfixadmin-tor-http.entrypoints=http"
+      - "traefik.http.routers.postfixadmin-tor-http.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
     environment:
       - DBPASS={{ lookup('password', './settings/passwords/postfix_db_password chars=digits') }}
     volumes:
-      - {{ volumes_root }}/mailserver/mail/postfix/config.inc.php:/postfixadmin/config.inc.php
-      - {{ volumes_root }}/mailserver/mail/postfix/config.local.php:/postfixadmin/config.local.php
+      - "{{ volumes_root }}/mailserver/mail/postfix/config.inc.php:/postfixadmin/config.inc.php"
+      - "{{ volumes_root }}/mailserver/mail/postfix/config.local.php:/postfixadmin/config.local.php"
     depends_on:
       - mailserver
       - mariadb
@@ -85,12 +127,31 @@ services:
     image: hardware/rainloop
     restart: unless-stopped
     labels:
-      - traefik.enable=true
-      - traefik.port=8888
-      - traefik.frontend.rule=Host:webmail.{{ domain }}
-      - traefik.docker.network=traefik_network
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.webmail.loadbalancer.server.scheme=http"
+      - "traefik.http.services.webmail.loadbalancer.server.port=8888"
+      - "traefik.http.routers.webmail-http.rule=Host(`webmail.{{ domain }}`)"
+      - "traefik.http.routers.webmail-http.entrypoints=http"
+      - "traefik.http.routers.webmail-http.middlewares={% if mailserver.https_only %}redirect@file, {% else %}{% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.webmail.rule=Host(`webmail.{{ domain }}`)"
+      - "traefik.http.routers.webmail.entrypoints=https"
+      - "traefik.http.routers.webmail.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.webmail.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.webmail.tls.certresolver=dns"
+      - "traefik.http.routers.webmail.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.webmail.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.webmail.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.webmail-tor-http.rule=Host(`webmail.{{ tor_domain }}`)"
+      - "traefik.http.routers.webmail-tor-http.entrypoints=http"
+      - "traefik.http.routers.webmail-tor-http.middlewares={% if mailserver.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
     volumes:
-      - {{ volumes_root }}/mailserver/rainloop:/rainloop/data
+      - "{{ volumes_root }}/mailserver/rainloop:/rainloop/data"
     depends_on:
       - mailserver
       - mariadb
@@ -110,7 +171,7 @@ services:
       - MYSQL_USER=postfix
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/postfix_db_password chars=digits')}}"
     volumes:
-      - {{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql
+      - "{{ volumes_root }}/mailserver/mysql/db:/var/lib/mysql"
     networks:
       - traefik_network
 
@@ -122,6 +183,6 @@ services:
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:
-      - {{ volumes_root }}/mailserver/redis/db:/data
+      - "{{ volumes_root }}/mailserver/redis/db:/data"
     networks:
       - traefik_network

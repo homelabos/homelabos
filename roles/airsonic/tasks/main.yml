@@ -1,14 +1,15 @@
 ---
 - name: Make airsonic directory.
   file:
-    path: "/var/homelabos/airsonic"
+    path: "{{ volumes_root }}/airsonic"
     state: directory
 
 - name: Copy airsonic docker-compose.yml file into place.
   template:
     src: docker-compose.airsonic.yml.j2
-    dest: /var/homelabos/airsonic/docker-compose.airsonic.yml
-
+    dest: "{{ volumes_root }}/airsonic/docker-compose.airsonic.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure airsonic systemd service.
   template:

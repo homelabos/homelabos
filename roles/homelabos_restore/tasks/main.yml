@@ -4,50 +4,50 @@
     name: homelabos
     state: stopped
 
-- name: Ensure enabled services are not running
+- name: Ensure enable services are not running
   systemd:
     name: "{{ service_item }}"
     state: stopped
-    enabled: false
+    enable: false
   when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+  loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 
 - name: Clear old HomelabOS local backup if it exists.
   file:
-    path: /var/homelabos.bak
+    path: "{{ volumes_root }}.bak"
     state: absent
 
 - name: Create local backup of HomelabOS data (just in case).
-  command: mv /var/homelabos /var/homelabos.bak
+  command: mv "{{ volumes_root }}" "{{ volumes_root }}.bak"
 
 - name: Create a new HomelabOS folder.
   file:
-    path: /var/homelabos
+    path: "{{ volumes_root }}"
     state: directory
 
 - name: Copy HomelabOS restore.yml file into place.
   template:
     src: restore.yml
-    dest: /var/homelabos_restore.yml
+    dest: "{{ volumes_root }}_restore.yml"
 
 - name: Spin up restore utility.
-  command: "docker-compose -f /var/homelabos_restore.yml -p homelabos_restore up -d"
+  command: "docker-compose -f \"{{ volumes_root }}_restore.yml\" -p homelabos_restore up -d"
 
 - name: Restore HomelabOS data. (This could take quite a while depending on how much data you have.)
   command: "docker exec homelabosrestore_restore_1 restic restore latest --target /"
 
 - name: Stop restore utility.
-  command: "docker-compose -f /var/homelabos_restore.yml -p homelabos_restore down"
+  command: "docker-compose -f \"{{ volumes_root }}_restore.yml\" -p homelabos_restore down"
 
-- name: Ensure enabled services are restarted
+- name: Ensure enable services are restarted
   systemd:
     name: "{{ service_item }}"
     state: started
-    enabled: false
+    enable: false
   when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ enabled_services|flatten(levels=1) }}"
+  loop: "{{ services|flatten(levels=1) }}"
   loop_control:
     loop_var: service_item
 

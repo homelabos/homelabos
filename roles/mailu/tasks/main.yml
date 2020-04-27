@@ -1,0 +1,29 @@
+---
+- name: Make mailu directory.
+  file:
+    path: "{{ volumes_root }}/mailu"
+    state: directory
+
+- name: Copy mailu docker-compose.yml file into place.
+  template:
+    src: docker-compose.mailu.yml.j2
+    dest: "{{ volumes_root }}/mailu/docker-compose.mailu.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy mailu configuration file into place.
+  template:
+    src: mailu.env.j2
+    dest: "{{ volumes_root }}/mailu/mailu.env"
+
+- name: Configure mailu systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/mailu.service
+
+- name: Start mailu
+  systemd:
+    name: mailu
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

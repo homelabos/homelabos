@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  become: "True"
+  # gather_facts: "True"
+  tags: common
+
+  tasks:
+    - name: Stop services
+      systemd:
+        name: "{{ service_item }}"
+        state: stopped
+      when: query == true
+      loop: "{{ services|flatten(levels=1) }}"
+      loop_control:
+        loop_var: service_item
+      vars:
+        query: "{{ service_item + '.enable' }}"

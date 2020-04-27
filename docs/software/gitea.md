@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://git.{{ domain }}/](https://git.{{ domain }}/) or [http://git.{{ domain }}/](http://git.{{ domain }}/)
+It is available at [https://{{gitea.subdomain}}.{{ domain }}/](https://{{gitea.subdomain}}.{{ domain }}/) or [http://{{gitea.subdomain}}.{{ domain }}/](http://{{gitea.subdomain}}.{{ domain }}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://git.{{ tor_domain }}/](http://git.{{ tor_domain }}/)
+It is also available via Tor at [http://{{gitea.subdomain}}.{{ tor_domain }}/](http://{{gitea.subdomain}}.{{ tor_domain }}/)
 {% endif %}
 
 ### MariaDB

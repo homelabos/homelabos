@@ -1,0 +1,61 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: {{ traefik.send_anonymous_usage }}
+
+entryPoints:
+  http:
+    address: :80
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+  https:
+    address: :443
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+  smtp: #for healthchecks incoming emails
+    address: :25
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+
+providers:
+  providersThrottleDuration: 2s
+  docker:
+    watch: true
+    exposedByDefault: false
+    endpoint: unix:///var/run/docker.sock
+    swarmModeRefreshSeconds: 15s
+  file:
+    directory: /conf.d
+    watch: true
+    
+api:
+  dashboard: true
+{% if traefik.expose_internally %}
+  insecure: true
+{% else %}
+  insecure: false
+{% endif %}
+
+log:
+  level: ERROR
+
+certificatesResolvers:
+  dns:
+    acme:
+      email: {{ ((admin_email == None) | ternary('test@test.com', admin_email)) }}
+      storage: acme.json
+      dnsChallenge:
+        provider: {{ traefik.dns_challenge_provider }}
+  http:
+    acme:
+      email: {{ ((admin_email == None) | ternary('test@test.com', admin_email)) }}
+      storage: acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: http
+  

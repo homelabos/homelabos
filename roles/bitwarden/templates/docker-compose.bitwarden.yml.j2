@@ -14,24 +14,50 @@ services:
     networks:
       - traefik_network
     volumes:
-      - /var/homelabos/bitwarden:/data
+      - "{{ volumes_root }}/bitwarden:/data"
     environment:
+{% if smtp.host %}
       - SMTP_HOST={{ smtp.host }}
       - SMTP_FROM={{ smtp.from_email }}
       - SMTP_PORT=587
       - SMTP_SSL=true
       - SMTP_USERNAME={{ smtp.user }}
       - SMTP_PASSWORD={{ smtp.pass }}
+{% endif %}
+      - ADMIN_TOKEN={{ bitwarden.token }}
+      - DOMAIN=https://bitwarden.{{ domain }}
+      - SHOW_PASSWORD_HINT=false
+      - SIGNUPS_ALLOWED={{ bitwarden.signups_allowed }}
+{% if bitwarden.signups_domains_whitelist %}
+      - SIGNUPS_DOMAINS_WHITELIST={{ bitwarden.signups_domains_whitelist }}
+{% endif %}
+      - TZ={{ common_timezone }}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.frontend.rule=Host:bitwarden.{{ domain }}"
-      - "traefik.http.protocol=http"
-      - "traefik.http.port=80"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM http://{{ domain }}"
-      - "traefik.http.frontend.headers.customFrameOptionsValue=ALLOW-FROM https://{{ domain }}"
+      - "traefik.http.services.bitwarden.loadbalancer.server.scheme=http"
+      - "traefik.http.services.bitwarden.loadbalancer.server.port=80"
+      - "traefik.http.routers.bitwarden-http.rule=Host(`{{ bitwarden.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.bitwarden-http.entrypoints=http"
+{% if not bitwarden.https_only %}
+      - "traefik.http.routers.bitwarden-http.middlewares={% if bitwarden.https_only %}redirect@file, {% else %}{% if bitwarden.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.bitwarden-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.bitwarden.rule=Host(`{{ bitwarden.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.bitwarden.entrypoints=https"
+      - "traefik.http.routers.bitwarden.middlewares={% if bitwarden.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.bitwarden.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.bitwarden.tls.certresolver=dns"
+      - "traefik.http.routers.bitwarden.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.bitwarden.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.bitwarden.tls.certresolver=http"
+{% endif %}
 {% if enable_tor %}
-      - "traefik.tor.frontend.rule=Host:bitwarden.{{ tor_domain }}"
-      - "traefik.tor.protocol=http"
-      - "traefik.tor.port=80"
+      - "traefik.http.routers.bitwarden-tor-http.rule=Host(`{{ bitwarden.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.bitwarden-tor-http.entrypoints=http"
+      - "traefik.http.routers.bitwarden-tor-http.middlewares={% if bitwarden.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

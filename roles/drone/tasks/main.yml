@@ -1,14 +1,15 @@
 ---
 - name: Make drone directory.
   file:
-    path: "/var/homelabos/drone"
+    path: "{{ volumes_root }}/drone"
     state: directory
 
 - name: Copy drone docker-compose.yml file into place.
   template:
     src: docker-compose.drone.yml.j2
-    dest: /var/homelabos/drone/docker-compose.drone.yml
-
+    dest: "{{ volumes_root }}/drone/docker-compose.drone.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure drone systemd service.
   template:
