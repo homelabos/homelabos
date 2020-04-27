@@ -5,6 +5,7 @@
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
 - Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
 - Added Minecraft - Minecraft server with select-able version 
+- Added NodeRED - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 - Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 

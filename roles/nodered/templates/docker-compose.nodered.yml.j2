@@ -1,0 +1,50 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  nodered:
+    image: nodered/node-red:latest-12-minimal 
+    restart: unless-stopped
+    environment:
+      - TZ="{{common_timezone}}"
+      - NODE_OPTIONS="{{nodered.node_options}}"
+      - NODE_RED_ENABLE_PROJECTS="{{nodered.enable_projects}}"
+      - NODE_RED_ENABLE_SAFE_MODE="{{nodered.safe_mode}}"
+    volumes:
+      - {{ volumes_root }}/nodered/data:/data
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.nodered.loadbalancer.server.scheme=http"
+      - "traefik.http.services.nodered.loadbalancer.server.port=1880"
+      - "traefik.http.routers.nodered-http.rule=Host(`{{ nodered.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.nodered-http.entrypoints=http"
+{% if not nodered.https_only %}
+      - "traefik.http.routers.nodered-http.middlewares={% if nodered.https_only %}redirect@file, {% else %}{% if nodered.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.nodered-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.nodered.rule=Host(`{{ nodered.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.nodered.entrypoints=https"
+      - "traefik.http.routers.nodered.middlewares={% if nodered.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.nodered.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.nodered.tls.certresolver=dns"
+      - "traefik.http.routers.nodered.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nodered.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.nodered.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.nodered-tor-http.rule=Host(`nodered.{{ tor_domain }}`)"
+      - "traefik.http.routers.nodered-tor-http.entrypoints=http"
+      - "traefik.http.routers.nodered-tor-http.middlewares={% if nodered.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
