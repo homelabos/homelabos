@@ -85,6 +85,7 @@ services:
   snibox: 
   sonarr: 
   speedtest: 
+  statping: 
   syncthing: 
   tautulli: 
   thelounge: 
@@ -184,6 +185,7 @@ sickchill:
 snibox: 
 sonarr: 
 speedtest: 
+statping:
 syncthing: 
 tautulli: 
 thelounge: 

@@ -626,6 +626,11 @@ speedtest:
   domain: {{ speedtest.domain| default(False) }}
   subdomain: {{ speedtest.subdomain | default("speedtest") }}
   server: {{ speedtest.server | default (11441) }}
+statping:
+  enable: {{ statping.enable | default(enable_statping, None) | default(False) }}
+  https_only: {{ statping.https_only | default(False) }}
+  auth: {{ statping.auth | default(False) }}
+  subdomain: {{ statping.subdomain | default("statping")}}
 syncthing:
   enable: {{ syncthing.enable | default(enable_syncthing, None) | default(False) }}
   https_only: {{ syncthing.https_only | default(False) }}
