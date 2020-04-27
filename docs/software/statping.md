@@ -10,6 +10,10 @@ It is available at [https://statping.{{ domain }}/](https://statping.{{ domain }
 It is also available via Tor at [http://statping.{{ tor_domain }}/](http://statping.{{ tor_domain }}/)
 {% endif %}
 
+To login, click on 'Dashboard' at the end of the page.
+A default username and password named 'admin' is generated on first start, please change them.
+
+
 ## Security enable/disable https_only and auth
 
 To enable https_only or auth set the service config to True
