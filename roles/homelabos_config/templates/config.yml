@@ -325,6 +325,10 @@ minecraft:
   https_only: {{ minecraft.https_only | default(False) }}
   auth: {{ minecraft.auth | default(False) }}
   subdomain: {{ minecraft.subdomain | default("minecraft") }}
+  online_mode: {{ minecraft.online_mode | default(True) }} 
+  server_type: {{ minecraft.server_type | default("VANILLA") }}
+  server_version: {{ minecraft.server_version | default("LATEST") }}
+
 minecraftbedrockserver:
   enable: {{ minecraftbedrockserver.enable | default(enable_minecraftbedrockserver, None) | default(False) }}
   https_only: {{ minecraftbedrockserver.https_only | default(False) }}

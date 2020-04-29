@@ -9,12 +9,20 @@ networks:
       name: homelabos_traefik
 
 services:
-  app:
+  minecraft:
     image: itzg/minecraft-server
     volumes:
       - "{{ volumes_root }}/minecraft/data:/data"
     environment:
       - EULA=TRUE
+      - UID={{ uid_output.stdout }}
+      - GID={{ gid_output.stdout }}
+      - GUI=False
+      - CONSOLE=False
+      - ONLINE_MODE={{ minecraft.online_mode}}
+      - TYPE={{ minecraft.server_type }}
+      - VERSION={{ minecraft.server_version }}
+
     ports:
       - 25565:25565
     restart: unless-stopped
