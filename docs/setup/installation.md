@@ -93,13 +93,23 @@ needed to get your settings correct.
 
 You can check http://{{ homelab_ip }}:8181 in a browser to see the Traefik dashboard.
 
-If it is empty, images may still be downloading. You can SSH into the server, and run
-`systemctl status SERVICENAME` like `systemctl status organizr` if you want to see if Organizr
-is running. It will show you status and/or errors of the service.
-
 See a full list of commands in the [Getting Started Section](/docs/setup/gettingstarted)
 
-### Syncing Settings via Git
+## Enabling Services
+
+Run `make set SERVICENAME.enable true` where SERVICENAME is the name of the service you want to enable.
+
+!!! Note "Example"
+    `make set miniflux.enable true`
+
+Then run `make` again. That's it. It will take a few minutes for your server to download and start the relevant images.
+
+You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
+
+!!! Note "Example"
+    `systemctl status miniflux`
+
+## Syncing Settings via Git
 
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
 So you can create a private repo on your Gitea instance for example, then clone that repo over the
