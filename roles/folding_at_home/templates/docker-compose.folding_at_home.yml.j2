@@ -12,7 +12,7 @@ services:
   app:
     # REQUIRED
     image: johnktims/folding-at-home
-    command: FAHClient --web-allow=0/0:7396 --allow=0/0:7396 --user={{ folding_at_home.username}} --team={{ folding_at_home.team }}  --power={{ folding_at_home.power }}
+    command: --web-allow=0/0:7396 --allow=0/0:7396 --user={{ folding_at_home.username}} --team={{ folding_at_home.team }}  --power={{ folding_at_home.power }}
     restart: unless-stopped
     ports:
       - 7396:7396
@@ -20,7 +20,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.folding_at_home.loadbalancer.server.scheme=http"
-      - "traefik.http.services.folding_at_home.loadbalancer.server.port=0"
+      - "traefik.http.services.folding_at_home.loadbalancer.server.port=7396"
       - "traefik.http.routers.folding_at_home-http.rule=Host(`{{ folding_at_home.subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.folding_at_home-http.entrypoints=http"
 {% if not folding_at_home.https_only %}
