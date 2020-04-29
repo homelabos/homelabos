@@ -194,6 +194,7 @@ config_block = <<~CONFIG
   enable: {{ #{to_insert}.enable | default(enable_#{to_insert}, None) | default(False) }}
   https_only: {{ #{to_insert}.https_only | default(False) }}
   auth: {{ #{to_insert}.auth | default(False) }}
+  custom_domain: {{ #{to_insert}.custom_domain | default(False) }}
   subdomain: {{ #{to_insert}.subdomain | default("#{to_insert}")}}
 CONFIG
     next_name = find_name_index_for_next_service to_insert

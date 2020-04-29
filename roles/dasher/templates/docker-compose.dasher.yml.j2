@@ -2,7 +2,7 @@
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.dasher.loadbalancer.server.scheme=http"
       - "traefik.http.services.dasher.loadbalancer.server.port=0"
-      - "traefik.http.routers.dasher-http.rule=Host(`{{ dasher.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.dasher-http.rule=Host(`{% if dasher.custom_domain %}{{ dasher.custom_domain }}{% else %}{{ dasher.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.dasher-http.entrypoints=http"
 {% if not dasher.https_only %}
       - "traefik.http.routers.dasher-http.middlewares={% if dasher.https_only %}redirect@file, {% else %}{% if dasher.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -10,7 +10,23 @@
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.dasher-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.dasher.rule=Host(`{{ dasher.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.dasher.rule=Host(`{% if dasher.custom_domain %}{{ dasher.custom_domain }}{% else %}{{ dasher.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.dasher.entrypoints=https"
+      - "traefik.http.routers.dasher.middlewares={% if dasher.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.dasher.tls=true"
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.dasher.loadbalancer.server.scheme=http"
+      - "traefik.http.services.dasher.loadbalancer.server.port=0"
+      - "traefik.http.routers.dasher-http.rule=Host(`{% if dasher.custom_domain %}{{ dasher.custom_domain }}{% else %}{{ dasher.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.dasher-http.entrypoints=http"
+{% if not dasher.https_only %}
+      - "traefik.http.routers.dasher-http.middlewares={% if dasher.https_only %}redirect@file, {% else %}{% if dasher.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.dasher-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.dasher.rule=Host(`{% if dasher.custom_domain %}{{ dasher.custom_domain }}{% else %}{{ dasher.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.dasher.entrypoints=https"
       - "traefik.http.routers.dasher.middlewares={% if dasher.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.dasher.tls=true"

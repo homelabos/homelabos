@@ -19,7 +19,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.apache2.loadbalancer.server.scheme=http"
       - "traefik.http.services.apache2.loadbalancer.server.port=80"
-      - "traefik.http.routers.apache2-http.rule=Host(`{{ apache2.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.apache2-http.rule=Host(`{% if apache2.custom_domain %}{{ apache2.custom_domain }}{% else %}{{ apache2.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.apache2-http.entrypoints=http"
 {% if not apache2.https_only %}
       - "traefik.http.routers.apache2-http.middlewares={% if apache2.https_only %}redirect@file, {% else %}{% if apache2.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -27,7 +27,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.apache2-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.apache2.rule=Host(`{{ apache2.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.apache2.rule=Host(`{% if apache2.custom_domain %}{{ apache2.custom_domain }}{% else %}{{ apache2.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.apache2.entrypoints=https"
       - "traefik.http.routers.apache2.middlewares={% if apache2.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.apache2.tls=true"

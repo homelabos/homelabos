@@ -27,7 +27,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sabnzbd.loadbalancer.server.scheme=http"
       - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"
-      - "traefik.http.routers.sabnzbd-http.rule=Host(`{{ sabnzbd.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.sabnzbd-http.rule=Host(`{% if sabnzbd.custom_domain %}{{ sabnzbd.custom_domain }}{% else %}{{ sabnzbd.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.sabnzbd-http.entrypoints=http"
 {% if not sabnzbd.https_only %}
       - "traefik.http.routers.sabnzbd-http.middlewares={% if sabnzbd.https_only %}redirect@file, {% else %}{% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -35,7 +35,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.sabnzbd-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.sabnzbd.rule=Host(`{{ sabnzbd.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.sabnzbd.rule=Host(`{% if sabnzbd.custom_domain %}{{ sabnzbd.custom_domain }}{% else %}{{ sabnzbd.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.sabnzbd.entrypoints=https"
       - "traefik.http.routers.sabnzbd.middlewares={% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sabnzbd.tls=true"

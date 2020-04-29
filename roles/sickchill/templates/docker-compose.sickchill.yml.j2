@@ -25,7 +25,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sickchill.loadbalancer.server.scheme=http"
       - "traefik.http.services.sickchill.loadbalancer.server.port=80"
-      - "traefik.http.routers.sickchill-http.rule=Host(`{{ sickchill.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.sickchill-http.rule=Host(`{% if sickchill.custom_domain %}{{ sickchill.custom_domain }}{% else %}{{ sickchill.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.sickchill-http.entrypoints=http"
 {% if not sickchill.https_only %}
       - "traefik.http.routers.sickchill-http.middlewares={% if sickchill.https_only %}redirect@file, {% else %}{% if sickchill.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -33,7 +33,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.sickchill-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.sickchill.rule=Host(`{{ sickchill.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.sickchill.rule=Host(`{% if sickchill.custom_domain %}{{ sickchill.custom_domain }}{% else %}{{ sickchill.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.sickchill.entrypoints=https"
       - "traefik.http.routers.sickchill.middlewares={% if sickchill.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sickchill.tls=true"

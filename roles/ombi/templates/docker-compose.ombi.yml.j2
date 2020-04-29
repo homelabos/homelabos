@@ -23,7 +23,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ombi.loadbalancer.server.scheme=http"
       - "traefik.http.services.ombi.loadbalancer.server.port=5000"
-      - "traefik.http.routers.ombi-http.rule=Host(`{{ ombi.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ombi-http.rule=Host(`{% if ombi.custom_domain %}{{ ombi.custom_domain }}{% else %}{{ ombi.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.ombi-http.entrypoints=http"
 {% if not ombi.https_only %}
       - "traefik.http.routers.ombi-http.middlewares={% if ombi.https_only %}redirect@file, {% else %}{% if ombi.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -31,7 +31,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.ombi-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.ombi.rule=Host(`{{ ombi.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.ombi.rule=Host(`{% if ombi.custom_domain %}{{ ombi.custom_domain }}{% else %}{{ ombi.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.ombi.entrypoints=https"
       - "traefik.http.routers.ombi.middlewares={% if ombi.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ombi.tls=true"
