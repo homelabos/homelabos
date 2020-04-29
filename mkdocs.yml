@@ -79,6 +79,7 @@ nav:
           - Transmission: software/transmission.md
       - Games:
           - Factorio: software/factorio.md
+          - MassiveDecks: software/massivedecks.md
           - Minecraft: software/minecraft.md
           - MinecraftBedrockServer: software/minecraftbedrockserver.md
       - Gateways and terminal sharing:
@@ -89,7 +90,6 @@ nav:
           - Beets: software/beets.md
           - Emby: software/emby.md
           - Jellyfin: software/jellyfin.md
-          - MassiveDecks: software/massivedecks.md
           - Mstream: software/mstream.md
           - Plex: software/plex.md
           - Funkwhale: software/funkwhale.md
