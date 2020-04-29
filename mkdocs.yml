@@ -70,6 +70,7 @@ nav:
     - SickChill: software/sickchill.md
     - Synchthing: software/syncthing.md
     - Transmission: software/transmission.md
+    - qBittorrent: software/qbittorrent.md
   - Games:
     - Factorio: software/factorio.md
     - Minecraft: software/minecraft.md

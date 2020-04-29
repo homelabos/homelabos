@@ -72,6 +72,7 @@ services:
   poli: 
   portainer: 
   privatebin: 
+  qbittorrent: 
   radarr: 
   restic: 
   sabnzbd: 
@@ -118,7 +119,7 @@ factorio:
 firefly_iii: 
 folding_at_home: 
 freshrss: 
-funkwhale:
+funkwhale: 
 ghost: 
 gitea: 
 gotify: 
@@ -143,7 +144,7 @@ mashio:
 matomo: 
 mayan: 
 minecraft: 
-minecraftbedrockserver:
+minecraftbedrockserver: 
 miniflux: 
 minio: 
 monicahq: 
@@ -166,6 +167,7 @@ plex:
 poli: 
 portainer: 
 privatebin: 
+qbittorrent:
 radarr: 
 restic: 
 sabnzbd: 
@@ -178,7 +180,7 @@ syncthing:
 tautulli: 
 thelounge: 
 tick: 
-tiddlywiki:
+tiddlywiki: 
 transmission: 
 trilium: 
 ubooquity: 

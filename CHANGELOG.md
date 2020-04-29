@@ -43,6 +43,7 @@
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
+- Added qBittorrent - An open-source alternative to µTorrent
 - Updated everything to use traefik version 2
 - Added Barcode Buddy - Barcode system for Grocy
 - Added MinecraftBedrockServer - Minecraft Bedrock Server

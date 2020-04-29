@@ -458,6 +458,13 @@ privatebin:
   https_only: {{ privatebin.https_only | default(False) }}
   auth: {{ privatebin.auth | default(False) }}
   subdomain: {{ privatebin.subdomain | default("privatebin") }}
+qbittorrent:
+  enable: {{ qbittorrent.enable | default(enable_qbittorrent, None) | default(False) }}
+  https_only: {{ qbittorrent.https_only | default(False) }}
+  auth: {{ qbittorrent.auth | default(False) }}
+  subdomain: {{ qbittorrent.subdomain | default("qbittorrent")}}
+  vpn_enabled: !!str '{{ qbittorrent.vpn_enabled | default(false) }}'
+  lan_network: {{ qbittorrent.lan_network | default("192.168.1.0/24")}}
 radarr:
   enable: {{ radarr.enable | default(enable_radarr, None) | default(False) }}
   https_only: {{ radarr.https_only | default(False) }}

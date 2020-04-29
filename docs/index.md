@@ -106,6 +106,7 @@ If you are having problems you can:
 - [Sonarr](software/radarr-sonarr) - Automated TV downloading
 - [Syncthing](software/syncthing) - File syncing software
 - [Transmission](software/transmission) - BitTorrent client
+- [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 
 ### Games
 
