@@ -11,13 +11,10 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-- name: Generate new slapd compatible password.
+- name: Generate new argon2id compatible password.
   shell: >
-    mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random |
-    base64 |
-    sed -e 's/+/./g' |
-    cut -b 10-25` '{{default_password}}'
-  register: slappasswd_out
+    docker run authelia/authelia:latest authelia hash-password {{default_password}} | awk '{print $3}'
+  register: authelia_hash
   become: false
 
 - name: Copy userdb.yml file into place.
@@ -25,7 +22,7 @@
     src: userdb.yml.j2
     dest: "{{ volumes_root }}/authelia/userdb.yml"
   vars:
-    slapd_password: "{{ slappasswd_out.stdout }}"
+    authelia_hash: "{{ authelia_hash.stdout }}"
 
 - name: Copy authelia_config.yml file into place.
   template:

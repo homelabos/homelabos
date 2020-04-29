@@ -63,14 +63,3 @@ services:
       POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/authelia_postgres_password')}}
     volumes:
       - "{{ volumes_root }}/authelia/postgres_data:/var/lib/postgresql/data"
-
-# Migration v0.7 Authelia v4 does not use mongo anymore
-  mongo:
-    networks:
-      - traefik_network
-    image: mongo:latest #3.4.21-xenial
-    environment:
-      MONGO_INITDB_DATABASE: my_authelia
-    volumes:
-      - /var/homelabos/authelia/mongo_data:/data/db
-# End Migration

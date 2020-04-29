@@ -15,10 +15,12 @@ When enabled, Traefik will forward most requests (more on this later) to Autheli
 On the backend, Authelia authenticates users against a userdb.yml file. The passwords in this file are hashed with sha512. If you need to manually edit the userdb.yml file, you'll need to create new password hashes with this command:
 
 ```bash
-mkpasswd --rounds 500000 -m sha-512 --salt `head -c 40 /dev/random | base64 | sed -e 's/+/./g' |  cut -b 10-25` 'Your new Password Here'
+docker run authelia/authelia:latest authelia hash-password 'YOUR NEW PASSWORD' | awk '{print $3}''Your new Password Here'
 ```
 
 ## Prerequisites
+
+> Note: Authelia is written in GO, and there is a known GO issue with certain Linux Kernel Versions. Specifically, Ubuntu 20.04 ships with a default kernel of 5.3.0-46 (as of 4/28/2020) Using this kernel will result in a constantly-dying-and-restarting Authelia container with a note that shows Runtime: mlock of signal stack failed.... Update your kernel to 5.3.15+, 5.4.2+, or 5.5+ You *must* upgrade your docker hosts' kerenl to one of those versions for Authelia to work
 
 1. Authelia requires a working SMTP server to authenticate new users and register devices.
 
