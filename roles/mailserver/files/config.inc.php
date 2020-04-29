@@ -513,9 +513,9 @@ $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserv
 $CONF['show_popimap']='YES';
 $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,
-// - add the domain to show_custom_domains
+// - add the domain to show_domains
 // - add the corresponding color to show_custom_colors
-$CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
+$CONF['show_domains']=array("subdomain.domain.ext","domain2.ext");
 $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // If you use a recipient_delimiter in your postfix config, you can also honor it when aliases are checked.
 // Example: $CONF['recipient_delimiter'] = "+";

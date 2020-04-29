@@ -22,10 +22,10 @@
       - docker-compose
       - whois
       - python3
-      - python-pip
-      - python-virtualenv
-      - python-passlib
-      - python-openssl
+      - python3-pip
+      - python3-virtualenv
+      - python3-passlib
+      - python3-openssl
   tags:
     - dependencies
 
