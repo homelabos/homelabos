@@ -18,6 +18,7 @@ pages:
   - hugo -s website -d ../public
   - pip install mkdocs
   - pip install mkdocs-material
+  - pip install mkdocs-git-revision-date-localized-plugin
   - mkdocs --version
   - mkdocs build
   - mv site public/docs
