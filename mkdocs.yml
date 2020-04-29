@@ -68,11 +68,11 @@ nav:
     - Minio: software/minio.md
     - Mylar: software/mylar.md
     - Ombi: software/ombi.md
+    - qBittorrent: software/qbittorrent.md
     - Radarr / Sonarr: software/radarr-sonarr.md
     - SickChill: software/sickchill.md
     - Synchthing: software/syncthing.md
     - Transmission: software/transmission.md
-    - qBittorrent: software/qbittorrent.md
   - Games:
     - Factorio: software/factorio.md
     - Minecraft: software/minecraft.md

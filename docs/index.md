@@ -101,12 +101,12 @@ If you are having problems you can:
 - [Minio](software/minio) - S3 hosting
 - [Mylar](software/mylar) - An automated Comic Book manager
 - [Ombi](software/ombi) - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 - [Radarr](software/radarr-sonarr) - Automated movie downloading
 - [SickChill](software/sickchill) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](software/radarr-sonarr) - Automated TV downloading
 - [Syncthing](software/syncthing) - File syncing software
 - [Transmission](software/transmission) - BitTorrent client
-- [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 
 ### Games
 
@@ -176,6 +176,7 @@ If you are having problems you can:
 ### Personal Dashboards
 
 - [Homedash](software/homedash) - A simple dashboard that allows to monitor and interact with many different services
+- [Heimdall](software/heimdall) Heimdall Application Dashboard is a dashboard for all your web applications.
 - [Organizr](software/organizr) - Access all your HomelabOS services in one easy place.
 
 ### Photo and Video Galleries
