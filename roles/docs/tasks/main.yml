@@ -1,10 +1,4 @@
 ---
-- name: Install pip and virtualenv for Python
-  apt:
-    name:
-      - python3
-      - python-pip
-      - python-virtualenv
 
 - name: Install pipenv
   pip:

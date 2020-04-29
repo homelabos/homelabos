@@ -21,6 +21,9 @@
       - docker
       - docker-compose
       - whois
+      - python3
+      - python-pip
+      - python-virtualenv
       - python-passlib
       - python-openssl
   tags:
