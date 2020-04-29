@@ -35,13 +35,13 @@ To deploy just one service you can run `make update_one SERVICE_NAME` e.g. `make
 
 To run just one set of tags you can run `make tag TAG_NAME` e.g. `make tag tinc`
 
+`[client]$ make web` - Spins up a development stack
+
+`[client]$ make lint` - Run linting scripts
+
 ## Working locally on the documentation
 
-Follow the [MkDocs Material Theme setup directions](https://squidfunk.github.io/mkdocs-material/getting-started/).
-
-Then run `mkdocs serve`.
-
-To build changes to the docs run `make docs`.
+To serve the docs locally run `make docs`.
 
 ## Working locally on the website
 
