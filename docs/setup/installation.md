@@ -99,14 +99,14 @@ See a full list of commands in the [Getting Started Section](/docs/setup/getting
 
 Run `make set SERVICENAME.enable true` where SERVICENAME is the name of the service you want to enable.
 
-!!! Note "Example"
+!!! example
     `make set miniflux.enable true`
 
 Then run `make` again. That's it. It will take a few minutes for your server to download and start the relevant images.
 
 You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
 
-!!! Note "Example"
+!!! example
     `systemctl status miniflux`
 
 ## Syncing Settings via Git
@@ -117,6 +117,9 @@ settings folder. Now any changes you make to `settings/` files will be commited 
 repo whenever you run `make`, `make update` or `make config`.
 
 ## Backing up your Vault Password
+
+!!! danger
+    This bit is important.
 
 If you installed with the Automatic/One-Liner install, your vault password exists at `~/.homelabos_vault_pass` for the user you ran the script as. Make sure to back this password up somewhere safe, and ideally _not_ in your `settings/` folder. If someone gains access to your `settings/` folder and the vault password, bad things can happen. Store them separately.
 
