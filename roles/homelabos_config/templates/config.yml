@@ -238,6 +238,23 @@ gitea:
   subdomain: {{ gitea.subdomain | default("gitea") }}
   use_mariadb: {{ gitea.use_mariadb | default(True) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
+gitlab:
+  enable: {{ gitlab.enable | default(False) }}
+  https_only: {{ gitlab.https_only | default(False) }}
+  auth: {{ gitlab.auth | default(False) }}
+  # Currently using default AWS vault entries for region/access_key/secret_key
+  aws_lfs_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
+  aws_lfs_bucket: {{ gitlab.aws_lfs_bucket | default(False) }}
+  aws_storage_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
+  aws_storage_bucket: {{ gitlab.aws_storage_bucket | default(False) }}
+  aws_backup_enabled: {{ gitlab.aws_backup_enabled | default(False) }}
+  aws_backup_bucket: {{ gitlab.aws_backup_bucket | default(False) }}
+  aws_registry_enabled: {{ gitlab.aws_registry_enabled | default(False) }}
+  aws_registry_bucket: {{ gitlab.aws_registry_bucket | default(False) }}
+  ssh_port: {{ gitlab.ssh_port | default(223) }}
+  registry:
+    https_only: {{ gitlab.registry.https_only | default(False) }}
+    auth: {{ gitlab.registry.auth | default(False) }}
 gotify:
   enable: {{ gotify.enable | default(enable_gotify, None) | default(False) }}
   https_only: {{ gotify.https_only | default(False) }}

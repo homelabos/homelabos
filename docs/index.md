@@ -195,6 +195,7 @@ If you are having problems you can:
 - [Code-Server](software/codeserver) - Run VS Code on a remote server.
 - [Drone](software/drone) - Drone is a self-service continuous delivery platform
 - [Gitea](software/gitea) - Git hosting
+- [Gitlab](software/gitlab) - Git, projects, builds, docker repos hosting, etc
 - [Snibox](software/snibox) - Self-hosted snippet manager. Developed to collect and organize code snippets.
 
 ### Task management/To-do lists
