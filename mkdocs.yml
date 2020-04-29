@@ -75,9 +75,9 @@ nav:
           - Transmission: software/transmission.md
       - Games:
           - Factorio: software/factorio.md
+          - MassiveDecks: software/massivedecks.md
           - Minecraft: software/minecraft.md
           - MinecraftBedrockServer: software/minecraftbedrockserver.md
-          - MassiveDecks: software/massivedecks.md
       - Gateways and terminal sharing:
           - Guacamole: software/guacamole.md
           - WebVirtMgr: software/webvirtmgr.md
