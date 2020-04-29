@@ -116,6 +116,10 @@ So you can create a private repo on your Gitea instance for example, then clone 
 settings folder. Now any changes you make to `settings/` files will be commited and pushed to that git
 repo whenever you run `make`, `make update` or `make config`.
 
+## Backing up your Vault Password
+
+If you installed with the Automatic/One-Liner install, your vault password exists at `~/.homelabos_vault_pass` for the user you ran the script as. Make sure to back this password up somewhere safe, and ideally _not_ in your `settings/` folder. If someone gains access to your `settings/` folder and the vault password, bad things can happen. Store them separately.
+
 ## [Troubleshooting / FAQ](faq.md)
 
 ## Network Configuration
