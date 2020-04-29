@@ -377,6 +377,11 @@ mylar:
   https_only: {{ mylar.https_only | default(False) }}
   auth: {{ mylar.auth | default(False) }}
   subdomain: {{ mylar.subdomain | default("mylar") }}
+n8n:
+  enable: {{ n8n.enable | default(enable_n8n, None) | default(False) }}
+  https_only: {{ n8n.https_only | default(False) }}
+  auth: {{ n8n.auth | default(False) }}
+  subdomain: {{ n8n.subdomain | default("n8n")}}
 netdata:
   enable: {{ netdata.enable | default(enable_netdata, None) | default(False) }}
   https_only: {{ netdata.https_only | default(False) }}

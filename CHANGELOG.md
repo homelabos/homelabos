@@ -45,6 +45,7 @@
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Added qBittorrent - An open-source alternative to µTorrent
+- Added n8n - n8n is a free and open node based Workflow Automation Tool.
 - Updated everything to use traefik version 2
 - Added Barcode Buddy - Barcode system for Grocy
 - Added MinecraftBedrockServer - Minecraft Bedrock Server

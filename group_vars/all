@@ -55,6 +55,7 @@ services:
   monicahq: 
   mstream: 
   mylar: 
+  n8n: 
   netdata: 
   nextcloud: 
   nodered: 
@@ -151,6 +152,7 @@ minio:
 monicahq: 
 mstream: 
 mylar: 
+n8n:
 netdata: 
 nextcloud: 
 nodered:
