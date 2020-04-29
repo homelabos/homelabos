@@ -177,6 +177,11 @@
 - name: Pull HomelabOS Traefik Image
   command: docker-compose -f "{{ volumes_root }}/traefik/docker-compose.traefik.yml" pull
 
+- name: Makefile helper to guide users
+  template:
+    src: helper.Makefile.j2
+    dest: {{ volumes_root }}/Makefile
+
 - name: Start HomelabOS
   systemd:
     name: homelabos
