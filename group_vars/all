@@ -57,6 +57,7 @@ services:
   mylar: 
   netdata: 
   nextcloud: 
+  nodered: 
   nzbget: 
   ombi: 
   openldap: 
@@ -152,6 +153,7 @@ mstream:
 mylar: 
 netdata: 
 nextcloud: 
+nodered:
 nzbget: 
 ombi: 
 openldap: 

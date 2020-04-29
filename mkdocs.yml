@@ -38,6 +38,7 @@ nav:
     - Home Assistant: software/homeassistant.md
     - HomeBridge: software/homebridge.md
     - Kibitzr: software/kibitzr.md
+    - NodeRED: software/nodered.md
   - Blogging Platforms:
     - Ghost: software/ghost.md
   - Calendaring and Contacts Management:

@@ -387,6 +387,15 @@ nextcloud:
   https_only: {{ nextcloud.https_only | default(False) }}
   auth: {{ nextcloud.auth | default(False) }}
   subdomain: {{ nextcloud.subdomain | default("nextcloud") }}
+nodered:
+  enable: {{ nodered.enable | default(enable_nodered, None) | default(False) }}
+  https_only: {{ nodered.https_only | default(False) }}
+  auth: {{ nodered.auth | default(False) }}
+  subdomain: {{ nodered.subdomain | default("nodered")}}
+  node_options: {{ nodered.node_options | default("") }}
+  enable_projects: {{ nodered.enable_projects | default(False) }}
+  safe_mode: {{ nodered.safe_mode | default(False) }}
+
 nzbget:
   enable: {{ nzbget.enable | default(enable_nzbget, None) | default(False) }}
   https_only: {{ nzbget.https_only | default(False) }}
