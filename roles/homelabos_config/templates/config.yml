@@ -274,6 +274,11 @@ healthchecks:
   auth: {{ healthchecks.auth | default(False) }}
   custom_domain: {{ healthchecks.custom_domain| default(False) }}
   subdomain: {{ healthchecks.subdomain | default("healthchecks") }}
+heimdall:
+  enable: {{ heimdall.enable | default(enable_heimdall, None) | default(False) }}
+  https_only: {{ heimdall.https_only | default(False) }}
+  auth: {{ heimdall.auth | default(False) }}
+  subdomain: {{ heimdall.subdomain | default("heimdall")}}
 homeassistant:
   enable: {{ homeassistant.enable | default(enable_homeassistant, None) | default(False) }}
   https_only: {{ homeassistant.https_only | default(False) }}
