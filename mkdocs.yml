@@ -4,9 +4,13 @@ site_url: https://homelabos.com/docs/
 repo_name: NickBusey/HomelabOS
 repo_url: https://gitlab.com/NickBusey/HomelabOS
 edit_uri: "/NickBusey/HomelabOS/edit/dev/docs"
+plugins:
+  - search # necessary for search to work
+  - git-revision-date-localized
 markdown_extensions:
   - admonition
   - pymdownx.details
+  - pymdownx.superfences
   - toc:
       permalink: true
 theme:

@@ -91,23 +91,11 @@ tag: logo build git_sync config
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t $(filter-out $@,$(MAKECMDGOALS)) playbook.homelabos.yml
 	@printf "\x1B[01;93m========== Done running tasks tagged with '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
 
-# Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
-docs_build: logo build git_sync config
-	@printf "\x1B[01;93m========== Building docs ==========\n\x1B[0m"
-	@which mkdocs && mkdocs build || printf "Unable to build the documentation. Please install mkdocs."
-	@printf "\x1B[01;93m========== Done building docs ==========\n\x1B[0m"
-
 # Restore a server with the most recent backup. Assuming Backups were running.
 restore: logo build git_sync config
 	@printf "\x1B[01;93m========== Restoring from backup ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory restore.yml
 	@printf "\x1B[01;93m========== Done restoring from backup! ==========\n\x1B[0m"
-
-# Spin up a development stack
-develop: logo build config
-	@printf "\x1B[01;93m========== Spinning up dev stack ==========\n\x1B[0m"
-	@vagrant up --provision
-	@printf "\x1B[01;93m========== Done spinning up dev stack! ==========\n\x1B[0m"
 
 # Run linting scripts
 lint: logo build
@@ -169,8 +157,25 @@ get: logo
 	@./get_setting.sh $(filter-out $@,$(MAKECMDGOALS))
 	@printf "\x1B[01;93m========== Done! ==========\n\x1B[0m"
 
+# Serve the HomelabOS website locally
 web:
 	cd Website && hugo serve
+
+# Spin up a development stack
+develop: logo build config
+	@printf "\x1B[01;93m========== Spinning up dev stack ==========\n\x1B[0m"
+	@vagrant up --provision
+	@printf "\x1B[01;93m========== Done spinning up dev stack! ==========\n\x1B[0m"
+
+# Serve the HomelabOS Documentation locally
+docs:
+	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
+
+# Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
+docs_build: logo build git_sync config
+	@printf "\x1B[01;93m========== Building docs ==========\n\x1B[0m"
+	@which mkdocs && mkdocs build || printf "Unable to build the documentation. Please install mkdocs."
+	@printf "\x1B[01;93m========== Done building docs ==========\n\x1B[0m"
 
 # Hacky fix to allow make to accept multiple arguments
 %:

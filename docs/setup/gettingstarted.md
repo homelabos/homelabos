@@ -32,13 +32,7 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make config_reset` - Resets all local settings
 
-`[client]$ make develop` - Spins up a development stack
-
-`[client]$ make docs_build` - Builds the HomelabOs Documentation - Requires mkdocs with the Material Theme
-
 `[client]$ make git_sync` - Syncs user settings to a git repo
-
-`[client]$ make lint` - Run linting scripts
 
 `[client]$ make logo` - Displays the HomelabOS logo, and checks the version
 

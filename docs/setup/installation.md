@@ -139,21 +139,6 @@ NAS shares are mounted on the HomelabOS host under `{{ storage_dir }}`, which de
 
 For example, [Emby](/software/emby) will map `{{ storage_dir }}/Video/TV` and `{{ storage_dir }}/Video/Movies` into its container, and [Paperless](/software/paperless) will mount `{{ storage_dir }}/Documents`. Check the `docker-compose` files for each service to see what directories are used.
 
-HomelabOS takes an all-or-nothing approach to remote storage. If you configure a NAS, all services that can use it will. For a full HomelabOS setup, the following shares should be present on your NAS:
-
-```
-Backups
-Books
-Documents
-Downloads
-Music
-Pictures
-temp
-Video
-```
-
-These shares will be individually mounted on the HomelabOS host.
-
 To configure your NAS, edit the `# NAS Config` section of `settings/config.yml`.
 
 1. Enable NAS by setting `nas_enable: True`
@@ -165,26 +150,24 @@ To configure your NAS, edit the `# NAS Config` section of `settings/config.yml`.
 
 Re-run `make` to configure and enable your NAS.
 
-Here's an example NFS configuration, specifically for [unRAID](https://unraid.net):
+??? example "Example [unRAID](https://unraid.net) configuration"
+    ```
+    nas_enable: True
+    nas_host: unraid.mydomain.com
+    nas_mount_type: nfs
+    nas_share_path: /mnt/user
+    nas_user:
+    nas_pass:
+    nas_workgroup:
+    ```
 
-```
-nas_enable: True
-nas_host: unraid.mydomain.com
-nas_mount_type: nfs
-nas_share_path: /mnt/user
-nas_user:
-nas_pass:
-nas_workgroup:
-```
-
-Here's an example SMB configuration, this time using its IP address, an authenticated user and share name:
-
-```
-nas_enable: True
-nas_host: 192.168.1.12
-nas_mount_type: smb
-nas_share_path: homelab
-nas_user: user
-nas_pass: 12345
-nas_workgroup: WORKGROUP
-```
+??? example "Example SMB configuration"
+    ```
+    nas_enable: True
+    nas_host: 192.168.1.12
+    nas_mount_type: smb
+    nas_share_path: homelab
+    nas_user: user
+    nas_pass: 12345
+    nas_workgroup: WORKGROUP
+    ```
