@@ -242,6 +242,8 @@ gitlab:
   enable: {{ gitlab.enable | default(False) }}
   https_only: {{ gitlab.https_only | default(False) }}
   auth: {{ gitlab.auth | default(False) }}
+  domain: {{ gitlab.domain| default(False) }}
+  subdomain: {{ gitlab.subdomain | default("gitlab") }}
   # Currently using default AWS vault entries for region/access_key/secret_key
   aws_lfs_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
   aws_lfs_bucket: {{ gitlab.aws_lfs_bucket | default(False) }}
@@ -255,6 +257,8 @@ gitlab:
   registry:
     https_only: {{ gitlab.registry.https_only | default(False) }}
     auth: {{ gitlab.registry.auth | default(False) }}
+    domain: {{ gitlab.registry.domain| default(False) }}
+    subdomain: {{ gitlab.registry.subdomain | default("registry") }}
 gotify:
   enable: {{ gotify.enable | default(enable_gotify, None) | default(False) }}
   https_only: {{ gotify.https_only | default(False) }}
