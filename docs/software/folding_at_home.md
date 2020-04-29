@@ -2,6 +2,11 @@
 
 [Folding@home](https://hub.docker.com/r/johnktims/folding-at-home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 
+## Install
+
+make set folding_at_home.enable true
+make
+
 ## Access
 
 A dashboard is available at http://{{ homelab_ip }}:7396
