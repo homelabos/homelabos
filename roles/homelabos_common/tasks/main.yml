@@ -25,6 +25,10 @@
   tags:
     - dependencies
 
+- name: Install Passlib
+  pip:
+    name: passlib
+
 - name: timezone - configure /etc/timezone
   copy:
     content: "{{ common_timezone | regex_replace('$', '\n') }}"

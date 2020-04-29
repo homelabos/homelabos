@@ -11,10 +11,6 @@
     name: pipenv
     executable: /usr/bin/pip
 
-- name: Install Passlib
-  pip:
-    name: passlib
-
 - name: Make HomelabOS documentation directory.
   file:
     path: "{{ volumes_root }}/docs"
