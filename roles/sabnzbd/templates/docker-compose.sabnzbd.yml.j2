@@ -16,6 +16,7 @@ services:
     environment:
       - SABNZBD_UID={{ uid_output.stdout }}
       - SABNZBD_GID={{ gid_output.stdout }}
+      - HOST_WHITELIST_ENTRIES="{{ sabnzbd.subdomain }}.{{ domain }}"
     volumes:
       - "{{ volumes_root }}/sabnzbd/datadir:/datadir"
       - "{{ storage_dir }}:/media"
