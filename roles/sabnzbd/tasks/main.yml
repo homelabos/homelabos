@@ -7,7 +7,7 @@
 - name: Copy sabnzbd docker-compose.yml file into place.
   template:
     src: docker-compose.sabnzbd.yml.j2
-    dest: "{{ volumes_root }}/sabnzbd/docker-compose.sabnzbd.yml"
+    dest: "{{ volumes_root }}/sabnzbd/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

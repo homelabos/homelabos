@@ -7,7 +7,7 @@
 - name: Copy n8n docker-compose.yml file into place.
   template:
     src: docker-compose.n8n.yml.j2
-    dest: "{{ volumes_root }}/n8n/docker-compose.n8n.yml"
+    dest: "{{ volumes_root }}/n8n/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

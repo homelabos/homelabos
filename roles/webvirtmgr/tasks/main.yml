@@ -7,7 +7,7 @@
 - name: Copy webVirtMgr docker-compose.yml file into place.
   template:
     src: docker-compose.webvirtmgr.yml.j2
-    dest: "{{ volumes_root }}/webvirtmgr/docker-compose.webvirtmgr.yml"
+    dest: "{{ volumes_root }}/webvirtmgr/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

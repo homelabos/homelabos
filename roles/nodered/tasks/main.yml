@@ -16,7 +16,7 @@
 - name: Copy nodered docker-compose.yml file into place.
   template:
     src: docker-compose.nodered.yml.j2
-    dest: "{{ volumes_root }}/nodered/docker-compose.nodered.yml"
+    dest: "{{ volumes_root }}/nodered/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

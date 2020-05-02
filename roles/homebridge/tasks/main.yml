@@ -7,7 +7,7 @@
 - name: Copy homebridge docker-compose.yml file into place.
   template:
     src: docker-compose.homebridge.yml.j2
-    dest: "{{ volumes_root }}/homebridge/docker-compose.homebridge.yml"
+    dest: "{{ volumes_root }}/homebridge/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"

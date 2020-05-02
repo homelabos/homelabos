@@ -7,7 +7,7 @@
 - name: Copy sickchill docker-compose.yml file into place.
   template:
     src: docker-compose.sickchill.yml.j2
-    dest: "{{ volumes_root }}/sickchill/docker-compose.sickchill.yml"
+    dest: "{{ volumes_root }}/sickchill/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

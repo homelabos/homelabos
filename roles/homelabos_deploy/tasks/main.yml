@@ -152,7 +152,7 @@
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:
     src: docker-compose.traefik.yml.j2
-    dest: "{{ volumes_root }}/traefik/docker-compose.traefik.yml"
+    dest: "{{ volumes_root }}/traefik/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
@@ -175,7 +175,7 @@
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
 - name: Pull HomelabOS Traefik Image
-  command: docker-compose -f "{{ volumes_root }}/traefik/docker-compose.traefik.yml" pull
+  command: chdir={{ volumes_root }}/traefik/ docker-compose pull
 
 - name: Makefile helper to guide users
   template:

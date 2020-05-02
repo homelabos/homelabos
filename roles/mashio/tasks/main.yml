@@ -7,7 +7,7 @@
 - name: Copy mashio docker-compose.yml file into place.
   template:
     src: docker-compose.mashio.yml.j2
-    dest: "{{ volumes_root }}/mashio/docker-compose.mashio.yml"
+    dest: "{{ volumes_root }}/mashio/docker-compose.yml"
 
 
 - name: Configure mashio systemd service.
