@@ -13,7 +13,7 @@
 
 - name: Generate new argon2id compatible password.
   shell: >
-    docker run authelia/authelia:latest authelia hash-password {{default_password}} | awk '{print $3}'
+    docker run --rm authelia/authelia:latest authelia hash-password {{default_password}} | awk '{print $3}'
   register: authelia_hash
   become: false
 
