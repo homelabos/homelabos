@@ -77,6 +77,8 @@ Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. 
 
 Check your `config/vault.yml` file. If it's encrypted just run `make decrypt`
 
+You also don't need to edit the `config/` files directly at all, or worry about where the config values are. Just use `make set` and `make get` and it will access the variable correctly regardless of what config file it lives in.
+
 ## I get `exec user process caused 'exec format error'`
 
 You are trying to run AMD code on ARM infrastructure. Make sure you have set `arm` to True in your config file.
