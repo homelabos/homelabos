@@ -18,7 +18,7 @@ services:
     environment:
       - PUID={{uid_output.stdout }}
       - PGID={{gid_output.stdout }}
-      - FUNKWHALE_HOSTNAME={{funkwhale.subdomain}}.{{domain}}
+      - FUNKWHALE_HOSTNAME={% if funkwhale.domain %}{{ funkwhale.domain }}{% else %}{{ funkwhale.subdomain + "." + domain }}{% endif %}
       - FUNKWHALE_PROTOCOL=https
       - MEDIA_ROOT=/srv/funkwhale/data/media
       - DJANGO_SETTINGS_MODULE=config.settings.production
@@ -58,13 +58,3 @@ services:
       - "traefik.http.routers.funkwhale-tor-http.entrypoints=http"
       - "traefik.http.routers.funkwhale-tor-http.middlewares={% if funkwhale.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-    # OPTIONAL 
-    #links: 
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}

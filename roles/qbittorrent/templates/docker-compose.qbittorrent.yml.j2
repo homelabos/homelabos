@@ -34,7 +34,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.qbittorrent.loadbalancer.server.scheme=http"
       - "traefik.http.services.qbittorrent.loadbalancer.server.port=8080"
-      - "traefik.http.routers.qbittorrent-http.rule=Host(`{{ qbittorrent.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.qbittorrent-http.rule=Host(`{% if qbittorrent.domain %}{{ qbittorrent.domain }}{% else %}{{ qbittorrent.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.qbittorrent-http.entrypoints=http"
 {% if not qbittorrent.https_only %}
       - "traefik.http.routers.qbittorrent-http.middlewares={% if qbittorrent.https_only %}redirect@file, {% else %}{% if qbittorrent.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -42,7 +42,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.qbittorrent-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.qbittorrent.rule=Host(`{{ qbittorrent.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.qbittorrent.rule=Host(`{% if qbittorrent.domain %}{{ qbittorrent.domain }}{% else %}{{ qbittorrent.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.qbittorrent.entrypoints=https"
       - "traefik.http.routers.qbittorrent.middlewares={% if qbittorrent.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.qbittorrent.tls=true"

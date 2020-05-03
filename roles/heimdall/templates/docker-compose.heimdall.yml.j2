@@ -26,7 +26,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
       - "traefik.http.services.heimdall.loadbalancer.server.port=80"
-      - "traefik.http.routers.heimdall-http.rule=Host(`{{ heimdall.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.heimdall-http.rule=Host(`{% if heimdall.domain %}{{ heimdall.domain }}{% else %}{{ heimdall.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.heimdall-http.entrypoints=http"
 {% if not heimdall.https_only %}
       - "traefik.http.routers.heimdall-http.middlewares={% if heimdall.https_only %}redirect@file, {% else %}{% if heimdall.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -34,7 +34,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.heimdall-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.heimdall.rule=Host(`{{ heimdall.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.heimdall.rule=Host(`{% if heimdall.domain %}{{ heimdall.domain }}{% else %}{{ heimdall.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.heimdall.entrypoints=https"
       - "traefik.http.routers.heimdall.middlewares={% if heimdall.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.heimdall.tls=true"

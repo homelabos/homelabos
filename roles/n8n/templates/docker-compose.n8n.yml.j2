@@ -23,7 +23,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.n8n.loadbalancer.server.scheme=http"
       - "traefik.http.services.n8n.loadbalancer.server.port=5678"
-      - "traefik.http.routers.n8n-http.rule=Host(`{{ n8n.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.n8n-http.rule=Host(`{% if n8n.domain %}{{ n8n.domain }}{% else %}{{ n8n.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.n8n-http.entrypoints=http"
 {% if not n8n.https_only %}
       - "traefik.http.routers.n8n-http.middlewares={% if n8n.https_only %}redirect@file, {% else %}{% if n8n.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -31,7 +31,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.n8n-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.n8n.rule=Host(`{{ n8n.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.n8n.rule=Host(`{% if n8n.domain %}{{ n8n.domain }}{% else %}{{ n8n.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.n8n.entrypoints=https"
       - "traefik.http.routers.n8n.middlewares={% if n8n.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.n8n.tls=true"
@@ -47,13 +47,3 @@ services:
       - "traefik.http.routers.n8n-tor-http.entrypoints=http"
       - "traefik.http.routers.n8n-tor-http.middlewares={% if n8n.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-    # OPTIONAL 
-    #links: 
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}

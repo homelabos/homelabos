@@ -223,6 +223,7 @@ funkwhale:
   enable: {{ funkwhale.enable | default(enable_funkwhale, None) | default(False) }}
   https_only: {{ funkwhale.https_only | default(False) }}
   auth: {{ funkwhale.auth | default(False) }}
+  domain: {{ funkwhale.domain| default(False) }}
   subdomain: {{ funkwhale.subdomain | default("funkwhale")}}
 ghost:
   enable: {{ ghost.enable | default(enable_ghost, None) | default(False) }}
@@ -299,6 +300,7 @@ heimdall:
   enable: {{ heimdall.enable | default(enable_heimdall, None) | default(False) }}
   https_only: {{ heimdall.https_only | default(False) }}
   auth: {{ heimdall.auth | default(False) }}
+  domain: {{ heimdall.domain| default(False) }}
   subdomain: {{ heimdall.subdomain | default("heimdall")}}
 homeassistant:
   enable: {{ homeassistant.enable | default(enable_homeassistant, None) | default(False) }}
@@ -400,11 +402,11 @@ minecraft:
   online_mode: {{ minecraft.online_mode | default(True) }} 
   server_type: {{ minecraft.server_type | default("VANILLA") }}
   server_version: {{ minecraft.server_version | default("LATEST") }}
-
 minecraftbedrockserver:
   enable: {{ minecraftbedrockserver.enable | default(enable_minecraftbedrockserver, None) | default(False) }}
   https_only: {{ minecraftbedrockserver.https_only | default(False) }}
   auth: {{ minecraftbedrockserver.auth | default(False) }}
+  domain: {{ minecraftbedrockserver.domain| default(False) }}
   subdomain: {{ minecraftbedrockserver.subdomain | default("minecraftbedrockserver")}}
   eula: {{ minecraftbedrockserver.eula | default("TRUE") }}
   server_name: {{ minecraftbedrockserver.server_name | default("HomelabOS") }} #any string
@@ -458,6 +460,7 @@ n8n:
   enable: {{ n8n.enable | default(enable_n8n, None) | default(False) }}
   https_only: {{ n8n.https_only | default(False) }}
   auth: {{ n8n.auth | default(False) }}
+  domain: {{ n8n.domain| default(False) }}
   subdomain: {{ n8n.subdomain | default("n8n")}}
 netdata:
   enable: {{ netdata.enable | default(enable_netdata, None) | default(False) }}
@@ -475,11 +478,11 @@ nodered:
   enable: {{ nodered.enable | default(enable_nodered, None) | default(False) }}
   https_only: {{ nodered.https_only | default(False) }}
   auth: {{ nodered.auth | default(False) }}
+  domain: {{ nodered.domain| default(False) }}
   subdomain: {{ nodered.subdomain | default("nodered")}}
   node_options: {{ nodered.node_options | default("") }}
   enable_projects: {{ nodered.enable_projects | default(False) }}
   safe_mode: {{ nodered.safe_mode | default(False) }}
-
 nzbget:
   enable: {{ nzbget.enable | default(enable_nzbget, None) | default(False) }}
   https_only: {{ nzbget.https_only | default(False) }}
@@ -574,6 +577,7 @@ qbittorrent:
   enable: {{ qbittorrent.enable | default(enable_qbittorrent, None) | default(False) }}
   https_only: {{ qbittorrent.https_only | default(False) }}
   auth: {{ qbittorrent.auth | default(False) }}
+  domain: {{ qbittorrent.domain| default(False) }}
   subdomain: {{ qbittorrent.subdomain | default("qbittorrent")}}
   vpn_enabled: !!str '{{ qbittorrent.vpn_enabled | default(false) }}'
   lan_network: {{ qbittorrent.lan_network | default("192.168.1.0/24")}}
@@ -654,6 +658,7 @@ tiddlywiki:
   enable: {{ tiddlywiki.enable | default(enable_tiddlywiki, None) | default(False) }}
   https_only: {{ tiddlywiki.https_only | default(False) }}
   auth: {{ tiddlywiki.auth | default(False) }}
+  domain: {{ tiddlywiki.domain| default(False) }}
   subdomain: {{ tiddlywiki.subdomain | default("tiddlywiki")}}
 transmission:
   enable: {{ transmission.enable | default(enable_transmission, None) | default(False) }}
