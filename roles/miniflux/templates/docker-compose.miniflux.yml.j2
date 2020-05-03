@@ -14,7 +14,11 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      - DATABASE_URL=postgres://miniflux:"{{lookup('password', './settings/passwords/miniflux_db_password chars=digits')}}"@miniflux_db/miniflux?sslmode=disable
+      - DATABASE_URL=postgres://miniflux:%22{{lookup('password', './settings/passwords/miniflux_db_password chars=digits')}}%22@miniflux_db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME={{ default_username }}
+      - ADMIN_PASSWORD="{{ default_password }}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
