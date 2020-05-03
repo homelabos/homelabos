@@ -29,6 +29,12 @@
   tags:
     - dependencies
 
+- name: Correct Python version selected
+  alternatives:
+    name: python
+    link: /usr/bin/python
+    path: /usr/bin/python3
+
 - name: Install Passlib
   pip:
     name: passlib
