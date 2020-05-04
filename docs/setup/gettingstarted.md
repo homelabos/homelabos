@@ -60,7 +60,7 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make update` - Skips the initial setup and updates HomelabOS services
 
-`[client]$ make update_one <serive>` - Updates just one HomelabOS service e.g. `[client]$ make update_one inventario`
+`[client]$ make update_one <service>` - Updates just one HomelabOS service e.g. `[client]$ make update_one inventario`
 
 `[client]$ make uninstall` - Removes HomelabOS services
 

@@ -33,7 +33,7 @@ services:
       - wekan-tier
     environment:
       - MONGO_URL=mongodb://wekandb:27017/wekan
-      - ROOT_URL=http://localhost
+      - ROOT_URL=http://{{ wekan.subdomain }}.{{ domain }}
     depends_on:
       - wekandb
     labels:
