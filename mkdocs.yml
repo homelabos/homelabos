@@ -55,7 +55,6 @@ nav:
     - E-books:
       - Calibre: software/calibre.md
     - Email:
-      - Mailserver: software/mailserver.md
       - Mailu: software/mailu.md
     - Federated Identity/Authentication:
       - Authelia: software/authelia.md

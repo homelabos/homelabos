@@ -356,19 +356,13 @@ lidarr:
   auth: {{ lidarr.auth | default(False) }}
   domain: {{ lidarr.domain | default(False) }}
   subdomain: {{ lidarr.subdomain | default("lidarr") }}
-mailserver:
-  enable: {{ mailserver.enable | default(enable_mailserver, None) | default(False) }}
-  https_only: {{ mailserver.https_only | default(False) }}
-  auth: {{ mailserver.auth | default(False) }}
-  domain: {{ mailserver.domain | default(False) }}
-  subdomain: {{ mailserver.subdomain | default("mail") }}
-  forward_to_smtp: {{ mailserver.forward_to_smtp | default(False)  }}
 mailu:
   enable: {{ mailu.enable | default(enable_mailu, None) | default(False) }}
   https_only: {{ mailu.https_only | default(False) }}
   auth: {{ mailu.auth | default(False) }}
   domain: {{ mailu.domain | default(False) }}
   subdomain: {{ mailu.subdomain | default("mailu") }}
+  forward_to_smtp: {{ mailu.forward_to_smtp | default(False)  }}
 mashio:
   enable: {{ mashio.enable | default(enable_mashio, None) | default(False) }}
   https_only: {{ mashio.https_only | default(False) }}

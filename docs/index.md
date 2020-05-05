@@ -80,7 +80,6 @@ If you are having problems you can:
 
 ### Email
 
-- [Mailserver](software/mailserver) - Fully featured mail server
 - [Mailu](software/mailu) - is a simple yet full-featured mail server as a set of Docker images.
 
 ### Federated Identity/Authentication

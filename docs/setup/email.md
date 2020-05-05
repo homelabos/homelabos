@@ -29,17 +29,17 @@ smtp:
 
 # Mail Server
 
-To have the [mailserver](https://github.com/hardware/mailserver/) stack use this SMTP server to send rather
+To have the mailu stack use this SMTP server to send rather
 than trying to send mail out directly itself, locate the
 `settings/config.yml` file and set:
 
 ```
-mailserver:
+mailu:
   forward_to_smtp: False
 ```
 to ...
 
 ```
-mailserver:
+mailu:
   forward_to_smtp: True
 ```
