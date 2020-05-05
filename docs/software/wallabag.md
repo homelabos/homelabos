@@ -10,8 +10,8 @@
 
 > _You should change that password._
 
-It is available at [https://wallabag.{{ domain }}/](https://wallabag.{{ domain }}/) or [http://wallabag.{{ domain }}/](http://wallabag.{{ domain }}/)
+It is available at [https://{% if wallabag.domain %}{{ wallabag.domain }}{% else %}{{ wallabag.subdomain + "." + domain }}{% endif %}/](https://{% if wallabag.domain %}{{ wallabag.domain }}{% else %}{{ wallabag.subdomain + "." + domain }}{% endif %}/) or [http://{% if wallabag.domain %}{{ wallabag.domain }}{% else %}{{ wallabag.subdomain + "." + domain }}{% endif %}/](http://{% if wallabag.domain %}{{ wallabag.domain }}{% else %}{{ wallabag.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://wallabag.{{ tor_domain }}/](http://wallabag.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ wallabag.subdomain + "." + tor_domain }}/](http://{{ wallabag.subdomain + "." + tor_domain }}/)
 {% endif %}

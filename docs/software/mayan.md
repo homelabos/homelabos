@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://mayan.{{ domain }}/](https://mayan.{{ domain }}/) or [http://mayan.{{ domain }}/](http://mayan.{{ domain }}/)
+It is available at [https://{% if mayan.domain %}{{ mayan.domain }}{% else %}{{ mayan.subdomain + "." + domain }}{% endif %}/](https://{% if mayan.domain %}{{ mayan.domain }}{% else %}{{ mayan.subdomain + "." + domain }}{% endif %}/) or [http://{% if mayan.domain %}{{ mayan.domain }}{% else %}{{ mayan.subdomain + "." + domain }}{% endif %}/](http://{% if mayan.domain %}{{ mayan.domain }}{% else %}{{ mayan.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://mayan.{{ tor_domain }}/](http://mayan.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ mayan.subdomain + "." + tor_domain }}/](http://{{ mayan.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Setting up Watched and Staged folders

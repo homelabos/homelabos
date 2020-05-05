@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://privatebin.{{ domain }}/](https://privatebin.{{ domain }}/) or [http://privatebin.{{ domain }}/](http://privatebin.{{ domain }}/)
+It is available at [https://{% if privatebin.domain %}{{ privatebin.domain }}{% else %}{{ privatebin.subdomain + "." + domain }}{% endif %}/](https://{% if privatebin.domain %}{{ privatebin.domain }}{% else %}{{ privatebin.subdomain + "." + domain }}{% endif %}/) or [http://{% if privatebin.domain %}{{ privatebin.domain }}{% else %}{{ privatebin.subdomain + "." + domain }}{% endif %}/](http://{% if privatebin.domain %}{{ privatebin.domain }}{% else %}{{ privatebin.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://privatebin.{{ tor_domain }}/](http://privatebin.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ privatebin.subdomain + "." + tor_domain }}/](http://{{ privatebin.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Known Problems

@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://plex.{{ domain }}/](https://plex.{{ domain }}/) or [http://plex.{{ domain }}/](http://plex.{{ domain }}/)
+It is available at [https://{% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}/](https://{% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}/) or [http://{% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}/](http://{% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://plex.{{ tor_domain }}/](http://plex.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ plex.subdomain + "." + tor_domain }}/](http://{{ plex.subdomain + "." + tor_domain }}/)
 {% endif %}

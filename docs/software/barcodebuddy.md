@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://barcodebuddy.{{ domain }}/](https://barcodebuddy.{{ domain }}/) or [http://barcodebuddy.{{ domain }}/](http://barcodebuddy.{{ domain }}/)
+It is available at [https://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/](https://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/) or [http://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/](http://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://barcodebuddy.{{ tor_domain }}/](http://barcodebuddy.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ barcodebuddy.subdomain + "." + tor_domain }}/](http://{{ barcodebuddy.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only, auth, and image\_tag

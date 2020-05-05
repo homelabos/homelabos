@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://gitlab.{{ domain }}/](https://gitlab.{{ domain }}/) or [http://gitlab.{{ domain }}/](http://gitlab.{{ domain }}/)
+It is available at [https://{% if gitlab.domain %}{{ gitlab.domain }}{% else %}{{ gitlab.subdomain + "." + domain }}{% endif %}/](https://{% if gitlab.domain %}{{ gitlab.domain }}{% else %}{{ gitlab.subdomain + "." + domain }}{% endif %}/) or [http://{% if gitlab.domain %}{{ gitlab.domain }}{% else %}{{ gitlab.subdomain + "." + domain }}{% endif %}/](http://{% if gitlab.domain %}{{ gitlab.domain }}{% else %}{{ gitlab.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://gitlab.{{ tor_domain }}/](http://gitlab.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ gitlab.subdomain + "." + tor_domain }}/](http://{{ gitlab.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 After the initial setup, for your first access, you can login with the default username `root` and the password has been created in your `settings/passwords/gitlab_root_password`

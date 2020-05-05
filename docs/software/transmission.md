@@ -6,8 +6,8 @@ HomelabOS uses [docker-transmission-openvpn](https://github.com/haugene/docker-t
 
 ## Access
 
-It is available at [https://torrent.{{ domain }}/](https://torrent.{{ domain }}/) or [http://torrent.{{ domain }}/](http://torrent.{{ domain }}/)
+It is available at [https://{% if transmission.domain %}{{ transmission.domain }}{% else %}{{ transmission.subdomain + "." + domain }}{% endif %}/](https://{% if transmission.domain %}{{ transmission.domain }}{% else %}{{ transmission.subdomain + "." + domain }}{% endif %}/) or [http://{% if transmission.domain %}{{ transmission.domain }}{% else %}{{ transmission.subdomain + "." + domain }}{% endif %}/](http://{% if transmission.domain %}{{ transmission.domain }}{% else %}{{ transmission.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://torrent.{{ tor_domain }}/](http://torrent.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ transmission.subdomain + "." + tor_domain }}/](http://{{ transmission.subdomain + "." + tor_domain }}/)
 {% endif %}

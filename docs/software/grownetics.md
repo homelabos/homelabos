@@ -14,8 +14,8 @@ Pass: `GrowBetter16`
 
 ## Access
 
-It is available at [https://grownetics.{{ domain }}/](https://grownetics.{{ domain }}/) or [http://grownetics.{{ domain }}/](http://grownetics.{{ domain }}/)
+It is available at [https://{% if grownetics.domain %}{{ grownetics.domain }}{% else %}{{ grownetics.subdomain + "." + domain }}{% endif %}/](https://{% if grownetics.domain %}{{ grownetics.domain }}{% else %}{{ grownetics.subdomain + "." + domain }}{% endif %}/) or [http://{% if grownetics.domain %}{{ grownetics.domain }}{% else %}{{ grownetics.subdomain + "." + domain }}{% endif %}/](http://{% if grownetics.domain %}{{ grownetics.domain }}{% else %}{{ grownetics.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://grownetics.{{ tor_domain }}/](http://grownetics.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ grownetics.subdomain + "." + tor_domain }}/](http://{{ grownetics.subdomain + "." + tor_domain }}/)
 {% endif %}

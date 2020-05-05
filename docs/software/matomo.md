@@ -8,8 +8,8 @@ You can find the database password by running `cat settings/passwords/matomo_db_
 
 ## Access
 
-It is available via [https://matomo.{{ domain }}/](https://matomo.{{ domain }}/) or [http://matomo.{{ domain }}/](http://matomo.{{ domain }}/).
+It is available via [https://{% if matomo.domain %}{{ matomo.domain }}{% else %}{{ matomo.subdomain + "." + domain }}{% endif %}/](https://{% if matomo.domain %}{{ matomo.domain }}{% else %}{{ matomo.subdomain + "." + domain }}{% endif %}/) or [http://{% if matomo.domain %}{{ matomo.domain }}{% else %}{{ matomo.subdomain + "." + domain }}{% endif %}/](http://{% if matomo.domain %}{{ matomo.domain }}{% else %}{{ matomo.subdomain + "." + domain }}{% endif %}/).
 
 {% if enable_tor %}
-It is also available via Tor at [http://matomo.{{ tor_domain }}/](http://matomo.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ matomo.subdomain + "." + tor_domain }}/](http://{{ matomo.subdomain + "." + tor_domain }}/)
 {% endif %}

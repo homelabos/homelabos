@@ -4,18 +4,18 @@
 
 ## Access
 
-It is available at [https://mailu.{{ domain }}/](https://mailu.{{ domain }}/) or [http://mailu.{{ domain }}/](http://mailu.{{ domain }}/)
+It is available at [https://{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/](https://{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/) or [http://{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/](http://{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://mailu.{{ tor_domain }}/](http://mailu.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ mailu.subdomain + "." + tor_domain }}/](http://{{ mailu.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Admin Access
 
-It is available at [https://admin.mailu.{{ domain }}/ui/](https://admin.mailu.{{ domain }}/ui/) or [http://admin.mailu.{{ domain }}/ui/](http://admin.mailu.{{ domain }}/ui/)
+It is available at [https://admin.{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/ui/](https://admin.{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/ui/) or [http://admin.{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/ui/](http://admin.{% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}/ui/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://admin.mailu.{{ tor_domain }}/ui/](http://admin.mailu.{{ tor_domain }}/ui/)
+It is also available via Tor at [http://admin.{{ mailu.subdomain + "." + tor_domain }}/ui/](http://admin.{{ mailu.subdomain + "." + tor_domain }}/ui/)
 {% endif %}
 
 You can login using admin@{{ domain }} and the password found on your server in `/var/homelabos/mailu/.env` under INITIAL_ADMIN_PW, or in `settings/passwords/mailu_admin_password` from your deploy location.

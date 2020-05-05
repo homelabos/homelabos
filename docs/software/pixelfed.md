@@ -24,8 +24,8 @@ This once requires some manual setup, unfortunately.
 
 ## Access
 
-pixelfed is available at [https://pixelfed.{{ domain }}/](https://pixelfed.{{ domain }}/) or [http://pixelfed.{{ domain }}/](http://pixelfed.{{ domain }}/)
+pixelfed is available at [https://{% if pixelfed.domain %}{{ pixelfed.domain }}{% else %}{{ pixelfed.subdomain + "." + domain }}{% endif %}/](https://{% if pixelfed.domain %}{{ pixelfed.domain }}{% else %}{{ pixelfed.subdomain + "." + domain }}{% endif %}/) or [http://{% if pixelfed.domain %}{{ pixelfed.domain }}{% else %}{{ pixelfed.subdomain + "." + domain }}{% endif %}/](http://{% if pixelfed.domain %}{{ pixelfed.domain }}{% else %}{{ pixelfed.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://pixelfed.{{ tor_domain }}/](http://pixelfed.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ pixelfed.subdomain + "." + tor_domain }}/](http://{{ pixelfed.subdomain + "." + tor_domain }}/)
 {% endif %}
