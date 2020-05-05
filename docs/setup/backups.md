@@ -14,7 +14,7 @@ Or you could pay Amazon and use their S3 service, if you're into that sort of th
 
 This method is not recommended as it is backing up to yourself which is not very useful. The usefulness here comes from Restic's snapshotting. So while this won't give you an offsite backup, it will still provide timed snapshots to access old versions of files.
 
-View your logs for the Minio service (homelabos_minio_1) and copy the AccessKey and SecretKeys out of the logs. Put these into your `settings/vault.yml` file (run `make decrypt` to decrypt it first) under the `s3_access_key` and `s3_secret_key` variables. Now login to Minio at `http://minio.{{ domain }}/` with the same access and secret key values and create a bucket called `restic-backups`. Finally run `make update` to copy your new settings up to your HomelabOS server.
+View your logs for the Minio service (homelabos_minio_1) and copy the AccessKey and SecretKeys out of the logs. Put these into your `settings/vault.yml` file (run `make decrypt` to decrypt it first) under the `s3_access_key` and `s3_secret_key` variables. Now login to Minio at `https://{% if minio.domain %}{{ minio.domain }}{% else %}{{ minio.subdomain + "." + domain }}{% endif %}/` with the same access and secret key values and create a bucket called `restic-backups`. Finally run `make update` to copy your new settings up to your HomelabOS server.
 
 Of course keep in mind when self hosting your own S3, you likely want to keep good backups of the S3 data files as well.
 

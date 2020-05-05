@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://sickchill.{{ domain }}/](https://sickchill.{{ domain }}/) or [http://sickchill.{{ domain }}/](http://sickchill.{{ domain }}/)
+It is available at [https://{% if sickchill.domain %}{{ sickchill.domain }}{% else %}{{ sickchill.subdomain + "." + domain }}{% endif %}/](https://{% if sickchill.domain %}{{ sickchill.domain }}{% else %}{{ sickchill.subdomain + "." + domain }}{% endif %}/) or [http://{% if sickchill.domain %}{{ sickchill.domain }}{% else %}{{ sickchill.subdomain + "." + domain }}{% endif %}/](http://{% if sickchill.domain %}{{ sickchill.domain }}{% else %}{{ sickchill.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://sickchill.{{ tor_domain }}/](http://sickchill.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ sickchill.subdomain + "." + tor_domain }}/](http://{{ sickchill.subdomain + "." + tor_domain }}/)
 {% endif %}

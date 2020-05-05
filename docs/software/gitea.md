@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://{{gitea.subdomain}}.{{ domain }}/](https://{{gitea.subdomain}}.{{ domain }}/) or [http://{{gitea.subdomain}}.{{ domain }}/](http://{{gitea.subdomain}}.{{ domain }}/)
+It is available at [https://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}{% endif %}/](https://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}{% endif %}/) or [http://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}{% endif %}/](http://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{gitea.subdomain}}.{{ tor_domain }}/](http://{{gitea.subdomain}}.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ gitea.subdomain + "." + tor_domain }}/](http://{{ gitea.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ### MariaDB

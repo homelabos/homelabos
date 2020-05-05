@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://photoprism.{{ domain }}/](https://photoprism.{{ domain }}/) or [http://photoprism.{{ domain }}/](http://photoprism.{{ domain }}/)
+It is available at [https://{% if photoprism.domain %}{{ photoprism.domain }}{% else %}{{ photoprism.subdomain + "." + domain }}{% endif %}/](https://{% if photoprism.domain %}{{ photoprism.domain }}{% else %}{{ photoprism.subdomain + "." + domain }}{% endif %}/) or [http://{% if photoprism.domain %}{{ photoprism.domain }}{% else %}{{ photoprism.subdomain + "." + domain }}{% endif %}/](http://{% if photoprism.domain %}{{ photoprism.domain }}{% else %}{{ photoprism.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://photoprism.{{ tor_domain }}/](http://photoprism.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ photoprism.subdomain + "." + tor_domain }}/](http://{{ photoprism.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth
@@ -15,6 +15,8 @@ It is also available via Tor at [http://photoprism.{{ tor_domain }}/](http://pho
 To enable https_only or auth set the service config to True
 `settings/config.yml`
 
+```
 photoprism:
   https_only: True
   auth: True
+```

@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://snibox.{{ domain }}/](https://snibox.{{ domain }}/) or [http://snibox.{{ domain }}/](http://snibox.{{ domain }}/)
+It is available at [https://{% if snibox.domain %}{{ snibox.domain }}{% else %}{{ snibox.subdomain + "." + domain }}{% endif %}/](https://{% if snibox.domain %}{{ snibox.domain }}{% else %}{{ snibox.subdomain + "." + domain }}{% endif %}/) or [http://{% if snibox.domain %}{{ snibox.domain }}{% else %}{{ snibox.subdomain + "." + domain }}{% endif %}/](http://{% if snibox.domain %}{{ snibox.domain }}{% else %}{{ snibox.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://snibox.{{ tor_domain }}/](http://snibox.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ snibox.subdomain + "." + tor_domain }}/](http://{{ snibox.subdomain + "." + tor_domain }}/)
 {% endif %}

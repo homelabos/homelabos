@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://chowdown.{{ domain }}/](https://chowdown.{{ domain }}/) or [http://chowdown.{{ domain }}/](http://chowdown.{{ domain }}/)
+It is available at [https://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/](https://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/) or [http://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/](http://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://chowdown.{{ tor_domain }}/](http://chowdown.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ chowdown.subdomain + "." + tor_domain }}/](http://{{ chowdown.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth
@@ -15,6 +15,8 @@ It is also available via Tor at [http://chowdown.{{ tor_domain }}/](http://chowd
 To enable https_only or auth set the service config to True
 `settings/config.yml`
 
+```
 chowdown:
   https_only: True
   auth: True
+```

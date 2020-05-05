@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://bookstack.{{ domain }}/](https://bookstack.{{ domain }}/) or [http://bookstack.{{ domain }}/](http://bookstack.{{ domain }}/)
+It is available at [https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}/](https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}/) or [http://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}/](http://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://bookstack.{{ tor_domain }}/](http://bookstack.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ bookstack.subdomain + "." + tor_domain }}/](http://{{ bookstack.subdomain + "." + tor_domain }}/)
 {% endif %}

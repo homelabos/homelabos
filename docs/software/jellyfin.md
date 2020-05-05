@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://jellyfin.{{ domain }}/](https://jellyfin.{{ domain }}/) or [http://jellyfin.{{ domain }}/](http://jellyfin.{{ domain }}/)
+It is available at [https://{% if jellyfin.domain %}{{ jellyfin.domain }}{% else %}{{ jellyfin.subdomain + "." + domain }}{% endif %}/](https://{% if jellyfin.domain %}{{ jellyfin.domain }}{% else %}{{ jellyfin.subdomain + "." + domain }}{% endif %}/) or [http://{% if jellyfin.domain %}{{ jellyfin.domain }}{% else %}{{ jellyfin.subdomain + "." + domain }}{% endif %}/](http://{% if jellyfin.domain %}{{ jellyfin.domain }}{% else %}{{ jellyfin.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://jellyfin.{{ tor_domain }}/](http://jellyfin.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ jellyfin.subdomain + "." + tor_domain }}/](http://{{ jellyfin.subdomain + "." + tor_domain }}/)
 {% endif %}

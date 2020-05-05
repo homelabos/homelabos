@@ -76,8 +76,8 @@ Out of the box, the standard config bypasses Authelia for Authelia itself, and d
 
 ## Access
 
-It is available at [https://auth.{{ domain }}/](https://auth.{{ domain }}/) or [http://auth.{{ domain }}/](http://auth.{{ domain }}/)
+It is available at [https://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/](https://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/) or [http://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/](http://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://auth.{{ tor_domain }}/](http://auth.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ authelia.subdomain + "." + tor_domain }}/](http://{{ authelia.subdomain + "." + tor_domain }}/)
 {% endif %}

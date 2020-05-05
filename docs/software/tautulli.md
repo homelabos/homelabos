@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://tautulli.{{ domain }}/](https://tautulli.{{ domain }}/) or [http://tautulli.{{ domain }}/](http://tautulli.{{ domain }}/)
+It is available at [https://{% if tautulli.domain %}{{ tautulli.domain }}{% else %}{{ tautulli.subdomain + "." + domain }}{% endif %}/](https://{% if tautulli.domain %}{{ tautulli.domain }}{% else %}{{ tautulli.subdomain + "." + domain }}{% endif %}/) or [http://{% if tautulli.domain %}{{ tautulli.domain }}{% else %}{{ tautulli.subdomain + "." + domain }}{% endif %}/](http://{% if tautulli.domain %}{{ tautulli.domain }}{% else %}{{ tautulli.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://tautulli.{{ tor_domain }}/](http://tautulli.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ tautulli.subdomain + "." + tor_domain }}/](http://{{ tautulli.subdomain + "." + tor_domain }}/)
 {% endif %}

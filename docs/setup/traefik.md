@@ -72,8 +72,8 @@ This will make your service accessible under https://{service_name}.{{ domain }}
 * redirect@file (redirect to https)
 
 ### customFrameHomelab
-* ALLOW-FROM http://{{ domain }}
-* ALLOW-FROM https://{{ domain }}
+* ALLOW-FROM http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}
+* ALLOW-FROM https://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}
 
 ### customFrameHomelab-tor
-* ALLOW-FROM http://{{ tor_domain }}
+* ALLOW-FROM http://{{ organizr.subdomain + "." + tor_domain }}

@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://gotify.{{ domain }}/](https://gotify.{{ domain }}/) or [http://gotify.{{ domain }}/](http://gotify.{{ domain }}/)
+It is available at [https://{% if gotify.domain %}{{ gotify.domain }}{% else %}{{ gotify.subdomain + "." + domain }}{% endif %}/](https://{% if gotify.domain %}{{ gotify.domain }}{% else %}{{ gotify.subdomain + "." + domain }}{% endif %}/) or [http://{% if gotify.domain %}{{ gotify.domain }}{% else %}{{ gotify.subdomain + "." + domain }}{% endif %}/](http://{% if gotify.domain %}{{ gotify.domain }}{% else %}{{ gotify.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://gotify.{{ tor_domain }}/](http://gotify.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ gotify.subdomain + "." + tor_domain }}/](http://{{ gotify.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth
@@ -15,6 +15,8 @@ It is also available via Tor at [http://gotify.{{ tor_domain }}/](http://gotify.
 To enable https_only or auth set the service config to True
 `settings/config.yml`
 
+```
 gotify:
   https_only: True
   auth: True
+```
