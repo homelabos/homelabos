@@ -14,7 +14,7 @@
 - name: Copy mailu configuration file into place.
   template:
     src: mailu.env.j2
-    dest: "{{ volumes_root }}/mailu/mailu.env"
+    dest: "{{ volumes_root }}/mailu/.env"
 
 - name: Configure mailu systemd service.
   template:
