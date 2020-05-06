@@ -1,0 +1,50 @@
+---
+
+- name: Make graylog directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ volumes_root }}/graylog"
+    - "{{ volumes_root }}/graylog/es_data"
+    - "{{ volumes_root }}/graylog/mongo_data"
+    - "{{ volumes_root }}/graylog/graylog_journal"
+    - "{{ volumes_root }}/graylog/graylog_plugin"
+
+- name: Change permissions for ElasticSearch data directory
+  shell: chown -R 1000 {{ volumes_root }}/graylog/es_data 
+
+- name: Change permissions for MongoDB data directory
+  shell: chown -R 999 "{{ volumes_root }}/graylog/mongo_data"
+
+- name: Change permissions for Graylog journal directory
+  shell: chown -R 1100 {{ volumes_root }}/graylog/graylog_journal
+
+- name: Change permissions for graylog plugins directory
+  shell: chown -R 1100 {{ volumes_root }}/graylog/graylog_plugin
+
+- name: Generate new sha256 compatible password.
+  shell: echo -n {{ default_password }} | shasum -a 256|awk '{ print $0 }'|cut -d ' ' -f 1
+  register: graylog_root_pw
+  become: false
+
+  
+- name: Copy graylog docker-compose.yml file into place.
+  template:
+    src: docker-compose.graylog.yml.j2
+    dest: "{{ volumes_root }}/graylog/docker-compose.graylog.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+    
+- name: Configure graylog systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/graylog.service
+
+- name: Start graylog
+  systemd:
+    name: graylog
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

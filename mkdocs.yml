@@ -117,6 +117,7 @@ nav:
       - HealthChecks: software/healthchecks.md
       - Huginn: software/huginn.md
       - Netdata: software/netdata.md
+      - Graylog: software/graylog.md
       - Speedtest: software/speedtest.md
       - Statping: software/statping.md
       - Tautulli: software/tautulli.md

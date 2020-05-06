@@ -27,9 +27,10 @@ services:
   funkwhale: 
   ghost: 
   gitea: 
-  gitlab:
+  gitlab: 
   gotify: 
   grafana: 
+  graylog: 
   grocy: 
   grownetics: 
   guacamole: 
@@ -126,14 +127,15 @@ freshrss:
 funkwhale: 
 ghost: 
 gitea: 
-gitlab:
+gitlab: 
 gotify: 
 grafana: 
+graylog:
 grocy: 
 grownetics: 
 guacamole: 
 healthchecks: 
-heimdall:
+heimdall: 
 homeassistant: 
 homebridge: 
 homedash: 
@@ -155,10 +157,10 @@ minio:
 monicahq: 
 mstream: 
 mylar: 
-n8n:
+n8n: 
 netdata: 
 nextcloud: 
-nodered:
+nodered: 
 nzbget: 
 ombi: 
 openldap: 
@@ -174,7 +176,7 @@ plex:
 poli: 
 portainer: 
 privatebin: 
-qbittorrent:
+qbittorrent: 
 radarr: 
 restic: 
 sabnzbd: 
@@ -183,7 +185,7 @@ sickchill:
 snibox: 
 sonarr: 
 speedtest: 
-statping:
+statping: 
 syncthing: 
 tautulli: 
 thelounge: 
@@ -204,13 +206,13 @@ netname: homelabos
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-smtp:
+smtp: 
 traefik:
-  additional_env_vars:
+  additional_env_vars: 
 bastion:
-  wireguard:
+  wireguard: 
   enable: false
 open_ldap:
-  seed:
+  seed: 
 tinc: "{{ enable_tinc }}"
 tor: "{{ enable_tor }}"
