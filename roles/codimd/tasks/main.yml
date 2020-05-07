@@ -29,4 +29,3 @@
   args:
     chdir: /var/homelabos/codimd
   ignore_errors: yes
-
