@@ -148,6 +148,12 @@ codeserver:
   auth: {{ codeserver.auth | default(False) }}
   domain: {{ codeserver.domain | default(False) }}
   subdomain: {{ codeserver.subdomain | default("codeserver") }}
+codimd:
+  enable: {{ codimd.enable | default(enable_codimd, None) | default(False) }}
+  https_only: {{ codimd.https_only | default(False) }}
+  auth: {{ codimd.auth | default(False) }}
+  domain: {{ codimd.domain | default(False) }}
+  subdomain: {{ codimd.subdomain | default("codimd")}}
 dark_sky:
   enable: {{ dark_sky.enable | default(enable_dark_sky, None) | default(False) }}
   https_only: {{ dark_sky.https_only | default(False) }}
