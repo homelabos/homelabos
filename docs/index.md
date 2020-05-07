@@ -158,6 +158,7 @@ If you are having problems you can:
 
 ### Monitoring
 
+- [ELK Stack](software/elkstack) - Elastic Search, Logstash and Kibana
 - [Grafana](software/grafana) - Pretty graphs
 - [HealthChecks](software/healthchecks) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [NetData](software/netdata) - Monitor your systems and applications, the right way!

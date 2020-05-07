@@ -12,6 +12,7 @@
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Chowdown -  Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
+- Added ELK Stack - Elastic Search, Logstash and Kibana
 - Added ERPNext - Open Source ERP for Everyone.
 - Added Factorio - Factorio headless server in a Docker container 
 - Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home

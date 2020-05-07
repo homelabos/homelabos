@@ -18,6 +18,7 @@ services:
   docs: 
   drone: 
   duplicati: 
+  elkstack: 
   emby: 
   erpnext: 
   factorio: 
@@ -119,6 +120,7 @@ dasher:
 digikam: 
 drone: 
 duplicati: 
+elkstack:
 emby: 
 erpnext: 
 factorio: 

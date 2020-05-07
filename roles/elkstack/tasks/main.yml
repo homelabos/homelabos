@@ -1,0 +1,28 @@
+---
+- name: Make elkstack directory.
+  file:
+    path: "{{ volumes_root }}/elkstack"
+    state: directory
+
+- name: set vm page size
+  shell: sysctl -w vm.max_map_count=262144
+  become: true
+
+- name: Copy elkstack docker-compose.yml file into place.
+  template:
+    src: docker-compose.elkstack.yml.j2
+    dest: "{{ volumes_root }}/elkstack/docker-compose.elkstack.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure elkstack systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/elkstack.service
+
+- name: Start elkstack
+  systemd:
+    name: elkstack
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
