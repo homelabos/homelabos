@@ -15,9 +15,9 @@ services:
     image: postgres:9.6-alpine
     environment:
       # MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}
-      - POSTGRES_USER=hackmd
-      - POSTGRES_PASSWORD=hackmdpass
-      - POSTGRES_DB=hackmd
+      - POSTGRES_USER=codimd
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}
+      - POSTGRES_DB=codimd
     volumes:
       - "{{ volumes_root }}/codimd/postgresql/data:/var/lib/postgresql/data"
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
     networks:
       - traefik_network
     environment: 
-      - CMD_DB_URL=postgres://hackmd:hackmdpass@database:5432/hackmd
+      - CMD_DB_URL=postgres://codimd:{{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}@codiMdDatabase:5432/codimd
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -59,5 +59,5 @@ services:
       - "traefik.http.routers.codimd-tor-http.middlewares={% if codimd.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     depends_on:
-      codiMdDatabase
+      - codiMdDatabase
     
