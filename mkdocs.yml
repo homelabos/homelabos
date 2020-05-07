@@ -91,6 +91,7 @@ nav:
       - Funkwhale: software/funkwhale.md
     - Misc/Other:
       - Chowdown: software/chowdown.md
+      - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
       - ERPNext: software/erpnext.md
