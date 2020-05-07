@@ -159,7 +159,7 @@ get: logo
 
 # Serve the HomelabOS website locally
 web:
-	cd Website && hugo serve
+	cd website && hugo serve
 
 # Spin up a development stack
 develop: logo build config
