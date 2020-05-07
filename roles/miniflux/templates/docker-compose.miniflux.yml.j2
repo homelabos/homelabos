@@ -18,7 +18,7 @@ services:
       - RUN_MIGRATIONS=1
       - CREATE_ADMIN=1
       - ADMIN_USERNAME={{ default_username }}
-      - ADMIN_PASSWORD="{{ default_password }}"
+      - ADMIN_PASSWORD={{ default_password }}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
