@@ -32,6 +32,8 @@ services:
     - DB_DATABASE=bookstack
     - DB_USERNAME=bookstack
     - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}
+    - APP_URL=https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}
+
     volumes:
     - "{{ volumes_root }}/bookstack/uploads:/var/www/bookstack/public/uploads"
     - "{{ volumes_root }}/bookstack/storage-uploads:/var/www/bookstack/public/storage"
