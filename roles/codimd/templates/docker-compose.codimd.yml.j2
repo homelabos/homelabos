@@ -59,5 +59,12 @@ services:
       - "traefik.http.routers.codimd-tor-http.middlewares={% if codimd.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
     depends_on:
+    #links: 
+    #  - inventario_db
+    #environment:
+    #  - MYSQL_DATABASE=package_name
+    #  - MYSQL_TEST_DATABASE=package_name
       - codiMdDatabase
+    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
+    # folder so that your service password doesn't change on every deploy.
     
