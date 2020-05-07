@@ -178,6 +178,12 @@ duplicati:
   auth: {{ duplicati.auth | default(False) }}
   domain: {{ duplicati.domain | default(False) }}
   subdomain: {{ duplicati.subdomain | default("duplicati") }}
+elkstack:
+  enable: {{ elkstack.enable | default(enable_elkstack, None) | default(False) }}
+  https_only: {{ elkstack.https_only | default(False) }}
+  auth: {{ elkstack.auth | default(False) }}
+  domain: {{ elkstack.domain | default(False) }}
+  subdomain: {{ elkstack.subdomain | default("elkstack")}}
 emby:
   enable: {{ emby.enable | default(enable_emby, None) | default(False) }}
   https_only: {{ emby.https_only | default(False) }}
