@@ -7,7 +7,7 @@
 # List of users
 users:
   {{default_username}}:
-    password: "{CRYPT}{{slapd_password}}"
+    password: "{{authelia_hash.stdout}}"
     email: {{ authelia.default_user_email }}
     groups:
       - admins

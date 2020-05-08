@@ -21,9 +21,23 @@
       - docker
       - docker-compose
       - whois
-      - python-passlib
+      - python3
+      - python3-pip
+      - python3-virtualenv
+      - python3-passlib
+      - python3-openssl
   tags:
     - dependencies
+
+- name: Correct Python version selected
+  alternatives:
+    name: python
+    link: /usr/bin/python
+    path: /usr/bin/python3
+
+- name: Install Passlib
+  pip:
+    name: passlib
 
 - name: timezone - configure /etc/timezone
   copy:

@@ -1,19 +1,9 @@
 ---
-- name: Install pip and virtualenv for Python
-  apt:
-    name:
-      - python3
-      - python-pip
-      - python-virtualenv
 
 - name: Install pipenv
   pip:
     name: pipenv
     executable: /usr/bin/pip
-
-- name: Install Passlib
-  pip:
-    name: passlib
 
 - name: Make HomelabOS documentation directory.
   file:

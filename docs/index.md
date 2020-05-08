@@ -80,7 +80,6 @@ If you are having problems you can:
 
 ### Email
 
-- [Mailserver](software/mailserver) - Fully featured mail server
 - [Mailu](software/mailu) - is a simple yet full-featured mail server as a set of Docker images.
 
 ### Federated Identity/Authentication
@@ -101,6 +100,7 @@ If you are having problems you can:
 - [Minio](software/minio) - S3 hosting
 - [Mylar](software/mylar) - An automated Comic Book manager
 - [Ombi](software/ombi) - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 - [Radarr](software/radarr-sonarr) - Automated movie downloading
 - [SickChill](software/sickchill) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](software/radarr-sonarr) - Automated TV downloading
@@ -175,6 +175,7 @@ If you are having problems you can:
 ### Personal Dashboards
 
 - [Homedash](software/homedash) - A simple dashboard that allows to monitor and interact with many different services
+- [Heimdall](software/heimdall) Heimdall Application Dashboard is a dashboard for all your web applications.
 - [Organizr](software/organizr) - Access all your HomelabOS services in one easy place.
 
 ### Photo and Video Galleries
@@ -193,6 +194,7 @@ If you are having problems you can:
 - [Code-Server](software/codeserver) - Run VS Code on a remote server.
 - [Drone](software/drone) - Drone is a self-service continuous delivery platform
 - [Gitea](software/gitea) - Git hosting
+- [Gitlab](software/gitlab) - Git, projects, builds, docker repos hosting, etc
 - [Snibox](software/snibox) - Self-hosted snippet manager. Developed to collect and organize code snippets.
 
 ### Task management/To-do lists

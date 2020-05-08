@@ -15,7 +15,7 @@
 
 ### Server
 
-- Ubuntu Server 18.04 or Debian 10.3
+- Ubuntu Server 20.04 or Debian 10.3
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 !!! Warning
@@ -93,18 +93,35 @@ needed to get your settings correct.
 
 You can check http://{{ homelab_ip }}:8181 in a browser to see the Traefik dashboard.
 
-If it is empty, images may still be downloading. You can SSH into the server, and run
-`systemctl status SERVICENAME` like `systemctl status organizr` if you want to see if Organizr
-is running. It will show you status and/or errors of the service.
-
 See a full list of commands in the [Getting Started Section](/docs/setup/gettingstarted)
 
-### Syncing Settings via Git
+## Enabling Services
+
+Run `make set SERVICENAME.enable true` where SERVICENAME is the name of the service you want to enable.
+
+!!! example
+    `make set miniflux.enable true`
+
+Then run `make` again. That's it. It will take a few minutes for your server to download and start the relevant images.
+
+You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
+
+!!! example
+    `systemctl status miniflux`
+
+## Syncing Settings via Git
 
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
 So you can create a private repo on your Gitea instance for example, then clone that repo over the
 settings folder. Now any changes you make to `settings/` files will be commited and pushed to that git
 repo whenever you run `make`, `make update` or `make config`.
+
+## Backing up your Vault Password
+
+!!! danger
+    This bit is important.
+
+If you installed with the Automatic/One-Liner install, your vault password exists at `~/.homelabos_vault_pass` for the user you ran the script as. Make sure to back this password up somewhere safe, and ideally _not_ in your `settings/` folder. If someone gains access to your `settings/` folder and the vault password, bad things can happen. Store them separately.
 
 ## [Troubleshooting / FAQ](faq.md)
 
@@ -122,21 +139,6 @@ NAS shares are mounted on the HomelabOS host under `{{ storage_dir }}`, which de
 
 For example, [Emby](/software/emby) will map `{{ storage_dir }}/Video/TV` and `{{ storage_dir }}/Video/Movies` into its container, and [Paperless](/software/paperless) will mount `{{ storage_dir }}/Documents`. Check the `docker-compose` files for each service to see what directories are used.
 
-HomelabOS takes an all-or-nothing approach to remote storage. If you configure a NAS, all services that can use it will. For a full HomelabOS setup, the following shares should be present on your NAS:
-
-```
-Backups
-Books
-Documents
-Downloads
-Music
-Pictures
-temp
-Video
-```
-
-These shares will be individually mounted on the HomelabOS host.
-
 To configure your NAS, edit the `# NAS Config` section of `settings/config.yml`.
 
 1. Enable NAS by setting `nas_enable: True`
@@ -148,26 +150,24 @@ To configure your NAS, edit the `# NAS Config` section of `settings/config.yml`.
 
 Re-run `make` to configure and enable your NAS.
 
-Here's an example NFS configuration, specifically for [unRAID](https://unraid.net):
+??? example "Example [unRAID](https://unraid.net) configuration"
+    ```
+    nas_enable: True
+    nas_host: unraid.mydomain.com
+    nas_mount_type: nfs
+    nas_share_path: /mnt/user
+    nas_user:
+    nas_pass:
+    nas_workgroup:
+    ```
 
-```
-nas_enable: True
-nas_host: unraid.mydomain.com
-nas_mount_type: nfs
-nas_share_path: /mnt/user
-nas_user:
-nas_pass:
-nas_workgroup:
-```
-
-Here's an example SMB configuration, this time using its IP address, an authenticated user and share name:
-
-```
-nas_enable: True
-nas_host: 192.168.1.12
-nas_mount_type: smb
-nas_share_path: homelab
-nas_user: user
-nas_pass: 12345
-nas_workgroup: WORKGROUP
-```
+??? example "Example SMB configuration"
+    ```
+    nas_enable: True
+    nas_host: 192.168.1.12
+    nas_mount_type: smb
+    nas_share_path: homelab
+    nas_user: user
+    nas_pass: 12345
+    nas_workgroup: WORKGROUP
+    ```

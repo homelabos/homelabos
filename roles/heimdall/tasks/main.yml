@@ -1,0 +1,24 @@
+---
+- name: Make heimdall directory.
+  file:
+    path: "{{ volumes_root }}/heimdall"
+    state: directory
+
+- name: Copy heimdall docker-compose.yml file into place.
+  template:
+    src: docker-compose.heimdall.yml.j2
+    dest: "{{ volumes_root }}/heimdall/docker-compose.heimdall.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure heimdall systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/heimdall.service
+
+- name: Start heimdall
+  systemd:
+    name: heimdall
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

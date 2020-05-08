@@ -10,4 +10,6 @@ if [ -d settings/.git/ ]; then
   git add * > /dev/null
   git commit -a -m "Settings update"
   git push > /dev/null
+else
+  echo "[38;5;208mWarning! You do not have a git repo set up for your settings. Make sure to back them up using some other method. https://homelabos.com/docs/setup/installation/#syncing-settings-via-git [0m"
 fi

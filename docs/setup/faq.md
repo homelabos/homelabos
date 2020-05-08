@@ -65,9 +65,9 @@ and get an output like:
 8f00f6b3cdb6        traefik                        "/traefik"               13 hours ago        Up 13 hours                     0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 0.0.0.0:8181->8080/tcp           homelabos_traefik_1
 ```
 
-## Bad Gateway or Services Restarting
+## Services Not Appearing in Traefik, Bad Gateway, or Services Restarting
 
-If Traefik returns a page that just says `Bad Gateway`, that usually means DNS and everything is correct, but the service itself is having problems. SSH into the server and run `systemctl status SERVICE_NAME` replacing SERVICE_NAME with the service you are interested in. This should show you any relevant Docker logs. If you want more detail from a specific container, you can tail the logs of thatcontainer. Find the containar name with `docker ps | grep SERVICENAME` then access the logs with `docker logs -f --tail 500 CONTAINERNAME`.
+If you don't see the services listed in the Traefik dash, or if Traefik returns a page that just says `Bad Gateway`, that usually means DNS and everything is correct, but the service itself is having problems. SSH into the server and run `systemctl status SERVICE_NAME` replacing SERVICE_NAME with the service you are interested in. This should show you any relevant Docker logs. If you want more detail from a specific container, you can tail the logs of thatcontainer. Find the containar name with `docker ps | grep SERVICENAME` then access the logs with `docker logs -f --tail 500 CONTAINERNAME`.
 
 ## SSL Not working
 
@@ -76,6 +76,8 @@ Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. 
 ## I can't find certain config values like Authelia
 
 Check your `config/vault.yml` file. If it's encrypted just run `make decrypt`
+
+You also don't need to edit the `config/` files directly at all, or worry about where the config values are. Just use `make set` and `make get` and it will access the variable correctly regardless of what config file it lives in.
 
 ## I get `exec user process caused 'exec format error'`
 

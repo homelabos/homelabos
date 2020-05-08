@@ -3,12 +3,10 @@
 ## Features
 
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
-- Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
-- Added Minecraft - Minecraft server with select-able version 
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
-- Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
+- Updated everything to use traefik version 2
 
-## Services
+## Services Added
 
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
@@ -20,17 +18,20 @@
 - Added Gotify - A simple server for sending and receiving messages in real-time per WebSocket. (Includes a sleek web-ui)
 - Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - Added HomeBridge - HomeKit support for the impatient
+- Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
 - Added MassiveDecks - Massive Decks is a comedy party game based on Cards against Humanity. Play with friends! It works great with a bunch of people in the same room on phones, or on voice chat online.
 - Added Minecraft - Minecraft server with select-able version 
 - Added MStream - All your music, everywhere you go.
 - Added Mylar - An automated Comic Book manager
+- Added NodeRED - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
 - Added PhotoPrism - Clearly structured Web interface for browsing, organizing and sharing your personal photo collection.
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - Added PrivateBin - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - Added Sabnzbd - Free and easy binary newsreader
 - Added Searx - A privacy-respecting, hackable metasearch engine.
+- Added Statping - Web and App Status Monitoring for Any Type of Project
 - Added Tiddlywiki - a unique non-linear notebook for capturing, organizing and sharing complex information
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
@@ -43,11 +44,17 @@
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
-- Updated everything to use traefik version 2
+- Added qBittorrent - An open-source alternative to µTorrent
+- Added n8n - n8n is a free and open node based Workflow Automation Tool.
+- Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 - Added Barcode Buddy - Barcode system for Grocy
 - Added MinecraftBedrockServer - Minecraft Bedrock Server
 - Added Funkwhale - A social platform to enjoy and share music
+- Added Heimdall - Heimdall Application Dashboard is a dashboard for all your web applications.
 
+## Services Removed
+
+- Removed mailserver. It's no longer maintained.
 
 ## Release Notes
 

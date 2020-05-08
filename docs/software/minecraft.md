@@ -4,17 +4,20 @@
 
 ## Access
 
-It is available at [https://minecraft.{{ domain }}/](https://minecraft.{{ domain }}/) or [http://minecraft.{{ domain }}/](http://minecraft.{{ domain }}/)
+It is available at minecraft.{{ domain }}:25565
 
 {% if enable_tor %}
-It is also available via Tor at [http://minecraft.{{ tor_domain }}/](http://minecraft.{{ tor_domain }}/)
+It is also available via Tor at minecraft.{{ tor_domain }}:25565
 {% endif %}
 
-## Security enable/disable https_only and auth
+## Settings
+This options are exposed as settings in HomelabOS.
 
-To enable https_only or auth set the service config to True
-`settings/config.yml`
+  - ONLINE_MODE: If this is True, users will check connecting players against Minecraft's account database. Disable to run a 'offline server'. 
+  *Warning*: If this is set to False the server will be completly open to anyone able to connect. 
 
-minecraft:
-  https_only: True
-  auth: True
+  - TYPE: Type of server to run, default y VANILLA. Check all options in repository README.
+
+  - VERSION: Game server version, Default: LATEST, Exmaples: "1.7.9", "1.15.2"
+
+*Notes:* This options are used at container creation, after the server is running, you will need to edit server.properties to change them.

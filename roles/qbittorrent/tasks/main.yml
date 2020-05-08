@@ -1,0 +1,24 @@
+---
+- name: Make qbittorrent directory.
+  file:
+    path: "{{ volumes_root }}/qbittorrent"
+    state: directory
+
+- name: Copy qbittorrent docker-compose.yml file into place.
+  template:
+    src: docker-compose.qbittorrent.yml.j2
+    dest: "{{ volumes_root }}/qbittorrent/docker-compose.qbittorrent.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure qbittorrent systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/qbittorrent.service
+
+- name: Start qbittorrent
+  systemd:
+    name: qbittorrent
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
