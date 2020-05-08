@@ -14,7 +14,7 @@ volumes:
   volweb:
 
 services:
-  web:
+  nginx:
     # Nginx Web server
     image: nginx:alpine
     restart: unless-stopped
@@ -54,14 +54,14 @@ services:
 {% endif %}
 
 
-  app:
+  hubzilla:
   # Hubzilla service (works in conjunction with cron service)
     image: sebt3/hubzilla:4.6
     depends_on:
-      - db
-      - web
+      - postgres
+      - nginx
     environment:
-      DB_HOST: db
+      DB_HOST: postgres
       DB_PORT: 5432
       DB_TYPE: postgres
       DB_NAME: {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ domain }}{% endif %}_hub
@@ -83,14 +83,14 @@ services:
   # the aforementioned Cron service (required by Hubzilla service)
     image: sebt3/hubzilla:4.6
     depends_on:
-      - db
+      - postgres
     command: ["crond", "-f"]
     networks:
       - hubzilla
     volumes:
       - volweb:/var/www/html
       
-  db:
+  postgres:
   # PostgreSQL
     image: postgres:12-alpine
     environment:
