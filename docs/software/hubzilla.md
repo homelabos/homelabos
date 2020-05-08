@@ -4,7 +4,7 @@
 
 ## Setup
 
-To enable Hubzilla, run the appropriate command:
+To enable Hubzilla, run the following command:
 
 **`make set hubzilla.enable true`**
 
