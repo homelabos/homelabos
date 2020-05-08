@@ -51,6 +51,7 @@
 - Added MinecraftBedrockServer - Minecraft Bedrock Server
 - Added Funkwhale - A social platform to enjoy and share music
 - Added Heimdall - Heimdall Application Dashboard is a dashboard for all your web applications.
+- Added WebTrees - Online Genealogy
 
 ## Services Removed
 

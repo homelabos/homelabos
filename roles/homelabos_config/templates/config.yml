@@ -701,6 +701,12 @@ wallabag:
   auth: {{ wallabag.auth | default(False) }}
   domain: {{ wallabag.domain | default(False) }}
   subdomain: {{ wallabag.subdomain | default("wallabag") }}
+webtrees:
+  enable: {{ webtrees.enable | default(enable_webtrees, None) | default(False) }}
+  https_only: {{ webtrees.https_only | default(False) }}
+  auth: {{ webtrees.auth | default(False) }}
+  domain: {{ webtrees.domain | default(False) }}
+  subdomain: {{ webtrees.subdomain | default("webtrees")}}
 webvirtmgr:
   enable: {{ webvirtmgr.enable | default(enable_webvirtmgr, None) | default(False) }}
   https_only: {{ webvirtmgr.https_only | default(False) }}
