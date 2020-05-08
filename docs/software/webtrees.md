@@ -15,6 +15,8 @@ It is also available via Tor at [http://webtrees.{{ tor_domain }}/](http://webtr
 To enable https_only or auth set the service config to True
 `settings/config.yml`
 
+```
 webtrees:
   https_only: True
   auth: True
+```
