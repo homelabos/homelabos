@@ -96,6 +96,7 @@ services:
   ubooquity: 
   wallabag: 
   watchtower: 
+  webtrees: 
   webvirtmgr: 
   wekan: 
   xfinityusageinfluxdb: 
@@ -199,6 +200,7 @@ wekan:
 watchtower: 
 xfinityusageinfluxdb: 
 wallabag: 
+webtrees:
 webvirtmgr: 
 zammad:
 zulip: 
