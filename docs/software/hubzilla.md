@@ -25,7 +25,7 @@ Setting up such a service is beyond the scope of the HomelabOS documentation, ho
 
 Once you have access to a mail server, or a mail service provide Hubzilla with the necessary information.
 
-1. run **`make decrypt`** to decrypt the `vault.yml` file, located in your homelabos `config` folder.
+1. run **`make decrypt`** to decrypt the `vault.yml` file, located in your homelabos `settings` folder.
 
 2. Access that file (you might need superuser/root/administrator permissions) and change the following options to reflect your own credentials
 
