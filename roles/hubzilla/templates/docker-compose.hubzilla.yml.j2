@@ -1,0 +1,103 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  hubzilla:
+
+volumes:
+  voldb:
+  volweb:
+
+services:
+  web:
+    # Nginx Web server
+    image: nginx:alpine
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - hubzilla
+    volumes:
+      - {{ volumes_root }}/hubzilla/conf/hubzilla-nginx.conf:/etc/nginx/nginx.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.hubzilla.loadbalancer.server.scheme=http"
+      - "traefik.http.services.hubzilla.loadbalancer.server.port=80"
+      - "traefik.http.routers.hubzilla-http.rule=Host(`{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.hubzilla-http.entrypoints=http"
+{% if not hubzilla.https_only %}
+      - "traefik.http.routers.hubzilla-http.middlewares={% if hubzilla.https_only %}redirect@file, {% else %}{% if hubzilla.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.hubzilla-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.hubzilla.rule=Host(`{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.hubzilla.entrypoints=https"
+      - "traefik.http.routers.hubzilla.middlewares={% if hubzilla.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.hubzilla.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.hubzilla.tls.certresolver=dns"
+      - "traefik.http.routers.hubzilla.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.hubzilla.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.hubzilla.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.hubzilla-tor-http.rule=Host(`{{ hubzilla.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.hubzilla-tor-http.entrypoints=http"
+      - "traefik.http.routers.hubzilla-tor-http.middlewares={% if hubzilla.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+
+  app:
+  # Hubzilla service (works in conjunction with cron service)
+    image: sebt3/hubzilla:4.6
+    depends_on:
+      - db
+      - web
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_TYPE: postgres
+      DB_NAME: {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ domain }}{% endif %}_hub
+      DB_USER: {{ default_username }}
+      DB_PASSWORD: hubzilla
+      HUBZILLA_DOMAIN: "{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
+      HUBZILLA_ADMIN: "admin@{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
+      SMTP_HOST: {{ smtp.host }}
+      SMTP_PORT: {{ smtp.port }}
+      SMTP_USER: {{ smtp.user }}
+      SMTP_PASS: {{ smtp.pass }}
+      ADDON_LIST: "nsfw superblock diaspora pubcrawl"
+    networks:
+      - hubzilla
+    volumes:
+      - volweb:/var/www/html
+      
+  cron:
+  # the aforementioned Cron service (required by Hubzilla service)
+    image: sebt3/hubzilla:4.6
+    depends_on:
+      - db
+    command: ["crond", "-f"]
+    networks:
+      - hubzilla
+    volumes:
+      - volweb:/var/www/html
+      
+  db:
+  # PostgreSQL
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_PASSWORD: hubzilla
+      POSTGRES_USER: {{ default_username }}
+      POSTGRES_DB: {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ domain }}{% endif %}_hub
+    volumes:
+      - voldb:/var/lib/postgresql/data
+    networks:
+    - hubzilla
