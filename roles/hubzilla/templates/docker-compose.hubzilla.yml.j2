@@ -61,7 +61,7 @@ services:
       - db
       - web
     environment:
-      DB_HOST: postgres
+      DB_HOST: db
       DB_PORT: 5432
       DB_TYPE: postgres
       DB_NAME: {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ domain }}{% endif %}_hub
