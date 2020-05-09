@@ -44,7 +44,8 @@ git_sync:
 config_reset: logo build
 	@printf "\x1B[01;93m========== Reset local settings ==========\n\x1B[0m"
 	@printf "\n - First we'll make a backup of your current settings in case you actually needed them.\n"
-	cp settings/config.yml settings/config.yml.bak
+	mv settings settings.bak
+	mkdir settings
 	@printf "\n - Then we'll set up a blank config file.\n"
 	cp config.yml.blank settings/config.yml
 	@printf "\n\x1B[01;93m========== Configuration reset! Now just run 'make config' ==========\n\x1B[0m"
