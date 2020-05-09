@@ -1,0 +1,24 @@
+---
+- name: Make webtrees directory.
+  file:
+    path: "{{ volumes_root }}/webtrees"
+    state: directory
+
+- name: Copy webtrees docker-compose.yml file into place.
+  template:
+    src: docker-compose.webtrees.yml.j2
+    dest: "{{ volumes_root }}/webtrees/docker-compose.webtrees.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure webtrees systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/webtrees.service
+
+- name: Start webtrees
+  systemd:
+    name: webtrees
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

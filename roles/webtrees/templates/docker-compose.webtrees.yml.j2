@@ -1,0 +1,75 @@
+---
+version: '3.3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  webtrees_db:
+    image: mariadb:10.4
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - "{{ volumes_root }}/webtrees/mariadb:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/webtrees_db_root_password chars=digits')}}
+      - MYSQL_PASSWORD={{lookup('password', './settings/passwords/webtrees_db_password chars=digits')}}
+  app:
+    # REQUIRED
+    image: dtjs48jkt/webtrees
+    restart: unless-stopped
+    environment:
+      - GROUP_ID={{gid_output.stdout }}
+      - PORT=8079
+      - DISABLE_SSL=TRUE
+      - UPDATE_ON_START=FALSE
+      - DB_PASSWORD={{lookup('password', './settings/passwords/webtrees_db_password chars=digits')}}
+      - DB_USER=webtrees
+      - DB_HOST=webtrees_db
+      - DB_PORT=3306
+      - DB_NAME=webtrees
+      - WT_ADMIN={{ default_username }}
+      - WT_ADMINPW={{ default_password }}
+      - WT_ADMINMAIL={{ admin_email }}
+    volumes:
+      - "{{ volumes_root }}/webtrees/data:/var/www/html/data"
+      - "{{ volumes_root }}/webtrees/media:/var/www/html/media"
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - traefik_network
+    depends_on: 
+      - webtrees_db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.webtrees.loadbalancer.server.scheme=http"
+      - "traefik.http.services.webtrees.loadbalancer.server.port=8079"
+      - "traefik.http.routers.webtrees-http.rule=Host(`{% if webtrees.domain %}{{ webtrees.domain }}{% else %}{{ webtrees.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.webtrees-http.entrypoints=http"
+{% if not webtrees.https_only %}
+      - "traefik.http.routers.webtrees-http.middlewares={% if webtrees.https_only %}redirect@file, {% else %}{% if webtrees.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.webtrees-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.webtrees.rule=Host(`{% if webtrees.domain %}{{ webtrees.domain }}{% else %}{{ webtrees.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.webtrees.entrypoints=https"
+      - "traefik.http.routers.webtrees.middlewares={% if webtrees.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.webtrees.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.webtrees.tls.certresolver=dns"
+      - "traefik.http.routers.webtrees.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.webtrees.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.webtrees.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.webtrees-tor-http.rule=Host(`{{ webtrees.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.webtrees-tor-http.entrypoints=http"
+      - "traefik.http.routers.webtrees-tor-http.middlewares={% if webtrees.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}

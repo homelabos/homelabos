@@ -54,7 +54,7 @@ if gl
   rescue
     puts 'Gitlab returned an error, working in offline mode'
   ensure
-    @branch_name = "Adds-#{package_name.gsub(/ /, '-')}"
+    @branch_name ||= "Adds-#{package_name.gsub(/ /, '-')}"
     `git fetch`
     `git checkout dev`
     `git branch #{@branch_name}`
