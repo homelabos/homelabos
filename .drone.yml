@@ -1,0 +1,41 @@
+---
+
+kind: pipeline
+name: Docker build latest
+
+trigger:
+  branch:
+    - dev
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo:
+        from_secret: repo
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build tags
+
+trigger:
+  ref:
+    - refs/tags/*
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo:
+        from_secret: repo
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
