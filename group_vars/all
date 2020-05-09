@@ -12,6 +12,7 @@ services:
   calibre: 
   chowdown: 
   codeserver: 
+  codimd: 
   dark_sky: 
   dasher: 
   digikam: 
@@ -115,6 +116,7 @@ bulletnotes:
 calibre: 
 chowdown: 
 codeserver: 
+codimd:
 dark_sky: 
 dasher: 
 digikam: 

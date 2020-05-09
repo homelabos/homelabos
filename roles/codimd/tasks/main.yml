@@ -1,0 +1,32 @@
+---
+- name: Make codimd directory.
+  file:
+    path: "{{ volumes_root }}/codimd"
+    state: directory
+
+- name: Copy codimd docker-compose.yml file into place.
+  template:
+    src: docker-compose.codimd.yml.j2
+    dest: "{{ volumes_root }}/codimd/docker-compose.codimd.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure codimd systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/codimd.service
+
+- name: Start codimd
+  systemd:
+    name: codimd
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+
+- name: setup default user
+  shell: >
+    docker-compose -f docker-compose.codimd.yml run --rm codiMdApp bin/manage_users
+    --add {{ admin_email }} --pass {{ default_password }}
+  args:
+    chdir: /var/homelabos/codimd
+  ignore_errors: true

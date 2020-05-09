@@ -1,0 +1,63 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  codiMdDatabase:
+    networks:
+      - traefik_network
+    image: postgres:9.6-alpine
+    environment:
+      # MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}
+      - POSTGRES_USER=codimd
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}
+      - POSTGRES_DB=codimd
+    volumes:
+      - "{{ volumes_root }}/codimd/postgresql/data:/var/lib/postgresql/data"
+    restart: unless-stopped
+  codiMdApp:
+    # REQUIRED
+    image: quay.io/codimd/server:latest
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment: 
+      - CMD_DB_URL=postgres://codimd:{{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}@codiMdDatabase:5432/codimd
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.codimd.loadbalancer.server.scheme=http"
+      - "traefik.http.services.codimd.loadbalancer.server.port=3000"
+      - "traefik.http.routers.codimd-http.rule=Host(`{% if codimd.domain %}{{ codimd.domain }}{% else %}{{ codimd.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.codimd-http.entrypoints=http"
+{% if not codimd.https_only %}
+      - "traefik.http.routers.codimd-http.middlewares={% if codimd.https_only %}redirect@file, {% else %}{% if codimd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.codimd-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.codimd.rule=Host(`{% if codimd.domain %}{{ codimd.domain }}{% else %}{{ codimd.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.codimd.entrypoints=https"
+      - "traefik.http.routers.codimd.middlewares={% if codimd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.codimd.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.codimd.tls.certresolver=dns"
+      - "traefik.http.routers.codimd.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.codimd.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.codimd.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.codimd-tor-http.rule=Host(`{{ codimd.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.codimd-tor-http.entrypoints=http"
+      - "traefik.http.routers.codimd-tor-http.middlewares={% if codimd.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+    depends_on:
+      - codiMdDatabase
+    
