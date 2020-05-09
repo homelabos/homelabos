@@ -13,15 +13,15 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-    - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/bookstack_db_root_password chars=digits')}}"
+    - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_root_password chars=digits')}}
     - MYSQL_DATABASE=bookstack
     - MYSQL_USER=bookstack
-    - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}"
+    - MYSQL_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}
     volumes:
     - "{{ volumes_root }}/bookstack/mysql-data:/var/lib/mysql"
 
   bookstack:
-    image: solidnerd/bookstack:0.24.3
+    image: solidnerd/bookstack:0.29.2
     networks:
       - traefik_network
     restart: unless-stopped
@@ -31,7 +31,9 @@ services:
     - DB_HOST=mysql:3306
     - DB_DATABASE=bookstack
     - DB_USERNAME=bookstack
-    - DB_PASSWORD="{{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}"
+    - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}
+    - APP_URL=https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}
+
     volumes:
     - "{{ volumes_root }}/bookstack/uploads:/var/www/bookstack/public/uploads"
     - "{{ volumes_root }}/bookstack/storage-uploads:/var/www/bookstack/public/storage"
@@ -39,7 +41,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.bookstack.loadbalancer.server.scheme=http"
-      - "traefik.http.services.bookstack.loadbalancer.server.port=80"
+      - "traefik.http.services.bookstack.loadbalancer.server.port=8080"
       - "traefik.http.routers.bookstack-http.rule=Host(`{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.bookstack-http.entrypoints=http"
 {% if not bookstack.https_only %}
