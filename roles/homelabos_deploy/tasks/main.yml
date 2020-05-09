@@ -180,7 +180,7 @@
 - name: Makefile helper to guide users
   template:
     src: helper.Makefile.j2
-    dest: {{ volumes_root }}/Makefile
+    dest: "{{ volumes_root }}/Makefile"
 
 - name: Start HomelabOS
   systemd:
