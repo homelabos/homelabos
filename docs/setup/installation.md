@@ -104,6 +104,10 @@ Run `make set SERVICENAME.enable true` where SERVICENAME is the name of the serv
 
 Then run `make` again. That's it. It will take a few minutes for your server to download and start the relevant images.
 
+
+!!! warning
+    Some services expose set up pages on start up. If you don't complete the set up step, there is a chance someone else could beat you to it. If they do just run `make reset_one SERVICENAME` then `make` again and the service will reset to it's freshly installed state.
+
 You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
 
 !!! example

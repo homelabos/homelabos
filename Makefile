@@ -1,4 +1,4 @@
-.PHONY: logo build deploy docs_build restore develop lint
+.PHONY: logo build deploy docs_build restore develop lint docs
 
 VERSION := $(cat VERSION)
 

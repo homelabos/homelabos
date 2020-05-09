@@ -143,6 +143,8 @@ If you are having problems you can:
 - [Inventario](software/inventario) - Home inventory software
 - [Mashio](software/mashio) - Home brewery management software
 - [Monica](software/monica) - Contact / relationship manager
+- [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.
+- [NodeRED](software/nodered) - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - [Pi-hole](software/pihole) - Ad blocking
 - [Poli](software/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](software/portainer) - Easy Docker management
