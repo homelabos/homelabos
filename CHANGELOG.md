@@ -33,6 +33,7 @@
 - Added Searx - A privacy-respecting, hackable metasearch engine.
 - Added Statping - Web and App Status Monitoring for Any Type of Project
 - Added Tiddlywiki - a unique non-linear notebook for capturing, organizing and sharing complex information
+- Added Zammad - Zammad is a web-based, open source user support/ticketing solution.
 - Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
 - Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.

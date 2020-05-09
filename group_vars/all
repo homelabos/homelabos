@@ -98,6 +98,7 @@ services:
   webvirtmgr: 
   wekan: 
   xfinityusageinfluxdb: 
+  zammad: 
   zulip: 
 docs: 
 apache2: 
@@ -197,6 +198,7 @@ watchtower:
 xfinityusageinfluxdb: 
 wallabag: 
 webvirtmgr: 
+zammad:
 zulip: 
 enable_tinc: false
 vpn_ip: 10.0.0.1

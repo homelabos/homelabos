@@ -707,6 +707,12 @@ webvirtmgr:
   auth: {{ webvirtmgr.auth | default(False) }}
   domain: {{ webvirtmgr.domain | default(False) }}
   subdomain: {{ webvirtmgr.subdomain | default("webvirtmgr") }}
+zammad:
+  enable: {{ zammad.enable | default(enable_zammad, None) | default(False) }}
+  https_only: {{ zammad.https_only | default(False) }}
+  auth: {{ zammad.auth | default(False) }}
+  domain: {{ zammad.domain| default(False) }}
+  subdomain: {{ zammad.subdomain | default("zammad")}}
 zulip:
   enable: {{ zulip.enable | default(enable_zulip, None) | default(False) }}
   https_only: {{ zulip.https_only | default(False) }}
