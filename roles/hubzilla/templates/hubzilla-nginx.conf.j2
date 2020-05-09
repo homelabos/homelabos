@@ -12,6 +12,9 @@ http {
     gzip_static on;
     sendfile        on;
     keepalive_timeout  65;
+    
+    resolver 127.0.0.11 ipv6=off;
+    
     server {
         listen 80; 
         root /var/www/html;
@@ -40,9 +43,7 @@ http {
         location ~* \.php$ {
             try_files $uri =404;
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                resolver 127.0.0.11;
-                set $upstream app:9000;
-                fastcgi_pass $upstream;
+            fastcgi_pass hubzilla:9000;
             include fastcgi_params;
             fastcgi_index index.php;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
