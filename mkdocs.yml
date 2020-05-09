@@ -111,6 +111,7 @@ nav:
       - Ubooquity: software/ubooquity.md
       - Watchtower: software/watchtower.md
       - BarcodeBuddy: software/barcodebuddy.md
+      - Zammad: software/zammad.md
     - Money, Budgeting and Management:
       - Firefly III: software/firefly.md
     - Monitoring:
