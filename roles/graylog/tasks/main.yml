@@ -12,7 +12,7 @@
     - "{{ volumes_root }}/graylog/graylog_plugin"
 
 - name: Change permissions for ElasticSearch data directory
-  shell: chown -R 1000 {{ volumes_root }}/graylog/es_data 
+  shell: chown -R 1000 {{ volumes_root }}/graylog/es_data
 
 - name: Change permissions for MongoDB data directory
   shell: chown -R 999 "{{ volumes_root }}/graylog/mongo_data"
@@ -28,7 +28,7 @@
   register: graylog_root_pw
   become: false
 
-  
+
 - name: Copy graylog docker-compose.yml file into place.
   template:
     src: docker-compose.graylog.yml.j2
@@ -36,7 +36,7 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-    
+
 - name: Configure graylog systemd service.
   template:
     src: service.j2
