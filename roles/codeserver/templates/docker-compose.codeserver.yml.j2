@@ -9,18 +9,19 @@ networks:
 services:
   codeserver:
     image: codercom/code-server
+    environment:
+      - PASSWORD={{ default_password }}
     volumes:
-      - "{{ volumes_root }}/codeserver/code:/root/project"
+      - "{{ volumes_root }}/codeserver/.local:/home/coder/.local"
+      - "{{ volumes_root }}/codeserver/project:/home/coder/project"
+    command: ['--auth', 'password', '--disable-telemetry']
     restart: unless-stopped
     networks:
       - traefik_network
-    ports:
-      - 8443:8443
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.codeserver.loadbalancer.server.scheme=http"
-      - "traefik.http.services.codeserver.loadbalancer.server.port=8443"
       - "traefik.http.routers.codeserver-http.rule=Host(`{% if codeserver.domain %}{{ codeserver.domain }}{% else %}{{ codeserver.subdomain + "." + domain }}{% endif %}`)"
       - "traefik.http.routers.codeserver-http.entrypoints=http"
 {% if not codeserver.https_only %}
