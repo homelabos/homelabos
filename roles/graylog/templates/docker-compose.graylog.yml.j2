@@ -47,7 +47,7 @@ services:
       - GRAYLOG_ROOT_PASSWORD_SHA2={{ graylog_root_pw.stdout }}
       - GRAYLOG_HTTP_EXTERNAL_URI=http://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}/
       - GRAYLOG_HTTP_BIND_ADDRESS=0.0.0.0:9000
-{% if smtp.host %} 
+{% if smtp.host %}
       - GRAYLOG_TRANSPORT_EMAIL_ENABLED=True
       - GRAYLOG_TRANSPORT_EMAIL_HOSTNAME={{ smtp.host }}
       - GRAYLOG_TRANSPORT_EMAIL_PORT={{ smtp.port }}
@@ -77,7 +77,7 @@ services:
       #- 9000:9000
       # Netflow
       - 2055:2055
-      # Beats 
+      # Beats
       - 5044:5044
       # Syslog TCP
       - 1514:1514
@@ -91,8 +91,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.middlewares.httpsHeader.headers.customrequestheaders.X-Graylog-Server-URL=https://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}" 
-      - "traefik.http.middlewares.httpHeader.headers.customrequestheaders.X-Graylog-Server-URL=http://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}" 
+      - "traefik.http.middlewares.httpsHeader.headers.customrequestheaders.X-Graylog-Server-URL=https://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}"
+      - "traefik.http.middlewares.httpHeader.headers.customrequestheaders.X-Graylog-Server-URL=http://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}"
       - "traefik.http.services.graylog.loadbalancer.server.scheme=http"
       - "traefik.http.services.graylog.loadbalancer.server.port=9000"
       - "traefik.http.routers.graylog-http.rule=Host(`{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}`)"
