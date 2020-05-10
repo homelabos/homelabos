@@ -25,7 +25,7 @@ graylog:
 
 ## Usage:
 
-You will need to manually create the needed inputs in Graylog, the ports are mapped as follow:
+You have to manually create the needed inputs in Graylog, the container ports are mapped as follow:
 
 - Graylog web interface and REST API 9000 (disabled, proxied by Traefik)
 - Netflow 2055
@@ -48,7 +48,9 @@ Logs from all containers:
   }
 }
 ```
-or to receive logs from a container ( docker-compose method), add this to the compose file in the container you want to log, this goes at the same ident level as labels and volumes.
+
+To receive logs from a container ( docker-compose method), add this to the compose file in the container you want to log, this goes at the same ident level as labels and volumes.
+
 ```
     logging:
       driver: "gelf"
@@ -59,3 +61,4 @@ or to receive logs from a container ( docker-compose method), add this to the co
 ```
 
 
+Another option is to use [Logspout](https://github.com/gliderlabs/logspout) which adds more features and dont disable json logger, which is needed for example by 'docker logs' command.  
