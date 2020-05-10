@@ -170,7 +170,7 @@ develop: logo build config
 	@printf "\x1B[01;93m========== Done spinning up dev stack! ==========\n\x1B[0m"
 
 # Serve the HomelabOS Documentation locally
-docs:
+docs_local:
 	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
