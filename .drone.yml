@@ -13,7 +13,7 @@ steps:
     settings:
       repo:
         from_secret: repo
-      tag: dev
+      tag: "dev"
       username:
         from_secret: docker_username
       password:
@@ -34,7 +34,7 @@ steps:
     settings:
       repo:
         from_secret: repo
-      tag: latest
+      tag: "latest"
       username:
         from_secret: docker_username
       password:
