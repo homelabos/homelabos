@@ -4,6 +4,8 @@
 
 ## Access
 
+Peertube generates it's own root password on first startup. Homelabos captures that and stores it in ./settings/passwords/peertube_root_password
+
 It is available at [https://peertube.{{ domain }}/](https://peertube.{{ domain }}/) or [http://peertube.{{ domain }}/](http://peertube.{{ domain }}/)
 
 {% if enable_tor %}
