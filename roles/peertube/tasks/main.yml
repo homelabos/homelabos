@@ -30,15 +30,15 @@
     daemon-reload: "yes"
     state: started
 
-- name: Capture initial password 
+- name: Capture initial password
   shell: >
     docker-compose -f /var/homelabos/peertube/docker-compose.peertube.yml logs app | grep -A1 root
   register: peertube_pass
   become: false
 
-- local_action: 
+- local_action:
     copy content={{ peertube_pass.stdout }}
     dest=./settings/passwords/peertube_root_password
 
-- debug: 
+- debug:
     msg: "Peertube credentials: {{peertube_pass.stdout}}"
