@@ -129,7 +129,7 @@ community:
   items:
     - image : "images/zulip.png"
       title : "Zulip Chat"
-      content : "Join over 150 people in our online chat!"
+      content : "Join over 250 people in our online chat!"
       button:
         enable : true
         label : "Join the Chat"
@@ -137,7 +137,7 @@ community:
         
     - image : "images/reddit.png"
       title : "Reddit"
-      content : "Join 400+ Redditors discussing HomelabOS"
+      content : "Join 550+ Redditors discussing HomelabOS"
       button:
         enable : true
         label : "HomelabOS on Reddit"
