@@ -96,6 +96,7 @@ nav:
       - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
+      - EtherCalc: software/ethercalc.md
       - ERPNext: software/erpnext.md
       - Folding@home: software/folding_at_home.md
       - Gotify: software/gotify.md

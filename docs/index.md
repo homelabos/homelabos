@@ -135,6 +135,7 @@ If you are having problems you can:
 - [CodiMD](software/codimi) The best platform to write and share markdown
 - [Darksky](software/darksky) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](software/dasher) - Amazon Dash button support
+- [EtherCalc](software/ethercalc) - Web Spreadsheet
 - [ERPNext](software/erpnext) Open Source ERP for Everyone.
 - [Folding@home](software/folding_at_home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - [Grocy](software/grocy) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home

@@ -22,6 +22,7 @@ services:
   elkstack: 
   emby: 
   erpnext: 
+  ethercalc: 
   factorio: 
   firefly_iii: 
   folding_at_home: 
@@ -116,15 +117,16 @@ bulletnotes:
 calibre: 
 chowdown: 
 codeserver: 
-codimd:
+codimd: 
 dark_sky: 
 dasher: 
 digikam: 
 drone: 
 duplicati: 
-elkstack:
+elkstack: 
 emby: 
 erpnext: 
+ethercalc:
 factorio: 
 firefly_iii: 
 folding_at_home: 
@@ -202,9 +204,9 @@ wekan:
 watchtower: 
 xfinityusageinfluxdb: 
 wallabag: 
-webtrees:
+webtrees: 
 webvirtmgr: 
-zammad:
+zammad: 
 zulip: 
 enable_tinc: false
 vpn_ip: 10.0.0.1

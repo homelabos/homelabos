@@ -202,6 +202,12 @@ erpnext:
   auth: {{ erpnext.auth | default(False) }}
   domain: {{ erpnext.domain | default(False) }}
   subdomain: {{ erpnext.subdomain | default("erpnext") }}
+ethercalc:
+  enable: {{ ethercalc.enable | default(enable_ethercalc, None) | default(False) }}
+  https_only: {{ ethercalc.https_only | default(False) }}
+  auth: {{ ethercalc.auth | default(False) }}
+  domain: {{ ethercalc.domain | default(False) }}
+  subdomain: {{ ethercalc.subdomain | default("ethercalc")}}
 factorio:
   enable: {{ factorio.enable | default(enable_factorio, None) | default(False) }}
   https_only: {{ factorio.https_only | default(False) }}
