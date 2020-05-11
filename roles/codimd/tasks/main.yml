@@ -29,8 +29,4 @@
     --add {{ admin_email }} --pass {{ default_password }}
   args:
     chdir: /var/homelabos/codimd
-<<<<<<< HEAD
-  ignore_errors: yes
-=======
   ignore_errors: true
->>>>>>> c1ebad490d3434fff997fe5d9e2859df9f83439f
