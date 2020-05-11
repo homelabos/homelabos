@@ -153,6 +153,7 @@ If you are having problems you can:
 - [Searx](software/searx) - A privacy-respecting, hackable metasearch engine.
 - [Ubooquity](software/ubooquity) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](software/watchtower) - A process for automating Docker container base image updates
+- [WebTrees](software/webtrees) - Online Genealogy
 - [Zammad](software/zammad) Zammad is a web-based, open source user support/ticketing solution.
 
 ### Money, Budgeting and Management

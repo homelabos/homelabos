@@ -92,6 +92,7 @@ nav:
       - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
     - Misc/Other:
+      - BarcodeBuddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
       - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
@@ -114,7 +115,7 @@ nav:
       - Searx: software/searx.md
       - Ubooquity: software/ubooquity.md
       - Watchtower: software/watchtower.md
-      - BarcodeBuddy: software/barcodebuddy.md
+      - WebTrees: software/webtrees.md
       - Zammad: software/zammad.md
     - Money, Budgeting and Management:
       - Firefly III: software/firefly.md
