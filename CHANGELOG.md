@@ -29,6 +29,7 @@
 - Added Mylar - An automated Comic Book manager
 - Added NodeRED - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- Added PeerTube - ActivityPub Video Sharing
 - Added PhotoPrism - Clearly structured Web interface for browsing, organizing and sharing your personal photo collection.
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - Added PrivateBin - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.

@@ -1,0 +1,44 @@
+---
+- name: Make peertube directory.
+  file:
+    path: "{{ volumes_root }}/peertube"
+    state: directory
+
+- name: Copy peertube docker-compose.yml file into place.
+  template:
+    src: docker-compose.peertube.yml.j2
+    dest: "{{ volumes_root }}/peertube/docker-compose.peertube.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy peertube .env file into place.
+  template:
+    src: env
+    dest: "{{ volumes_root }}/peertube/.env"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure peertube systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/peertube.service
+
+- name: Start peertube
+  systemd:
+    name: peertube
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+
+- name: Capture initial password
+  shell: >
+    docker-compose -f /var/homelabos/peertube/docker-compose.peertube.yml logs app | grep -A1 root
+  register: peertube_pass
+  become: false
+
+- local_action:
+    copy content={{ peertube_pass.stdout }}
+    dest=./settings/passwords/peertube_root_password
+
+- debug:
+    msg: "Peertube credentials: {{peertube_pass.stdout}}"

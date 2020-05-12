@@ -88,6 +88,7 @@ nav:
       - Jellyfin: software/jellyfin.md
       - MassiveDecks: software/massivedecks.md
       - Mstream: software/mstream.md
+      - Added PeerTube: software/peertube.md
       - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
     - Misc/Other:

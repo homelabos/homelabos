@@ -70,6 +70,7 @@ services:
   organizr: 
   ownphotos: 
   paperless: 
+  peertube: 
   photoprism: 
   pihole: 
   piwigo: 
@@ -174,6 +175,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
+peertube:
 photoprism: 
 pihole: 
 piwigo: 

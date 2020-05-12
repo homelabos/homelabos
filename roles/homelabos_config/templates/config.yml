@@ -537,6 +537,12 @@ paperless:
   auth: {{ paperless.auth | default(False) }}
   domain: {{ paperless.domain | default(False) }}
   subdomain: {{ paperless.subdomain | default("paperless") }}
+peertube:
+  enable: {{ peertube.enable | default(enable_peertube, None) | default(False) }}
+  https_only: {{ peertube.https_only | default(False) }}
+  auth: {{ peertube.auth | default(False) }}
+  domain: {{ peertube.domain | default(False) }}
+  subdomain: {{ peertube.subdomain | default("peertube")}}
 photoprism:
   enable: {{ photoprism.enable | default(enable_photoprism, None) | default(False) }}
   https_only: {{ photoprism.https_only | default(False) }}
