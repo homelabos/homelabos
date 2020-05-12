@@ -9,3 +9,19 @@ It is available at [https://{% if drone.domain %}{{ drone.domain }}{% else %}{{ 
 {% if enable_tor %}
 It is also available via Tor at [http://{{ drone.subdomain + "." + tor_domain }}/](http://{{ drone.subdomain + "." + tor_domain }}/)
 {% endif %}
+
+## Enable Gitea
+
+[Drone Docs Gitea](https://docs.drone.io/server/provider/gitea/)
+
+`make set gitea_id {id}`
+`make set gitea_secret {secret}`
+
+## Build and Push Docker image 
+
+Use the official [Drone Documentation](https://docs.drone.io/) to Setup your Environment, if not using Gitea.
+
+Example:
+To build and push your own HomelabOS Image migrate and sync the [official Repo](https://gitlab.com/NickBusey/HomelabOS/) with Gitea.
+Then activate it in Drone and create three secrets (repo, docker_username, docker_password). 
+Your own HomelabOS Image will be build and published to Docker on the next commit.

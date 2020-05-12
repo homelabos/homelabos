@@ -13,7 +13,28 @@ steps:
     settings:
       repo:
         from_secret: repo
-      auto_tag: true
+      tag: "dev"
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build latest
+
+trigger:
+  branch:
+    - master
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo:
+        from_secret: repo
+      tag: "latest"
       username:
         from_secret: docker_username
       password:
