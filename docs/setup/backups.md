@@ -30,4 +30,4 @@ Let's say your machine gets wiped, or you want to migrate to a new machine. To r
 
 Alternatively you can work directly with the Restic backups through it's Docker shell. Using either [Portainer](/software/portainer.md) or your server's CLI, once you gain access to the Restic shell, you can run commands like `restic snapshots` to list all your snapshots.
 
-To restore just your NextCloud data for example, you can run `restic restore latest --include /data/nextcloud --target /`.
+To restore just your NextCloud data for example, you can run `docker exec restic_restic_1 restic restore latest --include /data/nextcloud --target /data/nextcloud`.
