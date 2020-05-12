@@ -1,6 +1,6 @@
 #!/bin/bash
 # Decrypt vault
-make decrypt
+./docker_helper.sh ansible-vault decrypt settings/vault.yml settings/passwords/*
 
 # Try to figure out where key is defined
 FILE=settings/config.yml
