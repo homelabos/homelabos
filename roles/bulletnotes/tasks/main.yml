@@ -7,7 +7,7 @@
 - name: Copy bulletnotes docker-compose.yml file into place.
   template:
     src: docker-compose.bulletnotes.yml.j2
-    dest: "{{ volumes_root }}/bulletnotes/docker-compose.bulletnotes.yml"
+    dest: "{{ volumes_root }}/bulletnotes/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

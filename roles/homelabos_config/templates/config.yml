@@ -693,8 +693,8 @@ trilium:
   enable: {{ trilium.enable | default(enable_trilium, None) | default(False) }}
   https_only: {{ trilium.https_only | default(False) }}
   auth: {{ trilium.auth | default(False) }}
-  domain: {{ trilium.domain | default(False) }}
-  subdomain: {{ trilium.subdomain | default("trillium") }}
+  domain: {{ trilium.domain| default(False) }}
+  subdomain: {{ trilium.subdomain | default("trilium") }}
 ubooquity:
   enable: {{ ubooquity.enable | default(enable_ubooquity, None) | default(False) }}
   https_only: {{ ubooquity.https_only | default(False) }}

@@ -15,7 +15,7 @@
 - name: Copy grownetics docker-compose.yml file into place.
   template:
     src: docker-compose.grownetics.yml.j2
-    dest: "{{ volumes_root }}/grownetics/docker-compose.grownetics.yml"
+    dest: "{{ volumes_root }}/grownetics/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

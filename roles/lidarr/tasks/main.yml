@@ -17,7 +17,7 @@
 - name: Copy lidarr docker-compose.yml file into place.
   template:
     src: docker-compose.lidarr.yml.j2
-    dest: "{{ volumes_root }}/lidarr/docker-compose.lidarr.yml"
+    dest: "{{ volumes_root }}/lidarr/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"

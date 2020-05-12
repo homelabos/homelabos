@@ -27,7 +27,7 @@
 - name: Copy privatebin docker-compose.yml file into place.
   template:
     src: docker-compose.privatebin.yml.j2
-    dest: "{{ volumes_root }}/privatebin/docker-compose.privatebin.yml"
+    dest: "{{ volumes_root }}/privatebin/docker-compose.yml"
 
 - name: Configure privatebin systemd service.
   template:

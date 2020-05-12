@@ -7,7 +7,7 @@
 - name: Copy bitwarden docker-compose.yml file into place.
   template:
     src: docker-compose.bitwarden.yml.j2
-    dest: "{{ volumes_root }}/bitwarden/docker-compose.bitwarden.yml"
+    dest: "{{ volumes_root }}/bitwarden/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

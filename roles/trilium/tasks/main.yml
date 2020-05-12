@@ -7,7 +7,7 @@
 - name: Copy trilium docker-compose.yml file into place.
   template:
     src: docker-compose.trilium.yml.j2
-    dest: "{{ volumes_root }}/trilium/docker-compose.trilium.yml"
+    dest: "{{ volumes_root }}/trilium/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

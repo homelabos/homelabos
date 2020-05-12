@@ -17,7 +17,7 @@
 - name: Copy ombi docker-compose.yml file into place.
   template:
     src: docker-compose.ombi.yml.j2
-    dest: "{{ volumes_root }}/ombi/docker-compose.ombi.yml"
+    dest: "{{ volumes_root }}/ombi/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"

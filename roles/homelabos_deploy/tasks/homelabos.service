@@ -12,8 +12,8 @@ Restart=always
 RestartSec=3
 WorkingDirectory={{ volumes_root }}/traefik/
 
-ExecStart=/usr/bin/docker-compose -f "{{ volumes_root }}/traefik/docker-compose.traefik.yml" -p homelabos up
-ExecStop=/usr/bin/docker-compose -f "{{ volumes_root }}/traefik/docker-compose.traefik.yml" -p homelabos stop && /usr/bin/docker-compose -f "{{ volumes_root }}/traefik/docker-compose.traefik.yml" -p homelabos rm -f
+ExecStart=/usr/bin/docker-compose -p homelabos up
+ExecStop=/usr/bin/docker-compose -p homelabos stop && /usr/bin/docker-compose -p homelabos rm -f
 
 [Install]
 WantedBy=multi-user.target
