@@ -11,7 +11,7 @@
 - name: Copy elkstack docker-compose.yml file into place.
   template:
     src: docker-compose.elkstack.yml.j2
-    dest: "{{ volumes_root }}/elkstack/docker-compose.elkstack.yml"
+    dest: "{{ volumes_root }}/elkstack/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
