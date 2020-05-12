@@ -9,7 +9,7 @@ networks:
 services:
   # Document Storage
   paperless:
-    image: danielquinn/paperless
+    image: thepaperlessproject/paperless
     restart: unless-stopped
     networks:
       - traefik_network
@@ -27,7 +27,7 @@ services:
       - "{{ storage_dir }}/Documents/export:/export"
     environment:
       - PAPERLESS_OCR_LANGUAGES=
-      - PAPERLESS_PASSPHRASE="{{lookup('password', './settings/passwords/paperless_passphrase chars=digits')}}"
+      - PAPERLESS_PASSPHRASE={{lookup('password', './settings/passwords/paperless_passphrase chars=digits')}}
     command: ["runserver", "--insecure", "--noreload", "0.0.0.0:8000"]
     labels:
       - "traefik.enable=true"
@@ -60,7 +60,7 @@ services:
 {% endif %}
 
   paperless_consumer:
-    image: danielquinn/paperless
+    image: thepaperlessproject/paperless
     restart: unless-stopped
     networks:
       - traefik_network
@@ -72,5 +72,5 @@ services:
       - "{{ storage_dir }}/Documents/consume:/consume"
       - "{{ storage_dir }}/Documents/export:/export"
     environment:
-      - PAPERLESS_PASSPHRASE=homelabos
+      - PAPERLESS_PASSPHRASE={{lookup('password', './settings/passwords/paperless_passphrase chars=digits')}}
     command: ["document_consumer"]
