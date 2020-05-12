@@ -4,24 +4,24 @@ version: '3'
 services:
   watchtower:
     image: containrrr/watchtower
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ volumes_root }}/watchtower/config.json:/config.json"
-    command: --interval 900 #15 minutes
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.watchtower.loadbalancer.server.scheme=http"
-      - "traefik.http.services.watchtower.loadbalancer.server.port=0"
-      - "traefik.http.routers.watchtower-http.rule=Host(`{% if watchtower.domain %}{{ watchtower.domain }}{% else %}{{ watchtower.subdomain + "." + domain }}{% endif %}`)"
-      - "traefik.http.routers.watchtower-http.entrypoints=http"
-{% if not watchtower.https_only %}
-      - "traefik.http.routers.watchtower-http.middlewares={% if watchtower.https_only %}redirect@file, {% else %}{% if watchtower.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      #- "{{ volumes_root }}/watchtower/config.json:/config.json:rw" # Only needed for Private registries
+    command: --schedule "0 2 * * *" --cleanup --stop-timeout 30s
+    environment:
+      - TZ={{ common_timezone }}
+{% if watchtower.notification %}
+{% if gotify.enable %}
+      - WATCHTOWER_NOTIFICATIONS=gotify
+      - WATCHTOWER_NOTIFICATION_GOTIFY_URL=https://{% if gotify.domain %}{{ gotify.domain }}{% else %}{{ gotify.subdomain + "." + domain }}{% endif %}/
+      - WATCHTOWER_NOTIFICATION_GOTIFY_TOKEN={{ watchtower.gotify_token }}
 {% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.watchtower-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.watchtower.rule=Host(`{% if watchtower.domain %}{{ watchtower.domain }}{% else %}{{ watchtower.subdomain + "." + domain }}{% endif %}`)"
-      - "traefik.http.routers.watchtower.entrypoints=https"
-      - "traefik.http.routers.watchtower.middlewares={% if watchtower.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.watchtower.tls=true"
+      - WATCHTOWER_NOTIFICATIONS=email
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM={{  smtp.from_email }}
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO={{ admin_email }}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER={{ smtp.user }}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER={{ smtp.host }}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD={{ smtp.pass }}
+      - WATCHTOWER_NOTIFICATION_EMAIL_DELAY=2
+{% endif %}{% endif %}

@@ -701,12 +701,6 @@ wekan:
   auth: {{ wekan.auth | default(False) }}
   domain: {{ wekan.domain | default(False) }}
   subdomain: {{ wekan.subdomain | default("wekan") }}
-watchtower:
-  enable: {{ watchtower.enable | default(enable_watchtower, None) | default(False) }}
-  https_only: {{ watchtower.https_only | default(False) }}
-  auth: {{ watchtower.auth | default(False) }}
-  domain: {{ watchtower.domain | default(False) }}
-  subdomain: {{ watchtower.subdomain | default("watchtower") }}
 xfinityusageinfluxdb:
   enable: {{ xfinityusageinfluxdb.enable | default(enable_xfinityusageinfluxdb, None) | default(False) }}
   https_only: {{ xfinityusageinfluxdb.https_only | default(False) }}
