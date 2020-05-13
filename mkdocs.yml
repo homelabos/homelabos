@@ -149,6 +149,8 @@ nav:
       - Pixelfed: software/pixelfed.md
     - Read it Later Lists:
       - Wallabag: software/wallabag.md
+    - Social Networking: 
+      - Pleroma: software/pleroma.md
     - Software Development:
       - Codeserver: software/codeserver.md
       - Drone: software/drone.md

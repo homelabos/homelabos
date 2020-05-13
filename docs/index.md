@@ -199,6 +199,10 @@ If you are having problems you can:
 
 - [Wallabag](software/wallabag) - Save and classify articles. Read them later. Freely.
 
+### Social networks
+
+- [Pleroma](software/pleroma) - Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
+
 ### Software Development
 
 - [Code-Server](software/codeserver) - Run VS Code on a remote server.
