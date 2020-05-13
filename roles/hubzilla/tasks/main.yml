@@ -1,13 +1,9 @@
 ---
-- name: Make hubzilla directory.
+- name: Make hubzilla directories.
   file:
-    path: "{{ volumes_root }}/hubzilla"
+    path: "{{ volumes_root }}/hubzilla/{{ item }}"
     state: directory
-
-- name: Make hubzilla conf directory.
-  file:
-    path: "{{ volumes_root }}/hubzilla/conf"
-    state: directory
+  with_items: ["conf", "data", "db"]
 
 - name: Copy hubzilla docker-compose.yml file into place.
   template:
