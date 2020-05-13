@@ -1,4 +1,4 @@
-.PHONY: logo build deploy docs_build restore develop lint docs
+.PHONY: logo decrypt build deploy docs_build restore develop lint docs_local count_services
 
 VERSION := $(cat VERSION)
 
@@ -18,7 +18,7 @@ config: logo build
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\x1B[01;93m========== Encrypting secrets ==========\n\x1B[0m"
-	@./docker_helper.sh ansible-vault encrypt settings/vault.yml settings/passwords/* || true
+	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\x1B[01;93m========== Done with configuration ==========\n\x1B[0m"
 
 # Display the HomelabOS logo and MOTD
@@ -27,8 +27,8 @@ logo:
 	@chmod +x check_version.sh
 	@$(eval VERSION=`cat VERSION`)
 	@./check_version.sh
-	@printf "MOTD:\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
-	@printf "\n\x1B[0m"
+	@printf "MOTD:\n\n\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
+	@printf "\n\n\n\x1B[0m"
 
 # Build the HomelabOS docker images
 build:
@@ -140,13 +140,13 @@ terraform_destroy: logo build git_sync
 	@cd settings && ../docker_helper.sh terraform destroy
 	@printf "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
 
-decrypt: logo build
+decrypt:
 	@printf "\x1B[01;93m========== Decrypting Ansible Vault! ==========\n\x1B[0m"
-	@./docker_helper.sh ansible-vault decrypt settings/vault.yml settings/passwords/*
+	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
 	@printf "\x1B[01;93m========== Vault decrypted! settings/vault.yml ==========\n\x1B[0m"
 
 encrypt:
-	@./docker_helper.sh ansible-vault encrypt settings/vault.yml settings/passwords/*
+	@./docker_helper.sh ansible-vault encrypt settings/vault.yml
 
 set: logo
 	@printf "\x1B[01;93m========== Setting '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
@@ -178,6 +178,11 @@ docs_build: logo build git_sync config
 	@printf "\x1B[01;93m========== Building docs ==========\n\x1B[0m"
 	@which mkdocs && mkdocs build || printf "Unable to build the documentation. Please install mkdocs."
 	@printf "\x1B[01;93m========== Done building docs ==========\n\x1B[0m"
+
+# Return the amount of services included in this version of HomelabOS
+count_services:
+# This lists each folder in roles/ on it's own line, then excludes anything with homelabos or 'docs' in it, which are HomelabOS things and not services. Then it counts the number of lines.
+	@ls -l roles | grep -v -e "homelab" -e "docs" | wc -l
 
 # Hacky fix to allow make to accept multiple arguments
 %:
