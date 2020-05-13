@@ -15,7 +15,7 @@
 
 ### Server
 
-- Ubuntu Server 18.04 or Debian 10.3
+- Ubuntu Server 20.04 or Debian 10.3
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 !!! Warning
@@ -45,7 +45,7 @@ A domain configured with a `A` type DNS record of `*.yourdomain.com` pointed at 
 
 #### DNS Settings
 
-You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP address your HomelabOS install is accessible at. If you are using a [bastion](/docs/setup/bastion) host, then you would point at that IP. If you are using your home IP address, you would point it at that IP. You need to set up a wildcard DNS entry because all the services are served off of subdomains such as `emby.{{ domain }}`
+You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP address your HomelabOS install is accessible at. If you are using a [bastion](/docs/setup/bastion) host, then you would point at that IP. If you are using your home IP address, you would point it at that IP. You need to set up a wildcard DNS entry because all the services are served off of subdomains such as `{% if emby.domain %}{{ emby.domain }}{% else %}{{ emby.subdomain + "." + domain }}{% endif %}`
 
 !!! Warning
     If you are not using a real domain, but using `/etc/hosts` entries to 'fake' it, wildcard entries do not work in `/etc/hosts`. You need to create an entry for each service enabled. You can use the `/var/homelabos/homelab_hosts` file.
@@ -103,6 +103,10 @@ Run `make set SERVICENAME.enable true` where SERVICENAME is the name of the serv
     `make set miniflux.enable true`
 
 Then run `make` again. That's it. It will take a few minutes for your server to download and start the relevant images.
+
+
+!!! warning
+    Some services expose set up pages on start up. If you don't complete the set up step, there is a chance someone else could beat you to it. If they do just run `make reset_one SERVICENAME` then `make` again and the service will reset to it's freshly installed state.
 
 You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
 

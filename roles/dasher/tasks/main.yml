@@ -12,7 +12,7 @@
 - name: Copy dasher docker-compose.yml file into place.
   template:
     src: docker-compose.dasher.yml.j2
-    dest: "{{ volumes_root }}/dasher/docker-compose.dasher.yml"
+    dest: "{{ volumes_root }}/dasher/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

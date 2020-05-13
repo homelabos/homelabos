@@ -7,7 +7,7 @@
 - name: Copy openvpn docker-compose.yml file into place.
   template:
     src: docker-compose.openvpn.yml.j2
-    dest: "{{ volumes_root }}/openvpn/docker-compose.openvpn.yml"
+    dest: "{{ volumes_root }}/openvpn/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

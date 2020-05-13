@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://freshrss.{{ domain }}/](https://freshrss.{{ domain }}/) or [http://freshrss.{{ domain }}/](http://freshrss.{{ domain }}/)
+It is available at [https://{% if freshrss.domain %}{{ freshrss.domain }}{% else %}{{ freshrss.subdomain + "." + domain }}{% endif %}/](https://{% if freshrss.domain %}{{ freshrss.domain }}{% else %}{{ freshrss.subdomain + "." + domain }}{% endif %}/) or [http://{% if freshrss.domain %}{{ freshrss.domain }}{% else %}{{ freshrss.subdomain + "." + domain }}{% endif %}/](http://{% if freshrss.domain %}{{ freshrss.domain }}{% else %}{{ freshrss.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://freshrss.{{ tor_domain }}/](http://freshrss.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ freshrss.subdomain + "." + tor_domain }}/](http://{{ freshrss.subdomain + "." + tor_domain }}/)
 {% endif %}

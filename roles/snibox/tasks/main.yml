@@ -7,7 +7,7 @@
 - name: Copy snibox docker-compose.yml file into place.
   template:
     src: docker-compose.snibox.yml.j2
-    dest: "{{ volumes_root }}/snibox/docker-compose.snibox.yml"
+    dest: "{{ volumes_root }}/snibox/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

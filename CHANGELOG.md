@@ -2,6 +2,7 @@
 
 ## Features
 
+- Added CodiMD - The best platform to write and share markdown
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
 - Added Graylog - Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
@@ -11,47 +12,53 @@
 
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
+- Added Barcode Buddy - Barcode system for Grocy
+- Added Cockpit - Cockpit admin interface package for configuring and troubleshooting a system
 - Added Chowdown -  Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
+- Added ELK Stack - Elastic Search, Logstash and Kibana
+- Added EtherCalc - EtherCalc is a web spreadsheet
 - Added ERPNext - Open Source ERP for Everyone.
 - Added Factorio - Factorio headless server in a Docker container 
+- Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
+- Added Funkwhale - A social platform to enjoy and share music
 - Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - Added Gotify - A simple server for sending and receiving messages in real-time per WebSocket. (Includes a sleek web-ui)
 - Added HealthChecks - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
+- Added Heimdall - Heimdall Application Dashboard is a dashboard for all your web applications.
 - Added HomeBridge - HomeKit support for the impatient
+- Added Hubzilla - a powerful platform for creating interconnected websites featuring a decentralized identity.
 - Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
 - Added MassiveDecks - Massive Decks is a comedy party game based on Cards against Humanity. Play with friends! It works great with a bunch of people in the same room on phones, or on voice chat online.
 - Added Minecraft - Minecraft server with select-able version 
+- Added MinecraftBedrockServer - Minecraft Bedrock Server
 - Added MStream - All your music, everywhere you go.
 - Added Mylar - An automated Comic Book manager
+- Added n8n - n8n is a free and open node based Workflow Automation Tool.
 - Added NodeRED - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - Added Ombi - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- Added PeerTube - ActivityPub Video Sharing
 - Added PhotoPrism - Clearly structured Web interface for browsing, organizing and sharing your personal photo collection.
+- Added Pixelfed - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - Added PrivateBin - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
+- Added qBittorrent - An open-source alternative to µTorrent
 - Added Sabnzbd - Free and easy binary newsreader
 - Added Searx - A privacy-respecting, hackable metasearch engine.
-- Added Statping - Web and App Status Monitoring for Any Type of Project
-- Added Tiddlywiki - a unique non-linear notebook for capturing, organizing and sharing complex information
-- Added [Pixelfed](https://pixelfed.org/) - A free and ethical photo sharing platform, powered by ActivityPub federation.
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
 - Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 - Added Speedtest - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
+- Added Statping - Web and App Status Monitoring for Any Type of Project
 - Added Tautulli - Monitor your Plex Server
+- Added Tiddlywiki - a unique non-linear notebook for capturing, organizing and sharing complex information
 - Added Trilium - Build your personal knowledge base with Trilium Notes
 - Added Ubooquity - Ubooquity is a free home server for your comics and ebooks library
 - Added Watchtower - A process for automating Docker container base image updates
+- Added WebTrees - Online Genealogy
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
-- Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
-- Added qBittorrent - An open-source alternative to µTorrent
-- Added n8n - n8n is a free and open node based Workflow Automation Tool.
-- Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
-- Added Barcode Buddy - Barcode system for Grocy
-- Added MinecraftBedrockServer - Minecraft Bedrock Server
-- Added Funkwhale - A social platform to enjoy and share music
-- Added Heimdall - Heimdall Application Dashboard is a dashboard for all your web applications.
+- Added Zammad - Zammad is a web-based, open source user support/ticketing solution.
 
 ## Services Removed
 

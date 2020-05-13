@@ -27,7 +27,7 @@
 - name: Copy gitlab docker-compose.yml file into place.
   template:
     src: docker-compose.gitlab.yml.j2
-    dest: "{{ volumes_root }}/gitlab/docker-compose.gitlab.yml"
+    dest: "{{ volumes_root }}/gitlab/docker-compose.yml"
 
 - name: Configure gitlab systemd service.
   template:

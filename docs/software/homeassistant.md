@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://homeassistant.{{ domain }}/](https://homeassistant.{{ domain }}/) or [http://homeassistant.{{ domain }}/](http://homeassistant.{{ domain }}/)
+It is available at [https://{% if homeassistant.domain %}{{ homeassistant.domain }}{% else %}{{ homeassistant.subdomain + "." + domain }}{% endif %}/](https://{% if homeassistant.domain %}{{ homeassistant.domain }}{% else %}{{ homeassistant.subdomain + "." + domain }}{% endif %}/) or [http://{% if homeassistant.domain %}{{ homeassistant.domain }}{% else %}{{ homeassistant.subdomain + "." + domain }}{% endif %}/](http://{% if homeassistant.domain %}{{ homeassistant.domain }}{% else %}{{ homeassistant.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://homeassistant.{{ tor_domain }}/](http://homeassistant.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ homeassistant.subdomain + "." + tor_domain }}/](http://{{ homeassistant.subdomain + "." + tor_domain }}/)
 {% endif %}

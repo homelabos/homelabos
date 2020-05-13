@@ -1,13 +1,18 @@
 ---
 - name: Make code-server directory.
   file:
-    path: "{{ volumes_root }}/codeserver"
+    path: "{{ item }}"
     state: directory
+    mode: 0777
+  loop:
+    - "{{ volumes_root }}/codeserver"
+    - "{{ volumes_root }}/codeserver/.local"
+    - "{{ volumes_root }}/codeserver/project"
 
 - name: Copy code-server docker-compose.yml file into place.
   template:
     src: docker-compose.codeserver.yml.j2
-    dest: "{{ volumes_root }}/codeserver/docker-compose.codeserver.yml"
+    dest: "{{ volumes_root }}/codeserver/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

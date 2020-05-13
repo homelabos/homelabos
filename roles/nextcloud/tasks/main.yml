@@ -35,7 +35,7 @@
 - name: Copy nextcloud docker-compose.yml file into place.
   template:
     src: docker-compose.nextcloud.yml.j2
-    dest: "{{ volumes_root }}/nextcloud/docker-compose.nextcloud.yml"
+    dest: "{{ volumes_root }}/nextcloud/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     uid: "{{ uid_output.stdout }}"

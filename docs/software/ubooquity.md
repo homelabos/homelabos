@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://ubooquity.{{ domain }}/](https://ubooquity.{{ domain }}/) or [http://ubooquity.{{ domain }}/](http://ubooquity.{{ domain }}/)
+It is available at [https://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/](https://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/) or [http://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/](http://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://ubooquity.{{ tor_domain }}/](http://ubooquity.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ ubooquity.subdomain + "." + tor_domain }}/](http://{{ ubooquity.subdomain + "." + tor_domain }}/)
 {% endif %}

@@ -7,7 +7,7 @@
 - name: Copy zulip docker-compose.yml file into place.
   template:
     src: docker-compose.zulip.yml.j2
-    dest: "{{ volumes_root }}/zulip/docker-compose.zulip.yml"
+    dest: "{{ volumes_root }}/zulip/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     zulip_postgres_pass: "{{lookup('password', './settings/passwords/zulip_postgres_pass chars=digits')}}"

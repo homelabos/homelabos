@@ -2,7 +2,7 @@
 banner:
   enable : true
   title : "Your offline-first privacy-centric personal data center."
-  content : "Includes over 70 services you can easily self-host."
+  content : "Includes over 100 services you can easily self-host."
   image : "images/screenshot.png"
   button: "Install Now"
 
@@ -16,7 +16,7 @@ features:
   leftSide:
     # feature item loop
   - icon : "tf-ion-star"
-    title : "Over 70 Services"
+    title : "Over 100 Services"
     content : "Replace Gmail, Slack, Google Drive, Netflix, and much more with your own self-hosted services!"
     
     # feature item loop
@@ -73,8 +73,8 @@ aboutProduct:
   items:
     # about product item loop
     - image : "images/server.jpg"
-      title : "Host over 70 applications on prem"
-      content : "HomelabOS allows anyone to easily deploy, backup, restore, and maintain over 70 different applications and services. Everything from video players, to home automation, to chat services. These services can continue to function at full speed on your LAN even when your external internet is completely offline."
+      title : "Host over 100 applications on prem"
+      content : "HomelabOS allows anyone to easily deploy, backup, restore, and maintain over 100 different applications and services. Everything from video players, to home automation, to chat services. These services can continue to function at full speed on your LAN even when your external internet is completely offline."
       button:
         enable : true
         label : "See Available Apps"
@@ -98,7 +98,13 @@ gallery:
   # Set the image directory to use as base
   directory : "images/showcase"
   # Set the images to show in the gallery
-  images : ["showcase-1.png", "showcase-2.png", "showcase-3.png"]
+  images : [
+    "showcase-1.png",
+    "showcase-2.png",
+    "showcase-3.png",
+    "showcase-4.jpg",
+    "showcase-5.jpg",
+    ]
 
 
 
@@ -129,7 +135,7 @@ community:
   items:
     - image : "images/zulip.png"
       title : "Zulip Chat"
-      content : "Join over 150 people in our online chat!"
+      content : "Join over 250 people in our online chat!"
       button:
         enable : true
         label : "Join the Chat"
@@ -137,7 +143,7 @@ community:
         
     - image : "images/reddit.png"
       title : "Reddit"
-      content : "Join 400+ Redditors discussing HomelabOS"
+      content : "Join 550+ Redditors discussing HomelabOS"
       button:
         enable : true
         label : "HomelabOS on Reddit"

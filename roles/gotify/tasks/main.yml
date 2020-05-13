@@ -7,7 +7,7 @@
 - name: Copy gotify docker-compose.yml file into place.
   template:
     src: docker-compose.gotify.yml.j2
-    dest: "{{ volumes_root }}/gotify/docker-compose.gotify.yml"
+    dest: "{{ volumes_root }}/gotify/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

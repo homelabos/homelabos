@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://sync.{{ domain }}/](https://sync.{{ domain }}/) or [http://sync.{{ domain }}/](http://sync.{{ domain }}/)
+It is available at [https://{% if syncthing.domain %}{{ syncthing.domain }}{% else %}{{ syncthing.subdomain + "." + domain }}{% endif %}/](https://{% if syncthing.domain %}{{ syncthing.domain }}{% else %}{{ syncthing.subdomain + "." + domain }}{% endif %}/) or [http://{% if syncthing.domain %}{{ syncthing.domain }}{% else %}{{ syncthing.subdomain + "." + domain }}{% endif %}/](http://{% if syncthing.domain %}{{ syncthing.domain }}{% else %}{{ syncthing.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://sync.{{ tor_domain }}/](http://sync.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ syncthing.subdomain + "." + tor_domain }}/](http://{{ syncthing.subdomain + "." + tor_domain }}/)
 {% endif %}

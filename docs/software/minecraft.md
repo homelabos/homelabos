@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at minecraft.{{ domain }}:25565
+It is available at {% if minecraft.domain %}{{ minecraft.domain }}{% else %}{{ minecraft.subdomain + "." + domain }}{% endif %}:25565
 
 {% if enable_tor %}
-It is also available via Tor at minecraft.{{ tor_domain }}:25565
+It is also available via Tor at {{ minecraft.subdomain + "." + tor_domain }}:25565
 {% endif %}
 
 ## Settings

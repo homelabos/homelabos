@@ -11,15 +11,19 @@ services:
   bulletnotes: 
   calibre: 
   chowdown: 
+  cockpit: 
   codeserver: 
+  codimd: 
   dark_sky: 
   dasher: 
   digikam: 
   docs: 
   drone: 
   duplicati: 
+  elkstack: 
   emby: 
   erpnext: 
+  ethercalc: 
   factorio: 
   firefly_iii: 
   folding_at_home: 
@@ -39,6 +43,7 @@ services:
   homeassistant: 
   homebridge: 
   homedash: 
+  hubzilla: 
   huginn: 
   inventario: 
   jackett: 
@@ -68,6 +73,7 @@ services:
   organizr: 
   ownphotos: 
   paperless: 
+  peertube: 
   photoprism: 
   pihole: 
   piwigo: 
@@ -96,9 +102,11 @@ services:
   ubooquity: 
   wallabag: 
   watchtower: 
+  webtrees: 
   webvirtmgr: 
   wekan: 
   xfinityusageinfluxdb: 
+  zammad: 
   zulip: 
 docs: 
 apache2: 
@@ -112,14 +120,18 @@ bookstack:
 bulletnotes: 
 calibre: 
 chowdown: 
+cockpit: 
 codeserver: 
+codimd: 
 dark_sky: 
 dasher: 
 digikam: 
 drone: 
 duplicati: 
+elkstack: 
 emby: 
 erpnext: 
+ethercalc: 
 factorio: 
 firefly_iii: 
 folding_at_home: 
@@ -139,6 +151,7 @@ heimdall:
 homeassistant: 
 homebridge: 
 homedash: 
+hubzilla: 
 huginn: 
 inventario: 
 jackett: 
@@ -168,6 +181,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
+peertube: 
 photoprism: 
 pihole: 
 piwigo: 
@@ -198,7 +212,9 @@ wekan:
 watchtower: 
 xfinityusageinfluxdb: 
 wallabag: 
+webtrees: 
 webvirtmgr: 
+zammad: 
 zulip: 
 enable_tinc: false
 vpn_ip: 10.0.0.1

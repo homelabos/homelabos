@@ -69,6 +69,7 @@ nav:
       - Minio: software/minio.md
       - Mylar: software/mylar.md
       - Ombi: software/ombi.md
+      - Qbitorrent: software/qbittorrent.md
       - Radarr / Sonarr: software/radarr-sonarr.md
       - SickChill: software/sickchill.md
       - Synchthing: software/syncthing.md
@@ -87,20 +88,28 @@ nav:
       - Jellyfin: software/jellyfin.md
       - MassiveDecks: software/massivedecks.md
       - Mstream: software/mstream.md
+      - Added PeerTube: software/peertube.md
       - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
     - Misc/Other:
+      - BarcodeBuddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
+      - Cockpit: software/system-cockpit.md
+      - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
+      - EtherCalc: software/ethercalc.md
       - ERPNext: software/erpnext.md
       - Folding@home: software/folding_at_home.md
       - Gotify: software/gotify.md
       - Grocy: software/grocy.md
       - Grownetics: software/grownetics.md
+      - Hubzilla: software/hubzilla.md
       - Inventario: software/inventario.md
       - Mashio: software/mashio.md
       - Monica: software/monica.md
+      - n8n: software/n8n.md
+      - NodeRED: software/nodered.md
       - Pi-hole: software/pihole.md
       - Poli: software/poli.md
       - Portainer: software/portainer.md
@@ -109,10 +118,12 @@ nav:
       - Searx: software/searx.md
       - Ubooquity: software/ubooquity.md
       - Watchtower: software/watchtower.md
-      - BarcodeBuddy: software/barcodebuddy.md
+      - WebTrees: software/webtrees.md
+      - Zammad: software/zammad.md
     - Money, Budgeting and Management:
       - Firefly III: software/firefly.md
     - Monitoring:
+      - ELKStack: software/elkstack.md
       - Grafana: software/grafana.md
       - HealthChecks: software/healthchecks.md
       - Huginn: software/huginn.md
@@ -128,6 +139,7 @@ nav:
     - Password Managers:
       - Bitwarden: software/bitwarden.md
     - Personal Dashboards:
+      - Heimdall: software/heimdall.md
       - Homedash: software/homedash.md
       - Organizr: software/organizr.md
     - Photo and Video Galleries:
@@ -142,6 +154,7 @@ nav:
       - Codeserver: software/codeserver.md
       - Drone: software/drone.md
       - Gitea: software/gitea.md
+      - GitLab: software/gitlab.md
       - Snibox: software/snibox.md
     - Task management/To-do lists:
       - Wekan: software/wekan.md

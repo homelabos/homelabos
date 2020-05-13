@@ -4,10 +4,10 @@
 
 ## Access
 
-It is available at [https://heimdall.{{ domain }}/](https://heimdall.{{ domain }}/) or [http://heimdall.{{ domain }}/](http://heimdall.{{ domain }}/)
+It is available at [https://{% if heimdall.domain %}{{ heimdall.domain }}{% else %}{{ heimdall.subdomain + "." + domain }}{% endif %}/](https://{% if heimdall.domain %}{{ heimdall.domain }}{% else %}{{ heimdall.subdomain + "." + domain }}{% endif %}/) or [http://{% if heimdall.domain %}{{ heimdall.domain }}{% else %}{{ heimdall.subdomain + "." + domain }}{% endif %}/](http://{% if heimdall.domain %}{{ heimdall.domain }}{% else %}{{ heimdall.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://heimdall.{{ tor_domain }}/](http://heimdall.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ heimdall.subdomain + "." + tor_domain }}/](http://{{ heimdall.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

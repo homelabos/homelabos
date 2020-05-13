@@ -7,7 +7,7 @@
 - name: Copy matomo docker-compose.yml file into place.
   template:
     src: docker-compose.matomo.yml.j2
-    dest: "{{ volumes_root }}/matomo/docker-compose.matomo.yml"
+    dest: "{{ volumes_root }}/matomo/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

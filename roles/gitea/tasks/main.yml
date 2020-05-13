@@ -7,7 +7,7 @@
 - name: Copy gitea docker-compose.yml file into place.
   template:
     src: docker-compose.gitea.yml.j2
-    dest: "{{ volumes_root }}/gitea/docker-compose.gitea.yml"
+    dest: "{{ volumes_root }}/gitea/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

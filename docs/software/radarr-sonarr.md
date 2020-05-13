@@ -56,14 +56,14 @@ and downloaded according to your settings.
 
 ## Access
 
-Sonarr available at [https://sonarr.{{ domain }}/](https://sonarr.{{ domain }}/) or [http://sonarr.{{ domain }}/](http://sonarr.{{ domain }}/)
+Sonarr available at [https://{% if sonarr.domain %}{{ sonarr.domain }}{% else %}{{ sonarr.subdomain + "." + domain }}{% endif %}/](https://{% if sonarr.domain %}{{ sonarr.domain }}{% else %}{{ sonarr.subdomain + "." + domain }}{% endif %}/) or [http://{% if sonarr.domain %}{{ sonarr.domain }}{% else %}{{ sonarr.subdomain + "." + domain }}{% endif %}/](http://{% if sonarr.domain %}{{ sonarr.domain }}{% else %}{{ sonarr.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://sonarr.{{ tor_domain }}/](http://sonarr.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ sonarr.subdomain + "." + tor_domain }}/](http://{{ sonarr.subdomain + "." + tor_domain }}/)
 {% endif %}
 
-Radarr available at [https://radarr.{{ domain }}/](https://radarr.{{ domain }}/) or [http://radarr.{{ domain }}/](http://radarr.{{ domain }}/)
+Radarr available at [https://{% if radarr.domain %}{{ radarr.domain }}{% else %}{{ radarr.subdomain + "." + domain }}{% endif %}/](https://{% if radarr.domain %}{{ radarr.domain }}{% else %}{{ radarr.subdomain + "." + domain }}{% endif %}/) or [http://{% if radarr.domain %}{{ radarr.domain }}{% else %}{{ radarr.subdomain + "." + domain }}{% endif %}/](http://{% if radarr.domain %}{{ radarr.domain }}{% else %}{{ radarr.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://radarr.{{ tor_domain }}/](http://radarr.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ radarr.subdomain + "." + tor_domain }}/](http://{{ radarr.subdomain + "." + tor_domain }}/)
 {% endif %}

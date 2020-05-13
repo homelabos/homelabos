@@ -41,7 +41,7 @@ To run just one set of tags you can run `make tag TAG_NAME` e.g. `make tag tinc`
 
 ## Working locally on the documentation
 
-To serve the docs locally run `make docs`.
+To serve the docs locally run `make docs_local`.
 
 ## Working locally on the website
 
