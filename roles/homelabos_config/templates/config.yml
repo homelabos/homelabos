@@ -340,6 +340,12 @@ homedash:
   auth: {{ homedash.auth | default(False) }}
   domain: {{ homedash.domain | default(False) }}
   subdomain: {{ homedash.subdomain | default("homedash") }}
+hubzilla:
+  enable: {{ hubzilla.enable | default(enable_hubzilla, None) | default(False) }}
+  https_only: {{ hubzilla.https_only | default(False) }}
+  auth: {{ hubzilla.auth | default(False) }}
+  domain: {{ hubzilla.domain | default(False) }}
+  subdomain: {{ hubzilla.subdomain | default("hubzilla")}}
 huginn:
   enable: {{ huginn.enable | default(enable_huginn, None) | default(False) }}
   https_only: {{ huginn.https_only | default(False) }}

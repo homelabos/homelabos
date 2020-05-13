@@ -142,6 +142,7 @@ If you are having problems you can:
 - [Folding@home](software/folding_at_home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - [Grocy](software/grocy) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Grownetics](software/grownetics) - Open source environmental mapping with plant management and tracking
+- [Hubzilla](software/hubzilla) - a powerful platform for creating interconnected websites featuring a decentralized identity
 - [Inventario](software/inventario) - Home inventory software
 - [Mashio](software/mashio) - Home brewery management software
 - [Monica](software/monica) - Contact / relationship manager

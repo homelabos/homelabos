@@ -1,0 +1,95 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  hubzilla:
+
+services:
+  nginx:
+    # Nginx Web server
+    image: nginx:alpine
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - hubzilla
+    depends_on:
+      - hubzilla
+    volumes:
+      - {{ volumes_root }}/hubzilla/data:/var/www/html
+      - {{ volumes_root }}/hubzilla/conf/hubzilla-nginx.conf:/etc/nginx/nginx.conf:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.hubzilla.loadbalancer.server.scheme=http"
+      - "traefik.http.services.hubzilla.loadbalancer.server.port=80"
+      - "traefik.http.routers.hubzilla-http.rule=Host(`{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.hubzilla-http.entrypoints=http"
+{% if not hubzilla.https_only %}
+      - "traefik.http.routers.hubzilla-http.middlewares={% if hubzilla.https_only %}redirect@file, {% else %}{% if hubzilla.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.hubzilla-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.hubzilla.rule=Host(`{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.hubzilla.entrypoints=https"
+      - "traefik.http.routers.hubzilla.middlewares={% if hubzilla.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.hubzilla.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.hubzilla.tls.certresolver=dns"
+      - "traefik.http.routers.hubzilla.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.hubzilla.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.hubzilla.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.hubzilla-tor-http.rule=Host(`{{ hubzilla.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.hubzilla-tor-http.entrypoints=http"
+      - "traefik.http.routers.hubzilla-tor-http.middlewares={% if hubzilla.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+
+  hubzilla:
+  # Hubzilla service
+    image: voryzen/hubzilla
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_TYPE: postgres
+      DB_NAME: {{ default_username }}_hub
+      DB_USER: {{ default_username }}
+      DB_PASSWORD: {{ default_password }}
+      HUBZILLA_DOMAIN: "{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
+      HUBZILLA_ADMIN: "admin@{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
+      SMTP_HOST: {{ smtp.host }}
+      SMTP_PORT: {{ smtp.port }}
+      SMTP_USER: {{ smtp.user }}
+      SMTP_PASS: {{ smtp.pass }}
+      AUTO_SETUP: 1
+      ADDON_LIST: "nsfw superblock diaspora pubcrawl"
+      TIMEZONE: {{ common_timezone }}
+    networks:
+      - hubzilla
+    volumes:
+      - {{ volumes_root }}/hubzilla/data:/var/www/html
+
+
+  postgres:
+  # PostgreSQL
+    image: postgres:12-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: {{ default_password }}
+      POSTGRES_USER: {{ default_username }}
+      POSTGRES_DB: {{ default_username }}_hub
+    volumes:
+      - {{ volumes_root }}/hubzilla/db:/var/lib/postgresql/data/
+    networks:
+    - hubzilla
