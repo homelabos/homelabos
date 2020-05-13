@@ -11,6 +11,7 @@
 
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
+- Added Cockpit - Cockpit admin interface package for configuring and troubleshooting a system
 - Added Chowdown -  Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added ELK Stack - Elastic Search, Logstash and Kibana

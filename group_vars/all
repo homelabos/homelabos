@@ -11,6 +11,7 @@ services:
   bulletnotes: 
   calibre: 
   chowdown: 
+  cockpit: 
   codeserver: 
   codimd: 
   dark_sky: 
@@ -117,6 +118,7 @@ bookstack:
 bulletnotes: 
 calibre: 
 chowdown: 
+cockpit: 
 codeserver: 
 codimd: 
 dark_sky: 
@@ -127,7 +129,7 @@ duplicati:
 elkstack: 
 emby: 
 erpnext: 
-ethercalc:
+ethercalc: 
 factorio: 
 firefly_iii: 
 folding_at_home: 
@@ -175,7 +177,7 @@ openvpn:
 organizr: 
 ownphotos: 
 paperless: 
-peertube:
+peertube: 
 photoprism: 
 pihole: 
 piwigo: 

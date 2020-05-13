@@ -1,0 +1,33 @@
+---
+- name: Install Cockpit Via Apt
+  apt:
+    name:
+      - cockpit
+      - cockpit-dashboard
+      - cockpit-doc
+      - cockpit-machines
+      - cockpit-storaged
+      - cockpit-system
+      - cockpit-ws
+      - cockpit-packagekit
+      - cockpit-networkmanager
+
+- name: Find the IP address of the docker host from within traefik
+  shell: >
+    docker-compose -f {{volumes_root}}/traefik/docker-compose.traefik.yml run --rm traefik route | awk '/^default/ { print $2 }'
+  register: host_ip
+
+- name: Copy cockpit.conf into place
+  template:
+    src: cockpit.conf
+    dest: /etc/cockpit/cockpit.conf
+  vars:
+    service_name: "cockpit"
+
+- name: Copy Cockpit Traefik config file into place.
+  template:
+    src: traefik.yaml
+    dest: "{{ volumes_root }}/traefik/conf.d/cockpit.yaml"
+  vars:
+    service_name: "cockpit"
+    host_ip: host_ip.stdout

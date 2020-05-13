@@ -94,6 +94,7 @@ nav:
     - Misc/Other:
       - BarcodeBuddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
+      - Cockpit: software/system-cockpit.md
       - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md

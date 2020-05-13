@@ -142,6 +142,8 @@ chowdown:
   auth: {{ chowdown.auth | default(False) }}
   domain: {{ chowdown.domain | default(False) }}
   subdomain: {{ chowdown.subdomain | default("chowdown") }}
+cockpit: 
+  enable: {{ cockpit.enable | default(enable_cockpit, None) | default(False) }}
 codeserver:
   enable: {{ codeserver.enable | default(enable_codeserver, None) | default(False) }}
   https_only: {{ codeserver.https_only | default(False) }}
