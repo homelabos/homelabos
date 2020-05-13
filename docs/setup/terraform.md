@@ -13,3 +13,14 @@ If you are already using DO you may receive an error around your SSH key
 already existing. Login to DO, go to the Security page, and delete the SSH
 key. Terraform will re-add it and then know how to manage it correctly.
 
+## Running Terraform
+
+Run `make terraform`
+
+## Common Problems
+
+### 422 SSH Key is already in use on your account
+
+You have already added your SSH key to your account, so Terraform can't manage it properly.
+
+Run `ssh-keygen -l -E md5 -f ~/.ssh/id_rsa.pub` then go to your DO dashboard, click your photo in the top right, then Profile. Now click Security, find the key that matches the fingerprint that was output by the command given, and delete it. Now run `make terraform` again.
