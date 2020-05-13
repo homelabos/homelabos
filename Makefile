@@ -138,7 +138,7 @@ terraform: logo build git_sync
 # Destroy servers created by Terraform
 terraform_destroy: logo build git_sync
 	@printf "\x1B[01;93m========== Destroying cloud services! ==========\n\x1B[0m"
-	@cd settings && ../docker_helper.sh terraform destroy
+	@./docker_helper.sh /bin/bash -c "cd settings; terraform destroy"
 	@printf "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
 
 decrypt:

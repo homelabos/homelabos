@@ -17,6 +17,10 @@ key. Terraform will re-add it and then know how to manage it correctly.
 
 Run `make terraform`
 
+## Destroying Terraform Resources
+
+Run `make terraform_destroy` to destroy the resources Terraform created.
+
 ## Common Problems
 
 ### 422 SSH Key is already in use on your account
