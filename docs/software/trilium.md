@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://PackageFileName.{{ domain }}/](https://PackageFileName.{{ domain }}/) or [http://PackageFileName.{{ domain }}/](http://PackageFileName.{{ domain }}/)
+It is available at [https://{% if trilium.domain %}{{ trilium.domain }}{% else %}{{ trilium.subdomain + "." + domain }}{% endif %}/](https://{% if trilium.domain %}{{ trilium.domain }}{% else %}{{ trilium.subdomain + "." + domain }}{% endif %}/) or [http://{% if trilium.domain %}{{ trilium.domain }}{% else %}{{ trilium.subdomain + "." + domain }}{% endif %}/](http://{% if trilium.domain %}{{ trilium.domain }}{% else %}{{ trilium.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://PackageFileName.{{ tor_domain }}/](http://PackageFileName.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ trilium.subdomain + "." + tor_domain }}/](http://{{ trilium.subdomain + "." + tor_domain }}/)
 {% endif %}

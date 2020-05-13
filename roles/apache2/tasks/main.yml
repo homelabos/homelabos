@@ -7,7 +7,7 @@
 - name: Copy apache2 docker-compose.yml file into place.
   template:
     src: docker-compose.apache2.yml.j2
-    dest: "{{ volumes_root }}/apache2/docker-compose.apache2.yml"
+    dest: "{{ volumes_root }}/apache2/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

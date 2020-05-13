@@ -13,6 +13,7 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/lidarr/config:/config"
+      - "{{ storage_dir }}/Music:/media/Music"
     environment:
       - TZ={{ common_timezone }}
       - PUID={{ uid }}

@@ -142,12 +142,20 @@ chowdown:
   auth: {{ chowdown.auth | default(False) }}
   domain: {{ chowdown.domain | default(False) }}
   subdomain: {{ chowdown.subdomain | default("chowdown") }}
+cockpit: 
+  enable: {{ cockpit.enable | default(enable_cockpit, None) | default(False) }}
 codeserver:
   enable: {{ codeserver.enable | default(enable_codeserver, None) | default(False) }}
   https_only: {{ codeserver.https_only | default(False) }}
   auth: {{ codeserver.auth | default(False) }}
   domain: {{ codeserver.domain | default(False) }}
   subdomain: {{ codeserver.subdomain | default("codeserver") }}
+codimd:
+  enable: {{ codimd.enable | default(enable_codimd, None) | default(False) }}
+  https_only: {{ codimd.https_only | default(False) }}
+  auth: {{ codimd.auth | default(False) }}
+  domain: {{ codimd.domain | default(False) }}
+  subdomain: {{ codimd.subdomain | default("codimd")}}
 dark_sky:
   enable: {{ dark_sky.enable | default(enable_dark_sky, None) | default(False) }}
   https_only: {{ dark_sky.https_only | default(False) }}
@@ -178,6 +186,12 @@ duplicati:
   auth: {{ duplicati.auth | default(False) }}
   domain: {{ duplicati.domain | default(False) }}
   subdomain: {{ duplicati.subdomain | default("duplicati") }}
+elkstack:
+  enable: {{ elkstack.enable | default(enable_elkstack, None) | default(False) }}
+  https_only: {{ elkstack.https_only | default(False) }}
+  auth: {{ elkstack.auth | default(False) }}
+  domain: {{ elkstack.domain | default(False) }}
+  subdomain: {{ elkstack.subdomain | default("elkstack")}}
 emby:
   enable: {{ emby.enable | default(enable_emby, None) | default(False) }}
   https_only: {{ emby.https_only | default(False) }}
@@ -190,6 +204,12 @@ erpnext:
   auth: {{ erpnext.auth | default(False) }}
   domain: {{ erpnext.domain | default(False) }}
   subdomain: {{ erpnext.subdomain | default("erpnext") }}
+ethercalc:
+  enable: {{ ethercalc.enable | default(enable_ethercalc, None) | default(False) }}
+  https_only: {{ ethercalc.https_only | default(False) }}
+  auth: {{ ethercalc.auth | default(False) }}
+  domain: {{ ethercalc.domain | default(False) }}
+  subdomain: {{ ethercalc.subdomain | default("ethercalc")}}
 factorio:
   enable: {{ factorio.enable | default(enable_factorio, None) | default(False) }}
   https_only: {{ factorio.https_only | default(False) }}
@@ -519,6 +539,12 @@ paperless:
   auth: {{ paperless.auth | default(False) }}
   domain: {{ paperless.domain | default(False) }}
   subdomain: {{ paperless.subdomain | default("paperless") }}
+peertube:
+  enable: {{ peertube.enable | default(enable_peertube, None) | default(False) }}
+  https_only: {{ peertube.https_only | default(False) }}
+  auth: {{ peertube.auth | default(False) }}
+  domain: {{ peertube.domain | default(False) }}
+  subdomain: {{ peertube.subdomain | default("peertube")}}
 photoprism:
   enable: {{ photoprism.enable | default(enable_photoprism, None) | default(False) }}
   https_only: {{ photoprism.https_only | default(False) }}
@@ -669,8 +695,8 @@ trilium:
   enable: {{ trilium.enable | default(enable_trilium, None) | default(False) }}
   https_only: {{ trilium.https_only | default(False) }}
   auth: {{ trilium.auth | default(False) }}
-  domain: {{ trilium.domain | default(False) }}
-  subdomain: {{ trilium.subdomain | default("trillium") }}
+  domain: {{ trilium.domain| default(False) }}
+  subdomain: {{ trilium.subdomain | default("trilium") }}
 ubooquity:
   enable: {{ ubooquity.enable | default(enable_ubooquity, None) | default(False) }}
   https_only: {{ ubooquity.https_only | default(False) }}
@@ -683,12 +709,6 @@ wekan:
   auth: {{ wekan.auth | default(False) }}
   domain: {{ wekan.domain | default(False) }}
   subdomain: {{ wekan.subdomain | default("wekan") }}
-watchtower:
-  enable: {{ watchtower.enable | default(enable_watchtower, None) | default(False) }}
-  https_only: {{ watchtower.https_only | default(False) }}
-  auth: {{ watchtower.auth | default(False) }}
-  domain: {{ watchtower.domain | default(False) }}
-  subdomain: {{ watchtower.subdomain | default("watchtower") }}
 xfinityusageinfluxdb:
   enable: {{ xfinityusageinfluxdb.enable | default(enable_xfinityusageinfluxdb, None) | default(False) }}
   https_only: {{ xfinityusageinfluxdb.https_only | default(False) }}
@@ -701,12 +721,24 @@ wallabag:
   auth: {{ wallabag.auth | default(False) }}
   domain: {{ wallabag.domain | default(False) }}
   subdomain: {{ wallabag.subdomain | default("wallabag") }}
+webtrees:
+  enable: {{ webtrees.enable | default(enable_webtrees, None) | default(False) }}
+  https_only: {{ webtrees.https_only | default(False) }}
+  auth: {{ webtrees.auth | default(False) }}
+  domain: {{ webtrees.domain | default(False) }}
+  subdomain: {{ webtrees.subdomain | default("webtrees")}}
 webvirtmgr:
   enable: {{ webvirtmgr.enable | default(enable_webvirtmgr, None) | default(False) }}
   https_only: {{ webvirtmgr.https_only | default(False) }}
   auth: {{ webvirtmgr.auth | default(False) }}
   domain: {{ webvirtmgr.domain | default(False) }}
   subdomain: {{ webvirtmgr.subdomain | default("webvirtmgr") }}
+zammad:
+  enable: {{ zammad.enable | default(enable_zammad, None) | default(False) }}
+  https_only: {{ zammad.https_only | default(False) }}
+  auth: {{ zammad.auth | default(False) }}
+  domain: {{ zammad.domain| default(False) }}
+  subdomain: {{ zammad.subdomain | default("zammad")}}
 zulip:
   enable: {{ zulip.enable | default(enable_zulip, None) | default(False) }}
   https_only: {{ zulip.https_only | default(False) }}

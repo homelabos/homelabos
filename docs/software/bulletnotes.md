@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://bulletnotes.{{ domain }}/](https://bulletnotes.{{ domain }}/) or [http://bulletnotes.{{ domain }}/](http://bulletnotes.{{ domain }}/)
+It is available at [https://{% if bulletnotes.domain %}{{ bulletnotes.domain }}{% else %}{{ bulletnotes.subdomain + "." + domain }}{% endif %}/](https://{% if bulletnotes.domain %}{{ bulletnotes.domain }}{% else %}{{ bulletnotes.subdomain + "." + domain }}{% endif %}/) or [http://{% if bulletnotes.domain %}{{ bulletnotes.domain }}{% else %}{{ bulletnotes.subdomain + "." + domain }}{% endif %}/](http://{% if bulletnotes.domain %}{{ bulletnotes.domain }}{% else %}{{ bulletnotes.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://bulletnotes.{{ tor_domain }}/](http://bulletnotes.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ bulletnotes.subdomain + "." + tor_domain }}/](http://{{ bulletnotes.subdomain + "." + tor_domain }}/)
 {% endif %}

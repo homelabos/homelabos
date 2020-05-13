@@ -32,8 +32,6 @@
     mode: 0644
   notify: Reload Tor Service
 
-- meta: flush_handlers
-
 - block:
   - name: Tor Service
     service:

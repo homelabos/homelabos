@@ -13,7 +13,7 @@
 - name: Copy grafana docker-compose.yml file into place.
   template:
     src: docker-compose.grafana.yml.j2
-    dest: "{{ volumes_root }}/grafana/docker-compose.grafana.yml"
+    dest: "{{ volumes_root }}/grafana/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

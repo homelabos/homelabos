@@ -6,8 +6,8 @@
 
 ## Access
 
-It is available at [https://calibre.{{ domain }}/](https://calibre.{{ domain }}/) or [http://calibre.{{ domain }}/](http://calibre.{{ domain }}/)
+It is available at [https://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/](https://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/) or [http://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/](http://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://calibre.{{ tor_domain }}/](http://calibre.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ calibre.subdomain + "." + tor_domain }}/](http://{{ calibre.subdomain + "." + tor_domain }}/)
 {% endif %}

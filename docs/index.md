@@ -126,14 +126,18 @@ If you are having problems you can:
 - [Funkwhale](software/funkwhale) - A social platform to enjoy and share music
 - [Jellyfin](software/jellyfin) - The Free Software Media System
 - [MStream](software/mstream) - All your music, everywhere you go.
+- [PeerTube](softare/peertube) - ActivityPub based Video Sharing
 - [Plex](software/plex) - Personal Media Server
 
 ### Misc/Other
 
 - [Barcode Buddy](software/barcodebuddy) - Barcode system for [Grocy](software/grocy)
 - [Chowdown](software/chowdown)  Simple recipes in Markdown format
+- [Cockpit](software/system-cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
+- [CodiMD](software/codimi) The best platform to write and share markdown
 - [Darksky](software/darksky) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](software/dasher) - Amazon Dash button support
+- [EtherCalc](software/ethercalc) - Web Spreadsheet
 - [ERPNext](software/erpnext) Open Source ERP for Everyone.
 - [Folding@home](software/folding_at_home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - [Grocy](software/grocy) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
@@ -141,6 +145,8 @@ If you are having problems you can:
 - [Inventario](software/inventario) - Home inventory software
 - [Mashio](software/mashio) - Home brewery management software
 - [Monica](software/monica) - Contact / relationship manager
+- [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.
+- [NodeRED](software/nodered) - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 - [Pi-hole](software/pihole) - Ad blocking
 - [Poli](software/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](software/portainer) - Easy Docker management
@@ -149,6 +155,8 @@ If you are having problems you can:
 - [Searx](software/searx) - A privacy-respecting, hackable metasearch engine.
 - [Ubooquity](software/ubooquity) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](software/watchtower) - A process for automating Docker container base image updates
+- [WebTrees](software/webtrees) - Online Genealogy
+- [Zammad](software/zammad) Zammad is a web-based, open source user support/ticketing solution.
 
 ### Money, Budgeting and Management
 
@@ -156,6 +164,7 @@ If you are having problems you can:
 
 ### Monitoring
 
+- [ELK Stack](software/elkstack) - Elastic Search, Logstash and Kibana
 - [Grafana](software/grafana) - Pretty graphs
 - [HealthChecks](software/healthchecks) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [NetData](software/netdata) - Monitor your systems and applications, the right way!

@@ -17,7 +17,8 @@ ENV BUILD_PACKAGES \
   py3-jinja2 \
   py3-paramiko \
   py3-yaml \
-  ca-certificates
+  ca-certificates \
+  jq
 
 ENV PYTHON_PACKAGES \
   python3-keyczar \
@@ -37,7 +38,6 @@ RUN set -x && \
       musl-dev \
       libffi-dev \
       openssl-dev \
-      jq \
       python3-dev && \
     \
     echo "==> Upgrading apk and system..."  && \

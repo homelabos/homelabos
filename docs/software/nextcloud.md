@@ -15,8 +15,8 @@ Hit `Finish Setup`
 
 ## Access
 
-It is available at [https://nextcloud.{{ domain }}/](https://nextcloud.{{ domain }}/) or [http://nextcloud.{{ domain }}/](http://nextcloud.{{ domain }}/)
+It is available at [https://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/](https://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/) or [http://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/](http://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://nextcloud.{{ tor_domain }}/](http://nextcloud.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ nextcloud.subdomain + "." + tor_domain }}/](http://{{ nextcloud.subdomain + "." + tor_domain }}/)
 {% endif %}

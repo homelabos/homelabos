@@ -1,0 +1,27 @@
+http:
+  routers:
+    {{service_name}}-http:
+      rule: "Host(`{{service_name}}.{{domain}}`)"
+      entryPoint: 
+        - "http"
+      service: "{{service_name}}"
+    {{service_name}}:
+      rule: "Host(`{{service_name}}.{{domain}}`)"
+      entryPoints:
+        - "https"
+      middlewares:
+        - "redirect@file"
+      service: "{{service_name}}"
+      tls:
+        certResolver: "dns"
+        domains:
+          - main: "{{domain}}"
+            sans:
+              - "*.{{domain}}"
+
+  services:
+    {{service_name}}:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://{{host_ip.stdout}}:9090"

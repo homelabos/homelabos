@@ -7,7 +7,7 @@
 - name: Copy wallabag docker-compose.yml file into place.
   template:
     src: docker-compose.wallabag.yml.j2
-    dest: "{{ volumes_root }}/wallabag/docker-compose.wallabag.yml"
+    dest: "{{ volumes_root }}/wallabag/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 

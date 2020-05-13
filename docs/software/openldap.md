@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://phpldapadmin.{{ domain }}/](https://phpldapadmin.{{ domain }}/) or [http://phpldapadmin.{{ domain }}/](http://phpldapadmin.{{ domain }}/)
+It is available at [https://{% if openldap.domain %}{{ openldap.domain }}{% else %}{{ openldap.subdomain + "." + domain }}{% endif %}/](https://{% if openldap.domain %}{{ openldap.domain }}{% else %}{{ openldap.subdomain + "." + domain }}{% endif %}/) or [http://{% if openldap.domain %}{{ openldap.domain }}{% else %}{{ openldap.subdomain + "." + domain }}{% endif %}/](http://{% if openldap.domain %}{{ openldap.domain }}{% else %}{{ openldap.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://phpldapadmin.{{ tor_domain }}/](http://phpldapadmin.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ openldap.subdomain + "." + tor_domain }}/](http://{{ openldap.subdomain + "." + tor_domain }}/)
 {% endif %}

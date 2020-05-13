@@ -8,8 +8,8 @@
 
 ## Access
 
-It is available at [https://zulip.{{ domain }}/](https://zulip.{{ domain }}/) or [http://zulip.{{ domain }}/](http://zulip.{{ domain }}/)
+It is available at [https://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/](https://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/) or [http://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/](http://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://zulip.{{ tor_domain }}/](http://zulip.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ zulip.subdomain + "." + tor_domain }}/](http://{{ zulip.subdomain + "." + tor_domain }}/)
 {% endif %}

@@ -1,4 +1,4 @@
-.PHONY: logo build deploy docs_build restore develop lint
+.PHONY: logo decrypt build deploy docs_build restore develop lint docs_local count_services
 
 VERSION := $(cat VERSION)
 
@@ -12,13 +12,13 @@ config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@printf "\x1B[01;93m========== Updating configuration files ==========\n\x1B[0m"
-	@mkdir -p settings
+	@mkdir -p settings/passwords
 	@[ -f ~/.homelabos_vault_pass ] || date +%s | sha256sum | base64 | head -c 32  > ~/.homelabos_vault_pass
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\x1B[01;93m========== Encrypting secrets ==========\n\x1B[0m"
-	@./docker_helper.sh ansible-vault encrypt settings/vault.yml
+	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\x1B[01;93m========== Done with configuration ==========\n\x1B[0m"
 
 # Display the HomelabOS logo and MOTD
@@ -27,11 +27,12 @@ logo:
 	@chmod +x check_version.sh
 	@$(eval VERSION=`cat VERSION`)
 	@./check_version.sh
-	@printf "MOTD:\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
-	@printf "\n\x1B[0m"
+	@printf "MOTD:\n\n\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
+	@printf "\n\n\n\x1B[0m"
 
 # Build the HomelabOS docker images
 build:
+	@$(eval VERSION=`cat VERSION`)
 	@printf "\x1B[01;93m========== Preparing HomelabOS docker image ==========\n\x1B[0m"
 # First build the docker images needed to deploy
 	@sudo docker inspect --type=image homelabos:$(VERSION) > /dev/null && printf "\x1B[01;93m========== Docker image already built ==========\n\x1B[0m" || sudo docker build . -t homelabos:$(VERSION)
@@ -44,7 +45,8 @@ git_sync:
 config_reset: logo build
 	@printf "\x1B[01;93m========== Reset local settings ==========\n\x1B[0m"
 	@printf "\n - First we'll make a backup of your current settings in case you actually needed them.\n"
-	cp settings/config.yml settings/config.yml.bak
+	mv settings settings.bak
+	mkdir settings
 	@printf "\n - Then we'll set up a blank config file.\n"
 	cp config.yml.blank settings/config.yml
 	@printf "\n\x1B[01;93m========== Configuration reset! Now just run 'make config' ==========\n\x1B[0m"
@@ -139,7 +141,7 @@ terraform_destroy: logo build git_sync
 	@cd settings && ../docker_helper.sh terraform destroy
 	@printf "\x1B[01;93m========== Done destroying cloud services! ==========\n\x1B[0m"
 
-decrypt: logo build
+decrypt:
 	@printf "\x1B[01;93m========== Decrypting Ansible Vault! ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
 	@printf "\x1B[01;93m========== Vault decrypted! settings/vault.yml ==========\n\x1B[0m"
@@ -159,7 +161,7 @@ get: logo
 
 # Serve the HomelabOS website locally
 web:
-	cd Website && hugo serve
+	cd website && hugo serve
 
 # Spin up a development stack
 develop: logo build config
@@ -169,7 +171,7 @@ develop: logo build config
 	@printf "\x1B[01;93m========== Done spinning up dev stack! ==========\n\x1B[0m"
 
 # Serve the HomelabOS Documentation locally
-docs:
+docs_local:
 	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
@@ -177,6 +179,11 @@ docs_build: logo build git_sync config
 	@printf "\x1B[01;93m========== Building docs ==========\n\x1B[0m"
 	@which mkdocs && mkdocs build || printf "Unable to build the documentation. Please install mkdocs."
 	@printf "\x1B[01;93m========== Done building docs ==========\n\x1B[0m"
+
+# Return the amount of services included in this version of HomelabOS
+count_services:
+# This lists each folder in roles/ on it's own line, then excludes anything with homelabos or 'docs' in it, which are HomelabOS things and not services. Then it counts the number of lines.
+	@ls -l roles | grep -v -e "homelab" -e "docs" | wc -l
 
 # Hacky fix to allow make to accept multiple arguments
 %:

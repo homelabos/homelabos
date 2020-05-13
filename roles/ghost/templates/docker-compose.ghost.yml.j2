@@ -10,7 +10,7 @@ networks:
 services:
 
   ghost:
-    image: ghost:3.13.1-alpine
+    image: ghost:3-alpine
     networks:
       - traefik_network
     restart: unless-stopped
@@ -25,6 +25,8 @@ services:
       mail__options__auth__user: {{ smtp.user }}
       mail__options__auth__pass: {{ smtp.pass }}
 {% endif %}
+    volumes:
+      - "{{ volumes_root }}/ghost/content:/var/lib/ghost/content"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"

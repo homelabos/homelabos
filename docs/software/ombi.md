@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://ombi.{{ domain }}/](https://ombi.{{ domain }}/) or [http://ombi.{{ domain }}/](http://ombi.{{ domain }}/)
+It is available at [https://{% if ombi.domain %}{{ ombi.domain }}{% else %}{{ ombi.subdomain + "." + domain }}{% endif %}/](https://{% if ombi.domain %}{{ ombi.domain }}{% else %}{{ ombi.subdomain + "." + domain }}{% endif %}/) or [http://{% if ombi.domain %}{{ ombi.domain }}{% else %}{{ ombi.subdomain + "." + domain }}{% endif %}/](http://{% if ombi.domain %}{{ ombi.domain }}{% else %}{{ ombi.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://ombi.{{ tor_domain }}/](http://ombi.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ ombi.subdomain + "." + tor_domain }}/](http://{{ ombi.subdomain + "." + tor_domain }}/)
 {% endif %}

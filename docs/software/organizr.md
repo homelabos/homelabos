@@ -4,8 +4,8 @@
 
 ## Access
 
-It is available at [https://organizr.{{ domain }}/](https://organizr.{{ domain }}/) or [http://organizr.{{ domain }}/](http://organizr.{{ domain }}/)
+It is available at [https://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/](https://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/) or [http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/](http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://organizr.{{ tor_domain }}/](http://organizr.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ organizr.subdomain + "." + tor_domain }}/](http://{{ organizr.subdomain + "." + tor_domain }}/)
 {% endif %}

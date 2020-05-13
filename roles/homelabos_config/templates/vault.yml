@@ -123,3 +123,8 @@ bitwarden:
   # Note that no e-mail validation is done, only e-mail domain that's provided on registration
   # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
   signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist | default(False) }}
+
+watchtower:
+  enable: {{ watchtower.enable | default(enable_watchtower, None) | default(False) }}
+  notification: {{ watchtower.notification | default (False) }}
+  gotify_token: {{ watchtower.gotify_token | default (False) }}

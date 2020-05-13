@@ -18,8 +18,8 @@ NOW you should be able to access the Monica URL below again, and be presented wi
 
 ## Access
 
-Monica is available at [https://monica.{{ domain }}/](https://monica.{{ domain }}/) or [http://monica.{{ domain }}/](http://monica.{{ domain }}/)
+Monica is available at [https://{% if monicahq.domain %}{{ monicahq.domain }}{% else %}{{ monicahq.subdomain + "." + domain }}{% endif %}/](https://{% if monicahq.domain %}{{ monicahq.domain }}{% else %}{{ monicahq.subdomain + "." + domain }}{% endif %}/) or [http://{% if monicahq.domain %}{{ monicahq.domain }}{% else %}{{ monicahq.subdomain + "." + domain }}{% endif %}/](http://{% if monicahq.domain %}{{ monicahq.domain }}{% else %}{{ monicahq.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://monica.{{ tor_domain }}/](http://monica.{{ tor_domain }}/)
+It is also available via Tor at [http://{{ monicahq.subdomain + "." + tor_domain }}/](http://{{ monicahq.subdomain + "." + tor_domain }}/)
 {% endif %}

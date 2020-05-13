@@ -7,7 +7,7 @@
 - name: Copy photoprism docker-compose.yml file into place.
   template:
     src: docker-compose.photoprism.yml.j2
-    dest: "{{ volumes_root }}/photoprism/docker-compose.photoprism.yml"
+    dest: "{{ volumes_root }}/photoprism/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
