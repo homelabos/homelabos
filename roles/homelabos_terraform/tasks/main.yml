@@ -1,4 +1,9 @@
 ---
+- name: Verify existence of DO token
+  fail: 
+    msg: "No valid DO access token found.  Please run 'make set do_access_token <token>' before attempting terraform."
+  when: not do_access_token
+
 - name: Generate Terraform file
   template:
     src: 'provider.tf.j2'
