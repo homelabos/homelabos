@@ -9,10 +9,6 @@ networks:
       name: homelabos_traefik
   hubzilla:
 
-volumes:
-  voldb:
-  volweb:
-
 services:
   nginx:
     # Nginx Web server
@@ -21,8 +17,11 @@ services:
     networks:
       - traefik_network
       - hubzilla
+    depends_on:
+      - hubzilla
     volumes:
-      - {{ volumes_root }}/hubzilla/conf/hubzilla-nginx.conf:/etc/nginx/nginx.conf
+      - {{ volumes_root }}/hubzilla/data:/var/www/html
+      - {{ volumes_root }}/hubzilla/conf/hubzilla-nginx.conf:/etc/nginx/nginx.conf:ro
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -55,49 +54,42 @@ services:
 
 
   hubzilla:
-  # Hubzilla service (works in conjunction with cron service)
-    image: sebt3/hubzilla:4.6
+  # Hubzilla service
+    image: voryzen/hubzilla
+    restart: unless-stopped
     depends_on:
       - postgres
-      - nginx
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_TYPE: postgres
-      DB_NAME: {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ domain }}{% endif %}_hub
+      DB_NAME: {{ default_username }}_hub
       DB_USER: {{ default_username }}
-      DB_PASSWORD: hubzilla
+      DB_PASSWORD: {{ default_password }}
       HUBZILLA_DOMAIN: "{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
       HUBZILLA_ADMIN: "admin@{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
       SMTP_HOST: {{ smtp.host }}
       SMTP_PORT: {{ smtp.port }}
       SMTP_USER: {{ smtp.user }}
       SMTP_PASS: {{ smtp.pass }}
+      AUTO_SETUP: 1
       ADDON_LIST: "nsfw superblock diaspora pubcrawl"
+      TIMEZONE: {{ common_timezone }}
     networks:
       - hubzilla
     volumes:
-      - volweb:/var/www/html
-      
-  cron:
-  # the aforementioned Cron service (required by Hubzilla service)
-    image: sebt3/hubzilla:4.6
-    depends_on:
-      - postgres
-    command: ["crond", "-f"]
-    networks:
-      - hubzilla
-    volumes:
-      - volweb:/var/www/html
-      
+      - {{ volumes_root }}/hubzilla/data:/var/www/html
+
+
   postgres:
   # PostgreSQL
     image: postgres:12-alpine
+    restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: hubzilla
+      POSTGRES_PASSWORD: {{ default_password }}
       POSTGRES_USER: {{ default_username }}
-      POSTGRES_DB: {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ domain }}{% endif %}_hub
+      POSTGRES_DB: {{ default_username }}_hub
     volumes:
-      - voldb:/var/lib/postgresql/data
+      - {{ volumes_root }}/hubzilla/db:/var/lib/postgresql/data/
     networks:
     - hubzilla
