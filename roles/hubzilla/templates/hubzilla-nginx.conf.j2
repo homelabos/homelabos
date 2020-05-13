@@ -1,5 +1,8 @@
 worker_processes  8;
 pid        /var/run/nginx.pid;
+
+user nginx nginx;
+
 events {
     worker_connections  1024;
 }       
