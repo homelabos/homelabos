@@ -84,7 +84,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.zammad.loadbalancer.server.scheme=http"
       - "traefik.http.services.zammad.loadbalancer.server.port=80"
-      - "traefik.http.routers.zammad-http.rule=Host(`{% if zammad.domain %}{{ zammad.domain }}{% else %}{{ zammad.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.zammad-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.zammad-http.entrypoints=http"
 {% if not zammad.https_only %}
       - "traefik.http.routers.zammad-http.middlewares={% if zammad.https_only %}redirect@file, {% else %}{% if zammad.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -92,7 +92,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.zammad-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.zammad.rule=Host(`{% if zammad.domain %}{{ zammad.domain }}{% else %}{{ zammad.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.zammad.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.zammad.entrypoints=https"
       - "traefik.http.routers.zammad.middlewares={% if zammad.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.zammad.tls=true"
@@ -104,7 +104,7 @@ services:
       - "traefik.http.routers.zammad.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.zammad-tor-http.rule=Host(`{{ zammad.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.zammad-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.zammad-tor-http.entrypoints=http"
       - "traefik.http.routers.zammad-tor-http.middlewares={% if zammad.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

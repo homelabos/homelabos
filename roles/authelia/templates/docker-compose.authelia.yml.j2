@@ -22,7 +22,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.authelia.loadbalancer.server.scheme=http"
       - "traefik.http.services.authelia.loadbalancer.server.port=9091"
-      - "traefik.http.routers.authelia-http.rule=Host(`{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.authelia-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.authelia-http.entrypoints=http"
 {% if not authelia.https_only %}
       - "traefik.http.routers.authelia-http.middlewares={% if authelia.https_only %}redirect@file, {% else %}{% if authelia.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -30,7 +30,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.authelia-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.authelia.rule=Host(`{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.authelia.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.authelia.entrypoints=https"
       - "traefik.http.routers.authelia.middlewares={% if authelia.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.authelia.tls=true"
@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.authelia.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.authelia-tor-http.rule=Host(`auth.{{ tor_domain }}`)"
+      - "traefik.http.routers.authelia-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.authelia-tor-http.entrypoints=http"
 {% endif %}
     volumes:

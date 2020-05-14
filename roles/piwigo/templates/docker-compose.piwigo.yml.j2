@@ -31,7 +31,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.piwigo.loadbalancer.server.scheme=http"
       - "traefik.http.services.piwigo.loadbalancer.server.port=80"
-      - "traefik.http.routers.piwigo-http.rule=Host(`{% if piwigo.domain %}{{ piwigo.domain }}{% else %}{{ piwigo.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.piwigo-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.piwigo-http.entrypoints=http"
 {% if not piwigo.https_only %}
       - "traefik.http.routers.piwigo-http.middlewares={% if piwigo.https_only %}redirect@file, {% else %}{% if piwigo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -39,7 +39,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.piwigo-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.piwigo.rule=Host(`{% if piwigo.domain %}{{ piwigo.domain }}{% else %}{{ piwigo.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.piwigo.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.piwigo.entrypoints=https"
       - "traefik.http.routers.piwigo.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.piwigo.tls=true"
@@ -51,7 +51,7 @@ services:
       - "traefik.http.routers.piwigo.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.piwigo-tor-http.rule=Host(`{{ piwigo.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.piwigo-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.piwigo-tor-http.entrypoints=http"
       - "traefik.http.routers.piwigo-tor-http.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

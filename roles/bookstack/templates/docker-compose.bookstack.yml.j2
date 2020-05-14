@@ -42,7 +42,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.bookstack.loadbalancer.server.scheme=http"
       - "traefik.http.services.bookstack.loadbalancer.server.port=8080"
-      - "traefik.http.routers.bookstack-http.rule=Host(`{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.bookstack-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.bookstack-http.entrypoints=http"
 {% if not bookstack.https_only %}
       - "traefik.http.routers.bookstack-http.middlewares={% if bookstack.https_only %}redirect@file, {% else %}{% if bookstack.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -50,7 +50,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.bookstack-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.bookstack.rule=Host(`{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.bookstack.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.bookstack.entrypoints=https"
       - "traefik.http.routers.bookstack.middlewares={% if bookstack.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.bookstack.tls=true"
@@ -62,7 +62,7 @@ services:
       - "traefik.http.routers.bookstack.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.bookstack-tor-http.rule=Host(`{{ bookstack.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.bookstack-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.bookstack-tor-http.entrypoints=http"
       - "traefik.http.routers.bookstack-tor-http.middlewares={% if bookstack.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

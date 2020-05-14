@@ -21,7 +21,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.searx.loadbalancer.server.scheme=http"
       - "traefik.http.services.searx.loadbalancer.server.port=8888"
-      - "traefik.http.routers.searx-http.rule=Host(`{% if searx.domain %}{{ searx.domain }}{% else %}{{ searx.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.searx-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.searx-http.entrypoints=http"
 {% if not searx.https_only %}
       - "traefik.http.routers.searx-http.middlewares={% if searx.https_only %}redirect@file, {% else %}{% if searx.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -29,7 +29,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.searx-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.searx.rule=Host(`{% if searx.domain %}{{ searx.domain }}{% else %}{{ searx.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.searx.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.searx.entrypoints=https"
       - "traefik.http.routers.searx.middlewares={% if searx.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.searx.tls=true"
@@ -41,7 +41,7 @@ services:
       - "traefik.http.routers.searx.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.searx-tor-http.rule=Host(`{{ searx.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.searx-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.searx-tor-http.entrypoints=http"
       - "traefik.http.routers.searx-tor-http.middlewares={% if searx.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

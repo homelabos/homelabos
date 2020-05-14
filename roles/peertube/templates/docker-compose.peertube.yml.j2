@@ -56,7 +56,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.peertube.loadbalancer.server.scheme=http"
       - "traefik.http.services.peertube.loadbalancer.server.port=9000"
-      - "traefik.http.routers.peertube-http.rule=Host(`{% if peertube.domain %}{{ peertube.domain }}{% else %}{{ peertube.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.peertube-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.peertube-http.entrypoints=http"
 {% if not peertube.https_only %}
       - "traefik.http.routers.peertube-http.middlewares={% if peertube.https_only %}redirect@file, {% else %}{% if peertube.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -64,7 +64,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.peertube-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.peertube.rule=Host(`{% if peertube.domain %}{{ peertube.domain }}{% else %}{{ peertube.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.peertube.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.peertube.entrypoints=https"
       - "traefik.http.routers.peertube.middlewares={% if peertube.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.peertube.tls=true"
@@ -76,7 +76,7 @@ services:
       - "traefik.http.routers.peertube.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.peertube-tor-http.rule=Host(`{{ peertube.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.peertube-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.peertube-tor-http.entrypoints=http"
       - "traefik.http.routers.peertube-tor-http.middlewares={% if peertube.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

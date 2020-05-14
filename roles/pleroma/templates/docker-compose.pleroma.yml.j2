@@ -41,7 +41,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.pleroma.loadbalancer.server.scheme=http"
       - "traefik.http.services.pleroma.loadbalancer.server.port=4000"
-      - "traefik.http.routers.pleroma-http.rule=Host(`{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.pleroma-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.pleroma-http.entrypoints=http"
 {% if not pleroma.https_only %}
       - "traefik.http.routers.pleroma-http.middlewares={% if pleroma.https_only %}redirect@file, {% else %}{% if pleroma.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -49,7 +49,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.pleroma-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.pleroma.rule=Host(`{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.pleroma.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.pleroma.entrypoints=https"
       - "traefik.http.routers.pleroma.middlewares={% if pleroma.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.pleroma.tls=true"
@@ -61,7 +61,7 @@ services:
       - "traefik.http.routers.pleroma.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.pleroma-tor-http.rule=Host(`{{ pleroma.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.pleroma-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.pleroma-tor-http.entrypoints=http"
       - "traefik.http.routers.pleroma-tor-http.middlewares={% if pleroma.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

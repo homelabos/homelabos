@@ -17,7 +17,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.homebridge.loadbalancer.server.scheme=http"
       - "traefik.http.services.homebridge.loadbalancer.server.port=8123"
-      - "traefik.http.routers.homebridge-http.rule=Host(`{% if homebridge.domain %}{{ homebridge.domain }}{% else %}{{ homebridge.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.homebridge-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.homebridge-http.entrypoints=http"
 {% if not homebridge.https_only %}
       - "traefik.http.routers.homebridge-http.middlewares={% if homebridge.https_only %}redirect@file, {% else %}{% if homebridge.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -25,7 +25,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.homebridge-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.homebridge.rule=Host(`{% if homebridge.domain %}{{ homebridge.domain }}{% else %}{{ homebridge.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.homebridge.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.homebridge.entrypoints=https"
       - "traefik.http.routers.homebridge.middlewares={% if homebridge.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.homebridge.tls=true"
@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.homebridge.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.homebridge-tor-http.rule=Host(`{{ homebridge.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.homebridge-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.homebridge-tor-http.entrypoints=http"
       - "traefik.http.routers.homebridge-tor-http.middlewares={% if homebridge.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

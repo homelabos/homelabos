@@ -23,7 +23,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.statping.loadbalancer.server.scheme=http"
       - "traefik.http.services.statping.loadbalancer.server.port=8080"
-      - "traefik.http.routers.statping-http.rule=Host(`{{ statping.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.statping-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.statping-http.entrypoints=http"
 {% if not statping.https_only %}
       - "traefik.http.routers.statping-http.middlewares={% if statping.https_only %}redirect@file, {% else %}{% if statping.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -31,7 +31,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.statping-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.statping.rule=Host(`{{ statping.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.statping.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.statping.entrypoints=https"
       - "traefik.http.routers.statping.middlewares={% if statping.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.statping.tls=true"
@@ -43,7 +43,7 @@ services:
       - "traefik.http.routers.statping.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.statping-tor-http.rule=Host(`statping.{{ tor_domain }}`)"
+      - "traefik.http.routers.statping-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.statping-tor-http.entrypoints=http"
       - "traefik.http.routers.statping-tor-http.middlewares={% if statping.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

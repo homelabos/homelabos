@@ -22,7 +22,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.xfinityusageinfluxdb.loadbalancer.server.scheme=http"
       - "traefik.http.services.xfinityusageinfluxdb.loadbalancer.server.port=0"
-      - "traefik.http.routers.xfinityusageinfluxdb-http.rule=Host(`{% if xfinityusageinfluxdb.domain %}{{ xfinityusageinfluxdb.domain }}{% else %}{{ xfinityusageinfluxdb.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.xfinityusageinfluxdb-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.xfinityusageinfluxdb-http.entrypoints=http"
 {% if not xfinityusageinfluxdb.https_only %}
       - "traefik.http.routers.xfinityusageinfluxdb-http.middlewares={% if xfinityusageinfluxdb.https_only %}redirect@file, {% else %}{% if xfinityusageinfluxdb.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -30,7 +30,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.xfinityusageinfluxdb-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.xfinityusageinfluxdb.rule=Host(`{% if xfinityusageinfluxdb.domain %}{{ xfinityusageinfluxdb.domain }}{% else %}{{ xfinityusageinfluxdb.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.xfinityusageinfluxdb.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.xfinityusageinfluxdb.entrypoints=https"
       - "traefik.http.routers.xfinityusageinfluxdb.middlewares={% if xfinityusageinfluxdb.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.xfinityusageinfluxdb.tls=true"

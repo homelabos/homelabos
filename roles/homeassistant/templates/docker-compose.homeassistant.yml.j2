@@ -27,7 +27,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.homeassistant.loadbalancer.server.scheme=http"
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
-      - "traefik.http.routers.homeassistant-http.rule=Host(`{% if homeassistant.domain %}{{ homeassistant.domain }}{% else %}{{ homeassistant.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.homeassistant-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.homeassistant-http.entrypoints=http"
 {% if not homeassistant.https_only %}
       - "traefik.http.routers.homeassistant-http.middlewares={% if homeassistant.https_only %}redirect@file, {% else %}{% if homeassistant.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -35,7 +35,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.homeassistant-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.homeassistant.rule=Host(`{% if homeassistant.domain %}{{ homeassistant.domain }}{% else %}{{ homeassistant.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.homeassistant.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.homeassistant.entrypoints=https"
       - "traefik.http.routers.homeassistant.middlewares={% if homeassistant.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.homeassistant.tls=true"
@@ -47,7 +47,7 @@ services:
       - "traefik.http.routers.homeassistant.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.homeassistant-tor-http.rule=Host(`{{ homeassistant.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.homeassistant-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.homeassistant-tor-http.entrypoints=http"
       - "traefik.http.routers.homeassistant-tor-http.middlewares={% if homeassistant.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

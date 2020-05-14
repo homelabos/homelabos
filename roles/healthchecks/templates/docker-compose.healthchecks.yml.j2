@@ -33,7 +33,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.healthchecks.loadbalancer.server.scheme=http"
       - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
-      - "traefik.http.routers.healthchecks-http.rule=Host(`{% if healthchecks.domain %}{{ healthchecks.domain }}{% else %}{{ healthchecks.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.healthchecks-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.healthchecks-http.entrypoints=http"
 {% if not healthchecks.https_only %}
       - "traefik.http.routers.healthchecks-http.middlewares={% if healthchecks.https_only %}redirect@file, {% else %}{% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -41,7 +41,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.healthchecks-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.healthchecks.rule=Host(`{% if healthchecks.domain %}{{ healthchecks.domain }}{% else %}{{ healthchecks.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.healthchecks.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.healthchecks.entrypoints=https"
       - "traefik.http.routers.healthchecks.middlewares={% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.healthchecks.tls=true"
@@ -53,7 +53,7 @@ services:
       - "traefik.http.routers.healthchecks.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.healthchecks-tor-http.rule=Host(`{{ healthchecks.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.healthchecks-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.healthchecks-tor-http.entrypoints=http"
       - "traefik.http.routers.healthchecks-tor-http.middlewares={% if healthchecks.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

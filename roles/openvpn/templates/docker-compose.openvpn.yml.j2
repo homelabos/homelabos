@@ -2,7 +2,7 @@
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.openvpn.loadbalancer.server.scheme=http"
       - "traefik.http.services.openvpn.loadbalancer.server.port=0"
-      - "traefik.http.routers.openvpn-http.rule=Host(`{% if openvpn.domain %}{{ openvpn.domain }}{% else %}{{ openvpn.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.openvpn-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.openvpn-http.entrypoints=http"
 {% if not openvpn.https_only %}
       - "traefik.http.routers.openvpn-http.middlewares={% if openvpn.https_only %}redirect@file, {% else %}{% if openvpn.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -10,7 +10,7 @@
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.openvpn-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.openvpn.rule=Host(`{% if openvpn.domain %}{{ openvpn.domain }}{% else %}{{ openvpn.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.openvpn.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.openvpn.entrypoints=https"
       - "traefik.http.routers.openvpn.middlewares={% if openvpn.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.openvpn.tls=true"
@@ -18,7 +18,7 @@
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.openvpn.loadbalancer.server.scheme=http"
       - "traefik.http.services.openvpn.loadbalancer.server.port=0"
-      - "traefik.http.routers.openvpn-http.rule=Host(`{% if openvpn.domain %}{{ openvpn.domain }}{% else %}{{ openvpn.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.openvpn-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.openvpn-http.entrypoints=http"
 {% if not openvpn.https_only %}
       - "traefik.http.routers.openvpn-http.middlewares={% if openvpn.https_only %}redirect@file, {% else %}{% if openvpn.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -26,7 +26,7 @@
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.openvpn-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.openvpn.rule=Host(`{% if openvpn.domain %}{{ openvpn.domain }}{% else %}{{ openvpn.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.openvpn.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.openvpn.entrypoints=https"
       - "traefik.http.routers.openvpn.middlewares={% if openvpn.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.openvpn.tls=true"

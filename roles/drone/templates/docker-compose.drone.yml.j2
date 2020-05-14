@@ -28,7 +28,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.drone.loadbalancer.server.scheme=http"
       - "traefik.http.services.drone.loadbalancer.server.port=80"
-      - "traefik.http.routers.drone-http.rule=Host(`{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.drone-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.drone-http.entrypoints=http"
 {% if not drone.https_only %}
       - "traefik.http.routers.drone-http.middlewares={% if drone.https_only %}redirect@file, {% else %}{% if drone.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -36,7 +36,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.drone-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.drone.rule=Host(`{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.drone.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.drone.entrypoints=https"
       - "traefik.http.routers.drone.middlewares={% if drone.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.drone.tls=true"
@@ -48,7 +48,7 @@ services:
       - "traefik.http.routers.drone.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.drone-tor-http.rule=Host(`{{ drone.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.drone-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.drone-tor-http.entrypoints=http"
       - "traefik.http.routers.drone-tor-http.middlewares={% if drone.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
