@@ -134,10 +134,5 @@ duckdns:
   token: {{ duckdns.token | default(False) }}
   
 drone:
-  enable: {{ drone.enable | default(enable_drone, None) | default(False) }}
-  https_only: {{ drone.https_only | default(False) }}
-  auth: {{ drone.auth | default(False) }}
-  domain: {{ drone.domain | default(False) }}
-  subdomain: {{ drone.subdomain | default("drone") }}
   gitea_id: {{ drone.gitea_id | default(False) }}
   gitea_secret: {{ drone.gitea_secret | default(False) }}

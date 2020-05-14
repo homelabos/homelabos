@@ -180,6 +180,12 @@ duplicati:
   auth: {{ duplicati.auth | default(False) }}
   domain: {{ duplicati.domain | default(False) }}
   subdomain: {{ duplicati.subdomain | default("duplicati") }}
+drone:
+  enable: {{ drone.enable | default(enable_drone, None) | default(False) }}
+  https_only: {{ drone.https_only | default(False) }}
+  auth: {{ drone.auth | default(False) }}
+  domain: {{ drone.domain | default(False) }}
+  subdomain: {{ drone.subdomain | default("drone") }}
 elkstack:
   enable: {{ elkstack.enable | default(enable_elkstack, None) | default(False) }}
   https_only: {{ elkstack.https_only | default(False) }}
