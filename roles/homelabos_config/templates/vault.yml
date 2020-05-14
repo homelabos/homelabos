@@ -128,3 +128,7 @@ watchtower:
   enable: {{ watchtower.enable | default(enable_watchtower, None) | default(False) }}
   notification: {{ watchtower.notification | default (False) }}
   gotify_token: {{ watchtower.gotify_token | default (False) }}
+
+duckdns:
+  enable: {{ duckdns.enable | default(enable_duckdns, None) | default(False) }}
+  token: {{ duckdns.token | default(False) }}

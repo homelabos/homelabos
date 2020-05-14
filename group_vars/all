@@ -19,6 +19,7 @@ services:
   digikam: 
   docs: 
   drone: 
+  duckdns: 
   duplicati: 
   elkstack: 
   emby: 
@@ -127,6 +128,7 @@ dark_sky:
 dasher: 
 digikam: 
 drone: 
+duckdns:
 duplicati: 
 elkstack: 
 emby: 
@@ -185,7 +187,7 @@ photoprism:
 pihole: 
 piwigo: 
 pixelfed: 
-pleroma:
+pleroma: 
 plex: 
 poli: 
 portainer: 
