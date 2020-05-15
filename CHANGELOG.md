@@ -16,6 +16,7 @@
 - Added Cockpit - Cockpit admin interface package for configuring and troubleshooting a system
 - Added Chowdown -  Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
+- Added DuckDNS - Free Dynamic DNS client
 - Added ELK Stack - Elastic Search, Logstash and Kibana
 - Added EtherCalc - EtherCalc is a web spreadsheet
 - Added ERPNext - Open Source ERP for Everyone.
