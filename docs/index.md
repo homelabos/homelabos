@@ -167,6 +167,7 @@ If you are having problems you can:
 
 - [ELK Stack](software/elkstack) - Elastic Search, Logstash and Kibana
 - [Grafana](software/grafana) - Pretty graphs
+- [Graylog](software/graylog) - Centralized log management
 - [HealthChecks](software/healthchecks) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [NetData](software/netdata) - Monitor your systems and applications, the right way!
 - [Speedtest](software/speedtest) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana

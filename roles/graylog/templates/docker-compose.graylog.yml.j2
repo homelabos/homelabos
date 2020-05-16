@@ -43,8 +43,8 @@ services:
     environment:
       - GRAYLOG_ROOT_USERNAME={{ default_username }}
       # CHANGE ME (must be at least 16 characters)!
-      - GRAYLOG_PASSWORD_SECRET={{ graylog.pwsecret }}
-      - GRAYLOG_ROOT_PASSWORD_SHA2={{ graylog_root_pw.stdout }}
+      - GRAYLOG_PASSWORD_SECRET={{lookup('password', './settings/passwords/graylog_password_secret length=16')}} # {{ graylog.pwsecret }}
+      - GRAYLOG_ROOT_PASSWORD_SHA2={{ graylog_root_pw.stdout }} ## TODO: find another way
       - GRAYLOG_HTTP_EXTERNAL_URI=http://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}/
       - GRAYLOG_HTTP_BIND_ADDRESS=0.0.0.0:9000
 {% if smtp.host %}
