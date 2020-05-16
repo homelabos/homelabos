@@ -12,7 +12,7 @@ networks:
 services:
   nginx:
     # Nginx Web server
-    image: nginx:alpine
+    image: nginx:1.17.10-alpine
     restart: unless-stopped
     networks:
       - traefik_network
@@ -55,7 +55,7 @@ services:
 
   hubzilla:
   # Hubzilla service
-    image: voryzen/hubzilla
+    image: voryzen/hubzilla:4.6
     restart: unless-stopped
     depends_on:
       - postgres
@@ -63,16 +63,15 @@ services:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_TYPE: postgres
-      DB_NAME: {{ default_username }}_hub
-      DB_USER: {{ default_username }}
-      DB_PASSWORD: {{ default_password }}
-      HUBZILLA_DOMAIN: "{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
-      HUBZILLA_ADMIN: "admin@{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}"
+      DB_NAME: hubzilla
+      DB_USER: hubzilla
+      DB_PASSWORD: {{lookup('password', './settings/passwords/hubzilla-db_password')}}
+      HUBZILLA_DOMAIN: {{ service_domain }}
+      HUBZILLA_ADMIN: admin@{{ service_domain }}
       SMTP_HOST: {{ smtp.host }}
       SMTP_PORT: {{ smtp.port }}
       SMTP_USER: {{ smtp.user }}
       SMTP_PASS: {{ smtp.pass }}
-      AUTO_SETUP: 1
       ADDON_LIST: "nsfw superblock diaspora pubcrawl"
       TIMEZONE: {{ common_timezone }}
     networks:
@@ -83,12 +82,12 @@ services:
 
   postgres:
   # PostgreSQL
-    image: postgres:12-alpine
+    image: postgres:12.2-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: {{ default_password }}
-      POSTGRES_USER: {{ default_username }}
-      POSTGRES_DB: {{ default_username }}_hub
+      POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/hubzilla-db_password')}}
+      POSTGRES_USER: hubzilla
+      POSTGRES_DB: hubzilla
     volumes:
       - {{ volumes_root }}/hubzilla/db:/var/lib/postgresql/data/
     networks:

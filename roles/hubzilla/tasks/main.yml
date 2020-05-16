@@ -8,7 +8,7 @@
 - name: Copy hubzilla docker-compose.yml file into place.
   template:
     src: docker-compose.hubzilla.yml.j2
-    dest: "{{ volumes_root }}/hubzilla/docker-compose.hubzilla.yml"
+    dest: "{{ volumes_root }}/hubzilla/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
