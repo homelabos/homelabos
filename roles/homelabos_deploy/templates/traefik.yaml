@@ -1,3 +1,5 @@
+---
+
 global:
   checkNewVersion: true
   sendAnonymousUsage: {{ traefik.send_anonymous_usage }}
@@ -15,7 +17,7 @@ entryPoints:
       insecure: true
     proxyProtocol:
       insecure: true
-  smtp: #for healthchecks incoming emails
+  smtp: # for healthchecks incoming emails
     address: :25
     forwardedHeaders:
       insecure: true
@@ -32,14 +34,10 @@ providers:
   file:
     directory: /conf.d
     watch: true
-    
+
 api:
   dashboard: true
-{% if traefik.expose_internally %}
   insecure: true
-{% else %}
-  insecure: false
-{% endif %}
 
 log:
   level: ERROR
@@ -58,4 +56,3 @@ certificatesResolvers:
       httpChallenge:
         # used during the challenge
         entryPoint: http
-  
