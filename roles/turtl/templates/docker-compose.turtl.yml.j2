@@ -1,0 +1,81 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  turtl-server:
+    build:
+      context: ./server
+    environment:
+      TURTL_DB_HOST: postgres-db
+      TURTL_DB_PORT: 5432
+      TURTL_DB_DATABASE: turtl
+      TURTL_DB_USER: turtl
+      TURTL_DB_PASSWORD: "y{{ lookup('password', './settings/passwords/turtl_db_password chars=digits') }}"
+      TURTL_APP_SECURE_HASH_SALT: fgFSrgg34f32dfASF
+      TURTL_APP_API_URL: http{% if turtl.https_only %}s{% endif %}://{{ turtl.subdomain }}.{{ domain }}
+      TURTL_APP_WWW_URL: http{% if turtl.https_only %}s{% endif %}://{{ turtl.subdomain }}.{{ domain }}
+      TURTL_EMAILS_ADMIN: "{{ admin_email }}"
+      TURTL_EMAILS_INFO: "{{ admin_email }}"
+      TURTL_EMAILS_INVITES: "{{ admin_email }}"
+      TURTL_UPLOADS_URL: http{% if turtl.https_only %}s{% endif %}://{{ turtl.subdomain }}.{{ domain }}/uploads
+    volumes:
+      - "{{ volumes_root }}/turtl/uploads:/uploads"
+    depends_on:
+      - postgres-db
+
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.turtl.loadbalancer.server.scheme=http"
+      - "traefik.http.services.turtl.loadbalancer.server.port=8181"
+      - "traefik.http.routers.turtl-http.rule=Host(`{{ turtl.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.turtl-http.entrypoints=http"
+{% if not turtl.https_only %}
+      - "traefik.http.routers.turtl-http.middlewares={% if turtl.https_only %}redirect@file, {% else %}{% if turtl.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.turtl-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.turtl.rule=Host(`{{ turtl.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.turtl.entrypoints=https"
+      - "traefik.http.routers.turtl.middlewares={% if turtl.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.turtl.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.turtl.tls.certresolver=dns"
+      - "traefik.http.routers.turtl.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.turtl.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.turtl.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.turtl-tor-http.rule=Host(`turtl.{{ tor_domain }}`)"
+      - "traefik.http.routers.turtl-tor-http.entrypoints=http"
+      - "traefik.http.routers.turtl-tor-http.middlewares={% if turtl.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+  postgres-db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: "y{{ lookup('password', './settings/passwords/turtl_db_password chars=digits') }}"
+      POSTGRES_USER: turtl
+      POSTGRES_DB: turtl
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U turtl"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/turtl/db:/var/lib/postgresql/data"
+

@@ -101,9 +101,11 @@ services:
   tiddlywiki: 
   transmission: 
   trilium: 
+  turtl:
   ubooquity: 
   wallabag: 
-  watchtower: 
+  watchtower:
+  webdavserver: 
   webtrees: 
   webvirtmgr: 
   wekan: 
@@ -210,11 +212,13 @@ tick:
 tiddlywiki: 
 transmission: 
 trilium: 
+turtl: 
 ubooquity: 
 wekan: 
 watchtower: 
 xfinityusageinfluxdb: 
 wallabag: 
+webdavserver: 
 webtrees: 
 webvirtmgr: 
 zammad: 
