@@ -17,16 +17,18 @@
       {
         "name": "telegram-web",
         "url": "https://web.telegram.org"
-      },
-      {
-        "name": "Gitlab HomelabOS",
-        "url": "https://gitlab.com/NickBusey/HomelabOS"
       }
     ],
     "music": [
       {
         "name": "spotify",
         "url": "https://listen.spotify.com"
+      }
+    ],
+    "Homelab": [
+      {
+        "name": "Gitlab HomelabOS",
+        "url": "https://gitlab.com/NickBusey/HomelabOS"
       }
     ]
   },
