@@ -228,14 +228,14 @@
   systemd:
     name: "{{ service_item }}"
     state: stopped
-    enable: false
-  when: "not query"
+    enabled: false
+  when: query
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   ignore_errors: "yes"
   vars:
-    query: "{{ service_item + '.enable' }}"
+    query: "not {{ service_item + '.enable' }}"
 
 # Migration v0.7
 - name: remove docker-compose.SERVICENAME.yml
