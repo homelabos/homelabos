@@ -1,0 +1,36 @@
+---
+- name: Make sui directory.
+  file:
+    path: "{{ volumes_root }}/{{ item }}"
+    state: directory
+  with_items:
+    - "sui"
+    - "sui/configs"
+
+- name: Copy sui docker-compose.yml file into place.
+  template:
+    src: docker-compose.sui.yml.j2
+    dest: "{{ volumes_root }}/sui/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy sui config files into place.
+  template:
+    src: "{{ item }}"
+    dest: "{{ volumes_root }}/sui/configs/{{ item }}"
+  with_items:
+    - config.json
+    - HomelabOS.json
+    - local-docker.json
+
+- name: Configure sui systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/sui.service
+
+- name: Start sui
+  systemd:
+    name: sui
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

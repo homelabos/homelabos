@@ -20,7 +20,7 @@
 - Added ELK Stack - Elastic Search, Logstash and Kibana
 - Added EtherCalc - EtherCalc is a web spreadsheet
 - Added ERPNext - Open Source ERP for Everyone.
-- Added Factorio - Factorio headless server in a Docker container 
+- Added Factorio - Factorio headless server in a Docker container
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Added Funkwhale - A social platform to enjoy and share music
 - Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
@@ -32,7 +32,7 @@
 - Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
 - Added MassiveDecks - Massive Decks is a comedy party game based on Cards against Humanity. Play with friends! It works great with a bunch of people in the same room on phones, or on voice chat online.
-- Added Minecraft - Minecraft server with select-able version 
+- Added Minecraft - Minecraft server with select-able version
 - Added MinecraftBedrockServer - Minecraft Bedrock Server
 - Added MStream - All your music, everywhere you go.
 - Added Mylar - An automated Comic Book manager
@@ -60,6 +60,7 @@
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added Zammad - Zammad is a web-based, open source user support/ticketing solution.
+- Added SUI - a startpage for your server and / or new tab page
 
 ## Services Removed
 
