@@ -88,6 +88,7 @@ services:
   restic: 
   sabnzbd: 
   searx: 
+  shinobi: 
   sickchill: 
   snibox: 
   sonarr: 
@@ -129,7 +130,7 @@ dark_sky:
 dasher: 
 digikam: 
 drone: 
-duckdns:
+duckdns: 
 duplicati: 
 elkstack: 
 emby: 
@@ -198,6 +199,7 @@ radarr:
 restic: 
 sabnzbd: 
 searx: 
+shinobi:
 sickchill: 
 snibox: 
 sonarr: 
@@ -225,13 +227,13 @@ netname: homelabos
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-smtp:
+smtp: 
 traefik:
-  additional_env_vars:
+  additional_env_vars: 
 bastion:
-  wireguard:
+  wireguard: 
   enable: false
 open_ldap:
-  seed:
+  seed: 
 tinc: "{{ enable_tinc }}"
 tor: "{{ enable_tor }}"

@@ -47,6 +47,7 @@
 - Added qBittorrent - An open-source alternative to µTorrent
 - Added Sabnzbd - Free and easy binary newsreader
 - Added Searx - A privacy-respecting, hackable metasearch engine.
+- Added Shinobi - The Free Open Source CCTV platform written in Node.JS
 - Added SickChill - SickChill is an automatic Video Library Manager for TV Shows.
 - Added Snibox - Self-hosted snippet manager. Developed to collect and organize code snippets.
 - Added Speedtest - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana

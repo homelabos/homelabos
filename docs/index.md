@@ -154,6 +154,7 @@ If you are having problems you can:
 - [PrivateBin](software/privatebin) PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - [Sabnzbd](software/sabnzbd) Free and easy binary newsreader
 - [Searx](software/searx) - A privacy-respecting, hackable metasearch engine.
+- [Shinobi](software/shinobi) Free Open Source CCTV platform.
 - [Ubooquity](software/ubooquity) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](software/watchtower) - A process for automating Docker container base image updates
 - [WebTrees](software/webtrees) - Online Genealogy

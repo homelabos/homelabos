@@ -1,0 +1,24 @@
+---
+- name: Make shinobi directory.
+  file:
+    path: "{{ volumes_root }}/shinobi"
+    state: directory
+
+- name: Copy shinobi docker-compose.yml file into place.
+  template:
+    src: docker-compose.shinobi.yml.j2
+    dest: "{{ volumes_root }}/shinobi/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure shinobi systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/shinobi.service
+
+- name: Start shinobi
+  systemd:
+    name: shinobi
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
