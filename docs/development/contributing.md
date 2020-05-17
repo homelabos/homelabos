@@ -1,12 +1,6 @@
-# Submitting Merge Requests
+# Development Workflow
 
-When a Merge Request is ready to go, add the label `Ready for Review`.
-
-Only Merge Requests with this label will be reviewed for inclusion. Any Merge
-Requests submitted with this label that around found to not be ready for merge
-during the review, will have the label removed. Make the changes/fixes requested
-then add the label back to the Merge Request to be considered during the next
-review session.
+First make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`. Create an issue in GitLab. From this issue, click the `Create Merge Request` button. Now click the `Check Out Branch` button and copy Step 1, run that command on your local copy of the repository. Now make your changes and commit and push them. In GitLab, go to your Merge Request and make sure it is not labeled WIP and that all the check boxes are checked. It will be reviewed, and if it receives 2 approvals, it will be merged. If it needs changes, the maintainers will add commends describing the needed changes, add `WIP:` back to the start of the title, and assign it back to the submitter.
 
 # Working with Issues
 
