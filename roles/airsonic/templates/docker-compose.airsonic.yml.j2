@@ -29,12 +29,7 @@ services:
       - "traefik.http.services.airsonic.loadbalancer.server.port=4040"
       - "traefik.http.routers.airsonic-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.airsonic-http.entrypoints=http"
-{% if not airsonic.https_only %}
-      - "traefik.http.routers.airsonic-http.middlewares={% if airsonic.https_only %}redirect@file, {% else %}{% if airsonic.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.airsonic-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.airsonic-http.middlewares={% if airsonic.https_only %}redirect@file, security-headers@file, {% else %}{% if airsonic.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.airsonic.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.airsonic.entrypoints=https"
       - "traefik.http.routers.airsonic.middlewares={% if airsonic.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

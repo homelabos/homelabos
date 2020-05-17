@@ -123,12 +123,7 @@ services:
       - "traefik.http.services.gitlab.loadbalancer.server.port=80"
       - "traefik.http.routers.gitlab-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.gitlab-http.entrypoints=http"
-{% if not gitlab.https_only %}
-      - "traefik.http.routers.gitlab-http.middlewares={% if gitlab.https_only %}redirect@file, {% else %}{% if gitlab.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.gitlab-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.gitlab-http.middlewares={% if gitlab.https_only %}redirect@file, security-headers@file, {% else %}{% if gitlab.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.gitlab.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.gitlab.entrypoints=https"
       - "traefik.http.routers.gitlab.middlewares={% if gitlab.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

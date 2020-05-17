@@ -25,12 +25,7 @@ services:
       - "traefik.http.services.mashio.loadbalancer.server.port=80"
       - "traefik.http.routers.mashio-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.mashio-http.entrypoints=http"
-{% if not mashio.https_only %}
-      - "traefik.http.routers.mashio-http.middlewares={% if mashio.https_only %}redirect@file, {% else %}{% if mashio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.mashio-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.mashio-http.middlewares={% if mashio.https_only %}redirect@file, security-headers@file, {% else %}{% if mashio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mashio.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.mashio.entrypoints=https"
       - "traefik.http.routers.mashio.middlewares={% if mashio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

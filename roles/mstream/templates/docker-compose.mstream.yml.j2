@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -32,12 +32,7 @@ services:
       - "traefik.http.services.mstream.loadbalancer.server.port=3000"
       - "traefik.http.routers.mstream-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.mstream-http.entrypoints=http"
-{% if not mstream.https_only %}
-      - "traefik.http.routers.mstream-http.middlewares={% if mstream.https_only %}redirect@file, {% else %}{% if mstream.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.mstream-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.mstream-http.middlewares={% if mstream.https_only %}redirect@file, security-headers@file, {% else %}{% if mstream.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.mstream.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.mstream.entrypoints=https"
       - "traefik.http.routers.mstream.middlewares={% if mstream.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -36,12 +36,7 @@ services:
       - "traefik.http.services.digikam.loadbalancer.server.port=5800"
       - "traefik.http.routers.digikam-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.digikam-http.entrypoints=http"
-{% if not digikam.https_only %}
-      - "traefik.http.routers.digikam-http.middlewares={% if digikam.https_only %}redirect@file, {% else %}{% if digikam.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.digikam-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.digikam-http.middlewares={% if digikam.https_only %}redirect@file, security-headers@file, {% else %}{% if digikam.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.digikam.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.digikam.entrypoints=https"
       - "traefik.http.routers.digikam.middlewares={% if digikam.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

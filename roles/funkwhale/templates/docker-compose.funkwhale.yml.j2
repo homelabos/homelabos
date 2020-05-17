@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -36,12 +36,7 @@ services:
       - "traefik.http.services.funkwhale.loadbalancer.server.port=80"
       - "traefik.http.routers.funkwhale-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.funkwhale-http.entrypoints=http"
-{% if not funkwhale.https_only %}
-      - "traefik.http.routers.funkwhale-http.middlewares={% if funkwhale.https_only %}redirect@file, {% else %}{% if funkwhale.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.funkwhale-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.funkwhale-http.middlewares={% if funkwhale.https_only %}redirect@file, security-headers@file, {% else %}{% if funkwhale.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.funkwhale.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.funkwhale.entrypoints=https"
       - "traefik.http.routers.funkwhale.middlewares={% if funkwhale.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

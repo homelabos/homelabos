@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -33,12 +33,7 @@ services:
       - "traefik.http.services.minecraft.loadbalancer.server.port=0"
       - "traefik.http.routers.minecraft-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.minecraft-http.entrypoints=http"
-{% if not minecraft.https_only %}
-      - "traefik.http.routers.minecraft-http.middlewares={% if minecraft.https_only %}redirect@file, {% else %}{% if minecraft.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.minecraft-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.minecraft-http.middlewares={% if minecraft.https_only %}redirect@file, security-headers@file, {% else %}{% if minecraft.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.minecraft.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.minecraft.entrypoints=https"
       - "traefik.http.routers.minecraft.middlewares={% if minecraft.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

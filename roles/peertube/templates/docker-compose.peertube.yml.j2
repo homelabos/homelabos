@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -12,7 +12,7 @@ services:
   pt_db:
     image: postgres:10-alpine
     networks:
-      - traefik_network 
+      - traefik_network
     env_file:
       - .env
     volumes:
@@ -22,7 +22,7 @@ services:
     networks:
       - traefik_network
     image: redis:4-alpine
-    volumes: 
+    volumes:
       - "{{ volumes_root }}/peertube/redis:/data"
     env_file:
       - .env
@@ -49,7 +49,7 @@ services:
       - pt_postfix
     env_file:
       - .env
-    ports: 
+    ports:
       - 9000:9000
     labels:
       - "traefik.enable=true"
@@ -58,12 +58,7 @@ services:
       - "traefik.http.services.peertube.loadbalancer.server.port=9000"
       - "traefik.http.routers.peertube-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.peertube-http.entrypoints=http"
-{% if not peertube.https_only %}
-      - "traefik.http.routers.peertube-http.middlewares={% if peertube.https_only %}redirect@file, {% else %}{% if peertube.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.peertube-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.peertube-http.middlewares={% if peertube.https_only %}redirect@file, security-headers@file, {% else %}{% if peertube.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.peertube.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.peertube.entrypoints=https"
       - "traefik.http.routers.peertube.middlewares={% if peertube.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

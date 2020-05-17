@@ -41,12 +41,7 @@ services:
       - "traefik.http.services.plex.loadbalancer.server.port=32400"
       - "traefik.http.routers.plex-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.plex-http.entrypoints=http"
-{% if not plex.https_only %}
-      - "traefik.http.routers.plex-http.middlewares={% if plex.https_only %}redirect@file, {% else %}{% if plex.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.plex-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.plex-http.middlewares={% if plex.https_only %}redirect@file, security-headers@file, {% else %}{% if plex.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.plex.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.plex.entrypoints=https"
       - "traefik.http.routers.plex.middlewares={% if plex.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

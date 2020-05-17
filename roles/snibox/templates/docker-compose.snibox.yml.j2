@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -27,12 +27,7 @@ services:
       - "traefik.http.services.snibox.loadbalancer.server.port=80"
       - "traefik.http.routers.snibox-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.snibox-http.entrypoints=http"
-{% if not snibox.https_only %}
-      - "traefik.http.routers.snibox-http.middlewares={% if snibox.https_only %}redirect@file, {% else %}{% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.snibox-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.snibox-http.middlewares={% if snibox.https_only %}redirect@file, security-headers@file, {% else %}{% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.snibox.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.snibox.entrypoints=https"
       - "traefik.http.routers.snibox.middlewares={% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
@@ -83,7 +78,7 @@ services:
       - pg-data:/var/lib/postgresql/data
     networks:
       - snibox
-    
+
 volumes:
   pg-data:
   static-files:
