@@ -71,7 +71,7 @@ services:
       - traefik_network
     restart: unless-stopped
     volumes:
-      - "{{ volumes_root }}/wallabag_db:/var/lib/mysql"
+      - "{{ volumes_root }}/wallabag/db:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/wallabag_db_root_password chars=digits')}}
       - MYSQL_PASSWORD={{lookup('password', './settings/passwords/wallabag_db_password chars=digits')}}
