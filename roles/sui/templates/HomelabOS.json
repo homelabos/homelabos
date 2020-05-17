@@ -1,4 +1,4 @@
 {
-    "url": "http://homelabos:8080/",
+    "url": "http://homelabos:8080",
     "dockers": ["local-docker"]
 }

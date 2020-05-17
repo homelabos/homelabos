@@ -10,7 +10,6 @@ networks:
 
 services:
   sui:
-    container_name: sui
     image: willfantom/sui:latest
     restart: unless-stopped
     networks:
@@ -22,7 +21,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sui.loadbalancer.server.scheme=http"
-      - "traefik.http.services.sui.loadbalancer.server.port=3000"
+      - "traefik.http.services.sui.loadbalancer.server.port=6999"
       - "traefik.http.routers.sui-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.sui-http.entrypoints=http"
 {% if not sui.https_only %}
@@ -47,6 +46,6 @@ services:
       - "traefik.http.routers.sui-tor-http.entrypoints=http"
       - "traefik.http.routers.sui-tor-http.middlewares={% if sui.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-      - sui.enabled=true
-      - sui.name=dashboard
-      - sui.icon=home
+      - "sui.enabled=true"
+      - "sui.name=dashboard"
+      - "sui.icon=home"
