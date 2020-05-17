@@ -1,6 +1,6 @@
 # Turtl
 
-[Turtl](https://github.com/turtl/server) Turtl is a note takng app with desktop and mobile apps.
+[Turtl](https://github.com/turtl/server) Turtl is a note taking app with desktop and mobile apps.
 
 ## Access
 
