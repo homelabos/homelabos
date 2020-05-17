@@ -3,8 +3,7 @@
   "debug": true,
 
   "appproviders": [
-    { "name": "HomelabOS", "type": "traefik" },
-    { "name": "local-docker", "type": "docker" }
+    { "name": "HomelabOS", "type": "traefik" }
   ],
 
   "engines": {

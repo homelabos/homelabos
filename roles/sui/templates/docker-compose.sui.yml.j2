@@ -46,6 +46,5 @@ services:
       - "traefik.http.routers.sui-tor-http.entrypoints=http"
       - "traefik.http.routers.sui-tor-http.middlewares={% if sui.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-      - "sui.enabled=true"
       - "sui.name=dashboard"
       - "sui.icon=home"
