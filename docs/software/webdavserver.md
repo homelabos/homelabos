@@ -1,8 +1,8 @@
 # WebDAV Server
 
-[WebDAV Server](https://hub.docker.com/r/bytemark/webdav/) A simple WebDAV service.  If you enable WebDAV over SSL only you have a secure
-file transfer service setup, which is useful for e.g. syncing your notes from Joplin.  If you don't need all the extra from NextCloud/OwnCloud,
-this service could be what you need.
+[WebDAV Server](https://hub.docker.com/r/bytemark/webdav/) A simple WebDAV service.
+If you enable WebDAV over SSL you will have a secure file transfer service setup, which is useful for e.g. syncing your notes from Joplin.
+If you don't need all the extra from NextCloud/OwnCloud, this service could be what you need.
 
 Files are stored in {{ storage_dir }}/webdav/data .
 

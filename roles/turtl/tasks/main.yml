@@ -12,28 +12,24 @@
 - name: Copy turtl docker-compose.yml file into place.
   template:
     src: docker-compose.turtl.yml.j2
-    dest: "{{ volumes_root }}/turtl/docker-compose.turtl.yml"
+    dest: "{{ volumes_root }}/turtl/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Build project from docker-compose
-  docker_compose:
-    project_src: "{{ volumes_root }}/turtl"
-    files:
-      - docker-compose.turtl.yml
-    build: yes
 
 - name: Start database to create user and empty database. Turtl is not resilient for waiting by itself.
   docker_compose:
     project_src: "{{ volumes_root }}/turtl"
-    files:
-      - docker-compose.turtl.yml
     services:
       - postgres-db
     state: present
 
-- pause:
-    seconds: 20
+- name: Build Turtl project from docker-compose
+  docker_compose:
+    project_src: "{{ volumes_root }}/turtl"
+    build: yes
+
+#- pause:
+#    seconds: 20
 
 #- name: Delete the Turtl Git checkout from the volume_root
 #  file:
