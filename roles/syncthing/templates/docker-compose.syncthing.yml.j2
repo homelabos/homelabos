@@ -27,15 +27,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.syncthing.loadbalancer.server.scheme=http"
       - "traefik.http.services.syncthing.loadbalancer.server.port=8384"
-      - "traefik.http.routers.syncthing-http.rule=Host(`{% if syncthing.domain %}{{ syncthing.domain }}{% else %}{{ syncthing.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.syncthing-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.syncthing-http.entrypoints=http"
-{% if not syncthing.https_only %}
-      - "traefik.http.routers.syncthing-http.middlewares={% if syncthing.https_only %}redirect@file, {% else %}{% if syncthing.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.syncthing-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.syncthing.rule=Host(`{% if syncthing.domain %}{{ syncthing.domain }}{% else %}{{ syncthing.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.syncthing-http.middlewares={% if syncthing.https_only %}redirect@file, security-headers@file, {% else %}{% if syncthing.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.syncthing.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.syncthing.entrypoints=https"
       - "traefik.http.routers.syncthing.middlewares={% if syncthing.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.syncthing.tls=true"
@@ -47,7 +42,7 @@ services:
       - "traefik.http.routers.syncthing.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.syncthing-tor-http.rule=Host(`{{ syncthing.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.syncthing-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.syncthing-tor-http.entrypoints=http"
       - "traefik.http.routers.syncthing-tor-http.middlewares={% if syncthing.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

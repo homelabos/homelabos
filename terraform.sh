@@ -10,4 +10,4 @@ touch settings/config.yml
 # Get instance IP for next run
 TERRAFORM_IP=$(./docker_helper.sh /bin/bash -c "cd settings; terraform show -json | jq -r .values.root_module.resources[0].values.ipv4_address")
 
-echo "Successfully created a server at: ${TERRAFORM_IP}\n\nRun 'make' to complete the setup."
+echo "Successfully created a server at: ${TERRAFORM_IP}\n\nPlace this IP where you want it in your settings (either 'homelab_ip' or 'bastion.server_address'), then run 'make' to complete the setup."

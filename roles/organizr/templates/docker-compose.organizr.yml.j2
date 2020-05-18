@@ -20,15 +20,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.organizr.loadbalancer.server.scheme=http"
       - "traefik.http.services.organizr.loadbalancer.server.port=80"
-      - "traefik.http.routers.organizr-http.rule=Host(`{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.organizr-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.organizr-http.entrypoints=http"
-{% if not organizr.https_only %}
-      - "traefik.http.routers.organizr-http.middlewares={% if organizr.https_only %}redirect@file, {% else %}{% if organizr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.organizr-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.organizr.rule=Host(`{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.organizr-http.middlewares={% if organizr.https_only %}redirect@file, security-headers@file, {% else %}{% if organizr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.organizr.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.organizr.entrypoints=https"
       - "traefik.http.routers.organizr.middlewares={% if organizr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.organizr.tls=true"
@@ -40,7 +35,7 @@ services:
       - "traefik.http.routers.organizr.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.organizr-tor-http.rule=Host(`{{ tor_domain }}`)"
+      - "traefik.http.routers.organizr-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.organizr-tor-http.entrypoints=http"
       - "traefik.http.routers.organizr-tor-http.middlewares={% if organizr.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

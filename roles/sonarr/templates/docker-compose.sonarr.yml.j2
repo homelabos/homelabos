@@ -27,15 +27,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sonarr.loadbalancer.server.scheme=http"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
-      - "traefik.http.routers.sonarr-http.rule=Host(`{% if sonarr.domain %}{{ sonarr.domain }}{% else %}{{ sonarr.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.sonarr-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.sonarr-http.entrypoints=http"
-{% if not sonarr.https_only %}
-      - "traefik.http.routers.sonarr-http.middlewares={% if sonarr.https_only %}redirect@file, {% else %}{% if sonarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.sonarr-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.sonarr.rule=Host(`{% if sonarr.domain %}{{ sonarr.domain }}{% else %}{{ sonarr.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.sonarr-http.middlewares={% if sonarr.https_only %}redirect@file, security-headers@file, {% else %}{% if sonarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.sonarr.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.sonarr.entrypoints=https"
       - "traefik.http.routers.sonarr.middlewares={% if sonarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sonarr.tls=true"
@@ -47,7 +42,7 @@ services:
       - "traefik.http.routers.sonarr.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.sonarr-tor-http.rule=Host(`{{ sonarr.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.sonarr-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.sonarr-tor-http.entrypoints=http"
       - "traefik.http.routers.sonarr-tor-http.middlewares={% if sonarr.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -32,7 +32,7 @@
 
 - name: Capture initial password
   shell: >
-    docker-compose -f /var/homelabos/peertube/docker-compose.peertube.yml logs app | grep -A1 root
+    docker-compose -f {{ volumes_root }}/peertube/docker-compose.yml logs app | grep -A1 root
   register: peertube_pass
   become: false
 

@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -23,15 +23,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.tiddlywiki.loadbalancer.server.scheme=http"
       - "traefik.http.services.tiddlywiki.loadbalancer.server.port=8080"
-      - "traefik.http.routers.tiddlywiki-http.rule=Host(`{% if tiddlywiki.domain %}{{ tiddlywiki.domain }}{% else %}{{ tiddlywiki.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.tiddlywiki-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.tiddlywiki-http.entrypoints=http"
-{% if not tiddlywiki.https_only %}
-      - "traefik.http.routers.tiddlywiki-http.middlewares={% if tiddlywiki.https_only %}redirect@file, {% else %}{% if tiddlywiki.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.tiddlywiki-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.tiddlywiki.rule=Host(`{% if tiddlywiki.domain %}{{ tiddlywiki.domain }}{% else %}{{ tiddlywiki.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.tiddlywiki-http.middlewares={% if tiddlywiki.https_only %}redirect@file, security-headers@file, {% else %}{% if tiddlywiki.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.tiddlywiki.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.tiddlywiki.entrypoints=https"
       - "traefik.http.routers.tiddlywiki.middlewares={% if tiddlywiki.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.tiddlywiki.tls=true"
@@ -43,7 +38,7 @@ services:
       - "traefik.http.routers.tiddlywiki.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.tiddlywiki-tor-http.rule=Host(`tiddlywiki.{{ tor_domain }}`)"
+      - "traefik.http.routers.tiddlywiki-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.tiddlywiki-tor-http.entrypoints=http"
       - "traefik.http.routers.tiddlywiki-tor-http.middlewares={% if tiddlywiki.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -31,7 +31,7 @@ services:
       # Plain text or bcrypt hash (escape "$" with "$$")
       PHOTOPRISM_ADMIN_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=digits')}}"
       # Plain text only (username "photoprism")
-      PHOTOPRISM_WEBDAV_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=digits')}}" 
+      PHOTOPRISM_WEBDAV_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=digits')}}"
     volumes:
       - "{{ storage_dir }}/Pictures:/photoprism/originals" # [local path]:[container path]
       - "{{ storage_dir }}/Pictures/PhotoPrismImport:/photoprism/import" # [local path]:[container path] (optional)
@@ -42,15 +42,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.photoprism.loadbalancer.server.scheme=http"
       - "traefik.http.services.photoprism.loadbalancer.server.port=2342"
-      - "traefik.http.routers.photoprism-http.rule=Host(`{% if photoprism.domain %}{{ photoprism.domain }}{% else %}{{ photoprism.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.photoprism-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.photoprism-http.entrypoints=http"
-{% if not photoprism.https_only %}
-      - "traefik.http.routers.photoprism-http.middlewares={% if photoprism.https_only %}redirect@file, {% else %}{% if photoprism.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.photoprism-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.photoprism.rule=Host(`{% if photoprism.domain %}{{ photoprism.domain }}{% else %}{{ photoprism.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.photoprism-http.middlewares={% if photoprism.https_only %}redirect@file, security-headers@file, {% else %}{% if photoprism.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.photoprism.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.photoprism.entrypoints=https"
       - "traefik.http.routers.photoprism.middlewares={% if photoprism.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.photoprism.tls=true"
@@ -62,7 +57,7 @@ services:
       - "traefik.http.routers.photoprism.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.photoprism-tor-http.rule=Host(`photoprism.{{ tor_domain }}`)"
+      - "traefik.http.routers.photoprism-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.photoprism-tor-http.entrypoints=http"
       - "traefik.http.routers.photoprism-tor-http.middlewares={% if photoprism.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

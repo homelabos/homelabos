@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -22,15 +22,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.privatebin.loadbalancer.server.scheme=http"
       - "traefik.http.services.privatebin.loadbalancer.server.port=8080"
-      - "traefik.http.routers.privatebin-http.rule=Host(`{% if privatebin.domain %}{{ privatebin.domain }}{% else %}{{ privatebin.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.privatebin-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.privatebin-http.entrypoints=http"
-{% if not privatebin.https_only %}
-      - "traefik.http.routers.privatebin-http.middlewares={% if privatebin.https_only %}redirect@file, {% else %}{% if privatebin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.privatebin-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.privatebin.rule=Host(`{% if privatebin.domain %}{{ privatebin.domain }}{% else %}{{ privatebin.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.privatebin-http.middlewares={% if privatebin.https_only %}redirect@file, security-headers@file, {% else %}{% if privatebin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.privatebin.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.privatebin.entrypoints=https"
       - "traefik.http.routers.privatebin.middlewares={% if privatebin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.privatebin.tls=true"
@@ -42,8 +37,7 @@ services:
       - "traefik.http.routers.privatebin.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.privatebin-tor-http.rule=Host(`{{ privatebin.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.privatebin-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.privatebin-tor-http.entrypoints=http"
       - "traefik.http.routers.privatebin-tor-http.middlewares={% if privatebin.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-

@@ -22,15 +22,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.jellyfin.loadbalancer.server.scheme=http"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-      - "traefik.http.routers.jellyfin-http.rule=Host(`{% if jellyfin.domain %}{{ jellyfin.domain }}{% else %}{{ jellyfin.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.jellyfin-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.jellyfin-http.entrypoints=http"
-{% if not jellyfin.https_only %}
-      - "traefik.http.routers.jellyfin-http.middlewares={% if jellyfin.https_only %}redirect@file, {% else %}{% if jellyfin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.jellyfin-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.jellyfin.rule=Host(`{% if jellyfin.domain %}{{ jellyfin.domain }}{% else %}{{ jellyfin.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.jellyfin-http.middlewares={% if jellyfin.https_only %}redirect@file, security-headers@file, {% else %}{% if jellyfin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.jellyfin.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.jellyfin.entrypoints=https"
       - "traefik.http.routers.jellyfin.middlewares={% if jellyfin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.jellyfin.tls=true"
@@ -42,7 +37,7 @@ services:
       - "traefik.http.routers.jellyfin.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.jellyfin-tor-http.rule=Host(`{{ jellyfin.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.jellyfin-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.jellyfin-tor-http.entrypoints=http"
       - "traefik.http.routers.jellyfin-tor-http.middlewares={% if jellyfin.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

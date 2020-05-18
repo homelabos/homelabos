@@ -142,6 +142,7 @@ If you are having problems you can:
 - [Folding@home](software/folding_at_home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - [Grocy](software/grocy) - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 - [Grownetics](software/grownetics) - Open source environmental mapping with plant management and tracking
+- [Hubzilla](software/hubzilla) - a powerful platform for creating interconnected websites featuring a decentralized identity
 - [Inventario](software/inventario) - Home inventory software
 - [Mashio](software/mashio) - Home brewery management software
 - [Monica](software/monica) - Contact / relationship manager
@@ -153,6 +154,7 @@ If you are having problems you can:
 - [PrivateBin](software/privatebin) PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - [Sabnzbd](software/sabnzbd) Free and easy binary newsreader
 - [Searx](software/searx) - A privacy-respecting, hackable metasearch engine.
+- [Shinobi](software/shinobi) Free Open Source CCTV platform.
 - [Ubooquity](software/ubooquity) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](software/watchtower) - A process for automating Docker container base image updates
 - [WebTrees](software/webtrees) - Online Genealogy
@@ -197,6 +199,10 @@ If you are having problems you can:
 ### Read it Later Lists
 
 - [Wallabag](software/wallabag) - Save and classify articles. Read them later. Freely.
+
+### Social networks
+
+- [Pleroma](software/pleroma) - Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
 
 ### Software Development
 

@@ -24,15 +24,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.miniflux.loadbalancer.server.scheme=http"
       - "traefik.http.services.miniflux.loadbalancer.server.port=8080"
-      - "traefik.http.routers.miniflux-http.rule=Host(`{% if miniflux.domain %}{{ miniflux.domain }}{% else %}{{ miniflux.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.miniflux-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.miniflux-http.entrypoints=http"
-{% if not miniflux.https_only %}
-      - "traefik.http.routers.miniflux-http.middlewares={% if miniflux.https_only %}redirect@file, {% else %}{% if miniflux.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.miniflux-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.miniflux.rule=Host(`{% if miniflux.domain %}{{ miniflux.domain }}{% else %}{{ miniflux.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.miniflux-http.middlewares={% if miniflux.https_only %}redirect@file, security-headers@file, {% else %}{% if miniflux.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.miniflux.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.miniflux.entrypoints=https"
       - "traefik.http.routers.miniflux.middlewares={% if miniflux.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.miniflux.tls=true"
@@ -44,7 +39,7 @@ services:
       - "traefik.http.routers.miniflux.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.miniflux-tor-http.rule=Host(`{{ miniflux.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.miniflux-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.miniflux-tor-http.entrypoints=http"
       - "traefik.http.routers.miniflux-tor-http.middlewares={% if miniflux.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -77,15 +77,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
       - "traefik.http.services.erpnext.loadbalancer.server.port=80"
-      - "traefik.http.routers.erpnext-http.rule=Host(`{% if erpnext.domain %}{{ erpnext.domain }}{% else %}{{ erpnext.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.erpnext-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.erpnext-http.entrypoints=http"
-{% if not erpnext.https_only %}
-      - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, {% else %}{% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.erpnext-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.erpnext.rule=Host(`{% if erpnext.domain %}{{ erpnext.domain }}{% else %}{{ erpnext.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, security-headers@file, {% else %}{% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.erpnext.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.erpnext.entrypoints=https"
       - "traefik.http.routers.erpnext.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.erpnext.tls=true"
@@ -97,7 +92,7 @@ services:
       - "traefik.http.routers.erpnext.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ erpnext.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.erpnext-tor-http.entrypoints=http"
       - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

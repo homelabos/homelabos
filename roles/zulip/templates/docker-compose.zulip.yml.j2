@@ -82,15 +82,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.zulip.loadbalancer.server.scheme=http"
       - "traefik.http.services.zulip.loadbalancer.server.port=80"
-      - "traefik.http.routers.zulip-http.rule=Host(`{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.zulip-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.zulip-http.entrypoints=http"
-{% if not zulip.https_only %}
-      - "traefik.http.routers.zulip-http.middlewares={% if zulip.https_only %}redirect@file, {% else %}{% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.zulip-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.zulip.rule=Host(`{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.zulip-http.middlewares={% if zulip.https_only %}redirect@file, security-headers@file, {% else %}{% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.zulip.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.zulip.entrypoints=https"
       - "traefik.http.routers.zulip.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.zulip.tls=true"
@@ -102,7 +97,7 @@ services:
       - "traefik.http.routers.zulip.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.zulip-tor-http.rule=Host(`{{ zulip.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.zulip-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.zulip-tor-http.entrypoints=http"
       - "traefik.http.routers.zulip-tor-http.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

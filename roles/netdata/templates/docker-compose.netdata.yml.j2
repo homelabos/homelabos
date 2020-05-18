@@ -27,15 +27,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.netdata.loadbalancer.server.scheme=http"
       - "traefik.http.services.netdata.loadbalancer.server.port=19999"
-      - "traefik.http.routers.netdata-http.rule=Host(`{% if netdata.domain %}{{ netdata.domain }}{% else %}{{ netdata.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.netdata-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.netdata-http.entrypoints=http"
-{% if not netdata.https_only %}
-      - "traefik.http.routers.netdata-http.middlewares={% if netdata.https_only %}redirect@file, {% else %}{% if netdata.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.netdata-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.netdata.rule=Host(`{% if netdata.domain %}{{ netdata.domain }}{% else %}{{ netdata.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.netdata-http.middlewares={% if netdata.https_only %}redirect@file, security-headers@file, {% else %}{% if netdata.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.netdata.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.netdata.entrypoints=https"
       - "traefik.http.routers.netdata.middlewares={% if netdata.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.netdata.tls=true"
@@ -47,7 +42,7 @@ services:
       - "traefik.http.routers.netdata.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.netdata-tor-http.rule=Host(`{{ netdata.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.netdata-tor-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.netdata-tor-http.entrypoints=http"
       - "traefik.http.routers.netdata-tor-http.middlewares={% if netdata.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

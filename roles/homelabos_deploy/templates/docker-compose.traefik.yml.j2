@@ -8,6 +8,7 @@ networks:
 services:
   # Load Balancer / SSL / Web Server
   traefik:
+    container_name: homelabos
     image: traefik:v2.2
     restart: always
     networks:
@@ -34,7 +35,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.routers.traefik-http.rule=Host(`{% if traefik.domain %}{{ traefik.domain }}{% else %}{{ traefik.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.traefik-http.rule=Host(`{{ service_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.traefik-http.entrypoints=http"
 {% if not traefik.https_only %}
       - "traefik.http.routers.traefik-http.middlewares={% if traefik.https_only %}redirect@file, {% else %}{% if traefik.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -42,7 +43,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.traefik-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.traefik.rule=Host(`{% if traefik.domain %}{{ traefik.domain }}{% else %}{{ traefik.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.traefik.rule=Host(`{{ service_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.traefik.entrypoints=https"
       - "traefik.http.routers.traefik.middlewares={% if traefik.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.traefik.tls=true"
@@ -55,7 +56,7 @@ services:
 {% endif %}
       - "traefik.http.routers.traefik.service=api@internal"
 {% if enable_tor %}
-      - "traefik.http.routers.traefik-tor-http.rule=Host(`{{ traefik.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.traefik-tor-http.rule=Host(`{{ service_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.traefik-tor-http.entrypoints=http"
       - "traefik.http.routers.traefik-tor-http.middlewares={% if traefik.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}{% endif %}
