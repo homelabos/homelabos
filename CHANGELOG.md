@@ -2,17 +2,16 @@
 
 ## Features
 
-- Added CodiMD - The best platform to write and share markdown
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
-- Added Pleroma - Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
-- Updated everything to use traefik version 2
+- Updated everything to use Traefik v2
 
 ## Services Added
 
 - Added Apache 2 - Web server
 - Added Authelia - Authelia is an open-source full-featured authentication server available on Github
 - Added Barcode Buddy - Barcode system for Grocy
+- Added CodiMD - The best platform to write and share markdown
 - Added Cockpit - Cockpit admin interface package for configuring and troubleshooting a system
 - Added Chowdown -  Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
@@ -20,7 +19,7 @@
 - Added ELK Stack - Elastic Search, Logstash and Kibana
 - Added EtherCalc - EtherCalc is a web spreadsheet
 - Added ERPNext - Open Source ERP for Everyone.
-- Added Factorio - Factorio headless server in a Docker container 
+- Added Factorio - Factorio headless server in a Docker container
 - Added folding_at_home - Folding@home software allows you to share your unused computer power with scientists researching diseases.
 - Added Funkwhale - A social platform to enjoy and share music
 - Added Grocy - ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
@@ -32,7 +31,7 @@
 - Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
 - Added MassiveDecks - Massive Decks is a comedy party game based on Cards against Humanity. Play with friends! It works great with a bunch of people in the same room on phones, or on voice chat online.
-- Added Minecraft - Minecraft server with select-able version 
+- Added Minecraft - Minecraft server with select-able version
 - Added MinecraftBedrockServer - Minecraft Bedrock Server
 - Added MStream - All your music, everywhere you go.
 - Added Mylar - An automated Comic Book manager
@@ -42,6 +41,7 @@
 - Added PeerTube - ActivityPub Video Sharing
 - Added PhotoPrism - Clearly structured Web interface for browsing, organizing and sharing your personal photo collection.
 - Added Pixelfed - A free and ethical photo sharing platform, powered by ActivityPub federation.
+- Added Pleroma - Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
 - Added Poli - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - Added PrivateBin - PrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 - Added qBittorrent - An open-source alternative to µTorrent
@@ -62,6 +62,7 @@
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
 - Added Zammad - Zammad is a web-based, open source user support/ticketing solution.
+- Added SUI - a startpage for your server and / or new tab page
 
 ## Services Removed
 

@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -11,7 +11,7 @@ networks:
 services:
   app:
     # REQUIRED
-    image: 
+    image:
     restart: unless-stopped
     networks:
       - traefik_network
@@ -44,8 +44,8 @@ services:
       - "traefik.http.routers.PackageFileName-tor-http.entrypoints=http"
       - "traefik.http.routers.PackageFileName-tor-http.middlewares={% if PackageFileName.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-    # OPTIONAL 
-    #links: 
+    # OPTIONAL
+    #links:
     #  - inventario_db
     #environment:
     #  - MYSQL_DATABASE=package_name

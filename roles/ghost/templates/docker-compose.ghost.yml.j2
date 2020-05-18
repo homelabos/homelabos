@@ -34,12 +34,7 @@ services:
       - "traefik.http.services.ghost.loadbalancer.server.port=2368"
       - "traefik.http.routers.ghost-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.ghost-http.entrypoints=http"
-{% if not ghost.https_only %}
-      - "traefik.http.routers.ghost-http.middlewares={% if ghost.https_only %}redirect@file, {% else %}{% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.ghost-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.ghost-http.middlewares={% if ghost.https_only %}redirect@file, security-headers@file, {% else %}{% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ghost.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.ghost.entrypoints=https"
       - "traefik.http.routers.ghost.middlewares={% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

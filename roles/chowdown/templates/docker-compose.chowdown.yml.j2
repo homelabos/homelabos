@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -24,12 +24,7 @@ services:
       - "traefik.http.services.chowdown.loadbalancer.server.port=4000"
       - "traefik.http.routers.chowdown-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.chowdown-http.entrypoints=http"
-{% if not chowdown.https_only %}
-      - "traefik.http.routers.chowdown-http.middlewares={% if chowdown.https_only %}redirect@file, {% else %}{% if chowdown.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.chowdown-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.chowdown-http.middlewares={% if chowdown.https_only %}redirect@file, security-headers@file, {% else %}{% if chowdown.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.chowdown.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.chowdown.entrypoints=https"
       - "traefik.http.routers.chowdown.middlewares={% if chowdown.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

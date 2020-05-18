@@ -31,12 +31,7 @@ services:
       - "traefik.http.services.minio.loadbalancer.server.port=9000"
       - "traefik.http.routers.minio-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.minio-http.entrypoints=http"
-{% if not minio.https_only %}
-      - "traefik.http.routers.minio-http.middlewares={% if minio.https_only %}redirect@file, {% else %}{% if minio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.minio-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.minio-http.middlewares={% if minio.https_only %}redirect@file, security-headers@file, {% else %}{% if minio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.minio.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.minio.entrypoints=https"
       - "traefik.http.routers.minio.middlewares={% if minio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

@@ -42,12 +42,7 @@ services:
       - "traefik.http.services.wallabag.loadbalancer.server.port=80"
       - "traefik.http.routers.wallabag-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.wallabag-http.entrypoints=http"
-{% if not wallabag.https_only %}
-      - "traefik.http.routers.wallabag-http.middlewares={% if wallabag.https_only %}redirect@file, {% else %}{% if wallabag.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.wallabag-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.wallabag-http.middlewares={% if wallabag.https_only %}redirect@file, security-headers@file, {% else %}{% if wallabag.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.wallabag.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.wallabag.entrypoints=https"
       - "traefik.http.routers.wallabag.middlewares={% if wallabag.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

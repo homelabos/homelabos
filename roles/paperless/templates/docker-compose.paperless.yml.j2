@@ -36,12 +36,7 @@ services:
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
       - "traefik.http.routers.paperless-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.paperless-http.entrypoints=http"
-{% if not paperless.https_only %}
-      - "traefik.http.routers.paperless-http.middlewares={% if paperless.https_only %}redirect@file, {% else %}{% if paperless.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.paperless-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.paperless-http.middlewares={% if paperless.https_only %}redirect@file, security-headers@file, {% else %}{% if paperless.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.paperless.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.paperless.entrypoints=https"
       - "traefik.http.routers.paperless.middlewares={% if paperless.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

@@ -28,12 +28,7 @@ services:
       - "traefik.http.services.webvirtmgr.loadbalancer.server.port=8000"
       - "traefik.http.routers.webvirtmgr-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.webvirtmgr-http.entrypoints=http"
-{% if not webvirtmgr.https_only %}
-      - "traefik.http.routers.webvirtmgr-http.middlewares={% if webvirtmgr.https_only %}redirect@file, {% else %}{% if webvirtmgr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.webvirtmgr-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.webvirtmgr-http.middlewares={% if webvirtmgr.https_only %}redirect@file, security-headers@file, {% else %}{% if webvirtmgr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.webvirtmgr.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.webvirtmgr.entrypoints=https"
       - "traefik.http.routers.webvirtmgr.middlewares={% if webvirtmgr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

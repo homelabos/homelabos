@@ -36,12 +36,7 @@ services:
       - "traefik.http.services.bulletnotes.loadbalancer.server.port=3000"
       - "traefik.http.routers.bulletnotes-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.bulletnotes-http.entrypoints=http"
-{% if not bulletnotes.https_only %}
-      - "traefik.http.routers.bulletnotes-http.middlewares={% if bulletnotes.https_only %}redirect@file, {% else %}{% if bulletnotes.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.bulletnotes-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.bulletnotes-http.middlewares={% if bulletnotes.https_only %}redirect@file, security-headers@file, {% else %}{% if bulletnotes.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.bulletnotes.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.bulletnotes.entrypoints=https"
       - "traefik.http.routers.bulletnotes.middlewares={% if bulletnotes.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -23,12 +23,7 @@ services:
       - "traefik.http.services.trilium.loadbalancer.server.port=8080"
       - "traefik.http.routers.trilium-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.trilium-http.entrypoints=http"
-{% if not trilium.https_only %}
-      - "traefik.http.routers.trilium-http.middlewares={% if trilium.https_only %}redirect@file, {% else %}{% if trilium.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.trilium-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.trilium-http.middlewares={% if trilium.https_only %}redirect@file, security-headers@file, {% else %}{% if trilium.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.trilium.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.trilium.entrypoints=https"
       - "traefik.http.routers.trilium.middlewares={% if trilium.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

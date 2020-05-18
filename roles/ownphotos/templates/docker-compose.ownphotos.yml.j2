@@ -22,12 +22,7 @@ services:
       - "traefik.http.services.ownphotos.loadbalancer.server.port=80"
       - "traefik.http.routers.ownphotos-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.ownphotos-http.entrypoints=http"
-{% if not ownphotos.https_only %}
-      - "traefik.http.routers.ownphotos-http.middlewares={% if ownphotos.https_only %}redirect@file, {% else %}{% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.ownphotos-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.ownphotos-http.middlewares={% if ownphotos.https_only %}redirect@file, security-headers@file, {% else %}{% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.ownphotos.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.ownphotos.entrypoints=https"
       - "traefik.http.routers.ownphotos.middlewares={% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
@@ -44,7 +39,7 @@ services:
       - "traefik.http.routers.ownphotos-tor-http.entrypoints=http"
       - "traefik.http.routers.ownphotos-tor-http.middlewares={% if ownphotos.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-      
+
   ownphotos-db:
     image: postgres
     networks:
@@ -88,7 +83,7 @@ services:
       - REDIS_HOST=ownphotos-redis
       - REDIS_PORT=6379
       - MAPBOX_API_KEY={{ mapbox_api_key }}
-  
+
   ownphotos-redis:
     networks:
       - traefik_network

@@ -25,12 +25,7 @@ services:
       - "traefik.http.services.thelounge.loadbalancer.server.port=9000"
       - "traefik.http.routers.thelounge-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.thelounge-http.entrypoints=http"
-{% if not thelounge.https_only %}
-      - "traefik.http.routers.thelounge-http.middlewares={% if thelounge.https_only %}redirect@file, {% else %}{% if thelounge.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.thelounge-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.thelounge-http.middlewares={% if thelounge.https_only %}redirect@file, security-headers@file, {% else %}{% if thelounge.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.thelounge.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.thelounge.entrypoints=https"
       - "traefik.http.routers.thelounge.middlewares={% if thelounge.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

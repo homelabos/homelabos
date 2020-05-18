@@ -143,6 +143,7 @@ nav:
       - Heimdall: software/heimdall.md
       - Homedash: software/homedash.md
       - Organizr: software/organizr.md
+      - SUI: software/sui.md
     - Photo and Video Galleries:
       - Digikam: software/digikam.md
       - OwnPhotos: software/ownphotos.md
@@ -151,7 +152,7 @@ nav:
       - Pixelfed: software/pixelfed.md
     - Read it Later Lists:
       - Wallabag: software/wallabag.md
-    - Social Networking: 
+    - Social Networking:
       - Pleroma: software/pleroma.md
     - Software Development:
       - Codeserver: software/codeserver.md

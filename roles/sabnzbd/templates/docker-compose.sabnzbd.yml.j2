@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -29,12 +29,7 @@ services:
       - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"
       - "traefik.http.routers.sabnzbd-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.sabnzbd-http.entrypoints=http"
-{% if not sabnzbd.https_only %}
-      - "traefik.http.routers.sabnzbd-http.middlewares={% if sabnzbd.https_only %}redirect@file, {% else %}{% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.sabnzbd-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.sabnzbd-http.middlewares={% if sabnzbd.https_only %}redirect@file, security-headers@file, {% else %}{% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.sabnzbd.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.sabnzbd.entrypoints=https"
       - "traefik.http.routers.sabnzbd.middlewares={% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
@@ -51,4 +46,3 @@ services:
       - "traefik.http.routers.sabnzbd-tor-http.entrypoints=http"
       - "traefik.http.routers.sabnzbd-tor-http.middlewares={% if sabnzbd.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-

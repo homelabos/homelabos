@@ -53,12 +53,7 @@ services:
       - "traefik.http.services.transmission.loadbalancer.server.port=9091"
       - "traefik.http.routers.transmission-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.transmission-http.entrypoints=http"
-{% if not transmission.https_only %}
-      - "traefik.http.routers.transmission-http.middlewares={% if transmission.https_only %}redirect@file, {% else %}{% if transmission.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.transmission-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.transmission-http.middlewares={% if transmission.https_only %}redirect@file, security-headers@file, {% else %}{% if transmission.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.transmission.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.transmission.entrypoints=https"
       - "traefik.http.routers.transmission.middlewares={% if transmission.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

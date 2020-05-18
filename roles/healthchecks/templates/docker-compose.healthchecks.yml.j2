@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -35,12 +35,7 @@ services:
       - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
       - "traefik.http.routers.healthchecks-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.healthchecks-http.entrypoints=http"
-{% if not healthchecks.https_only %}
-      - "traefik.http.routers.healthchecks-http.middlewares={% if healthchecks.https_only %}redirect@file, {% else %}{% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.healthchecks-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.healthchecks-http.middlewares={% if healthchecks.https_only %}redirect@file, security-headers@file, {% else %}{% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.healthchecks.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.healthchecks.entrypoints=https"
       - "traefik.http.routers.healthchecks.middlewares={% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

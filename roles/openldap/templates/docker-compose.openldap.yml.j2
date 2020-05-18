@@ -37,12 +37,7 @@ services:
       - "traefik.http.services.openldap.loadbalancer.server.port=0"
       - "traefik.http.routers.openldap-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.openldap-http.entrypoints=http"
-{% if not openldap.https_only %}
-      - "traefik.http.routers.openldap-http.middlewares={% if openldap.https_only %}redirect@file, {% else %}{% if openldap.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.openldap-http.middlewares=redirect-to-https"
-{% endif %}
+      - "traefik.http.routers.openldap-http.middlewares={% if openldap.https_only %}redirect@file, security-headers@file, {% else %}{% if openldap.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
       - "traefik.http.routers.openldap.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.openldap.entrypoints=https"
       - "traefik.http.routers.openldap.middlewares={% if openldap.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"

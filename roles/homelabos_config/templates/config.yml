@@ -142,7 +142,7 @@ chowdown:
   auth: {{ chowdown.auth | default(False) }}
   domain: {{ chowdown.domain | default(False) }}
   subdomain: {{ chowdown.subdomain | default("chowdown") }}
-cockpit: 
+cockpit:
   enable: {{ cockpit.enable | default(enable_cockpit, None) | default(False) }}
 codeserver:
   enable: {{ codeserver.enable | default(enable_codeserver, None) | default(False) }}
@@ -419,7 +419,7 @@ minecraft:
   auth: {{ minecraft.auth | default(False) }}
   domain: {{ minecraft.domain | default(False) }}
   subdomain: {{ minecraft.subdomain | default("minecraft") }}
-  online_mode: {{ minecraft.online_mode | default(True) }} 
+  online_mode: {{ minecraft.online_mode | default(True) }}
   server_type: {{ minecraft.server_type | default("VANILLA") }}
   server_version: {{ minecraft.server_version | default("LATEST") }}
 minecraftbedrockserver:
@@ -667,6 +667,12 @@ statping:
   https_only: {{ statping.https_only | default(False) }}
   auth: {{ statping.auth | default(False) }}
   subdomain: {{ statping.subdomain | default("statping")}}
+sui:
+  enable: {{ sui.enable | default(enable_sui, None) | default(False) }}
+  https_only: {{ sui.https_only | default(False) }}
+  auth: {{ sui.auth | default(False) }}
+  domain: {{ sui.domain | default(False) }}
+  subdomain: {{ sui.subdomain | default("sui")}}
 syncthing:
   enable: {{ syncthing.enable | default(enable_syncthing, None) | default(False) }}
   https_only: {{ syncthing.https_only | default(False) }}
