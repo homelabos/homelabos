@@ -14,7 +14,7 @@
 
 - name: Find the IP address of the docker host from within traefik
   shell: >
-    docker-compose -f {{volumes_root}}/traefik/docker-compose.traefik.yml run --rm traefik route | awk '/^default/ { print $2 }'
+    docker-compose -f {{volumes_root}}/traefik/docker-compose.yml run --rm traefik route | awk '/^default/ { print $2 }'
   register: host_ip
 
 - name: Copy cockpit.conf into place
