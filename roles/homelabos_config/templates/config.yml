@@ -672,6 +672,7 @@ statping:
   enable: {{ statping.enable | default(enable_statping, None) | default(False) }}
   https_only: {{ statping.https_only | default(False) }}
   auth: {{ statping.auth | default(False) }}
+  domain: {{ statping.domain | default(False) }}
   subdomain: {{ statping.subdomain | default("statping")}}
 sui:
   enable: {{ sui.enable | default(enable_sui, None) | default(False) }}
