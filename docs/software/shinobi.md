@@ -4,8 +4,7 @@
 
 Login at [https://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/super](https://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/super) with the username and password you configured.
 
-Username : {{ default_username }}
-Password : {{ default_password }}
+The login credentials are the default username and password you created for services during the initial config.
 
 Follow the [Shinobi documentiton](https://shinobi.video/docs/start#content-account-management) for the rest of the setup and configuration.
 
