@@ -637,6 +637,12 @@ searx:
   auth: {{ searx.auth | default(False) }}
   domain: {{ searx.domain | default(False) }}
   subdomain: {{ searx.subdomain | default("searx") }}
+shinobi:
+  enable: {{ shinobi.enable | default(enable_shinobi, None) | default(False) }}
+  https_only: {{ shinobi.https_only | default(False) }}
+  auth: {{ shinobi.auth | default(False) }}
+  domain: {{ shinobi.domain | default(False) }}
+  subdomain: {{ shinobi.subdomain | default("shinobi")}}
 sickchill:
   enable: {{ sickchill.enable | default(enable_sickchill, None) | default(False) }}
   https_only: {{ sickchill.https_only | default(False) }}
