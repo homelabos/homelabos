@@ -18,8 +18,8 @@ services:
       - DB_DATABASE=firefly_db
       - DB_USERNAME=firefly_db
       - DB_PORT=5432
-      - DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=digits') }}
-      - APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=digits length=32') }}
+      - DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
+      - APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=ascii_letters length=32') }}
       # Using heroku as APP_ENV, just to ensure generated URIs start with HTTPS, leveraging:
       # https://github.com/firefly-iii/firefly-iii/blob/master/app/Providers/AppServiceProvider.php#L42
       # This fixes issue with SSL termination at traefik, and forces HTTPS URIs everywhere
@@ -60,7 +60,7 @@ services:
       - "traefik.http.routers.firefly_iii.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.firefly_iii-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.firefly_iii-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.firefly_iii-tor-http.entrypoints=http"
       - "traefik.http.routers.firefly_iii-tor-http.middlewares={% if firefly_iii.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -69,7 +69,7 @@ services:
     image: "postgres:12"
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=digits') }}
+      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
       - POSTGRES_USER=firefly_db
       - POSTGRES_DB=firefly_db
     networks:

@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.freshrss.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.freshrss-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.freshrss-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.freshrss-tor-http.entrypoints=http"
       - "traefik.http.routers.freshrss-tor-http.middlewares={% if freshrss.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -54,7 +54,7 @@ services:
 #    environment:
 #      - POSTGRES_USER=freshrss
 #      - POSTGRES_DB=freshrss
-#      - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/freshrss_db_password chars=digits')}}"
+#      - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/freshrss_db_password chars=ascii_letters')}}"
 #      - POSTGRES_PASSWORD=freshrss
 #    volumes:
 #      - "{{ volumes_root }}/freshrss/db:/var/lib/postgresql/data"

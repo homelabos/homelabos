@@ -92,7 +92,7 @@ services:
       - "traefik.http.routers.erpnext.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.erpnext-tor-http.entrypoints=http"
       - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

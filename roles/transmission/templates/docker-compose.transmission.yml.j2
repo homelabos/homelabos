@@ -66,7 +66,7 @@ services:
       - "traefik.http.routers.transmission.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.transmission-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.transmission-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.transmission-tor-http.entrypoints=http"
       - "traefik.http.routers.transmission-tor-http.middlewares={% if transmission.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

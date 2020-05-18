@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.statping.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.statping-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.statping-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.statping-tor-http.entrypoints=http"
       - "traefik.http.routers.statping-tor-http.middlewares={% if statping.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

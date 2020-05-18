@@ -16,8 +16,8 @@ services:
       - traefik_network
     environment:
       - POSTGRES_USER=pleroma
-      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/pleroma_db_password chars=digits')}}
-      - DB_PASS={{lookup('password', './settings/passwords/pleroma_db_password chars=digits')}}
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/pleroma_db_password chars=ascii_letters')}}
+      - DB_PASS={{lookup('password', './settings/passwords/pleroma_db_password chars=ascii_letters')}}
       - POSTGRES_DB=pleroma
     volumes:
       - ./postgres:/var/lib/postgresql/data
@@ -34,7 +34,7 @@ services:
       - db
     environment:
       - POSTGRES_USER=pleroma
-      - DB_PASS={{lookup('password', './settings/passwords/pleroma_db_password chars=digits')}}
+      - DB_PASS={{lookup('password', './settings/passwords/pleroma_db_password chars=ascii_letters')}}
       - POSTGRES_DB=pleroma
     labels:
       - "traefik.enable=true"
@@ -56,7 +56,7 @@ services:
       - "traefik.http.routers.pleroma.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.pleroma-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.pleroma-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.pleroma-tor-http.entrypoints=http"
       - "traefik.http.routers.pleroma-tor-http.middlewares={% if pleroma.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

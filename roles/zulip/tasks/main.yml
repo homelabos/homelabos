@@ -10,9 +10,9 @@
     dest: "{{ volumes_root }}/zulip/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    zulip_postgres_pass: "{{lookup('password', './settings/passwords/zulip_postgres_pass chars=digits')}}"
-    zulip_rabbitmq_pass: "{{lookup('password', './settings/passwords/zulip_rabbitmq_pass chars=digits')}}"
-    zulip_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=digits')}}"
+    zulip_postgres_pass: "{{lookup('password', './settings/passwords/zulip_postgres_pass chars=ascii_letters')}}"
+    zulip_rabbitmq_pass: "{{lookup('password', './settings/passwords/zulip_rabbitmq_pass chars=ascii_letters')}}"
+    zulip_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
 
 - name: Configure zulip systemd service.
   template:

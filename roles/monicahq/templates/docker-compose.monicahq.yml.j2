@@ -22,8 +22,8 @@ services:
     env_file:
       - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
-      - APP_KEY="{{lookup('password', './settings/passwords/monicahq_app_key chars=digits length=32')}}"
-      - DB_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
+      - APP_KEY="{{lookup('password', './settings/passwords/monicahq_app_key chars=ascii_letters length=32')}}"
+      - DB_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters')}}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -44,7 +44,7 @@ services:
       - "traefik.http.routers.monicahq.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.monicahq-tor-http.entrypoints=http"
       - "traefik.http.routers.monicahq-tor-http.middlewares={% if monicahq.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -57,6 +57,6 @@ services:
     env_file:
       - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters')}}"
     volumes:
       - "{{ volumes_root }}/monicahq/mysql:/var/lib/mysql"

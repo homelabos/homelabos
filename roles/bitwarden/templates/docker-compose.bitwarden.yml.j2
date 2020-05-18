@@ -52,7 +52,7 @@ services:
       - "traefik.http.routers.bitwarden.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.bitwarden-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.bitwarden-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.bitwarden-tor-http.entrypoints=http"
       - "traefik.http.routers.bitwarden-tor-http.middlewares={% if bitwarden.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

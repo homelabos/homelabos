@@ -51,7 +51,7 @@ services:
       - "traefik.http.routers.calibre.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.calibre-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.calibre-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.calibre-tor-http.entrypoints=http"
       - "traefik.http.routers.calibre-tor-http.middlewares={% if calibre.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

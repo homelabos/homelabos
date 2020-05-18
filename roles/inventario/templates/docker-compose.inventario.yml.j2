@@ -17,7 +17,7 @@ services:
       - MYSQL_DATABASE=inventario
       - MYSQL_TEST_DATABASE=inventario_test
       - MYSQL_USER=inventario
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_password chars=ascii_letters')}}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.inventario.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.inventario-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.inventario-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.inventario-tor-http.entrypoints=http"
       - "traefik.http.routers.inventario-tor-http.middlewares={% if inventario.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -51,8 +51,8 @@ services:
     volumes:
       - "{{ volumes_root }}/inventario_db:/var/lib/mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_root_password chars=digits')}}"
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_password chars=digits')}}"
+      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_root_password chars=ascii_letters')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_password chars=ascii_letters')}}"
       - MYSQL_DATABASE=inventario
       - MYSQL_TEST_DATABASE=inventario_test
       - MYSQL_USER=inventario

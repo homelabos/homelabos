@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.matomo.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.matomo-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.matomo-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.matomo-tor-http.entrypoints=http"
       - "traefik.http.routers.matomo-tor-http.middlewares={% if matomo.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -50,5 +50,5 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=matomo
       - MYSQL_USER=matomo
-      - MYSQL_PASSWORD={{lookup('password', './settings/passwords/matomo_db_password chars=digits')}}
+      - MYSQL_PASSWORD={{lookup('password', './settings/passwords/matomo_db_password chars=ascii_letters')}}
       - MYSQL_DATABASE=matomo

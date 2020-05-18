@@ -50,7 +50,7 @@ services:
       - "traefik.http.routers.phpldapadmin.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.phpldapadmin-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.phpldapadmin-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.phpldapadmin-tor-http.entrypoints=http"
       - "traefik.http.routers.phpldapadmin-tor-http.middlewares={% if phpldapadmin.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

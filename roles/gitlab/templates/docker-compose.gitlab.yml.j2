@@ -136,7 +136,7 @@ services:
       - "traefik.http.routers.gitlab.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.gitlab-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.gitlab-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.gitlab-tor-http.entrypoints=http"
       - "traefik.http.routers.gitlab-tor-http.middlewares={% if gitlab.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -216,7 +216,7 @@ services:
       - "traefik.http.routers.registry.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.registry-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.registry-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.registry-tor-http.entrypoints=http"
       - "traefik.http.routers.registry-tor-http.middlewares={% if gitlab.registry.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

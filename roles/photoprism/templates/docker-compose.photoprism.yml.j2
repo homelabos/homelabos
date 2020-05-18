@@ -29,9 +29,9 @@ services:
       #PHOTOPRISM_READONLY: "false"
       #PHOTOPRISM_PUBLIC: "false"
       # Plain text or bcrypt hash (escape "$" with "$$")
-      PHOTOPRISM_ADMIN_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=digits')}}"
+      PHOTOPRISM_ADMIN_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=ascii_letters')}}"
       # Plain text only (username "photoprism")
-      PHOTOPRISM_WEBDAV_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=digits')}}"
+      PHOTOPRISM_WEBDAV_PASSWORD: "{{lookup('password', './settings/passwords/photoPrism_password chars=ascii_letters')}}"
     volumes:
       - "{{ storage_dir }}/Pictures:/photoprism/originals" # [local path]:[container path]
       - "{{ storage_dir }}/Pictures/PhotoPrismImport:/photoprism/import" # [local path]:[container path] (optional)
@@ -57,7 +57,7 @@ services:
       - "traefik.http.routers.photoprism.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.photoprism-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.photoprism-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.photoprism-tor-http.entrypoints=http"
       - "traefik.http.routers.photoprism-tor-http.middlewares={% if photoprism.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

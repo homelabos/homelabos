@@ -20,7 +20,7 @@ config :pleroma, :media_proxy,
 config :pleroma, Pleroma.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "pleroma",
-  password: "{{lookup('password', './settings/passwords/pleroma_db_password chars=digits')}}",
+  password: "{{lookup('password', './settings/passwords/pleroma_db_password chars=ascii_letters')}}",
   database: "pleroma",
   hostname: "pleromadb",
   pool_size: 20

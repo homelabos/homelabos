@@ -62,7 +62,7 @@ services:
       - "traefik.http.routers.chronograf.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.chronograf-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.chronograf-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.chronograf-tor-http.entrypoints=http"
       - "traefik.http.routers.chronograf-tor-http.middlewares={% if tick.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

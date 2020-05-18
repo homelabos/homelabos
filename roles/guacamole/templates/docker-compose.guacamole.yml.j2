@@ -24,7 +24,7 @@ services:
       - "{{ volumes_root }}/guacamole/dbdata:/var/lib/postgresql/data"
     environment:
       POSTGRES_USER: guacpostgress
-      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=digits')}}"
+      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=ascii_letters')}}"
     depends_on:
       - init-guacamole-db
 
@@ -46,7 +46,7 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_DATABASE: guacpostgress
       POSTGRES_USER: guacpostgress
-      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=digits')}}"
+      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=ascii_letters')}}"
     depends_on:
       - postgres
       - guacd
@@ -70,7 +70,7 @@ services:
       - "traefik.http.routers.guacamole.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.guacamole-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.guacamole-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.guacamole-tor-http.entrypoints=http"
       - "traefik.http.routers.guacamole-tor-http.middlewares={% if guacamole.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

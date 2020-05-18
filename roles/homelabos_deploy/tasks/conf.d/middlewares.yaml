@@ -29,7 +29,6 @@ http:
     security-headers:
       headers:
         stsSeconds: 31536000
-        forceSTSHeader: true
         browserXssFilter: true
         contentTypeNosniff: true
         frameDeny: true

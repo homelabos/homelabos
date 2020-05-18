@@ -33,7 +33,7 @@ services:
       - "traefik.http.routers.pixelfed.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.pixelfed-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.pixelfed-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.pixelfed-tor-http.entrypoints=http"
       - "traefik.http.routers.pixelfed-tor-http.middlewares={% if pixelfed.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -62,7 +62,7 @@ services:
     environment:
       - MYSQL_DATABASE=pixelfed
       - MYSQL_USER=pixelfed
-      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/pixelfed_db_password chars=digits length=15') }}
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/pixelfed_db_password chars=ascii_letters length=15') }}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     volumes:
       - "{{ volumes_root }}/pixelfed/mariadb:/var/lib/mysql"
@@ -75,4 +75,4 @@ services:
     networks:
       - traefik_network
     command: >
-     --requirepass {{ lookup('password', './settings/passwords/pixelfed_redis_password chars=digits length=15') }}
+     --requirepass {{ lookup('password', './settings/passwords/pixelfed_redis_password chars=ascii_letters length=15') }}

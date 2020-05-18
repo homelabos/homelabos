@@ -16,7 +16,7 @@
     src: monicahq.env.j2
     dest: "{{ volumes_root }}/monicahq/monicahq.env"
   vars:
-    monicahq_db_password: "{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
+    monicahq_db_password: "{{lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters')}}"
 
 - name: Configure monicahq systemd service.
   template:

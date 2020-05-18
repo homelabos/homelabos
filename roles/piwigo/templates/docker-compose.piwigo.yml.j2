@@ -46,7 +46,7 @@ services:
       - "traefik.http.routers.piwigo.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.piwigo-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.piwigo-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.piwigo-tor-http.entrypoints=http"
       - "traefik.http.routers.piwigo-tor-http.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -59,7 +59,7 @@ services:
     volumes:
       - "{{ volumes_root }}/piwigo/mysql/:/var/lib/mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/piwigo_root_db_password chars=digits')}}"
+      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/piwigo_root_db_password chars=ascii_letters')}}"
       - MYSQL_DATABASE=piwigo
       - MYSQL_USER=piwigo
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/piwigo_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/piwigo_db_password chars=ascii_letters')}}"
