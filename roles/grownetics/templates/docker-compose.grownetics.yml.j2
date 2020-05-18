@@ -115,7 +115,7 @@ services:
         - "traefik.http.routers.grownetics.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-        - "traefik.http.routers.grownetics-tor-http.rule=Host(`{{ service_domain }}`)"
+        - "traefik.http.routers.grownetics-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
         - "traefik.http.routers.grownetics-tor-http.entrypoints=http"
         - "traefik.http.routers.grownetics-tor-http.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

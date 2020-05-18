@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.elkstack.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.elkstack-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.elkstack-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.elkstack-tor-http.entrypoints=http"
       - "traefik.http.routers.elkstack-tor-http.middlewares={% if elkstack.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

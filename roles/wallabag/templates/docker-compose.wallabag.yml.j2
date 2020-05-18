@@ -55,7 +55,7 @@ services:
       - "traefik.http.routers.wallabag.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.wallabag-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.wallabag-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.wallabag-tor-http.entrypoints=http"
       - "traefik.http.routers.wallabag-tor-http.middlewares={% if wallabag.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

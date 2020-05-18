@@ -60,7 +60,7 @@ services:
       - "traefik.http.routers.firefly_iii.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.firefly_iii-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.firefly_iii-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.firefly_iii-tor-http.entrypoints=http"
       - "traefik.http.routers.firefly_iii-tor-http.middlewares={% if firefly_iii.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

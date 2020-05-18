@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.chowdown.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.chowdown-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.chowdown-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.chowdown-tor-http.entrypoints=http"
       - "traefik.http.routers.chowdown-tor-http.middlewares={% if chowdown.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.beets.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.beets-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.beets-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.beets-tor-http.entrypoints=http"
       - "traefik.http.routers.beets-tor-http.middlewares={% if beets.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -40,7 +40,7 @@ services:
       - "traefik.http.routers.snibox.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.snibox-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.snibox-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.snibox-tor-http.entrypoints=http"
       - "traefik.http.routers.snibox-tor-http.middlewares={% if snibox.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

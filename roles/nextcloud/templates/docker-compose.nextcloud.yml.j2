@@ -52,7 +52,7 @@ services:
       - "traefik.http.routers.nextcloud.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.nextcloud-tor-http.entrypoints=http"
       - "traefik.http.routers.nextcloud-tor-http.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -35,7 +35,7 @@ services:
       - "traefik.http.routers.ownphotos.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.ownphotos-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.ownphotos-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.ownphotos-tor-http.entrypoints=http"
       - "traefik.http.routers.ownphotos-tor-http.middlewares={% if ownphotos.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

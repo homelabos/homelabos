@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.homedash.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.homedash-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.homedash-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.homedash-tor-http.entrypoints=http"
       - "traefik.http.routers.homedash-tor-http.middlewares={% if homedash.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

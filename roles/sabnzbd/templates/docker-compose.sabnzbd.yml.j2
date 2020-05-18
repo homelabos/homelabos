@@ -42,7 +42,7 @@ services:
       - "traefik.http.routers.sabnzbd.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.sabnzbd-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.sabnzbd-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.sabnzbd-tor-http.entrypoints=http"
       - "traefik.http.routers.sabnzbd-tor-http.middlewares={% if sabnzbd.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

@@ -54,7 +54,7 @@ services:
       - "traefik.http.routers.plex.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.plex-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.plex-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.plex-tor-http.entrypoints=http"
       - "traefik.http.routers.plex-tor-http.middlewares={% if plex.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}

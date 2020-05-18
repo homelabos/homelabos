@@ -44,7 +44,7 @@ services:
       - "traefik.http.routers.monicahq.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.monicahq-tor-http.entrypoints=http"
       - "traefik.http.routers.monicahq-tor-http.middlewares={% if monicahq.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
