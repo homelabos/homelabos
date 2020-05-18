@@ -22,8 +22,8 @@ services:
     env_file:
       - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
-      - APP_KEY="{{lookup('password', './settings/passwords/monicahq_app_key chars=digits length=32')}}"
-      - DB_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
+      - APP_KEY="{{lookup('password', './settings/passwords/monicahq_app_key chars=ascii_letters length=32')}}"
+      - DB_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters')}}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -57,6 +57,6 @@ services:
     env_file:
       - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters')}}"
     volumes:
       - "{{ volumes_root }}/monicahq/mysql:/var/lib/mysql"

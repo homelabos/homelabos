@@ -71,10 +71,10 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_root_password chars=digits') }}
+      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_root_password chars=ascii_letters') }}
       - MYSQL_USER=gitea
       - MYSQL_DATABASE=gitea
-      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_password chars=digits') }}
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_password chars=ascii_letters') }}
     volumes:
       - "{{ volumes_root }}/gitea_db:/var/lib/mysql"
 {% endif %}

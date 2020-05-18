@@ -13,7 +13,7 @@ services:
     image: "massivedecks/server:latest"
     environment:
         - NODE_ENV=production
-        - MD_SECRET={{"lookup('password', './settings/passwords/massivedecks_md_secret chars=digits')"}}
+        - MD_SECRET={{"lookup('password', './settings/passwords/massivedecks_md_secret chars=ascii_letters')"}}
     networks:
         - traefik_network
     restart: unless-stopped

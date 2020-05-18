@@ -17,7 +17,7 @@ services:
       - MYSQL_DATABASE=mashio
       - MYSQL_TEST_DATABASE=mashio_test
       - MYSQL_USER=mashio
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_password chars=ascii_letters')}}"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -51,8 +51,8 @@ services:
     volumes:
       - "{{ volumes_root }}/mashio_db:/var/lib/mysql"
     environment:
-      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_root_password chars=digits')}}"
+      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_root_password chars=ascii_letters')}}"
       - MYSQL_DATABASE=mashio
       - MYSQL_TEST_DATABASE=mashio_test
       - MYSQL_USER=mashio
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_password chars=digits')}}"
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_password chars=ascii_letters')}}"

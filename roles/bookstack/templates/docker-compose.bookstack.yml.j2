@@ -13,10 +13,10 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-    - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_root_password chars=digits')}}
+    - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_root_password chars=ascii_letters')}}
     - MYSQL_DATABASE=bookstack
     - MYSQL_USER=bookstack
-    - MYSQL_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}
+    - MYSQL_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=ascii_letters')}}
     volumes:
     - "{{ volumes_root }}/bookstack/mysql-data:/var/lib/mysql"
 
@@ -31,7 +31,7 @@ services:
     - DB_HOST=mysql:3306
     - DB_DATABASE=bookstack
     - DB_USERNAME=bookstack
-    - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=digits')}}
+    - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=ascii_letters')}}
     - APP_URL=https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}
 
     volumes:

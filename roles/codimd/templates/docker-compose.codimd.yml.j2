@@ -14,7 +14,7 @@ services:
       - traefik_network
     image: postgres:9.6-alpine
     environment:
-      # MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=digits')"}}
+      # MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters')"}}
       - POSTGRES_USER=codimd
       - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}
       - POSTGRES_DB=codimd
