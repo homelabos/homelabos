@@ -27,21 +27,21 @@
     group: 999
     recurse: yes
 
-    - name: Configure Graylog's journal directory permissions
-    file:
-      state: directory
-      path: "{{ volumes_root }}/graylog/graylog_journal"
-      owner: 1100
-      group: 1100
-      recurse: yes
+- name: Configure Graylog's journal directory permissions
+  file:
+    state: directory
+    path: "{{ volumes_root }}/graylog/graylog_journal"
+    owner: 1100
+    group: 1100
+    recurse: yes
 
-      - name: Configure  Graylog's plugin directory permissions
-      file:
-        state: directory
-        path: "{{ volumes_root }}/graylog/graylog_plugin"
-        owner: 1100
-        group: 1100
-        recurse: yes
+- name: Configure  Graylog's plugin directory permissions
+  file:
+    state: directory
+    path: "{{ volumes_root }}/graylog/graylog_plugin"
+    owner: 1100
+    group: 1100
+    recurse: yes
 
 - name: Generate new sha256 compatible password.
   shell: echo -n {{ default_password }} | shasum -a 256|awk '{ print $0 }'|cut -d ' ' -f 1
