@@ -4,7 +4,8 @@
 
 ## Access
 
-The server is available at [https://turtl.{{ domain }}/](https://turtl.{{ domain }}/) or [http://turtl.{{ domain }}/](http://turtl.{{ domain }}/)
+
+It is available at [https://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ turtl.subdomain + "." + domain }}{% endif %}/](https://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ turtl.subdomain + "." + domain }}{% endif %}/) or [http://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ turtl.subdomain + "." + domain }}{% endif %}/](http://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ turtl.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
 It is also available via Tor at [http://turtl.{{ tor_domain }}/](http://turtl.{{ tor_domain }}/)

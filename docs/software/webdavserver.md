@@ -10,7 +10,7 @@ It is strongly recommended to only allow access over https.
 
 ## Access
 
-It is available at [https://webdav.{{ domain }}/](https://webdav.{{ domain }}/) or [http://webdav.{{ domain }}/](http://webdav.{{ domain }}/)
+It is available at [https://{% if webdavserver.domain %}{{ webdavserver.domain }}{% else %}{{ webdavserver.subdomain + "." + domain }}{% endif %}/](https://{% if webdavserver.domain %}{{ webdavserver.domain }}{% else %}{{ webdavserver.subdomain + "." + domain }}{% endif %}/) or [http://{% if webdavserver.domain %}{{ webdavserver.domain }}{% else %}{{ webdavserver.subdomain + "." + domain }}{% endif %}/](http://{% if webdavserver.domain %}{{ webdavserver.domain }}{% else %}{{ webdavserver.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
 It is also available via Tor at [http://webdav.{{ tor_domain }}/](http://webdav.{{ tor_domain }}/)

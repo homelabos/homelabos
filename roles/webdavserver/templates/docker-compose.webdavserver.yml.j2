@@ -17,7 +17,7 @@ services:
     environment:
       - AUTH_TYPE=Digest
       - USERNAME={{ default_username }}
-      - PASSWORD={{ lookup('password', './settings/passwords/webdav_password chars=digits') }}
+      - PASSWORD={{ lookup('password', './settings/passwords/webdav_password chars=ascii_letters,digits') }}
       - LOCATION=/
     networks:
       - traefik_network
@@ -26,7 +26,7 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.webdavserver.loadbalancer.server.scheme=http"
       - "traefik.http.services.webdavserver.loadbalancer.server.port=80"
-      - "traefik.http.routers.webdavserver-http.rule=Host(`{{ webdavserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.webdavserver-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.webdavserver-http.entrypoints=http"
 {% if not webdavserver.https_only %}
       - "traefik.http.routers.webdavserver-http.middlewares={% if webdavserver.https_only %}redirect@file, {% else %}{% if webdavserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -34,7 +34,7 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.webdavserver-http.middlewares=redirect-to-https"
 {% endif %}
-      - "traefik.http.routers.webdavserver.rule=Host(`{{ webdavserver.subdomain }}.{{ domain }}`)"
+      - "traefik.http.routers.webdavserver.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.webdavserver.entrypoints=https"
       - "traefik.http.routers.webdavserver.middlewares={% if webdavserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.webdavserver.tls=true"

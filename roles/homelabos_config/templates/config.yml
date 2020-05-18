@@ -719,6 +719,7 @@ turtl:
   enable: {{ turtl.enable | default(enable_turtl, None) | default(False) }}
   https_only: {{ turtl.https_only | default(False) }}
   auth: {{ turtl.auth | default(False) }}
+  domain: {{ turtl.domain| default(False) }}
   subdomain: {{ turtl.subdomain | default("turtl")}}
 ubooquity:
   enable: {{ ubooquity.enable | default(enable_ubooquity, None) | default(False) }}
@@ -754,6 +755,7 @@ webdavserver:
   enable: {{ webdavserver.enable | default(enable_webdavserver, None) | default(False) }}
   https_only: {{ webdavserver.https_only | default(False) }}
   auth: {{ webdavserver.auth | default(False) }}
+  domain: {{ webdavserver.domain| default(False) }}
   subdomain: {{ webdavserver.subdomain | default("webdav")}}
 webvirtmgr:
   enable: {{ webvirtmgr.enable | default(enable_webvirtmgr, None) | default(False) }}
