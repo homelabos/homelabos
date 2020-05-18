@@ -1,13 +1,16 @@
 ---
 - name: Make wallabag directory.
   file:
-    path: "{{ volumes_root }}/wallabag/{{ item }}"
+    path: "{{ item }}"
     state: directory
-  with_item: ["data", "images", "db"]
+  loop:
+    - "{{ volumes_root }}/wallabag/data"
+    - "{{ volumes_root }}/wallabag/images"
+    - "{{ volumes_root }}/wallabag/db"
 
 # Migration v0.7
 - name: folder wallabag_db present
-  stat: path={{ volumes_root }}/nextcloud_db
+  stat: path={{ volumes_root }}/wallabag_db
   register: folder_present
 
 - name: Stop wallabag
