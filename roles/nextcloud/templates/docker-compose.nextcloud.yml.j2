@@ -25,7 +25,7 @@ services:
       - DB_TYPE=mysql
       - DB_NAME=nextcloud
       - DB_USER=nextcloud
-      - DB_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=digits')}}"
+      - DB_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}"
       - DB_HOST=nextcloud-db
     volumes:
       - "{{ volumes_root }}/nextcloud/config:/config"
@@ -37,15 +37,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.nextcloud.loadbalancer.server.scheme=http"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=8888"
-      - "traefik.http.routers.nextcloud-http.rule=Host(`{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.nextcloud-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.nextcloud-http.entrypoints=http"
-{% if not nextcloud.https_only %}
-      - "traefik.http.routers.nextcloud-http.middlewares={% if nextcloud.https_only %}redirect@file, {% else %}{% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.nextcloud-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.nextcloud.rule=Host(`{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.nextcloud-http.middlewares={% if nextcloud.https_only %}redirect@file, security-headers@file, {% else %}{% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.nextcloud.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.nextcloud.entrypoints=https"
       - "traefik.http.routers.nextcloud.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.nextcloud.tls=true"
@@ -57,7 +52,7 @@ services:
       - "traefik.http.routers.nextcloud.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
-      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`{{ nextcloud.subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
       - "traefik.http.routers.nextcloud-tor-http.entrypoints=http"
       - "traefik.http.routers.nextcloud-tor-http.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
@@ -71,8 +66,7 @@ services:
       - "{{ volumes_root }}/nextcloud/db:/var/lib/mysql"
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_root_password chars=digits')}}"
+      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_root_password chars=ascii_letters')}}"
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=digits')}}"
-
+      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}"

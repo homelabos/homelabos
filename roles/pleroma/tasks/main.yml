@@ -1,0 +1,56 @@
+---
+- name: Make pleroma directory.
+  file:
+    path: "{{ volumes_root }}/pleroma"
+    state: directory
+
+- name: Copy pleroma docker-compose.yml file into place.
+  template:
+    src: docker-compose.pleroma.yml.j2
+    dest: "{{ volumes_root }}/pleroma/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure upload directory
+  file:
+    state: directory
+    path: "{{ volumes_root }}/pleroma/upload"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    recurse: yes
+
+- name: Configure config directory
+  file:
+    state: directory
+    path: "{{ volumes_root }}/pleroma/config"
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
+    recurse: yes
+
+- name: Generate Pleroma Secret Key Base
+  shell: >
+    openssl rand -base64 48
+  register: secret_key
+
+- name: Copy Secret.exs into place.
+  template:
+    src: secret.exs
+    dest: "{{ volumes_root }}/pleroma/config/secret.exs"
+  vars:
+    secret_key: secret_key
+
+# - name: Install CIText postgres extension
+#   shell: >
+#     docker-compose -f {{ volumes_root}}/pleroma/docker-compose.yml up -d pleromadb; docker-compose -f {{ volumes_root}}/pleroma/docker-compose.yml exec pleromadb psql -U pleroma -c "CREATE EXTENSION IF NOT EXISTS citext;"; docker-compose -f {{ volumes_root}}/pleroma/docker-compose.yml down
+
+- name: Configure pleroma systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/pleroma.service
+
+- name: Start pleroma
+  systemd:
+    name: pleroma
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

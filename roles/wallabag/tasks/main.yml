@@ -1,8 +1,30 @@
 ---
 - name: Make wallabag directory.
   file:
-    path: "{{ volumes_root }}/wallabag"
+    path: "{{ item }}"
     state: directory
+  loop:
+    - "{{ volumes_root }}/wallabag/data"
+    - "{{ volumes_root }}/wallabag/images"
+    - "{{ volumes_root }}/wallabag/db"
+
+# Migration v0.7
+- name: folder wallabag_db present
+  stat: path={{ volumes_root }}/wallabag_db
+  register: folder_present
+
+- name: Stop wallabag
+  systemd:
+    name: wallabag
+    enabled: "no"
+    daemon-reload: "yes"
+    state: stopped
+  when: folder_present.stat.exists
+
+- name: Move wallabag_db to wallabag/db
+  command: mv "{{ volumes_root }}/wallabag_db" "{{ volumes_root }}/wallabag/db"
+  when: folder_present.stat.exists
+# End Migration v0.7 - Thanks to @denis.ev
 
 - name: Copy wallabag docker-compose.yml file into place.
   template:

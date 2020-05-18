@@ -1,7 +1,7 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
+# This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
   traefik_network:
@@ -21,15 +21,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.folding_at_home.loadbalancer.server.scheme=http"
       - "traefik.http.services.folding_at_home.loadbalancer.server.port=7396"
-      - "traefik.http.routers.folding_at_home-http.rule=Host(`{% if folding_at_home.domain %}{{ folding_at_home.domain }}{% else %}{{ folding_at_home.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.folding_at_home-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.folding_at_home-http.entrypoints=http"
-{% if not folding_at_home.https_only %}
-      - "traefik.http.routers.folding_at_home-http.middlewares={% if folding_at_home.https_only %}redirect@file, {% else %}{% if folding_at_home.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.folding_at_home-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.folding_at_home.rule=Host(`{% if folding_at_home.domain %}{{ folding_at_home.domain }}{% else %}{{ folding_at_home.subdomain + "." + domain }}{% endif %}`)"
+      - "traefik.http.routers.folding_at_home-http.middlewares={% if folding_at_home.https_only %}redirect@file, security-headers@file, {% else %}{% if folding_at_home.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.folding_at_home.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.folding_at_home.entrypoints=https"
       - "traefik.http.routers.folding_at_home.middlewares={% if folding_at_home.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.folding_at_home.tls=true"

@@ -1,0 +1,36 @@
+{
+  "title": "Dashboard HomelabOS",
+  "debug": true,
+
+  "appproviders": [
+    { "name": "HomelabOS", "type": "traefik" }
+  ],
+
+  "engines": {
+    "duckduckgo": {
+      "url": "https://duckduckgo.com/?q=",
+      "prefix": "d"
+    }
+  },
+  "bookmarks": {
+    "social": [
+      {
+        "name": "telegram-web",
+        "url": "https://web.telegram.org"
+      }
+    ],
+    "music": [
+      {
+        "name": "spotify",
+        "url": "https://listen.spotify.com"
+      }
+    ],
+    "Homelab": [
+      {
+        "name": "Gitlab HomelabOS",
+        "url": "https://gitlab.com/NickBusey/HomelabOS"
+      }
+    ]
+  },
+  "app_refresh": 20
+}
