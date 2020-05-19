@@ -296,7 +296,6 @@ graylog:
   enable: {{ graylog.enable | default(enable_graylog, None) | default(False) }}
   https_only: {{ graylog.https_only | default(False) }}
   auth: {{ graylog.auth | default(False) }}
-  pwsecret: {{ graylog.pwsecret | default("SecurityWARNING-ChangeME_Please.Minium16CHARS") }}
   domain: {{ graylog.domain | default(False) }}
   subdomain: {{ graylog.subdomain | default("graylog")}}
   allow_highlighting: {{ graylog.allow_highlighting | default(False) }}
