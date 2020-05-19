@@ -49,6 +49,7 @@ services:
   jackett: 
   jellyfin: 
   kibitzr: 
+  lazylibrarian: 
   lidarr: 
   mailu: 
   mashio: 
@@ -160,6 +161,7 @@ inventario:
 jackett: 
 jellyfin: 
 kibitzr: 
+lazylibrarian:
 lidarr: 
 mailu: 
 massivedecks: 
@@ -199,7 +201,7 @@ radarr:
 restic: 
 sabnzbd: 
 searx: 
-shinobi:
+shinobi: 
 sickchill: 
 snibox: 
 sonarr: 

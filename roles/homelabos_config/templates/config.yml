@@ -376,6 +376,12 @@ kibitzr:
   auth: {{ kibitzr.auth | default(False) }}
   domain: {{ kibitzr.domain | default(False) }}
   subdomain: {{ kibitzr.subdomain | default("kibitzr") }}
+lazylibrarian:
+  enable: {{ lazylibrarian.enable | default(enable_lazylibrarian, None) | default(False) }}
+  https_only: {{ lazylibrarian.https_only | default(False) }}
+  auth: {{ lazylibrarian.auth | default(False) }}
+  domain: {{ lazylibrarian.domain | default(False) }}
+  subdomain: {{ lazylibrarian.subdomain | default("lazylibrarian")}}
 lidarr:
   enable: {{ lidarr.enable | default(enable_lidarr, None) | default(False) }}
   https_only: {{ lidarr.https_only | default(False) }}
