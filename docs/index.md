@@ -106,6 +106,7 @@ If you are having problems you can:
 - [Sonarr](software/radarr-sonarr) - Automated TV downloading
 - [Syncthing](software/syncthing) - File syncing software
 - [Transmission](software/transmission) - BitTorrent client
+- [WebDAV](software/webdavserver) - Apache based WebDAV server
 
 ### Games
 
@@ -178,6 +179,7 @@ If you are having problems you can:
 
 - [BulletNotes](software/bulletnotes) - Note taking application
 - [Trilium](software/trilium) - Build your personal knowledge base with Trilium Notes
+- [Turtl](software/turtl) - Note taking application with mobile and desktop apps
 
 ### Password Managers
 

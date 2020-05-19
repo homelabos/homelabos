@@ -75,6 +75,7 @@ nav:
       - SickChill: software/sickchill.md
       - Synchthing: software/syncthing.md
       - Transmission: software/transmission.md
+      - WebDAV: software/webdavserver.md
     - Games:
       - Factorio: software/factorio.md
       - Minecraft: software/minecraft.md
@@ -136,6 +137,7 @@ nav:
     - Note-taking and Editors:
       - BulletNotes: software/bulletnotes.md
       - Trilium: software/trilium.md
+      - Turtl: software/turtl.md
     - Password Managers:
       - Bitwarden: software/bitwarden.md
     - Personal Dashboards:

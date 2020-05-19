@@ -56,8 +56,10 @@
 - Added Tautulli - Monitor your Plex Server
 - Added Tiddlywiki - a unique non-linear notebook for capturing, organizing and sharing complex information
 - Added Trilium - Build your personal knowledge base with Trilium Notes
+- Added Turtl - A note taking API server with E2E encryption
 - Added Ubooquity - Ubooquity is a free home server for your comics and ebooks library
 - Added Watchtower - A process for automating Docker container base image updates
+- Added WebDAV - a WebDAV service for secure http file transfer needs
 - Added WebTrees - Online Genealogy
 - Added Wekan - Open source Kanban board with MIT license
 - Added WireGuard - Replaced tinc with WireGuard for faster Bastion host access
