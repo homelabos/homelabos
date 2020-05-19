@@ -180,6 +180,8 @@ drone:
   auth: {{ drone.auth | default(False) }}
   domain: {{ drone.domain | default(False) }}
   subdomain: {{ drone.subdomain | default("drone") }}
+  gitea_id: {{ vault.drone.gitea_id }}
+  gitea_secret: {{ vault.drone.gitea_secret }}
 duplicati:
   enable: {{ duplicati.enable | default(enable_duplicati, None) | default(False) }}
   https_only: {{ duplicati.https_only | default(False) }}
