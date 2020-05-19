@@ -13,7 +13,7 @@ config: logo build
 # yml file so the first attempt at parsing it succeeds
 	@printf "\x1B[01;93m========== Updating configuration files ==========\n\x1B[0m"
 	@mkdir -p settings/passwords
-	@[ -f ~/.homelabos_vault_pass ] || date +%s | sha256sum | base64 | head -c 32  > ~/.homelabos_vault_pass
+	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
