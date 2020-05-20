@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # MIGRATION v0.7
-if cat settings/vault.yml | egrep -q "vault:|blank_on_purpose:" 
-then
+if egrep -q "vault:|blank_on_purpose:" settings/vault.yml; then
   echo "Vault already migrated to v0.7 - Skipping"
 else
   make decrypt || true
