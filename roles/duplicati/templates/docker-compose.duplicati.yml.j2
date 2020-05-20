@@ -14,6 +14,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
+      - CLI_ARGS=--webservice-password={{ default_password }}
     volumes:
       - "{{ volumes_root }}/duplicati/config:/config"
       - "{{ volumes_root }}/duplicati/backups:/backups"
