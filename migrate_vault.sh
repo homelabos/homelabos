@@ -1,6 +1,6 @@
-# MIGRATION v0.7
 #!/bin/bash
 
+# MIGRATION v0.7
 if cat settings/vault.yml | grep -q "vault:"
 then
   echo "Vault already migrated to v0.7"
