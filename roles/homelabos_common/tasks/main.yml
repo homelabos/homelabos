@@ -6,7 +6,7 @@
 
 - name: Remove older docker.io based packages
   apt:
-    name:
+    name: 
       - docker
       - docker.io
       - containerd
@@ -15,9 +15,9 @@
     state: absent
 
 - name: Add the Docker-ce Repo
-  apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu "{{ubuntu_release}}" stable
-    state: present
+  - apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu "{{ubuntu_release}}" stable
+      state: present
 
 - name: Install necessities and nice-to-haves
   apt:
@@ -38,8 +38,8 @@
       - unattended-upgrades
       - vim
       - zsh
-      - docker-ce
-      - docker-ce-cli
+      - docker-ce 
+      - docker-ce-cli 
       - docker-compose
       - containerd.io
       - whois
