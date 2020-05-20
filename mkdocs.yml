@@ -100,6 +100,7 @@ nav:
       - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
+      - DuckDNS: software/duckdns.md
       - EtherCalc: software/ethercalc.md
       - ERPNext: software/erpnext.md
       - Folding@home: software/folding_at_home.md
@@ -118,6 +119,7 @@ nav:
       - PrivateBin: software/privatebin.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
+      - Shinobi: software/shinobi.md
       - Ubooquity: software/ubooquity.md
       - Watchtower: software/watchtower.md
       - WebTrees: software/webtrees.md
