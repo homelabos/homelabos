@@ -56,7 +56,7 @@ services:
 {% endif %}
       - "traefik.http.routers.traefik.service=api@internal"
 {% if enable_tor %}
-      - "traefik.http.routers.traefik-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik-tor-http.rule=Host(`{{ tor_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.traefik-tor-http.entrypoints=http"
       - "traefik.http.routers.traefik-tor-http.middlewares={% if traefik.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}{% endif %}

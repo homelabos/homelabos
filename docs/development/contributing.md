@@ -1,16 +1,74 @@
+# Contribution Guidelines
+
+## Overview of project's development workflow
+
+HomelabOS follows a common Open Source Software development workflow. A core group of maintainers handle the branching, merging and tagging of releases. While this core group shepherds the overall project, everyone is welcome to contribute. This document goes into detail on how you can contribute.
+
 # Submitting Merge Requests
 
-When a Merge Request is ready to go, add the label `Ready for Review`.
+All work should start with an [issue on GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues/new). After creating a detailed issue, it's usually best to wait a day or two before beginning work, to gather feedback from the community.
 
-Only Merge Requests with this label will be reviewed for inclusion. Any Merge
-Requests submitted with this label that around found to not be ready for merge
-during the review, will have the label removed. Make the changes/fixes requested
-then add the label back to the Merge Request to be considered during the next
-review session.
+A good MR is small and changes as few lines of code as possible to resolve the issue. Multiple smaller separate MRs are ofter better than one big MR that touches multiple areas of the code. They're easier to review, test, and merge.
 
-# Working with Issues
+A large MR with several unrelated fixes in it can be held up from being merged because of one particular thing that only affected one piece of the MR. Had they been separate MRs, only the MR that has a problem or needs a change will be held up.
 
-## Labels
+### Contribution overview
+
+To contribute a bug fix, service, or enhancement you'll need to:
+
+1. Establish and maintain a mirrored Fork
+2. Branch Dev in your fork
+3. Develop your feature/fix
+4. Commit to your branch on your fork
+5. Create a Merge Request 
+
+## Getting set up to contribute
+
+To set yourself up to contribute to HomelabOS, you'll need a working understanding of Git, and a Gitlab account. Those prequisites are left as an exercise to the reader.
+
+1. Create your own fork by clicking the "Fork" button at https://gitlab.com/NickBusey/HomelabOS: ![Fork button location](fork.png)
+
+2. In your fork, goto Settings/Repository -> "Mirroring repositories" and setup mirroring of NickBusey/HomelabOS
+![Screen Shot of Mirror setup](mirror.png)
+
+    Mirror direction = Pull
+    Only mirror protected branches = enabled
+
+3. Then set your Protected Branches in Settings/Repository -> "Protected Branches" like this
+![Setting Protected Branches](protected-branches.png)
+(you can ignore CODEOWNER though) you can even set push to "no one" so you can't accidentally push to that branch.
+
+## Making a contribution to an existing Issue
+
+Gitlab is great for tracking changes to source code, but it relies on the developer who made the changes to *push* those changes to gitlab. Because of this, the first rule of contributing to an existing issue, is to **Communicate** with the original issue creator. It helps everyone involved if you handle that communication through comments on the issue itself. Once you and the original author(s) are on the same page, the following git steps will help you check out the branch and submit changes.
+
+1. Make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`.
+2. Identify the branch name by navigating to the issues' linked Merge Request and clicking the copy icon next to the Branch name.
+    ![Finding the Branch Name](branch-name.png)
+4. Run `git fetch origin`
+5. Run `git checkout <<branch name>>`
+6. Make your changes
+7. Commit and Push
+
+## Making a contribution to a new Issue
+
+1. Make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`. 
+2. Create an issue in the [master project GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues). From this issue, click the `Create Merge Request` button. 
+3. Now click the `Check Out Branch` button and copy Step 1, run that command on your local copy of the repository. 
+4. Now make your changes and commit and push them. 
+5. In GitLab, go to your Merge Request and make sure it is not labeled WIP and that all the check boxes are checked (If applicable). 
+
+Once you've submitted the MR it will be reviewed, and if it receives 2 approvals, it will be merged. You don't need to do anything after submitting unless requested. Don't worry about rebasing, or closing the merge request. If the Merge Request needs changes, the maintainers will add commends describing the needed changes, add `WIP:` back to the start of the title, and assign it back to the submitter.
+
+> If/When you are ask to rebase run:
+> `git checkout dev`
+> `git pull`
+> `git checkout your-new-feature`
+> `git rebase dev`
+
+## Working with Issues
+
+### Labels
 
 `enhancement` is for any issue that changes how HomelabOS itself deploys/operates.
 
@@ -18,7 +76,7 @@ review session.
 
 `bug` is for bugs. :)
 
-## Developing Locally
+## Developing Locally with Vagrant
 
 You can play around with the stack locally without needing an actual server to spin it up against.
 First run `make config` as normal. The local IP and SSH username are not used for Vagrant, so they can be
