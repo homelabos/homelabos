@@ -40,7 +40,7 @@ features:
     # feature item loop
   - icon : "tf-ion-thumbsup"
     title : "One Line Deploy"
-    content : "$ bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)"
+    content : "$ bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/v0.7/install_homelabos.sh)"
 
     # feature item loop
   - icon : "tf-ion-lock-combination"

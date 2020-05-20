@@ -72,7 +72,7 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 ## Automatic Set-up (One-liner)
 
-* On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
+* On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/v0.7/install_homelabos.sh)`
 
 * Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 

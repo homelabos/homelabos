@@ -18,7 +18,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 ## Features
 
-- One command deployment `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
+- One command deployment `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/v0.7/install_homelabos.sh)`
 - Manual deployment - [Installation](https://homelabos.com/docs/setup/installation/#manual-set-up)
 - Automated Backups
 - Easy Restore
