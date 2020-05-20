@@ -1,4 +1,24 @@
 ---
+- name: Ensure Docker is not installed via Snap
+  snap:
+    name: docker
+    state: absent
+
+- name: Remove older docker.io based packages
+  apt:
+    name: 
+      - docker
+      - docker.io
+      - containerd
+      - runc
+      - docker-engine
+    state: absent
+
+- name: Add the Docker-ce Repo
+  - apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu "{{ubuntu_release}}" stable
+      state: present
+
 - name: Install necessities and nice-to-haves
   apt:
     name:
@@ -18,8 +38,10 @@
       - unattended-upgrades
       - vim
       - zsh
-      - docker
+      - docker-ce 
+      - docker-ce-cli 
       - docker-compose
+      - containerd.io
       - whois
   tags:
     - dependencies
