@@ -8,7 +8,7 @@
 users:
   {{default_username}}:
     password: "{{authelia_hash.stdout}}"
-    email: {{ authelia.default_user_email }}
+    email: {{ vault.authelia.default_user_email }}
     groups:
       - admins
       - dev

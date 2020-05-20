@@ -76,7 +76,7 @@ vault:
     # defaults to Username
     use_username: {{ vault.authelia.use_username | default(True) }}
     # This must be an address you can recieve mail at!
-    default_user_email: {{authelia.default_user_email | default() }}
+    default_user_email: {{ vault.authelia.default_user_email | default() }}
     max:
       # max # of retries to authenticate (default 5)
       retries: {{ vault.authelia.max.retries | default(5) }}
