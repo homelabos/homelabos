@@ -17,15 +17,11 @@ config: logo build
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 # MIGRATION v0.7
-# @if cat settings/vault.yml | grep -q "vault:";  then; else
-#		make decrypt
-# 	sed -i -ne 's/^/  /' settings/vault.yml
-# 	echo -e "vault:\n$(cat settings/vault.yml)" > settings/vault.yml
-# fi
+	@migrate_vault.sh
 # ENDMIGRATION
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\x1B[01;93m========== Encrypting secrets ==========\n\x1B[0m"
-# @./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
+	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\x1B[01;93m========== Done with configuration ==========\n\x1B[0m"
 
 # Display the HomelabOS logo and MOTD
