@@ -3,7 +3,6 @@
 ## Features
 
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
-- Added Lazylibrarian - LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 - Updated everything to use Traefik v2
 
@@ -30,6 +29,7 @@
 - Added HomeBridge - HomeKit support for the impatient
 - Added Hubzilla - a powerful platform for creating interconnected websites featuring a decentralized identity.
 - Added Huginn - Create agents that monitor and act on your behalf. Your agents are standing by!
+- Added Lazylibrarian - LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs.
 - Added Mailu - is a simple yet full-featured mail server as a set of Docker images.
 - Added MassiveDecks - Massive Decks is a comedy party game based on Cards against Humanity. Play with friends! It works great with a bunch of people in the same room on phones, or on voice chat online.
 - Added Minecraft - Minecraft server with select-able version
@@ -73,6 +73,8 @@
 ## Release Notes
 
 When upgrading to v0.7 you must run `make restart` for your services to show back up afterwards.
+
+You will also be asked for your sudo password and preferred default_password again, due to the upgrade.
 
 If you are currently using a bastion host via Tinc, when upgrading to 0.7, set `bastion.reset_iptables` to True. This will blow away any and all iptables rules so use this option with care.
 
