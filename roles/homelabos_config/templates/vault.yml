@@ -1,138 +1,141 @@
+vault:
+  # Minio access keys
+  minio_access_key: {{ vault.minio_access_key | default() }}
+  minio_secret_access_key: {{ vault.minio_secret_access_key | default() }}
+
+  # VPN For Transmission to use for Downloads
+  openvpn_provider: {{ vault.openvpn_provider | default() }}
+  openvpn_username: {{ vault.openvpn_username | default() }}
+  openvpn_password: {{ vault.openvpn_password | default() }}
+  openvpn_config: {{ vault.openvpn_config | default() }}
+
+  # Cloud Servers
+  aws:
+    secret_key: {{ vault.aws.secret_key | default() }}
+    access_key: {{ vault.aws.access_key | default() }}
+    region: {{ vault.aws.region | default() }}
+
+  do_access_token: {{ vault.do_access_token | default(False) }}
+  do_region: {{ vault.do_region | default('nyc1') }}
+
+  # After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
+  plex_claim: {{ vault.plex_claim | default('CHANGE_TO_GIVEN_TOKEN') }}
+
+  # Mapbox Api keys: Used for OwnPhotos
+  mapbox_api_key: {{ vault.mapbox_api_key | default() }}
+
+  # Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+  s3_access_key: {{ vault.s3_access_key | default() }}
+  s3_secret_key: {{ vault.s3_secret_key | default() }}
+  s3_backup_password: {{ vault.s3_backup_password | default() }}
+
+  # Home Assitant API Key
+  homeassistant_api_key: {{ vault.homeassistant_api_key | default() }}
+
+  # Xfinity Data Usage Settings
+  xfinity_user: {{ vault.xfinity_user | default()  }}
+  xfinity_password: {{ vault.xfinity_password | default()  }}
+
+  # SMTP Settings
+  smtp:
+    host: {{ vault.smtp.host | default()  }}
+    port: {{ vault.smtp.port | default()  }}
+    user: {{ vault.smtp.user | default()  }}
+    pass: {{ vault.smtp.pass | default()  }}
+    from_email: {{ vault.smtp.from_email | default()  }}
+    from_name: {{ vault.smtp.from_name | default()  }}
+
+  traefik:
+    https_only: {{ vault.traefik.https_only | default(False) }}
+    domain: {{ vault.traefik.domain | default(False) }}
+    subdomain: {{ vault.traefik.subdomain | default("traefik") }}
+    auth: {{ vault.traefik.auth | default(False) }}
+    expose_internally: {{ vault.traefik.expose_internally | default(True)  }}
+    expose_externally: {{ vault.traefik.expose_externally | default(False)  }}
+    # Enable sendAnonymousUsage?
+    # Reference: https://docs.traefik.io/master/contributing/data-collection/
+    send_anonymous_usage: {{ vault.traefik.send_anonymous_usage | default("false")  }}
+    dns_challenge_provider: {{ vault.traefik.dns_challenge_provider | default(False) }}
+  # use key:value pairs here to add additional environment variables to your traefik docker image.
+  # for instance, if you're using a dns challenge provider place your api keys etc here.
+    additional_env_vars:
+      # DUMMY_KEY: DUMMY_VALUE
+      CF_API_EMAIL: {{ vault.traefik.additional_env_vars.CF_API_EMAIL | default('EMAIL') }}
+      CF_API_KEY: {{ vault.traefik.additional_env_vars.CF_API_KEY | default('API_KEY') }}
+
+  # Authelia Settings
+  authelia:
+    enable: {{ vault.authelia.enable | default(authelia.enable, None) | default(False) }}
+    https_only: {{ vault.authelia.https_only | default(False) }}
+    auth: {{ vault.authelia.enable | default(authelia.enable, None) | default(False) }}
+    domain: {{ vault.authelia.domain | default(False) }}
+    subdomain: {{ vault.authelia.subdomain | default("auth") }}
+    # Determines how verbose the logs are
+    log_level: {{ vault.authelia.log_level | default('debug') }}
+    # Do you want to login with your common name "john doe" or your username "jdoe"?
+    # defaults to Username
+    use_username: {{ vault.authelia.use_username | default(True) }}
+    # This must be an address you can recieve mail at!
+    default_user_email: {{ vault.authelia.default_user_email | default() }}
+    max:
+      # max # of retries to authenticate (default 5)
+      retries: {{ vault.authelia.max.retries | default(5) }}
+      # max time before the retry count resets (default 2 min)
+      retries_in_time: {{ vault.authelia.max.retries_in_time | default(120) }}
+      # if you exceed the max retry count within the time frame, you're banned
+      # for x seconds. (default 300 seconds /5 min)
+      retries_ban_time: {{ vault.authelia.max.retries_ban_time | default(300) }}
+    default:
+      # the number of authentication factors required by default
+      factor_count: {{ vault.authelia.default.factor_count | default('one_factor') }}
+      # how long it takes for the cookie to expire (default, 1hr)
+      cookie_expiration: {{ vault.authelia.default.cookie_expiration | default(3600000) }}
+      # inactivity time for the cookie default (5m)
+      cookie_inactivity: {{ vault.authelia.default.cookie_inactivity | default(300000) }} # 5min
+      # default policy - deny by default
+      policy: {{ vault.authelia.default.policy | default('deny') }}
+    duo:
+      hostname: {{ vault.authelia.duo.hostname | default() }}
+      integration_key: {{ vault.authelia.duo.integration_key | default() }}
+      secret_key: {{ vault.authelia.duo.secret_key | default() }}
+    # Don't change these unless you know what you're doing
+    # Migration v0.7
+    migration: {{ vault.authelia.migration | default(False) }}
+    # End Migration v0.7
+
+  bitwarden:
+    enable: {{ vault.bitwarden.enable | default(enable_bitwarden, None) | default(False) }}
+    https_only: {{ vault.bitwarden.https_only | default(False) }}
+    auth: {{ vault.bitwarden.auth | default(False) }}
+    domain: {{ vault.bitwarden.domain | default(False) }}
+    subdomain: {{ vault.bitwarden.subdomain | default("bitwarden") }}
+    # Enable admin page
+    # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
+    # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
+    token: {{ vault.bitwarden.token | default(default_password) }}
+    signups_allowed: {{ vault.bitwarden.signups_allowed | default("true") }}
+    # Only allow signups from certain domains (set signups_allowed to "false")
+    # Note that no e-mail validation is done, only e-mail domain that's provided on registration
+    # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
+    signups_domains_whitelist: {{ vault.bitwarden.signups_domains_whitelist | default(False) }}
+
+  drone:
+    gitea_id: {{ vault.drone.gitea_id | default(False) }}
+    gitea_secret: {{ vault.drone.gitea_secret | default(False) }}
+
+  duckdns:
+    enable: {{ vault.duckdns.enable | default(enable_duckdns, None) | default(False) }}
+    token: {{ vault.duckdns.token | default(False) }}
+
+  watchtower:
+    enable: {{ vault.watchtower.enable | default(enable_watchtower, None) | default(False) }}
+    notification: {{ vault.watchtower.notification | default (False) }}
+    gotify_token: {{ vault.watchtower.gotify_token | default (False) }}
+
+# These are here so the Prompts during initial setup work properly.
+
 # SUDO password
-ansible_become_password: {{ ansible_become_password | default() }}
+ansible_become_password: "{{ ansible_become_password | default() }}"
 
 # Default password to go with the default user
-default_password: "{{ default_password }}"
-
-# Minio access keys
-minio_access_key: {{ minio_access_key | default() }}
-minio_secret_access_key: {{ minio_secret_access_key | default() }}
-
-# VPN For Transmission to use for Downloads
-openvpn_provider: {{ openvpn_provider | default() }}
-openvpn_username: {{ openvpn_username | default() }}
-openvpn_password: {{ openvpn_password | default() }}
-openvpn_config: {{ openvpn_config | default() }}
-
-# Cloud Servers
-aws:
-  secret_key: {{ aws.secret_key | default() }}
-  access_key: {{ aws.access_key | default() }}
-  region: {{ aws.region | default() }}
-
-do_access_token: {{ do_access_token | default(False) }}
-do_region: {{ do_region | default('nyc1') }}
-
-# After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
-plex_claim: {{ plex_claim | default('CHANGE_TO_GIVEN_TOKEN') }}
-
-# Mapbox Api keys: Used for OwnPhotos
-mapbox_api_key: {{ mapbox_api_key | default() }}
-
-# Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
-s3_access_key: {{ s3_access_key | default() }}
-s3_secret_key: {{ s3_secret_key | default() }}
-s3_backup_password: {{ s3_backup_password | default() }}
-
-# Home Assitant API Key
-homeassistant_api_key: {{ homeassistant_api_key | default() }}
-
-# Xfinity Data Usage Settings
-xfinity_user: {{ xfinity_user | default()  }}
-xfinity_password: {{ xfinity_password | default()  }}
-
-# SMTP Settings
-smtp:
-  host: {{ smtp.host | default()  }}
-  port: {{ smtp.port | default()  }}
-  user: {{ smtp.user | default()  }}
-  pass: {{ smtp.pass | default()  }}
-  from_email: {{ smtp.from_email | default()  }}
-  from_name: {{ smtp.from_name | default()  }}
-
-traefik:
-  https_only: {{ traefik.https_only | default(False) }}
-  domain: {{ traefik.domain | default(False) }}
-  subdomain: {{ traefik.subdomain | default("traefik") }}
-  auth: {{ traefik.auth | default(False) }}
-  expose_internally: {{ traefik.expose_internally | default(True)  }}
-  expose_externally: {{ traefik.expose_externally | default(False)  }}
-  # Enable sendAnonymousUsage?
-  # Reference: https://docs.traefik.io/master/contributing/data-collection/
-  send_anonymous_usage: {{ traefik.send_anonymous_usage | default("false")  }}
-  dns_challenge_provider: {{ traefik.dns_challenge_provider | default(False) }}
-# use key:value pairs here to add additional environment variables to your traefik docker image.
-# for instance, if you're using a dns challenge provider place your api keys etc here.
-  additional_env_vars:
-    # DUMMY_KEY: DUMMY_VALUE
-    CF_API_EMAIL: {{ traefik.additional_env_vars.CF_API_EMAIL | default('EMAIL') }}
-    CF_API_KEY: {{ traefik.additional_env_vars.CF_API_KEY | default('API_KEY') }}
-
-# Authelia Settings
-authelia:
-  enable: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
-  https_only: {{ authelia.https_only | default(False) }}
-  auth: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
-  domain: {{ authelia.domain | default(False) }}
-  subdomain: {{ authelia.subdomain | default("auth") }}
-  # Determines how verbose the logs are
-  log_level: {{ authelia.log_level | default('debug') }}
-  # Do you want to login with your common name "john doe" or your username "jdoe"?
-  # defaults to Username
-  use_username: {{ authelia.use_username | default(True) }}
-  # This must be an address you can recieve mail at!
-  default_user_email: {{authelia.default_user_email | default() }}
-  max:
-    # max # of retries to authenticate (default 5)
-    retries: {{ authelia.max.retries | default(5) }}
-    # max time before the retry count resets (default 2 min)
-    retries_in_time: {{ authelia.max.retries_in_time | default(120) }}
-    # if you exceed the max retry count within the time frame, you're banned
-    # for x seconds. (default 300 seconds /5 min)
-    retries_ban_time: {{ authelia.max.retries_ban_time | default(300) }}
-  default:
-    # the number of authentication factors required by default
-    factor_count: {{ authelia.default.factor_count | default('one_factor') }}
-    # how long it takes for the cookie to expire (default, 1hr)
-    cookie_expiration: {{ authelia.default.cookie_expiration | default(3600000) }}
-    # inactivity time for the cookie default (5m)
-    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(300000) }} # 5min
-    # default policy - deny by default
-    policy: {{ authelia.default.policy | default('deny') }}
-  duo:
-    hostname: {{ authelia.duo.hostname | default() }}
-    integration_key: {{ authelia.duo.integration_key | default() }}
-    secret_key: {{ authelia.duo.secret_key | default() }}
-  # Don't change these unless you know what you're doing
-  # Migration v0.7
-  migration: {{ authelia.migration | default(False) }}
-  # End Migration v0.7
-
-bitwarden:
-  enable: {{ bitwarden.enable | default(enable_bitwarden, None) | default(False) }}
-  https_only: {{ bitwarden.https_only | default(False) }}
-  auth: {{ bitwarden.auth | default(False) }}
-  domain: {{ bitwarden.domain | default(False) }}
-  subdomain: {{ bitwarden.subdomain | default("bitwarden") }}
-  # Enable admin page
-  # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
-  # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-  token: {{ bitwarden.token | default(default_password) }}
-  signups_allowed: {{ bitwarden.signups_allowed | default("true") }}
-  # Only allow signups from certain domains (set signups_allowed to "false")
-  # Note that no e-mail validation is done, only e-mail domain that's provided on registration
-  # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
-  signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist | default(False) }}
-
-watchtower:
-  enable: {{ watchtower.enable | default(enable_watchtower, None) | default(False) }}
-  notification: {{ watchtower.notification | default (False) }}
-  gotify_token: {{ watchtower.gotify_token | default (False) }}
-
-duckdns:
-  enable: {{ duckdns.enable | default(enable_duckdns, None) | default(False) }}
-  token: {{ duckdns.token | default(False) }}
-  
-drone:
-  gitea_id: {{ drone.gitea_id | default(False) }}
-  gitea_secret: {{ drone.gitea_secret | default(False) }}
+default_password: "{{ default_password | default() }}"

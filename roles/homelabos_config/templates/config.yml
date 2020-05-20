@@ -19,8 +19,11 @@ storage_dir: {{ storage_dir | default('/mnt/nas') }}
 # Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
 ubuntu_release: {{ ubuntu_release | default('bionic') }}
 
-# Set this to true if you are deploying to an ARM infrastructure, such as a Raspberry Pi.
+# For technical reasons these can't live here.
+#ansible_become_password: In vault.yml
+#default_password: In vault.yml
 
+# Set this to true if you are deploying to an ARM infrastructure, such as a Raspberry Pi.
 arm: {{ arm | default('False') }}
 
 # This configuration dictionary sets various details of your bastion host.
@@ -56,7 +59,71 @@ bastion:
   reset_iptables: {{ bastion.reset_iptables | default(False) }}
   # END MIGRATION
 
+{% raw %}
+# Minio access keys
+minio_access_key: "{{ vault.minio_access_key }}"
+minio_secret_access_key: "{{ vault.minio_secret_access_key }}"
 
+# VPN For Transmission to use for Downloads
+openvpn_provider: "{{ vault.openvpn_provider }}"
+openvpn_username: "{{ vault.openvpn_username }}"
+openvpn_password: "{{ vault.openvpn_password }}"
+openvpn_config: "{{ vault.openvpn_config }}"
+
+# Cloud Servers
+aws:
+  secret_key: "{{ vault.aws.secret_key }}"
+  access_key: "{{ vault.aws.access_key }}"
+  region: "{{ vault.aws.region }}"
+
+do_access_token: "{{ vault.do_access_token }}"
+do_region: "{{ vault.do_region }}"
+
+# After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
+plex_claim: "{{ vault.plex_claim }}"
+
+# Mapbox Api keys: Used for OwnPhotos
+mapbox_api_key: "{{ vault.mapbox_api_key }}"
+
+# Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+s3_access_key: "{{ vault.s3_access_key }}"
+s3_secret_key: "{{ vault.s3_secret_key }}"
+s3_backup_password: "{{ vault.s3_backup_password }}"
+
+# Home Assitant API Key
+homeassistant_api_key: "{{ vault.homeassistant_api_key }}"
+
+# Xfinity Data Usage Settings
+xfinity_user: "{{ vault.xfinity_user }}"
+xfinity_password: "{{ vault.xfinity_password }}"
+
+# SMTP Settings
+smtp:
+  host: "{{ vault.smtp.host }}"
+  port: "{{ vault.smtp.port }}"
+  user: "{{ vault.smtp.user }}"
+  pass: "{{ vault.smtp.pass }}"
+  from_email: "{{ vault.smtp.from_email }}"
+  from_name: "{{ vault.smtp.from_name }}"
+
+traefik:
+  https_only: "{{ vault.traefik.https_only }}"
+  domain: "{{ vault.traefik.domain }}"
+  subdomain: "{{ vault.traefik.subdomain }}"
+  auth: "{{ vault.traefik.auth }}"
+  expose_internally: "{{ vault.traefik.expose_internally }}"
+  expose_externally: "{{ vault.traefik.expose_externally }}"
+  # Enable sendAnonymousUsage?
+  # Reference: https://docs.traefik.io/master/contributing/data-collection/
+  send_anonymous_usage: "{{ vault.traefik.send_anonymous_usage }}"
+  dns_challenge_provider: "{{ vault.traefik.dns_challenge_provider }}"
+# use key:value pairs here to add additional environment variables to your traefik docker image.
+# for instance, if you're using a dns challenge provider place your api keys etc here.
+  additional_env_vars:
+    # DUMMY_KEY: DUMMY_VALUE
+    CF_API_EMAIL: "{{ vault.traefik.additional_env_vars.CF_API_EMAIL }}"
+    CF_API_KEY: "{{ vault.traefik.additional_env_vars.CF_API_KEY }}"
+{% endraw %}
 # Timezone of the server
 common_timezone: {{ common_timezone | default('Etc/UTC') }}
 
@@ -105,6 +172,49 @@ airsonic:
   auth: {{ airsonic.auth | default(False) }}
   domain: {{ airsonic.domain | default(False) }}
   subdomain: {{ airsonic.subdomain | default("airsonic") }}
+
+{% raw %}
+# Authelia Settings
+authelia:
+  enable: "{{ vault.authelia.enable }}"
+  https_only: "{{ vault.authelia.https_only }}"
+  auth: "{{ vault.authelia.enable }}"
+  domain: "{{ vault.authelia.domain }}"
+  subdomain: "{{ vault.authelia.subdomain }}"
+  # Determines how verbose the logs are
+  log_level: "{{ vault.authelia.log_level }}"
+  # Do you want to login with your common name "john doe" or your username "jdoe"?
+  # defaults to Username
+  use_username: "{{ vault.authelia.use_username }}"
+  # This must be an address you can recieve mail at!
+  default_user_email: "{{ vault.authelia.default_user_email }}"
+  max:
+    # max # of retries to authenticate (default 5)
+    retries: "{{ vault.authelia.max.retries }}"
+    # max time before the retry count resets (default 2 min)
+    retries_in_time: "{{ vault.authelia.max.retries_in_time }}"
+    # if you exceed the max retry count within the time frame, you're banned
+    # for x seconds. (default 300 seconds /5 min)
+    retries_ban_time: "{{ vault.authelia.max.retries_ban_time }}"
+  default:
+    # the number of authentication factors required by default
+    factor_count: "{{ vault.authelia.default.factor_count }}"
+    # how long it takes for the cookie to expire (default, 1hr)
+    cookie_expiration: "{{ vault.authelia.default.cookie_expiration }}"
+    # inactivity time for the cookie default (5m)
+    cookie_inactivity: "{{ vault.authelia.default.cookie_inactivity }}"
+    # default policy - deny by default
+    policy: "{{ vault.authelia.default.policy }}"
+  duo:
+    hostname: "{{ vault.authelia.duo.hostname }}"
+    integration_key: "{{ vault.authelia.duo.integration_key }}"
+    secret_key: "{{ vault.authelia.duo.secret_key }}"
+  # Don't change these unless you know what you're doing
+  # Migration v0.7
+  migration: "{{ vault.authelia.migration }}"
+  # End Migration v0.7
+{% endraw %}
+
 barcodebuddy:
   enable: {{ barcodebuddy.enable | default(enable_barcodebuddy, None) | default(False) }}
   https_only: {{ barcodebuddy.https_only | default(False) }}
@@ -118,6 +228,25 @@ beets:
   auth: {{ beets.auth | default(False) }}
   domain: {{ beets.domain | default(False) }}
   subdomain: {{ beets.subdomain | default("beets") }}
+
+{% raw %}
+bitwarden:
+    enable: "{{ vault.bitwarden.enable | default(enable_bitwarden, None) | default(False) }}"
+    https_only: "{{ vault.bitwarden.https_only | default(False) }}"
+    auth: "{{ vault.bitwarden.auth | default(False) }}"
+    domain: "{{ vault.bitwarden.domain | default(False) }}"
+    subdomain: "{{ vault.bitwarden.subdomain | default('bitwarden') }}"
+    # Enable admin page
+    # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
+    # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
+    token: "{{ vault.bitwarden.token | default(default_password) }}"
+    signups_allowed: "{{ vault.bitwarden.signups_allowed | default('true') }}"
+    # Only allow signups from certain domains (set signups_allowed to "false")
+    # Note that no e-mail validation is done, only e-mail domain that's provided on registration
+    # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
+    signups_domains_whitelist: "{{ vault.bitwarden.signups_domains_whitelist | default(False) }}"
+{% endraw %}
+
 bookstack:
   enable: {{ bookstack.enable | default(enable_bookstack, None) | default(False) }}
   https_only: {{ bookstack.https_only | default(False) }}
@@ -155,7 +284,7 @@ codimd:
   https_only: {{ codimd.https_only | default(False) }}
   auth: {{ codimd.auth | default(False) }}
   domain: {{ codimd.domain | default(False) }}
-  subdomain: {{ codimd.subdomain | default("codimd")}}
+  subdomain: {{ codimd.subdomain | default("codimd") }}
 dark_sky:
   enable: {{ dark_sky.enable | default(enable_dark_sky, None) | default(False) }}
   https_only: {{ dark_sky.https_only | default(False) }}
@@ -180,6 +309,13 @@ drone:
   auth: {{ drone.auth | default(False) }}
   domain: {{ drone.domain | default(False) }}
   subdomain: {{ drone.subdomain | default("drone") }}
+{% raw %}
+  gitea_id: "{{ vault.drone.gitea_id | default(False) }}"
+  gitea_secret: "{{ vault.drone.gitea_secret | default(False) }}"
+duckdns:
+  enable: "{{ vault.duckdns.enable | default(enable_duckdns, None) | default(False) }}"
+  token: "{{ vault.duckdns.token | default(False) }}"
+{% endraw %}
 duplicati:
   enable: {{ duplicati.enable | default(enable_duplicati, None) | default(False) }}
   https_only: {{ duplicati.https_only | default(False) }}
@@ -191,7 +327,7 @@ elkstack:
   https_only: {{ elkstack.https_only | default(False) }}
   auth: {{ elkstack.auth | default(False) }}
   domain: {{ elkstack.domain | default(False) }}
-  subdomain: {{ elkstack.subdomain | default("elkstack")}}
+  subdomain: {{ elkstack.subdomain | default("elkstack") }}
 emby:
   enable: {{ emby.enable | default(enable_emby, None) | default(False) }}
   https_only: {{ emby.https_only | default(False) }}
@@ -209,7 +345,7 @@ ethercalc:
   https_only: {{ ethercalc.https_only | default(False) }}
   auth: {{ ethercalc.auth | default(False) }}
   domain: {{ ethercalc.domain | default(False) }}
-  subdomain: {{ ethercalc.subdomain | default("ethercalc")}}
+  subdomain: {{ ethercalc.subdomain | default("ethercalc") }}
 factorio:
   enable: {{ factorio.enable | default(enable_factorio, None) | default(False) }}
   https_only: {{ factorio.https_only | default(False) }}
@@ -232,7 +368,7 @@ folding_at_home:
   # Team HomelabOS - https://stats.foldingathome.org/team/261443
   team: {{ folding_at_home.team | default( "261443" ) }}
   # Valid values are 'light', 'medium' or 'full'
-  power: {{ folding_at_home.power | default("full")}}
+  power: {{ folding_at_home.power | default("full") }}
 freshrss:
   enable: {{ freshrss.enable | default(enable_freshrss, None) | default(False) }}
   https_only: {{ freshrss.https_only | default(False) }}
@@ -244,7 +380,7 @@ funkwhale:
   https_only: {{ funkwhale.https_only | default(False) }}
   auth: {{ funkwhale.auth | default(False) }}
   domain: {{ funkwhale.domain| default(False) }}
-  subdomain: {{ funkwhale.subdomain | default("funkwhale")}}
+  subdomain: {{ funkwhale.subdomain | default("funkwhale") }}
 ghost:
   enable: {{ ghost.enable | default(enable_ghost, None) | default(False) }}
   https_only: {{ ghost.https_only | default(False) }}
@@ -285,7 +421,7 @@ gotify:
   https_only: {{ gotify.https_only | default(False) }}
   auth: {{ gotify.auth | default(False) }}
   domain: {{ gotify.domain | default(False) }}
-  subdomain: {{ gotify.subdomain | default("gotify")}}
+  subdomain: {{ gotify.subdomain | default("gotify") }}
 grafana:
   enable: {{ grafana.enable | default(enable_grafana, None) | default(False) }}
   https_only: {{ grafana.https_only | default(False) }}
@@ -321,7 +457,7 @@ heimdall:
   https_only: {{ heimdall.https_only | default(False) }}
   auth: {{ heimdall.auth | default(False) }}
   domain: {{ heimdall.domain| default(False) }}
-  subdomain: {{ heimdall.subdomain | default("heimdall")}}
+  subdomain: {{ heimdall.subdomain | default("heimdall") }}
 homeassistant:
   enable: {{ homeassistant.enable | default(enable_homeassistant, None) | default(False) }}
   https_only: {{ homeassistant.https_only | default(False) }}
@@ -345,13 +481,13 @@ hubzilla:
   https_only: {{ hubzilla.https_only | default(False) }}
   auth: {{ hubzilla.auth | default(False) }}
   domain: {{ hubzilla.domain | default(False) }}
-  subdomain: {{ hubzilla.subdomain | default("hubzilla")}}
+  subdomain: {{ hubzilla.subdomain | default("hubzilla") }}
 huginn:
   enable: {{ huginn.enable | default(enable_huginn, None) | default(False) }}
   https_only: {{ huginn.https_only | default(False) }}
   auth: {{ huginn.auth | default(False) }}
   domain: {{ huginn.domain | default(False) }}
-  subdomain: {{ huginn.subdomain | default("huginn")}}
+  subdomain: {{ huginn.subdomain | default("huginn") }}
 inventario:
   enable: {{ inventario.enable | default(enable_inventario, None) | default(False) }}
   https_only: {{ inventario.https_only | default(False) }}
@@ -381,7 +517,7 @@ lazylibrarian:
   https_only: {{ lazylibrarian.https_only | default(False) }}
   auth: {{ lazylibrarian.auth | default(False) }}
   domain: {{ lazylibrarian.domain | default(False) }}
-  subdomain: {{ lazylibrarian.subdomain | default("lazylibrarian")}}
+  subdomain: {{ lazylibrarian.subdomain | default("lazylibrarian") }}
 lidarr:
   enable: {{ lidarr.enable | default(enable_lidarr, None) | default(False) }}
   https_only: {{ lidarr.https_only | default(False) }}
@@ -433,25 +569,25 @@ minecraftbedrockserver:
   https_only: {{ minecraftbedrockserver.https_only | default(False) }}
   auth: {{ minecraftbedrockserver.auth | default(False) }}
   domain: {{ minecraftbedrockserver.domain| default(False) }}
-  subdomain: {{ minecraftbedrockserver.subdomain | default("minecraftbedrockserver")}}
+  subdomain: {{ minecraftbedrockserver.subdomain | default("minecraftbedrockserver") }}
   eula: {{ minecraftbedrockserver.eula | default("TRUE") }}
   server_name: {{ minecraftbedrockserver.server_name | default("HomelabOS") }} #any string
   server_port: {{ minecraftbedrockserver.server_port | default("19132") }} #any integer, 19132 is default
   gamemode: {{ minecraftbedrockserver.gamemode | default("survival") }} # [survival, creative, adventure]
   difficulty: {{ minecraftbedrockserver.difficulty | default("easy") }} # [peaceful, easy, normal, hard]
-  level_type: {{ minecraftbedrockserver.level_type | default("DEFAULT")}} # [FLAT, LEGACY, DEFAULT]
-  allow_cheats: {{ minecraftbedrockserver.allow_cheats | default("false", true)}} #[true, false]
+  level_type: {{ minecraftbedrockserver.level_type | default("DEFAULT") }} # [FLAT, LEGACY, DEFAULT]
+  allow_cheats: {{ minecraftbedrockserver.allow_cheats | default("false", true) }} #[true, false]
   max_players: {{ minecraftbedrockserver.max_players | default(10) }} #any positive integer
-  online_mode: {{ minecraftbedrockserver.online_mode | default("true", true)}} #[true, false]
-  white_list: {{ minecraftbedrockserver.white_list | default("false", true)}} #[true, false]
-  view_distance: {{ minecraftbedrockserver.view_distance | default(10)}} #any integer
-  tick_distance: {{ minecraftbedrockserver.tick_distance | default(4)}} #an integer between 4-12
-  player_idle_timeout: {{ minecraftbedrockserver.player_idle_timeout | default(30)}} #any integer
-  max_threads: {{ minecraftbedrockserver.max_threads | default(8)}} #any integer
-  level_name: {{ minecraftbedrockserver.level_name | default("HomelabOS")}} #any string
-  level_seed: {{ minecraftbedrockserver.level_seed | default("HomelabOS")}} #used to randomize the world
-  default_player_permission_level: {{ minecraftbedrockserver.default_player_permission_level | default("member")}} #visitor, member, or operator
-  texturepack_required: {{ mine.texturepack_required | default("false", true)}}
+  online_mode: {{ minecraftbedrockserver.online_mode | default("true", true) }} #[true, false]
+  white_list: {{ minecraftbedrockserver.white_list | default("false", true) }} #[true, false]
+  view_distance: {{ minecraftbedrockserver.view_distance | default(10) }} #any integer
+  tick_distance: {{ minecraftbedrockserver.tick_distance | default(4) }} #an integer between 4-12
+  player_idle_timeout: {{ minecraftbedrockserver.player_idle_timeout | default(30) }} #any integer
+  max_threads: {{ minecraftbedrockserver.max_threads | default(8) }} #any integer
+  level_name: {{ minecraftbedrockserver.level_name | default("HomelabOS") }} #any string
+  level_seed: {{ minecraftbedrockserver.level_seed | default("HomelabOS") }} #used to randomize the world
+  default_player_permission_level: {{ minecraftbedrockserver.default_player_permission_level | default("member") }} #visitor, member, or operator
+  texturepack_required: {{ mine.texturepack_required | default("false", true) }}
 miniflux:
   enable: {{ miniflux.enable | default(enable_miniflux, None) | default(False) }}
   https_only: {{ miniflux.https_only | default(False) }}
@@ -487,7 +623,7 @@ n8n:
   https_only: {{ n8n.https_only | default(False) }}
   auth: {{ n8n.auth | default(False) }}
   domain: {{ n8n.domain| default(False) }}
-  subdomain: {{ n8n.subdomain | default("n8n")}}
+  subdomain: {{ n8n.subdomain | default("n8n") }}
 netdata:
   enable: {{ netdata.enable | default(enable_netdata, None) | default(False) }}
   https_only: {{ netdata.https_only | default(False) }}
@@ -505,7 +641,7 @@ nodered:
   https_only: {{ nodered.https_only | default(False) }}
   auth: {{ nodered.auth | default(False) }}
   domain: {{ nodered.domain| default(False) }}
-  subdomain: {{ nodered.subdomain | default("nodered")}}
+  subdomain: {{ nodered.subdomain | default("nodered") }}
   node_options: {{ nodered.node_options | default("") }}
   enable_projects: {{ nodered.enable_projects | default(False) }}
   safe_mode: {{ nodered.safe_mode | default(False) }}
@@ -556,7 +692,7 @@ peertube:
   https_only: {{ peertube.https_only | default(False) }}
   auth: {{ peertube.auth | default(False) }}
   domain: {{ peertube.domain | default(False) }}
-  subdomain: {{ peertube.subdomain | default("peertube")}}
+  subdomain: {{ peertube.subdomain | default("peertube") }}
 photoprism:
   enable: {{ photoprism.enable | default(enable_photoprism, None) | default(False) }}
   https_only: {{ photoprism.https_only | default(False) }}
@@ -586,7 +722,7 @@ pleroma:
   https_only: {{ pleroma.https_only | default(False) }}
   auth: {{ pleroma.auth | default(False) }}
   domain: {{ pleroma.domain | default(False) }}
-  subdomain: {{ pleroma.subdomain | default("pleroma")}}
+  subdomain: {{ pleroma.subdomain | default("pleroma") }}
 plex:
   enable: {{ plex.enable | default(enable_plex, None) | default(False) }}
   https_only: {{ plex.https_only | default(False) }}
@@ -616,9 +752,9 @@ qbittorrent:
   https_only: {{ qbittorrent.https_only | default(False) }}
   auth: {{ qbittorrent.auth | default(False) }}
   domain: {{ qbittorrent.domain| default(False) }}
-  subdomain: {{ qbittorrent.subdomain | default("qbittorrent")}}
+  subdomain: {{ qbittorrent.subdomain | default("qbittorrent") }}
   vpn_enabled: !!str '{{ qbittorrent.vpn_enabled | default(false) }}'
-  lan_network: {{ qbittorrent.lan_network | default("192.168.1.0/24")}}
+  lan_network: {{ qbittorrent.lan_network | default("192.168.1.0/24") }}
 radarr:
   enable: {{ radarr.enable | default(enable_radarr, None) | default(False) }}
   https_only: {{ radarr.https_only | default(False) }}
@@ -648,7 +784,7 @@ shinobi:
   https_only: {{ shinobi.https_only | default(False) }}
   auth: {{ shinobi.auth | default(False) }}
   domain: {{ shinobi.domain | default(False) }}
-  subdomain: {{ shinobi.subdomain | default("shinobi")}}
+  subdomain: {{ shinobi.subdomain | default("shinobi") }}
 sickchill:
   enable: {{ sickchill.enable | default(enable_sickchill, None) | default(False) }}
   https_only: {{ sickchill.https_only | default(False) }}
@@ -679,13 +815,13 @@ statping:
   https_only: {{ statping.https_only | default(False) }}
   auth: {{ statping.auth | default(False) }}
   domain: {{ statping.domain | default(False) }}
-  subdomain: {{ statping.subdomain | default("statping")}}
+  subdomain: {{ statping.subdomain | default("statping") }}
 sui:
   enable: {{ sui.enable | default(enable_sui, None) | default(False) }}
   https_only: {{ sui.https_only | default(False) }}
   auth: {{ sui.auth | default(False) }}
   domain: {{ sui.domain | default(False) }}
-  subdomain: {{ sui.subdomain | default("sui")}}
+  subdomain: {{ sui.subdomain | default("sui") }}
 syncthing:
   enable: {{ syncthing.enable | default(enable_syncthing, None) | default(False) }}
   https_only: {{ syncthing.https_only | default(False) }}
@@ -715,7 +851,7 @@ tiddlywiki:
   https_only: {{ tiddlywiki.https_only | default(False) }}
   auth: {{ tiddlywiki.auth | default(False) }}
   domain: {{ tiddlywiki.domain| default(False) }}
-  subdomain: {{ tiddlywiki.subdomain | default("tiddlywiki")}}
+  subdomain: {{ tiddlywiki.subdomain | default("tiddlywiki") }}
 transmission:
   enable: {{ transmission.enable | default(enable_transmission, None) | default(False) }}
   https_only: {{ transmission.https_only | default(False) }}
@@ -733,7 +869,7 @@ turtl:
   https_only: {{ turtl.https_only | default(False) }}
   auth: {{ turtl.auth | default(False) }}
   domain: {{ turtl.domain| default(False) }}
-  subdomain: {{ turtl.subdomain | default("turtl")}}
+  subdomain: {{ turtl.subdomain | default("turtl") }}
 ubooquity:
   enable: {{ ubooquity.enable | default(enable_ubooquity, None) | default(False) }}
   https_only: {{ ubooquity.https_only | default(False) }}
@@ -758,18 +894,24 @@ wallabag:
   auth: {{ wallabag.auth | default(False) }}
   domain: {{ wallabag.domain | default(False) }}
   subdomain: {{ wallabag.subdomain | default("wallabag") }}
+{% raw %}
+watchtower:
+  enable: "{{ vault.watchtower.enable | default(enable_watchtower, None) | default(False) }}"
+  notification: "{{ vault.watchtower.notification | default (False) }}"
+  gotify_token: "{{ vault.watchtower.gotify_token | default (False) }}"
+{% endraw %}
 webtrees:
   enable: {{ webtrees.enable | default(enable_webtrees, None) | default(False) }}
   https_only: {{ webtrees.https_only | default(False) }}
   auth: {{ webtrees.auth | default(False) }}
   domain: {{ webtrees.domain | default(False) }}
-  subdomain: {{ webtrees.subdomain | default("webtrees")}}
+  subdomain: {{ webtrees.subdomain | default("webtrees") }}
 webdavserver:
   enable: {{ webdavserver.enable | default(enable_webdavserver, None) | default(False) }}
   https_only: {{ webdavserver.https_only | default(False) }}
   auth: {{ webdavserver.auth | default(False) }}
   domain: {{ webdavserver.domain| default(False) }}
-  subdomain: {{ webdavserver.subdomain | default("webdav")}}
+  subdomain: {{ webdavserver.subdomain | default("webdav") }}
 webvirtmgr:
   enable: {{ webvirtmgr.enable | default(enable_webvirtmgr, None) | default(False) }}
   https_only: {{ webvirtmgr.https_only | default(False) }}
@@ -781,7 +923,7 @@ zammad:
   https_only: {{ zammad.https_only | default(False) }}
   auth: {{ zammad.auth | default(False) }}
   domain: {{ zammad.domain| default(False) }}
-  subdomain: {{ zammad.subdomain | default("zammad")}}
+  subdomain: {{ zammad.subdomain | default("zammad") }}
 zulip:
   enable: {{ zulip.enable | default(enable_zulip, None) | default(False) }}
   https_only: {{ zulip.https_only | default(False) }}
