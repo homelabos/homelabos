@@ -119,23 +119,23 @@ vault:
     # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
     signups_domains_whitelist: {{ vault.bitwarden.signups_domains_whitelist | default(False) }}
 
-  watchtower:
-    enable: {{ vault.watchtower.enable | default(enable_watchtower, None) | default(False) }}
-    notification: {{ vault.watchtower.notification | default (False) }}
-    gotify_token: {{ vault.watchtower.gotify_token | default (False) }}
+  drone:
+    gitea_id: {{ vault.drone.gitea_id | default(False) }}
+    gitea_secret: {{ vault.drone.gitea_secret | default(False) }}
 
   duckdns:
     enable: {{ vault.duckdns.enable | default(enable_duckdns, None) | default(False) }}
     token: {{ vault.duckdns.token | default(False) }}
 
-  drone:
-    gitea_id: {{ vault.drone.gitea_id | default(False) }}
-    gitea_secret: {{ vault.drone.gitea_secret | default(False) }}
+  watchtower:
+    enable: {{ vault.watchtower.enable | default(enable_watchtower, None) | default(False) }}
+    notification: {{ vault.watchtower.notification | default (False) }}
+    gotify_token: {{ vault.watchtower.gotify_token | default (False) }}
 
 # These are here so the Prompts during initial setup work properly.
 
 # SUDO password
-ansible_become_password: {{ vault.ansible_become_password | default() }}
+ansible_become_password: "{{ ansible_become_password | default() }}"
 
 # Default password to go with the default user
-default_password: "{{ vault.default_password }}"
+default_password: "{{ default_password | default() }}"
