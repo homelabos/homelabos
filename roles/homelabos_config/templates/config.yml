@@ -307,8 +307,8 @@ drone:
   domain: {{ drone.domain | default(False) }}
   subdomain: {{ drone.subdomain | default("drone") }}
 {% raw %}
-  gitea_id: "{{ vault.drone.gitea_id | default(drone.gitea_id) }}"
-  gitea_secret: "{{ vault.drone.gitea_secret | default(drone.gitea_secret) }}"
+  gitea_id: "{{ vault.drone.gitea_id | default(False) }}"
+  gitea_secret: "{{ vault.drone.gitea_secret | default(False) }}"
 duckdns:
   enable: "{{ vault.duckdns.enable | default(enable_duckdns, None) | default(False) }}"
   token: "{{ vault.duckdns.token | default(False) }}"
