@@ -17,7 +17,7 @@ config: logo build
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 # MIGRATION v0.7
-	@migrate_vault.sh
+	@./migrate_vault.sh
 # ENDMIGRATION
 	@./docker_helper.sh ansible-playbook --extra-vars="@vault_migration.yml" --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\x1B[01;93m========== Encrypting secrets ==========\n\x1B[0m"
