@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # MIGRATION v0.7
-if cat settings/vault.yml | grep -q "vault:"
+if cat settings/vault.yml | egrep -q "vault:|blank_on_purpose:" 
 then
   echo "Vault already migrated to v0.7 - Skipping"
 else
