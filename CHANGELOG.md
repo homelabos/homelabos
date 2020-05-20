@@ -1,3 +1,9 @@
+# 0.7.1
+
+## Fixed
+
+- Fixes for migrate_vault.sh
+
 # 0.7
 
 ## Features
