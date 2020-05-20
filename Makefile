@@ -21,7 +21,7 @@ config: logo build
 # ENDMIGRATION
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\x1B[01;93m========== Encrypting secrets ==========\n\x1B[0m"
-# @./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
+	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\x1B[01;93m========== Done with configuration ==========\n\x1B[0m"
 
 # Display the HomelabOS logo and MOTD
