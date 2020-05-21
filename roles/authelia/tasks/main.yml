@@ -62,6 +62,6 @@
 
 - debug:
     msg:
-      - "Authelia redirects to https://{{ authelia.redirect_service }}.{{ domain }}"
-      - "You can change this by setting the authelia.redirect_service setting to the one of your own choice."
-      - "Example: ./set_setting authelia.redirect_service heimdall"
+      - "Authelia redirects to {{ authelia.redirect_url }}"
+      - "You can change this by setting the authelia.redirect_url setting to the one of your own choice."
+      - "Example: ./set_setting authelia.redirect_service https://heimdall.example.com"
