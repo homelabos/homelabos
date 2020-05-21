@@ -1,4 +1,33 @@
 ---
+- name: Install necessities and nice-to-haves
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - cifs-utils
+      - curl
+      - software-properties-common
+      - gnupg-agent
+      - git
+      - htop
+      - iftop
+      - iotop
+      - mosh
+      - nfs-common
+      - screen
+      - sudo
+      - unattended-upgrades
+      - vim
+      - zsh
+      - whois
+      - python3
+      - python3-pip
+      - python3-virtualenv
+      - python3-passlib
+      - python3-openssl
+  tags:
+    - dependencies
+
 - name: Ensure Docker is not installed via Snap
   snap:
     name: docker
@@ -14,40 +43,23 @@
       - docker-engine
     state: absent
 
-- name: Add the Docker-ce Repo
-  apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu "{{ubuntu_release}}" stable
+- name: Add an apt key for Docker-ce Repo
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
-- name: Install necessities and nice-to-haves
+- name: Add the Docker-ce Repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ubuntu_release}} stable
+    state: present
+
+- name: Install Docker and docker-compose
   apt:
     name:
-      - apt-transport-https
-      - ca-certificates
-      - cifs-utils
-      - curl
-      - software-properties-common
-      - git
-      - htop
-      - iftop
-      - iotop
-      - mosh
-      - nfs-common
-      - screen
-      - sudo
-      - unattended-upgrades
-      - vim
-      - zsh
       - docker-ce
       - docker-ce-cli
       - docker-compose
       - containerd.io
-      - whois
-      - python3
-      - python3-pip
-      - python3-virtualenv
-      - python3-passlib
-      - python3-openssl
   tags:
     - dependencies
 
