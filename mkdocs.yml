@@ -47,6 +47,7 @@ nav:
     - Calendaring and Contacts Management:
       - NextCloud: software/nextcloud.md
     - Chat:
+      - Matterbridge: software/matterbridge.md
       - The Lounge: software/thelounge.md
       - Zulip: software/zulip.md
     - Document Management:

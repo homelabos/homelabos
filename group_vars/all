@@ -55,6 +55,7 @@ services:
   mashio: 
   massivedecks: 
   matomo: 
+  matterbridge: 
   mayan: 
   minecraft: 
   minecraftbedrockserver: 
@@ -103,10 +104,10 @@ services:
   tiddlywiki: 
   transmission: 
   trilium: 
-  turtl:
+  turtl: 
   ubooquity: 
   wallabag: 
-  watchtower:
+  watchtower: 
   webdavserver: 
   webtrees: 
   webvirtmgr: 
@@ -163,12 +164,13 @@ inventario:
 jackett: 
 jellyfin: 
 kibitzr: 
-lazylibrarian:
+lazylibrarian: 
 lidarr: 
 mailu: 
 massivedecks: 
 mashio: 
 matomo: 
+matterbridge:
 mayan: 
 minecraft: 
 minecraftbedrockserver: 
