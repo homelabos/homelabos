@@ -1,3 +1,9 @@
+# 8.0
+
+## Services Added
+
+- Added OctoPrint - The snappy web interface for your 3D printer.
+
 # 0.7.1 - 0.7.2
 
 ## Fixed

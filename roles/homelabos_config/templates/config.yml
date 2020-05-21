@@ -651,6 +651,13 @@ nzbget:
   auth: {{ nzbget.auth | default(False) }}
   domain: {{ nzbget.domain | default(False) }}
   subdomain: {{ nzbget.subdomain | default("nzbget") }}
+octoprint:
+  enable: {{ octoprint.enable | default(enable_octoprint, None) | default(False) }}
+  https_only: {{ octoprint.https_only | default(False) }}
+  serial: {{ octoprint.serial | default(False)}}
+  auth: {{ octoprint.auth | default(False) }}
+  domain: {{ octoprint.domain | default(False) }}
+  subdomain: {{ octoprint.subdomain | default("octoprint")}}
 ombi:
   enable: {{ ombi.enable | default(enable_ombi, None) | default(False) }}
   https_only: {{ ombi.https_only | default(False) }}

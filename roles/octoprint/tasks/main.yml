@@ -1,0 +1,30 @@
+---
+- name: Make octoprint directory.
+  file:
+    path: "{{ volumes_root }}/octoprint"
+    state: directory
+
+- name: Make octoprint config directory.
+  file:
+    path: "{{ volumes_root }}/octoprint/config"
+    state: directory
+
+
+- name: Copy octoprint docker-compose.yml file into place.
+  template:
+    src: docker-compose.octoprint.yml.j2
+    dest: "{{ volumes_root }}/octoprint/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure octoprint systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/octoprint.service
+
+- name: Start octoprint
+  systemd:
+    name: octoprint
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

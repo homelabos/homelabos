@@ -68,6 +68,7 @@ services:
   nextcloud: 
   nodered: 
   nzbget: 
+  octoprint: 
   ombi: 
   openldap: 
   openvpn: 
@@ -103,10 +104,10 @@ services:
   tiddlywiki: 
   transmission: 
   trilium: 
-  turtl:
+  turtl: 
   ubooquity: 
   wallabag: 
-  watchtower:
+  watchtower: 
   webdavserver: 
   webtrees: 
   webvirtmgr: 
@@ -163,7 +164,7 @@ inventario:
 jackett: 
 jellyfin: 
 kibitzr: 
-lazylibrarian:
+lazylibrarian: 
 lidarr: 
 mailu: 
 massivedecks: 
@@ -182,6 +183,7 @@ netdata:
 nextcloud: 
 nodered: 
 nzbget: 
+octoprint:
 ombi: 
 openldap: 
 openvpn: 

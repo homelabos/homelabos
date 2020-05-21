@@ -36,6 +36,8 @@ nav:
     - Tor Onion Services: setup/tor.md
     - VPN Setup: setup/vpn.md
   - Included Software:
+    - 3D Printing:
+      - OctoPrint: software/octoprint.md
     - Analytics:
       - Matomo: software/matomo.md
     - Automation:
