@@ -150,6 +150,7 @@ If you are having problems you can:
 - [Monica](software/monica) - Contact / relationship manager
 - [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.
 - [NodeRED](software/nodered) - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
+- [OctoPrint](software/octoprint) - The snappy web interface for your 3D printer.
 - [Pi-hole](software/pihole) - Ad blocking
 - [Poli](software/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](software/portainer) - Easy Docker management
