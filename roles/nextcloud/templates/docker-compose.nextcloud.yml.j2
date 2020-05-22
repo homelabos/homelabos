@@ -7,36 +7,73 @@ networks:
       name: homelabos_traefik
 
 services:
-  nextcloud:
-    image: hoellen/nextcloud:18.0
+  nextcloud-db:
+    image: postgres:alpine
+    restart: unless-stopped
+    volumes:
+      - "{{ volumes_root }}/nextcloud/postgres:/var/lib/postgresql/data"
     networks:
       - traefik_network
-    depends_on:
-      - nextcloud-db
+    restart: unless-stopped
     environment:
-      - UID={{ uid }}
-      - GID={{ gid }}
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+  
+  nextcloud-redis:
+    image: redis:5.0-alpine
+    networks:
+      - traefik_network
+    restart: unless-stopped
+
+  nextcloud:
+    image: nextcloud:apache
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    user: {{ uid }}:{{ gid }}
+    sysctls:
+      - net.ipv4.ip_unprivileged_port_start=0 
+      # The line above allows an unprivileged user (the uid/gid of the homelab user) to
+      # listen on any port (https://github.com/nextcloud/docker/issues/359)
+      # Used / needed for apache to l
+    volumes:
+      - "{{ volumes_root }}/nextcloud/webroot:/var/www/html"
+      - "{{ volumes_root }}/nextcloud/config:/var/www/html/config"
+      - "{{ storage_dir }}/Documents/NextCloud:/data"
+      - "{{ volumes_root }}/nextcloud/apps:/var/www/html/custom_apps"
+      - "{{ volumes_root }}/nextcloud/themes:/var/www/html/themes"
+      - "{{ storage_dir }}:/mnt/homelabos"
+    environment:
+      - POSTGRES_HOST=nextcloud-db
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
       - UPLOAD_MAX_SIZE=10G
       - APC_SHM_SIZE=128M
       - OPCACHE_MEM_SIZE=128
       - CRON_PERIOD=15m
       - TZ={{ common_timezone }}
-      - DOMAIN=localhost
-      - DB_TYPE=mysql
-      - DB_NAME=nextcloud
-      - DB_USER=nextcloud
-      - DB_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}"
-      - DB_HOST=nextcloud-db
-    volumes:
-      - "{{ volumes_root }}/nextcloud/config:/config"
-      - "{{ storage_dir }}/Documents/NextCloud:/data"
-      - "{{ volumes_root }}/nextcloud/apps:/apps2"
-      - "{{ volumes_root }}/nextcloud/themes:/nextcloud/themes"
+      - REDIS_HOST=nextcloud-redis
+      - NEXTCLOUD_ADMIN_USER={{ default_username }}
+      - NEXTCLOUD_ADMIN_PASSWORD={{ default_password }}
+      - NEXTCLOUD_TRUSTED_DOMAINS={{ service_domain }}
+      - NEXTCLOUD_UPDATE=1 # triggers the automated install on first run.
+      # SMTP settings
+      - SMTP_HOST={{vault.smtp.host}}
+      - SMTP_SECURE={% if vault.smtp.port == 587 %}ssl{% endif %}
+
+      - SMTP_PORT={{vault.smtp.port}}
+      - SMTP_PASSWORD={{vault.smtp.pass}}
+      - MAIL_FROM_ADDRESS={{vault.smtp.from_email}}
+    depends_on:
+      - nextcloud-db
+      - nextcloud-redis
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.nextcloud.loadbalancer.server.scheme=http"
-      - "traefik.http.services.nextcloud.loadbalancer.server.port=8888"
+      - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
       - "traefik.http.routers.nextcloud-http.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.routers.nextcloud-http.entrypoints=http"
       - "traefik.http.routers.nextcloud-http.middlewares={% if nextcloud.https_only %}redirect@file, security-headers@file, {% else %}{% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
@@ -57,16 +94,3 @@ services:
       - "traefik.http.routers.nextcloud-tor-http.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
 
-  # If using MySQL
-  nextcloud-db:
-    image: mariadb:10.4
-    networks:
-      - traefik_network
-    volumes:
-      - "{{ volumes_root }}/nextcloud/db:/var/lib/mysql"
-    restart: unless-stopped
-    environment:
-      - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_root_password chars=ascii_letters')}}"
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}"
