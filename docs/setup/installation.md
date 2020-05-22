@@ -76,6 +76,22 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 * Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
+### But isn't piping bash to curl insecure?
+
+Not really. If you're using https (we are), then you can be sure you're getting the file you expect.
+
+This is also the recommended installation method of:
+
+* [Rust](https://www.rust-lang.org/tools/install)
+* [homebrew](https://brew.sh/)
+* [RVM](https://rvm.io/rvm/install).
+* [Docker](https://get.docker.com/)
+* [DockSTARTer](https://dockstarter.com/)
+ 
+It's pretty standard practice at this point.
+
+If you still don't trust it, great, you'll fit right in here. Proceed to the Manual Set-up step below.
+
 ## Manual Set-up
 
 * Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
