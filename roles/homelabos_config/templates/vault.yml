@@ -75,7 +75,7 @@ authelia:
   auth: {{ authelia.enable | default(authelia.enable, None) | default(False) }}
   domain: {{ authelia.domain | default(False) }}
   subdomain: {{ authelia.subdomain | default("auth") }}
-  redirect_url:  {{ authelia.redirect_url | default("organizr." + domain) }}
+  redirect_url:  {{ authelia.redirect_url | default("https://organizr." + domain) }}
   # Determines how verbose the logs are
   log_level: {{ authelia.log_level | default('debug') }}
   # Do you want to login with your common name "john doe" or your username "jdoe"?
