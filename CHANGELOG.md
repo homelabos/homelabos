@@ -1,8 +1,8 @@
-# 8.0
+# 0.8
 
 ## Services Added
 
-- Added OctoPrint - The snappy web interface for your 3D printer.
+- Added matterbridge - Bridges between many different chat protocols.
 
 # 0.7.1 - 0.7.2
 

@@ -55,6 +55,7 @@ services:
   mashio: 
   massivedecks: 
   matomo: 
+  matterbridge: 
   mayan: 
   minecraft: 
   minecraftbedrockserver: 
@@ -170,6 +171,7 @@ mailu:
 massivedecks: 
 mashio: 
 matomo: 
+matterbridge:
 mayan: 
 minecraft: 
 minecraftbedrockserver: 

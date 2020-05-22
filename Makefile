@@ -188,6 +188,11 @@ count_services:
 # This lists each folder in roles/ on it's own line, then excludes anything with homelabos or 'docs' in it, which are HomelabOS things and not services. Then it counts the number of lines.
 	@ls -l roles | grep -v -e "homelab" -e "docs" | wc -l
 
+list_services:
+# This lists all available services as they are registerd in the group_vars/all file.
+	@awk '/^services:/{flag=1; next}  /^docs:/{flag=0} flag' group_vars/all|awk '{gsub(/\:/, ""); print}'
+
+
 # Hacky fix to allow make to accept multiple arguments
 %:
 	@:

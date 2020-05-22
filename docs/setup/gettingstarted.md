@@ -34,6 +34,8 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 `[client]$ make git_sync` - Syncs user settings to a git repo
 
+`[client]$ make list_services` - Lists all available services to make it easier to find ot what is available
+
 `[client]$ make logo` - Displays the HomelabOS logo, and checks the version
 
 `[client]$ make build` - Builds the HomelabOS deploy docker image

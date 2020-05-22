@@ -549,6 +549,8 @@ matomo:
   auth: {{ matomo.auth | default(False) }}
   domain: {{ matomo.domain | default(False) }}
   subdomain: {{ matomo.subdomain | default("matomo") }}
+matterbridge:
+  enable: {{ matterbridge.enable | default(enable_matterbridge, None) | default(False) }}
 mayan:
   enable: {{ mayan.enable | default(enable_mayan, None) | default(False) }}
   https_only: {{ mayan.https_only | default(False) }}
