@@ -47,6 +47,7 @@ nav:
     - Calendaring and Contacts Management:
       - NextCloud: software/nextcloud.md
     - Chat:
+      - Matterbridge: software/matterbridge.md
       - The Lounge: software/thelounge.md
       - Zulip: software/zulip.md
     - Document Management:
@@ -54,6 +55,7 @@ nav:
       - Paperless: software/paperless.md
     - E-books:
       - Calibre: software/calibre.md
+      - Lazylibrarian: software/lazylibrarian.md
     - Email:
       - Mailu: software/mailu.md
     - Federated Identity/Authentication:
@@ -74,6 +76,7 @@ nav:
       - SickChill: software/sickchill.md
       - Synchthing: software/syncthing.md
       - Transmission: software/transmission.md
+      - WebDAV: software/webdavserver.md
     - Games:
       - Factorio: software/factorio.md
       - Minecraft: software/minecraft.md
@@ -98,6 +101,7 @@ nav:
       - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
+      - DuckDNS: software/duckdns.md
       - EtherCalc: software/ethercalc.md
       - ERPNext: software/erpnext.md
       - Folding@home: software/folding_at_home.md
@@ -116,6 +120,7 @@ nav:
       - PrivateBin: software/privatebin.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
+      - Shinobi: software/shinobi.md
       - Ubooquity: software/ubooquity.md
       - Watchtower: software/watchtower.md
       - WebTrees: software/webtrees.md
@@ -136,6 +141,7 @@ nav:
     - Note-taking and Editors:
       - BulletNotes: software/bulletnotes.md
       - Trilium: software/trilium.md
+      - Turtl: software/turtl.md
     - Password Managers:
       - Bitwarden: software/bitwarden.md
     - Personal Dashboards:

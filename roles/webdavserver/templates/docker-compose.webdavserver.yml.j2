@@ -1,0 +1,52 @@
+---
+version: '3'
+
+# This networks section required for the pacakge to be visible to Traefik. 
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    image: bytemark/webdav
+    restart: unless-stopped
+    volumes:
+      - "{{ storage_dir }}/webdav:/var/lib/dav"
+    environment:
+      - AUTH_TYPE=Digest
+      - USERNAME={{ default_username }}
+      - PASSWORD={{ lookup('password', './settings/passwords/webdav_password chars=ascii_letters,digits') }}
+      - LOCATION=/
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.webdavserver.loadbalancer.server.scheme=http"
+      - "traefik.http.services.webdavserver.loadbalancer.server.port=80"
+      - "traefik.http.routers.webdavserver-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.webdavserver-http.entrypoints=http"
+{% if not webdavserver.https_only %}
+      - "traefik.http.routers.webdavserver-http.middlewares={% if webdavserver.https_only %}redirect@file, {% else %}{% if webdavserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.webdavserver-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.webdavserver.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.webdavserver.entrypoints=https"
+      - "traefik.http.routers.webdavserver.middlewares={% if webdavserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.webdavserver.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.webdavserver.tls.certresolver=dns"
+      - "traefik.http.routers.webdavserver.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.webdavserver.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.webdavserver.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.webdavserver-tor-http.rule=Host(`webdavserver.{{ tor_domain }}`)"
+      - "traefik.http.routers.webdavserver-tor-http.entrypoints=http"
+      - "traefik.http.routers.webdavserver-tor-http.middlewares={% if webdavserver.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}

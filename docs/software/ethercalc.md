@@ -1,6 +1,6 @@
 # EtherCalc
 
-[EtherCalc](ethercalc.net) EtherCalc is a web spreadsheet
+[EtherCalc](https://ethercalc.net) EtherCalc is a web spreadsheet
 
 ## Access
 

@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  default:
 
 services:
   # Drone is a self-service continuous delivery platform
@@ -15,13 +16,21 @@ services:
       - "{{ volumes_root }}/drone/data:/data"
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
+      - default
       - traefik_network
     environment:
-      - DRONE_GITEA_SERVER=https://gitea.{{ domain }}
+{% if gitea %}
+      - DRONE_GITEA_SERVER=https://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}
+{% endif %}
+      - DRONE_GITEA_CLIENT_ID={{ drone.gitea_id }}
+      - DRONE_GITEA_CLIENT_SECRET={{ drone.gitea_secret }}
+{% endif %}
       - DRONE_GIT_ALWAYS_AUTH=true
-      - DRONE_RUNNER_CAPACITY=1
+      - DRONE_RPC_SECRET={{lookup('password', './settings/passwords/drone_secret length=32 chars=ascii_letters,digits')}}
       - DRONE_SERVER_PROTO=https
-      - DRONE_SERVER_HOST={% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}
+      - DRONE_SERVER_HOST={% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}
+{% endif %}
+      - DRONE_DATABASE_SECRET={{lookup('password', './settings/passwords/drone_database-secret length=32 chars=ascii_letters,digits')}}
       - DRONE_TLS_AUTOCERT=false
     labels:
       - "traefik.enable=true"
@@ -50,14 +59,16 @@ services:
 
   drone-agent:
     image: drone/agent:1.0
-    restart: always
+    restart: unless-stopped
+    depends_on:
+      - drone-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - traefik_network
+      - default
     environment:
-      - DRONE_SERVER=drone-server:9000
-      - DRONE_SECRET="{{lookup('password', './settings/passwords/drone_secret chars=ascii_letters')}}"
+      - DRONE_RPC_HOST=drone-server:80
+      - DRONE_RPC_SECRET={{lookup('password', './settings/passwords/drone_secret length=32 chars=ascii_letters,digits')}}
       - DRONE_MAX_PROCS=1
     labels:
       - "traefik.enable=false"

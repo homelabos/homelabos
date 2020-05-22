@@ -1,3 +1,7 @@
+# Before you begin
+
+Before you begin, please familiarize yourself with the [contributing](contributing.md) document.
+
 # Using the addPkg.rb script to Add services to HomelabOS
 
 ## What does the script do?

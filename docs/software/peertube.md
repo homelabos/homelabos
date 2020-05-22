@@ -1,6 +1,6 @@
 # PeerTube
 
-[PeerTube](Peertube.social) ActivityPub Video Sharing
+[PeerTube](https://peertube.social) ActivityPub Video Sharing
 
 ## Access
 
