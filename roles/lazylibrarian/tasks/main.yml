@@ -1,0 +1,24 @@
+---
+- name: Make lazylibrarian directory.
+  file:
+    path: "{{ volumes_root }}/lazylibrarian"
+    state: directory
+
+- name: Copy lazylibrarian docker-compose.yml file into place.
+  template:
+    src: docker-compose.lazylibrarian.yml.j2
+    dest: "{{ volumes_root }}/lazylibrarian/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure lazylibrarian systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/lazylibrarian.service
+
+- name: Start lazylibrarian
+  systemd:
+    name: lazylibrarian
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

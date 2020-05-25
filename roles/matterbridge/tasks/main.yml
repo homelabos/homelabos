@@ -1,0 +1,29 @@
+---
+- name: Make matterbridge directory.
+  file:
+    path: "{{ volumes_root }}/matterbridge"
+    state: directory
+
+- name: Copy matterbridge docker-compose.yml file into place.
+  template:
+    src: docker-compose.matterbridge.yml.j2
+    dest: "{{ volumes_root }}/matterbridge/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Create empty config file.
+  file:
+    path: "{{ volumes_root }}/matterbridge/matterbridge.toml"
+    state: touch
+
+- name: Configure matterbridge systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/matterbridge.service
+
+- name: Start matterbridge
+  systemd:
+    name: matterbridge
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

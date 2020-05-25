@@ -49,11 +49,13 @@ services:
   jackett: 
   jellyfin: 
   kibitzr: 
+  lazylibrarian: 
   lidarr: 
   mailu: 
   mashio: 
   massivedecks: 
   matomo: 
+  matterbridge: 
   mayan: 
   minecraft: 
   minecraftbedrockserver: 
@@ -102,9 +104,11 @@ services:
   tiddlywiki: 
   transmission: 
   trilium: 
+  turtl: 
   ubooquity: 
   wallabag: 
   watchtower: 
+  webdavserver: 
   webtrees: 
   webvirtmgr: 
   wekan: 
@@ -160,11 +164,13 @@ inventario:
 jackett: 
 jellyfin: 
 kibitzr: 
+lazylibrarian: 
 lidarr: 
 mailu: 
 massivedecks: 
 mashio: 
 matomo: 
+matterbridge:
 mayan: 
 minecraft: 
 minecraftbedrockserver: 
@@ -199,7 +205,7 @@ radarr:
 restic: 
 sabnzbd: 
 searx: 
-shinobi:
+shinobi: 
 sickchill: 
 snibox: 
 sonarr: 
@@ -212,11 +218,13 @@ tick:
 tiddlywiki: 
 transmission: 
 trilium: 
+turtl: 
 ubooquity: 
 wekan: 
 watchtower: 
 xfinityusageinfluxdb: 
 wallabag: 
+webdavserver: 
 webtrees: 
 webvirtmgr: 
 zammad: 

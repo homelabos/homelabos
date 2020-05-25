@@ -106,6 +106,7 @@ If you are having problems you can:
 - [Sonarr](software/radarr-sonarr) - Automated TV downloading
 - [Syncthing](software/syncthing) - File syncing software
 - [Transmission](software/transmission) - BitTorrent client
+- [WebDAV](software/webdavserver) - Apache based WebDAV server
 
 ### Games
 
@@ -137,6 +138,7 @@ If you are having problems you can:
 - [CodiMD](software/codimi) The best platform to write and share markdown
 - [Darksky](software/darksky) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](software/dasher) - Amazon Dash button support
+- [DuckDNS](software/duckdns) is free dynamic DNS hosted on AWS. This provides a client to update the IP pointed to by DuckDNS.
 - [EtherCalc](software/ethercalc) - Web Spreadsheet
 - [ERPNext](software/erpnext) Open Source ERP for Everyone.
 - [Folding@home](software/folding_at_home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
@@ -178,6 +180,7 @@ If you are having problems you can:
 
 - [BulletNotes](software/bulletnotes) - Note taking application
 - [Trilium](software/trilium) - Build your personal knowledge base with Trilium Notes
+- [Turtl](software/turtl) - Note taking application with mobile and desktop apps
 
 ### Password Managers
 

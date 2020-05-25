@@ -1,7 +1,6 @@
 # DuckDNS
 
-[DuckDNS](http://duckdns.org/) is free dynamic DNS hosted on AWS.
-This provides a client to update the IP pointed to by DuckDNS.
+[DuckDNS](http://duckdns.org/) is free dynamic DNS hosted on AWS. This provides a client to update the IP pointed to by DuckDNS.
 
 ## Access
 

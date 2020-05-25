@@ -1,0 +1,9 @@
+---
+version: '3'
+
+services:
+  app: 
+    image: 42wim/matterbridge
+    restart: unless-stopped
+    volumes: 
+      - {{ volumes_root }}/matterbridge/matterbridge.toml:/matterbridge.toml
