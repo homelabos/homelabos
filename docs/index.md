@@ -66,6 +66,7 @@ If you are having problems you can:
 
 ### Chat
 
+- [Matterbridge](software/matterbridge) - Bridges between many different chat protocols.
 - [The Lounge](software/thelounge) - Always-on IRC client (IRC bouncer)
 - [Zulip](software/zulip) - Threaded chat software
 
