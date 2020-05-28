@@ -59,3 +59,9 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
+
+- debug:
+    msg:
+      - "Authelia redirects to {{ authelia.redirect_url }}"
+      - "You can change this by setting the authelia.redirect_url setting to the one of your own choice."
+      - "Example: ./set_setting authelia.redirect_service https://heimdall.example.com"
