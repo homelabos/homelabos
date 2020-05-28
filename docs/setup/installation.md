@@ -8,9 +8,6 @@
 
     Also, if you trash your server or wreck your data, that's on you. Test your backups. Trust nothing.
 
-* [Watch Video Tutorial - Cloud Based Server](https://youtu.be/p8cD349BGRI)
-* [Watch Video Tutorial - Local Server](https://youtu.be/Zy6Xfl5b5z4)
-
 ## Requirements
 
 ### Server
@@ -69,6 +66,10 @@ to act as a bastion host via Tinc vpn and nginx.
 ### S3 Account
 
 S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back up to. You can use Amazon's service, or one of many other S3 compatible providers. You can also back up to another HomelabOS instance if that other instance is running Minio, a self-hosted S3 service.
+
+# Installation
+
+[Video Installation Tutorial](https://youtu.be/lbmViEFTj4o)
 
 ## Automatic Set-up (One-liner)
 
