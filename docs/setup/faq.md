@@ -98,3 +98,9 @@ Yes.
 ## If I don't have a domain, what do I enter for the domain field?
 
 Make something up. Something like `myhomelab.local` is fine. HomelabOS will generate a file on the server `/var/homelabos/homelabos_hosts`. You can use this file to add to your computer's hosts override file (`/etc/hosts` on *nix based OSs), or to map on your router or DNS server as DNS overrides. HomelabOS generates one line o `SERVER_IP SERVICE_NAME.DOMAIN_NAME SERVICENAME` for each service. So if you used the example fake domain given above, and you enabled [Jellyfin](../software/jellyfin.md), you can access it at `jellyfin.myhomelab.local` once you have your DNS overrides set up.
+
+## Can I use a 32 bit OS?
+
+No.
+
+Docker requires 64 bit. Nothing we can do about that, sorry.
