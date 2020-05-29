@@ -8,40 +8,40 @@ networks:
   firefly:
 
 services:
-  # Financial Tracker
   app:
     restart: unless-stopped
-    depends_on:
-      - db
     environment:
-      - DB_CONNECTION=pgsql
-      - DB_HOST=db
-      - DB_DATABASE=firefly_db
-      - DB_USERNAME=firefly_db
-      - DB_PORT=5432
-      - DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
-      - APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=ascii_letters length=32') }}
-      # Using heroku as APP_ENV, just to ensure generated URIs start with HTTPS, leveraging:
       # https://github.com/firefly-iii/firefly-iii/blob/master/app/Providers/AppServiceProvider.php#L42
       # This fixes issue with SSL termination at traefik, and forces HTTPS URIs everywhere
+      # Using heroku as APP_ENV, just to ensure generated URIs start with HTTPS, leveraging:
       - APP_ENV=heroku
+      - APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=ascii_letters length=32') }}
       - APP_URL=https://money.{{ domain }}
+      - DB_CONNECTION=pgsql
+      - DB_DATABASE=firefly_db
+      - DB_HOST=db
+      - DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
+      - DB_PORT=5432
+      - DB_USERNAME=firefly_db
       - MAIL_DRIVER=smtp
-      - MAIL_HOST={{ smtp.host }}
-      - MAIL_PORT={{ smtp.port }}
-      - MAIL_FROM={{ smtp.from_email }}
-      - MAIL_USERNAME={{ smtp.user }}
-      - MAIL_PASSWORD={{ smtp.pass }}
       - MAIL_ENCRYPTION=tls
-      - TZ={{ common_timezone }}
+      - MAIL_FROM={{ smtp.from_email }}
+      - MAIL_HOST={{ smtp.host }}
+      - MAIL_PASSWORD={{ smtp.pass }}
+      - MAIL_PORT={{ smtp.port }}
+      - MAIL_USERNAME={{ smtp.user }}
+      - SEND_TELEMETRY=false
       - ServerName=money.{{ domain }}
+      - TZ={{ common_timezone }}
     image: jc5x/firefly-iii:{{ firefly_iii.version }}
     networks:
       - traefik_network
       - firefly
+    depends_on:
+      - db
     volumes:
-      - "{{ volumes_root }}/firefly/export:/var/www/firefly-iii/storage/export"
-      - "{{ volumes_root }}/firefly/upload:/var/www/firefly-iii/storage/upload"
+      - '{{ volumes_root }}/firefly/export:/var/www/firefly-iii/storage/export'
+      - '{{ volumes_root }}/firefly/upload:/var/www/firefly-iii/storage/upload'
     labels:
       - "traefik.http.services.firefly_iii.loadbalancer.server.scheme=http"
       - "traefik.http.services.firefly_iii.loadbalancer.server.port=80"
@@ -58,3 +58,8 @@ services:
       - firefly
     volumes:
       - "{{ volumes_root }}/firefly/db:/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
