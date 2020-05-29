@@ -69,6 +69,7 @@ services:
   nextcloud: 
   nodered: 
   nzbget: 
+  octoprint: 
   ombi: 
   openldap: 
   openvpn: 
@@ -184,6 +185,7 @@ netdata:
 nextcloud: 
 nodered: 
 nzbget: 
+octoprint:
 ombi: 
 openldap: 
 openvpn: 
