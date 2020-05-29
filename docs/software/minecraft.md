@@ -1,6 +1,6 @@
 # Minecraft
 
-[Minecraft](https://hub.docker.com/r/itzg/minecraft-server) Minecraft server with select-able version 
+[Minecraft](https://hub.docker.com/r/itzg/minecraft-server) Minecraft server with select-able version
 
 ## Access
 
@@ -13,8 +13,8 @@ It is also available via Tor at {{ minecraft.subdomain + "." + tor_domain }}:255
 ## Settings
 This options are exposed as settings in HomelabOS.
 
-  - ONLINE_MODE: If this is True, users will check connecting players against Minecraft's account database. Disable to run a 'offline server'. 
-  *Warning*: If this is set to False the server will be completly open to anyone able to connect. 
+  - ONLINE_MODE: If this is True, users will check connecting players against Minecraft's account database. Disable to run a 'offline server'.
+  *Warning*: If this is set to False the server will be completly open to anyone able to connect.
 
   - TYPE: Type of server to run, default y VANILLA. Check all options in repository README.
 

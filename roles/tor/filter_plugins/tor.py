@@ -35,7 +35,7 @@ def update_pass(password, password_hash, salt='', how=96, **kwargs):
 def _check_pw(password, password_hash=None):
     if not re.match('^16:[0-9A-F]{58}$', password_hash):
       raise AssertionError("Unexpected password hash: %s" % password_hash)
- 
+
     output_hex = binascii.a2b_hex(password_hash.strip()[3:])
     salt, how, _ = output_hex[:8], ord(output_hex[8]), output_hex[9:]
 
@@ -47,11 +47,11 @@ def _check_pw(password, password_hash=None):
 
 def _hash_pw(password, salt=None, how=96):
     #"S2K Algorithm, prefix 16:"
-    
+
     if not salt:
         salt = ''.join(random.SystemRandom().choice(string.printable) for _ in range(8))
     assert len(salt) == 8, "Salt needs to be 8 bytes long"
-    
+
     count = (16 + (how & 15)) << ((how >> 4) + 6)
     stuff = salt + password.encode('UTF-8')
     repetitions = count // len(stuff) + 1
