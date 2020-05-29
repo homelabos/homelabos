@@ -184,6 +184,7 @@ authelia:
   auth: "{{ vault.authelia.enable }}"
   domain: "{{ vault.authelia.domain }}"
   subdomain: "{{ vault.authelia.subdomain }}"
+  redirect_url:  {{ vault.authelia.redirect_url }}
   # Determines how verbose the logs are
   log_level: "{{ vault.authelia.log_level }}"
   # Do you want to login with your common name "john doe" or your username "jdoe"?
