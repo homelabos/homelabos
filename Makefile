@@ -63,8 +63,8 @@ config_reset: logo build
 # Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo build git_sync config
 	@printf "$(byel)========== Update HomelabOS ==========$(end)"
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml' --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml' --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
 	@printf "$(byel)========== Update completed! ==========$(end)"
 
 # Update just one HomelabOS service `make update_one inventario`
@@ -78,7 +78,7 @@ update_one: logo build git_sync config
 # Remove HomelabOS services
 uninstall: logo build
 	@printf "$(byel)========== Uninstall HomelabOS completely ==========$(end)"
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml' --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.remove.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.remove.yml
 	@printf "$(byel)========== Uninstall completed! ==========$(end)"
 
 # Remove one service
