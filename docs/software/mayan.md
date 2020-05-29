@@ -19,12 +19,12 @@ It is also available via Tor at [http://{{ mayan.subdomain + "." + tor_domain }}
     ```
 
 2) Go to the Mayan web interface.
-    - Go to `System -> settings -> sources`. 
+    - Go to `System -> settings -> sources`.
     - Click on `actions -> add new watch folder`
     - Fill out the options, for `Folder Path` type "/watched_files"
-    - By default, it will scan for new files every 600 seconds (10 minutes), change that to a lower number if you'd like. 
+    - By default, it will scan for new files every 600 seconds (10 minutes), change that to a lower number if you'd like.
     - Save
-    
+
     - Click on `actions -> add new stagging folder`
     - fill out the options, for `Folder Path` type "/staged_files"
     - Save

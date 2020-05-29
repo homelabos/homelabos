@@ -1,3 +1,5 @@
+---
+
 # config file version
 apiVersion: 1
 
@@ -5,16 +7,16 @@ apiVersion: 1
 # what's available in the database
 datasources:
   # <string, required> name of the datasource. Required
-- name: Influxdb
-  # <string, required> datasource type. Required
-  type: influxdb
-  # <string, required> access mode. proxy or direct (Server or Browser in the UI). Required
-  access: proxy
-  # <int> org id. will default to orgId 1 if not specified
-  orgId: 1
-  # <string> url
-  url: http://influxdb:8086
-  password:
-  user:
-  database: telegraf
-  version: 1
+  - name: Influxdb
+    # <string, required> datasource type. Required
+    type: influxdb
+    # <string, required> access mode. proxy or direct (Server or Browser in the UI). Required
+    access: proxy
+    # <int> org id. will default to orgId 1 if not specified
+    orgId: 1
+    # <string> url
+    url: http://influxdb:8086
+    password:
+    user:
+    database: telegraf
+    version: 1

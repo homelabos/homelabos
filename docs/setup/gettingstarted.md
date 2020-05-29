@@ -26,7 +26,7 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 ## Homelab Commands
 
-`[client]$ make` - Deploys HomelabOS to the server 
+`[client]$ make` - Deploys HomelabOS to the server
 
 `[client]$ make config` - Creates the settings/config.yml file and populates it with basic information
 

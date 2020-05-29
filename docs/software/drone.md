@@ -17,7 +17,7 @@ It is also available via Tor at [http://{{ drone.subdomain + "." + tor_domain }}
 `make set gitea_id {id}`
 `make set gitea_secret {secret}`
 
-## Build and Push Docker image 
+## Build and Push Docker image
 
 Use the official [Drone Documentation](https://docs.drone.io/) to Setup your Environment, if not using Gitea.
 

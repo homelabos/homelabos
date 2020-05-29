@@ -9,12 +9,12 @@ Use the page table of contents to navigate it quickly. Also the search in these 
 * Make sure HomelabOS successfully installed docker on the server. If its not installed, try installing it manually.
 ```
 [server]$ docker run hello-world
-``` 
+```
 * Make sure you are running the latest docker and docker compose on both your client and server. The Docker version installed via `apt` can be old. Recommended install directions are [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 * Check HomelabOS status on the server and make sure it is loaded and active.
 ```
 [server]$ systemctl status homelabos
-``` 
+```
 * Make sure the admin user specified during `make config` is created.
 ```
 [server]$ compgen -u
@@ -56,7 +56,7 @@ If you can't even access the dashboard at {{ homelab_ip }}:8181, check the statu
 ```
 [server]$ systemctl status homelabos
 ```
-This should give you some insight into what the issue is. Also you should be able to run 
+This should give you some insight into what the issue is. Also you should be able to run
 ```
 [server]$ docker ps | grep traefik
 ```

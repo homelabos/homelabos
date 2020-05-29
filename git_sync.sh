@@ -1,3 +1,5 @@
+#!/bin/bash
+
 mkdir -p settings > /dev/null 2>&1
 # If there is a git repo, then attempt to update
 if [ -d settings/.git/ ]; then

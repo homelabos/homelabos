@@ -1,8 +1,10 @@
+---
+
 http:
   routers:
     {{service_name}}-http:
       rule: "Host(`{{service_name}}.{{domain}}`)"
-      entryPoint: 
+      entryPoint:
         - "http"
       service: "{{service_name}}"
     {{service_name}}:

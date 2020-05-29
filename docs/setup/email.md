@@ -11,18 +11,18 @@ To do this:
 
 1. run the **`make decrypt`** command
 2. find and edit the `vault.yml` file
-    > NOTE: editing this file will require superuser/ root permissions 
+    > NOTE: editing this file will require superuser/ root permissions
 3. Set the following settings to what you have been provided
 
 ```
 # SMTP Settings
 smtp:
-  host: 
-  port: 
-  user: 
-  pass: 
-  from_email: 
-  from_name: 
+  host:
+  port:
+  user:
+  pass:
+  from_email:
+  from_name:
 ```
 4. Save, and run **`make`** again; to re-encrypt the `vault.yml` file
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Generate Terraform files
 touch settings/config.yml
 ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.terraform.yml
