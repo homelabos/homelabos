@@ -4,7 +4,7 @@
 
 ## About
 
-Nextcloud can be a beast to setup. Therefore, HomelabOS does as much as it can to provide intelligent defaults, and common configuration settings out of the box. 
+Nextcloud can be a beast to setup. Therefore, HomelabOS does as much as it can to provide intelligent defaults, and common configuration settings out of the box.
 
 Specifically, HomelabOS configures Nextcloud in the following ways:
 * Postgres as the default database server
@@ -15,12 +15,12 @@ Specifically, HomelabOS configures Nextcloud in the following ways:
 * Default Username is pulled from your config/vault yaml file
 * Default Password is pulled from your config/vault yaml file
 * Mounts/Volumes - these are all configured to persist across container restarts.
-  - /var/homelabos/nextcloud/apps - host accessible volume containing self-installed apps.
-  - /var/homelabos/nextcloud/config - host accessible volume containing configuration.
+  - {{ volumes_root }}/nextcloud/apps - host accessible volume containing self-installed apps.
+  - {{ volumes_root }}/nextcloud/config - host accessible volume containing configuration.
     - when necessary, users can directly edit the config.php file - for instance, to fix the login-loop bug with mobile apps.
-  - /var/homelabos/nextcloud/themes - host accessible volume containing custom theme files.
-  - /var/homelabos/nextcloud/webroot - host accessible volume containing the actuall nextcloud php files, and user-data root folders.
-  - {{ storage_dir }}/ - mounted internally as /mnt/homelabos 
+  - {{ volumes_root }}/nextcloud/themes - host accessible volume containing custom theme files.
+  - {{ volumes_root }}/nextcloud/webroot - host accessible volume containing the actuall nextcloud php files, and user-data root folders.
+  - {{ storage_dir }}/ - mounted internally as /mnt/homelabos
 
 ## Configuration Notes
 
