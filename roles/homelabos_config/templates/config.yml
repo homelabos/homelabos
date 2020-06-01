@@ -4,6 +4,9 @@
 # SSH accessible IP address
 homelab_ip: {{ homelab_ip }}
 
+# SSH Port
+homelab_port: {{ homelab_port | default('22') }}
+
 # User name used to connect via ssh. Must have passwordless sudo.
 homelab_ssh_user: {{ homelab_ssh_user }}
 
@@ -181,6 +184,7 @@ authelia:
   auth: "{{ vault.authelia.enable }}"
   domain: "{{ vault.authelia.domain }}"
   subdomain: "{{ vault.authelia.subdomain }}"
+  redirect_url:  "{{ vault.authelia.redirect_url }}"
   # Determines how verbose the logs are
   log_level: "{{ vault.authelia.log_level }}"
   # Do you want to login with your common name "john doe" or your username "jdoe"?
