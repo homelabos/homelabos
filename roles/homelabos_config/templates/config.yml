@@ -841,6 +841,12 @@ syncthing:
   auth: {{ syncthing.auth | default(False) }}
   domain: {{ syncthing.domain | default(False) }}
   subdomain: {{ syncthing.subdomain | default("syncthing") }}
+taisun:
+  enable: {{ taisun.enable | default(enable_taisun, None) | default(False) }}
+  https_only: {{ taisun.https_only | default(False) }}
+  auth: {{ taisun.auth | default(False) }}
+  domain: {{ taisun.domain | default(False) }}
+  subdomain: {{ taisun.subdomain | default("taisun")}}
 tautulli:
   enable: {{ tautulli.enable | default(enable_tautulli, None) | default(False) }}
   https_only: {{ tautulli.https_only | default(False) }}

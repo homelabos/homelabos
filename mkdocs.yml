@@ -51,6 +51,8 @@ nav:
       - Matterbridge: software/matterbridge.md
       - The Lounge: software/thelounge.md
       - Zulip: software/zulip.md
+    - Docker & VM Management: 
+      - Taisun: software/taisun.md
     - Document Management:
       - Mayan: software/mayan.md
       - Paperless: software/paperless.md

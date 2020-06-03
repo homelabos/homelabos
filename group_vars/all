@@ -99,6 +99,7 @@ services:
   statping: 
   sui: 
   syncthing: 
+  taisun: 
   tautulli: 
   teedy: 
   thelounge: 
@@ -215,6 +216,7 @@ sonarr:
 speedtest: 
 statping: 
 syncthing: 
+taisun:
 tautulli: 
 teedy:
 thelounge: 
