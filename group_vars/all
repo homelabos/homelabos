@@ -100,6 +100,7 @@ services:
   sui: 
   syncthing: 
   tautulli: 
+  teedy: 
   thelounge: 
   tick: 
   tiddlywiki: 
@@ -171,7 +172,7 @@ mailu:
 massivedecks: 
 mashio: 
 matomo: 
-matterbridge:
+matterbridge: 
 mayan: 
 minecraft: 
 minecraftbedrockserver: 
@@ -185,7 +186,7 @@ netdata:
 nextcloud: 
 nodered: 
 nzbget: 
-octoprint:
+octoprint: 
 ombi: 
 openldap: 
 openvpn: 
@@ -215,6 +216,7 @@ speedtest:
 statping: 
 syncthing: 
 tautulli: 
+teedy:
 thelounge: 
 tick: 
 tiddlywiki: 
