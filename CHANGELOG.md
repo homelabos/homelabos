@@ -2,6 +2,8 @@
 
 ## Services Added
 
+- Added Teedy - Document Management made simple for everyone
+- Added Taisun - Single Server Docker Management for Humans
 - Added matterbridge - Bridges between many different chat protocols.
 - Added OctoPrint - The snappy web interface for your 3D printer.
 

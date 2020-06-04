@@ -51,9 +51,13 @@ nav:
       - Matterbridge: software/matterbridge.md
       - The Lounge: software/thelounge.md
       - Zulip: software/zulip.md
+    - Docker & VM Management:
+      - Portainer: software/portainer.md
+      - Taisun: software/taisun.md
     - Document Management:
       - Mayan: software/mayan.md
       - Paperless: software/paperless.md
+      - Teedy: software/teedy.md
     - E-books:
       - Calibre: software/calibre.md
       - Lazylibrarian: software/lazylibrarian.md
@@ -118,7 +122,6 @@ nav:
       - OctoPrint: software/octoprint.md
       - Pi-hole: software/pihole.md
       - Poli: software/poli.md
-      - Portainer: software/portainer.md
       - PrivateBin: software/privatebin.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
