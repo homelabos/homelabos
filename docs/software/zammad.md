@@ -32,4 +32,3 @@ zammad:
  - 6 GB of RAM (+6 GB if you want to run Elasticsearch on the same server)
 
 Of course at the end it depends on acutal load of concurent agents and data traffic.
-

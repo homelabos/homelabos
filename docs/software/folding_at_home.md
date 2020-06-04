@@ -16,4 +16,3 @@ A dashboard is available at http://{{ homelab_ip }}:7396
 In `settings/config.yml` you can edit several settings included `power` which says how hard it will work.
 
 The `team` setting defaults to the [HomelabOS Folding@home team](https://stats.foldingathome.org/team/261443). Join us in the fight against disease!
-

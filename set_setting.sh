@@ -2,7 +2,7 @@
 # Decrypt vault
 make decrypt
 
-echo "Finding key: $1" 
+echo "Finding key: $1"
 echo "New setting: $2"
 
 # Try to figure out where key is defined

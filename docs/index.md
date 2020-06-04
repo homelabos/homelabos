@@ -5,46 +5,49 @@ Welcome to HomelabOS! Your very own offline-first open-source data-center!
 HomelabOS is a collection of various separate services. You can find more information about each in the menu on the left.
 
 ## [Installation](setup/installation)
+
 ## [Getting Started](setup/gettingstarted)
+
+## [Understanding Storage](/setup/storage)
 
 ## Getting Help
 
 If you are having problems you can:
 
-  - [File an issue on GitLab](https://gitlab.com/NickBusey/HomelabOS/issues).
-  - [Ask a question on HomelabOS Reddit](https://www.reddit.com/r/HomelabOS/)
-  - [Ask a question HomelabOS Zulip Chat](https://homelabos.zulipchat.com/)
+- [File an issue on GitLab](https://gitlab.com/NickBusey/HomelabOS/issues).
+- [Ask a question on HomelabOS Reddit](https://www.reddit.com/r/HomelabOS/)
+- [Ask a question HomelabOS Zulip Chat](https://homelabos.zulipchat.com/)
 
 ## Available Software
 
 ### Categories
 
-  - [Analytics](#analytics)
-  - [Automation](#automation)
-  - [Blogging Platforms](#blogging-platforms)
-  - [Calendaring and Contacts Management](#calendaring-and-contacts-management)
-  - [Chat](#chat)
-  - [Document Management](#document-management)
-  - [E-books](#e-books)
-  - [Email](#email)
-  - [Federated Identity/Authentication](#federated-identityauthentication)
-  - [Feed Readers](#feed-readers)
-  - [File Sharing and Synchronization](#file-sharing-and-synchronization)
-  - [Gateways and terminal sharing](#gateways-and-terminal-sharing)
-  - [Media Streaming](#media-streaming)
-  - [Misc/Other](#miscother)
-  - [Money, Budgeting and Management](#money-budgeting-and-management)
-  - [Monitoring](#monitoring)
-  - [Note-taking and Editors](#note-taking-and-editors)
-  - [Password Managers](#password-managers)
-  - [Personal Dashboards](#personal-dashboards)
-  - [Photo and Video Galleries](#photo-and-video-galleries)
-  - [Read it Later Lists](#read-it-later-lists)
-  - [Software Development](#software-development)
-  - [Task management/To-do lists](#task-managementto-do-lists)
-  - [VPN](#vpn)
-  - [Web servers](#web-servers)
-  - [Wikis](#wikis)
+- [Analytics](#analytics)
+- [Automation](#automation)
+- [Blogging Platforms](#blogging-platforms)
+- [Calendaring and Contacts Management](#calendaring-and-contacts-management)
+- [Chat](#chat)
+- [Document Management](#document-management)
+- [E-books](#e-books)
+- [Email](#email)
+- [Federated Identity/Authentication](#federated-identityauthentication)
+- [Feed Readers](#feed-readers)
+- [File Sharing and Synchronization](#file-sharing-and-synchronization)
+- [Gateways and terminal sharing](#gateways-and-terminal-sharing)
+- [Media Streaming](#media-streaming)
+- [Misc/Other](#miscother)
+- [Money, Budgeting and Management](#money-budgeting-and-management)
+- [Monitoring](#monitoring)
+- [Note-taking and Editors](#note-taking-and-editors)
+- [Password Managers](#password-managers)
+- [Personal Dashboards](#personal-dashboards)
+- [Photo and Video Galleries](#photo-and-video-galleries)
+- [Read it Later Lists](#read-it-later-lists)
+- [Software Development](#software-development)
+- [Task management/To-do lists](#task-managementto-do-lists)
+- [VPN](#vpn)
+- [Web servers](#web-servers)
+- [Wikis](#wikis)
 
 ### Analytics
 
@@ -66,6 +69,7 @@ If you are having problems you can:
 
 ### Chat
 
+- [Matterbridge](software/matterbridge) - Bridges between many different chat protocols.
 - [The Lounge](software/thelounge) - Always-on IRC client (IRC bouncer)
 - [Zulip](software/zulip) - Threaded chat software
 
@@ -133,8 +137,8 @@ If you are having problems you can:
 ### Misc/Other
 
 - [Barcode Buddy](software/barcodebuddy) - Barcode system for [Grocy](software/grocy)
-- [Chowdown](software/chowdown)  Simple recipes in Markdown format
-- [Cockpit](software/system-cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
+- [Chowdown](software/chowdown) Simple recipes in Markdown format
+- [Cockpit](software/cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
 - [CodiMD](software/codimi) The best platform to write and share markdown
 - [Darksky](software/darksky) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](software/dasher) - Amazon Dash button support
@@ -150,6 +154,7 @@ If you are having problems you can:
 - [Monica](software/monica) - Contact / relationship manager
 - [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.
 - [NodeRED](software/nodered) - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
+- [OctoPrint](software/octoprint) - The snappy web interface for your 3D printer.
 - [Pi-hole](software/pihole) - Ad blocking
 - [Poli](software/poli) - An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
 - [Portainer](software/portainer) - Easy Docker management
@@ -230,4 +235,4 @@ If you are having problems you can:
 ### Wikis
 
 - [BookStack](software/bookstack) - Simple & Free Wiki Software
-- [TiddlyWiki](software/tiddlywiki) - A non-linear personal web notebook 
+- [TiddlyWiki](software/tiddlywiki) - A non-linear personal web notebook

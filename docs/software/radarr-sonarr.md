@@ -9,7 +9,7 @@ Indexer and a Downlad Client.
 
 ### Indexer: Jackett
 
-The Download Client will be [Jackett](/software/jackett.md), you should make sure 
+The Download Client will be [Jackett](/software/jackett.md), you should make sure
 that you have it installed and configured to follow these instructions.
 Then, in Sonarr (resp. Radarr), go
 to `Settings` then the `Indexers` tab, and click the Plus button.
@@ -20,7 +20,7 @@ on its Dashboard.
 
 ### Download client: Transmission
 
-The Download Client will be [Transmission](/software/transmission.md), you should make sure 
+The Download Client will be [Transmission](/software/transmission.md), you should make sure
 that you have it installed and configured to follow these instructions.
 Then, in Sonarr (resp. Radarr), go
 to the `Download Client` tab, toggle the `Advanced Settings`

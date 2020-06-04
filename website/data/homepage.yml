@@ -18,12 +18,12 @@ features:
   - icon : "tf-ion-star"
     title : "Over 100 Services"
     content : "Replace Gmail, Slack, Google Drive, Netflix, and much more with your own self-hosted services!"
-    
+
     # feature item loop
   - icon : "tf-ion-disc"
     title : "Easy Backups and Restore"
     content : "Use restic to back up all your data nightly. Use minio to back up to a friend's server."
-    
+
     # feature item loop
   - icon : "tf-ion-pricetag"
     title : "Always Free"
@@ -79,7 +79,7 @@ aboutProduct:
         enable : true
         label : "See Available Apps"
         link : "https://homelabos.com/docs/#available-software"
-        
+
     # about product item loop
     - image : "images/laptop.jpg"
       title : "Take back control of your data while saving money"
@@ -140,7 +140,7 @@ community:
         enable : true
         label : "Join the Chat"
         link : "https://homelabos.zulipchat.com/"
-        
+
     - image : "images/reddit.png"
       title : "Reddit"
       content : "Join 550+ Redditors discussing HomelabOS"

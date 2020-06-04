@@ -7,6 +7,7 @@
       - cifs-utils
       - curl
       - software-properties-common
+      - gnupg-agent
       - git
       - htop
       - iftop
@@ -18,14 +19,47 @@
       - unattended-upgrades
       - vim
       - zsh
-      - docker
-      - docker-compose
       - whois
       - python3
       - python3-pip
       - python3-virtualenv
       - python3-passlib
       - python3-openssl
+  tags:
+    - dependencies
+
+- name: Ensure Docker is not installed via Snap
+  snap:
+    name: docker
+    state: absent
+
+- name: Remove older docker.io based packages
+  apt:
+    name:
+      - docker
+      - docker.io
+      - containerd
+      - runc
+      - docker-engine
+    state: absent
+
+- name: Add an apt key for Docker-ce Repo
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add the Docker-ce Repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ubuntu_release}} stable
+    state: present
+
+- name: Install Docker and docker-compose
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose
+      - containerd.io
   tags:
     - dependencies
 

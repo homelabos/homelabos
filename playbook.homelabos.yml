@@ -11,7 +11,10 @@
       raw: sudo apt-get update
       run_once: true
     - name: "Install Python"
-      raw: sudo apt-get -y install python-simplejson
+      raw: sudo apt-get -y install python-simplejson python3 python3-simplejson python3-pip python3-virtualenv python3-passlib python3-openssl
+      run_once: true
+    - name: Configure python and pip
+      raw: sudo apt-get -y purge python-simplejson && if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi
       run_once: true
 
 # Configure a TOR hidden service for remote access without a public IP

@@ -1,2 +1,4 @@
 ansible_host: "{{homelab_ip}}"
+ansible_port: "{{homelab_port}}"
+ansible_ssh_port: "{{homelab_port}}"
 ansible_ssh_user: "{{homelab_ssh_user}}"

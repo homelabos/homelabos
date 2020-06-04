@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS xfinityusageinfluxdb Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutSec=infinity
+Restart=always
+RestartSec=3
+
+ExecStartPre=/usr/bin/docker-compose -f "{{ volumes_root }}/xfinityusageinfluxdb/docker-compose.xfinityusageinfluxdb.yml" -p xfinityusageinfluxdb down
+
+ExecStart=/usr/bin/docker-compose -f "{{ volumes_root }}/xfinityusageinfluxdb/docker-compose.xfinityusageinfluxdb.yml" -p xfinityusageinfluxdb up
+ExecStop=/usr/bin/docker-compose -f "{{ volumes_root }}/xfinityusageinfluxdb/docker-compose.xfinityusageinfluxdb.yml" -p xfinityusageinfluxdb stop
+
+[Install]
+WantedBy=multi-user.target

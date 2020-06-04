@@ -53,6 +53,9 @@ RUN set -x && \
     echo "==> Installing Ansible..."  && \
     pip install ansible==${ANSIBLE_VERSION} && \
     \
+    echo "==> Installing Mitogen..." && \
+    pip install mitogen && \
+    \
     echo "==> Cleaning up..."  && \
     apk del build-dependencies && \
     rm -rf /var/cache/apk/* && \
@@ -77,5 +80,7 @@ ENV ANSIBLE_CONFIG=/data/ansible.cfg
 ENV PYTHONPATH /ansible/lib
 ENV PATH /ansible/bin:$PATH
 ENV ANSIBLE_LIBRARY /ansible/library
+ENV ANSIBLE_STRATEGY_PLUGINS=/usr/local/lib/python3.8/site-packages/ansible_mitogen/plugins/strategy
+ENV ANSIBLE_STRATEGY=mitogen_linear
 
 WORKDIR /data

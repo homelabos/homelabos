@@ -10,7 +10,7 @@ Ideally you want your backups to be offsite, so really the best case scenario wo
 
 Or you could pay Amazon and use their S3 service, if you're into that sort of thing.
 
-## Use your own S3 
+## Use your own S3
 
 This method is not recommended as it is backing up to yourself which is not very useful. The usefulness here comes from Restic's snapshotting. So while this won't give you an offsite backup, it will still provide timed snapshots to access old versions of files.
 
