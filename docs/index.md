@@ -138,7 +138,7 @@ If you are having problems you can:
 
 - [Barcode Buddy](software/barcodebuddy) - Barcode system for [Grocy](software/grocy)
 - [Chowdown](software/chowdown) Simple recipes in Markdown format
-- [Cockpit](software/system-cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
+- [Cockpit](software/cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
 - [CodiMD](software/codimi) The best platform to write and share markdown
 - [Darksky](software/darksky) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](software/dasher) - Amazon Dash button support
