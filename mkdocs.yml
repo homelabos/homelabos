@@ -54,6 +54,7 @@ nav:
     - Document Management:
       - Mayan: software/mayan.md
       - Paperless: software/paperless.md
+      - Teedy: software/teedy.md
     - E-books:
       - Calibre: software/calibre.md
       - Lazylibrarian: software/lazylibrarian.md
