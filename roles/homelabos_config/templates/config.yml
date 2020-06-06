@@ -468,6 +468,7 @@ homeassistant:
   auth: {{ homeassistant.auth | default(False) }}
   domain: {{ homeassistant.domain | default(False) }}
   subdomain: {{ homeassistant.subdomain | default("homeassistant") }}
+  use_supervisord: {{ homeassistant.use_supervisord | default(False)}}
 homebridge:
   enable: {{ homebridge.enable | default(enable_homebridge, None) | default(False) }}
   https_only: {{ homebridge.https_only | default(False) }}
