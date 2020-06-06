@@ -2,6 +2,10 @@
 
 [BarcodeBuddy](https://github.com/Forceu/barcodebuddy) Barcode system for Grocy
 
+The docker image comes from [f0rc3/barcodebuddy-docker](https://hub.docker.com/r/f0rc3/barcodebuddy-docker) and should support arm devices.
+If you attempt to run it on arm and encounter issues, 
+[please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
+
 ## Access
 
 It is available at [https://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/](https://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/) or [http://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/](http://{% if barcodebuddy.domain %}{{ barcodebuddy.domain }}{% else %}{{ barcodebuddy.subdomain + "." + domain }}{% endif %}/)
