@@ -7,7 +7,7 @@
 It is available at [https://{% if taisun.domain %}{{ taisun.domain }}{% else %}{{ taisun.subdomain + "." + domain }}{% endif %}/](https://{% if taisun.domain %}{{ taisun.domain }}{% else %}{{ taisun.subdomain + "." + domain }}{% endif %}/) or [http://{% if taisun.domain %}{{ taisun.domain }}{% else %}{{ taisun.subdomain + "." + domain }}{% endif %}/](http://{% if taisun.domain %}{{ taisun.domain }}{% else %}{{ taisun.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ taisun + "." + tor_domain }}/](http://{{ taisun + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ taisun.subdomain + "." + tor_domain }}/](http://{{ taisun.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

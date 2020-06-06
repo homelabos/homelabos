@@ -277,6 +277,8 @@ chowdown:
   subdomain: {{ chowdown.subdomain | default("chowdown") }}
 cockpit:
   enable: {{ cockpit.enable | default(enable_cockpit, None) | default(False) }}
+  domain: {{ cockpit.domain | default(False) }}
+  subdomain: {{ cockpit.subdomain | default("cockpit") }}
 codeserver:
   enable: {{ codeserver.enable | default(enable_codeserver, None) | default(False) }}
   https_only: {{ codeserver.https_only | default(False) }}
