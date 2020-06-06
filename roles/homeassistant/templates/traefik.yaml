@@ -1,8 +1,10 @@
+---
+
 http:
   routers:
     {{service_name}}-http:
       rule: "Host(`{{ service_domain }}`)"
-      entryPoint: 
+      entryPoint:
         - "http"
       service: "{{service_name}}"
     {{service_name}}:
@@ -13,11 +15,16 @@ http:
         - "redirect@file"
       service: "{{service_name}}"
       tls:
+{% if traefik.dns_challenge_provider %}
         certResolver: "dns"
-        domains:
-          - main: "{{domain}}"
-            sans:
-              - "*.{{domain}}"
+          domains:
+            - main: "{{domain}}"
+              sans:
+                - "*.{{domain}}"
+                - "{{ service_domain }}"
+{% else %}
+        certResolver: "http"
+{% endif %}
 
   services:
     {{service_name}}:
