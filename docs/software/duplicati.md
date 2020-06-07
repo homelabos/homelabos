@@ -3,6 +3,10 @@
 [Duplicati](https://www.duplicati.com/) Free backup software to store encrypted backups online
 For Windows, macOS and Linux.
 
+The docker image comes from [linuxserver/duplicati](https://hub.docker.com/r/linuxserver/duplicati) and should support arm devices.
+If you attempt to run it on arm and encounter issues, 
+[please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
+
 ## Access
 
 > Note: The password for Duplicati is configured to use the `default_password` set during the initail `make config` (which is then subsequently stored in vault.yml)
