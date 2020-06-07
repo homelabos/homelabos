@@ -65,6 +65,7 @@ nav:
       - Mailu: software/mailu.md
     - Federated Identity/Authentication:
       - Authelia: software/authelia.md
+      - Keycloak: software/keycloak.md
       - OpenLDAP: software/openldap.md
     - Feed Readers:
       - FreshRSS: software/freshrss.md
