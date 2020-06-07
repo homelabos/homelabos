@@ -2,6 +2,12 @@
 
 [Funkwhale](https://Funkwhale.audio/en_US/) A social platform to enjoy and share music
 
+The docker image comes from [funkwhale/all-in-one:latest](https://hub.docker.com/r/funkwhale/all-in-one/tags) 
+and currently does not support arm devices. 
+If you are aware of a suitable substitution or replacement ([good place to start](https://hub.docker.com/search?q=funkwhale&type=image&architecture=arm%2Carm64)),
+ [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478) 
+and test your idea using the [documentation](https://homelabos.com/docs/development/adding_services/).
+
 ## Access
 
 It is available at [https://{% if funkwhale.domain %}{{ funkwhale.domain }}{% else %}{{ funkwhale.subdomain + "." + domain }}{% endif %}/](https://{% if funkwhale.domain %}{{ funkwhale.domain }}{% else %}{{ funkwhale.subdomain + "." + domain }}{% endif %}/) or [http://{% if funkwhale.domain %}{{ funkwhale.domain }}{% else %}{{ funkwhale.subdomain + "." + domain }}{% endif %}/](http://{% if funkwhale.domain %}{{ funkwhale.domain }}{% else %}{{ funkwhale.subdomain + "." + domain }}{% endif %}/)
