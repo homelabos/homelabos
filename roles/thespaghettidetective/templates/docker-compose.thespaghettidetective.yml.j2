@@ -1,5 +1,5 @@
 ---
-version: '3'
+version: '2.4'
 
 # This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
@@ -8,7 +8,29 @@ networks:
     external:
       name: homelabos_traefik
 
-
+x-web-defaults: &web-defaults
+  restart: unless-stopped
+  build:
+    context: web
+  volumes:
+    - ./web:/app
+  depends_on:
+    - redis
+  environment:
+    EMAIL_HOST:     # -> such as 'smtp.gmail.com'
+    EMAIL_HOST_USER:   # -> such as your email address for a Gmail account
+    EMAIL_HOST_PASSWORD:    # -> your email account password
+    EMAIL_PORT: 587  # DO NOT surround it with quotes. Otherwise email won't be sent!
+    EMAIL_USE_TLS: 'True'
+    DEFAULT_FROM_EMAIL: 'changeme@example.com'
+    DEBUG: 'False'    # Don't set DEBUG to True, otherwise the static files will be cached in browser until hard-refresh
+    SITE_USES_HTTPS: 'False' # set it to 'True' if https is set up
+    SOCIAL_LOGIN: 'False'
+    REDIS_URL: 'redis://redis:6379'
+    DATABASE_URL: 'sqlite:////app/db.sqlite3'
+    INTERNAL_MEDIA_HOST: 'http://web:3334'
+    ML_API_HOST: 'http://ml_api:3333'
+    ACCOUNT_ALLOW_SIGN_UP: 'False'  # -> set to 'True' if you want to open sign up form
 
 services:
   ml_api:
@@ -24,32 +46,14 @@ services:
     command: bash -c "gunicorn --bind 0.0.0.0:3333 --workers 2 wsgi"
 
   web:
-    restart: unless-stopped
+    <<: *web-defaults
     build:
       context: web
     volumes:
       - ./web:/app
     depends_on:
-      - redis
       - ml_api
-    environment:
-      EMAIL_HOST: {{vault.smtp.host}}
-      EMAIL_HOST_USER: {{vault.smtp.user}}
-      EMAIL_HOST_PASSWORD: {{vault.smtp.pass}}
-      EMAIL_PORT: {{vault.smtp.port}}
-      EMAIL_USE_TLS: 'True'
-      DEFAULT_FROM_EMAIL: {{smtp.from_email}}
-      DEBUG: 'False'    # Don't set DEBUG to True, otherwise the static files will be cached in browser until hard-refresh
-      SITE_USES_HTTPS: 'False' # set it to 'True' if https is set up
-      SOCIAL_LOGIN: 'False'
-      REDIS_URL: 'redis://redis:6379'
-      DATABASE_URL: 'sqlite:////app/db.sqlite3'
-      INTERNAL_MEDIA_HOST: 'http://web:3334'
-      ML_API_HOST: 'http://ml_api:3333'
-      ACCOUNT_ALLOW_SIGN_UP: 'False'  # -> set to 'True' if you want to open sign up form
     hostname: web
-    ports:
-      - "3334:3334"
     command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver --noreload 0.0.0.0:3334"
     networks:
       - traefik_network
@@ -84,26 +88,7 @@ services:
 {% endif %}
 
   tasks:
-    restart: unless-stopped
-    build:
-      context: web
-    volumes:
-      - ./web:/app
-    environment:
-      EMAIL_HOST: {{vault.smtp.host}}
-      EMAIL_HOST_USER: {{vault.smtp.user}}
-      EMAIL_HOST_PASSWORD: {{vault.smtp.pass}}
-      EMAIL_PORT: {{vault.smtp.port}}
-      EMAIL_USE_TLS: 'True'
-      DEFAULT_FROM_EMAIL: {{smtp.from_email}}
-      DEBUG: 'False'    # Don't set DEBUG to True, otherwise the static files will be cached in browser until hard-refresh
-      SITE_USES_HTTPS: 'False' # set it to 'True' if https is set up
-      SOCIAL_LOGIN: 'False'
-      REDIS_URL: 'redis://redis:6379'
-      DATABASE_URL: 'sqlite:////app/db.sqlite3'
-      INTERNAL_MEDIA_HOST: 'http://web:3334'
-      ML_API_HOST: 'http://ml_api:3333'
-      ACCOUNT_ALLOW_SIGN_UP: 'False'  # -> set to 'True' if you want to open sign up form
+    <<: *web-defaults
     hostname: tasks
     command: sh -c "celery -A config worker --beat -l info -c 2 -Q realtime,celery"
 
