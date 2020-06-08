@@ -162,6 +162,7 @@ If you are having problems you can:
 - [Sabnzbd](software/sabnzbd) Free and easy binary newsreader
 - [Searx](software/searx) - A privacy-respecting, hackable metasearch engine.
 - [Shinobi](software/shinobi) Free Open Source CCTV platform.
+- [The Spaghetti Detective](software/thespaghettidetective) - AI-based failure detection for 3D printer remote management and monitoring.
 - [Ubooquity](software/ubooquity) - Ubooquity is a free home server for your comics and ebooks library
 - [Watchtower](software/watchtower) - A process for automating Docker container base image updates
 - [WebTrees](software/webtrees) - Online Genealogy
