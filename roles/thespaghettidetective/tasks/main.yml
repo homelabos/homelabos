@@ -1,0 +1,24 @@
+---
+- name: Make thespaghettidetective directory.
+  file:
+    path: "{{ volumes_root }}/thespaghettidetective"
+    state: directory
+
+- name: Copy thespaghettidetective docker-compose.yml file into place.
+  template:
+    src: docker-compose.thespaghettidetective.yml.j2
+    dest: "{{ volumes_root }}/thespaghettidetective/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure thespaghettidetective systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/thespaghettidetective.service
+
+- name: Start thespaghettidetective
+  systemd:
+    name: thespaghettidetective
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

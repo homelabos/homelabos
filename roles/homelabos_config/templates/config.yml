@@ -872,6 +872,12 @@ thelounge:
   auth: {{ thelounge.auth | default(False) }}
   domain: {{ thelounge.domain | default(False) }}
   subdomain: {{ thelounge.subdomain | default("thelounge") }}
+thespaghettidetective:
+  enable: {{ thespaghettidetective.enable | default(enable_thespaghettidetective, None) | default(False) }}
+  https_only: {{ thespaghettidetective.https_only | default(False) }}
+  auth: {{ thespaghettidetective.auth | default(False) }}
+  domain: {{ thespaghettidetective.domain | default(False) }}
+  subdomain: {{ thespaghettidetective.subdomain | default("thespaghettidetective")}}
 tick:
   enable: {{ tick.enable | default(enable_tick, None) | default(False) }}
   https_only: {{ tick.https_only | default(False) }}
