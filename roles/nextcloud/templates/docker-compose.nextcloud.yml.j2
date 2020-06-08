@@ -66,6 +66,8 @@ services:
       - SMTP_PORT={{vault.smtp.port}}
       - SMTP_PASSWORD={{vault.smtp.pass}}
       - MAIL_FROM_ADDRESS={{vault.smtp.from_email}}
+      - OVERWRITEHOST={{ service_domain }}
+      - OVERWRITEPROTOCOL=https
     depends_on:
       - nextcloud-db
       - nextcloud-redis

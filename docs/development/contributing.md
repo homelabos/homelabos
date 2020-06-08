@@ -125,4 +125,4 @@ To serve the docs locally run `make docs_local`.
 
 ## Working locally on the website
 
-To work on the [HomelabOS webiste](https://homelabos.com/) just type `make web` to serve it locally.
+To work on the [HomelabOS website](https://homelabos.com/) just type `make web` to serve it locally.

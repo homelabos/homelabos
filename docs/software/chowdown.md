@@ -2,6 +2,12 @@
 
 [Chowdown](https://hub.docker.com/r/gregyankovoy/chowdown)  Simple recipes in Markdown format
 
+The docker image comes from [gregyankovoy/chowdown:latest](https://hub.docker.com/r/gregyankovoy/chowdown) 
+and currently does not support arm devices. 
+If you are aware of a suitable substitution or replacement,
+ [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478) 
+and test your idea using the [documentation](https://homelabos.com/docs/development/adding_services/).
+
 ## Access
 
 It is available at [https://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/](https://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/) or [http://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/](http://{% if chowdown.domain %}{{ chowdown.domain }}{% else %}{{ chowdown.subdomain + "." + domain }}{% endif %}/)

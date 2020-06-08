@@ -1,253 +1,255 @@
 ---
 services:
-  airsonic: 
-  apache2: 
-  apple_health_influx: 
-  authelia: 
-  barcodebuddy: 
-  beets: 
-  bitwarden: 
-  bookstack: 
-  bulletnotes: 
-  calibre: 
-  chowdown: 
-  cockpit: 
-  codeserver: 
-  codimd: 
-  dark_sky: 
-  dasher: 
-  digikam: 
-  docs: 
-  drone: 
-  duckdns: 
-  duplicati: 
-  elkstack: 
-  emby: 
-  erpnext: 
-  ethercalc: 
-  factorio: 
-  firefly_iii: 
-  folding_at_home: 
-  freshrss: 
-  funkwhale: 
-  ghost: 
-  gitea: 
-  gitlab: 
-  gotify: 
-  grafana: 
-  grocy: 
-  grownetics: 
-  guacamole: 
-  healthchecks: 
-  heimdall: 
-  homeassistant: 
-  homebridge: 
-  homedash: 
-  hubzilla: 
-  huginn: 
-  inventario: 
-  jackett: 
-  jellyfin: 
-  kibitzr: 
-  lazylibrarian: 
-  lidarr: 
-  mailu: 
-  mashio: 
-  massivedecks: 
-  matomo: 
-  matterbridge: 
-  mayan: 
-  minecraft: 
-  minecraftbedrockserver: 
-  miniflux: 
-  minio: 
-  monicahq: 
-  mstream: 
-  mylar: 
-  n8n: 
-  netdata: 
-  nextcloud: 
-  nodered: 
-  nzbget: 
-  octoprint: 
-  ombi: 
-  openldap: 
-  openvpn: 
-  organizr: 
-  ownphotos: 
-  paperless: 
-  peertube: 
-  photoprism: 
-  pihole: 
-  piwigo: 
-  pixelfed: 
-  pleroma: 
-  plex: 
-  poli: 
-  portainer: 
-  privatebin: 
-  qbittorrent: 
-  radarr: 
-  restic: 
-  sabnzbd: 
-  searx: 
-  shinobi: 
-  sickchill: 
-  snibox: 
-  sonarr: 
-  speedtest: 
-  statping: 
-  sui: 
-  syncthing: 
-  taisun: 
-  tautulli: 
-  teedy: 
-  thelounge: 
-  tick: 
-  tiddlywiki: 
-  transmission: 
-  trilium: 
-  turtl: 
-  ubooquity: 
-  wallabag: 
-  watchtower: 
-  webdavserver: 
-  webtrees: 
-  webvirtmgr: 
-  wekan: 
-  xfinityusageinfluxdb: 
-  zammad: 
-  zulip: 
-docs: 
-apache2: 
-apple_health_influx: 
-airsonic: 
+  airsonic:
+  apache2:
+  apple_health_influx:
+  authelia:
+  barcodebuddy:
+  beets:
+  bitwarden:
+  bookstack:
+  bulletnotes:
+  calibre:
+  chowdown:
+  cockpit:
+  codeserver:
+  codimd:
+  dark_sky:
+  dasher:
+  digikam:
+  docs:
+  drone:
+  duckdns:
+  duplicati:
+  elkstack:
+  emby:
+  erpnext:
+  ethercalc:
+  factorio:
+  firefly_iii:
+  folding_at_home:
+  freshrss:
+  funkwhale:
+  ghost:
+  gitea:
+  gitlab:
+  gotify:
+  grafana:
+  grocy:
+  grownetics:
+  guacamole:
+  healthchecks:
+  heimdall:
+  homeassistant:
+  homebridge:
+  homedash:
+  hubzilla:
+  huginn:
+  inventario:
+  jackett:
+  jellyfin:
+  keycloak:
+  kibitzr:
+  lazylibrarian:
+  lidarr:
+  mailu:
+  mashio:
+  massivedecks:
+  matomo:
+  matterbridge:
+  mayan:
+  minecraft:
+  minecraftbedrockserver:
+  miniflux:
+  minio:
+  monicahq:
+  mstream:
+  mylar:
+  n8n:
+  netdata:
+  nextcloud:
+  nodered:
+  nzbget:
+  octoprint:
+  ombi:
+  openldap:
+  openvpn:
+  organizr:
+  ownphotos:
+  paperless:
+  peertube:
+  photoprism:
+  pihole:
+  piwigo:
+  pixelfed:
+  pleroma:
+  plex:
+  poli:
+  portainer:
+  privatebin:
+  qbittorrent:
+  radarr:
+  restic:
+  sabnzbd:
+  searx:
+  shinobi:
+  sickchill:
+  snibox:
+  sonarr:
+  speedtest:
+  statping:
+  sui:
+  syncthing:
+  taisun:
+  tautulli:
+  teedy:
+  thelounge:
+  tick:
+  tiddlywiki:
+  transmission:
+  trilium:
+  turtl:
+  ubooquity:
+  wallabag:
+  watchtower:
+  webdavserver:
+  webtrees:
+  webvirtmgr:
+  wekan:
+  xfinityusageinfluxdb:
+  zammad:
+  zulip:
+docs:
+apache2:
+apple_health_influx:
+airsonic:
 authelia:
-  enable: 
-bitwarden: 
-beets: 
-bookstack: 
-bulletnotes: 
-calibre: 
-chowdown: 
-cockpit: 
-codeserver: 
-codimd: 
-dark_sky: 
-dasher: 
-digikam: 
-drone: 
-duckdns: 
-duplicati: 
-elkstack: 
-emby: 
-erpnext: 
-ethercalc: 
-factorio: 
-firefly_iii: 
-folding_at_home: 
-freshrss: 
-funkwhale: 
-ghost: 
-gitea: 
-gitlab: 
-gotify: 
-grafana: 
-grocy: 
-grownetics: 
-guacamole: 
-healthchecks: 
-heimdall: 
-homeassistant: 
-homebridge: 
-homedash: 
-hubzilla: 
-huginn: 
-inventario: 
-jackett: 
-jellyfin: 
-kibitzr: 
-lazylibrarian: 
-lidarr: 
-mailu: 
-massivedecks: 
-mashio: 
-matomo: 
-matterbridge: 
-mayan: 
-minecraft: 
-minecraftbedrockserver: 
-miniflux: 
-minio: 
-monicahq: 
-mstream: 
-mylar: 
-n8n: 
-netdata: 
-nextcloud: 
-nodered: 
-nzbget: 
-octoprint: 
-ombi: 
-openldap: 
-openvpn: 
-organizr: 
-ownphotos: 
-paperless: 
-peertube: 
-photoprism: 
-pihole: 
-piwigo: 
-pixelfed: 
-pleroma: 
-plex: 
-poli: 
-portainer: 
-privatebin: 
-qbittorrent: 
-radarr: 
-restic: 
-sabnzbd: 
-searx: 
-shinobi: 
-sickchill: 
-snibox: 
-sonarr: 
-speedtest: 
-statping: 
-syncthing: 
+  enable:
+bitwarden:
+beets:
+bookstack:
+bulletnotes:
+calibre:
+chowdown:
+cockpit:
+codeserver:
+codimd:
+dark_sky:
+dasher:
+digikam:
+drone:
+duckdns:
+duplicati:
+elkstack:
+emby:
+erpnext:
+ethercalc:
+factorio:
+firefly_iii:
+folding_at_home:
+freshrss:
+funkwhale:
+ghost:
+gitea:
+gitlab:
+gotify:
+grafana:
+grocy:
+grownetics:
+guacamole:
+healthchecks:
+heimdall:
+homeassistant:
+homebridge:
+homedash:
+hubzilla:
+huginn:
+inventario:
+jackett:
+jellyfin:
+keycloak:
+kibitzr:
+lazylibrarian:
+lidarr:
+mailu:
+massivedecks:
+mashio:
+matomo:
+matterbridge:
+mayan:
+minecraft:
+minecraftbedrockserver:
+miniflux:
+minio:
+monicahq:
+mstream:
+mylar:
+n8n:
+netdata:
+nextcloud:
+nodered:
+nzbget:
+octoprint:
+ombi:
+openldap:
+openvpn:
+organizr:
+ownphotos:
+paperless:
+peertube:
+photoprism:
+pihole:
+piwigo:
+pixelfed:
+pleroma:
+plex:
+poli:
+portainer:
+privatebin:
+qbittorrent:
+radarr:
+restic:
+sabnzbd:
+searx:
+shinobi:
+sickchill:
+snibox:
+sonarr:
+speedtest:
+statping:
+syncthing:
 taisun:
-tautulli: 
+tautulli:
 teedy:
-thelounge: 
-tick: 
-tiddlywiki: 
-transmission: 
-trilium: 
-turtl: 
-ubooquity: 
-wekan: 
-watchtower: 
-xfinityusageinfluxdb: 
-wallabag: 
-webdavserver: 
-webtrees: 
-webvirtmgr: 
-zammad: 
-zulip: 
+thelounge:
+tick:
+tiddlywiki:
+transmission:
+trilium:
+turtl:
+ubooquity:
+wekan:
+watchtower:
+xfinityusageinfluxdb:
+wallabag:
+webdavserver:
+webtrees:
+webvirtmgr:
+zammad:
+zulip:
 enable_tinc: false
 vpn_ip: 10.0.0.1
 netname: homelabos
 vpn_interface: tun0
 vpn_netmask: 255.255.0.0
 vpn_subnet_cidr_netmask: 32
-smtp: 
+smtp:
 traefik:
-  additional_env_vars: 
+  additional_env_vars:
 bastion:
-  wireguard: 
+  wireguard:
   enable: false
 open_ldap:
-  seed: 
+  seed:
 tinc: "{{ enable_tinc }}"
 tor: "{{ enable_tor }}"

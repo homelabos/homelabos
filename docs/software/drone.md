@@ -2,6 +2,10 @@
 
 [Drone](https://drone.io) is a self-service continuous delivery platform
 
+The docker image comes from [drone/drone:1.0](https://hub.docker.com/r/drone/drone) and should support arm devices.
+If you attempt to run it on arm and encounter issues, 
+[please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
+
 ## Access
 
 It is available at [https://{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}/](https://{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}/) or [http://{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}/](http://{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}{% endif %}/)

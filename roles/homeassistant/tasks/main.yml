@@ -1,8 +1,10 @@
 ---
+### Docker version - no Plugins.
 - name: Make homeassistant directory.
   file:
     path: "{{ volumes_root }}/homeassistant"
     state: directory
+  when: not homeassistant.use_supervisord
 
 - name: Copy homeassistant docker-compose.yml file into place.
   template:
@@ -10,11 +12,13 @@
     dest: "{{ volumes_root }}/homeassistant/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+  when: not homeassistant.use_supervisord
 
 - name: Configure homeassistant systemd service.
   template:
     src: service.j2
     dest: /etc/systemd/system/homeassistant.service
+  when: not homeassistant.use_supervisord
 
 - name: Start homeassistant
   systemd:
@@ -22,3 +26,125 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
+  when: not homeassistant.use_supervisord
+
+- name: Install HomeAssistant pre-requisites
+  apt:
+    name:
+      - apparmor-utils
+      - avahi-daemon
+      - dbus
+      - jq
+      - network-manager
+      - socat
+  when: homeassistant.use_supervisord
+
+- name: Create System Home Assistant Config file
+  template:
+    src: system_config.json
+    dest: "/etc/hassio.json"
+  vars:
+    machine_type:
+      i386: "qemux86"
+      i686: "qemux86"
+      x86_64: "qemux86-64"
+      armv7l: "raspberrypi3-64"
+      aarch64: "raspberrypi4-64"
+    override:
+      i386: "i386"
+      i686: "i386"
+      x86_64: "amd64"
+      armv7l: "armv7"
+      aarch64: "aarch64"
+    ha_docker: "homeassistant/{{machine_type[ansible_architecture] | default(\"qemux86-64\")}}-homeassistant"
+    hassio_docker: "homeassistant/{{override[ansible_architecture] | default(\"amd64\")}}-hassio-supervisor"
+  when: homeassistant.use_supervisord
+
+- name: Pull version info matching the CPU Architecture
+  shell: >
+    curl -s https://version.home-assistant.io/stable.json | jq -e -r '.supervisor'
+  register: version
+  when: homeassistant.use_supervisord
+
+- name: Pull Supervisor Docker Image
+  docker_image:
+    name: "homeassistant/{{override[ansible_architecture] | default(\"amd64\")}}-hassio-supervisor"
+    source: pull
+  when: homeassistant.use_supervisord
+
+- name: Install supervisor startup script
+  copy:
+    src: hassio-supervisor
+    dest: /usr/sbin/hassio-supervisor
+    mode: 'a+x'
+  when: homeassistant.use_supervisord
+
+- name: Install supervisor service file
+  template:
+    src: hassio-supervisor.service
+    dest: /etc/systemd/system/hassio-supervisor.service
+  when: homeassistant.use_supervisord
+
+- name: Install Hass.io AppArmor Bin
+  template:
+    src: hassio-apparmor
+    dest: /usr/sbin/hassio-apparmor
+    mode: a+x
+  when: homeassistant.use_supervisord
+
+- name: Install Hass.io AppArmor Service
+  template:
+    src: hassio-apparmor.service
+    dest: /etc/systemd/system/hassio-apparmor.service
+  when: homeassistant.use_supervisord
+
+- name: Create needed directories
+  file:
+    path: /var/homelabos/homeassistant/share/hassio/apparmor/
+    state: directory
+    mode: '0755'
+  when: homeassistant.use_supervisord
+
+- name: Install Hass.io AppArmor Profile
+  template:
+    src: apparmor.j2
+    dest: /var/homelabos/homeassistant/share/hassio/apparmor/hassio-supervisor
+  when: homeassistant.use_supervisord
+
+- name: Start homeassistant app armor
+  systemd:
+    name: hassio-apparmor
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+  when: homeassistant.use_supervisord
+
+- name: Install CLI
+  template:
+    src: cli
+    dest: /usr/bin/ha
+    mode: a+x
+  when: homeassistant.use_supervisord
+
+- name: Find the IP address of the docker host from within traefik
+  shell: >
+    docker-compose -f {{volumes_root}}/traefik/docker-compose.traefik.yml run --rm traefik route | awk '/^default/ { print $2 }'
+  register: host_ip
+  when: homeassistant.use_supervisord
+
+- name: Copy HomeAssistant Traefik config file into place.
+  template:
+    src: traefik.yaml
+    dest: "{{ volumes_root }}/traefik/conf.d/homeassistant.yaml"
+  vars:
+    service_name: "HomeAssistant"
+    host_ip: host_ip.stdout
+  when: homeassistant.use_supervisord
+
+- name: Start homeassistant
+  systemd:
+    name: hassio-supervisor
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+  when: homeassistant.use_supervisord

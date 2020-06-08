@@ -7,18 +7,26 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  turtl_internal:
 
 services:
   turtl-server:
     build:
       context: ./server
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - turtl_internal
+    depends_on:
+      postgres-db
+        conditon: service_healthy
     environment:
       TURTL_DB_HOST: postgres-db
       TURTL_DB_PORT: 5432
       TURTL_DB_DATABASE: turtl
       TURTL_DB_USER: turtl
-      TURTL_DB_PASSWORD: "{{ lookup('password', './settings/passwords/turtl_db_password chars=ascii_letters,digits') }}"
-      TURTL_APP_SECURE_HASH_SALT: fgFSrgg34f32dfASF
+      TURTL_DB_PASSWORD: {{ lookup('password', './settings/passwords/turtl_db_password chars=ascii_letters,digits') }}
+      TURTL_APP_SECURE_HASH_SALT: {{ lookup('password', './settings/passwords/turtl_hashsalt chars=ascii_letters,digits') }}
       TURTL_APP_API_URL: http{% if turtl.https_only %}s{% endif %}://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ service_domain }}{% endif %}
       TURTL_APP_WWW_URL: http{% if turtl.https_only %}s{% endif %}://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ service_domain }}{% endif %}
       TURTL_EMAILS_ADMIN: "{{ admin_email }}"
@@ -27,12 +35,6 @@ services:
       TURTL_UPLOADS_URL: http{% if turtl.https_only %}s{% endif %}://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ service_domain }}{% endif %}/uploads
     volumes:
       - "{{ volumes_root }}/turtl/uploads:/uploads"
-    depends_on:
-      - postgres-db
-
-    restart: unless-stopped
-    networks:
-      - traefik_network
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -66,16 +68,16 @@ services:
   postgres-db:
     image: postgres:11-alpine
     environment:
-      POSTGRES_PASSWORD: "{{ lookup('password', './settings/passwords/turtl_db_password chars=ascii_letters,digits') }}"
+      POSTGRES_PASSWORD: {{ lookup('password', './settings/passwords/turtl_db_password chars=ascii_letters,digits') }}
       POSTGRES_USER: turtl
       POSTGRES_DB: turtl
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready -U turtl"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U turtl"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
-      - traefik_network
+      - turtl_internal
     volumes:
       - "{{ volumes_root }}/turtl/db:/var/lib/postgresql/data"
 
