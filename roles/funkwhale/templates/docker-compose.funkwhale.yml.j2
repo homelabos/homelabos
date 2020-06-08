@@ -18,7 +18,7 @@ services:
     environment:
       - PUID={{uid_output.stdout }}
       - PGID={{gid_output.stdout }}
-      - FUNKWHALE_HOSTNAME={% if funkwhale.domain %}{{ funkwhale.domain }}{% else %}{{ funkwhale.subdomain + "." + domain }}{% endif %}
+      - FUNKWHALE_HOSTNAME={{ service_domain }}
       - FUNKWHALE_PROTOCOL=https
       - MEDIA_ROOT=/srv/funkwhale/data/media
       - DJANGO_SETTINGS_MODULE=config.settings.production
@@ -26,7 +26,7 @@ services:
       - FUNKWHALE_FRONTEND_PATH=/srv/funkwhale/front/dist
     volumes:
       - "{{ volumes_root }}/funkwhale:/data"
-      - "{{ storage_dir }}/Music:/data/music"
+      - "{{ storage_dir }}/Music:/music:ro"
     ports:
       - "5000:80"
     labels:

@@ -1,0 +1,24 @@
+---
+- name: Make teedy directory.
+  file:
+    path: "{{ volumes_root }}/teedy"
+    state: directory
+
+- name: Copy teedy docker-compose.yml file into place.
+  template:
+    src: docker-compose.teedy.yml.j2
+    dest: "{{ volumes_root }}/teedy/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure teedy systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/teedy.service
+
+- name: Start teedy
+  systemd:
+    name: teedy
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

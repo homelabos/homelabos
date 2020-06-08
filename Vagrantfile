@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", id: "https", guest: 443, host: 2281, auto_correct: true
   config.vm.network "forwarded_port", id: "traefik-dashboard", guest: 8181, host: 2282, auto_correct: true
   config.vm.network "private_network", type: "dhcp"
-  
+
   config.vm.provision "ansible_local" do |ansible|
     ansible.verbose = "vvv"
     ansible.playbook = "playbook.homelabos.yml"

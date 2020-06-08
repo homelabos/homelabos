@@ -60,7 +60,7 @@ Update the `mkdocs.yml` file with a reference to the newly created doc file.
 The service needs to be added within
 `group_vars/all`.
 
-Place it in the `services:` section in alphabetical order. 
+Place it in the `services:` section in alphabetical order.
 
 ## Add Service to README
 

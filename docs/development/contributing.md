@@ -66,7 +66,29 @@ Once you've submitted the MR it will be reviewed, and if it receives 2 approvals
 > `git checkout your-new-feature`
 > `git rebase dev`
 
-## Working with Issues
+## Before submitting a merge request install pre-commit (optional)
+
+###Quote from Pre-Commit
+> Git hook scripts are useful for identifying simple issues before submission to code review. We run our hooks on every commit to automatically point out issues in code such as missing semicolons, trailing whitespace, and debug statements. By pointing these issues out before code review, this allows a code reviewer to focus on the architecture of a change while not wasting time with trivial style nitpicks.
+
+### Installation instructions
+
+Before you can run hooks, you need to have the pre-commit package manager installed.
+
+Using pip:
+Run `pip install pre-commit`
+
+Using [homebrew](https://brew.sh/):
+`brew install pre-commit`
+
+Install the git hook scripts
+cd to the folder from where you run `make`,
+run `pre-commit install` to set up the git hook scripts.
+
+(optional) Run against all the files
+`pre-commit run --all-files`
+
+# Working with Issues
 
 ### Labels
 

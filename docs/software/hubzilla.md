@@ -49,12 +49,12 @@ Once you have access to a mail server, or a mail service provide Hubzilla with t
 ```
 # SMTP Settings
 smtp:
-  host: 
-  port: 
-  user: 
-  pass: 
-  from_email: 
-  from_name: 
+  host:
+  port:
+  user:
+  pass:
+  from_email:
+  from_name:
 ```
 3. Then run **`make update_one hubzilla`** to update Hubzilla; HomelabOS will automatically re-encrypt your vault.yml file
 

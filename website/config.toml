@@ -34,17 +34,17 @@ theme = "vex-hugo"
 
 ###################################### Navigation ######################################
 [menu]
-    
+
   [[menu.main]]
   name = "Features"
   URL = "feature"
   weight = 20
-  
+
   [[menu.main]]
   name = "Gallery"
   URL = "gallery"
   weight = 30
-  
+
   [[menu.main]]
   name = "Testimonial"
   URL = "testimonial"

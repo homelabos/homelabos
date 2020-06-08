@@ -70,6 +70,7 @@ vault:
     auth: {{ vault.authelia.enable | default(authelia.enable, None) | default(False) }}
     domain: {{ vault.authelia.domain | default(False) }}
     subdomain: {{ vault.authelia.subdomain | default("auth") }}
+    redirect_url:  {{ vault.authelia.redirect_url | default("https://organizr." + domain) }}
     # Determines how verbose the logs are
     log_level: {{ vault.authelia.log_level | default('debug') }}
     # Do you want to login with your common name "john doe" or your username "jdoe"?

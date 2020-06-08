@@ -1,4 +1,24 @@
 ---
+
+- set_fact:
+    kernel_version: "{{ ansible_kernel.split('-')[0] }}"
+
+- set_fact:
+    kernel_major_minor: "{{ kernel_version.split('.')[0]}}.{{kernel_version.split('.')[1] }}"
+
+- set_fact:
+    kernel_options:
+      '5.3': '5.3.15'
+      '5.4': '5.4.2'
+      '5.5': '5.5'
+      '5.6': '5.6'
+
+- name: Ensure Host Kernel version is adequate for Authelia install
+  fail:
+    msg: "Your kernel version {{ ansible_kernel }} Does not meet the minimum requirements for Authelia. Please see https://github.com/pimlie/ubuntu-mainline-kernel.sh for a kernel upgrade script"
+  when: "{{ kernel_version is not version(kernel_options[kernel_major_minor], '>=', true) }}"
+
+
 - name: Make authelia directory.
   file:
     path: "{{ volumes_root }}/authelia"
@@ -59,3 +79,9 @@
     enabled: "yes"
     daemon-reload: "yes"
     state: started
+
+- debug:
+    msg:
+      - "Authelia redirects to {{ authelia.redirect_url }}"
+      - "You can change this by setting the authelia.redirect_url setting to the one of your own choice."
+      - "Example: ./set_setting authelia.redirect_service https://heimdall.example.com"
