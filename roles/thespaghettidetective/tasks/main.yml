@@ -4,6 +4,11 @@
     path: "{{ volumes_root }}/thespaghettidetective"
     state: directory
 
+- name: Clone The Spaghetti Detective Repository
+  git:
+    repo: "https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git"
+    dest: "{{ volumes_root }}/thespaghettidetective"
+
 - name: Copy thespaghettidetective docker-compose.yml file into place.
   template:
     src: docker-compose.thespaghettidetective.yml.j2
