@@ -15,7 +15,7 @@
     repo: "https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git"
     dest: "{{ repodir.path }}"
     clone: yes
-    update: yes  
+    update: yes
 
 - name: Copy and Overwrite Exsisting files
   copy:
