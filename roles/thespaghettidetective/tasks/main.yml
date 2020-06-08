@@ -23,6 +23,7 @@
     dest: "{{ volumes_root }}/thespaghettidetective"
     remote_src: yes
     mode: '777'
+    directory_mode: '777'
 
 - name: Remove Temporary Repository Directory
   file:

@@ -10,6 +10,8 @@ networks:
 
 x-web-defaults: &web-defaults
   restart: unless-stopped
+  networks:
+      - traefik_network
   build:
     context: web
   volumes:
@@ -17,12 +19,12 @@ x-web-defaults: &web-defaults
   depends_on:
     - redis
   environment:
-    EMAIL_HOST:     # -> such as 'smtp.gmail.com'
-    EMAIL_HOST_USER:   # -> such as your email address for a Gmail account
-    EMAIL_HOST_PASSWORD:    # -> your email account password
-    EMAIL_PORT: 587  # DO NOT surround it with quotes. Otherwise email won't be sent!
+    EMAIL_HOST: {{smtp.host}}
+    EMAIL_HOST_USER: {{smtp.user}}
+    EMAIL_HOST_PASSWORD: {{smtp.pass}}
+    EMAIL_PORT: {{smtp.port}}
     EMAIL_USE_TLS: 'True'
-    DEFAULT_FROM_EMAIL: 'changeme@example.com'
+    DEFAULT_FROM_EMAIL: '{{ vault.smtp.from_email }}'
     DEBUG: 'False'    # Don't set DEBUG to True, otherwise the static files will be cached in browser until hard-refresh
     SITE_USES_HTTPS: 'False' # set it to 'True' if https is set up
     SOCIAL_LOGIN: 'False'
@@ -32,8 +34,19 @@ x-web-defaults: &web-defaults
     ML_API_HOST: 'http://ml_api:3333'
     ACCOUNT_ALLOW_SIGN_UP: 'False'  # -> set to 'True' if you want to open sign up form
 
+    #### Optional env vars below this line ###
+    # TWILIO_ACCOUNT_SID: https://django-twilio.readthedocs.io/en/latest/settings.html for how to find and set the TWILIO_XXX vars
+    # TWILIO_AUTH_TOKEN:
+    # TWILIO_FROM_NUMBER:
+    # ENALBE_HISTORY:
+    # ML_API_TOKEN:
+    # SENTRY_DSN:
+    # TELEGRAM_BOT_TOKEN: https://core.telegram.org/bots#6-botfather for how to create a telegram bot and get its token
+
 services:
   ml_api:
+    networks:
+      - traefik_network
     hostname: ml_api
     restart: unless-stopped
     build:
@@ -47,16 +60,9 @@ services:
 
   web:
     <<: *web-defaults
-    build:
-      context: web
-    volumes:
-      - ./web:/app
-    depends_on:
-      - ml_api
-    hostname: web
-    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver --noreload 0.0.0.0:3334"
     networks:
       - traefik_network
+    hostname: web
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
@@ -86,12 +92,27 @@ services:
       - "traefik.http.routers.thespaghettidetective-tor-http.entrypoints=http"
       - "traefik.http.routers.thespaghettidetective-tor-http.middlewares={% if thespaghettidetective.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
+    ports:
+      - "3334:3334"
+    depends_on:
+      - ml_api
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver --noreload 0.0.0.0:3334"
 
   tasks:
     <<: *web-defaults
+    networks:
+      - traefik_network
     hostname: tasks
     command: sh -c "celery -A config worker --beat -l info -c 2 -Q realtime,celery"
 
   redis:
+    networks:
+      - traefik_network
     restart: unless-stopped
     image: redis:5.0-alpine
+
+
+
+
+
+    
