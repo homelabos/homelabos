@@ -94,6 +94,7 @@ services:
   searx:
   shinobi:
   sickchill:
+  simply_shorten:
   snibox:
   sonarr:
   speedtest:
@@ -213,6 +214,7 @@ sabnzbd:
 searx:
 shinobi:
 sickchill:
+simply_shorten:
 snibox:
 sonarr:
 speedtest:

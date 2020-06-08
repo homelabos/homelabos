@@ -811,6 +811,12 @@ sickchill:
   auth: {{ sickchill.auth | default(False) }}
   domain: {{ sickchill.domain | default(False) }}
   subdomain: {{ sickchill.subdomain | default("sickchill") }}
+simply_shorten:
+  enable: {{ simply_shorten.enable | default(enable_simply_shorten, None) | default(False) }}
+  https_only: {{ simply_shorten.https_only | default(False) }}
+  auth: {{ simply_shorten.auth | default(False) }}
+  domain: {{ simply_shorten.domain | default(False) }}
+  subdomain: {{ simply_shorten.subdomain | default("simply_shorten")}}
 snibox:
   enable: {{ snibox.enable | default(enable_snibox, None) | default(False) }}
   https_only: {{ snibox.https_only | default(False) }}

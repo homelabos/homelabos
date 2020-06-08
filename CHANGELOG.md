@@ -5,6 +5,7 @@
 - Added Keycloak - Open Source Identity and Access Management
 - Added matterbridge - Bridges between many different chat protocols.
 - Added OctoPrint - The snappy web interface for your 3D printer.
+- Added Simply-Shorten - A simple selfhosted URL shortener with no name because naming is hard
 - Added Taisun - Single Server Docker Management for Humans
 - Added Teedy - Document Management made simple for everyone
 
