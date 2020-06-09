@@ -12,7 +12,7 @@
 
 ### Server
 
-- Ubuntu Server 20.04 or Debian 10.3 
+- Ubuntu Server 20.04 or Debian 10.3
 - `sudo` must be available
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 

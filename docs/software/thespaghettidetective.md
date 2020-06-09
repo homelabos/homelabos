@@ -6,7 +6,7 @@
 
 ### Login as Django admin
 
-1. Open Django admin page at `http://{% if thespaghettidetective.domain %}{{ thespaghettidetective.domain }}{% else %}your_server_ip{% endif %}/admin/` 
+1. Open Django admin page at `http://{% if thespaghettidetective.domain %}{{ thespaghettidetective.domain }}{% else %}your_server_ip{% endif %}/admin/`
 
 2. Login with username `root@example.com`, password `supersecret`. Once logged in, you can optionally (but highly encouraged to) change the admin password using this link: `http://{% if thespaghettidetective.domain %}{{ thespaghettidetective.domain }}{% else %}your_server_ip{% endif %}/admin/app/user/1/password/`.
 
