@@ -1,7 +1,7 @@
 ---
 - name: Make grocy directory.
   file:
-    path: "/var/homelabos/grocy"
+    path: "{{volumes_root}}/grocy"
     state: directory
 
 - name: Copy grocy docker-compose.yml file into place.
