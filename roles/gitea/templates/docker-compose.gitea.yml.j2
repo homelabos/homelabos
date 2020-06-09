@@ -9,15 +9,16 @@ networks:
 services:
  # Code Hosting
   gitea:
-    image: gitea/gitea:1.8.3
+    image: gitea/gitea:{{ gitea.version }}
     networks:
       - traefik_network
+      - gitea_net
     environment:
       - USER_UID={{ uid_output.stdout }}
       - USER_GID={{ gid_output.stdout }}
 {% if gitea.use_mariadb %}
       - DB_TYPE=mysql
-      - DB_HOST=gitea_db:3306
+      - DB_HOST=db:3306
       - DB_NAME=gitea
       - DB_USER=gitea
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=ascii_letters,digits') }}
@@ -63,12 +64,12 @@ services:
 
 {% if gitea.use_mariadb %}
     depends_on:
-      - gitea_db
+      - db
 
-  gitea_db:
+  db:
     image: mariadb
     networks:
-      - traefik_network
+      - gitea_net
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/gitea_db_root_password chars=ascii_letters') }}

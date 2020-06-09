@@ -397,6 +397,7 @@ gitea:
   auth: {{ gitea.auth | default(False) }}
   domain: {{ gitea.domain | default(False) }}
   subdomain: {{ gitea.subdomain | default("gitea") }}
+  version: {{ gitea.version | default("1.11") }}
   use_mariadb: {{ gitea.use_mariadb | default(True) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
 gitlab:
