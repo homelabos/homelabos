@@ -2,10 +2,10 @@
 
 [Folding@home](https://hub.docker.com/r/johnktims/folding-at-home) Folding@home software allows you to share your unused computer power with scientists researching diseases.
 
-The docker image comes from [johnktims/folding-at-home](https://hub.docker.com/r/johnktims/folding-at-home) 
-and currently does not support arm devices. 
+The docker image comes from [johnktims/folding-at-home](https://hub.docker.com/r/johnktims/folding-at-home)
+and currently does not support arm devices.
 If you are aware of a suitable substitution or replacement ([good place to start](https://foldforcovid.io/#get-started)),
- [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478) 
+ [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 and test your idea using the [documentation](https://homelabos.com/docs/development/adding_services/).
 
 ## Install

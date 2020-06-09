@@ -3,7 +3,7 @@
 [Firefly III](https://firefly-iii.org/) is a money management app.
 
 The docker image comes from [jc5x/firefly-iii](https://hub.docker.com/r/jc5x/firefly-iii) and should support arm devices.
-If you attempt to run it on arm and encounter issues, 
+If you attempt to run it on arm and encounter issues,
 [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 
 ## Access

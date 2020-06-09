@@ -2,7 +2,7 @@
 
 [OctoPrint](https://octoprint.org/) The snappy web interface for your 3D printer.
 
-## Setup 
+## Setup
 To find the serial port and connect to your printer run
 ```
 ls /dev/serial/by-id/*

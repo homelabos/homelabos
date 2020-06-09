@@ -20,7 +20,7 @@ To contribute a bug fix, service, or enhancement you'll need to:
 2. Branch Dev in your fork
 3. Develop your feature/fix
 4. Commit to your branch on your fork
-5. Create a Merge Request 
+5. Create a Merge Request
 
 ## Getting set up to contribute
 
@@ -52,11 +52,11 @@ Gitlab is great for tracking changes to source code, but it relies on the develo
 
 ## Making a contribution to a new Issue
 
-1. Make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`. 
-2. Create an issue in the [master project GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues). From this issue, click the `Create Merge Request` button. 
-3. Now click the `Check Out Branch` button and copy Step 1, run that command on your local copy of the repository. 
-4. Now make your changes and commit and push them. 
-5. In GitLab, go to your Merge Request and make sure it is not labeled WIP and that all the check boxes are checked (If applicable). 
+1. Make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`.
+2. Create an issue in the [master project GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues). From this issue, click the `Create Merge Request` button.
+3. Now click the `Check Out Branch` button and copy Step 1, run that command on your local copy of the repository.
+4. Now make your changes and commit and push them.
+5. In GitLab, go to your Merge Request and make sure it is not labeled WIP and that all the check boxes are checked (If applicable).
 
 Once you've submitted the MR it will be reviewed, and if it receives 2 approvals, it will be merged. You don't need to do anything after submitting unless requested. Don't worry about rebasing, or closing the merge request. If the Merge Request needs changes, the maintainers will add commends describing the needed changes, add `WIP:` back to the start of the title, and assign it back to the submitter.
 

@@ -88,7 +88,7 @@ This is also the recommended installation method of:
 * [RVM](https://rvm.io/rvm/install).
 * [Docker](https://get.docker.com/)
 * [DockSTARTer](https://dockstarter.com/)
- 
+
 It's pretty standard practice at this point.
 
 If you still don't trust it, great, you'll fit right in here. Proceed to the Manual Set-up step below.

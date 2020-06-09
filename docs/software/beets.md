@@ -3,7 +3,7 @@
 [Beets](https://beets.io) Beets is the media library management system for obsessive-compulsive music geeks.
 
 The docker image comes from [linuxserver/beets](https://hub.docker.com/r/linuxserver/beets/tags) and should support arm devices.
-If you attempt to run it on arm and encounter issues, 
+If you attempt to run it on arm and encounter issues,
 [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 
 ## Access
