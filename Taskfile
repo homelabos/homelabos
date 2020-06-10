@@ -12,28 +12,38 @@
 # (probably not with set -o pipefail though, not tested)
 set -eu
 VERSION=`cat VERSION`
+declare -gA already_ran
 
-function center() {
+function highlight() {
   termwidth="$(tput cols)"
   padding="$(printf '%0.1s' ={1..500})"
-  printf '%*.*s %s %*.*s\n' 0 "$(((termwidth-2-${#1})/2))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding"
+  colorize yellow $(printf '%*.*s %s %*.*s\n' 0 "$(((termwidth-2-${#1})/16))" "$padding" "$1" 0 "$(((termwidth-1-${#1})/2))" "$padding")
+}
+
+Task::test() {
+  Task::logo
+  Task::logo
 }
 
 # A task is a function with a `Task::` prefix in its name.
 Task::logo() {
-  cat homelaboslogo.txt
-  chmod +x ./check_version.sh
-  export VERSION=`cat VERSION`
-  ./check_version.sh
-  printf "MOTD:\n\n" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Could not get MOTD"
-	printf "\n\n"
+  if ! [[ -v "already_ran[logo]" ]] ; then
+    already_ran[logo]=1
+    cat homelaboslogo.txt
+    chmod +x ./check_version.sh
+    export VERSION=`cat VERSION`
+    ./check_version.sh
+    printf "MOTD:\n\n" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Could not get MOTD"
+    printf "\n\n"
+  fi
+
 }
 
 # Builds the docker image used for HomelabOS Deployments
 Task::build() {
     : @desc "Builds the Docker Image used to deploy"
-  center "Preparing HomelabOS Docker Image"
-  sudo docker inspect --type=image homelabos:$VERSION > /dev/null && center " Docker Image Already Built" || sudo docker build . -t homelabos:$VERSION
+  highlight "Preparing HomelabOS Docker Image"
+  sudo docker inspect --type=image homelabos:$VERSION > /dev/null && highlight " Docker Image Already Built" || sudo docker build . -t homelabos:$VERSION
 }
 
 # Config - Updates the config file, and ensures the vault is encrypted.
@@ -43,7 +53,7 @@ Task::config(){
     Task::logo
     Task::build
 
-    center "Creating or Updating config file"
+    highlight "Creating or Updating config file"
     mkdir -p settings/passwords
     [ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
     [ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
@@ -52,9 +62,9 @@ Task::config(){
     ./migrate_vault.sh
     # ENDMIGRATION
     ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
-    center "Encrypting Secrets in the Vault"
+    highlight "Encrypting Secrets in the Vault"
     ./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
-    center "Configuration Complete"
+    highlight "Configuration Complete"
 
 }
 
@@ -85,7 +95,7 @@ Task::configReset() {
   Task::logo
   Task::build
 
-  center "Reset Local Settings"
+  highlight "Reset Local Settings"
   echo "First we'll make a backup of your current settings in case you actually need them \n"
   mv settings settings.bak
   mkdir settings
@@ -99,16 +109,17 @@ Task::update() {
   Task::build
   Task::gitSync
   Task::config
-  center "Updating HomelabOS Services"
+  highlight "Updating HomelabOS Services"
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
-  center "Update Complete"
+  highlight "Update Complete"
 }
 
 # Updates the specified service on the HomelabOS server
 Task::update_one(){
   : @desc "Updates the specified service on the HomelabOS server"
   : @param service "Service Name"
+
   Task::logo
   Task::build
   Task::gitSync
@@ -122,18 +133,18 @@ Task::update_one(){
 Task::uninstall(){
   : @desc "Uninstalls HomelabOS"
 
-  center "Uninstall HomelabOS Completely"
+  highlight "Uninstall HomelabOS Completely"
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.remove.yml
-  center "Uninstall Complete"
+  highlight "Uninstall Complete"
 }
 
 # Removes One Service
 Task::remove_one(){
   : @desc "Removes the specified service on the HomelabOS server"
   : @param service "Service Name"
-  center "Removing data for ${_service}"
+  highlight "Removing data for ${_service}"
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.remove.yml
-  center "Removal Complete"
+  highlight "Removal Complete"
 }
 
 # Resets a services' data files
@@ -141,12 +152,12 @@ Task::reset_one(){
   : @desc "Resets the specified service' files on the HomelabOS server"
   : @param service "Service Name"
 
-  center "Resetting ${_service}"
+  highlight "Resetting ${_service}"
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.stop.yml
 	./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.remove.yml
-	center "Redeploying ${_service}"
+	highlight "Redeploying ${_service}"
 	./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory -t deploy playbook.homelabos.yml
-	center "Done resetting ${_service}"
+	highlight "Done resetting ${_service}"
 }
 
 # Restores a server from Backups. Assuming Backups were running
@@ -157,16 +168,16 @@ Task::restore() {
 
 # Run linting scripts
 Task::lint(){
-  center "Linting"
+  highlight "Linting"
   ./docker_helper.sh ./lint.sh
 }
 
 # Restart All Enabled services
 Task::restart(){
   : @desc "Restart all enabled services"
-  center "Stopping all services"
+  highlight "Stopping all services"
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
-  center "Services restarting"
+  highlight "Services restarting"
 }
 
 # Restart the selected service
@@ -180,9 +191,9 @@ Task::restart_one(){
 # Stop All Enabled services
 Task::stop(){
   : @desc "Restart all enabled services"
-  center "Stopping all services"
+  highlight "Stopping all services"
   ./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.stop.yml
-  center "Services restarting"
+  highlight "Services restarting"
 }
 
 # Stop the selected service
@@ -197,27 +208,27 @@ Task::stop_one(){
 Task::terraform(){
   : @desc "Spin up a cloud server with Terraform"
 
-  center "Deploying cloud server"
+  highlight "Deploying cloud server"
   ./terraform.sh
-  center "Done deploying cloud server!"
+  highlight "Done deploying cloud server!"
 }
 
 # Destroys servers created by terraform
 Task::terraform_destroy(){
   : @desc "Destroys servers created by terraform"
 
-  center "Destroying cloud servers"
+  highlight "Destroying cloud servers"
   ./docker_helper.sh /bin/bash -c "cd settings; terraform destroy"
-  center "Cloud Servers destroyed"
+  highlight "Cloud Servers destroyed"
 }
 
 # Decrypts the vault
 Task::decrypt(){
   : @desc "Decrypts the vault"
 
-  center "Decrypting Vault"
+  highlight "Decrypting Vault"
   ./docker_helper.sh ansible-vault decrypt settings/vault.yml
-  center "Vault decrypted!"
+  highlight "Vault decrypted!"
 }
 
 # Encrypt the vault
@@ -247,8 +258,8 @@ Task::mytask () {
     : @param name!     "your name"
     : @param greeting  "words to greet with"
     : @param rest%     "rest of named arguments collected in an array"
-    : @needs count-from-one  to=3           # dependency with arguments will ALWAYS be run.
-    : @needs count-from-one count-from-one  # dependency without arguments only runs ONCE.
+    # : @needs count-from-one  to=3           # dependency with arguments will ALWAYS be run.
+    # : @needs count-from-one count-from-one  # dependency without arguments only runs ONCE.
 
     # a non-zero exit status of a task function stops taskit from
     # running the remaining tasks. This is the default.
@@ -264,13 +275,13 @@ Task::mytask () {
     echo "${_greeting:-Hello}, $_name"
     echo "I'm in $PWD"
     echo
-    if (( ${#_rest[*]} )); then
-        echo "The rest of named arguments are:"
-        local key
-        for key in "${!_rest[@]}"; do
-            echo "$key=${_rest[$key]}"
-        done
-    fi
+    # if (( ${#_rest[*]} )); then
+    #     echo "The rest of named arguments are:"
+    #     local key
+    #     for key in "${!_rest[@]}"; do
+    #         echo "$key=${_rest[$key]}"
+    #     done
+    # fi
 }
 
 Task::count-from-one () {
