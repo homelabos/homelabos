@@ -468,6 +468,7 @@ taskit_show_task_help () {
 }
 
 taskit_parse_args_of_tasks() {
+  echo $# $@
     local task arg errors=()
     while (( $# )); do
         task=Task::${1#Task::}; shift
