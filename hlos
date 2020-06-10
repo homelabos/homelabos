@@ -416,7 +416,7 @@ taskit_show_tasks () {
     for task in ${TASKS[*]:-}; do
         description=${TASK_ATTRS[$task@desc]:-}
         [[ $description ]] || continue
-        printf "  %s \t - \t %s\n" ${task#Task::} "$description"
+        printf "  %s \t - \t %s\n" ${task#Task::} "$(colorize blue $description)"
     done | column -ts$'\t'
     echo
 }
