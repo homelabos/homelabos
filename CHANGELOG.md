@@ -9,6 +9,7 @@
 - Added Simply-Shorten - A simple selfhosted URL shortener with no name because naming is hard
 - Added Taisun - Single Server Docker Management for Humans
 - Added Teedy - Document Management made simple for everyone
+- Added Unifi Controller - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 
 # 0.7.1 - 0.7.2
 

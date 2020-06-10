@@ -935,6 +935,12 @@ xfinityusageinfluxdb:
   auth: {{ xfinityusageinfluxdb.auth | default(False) }}
   domain: {{ xfinityusageinfluxdb.domain| default(False) }}
   subdomain: {{ xfinityusageinfluxdb.subdomain | default("xfinityusageinfluxdb") }}
+unificontroller:
+  enable: {{ unificontroller.enable | default(enable_unificontroller, None) | default(False) }}
+  https_only: {{ unificontroller.https_only | default(False) }}
+  auth: {{ unificontroller.auth | default(False) }}
+  domain: {{ unificontroller.domain | default(False) }}
+  subdomain: {{ unificontroller.subdomain | default("unificontroller")}}
 wallabag:
   enable: {{ wallabag.enable | default(enable_wallabag, None) | default(False) }}
   https_only: {{ wallabag.https_only | default(False) }}

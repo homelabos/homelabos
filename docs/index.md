@@ -164,6 +164,7 @@ If you are having problems you can:
 - [Shinobi](software/shinobi) Free Open Source CCTV platform.
 - [The Spaghetti Detective](software/thespaghettidetective) - AI-based failure detection for 3D printer remote management and monitoring.
 - [Ubooquity](software/ubooquity) - Ubooquity is a free home server for your comics and ebooks library
+- [UnifiController](software/unificontroller) - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 - [Watchtower](software/watchtower) - A process for automating Docker container base image updates
 - [WebTrees](software/webtrees) - Online Genealogy
 - [Zammad](software/zammad) Zammad is a web-based, open source user support/ticketing solution.
