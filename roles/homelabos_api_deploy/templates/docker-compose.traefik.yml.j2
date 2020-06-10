@@ -1,0 +1,63 @@
+---
+version: '3.5'
+
+networks:
+  traefik:
+    name: homelabos_traefik
+    driver: bridge
+
+services:
+  # Load Balancer / SSL / Web Server
+  traefik:
+    container_name: homelabos
+    image: traefik:v2.2
+    restart: always
+    networks:
+      - traefik
+    ports:
+{% if traefik.expose_internally %}
+      - "8181:8080"
+{% endif %}
+      - "80:80"
+      - "443:443"
+{% if traefik.additional_env_vars %}
+    environment:
+{% for item in traefik.additional_env_vars | dict2items %}
+      - {{item.key}}={{item.value}}
+{% endfor %}
+{% endif %}
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "{{ volumes_root }}/traefik/traefik.yaml:/traefik.yaml"
+      - "{{ volumes_root }}/traefik/basicAuth:/basicAuth"
+      - "{{ volumes_root }}/traefik/conf.d/:/conf.d/"
+      - "{{ volumes_root }}/traefik/acme.json:/acme.json"
+{% if traefik.expose_externally %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.routers.traefik-http.rule=Host(`{{ service_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik-http.entrypoints=http"
+{% if not traefik.https_only %}
+      - "traefik.http.routers.traefik-http.middlewares={% if traefik.https_only %}redirect@file, {% else %}{% if traefik.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.traefik-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.traefik.rule=Host(`{{ service_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik.entrypoints=https"
+      - "traefik.http.routers.traefik.middlewares={% if traefik.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.traefik.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.traefik.tls.certresolver=dns"
+      - "traefik.http.routers.traefik.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.traefik.tls.certresolver=http"
+{% endif %}
+      - "traefik.http.routers.traefik.service=api@internal"
+{% if enable_tor %}
+      - "traefik.http.routers.traefik-tor-http.rule=Host(`{{ tor_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik-tor-http.entrypoints=http"
+      - "traefik.http.routers.traefik-tor-http.middlewares={% if traefik.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}{% endif %}

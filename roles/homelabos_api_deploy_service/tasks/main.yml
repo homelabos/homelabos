@@ -1,0 +1,37 @@
+---
+- name: Get UID
+  command: id -u {{ homelab_ssh_user }}
+  register: uid_output
+
+- name: Get GID
+  command: id -g {{ homelab_ssh_user }}
+  register: gid_output
+
+- name: Deploy enabled Services
+  include_role:
+    name: "{{ service_item }}"
+  when: query
+  loop: "{{ services | flatten(1) }}"
+  loop_control:
+    loop_var: service_item
+  vars:
+    service_domain: "{% if lookup('vars', service_item).domain %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
+    query: "{{ service_item + '.enable' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
+    # become: yes - does not work https://github.com/ansible/ansible/issues/29159
+    ansible_become: yes
+
+- name: Ensure disabled services are not running
+  become: yes
+  systemd:
+    name: "{{ service_item }}"
+    state: stopped
+    enabled: false
+  when: query
+  loop: "{{ services | flatten(1) }}"
+  loop_control:
+    loop_var: service_item
+  ignore_errors: "yes"
+  vars:
+    query: "not {{ service_item + '.enable' }}"

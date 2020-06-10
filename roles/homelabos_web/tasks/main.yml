@@ -1,0 +1,44 @@
+---
+###############################
+## What this playbook does:
+## - Deploys the hlos web interface
+###############################
+- name: Create HomeLabOS Web directory
+  file:
+    path: "{{ volumes_root }}/homelabos_web"
+    state: directory
+
+- name: Build HomelabOS web-UI container
+  docker_image:
+    name: homelabos_web
+    tag: latest
+    build:
+      path: "{{ volumes_root }}/install/hlos_web/"
+      dockerfile: Dockerfile.prod
+      pull: true
+      #rm: true
+    source: build
+    state: present
+
+- name: Copy HomeLabOS Web docker-compose.yml file into place.
+  template:
+    src: docker-compose.homelabos_web.yml.j2
+    dest: "{{ volumes_root }}/homelabos_web/docker-compose.yml"
+#  vars:
+#    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure HomeLabOS Web systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/homelabos_web.service
+  vars:
+    - service_item: homelabos_web
+  become: yes
+
+- name: Start HomeLabOS Web
+  systemd:
+    name: homelabos_web
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
+  become: yes

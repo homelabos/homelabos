@@ -693,7 +693,7 @@ openvpn:
   domain: {{ openvpn.domain | default(False) }}
   subdomain: {{ openvpn.subdomain | default("openvpn") }}
 organizr:
-  enable: {{ organizr.enable | default(enable_organizr, None) | default(True) }}
+  enable: {{ organizr.enable | default(enable_organizr, None) | default(False) }}
   https_only: {{ organizr.https_only | default(False) }}
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
