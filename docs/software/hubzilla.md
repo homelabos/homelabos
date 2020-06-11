@@ -2,6 +2,12 @@
 
 [Hubzilla](https://framagit.org/hubzilla) is a powerful platform for creating interconnected websites featuring a [decentralized/nomadic identity](https://zotlabs.org/page/hubzilla/hubzilla-project).
 
+The docker image comes from [voryzen/hubzilla:4.6](https://hub.docker.com/r/gonzague/homedash) 
+and currently does not support arm devices. 
+If you are aware of a suitable substitution or replacement ([good place to start](https://hub.docker.com/search?q=hubzilla&type=image&architecture=arm%2Carm64%2Camd64)),
+ [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478) 
+and test your idea using the [documentation](https://homelabos.com/docs/development/adding_services/).
+
 ## Setup
 
 To enable Hubzilla, run the following command:
