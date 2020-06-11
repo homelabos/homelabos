@@ -69,9 +69,9 @@ RUN set -x && \
   wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip && \
   unzip terraform_0.12.0_linux_amd64.zip && \
   mv terraform /usr/local/bin && \
-  ARCH=$([[ $MACHTYPE == *"86_64"* ]] && echo "yq_linux_amd64" || echo "yq_linux_arm") && \
-  wget -q -O /usr/bin/yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/latest | jq -r '.assets[] | select(.name == "$ARCH") | .browser_download_url') && \
+  wget $(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d '"' -f 4) -O /usr/bin/yq && \
   chmod +x /usr/bin/yq
+
 
 
 
