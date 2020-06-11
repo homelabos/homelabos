@@ -7,8 +7,26 @@ Task::sanity_check(){
 
   Task::check_vault_pass
   Task::check_ssh_keys
+  Task::check_for_git
 
   colorize green "Sanity checks passed"
+}
+
+Task::check_for_git(){
+  git --version 2>&1 >/dev/null # improvement by tripleee
+  GIT_IS_AVAILABLE=$?
+  if ! [ $GIT_IS_AVAILABLE -eq 0 ]; then
+    colorize red "You need to install Git"
+  fi
+}
+
+Task::check_ssh_with_keys(){
+  local IP=$(Task::run_docker yq r "settings/config.yml" "homelab_ip")
+  local USERNAME=$(Task::run_docker yq r "settings/config.yml" "homelab_ssh_user")
+  local TRIMUSERNAME="$(echo -e "${USERNAME}" | tr -d '[:space:]')"
+  # echo "$TRIMUSERNAME@$IP"
+  Task::run_docker (ssh -q -o "BatchMode=yes" -o "ConnectTimeout=3" ${TRIMUSERNAME}@${IP} "echo 2>&1" && echo $?)
+  #/bin/bash -c ssh ${TRIMUSERNAME}@${IP} exit ; echo $?
 }
 
 Task::check_vault_pass(){

@@ -113,6 +113,7 @@ Task::track(){
 }
 
 Task::run_docker() {
+  echo "command: $@"
   docker run --rm -it \
   -v $HOME/.ssh/id_rsa:/root/.ssh/id_rsa \
   -v $HOME/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
