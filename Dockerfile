@@ -35,6 +35,7 @@ RUN set -x && \
   echo "==> Adding build-dependencies..."  && \
   apk --update add --virtual build-dependencies \
   gcc \
+  wget \
   musl-dev \
   libffi-dev \
   openssl-dev \
@@ -69,7 +70,8 @@ RUN set -x && \
   wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip && \
   unzip terraform_0.12.0_linux_amd64.zip && \
   mv terraform /usr/local/bin && \
-  wget $(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep browser_download_url | grep linux_amd64 | cut -d '"' -f 4) -O /usr/bin/yq && \
+  if [ $MACHTYPE == "x86_64" ]; then key="yq_linux_amd64"; else key="yq_linux_arm64"; fi && \
+  wget $(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep browser_download_url | grep yq_linux_amd64 | cut -d '"' -f 4) -O /usr/bin/yq && \
   chmod +x /usr/bin/yq
 
 
