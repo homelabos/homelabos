@@ -39,7 +39,7 @@ set -E
 BASH_COMPAT=4.3  # currently needed for using 'break' outside of loop bodies.
 
 if ((BASH_VERSINFO[0] >= 4)); then
-  declare -A runner_colors=(
+  declare -A colors=(
     [black]="$(echo -e '\e[30m')"
     [red]="$(echo -e '\e[31m')"
     [green]="$(echo -e '\e[32m')"
@@ -60,7 +60,7 @@ if ((BASH_VERSINFO[0] >= 4)); then
   )
 
   colorize() {
-    echo "${runner_colors[$1]}${*:2}${runner_colors[reset]}"
+    echo "${colors[$1]}${*:2}${colors[reset]}"
   }
 else
   colorize() {
@@ -129,7 +129,7 @@ taskit_cleanup () {
     # combine and show errors from Taskit if there's any.
     if (( ${#TASKIT_ERRORS[*]} )); then
         local oIFS=$IFS; IFS=$'\n'
-        echo
+
         echo "${TASKIT_ERRORS[*]}" >&2
         IFS=$oIFS
     fi

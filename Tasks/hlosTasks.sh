@@ -27,6 +27,11 @@ Task::generate_ansible_pass(){
 # Builds the docker image used for HomelabOS Deployments
 Task::build() {
     : @desc "Builds the Docker Image used to deploy"
+    : @param force "Forces a rebuild of the docker image"
+
+  if ! [[ -z $_force ]] ; then
+    docker images -a | grep "homelabos" | awk '{print $3}' | xargs docker rmi
+  fi
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
   already_ran[${FUNCNAME[0]}]=1
@@ -70,7 +75,7 @@ Task::decrypt(){
   : @desc "Decrypts the vault"
 
   highlight "Decrypting Vault"
-  Task::run_docker ansible-vault decrypt settings/vault.yml
+  Task::run_docker ansible-vault decrypt settings/vault.yml || true
   highlight "Vault decrypted!"
 }
 
