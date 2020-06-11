@@ -50,25 +50,24 @@ Task::set(){
   # Try to figure out where key is defined
   FILE=settings/config.yml
   SETTING_VALUE=$(Task::run_docker yq r "$FILE" "$key" "$value")
-  # SETTING_VALUE=$(sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r "$FILE" "$key" "$value")
   if [ -z ${SETTING_VALUE} ]; then
       FILE=settings/vault.yml
-      SETTING_VALUE=$(sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r "$FILE" "$key" "$value")
+      SETTING_VALUE=$(Task::run_docker yq r "$FILE" "$key" "$value")
       if [ -z ${SETTING_VALUE} ]; then
           echo "Key does not exist in config.yml nor vault.yml."
           # Re-encrypt vault
-          make encrypt
+          Task::encrypt
           exit 1
       fi
   fi
 
-  echo "Found value in file: $FILE"
+  colorize yellow "Found value in file: $FILE"
 
-  echo "Old setting value: " ${SETTING_VALUE}
+  colorize red "Old setting value: " ${SETTING_VALUE}
   # Setting the new value
-  sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq w -i "$FILE" "$key" "$value"
-  NEW_SETTING_VALUE=$(sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r "$FILE" "$key" "$value")
-  echo "New setting value: " ${NEW_SETTING_VALUE}
+  Task::run_docker yq w -i "$FILE" "$key" "$value"
+  NEW_SETTING_VALUE=$(Task::run_docker yq r "$FILE" "$key" "$value")
+  colorize green "New setting value: " ${NEW_SETTING_VALUE}
 
   Task::encrypt
 }
