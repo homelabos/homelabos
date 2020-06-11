@@ -30,7 +30,7 @@ Task::build() {
     : @param force "Forces a rebuild of the docker image"
 
   if ! [[ -z $_force ]] ; then
-    docker images -a | grep "homelabos" | awk '{print $3}' | xargs docker rmi
+    docker images -a | grep "homelabos" | awk '{print $3}' | xargs docker rmi --force
   fi
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
