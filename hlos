@@ -441,11 +441,20 @@ taskit_show_task_help () {
     #
     echo
     echo "${C_ON:-}DESCRIPTION${C_ON:+$C_OFF}"
-    awk -v lineno=${lineno_file%% *} '
-            /^ *#/     { lines[i++]=$0; next }
-            NR==lineno { for (i in lines) print lines[i]; exit 0 }
-                       { delete lines }
-    ' < "${lineno_file#* }" | sed -r "s/^[# ]+/$indent/" | fmt -s
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      awk -v lineno=${lineno_file%% *} '
+                /^ *#/     { lines[i++]=$0; next }
+                NR==lineno { for (i in lines) print lines[i]; exit 0 }
+                          { delete lines }
+        ' < "${lineno_file#* }" | sed -E "s/^[# ]+/$indent/" | fmt -s
+    else
+      awk -v lineno=${lineno_file%% *} '
+                /^ *#/     { lines[i++]=$0; next }
+                NR==lineno { for (i in lines) print lines[i]; exit 0 }
+                          { delete lines }
+        ' < "${lineno_file#* }" | sed -r "s/^[# ]+/$indent/" | fmt -s
+    fi
 
     local spec param param_desc
     local specs=${TASK_ATTRS[$task@param]:-}
