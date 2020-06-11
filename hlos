@@ -504,7 +504,7 @@ taskit_parse_args_of_tasks() {
                     errors+=("Missing parameter name for $task: $arg")
                     continue
                 }
-                [[ $name =~ ^[_a-zA-Z][_a-zA-Z0-9]*$ ]] || {
+                [[ $name =~ ^[_a-zA-Z.][_a-zA-Z0-9.]*$ ]] || {
                     errors+=("Invalid argument name for $task: $arg")
                     continue
                 }

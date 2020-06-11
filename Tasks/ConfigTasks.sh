@@ -49,7 +49,8 @@ Task::set(){
 
   # Try to figure out where key is defined
   FILE=settings/config.yml
-  SETTING_VALUE=$(sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r "$FILE" "$key" "$value")
+  SETTING_VALUE=$(Task::run_docker yq r "$FILE" "$key" "$value")
+  # SETTING_VALUE=$(sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r "$FILE" "$key" "$value")
   if [ -z ${SETTING_VALUE} ]; then
       FILE=settings/vault.yml
       SETTING_VALUE=$(sudo docker run -it --rm -v ${PWD}:/workdir mikefarah/yq yq r "$FILE" "$key" "$value")
