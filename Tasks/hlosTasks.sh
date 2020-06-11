@@ -104,6 +104,14 @@ Task::shell() {
   Task::run_docker /bin/bash
 }
 
+# Allows you to switch between various branches and tags of HLOS
+Task::track(){
+  : @desc "Switches you to the specified branch or tag. use branch=<branchname>"
+  : @param branch! "Required! Branch or tag name to track"
+
+  git checkout $_branch
+}
+
 Task::run_docker() {
   docker run --rm -it \
   -v $HOME/.ssh/id_rsa:/root/.ssh/id_rsa \
