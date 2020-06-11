@@ -2,6 +2,10 @@
 
 [Grafana](https://grafana.com/) is a Time Series Database graphing application.
 
+The docker image comes from [grafana/grafana](https://hub.docker.com/r/grafana/grafana) and should support arm devices.
+If you attempt to run it on arm and encounter issues, 
+[please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
+
 You can use it to visualize the Weather data imported by [influxdb_darksky](software/influxdb_darksky),
 power, activity, and other data from [Home Assistant](software/homeassistant), and general server
 information via Telegraf.
