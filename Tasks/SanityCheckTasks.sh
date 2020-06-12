@@ -17,6 +17,8 @@ Task::sanity_check(){
 # Ensures a vault is present, even if it's empty.
 Task::check_for_settings(){
   : @desc "Verifies User Settings exist. Creates it if it's not present"
+    mkdir -p settings/passwords
+    [ -f ~/.homelabos_vault_pass ] || Task::generate_ansible_pass
 
     if ! [[ -d settings ]]; then
         colorize red "Seems to be your first time running this."
@@ -25,11 +27,11 @@ Task::check_for_settings(){
     fi
     if ! [[ -f settings/config.yml ]]; then
         colorize light_red "Creating an empty config file"
-        echo 'config:|blank_on_purpose:' > settings/config.yml
+        cp config.yml.blank settings/config.yml
     fi
     if ! [[ -f settings/vault.yml ]]; then
         colorize light_red "Creating an empty Vault"
-        echo 'vault:|blank_on_purpose:' > settings/vault.yml
+        cp config.yml.blank settings/vault.yml
     fi
 }
 

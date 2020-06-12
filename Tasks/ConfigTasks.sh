@@ -10,10 +10,6 @@ Task::config(){
   Task::build
 
   highlight "Creating or Updating config file"
-  mkdir -p settings/passwords
-  [ -f ~/.homelabos_vault_pass ] || Task::generate_ansible_pass
-  [ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
-  [ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 
   Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
   highlight "Encrypting Secrets in the Vault"
