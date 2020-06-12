@@ -142,3 +142,10 @@ Task::check_version() {
     colorize green "You are up to date!"
   fi
 }
+
+# Links the hlos command into /usr/local/bin
+Task::install_cli(){
+  : @desc "Links the hlos cli into /usr/local/bin so you can call hlos without the ./"
+
+  sudo ln -s $PWD/hlos /usr/local/bin/hlos
+}
