@@ -35,7 +35,8 @@ Task::config_reset() {
   Task::config
 }
 
-# Set a configuration variable
+# Set a configuration variable. Requires that you specify key=value pair where
+# Key is equal to the configuration key you'd like to set, and the value represents what it will be set to.
 Task::set(){
   : @desc "Set a configuration variable"
   : @param rest% "Configuration Key to set"
