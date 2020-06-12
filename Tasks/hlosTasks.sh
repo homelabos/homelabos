@@ -41,14 +41,16 @@ Task::build() {
     : @desc "Builds the Docker Image used to deploy"
     : @param force "Forces a rebuild of the docker image"
 
-  if ! [[ -z ${_force+x} ]] ; then
+  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
+
+  if [[ -n ${_force} ]] ; then
     docker images -a | grep "homelabos" | awk '{print $3}' | xargs docker rmi --force
   fi
 
-  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
-  already_ran[${FUNCNAME[0]}]=1
   highlight "Preparing HomelabOS Docker Image"
   sudo docker inspect --type=image homelabos:$VERSION > /dev/null && highlight " Docker Image Already Built" || sudo docker build . -t homelabos:$VERSION
+  already_ran[${FUNCNAME[0]}]=1
+
 }
 
 # Manually forces a settings Sync via Git
