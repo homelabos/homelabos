@@ -5,6 +5,7 @@ Task::sanity_check(){
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
   already_ran[${FUNCNAME[0]}]=1
 
+  Task::check_for_settings
   Task::check_vault_pass
   Task::check_ssh_keys
   #Task::check_ssh_with_keys
@@ -14,13 +15,22 @@ Task::sanity_check(){
 }
 
 # Ensures a vault is present, even if it's empty.
-Task::check_for_vault(){
-  : @desc "Verifies a Vault exists. Creates it if it's not present"
+Task::check_for_settings(){
+  : @desc "Verifies User Settings exist. Creates it if it's not present"
 
-  if ! [[ -f settings/vault.yml ]]; then
-    colorize red "Seems to be your first time running this. Creating an empty Vault"
-    echo 'vault:|blank_on_purpose:' > settings/vault.yml
-  fi
+    if ! [[ -d settings ]]; then
+        colorize red "Seems to be your first time running this."
+        colorize light_red "Creating settings directory"
+        mkdir -p settings
+    fi
+    if ! [[ -f settings/config.yml ]]; then
+        colorize light_red "Creating an empty config file"
+        echo 'config:|blank_on_purpose:' > settings/config.yml
+    fi
+    if ! [[ -f settings/vault.yml ]]; then
+        colorize light_red "Creating an empty Vault"
+        echo 'vault:|blank_on_purpose:' > settings/vault.yml
+    fi
 }
 
 Task::check_for_git(){
