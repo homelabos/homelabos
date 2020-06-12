@@ -16,6 +16,6 @@ Task::vault_migration(){
   else
     sudo sed -i -ne 's/^/  /' settings/vault.yml
     echo -e "vault:\n$(cat settings/vault.yml)" > settings/vault.yml
-    colorize orange "Migrated vault to v0.7 - NOTE: You will be asked for your sudo and default password again."
+    colorize yellow "Migrated vault to v0.7 - NOTE: You will be asked for your sudo and default password again."
   fi
 }
