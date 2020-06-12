@@ -627,13 +627,13 @@ taskit_log () {  # [level] <message>
         esac
     fi
 
-    local ts; printf -v ts "%(%Y-%m-%dT%T%z)T"
-    printf "${color:-}$TASKIT_LINE_PREFIX %s|%s|user=%s|pid=$BASHPID|$label|%s${color:+"$C_OFF"}\n" \
-           "$HOSTNAME" \
-           "$ts" \
-           "$USER" \
-           "$*" \
-      >$logf
+    # local ts; printf -v ts "%(%Y-%m-%dT%T%z)T"
+    # printf "${color:-}$TASKIT_LINE_PREFIX %s|%s|user=%s|pid=$BASHPID|$label|%s${color:+"$C_OFF"}\n" \
+    #        "$HOSTNAME" \
+    #        "$ts" \
+    #        "$USER" \
+    #        "$*" \
+    #   >$logf
 }
 
 taskit_run () { # [task1 [name1=value1 ...] task2 ...]
