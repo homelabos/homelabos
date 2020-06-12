@@ -2,6 +2,9 @@
 
 ## Services Added
 
+- Added Rsshub - RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
+- Added Teedy - Document Management made simple for everyone
+- Added Taisun - Single Server Docker Management for Humans
 - Added Keycloak - Open Source Identity and Access Management
 - Added The Spaghetti Detective - AI-based failure detection for 3D printer remote management and monitoring.
 - Added matterbridge - Bridges between many different chat protocols.
@@ -9,6 +12,7 @@
 - Added Simply-Shorten - A simple selfhosted URL shortener with no name because naming is hard
 - Added Taisun - Single Server Docker Management for Humans
 - Added Teedy - Document Management made simple for everyone
+- Added Unifi Controller - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 
 # 0.7.1 - 0.7.2
 

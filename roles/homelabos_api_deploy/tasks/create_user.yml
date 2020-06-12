@@ -1,0 +1,62 @@
+---
+#####################################
+## What this playbook does:
+## - Creates a designated user account for hlos
+## - Adds SSH key login and disables password login
+## - Adds passwordless sudo
+##
+## What this means is that no-one will be able to login as this user
+## without the SSH private key.
+#####################################
+- name: Ensure group docker exists
+  group:
+    name: docker
+    gid: 998
+    state: present
+  become: yes
+
+- name: Add my user
+  # Lock the password.
+  # If you don't want this, add this line and remove the password_lock=yes line
+  #     password={{ user_pass }}
+  user: >
+    name={{ user_name }}
+    shell=/bin/bash
+    groups=sudo,docker
+    append=yes
+    password_lock=yes
+    generate_ssh_key=yes
+    ssh_key_bits=2048
+    state=present
+  become: yes
+
+- name: Add user 'hlos' to sudo
+  lineinfile:
+    path: /etc/sudoers.d/{{ user_name }}
+    line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL"
+    state: present
+    mode: 0440
+    create: yes
+    validate: 'visudo -cf %s'
+  become: yes
+
+- name: Add the workstation user's public key to the 'hlos' user
+  authorized_key:
+    user: "{{ user_name }}"
+    key: "{{ lookup('file', 'certificates/id_rsa.pub') }}"
+    state: present
+  become: yes
+
+- name: Fetch remote 'hlos' SSH public key
+  fetch:
+    src: /home/{{ user_name }}/.ssh/id_rsa.pub
+    dest: certificates/hlos/
+    flat: yes
+  become: yes
+
+- name: Add 'hlos' SSH public key to authorized_keys
+  authorized_key:
+    user: "{{ user_name }}"
+    key: "{{ lookup('file', 'certificates/hlos/id_rsa.pub') }}"
+    state: present
+  become: yes

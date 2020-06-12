@@ -9,3 +9,6 @@ It is available at [https://{% if guacamole.domain %}{{ guacamole.domain }}{% el
 {% if enable_tor %}
 It is also available via Tor at [http://{{ guacamole.subdomain + "." + tor_domain }}/guacamole](http://{{ guacamole.subdomain + "." + tor_domain }}/guacamole)
 {% endif %}
+
+## Default user and password
+Use "guacadmin" for both user and password when logging in initially.

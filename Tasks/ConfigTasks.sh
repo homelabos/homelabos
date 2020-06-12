@@ -22,6 +22,15 @@ Task::config(){
 
 }
 
+#Show the Configuration settings for a given service
+Task::show_config(){
+  : @desc "Shows the configuration settings for the specified service"
+  : @param service! "The name of the service. Use: service=serviceName"
+
+  Task::run_docker yq r "settings/config.yml" $_service
+
+}
+
 # Resets the local settings
 Task::config_reset() {
   : @desc "Resets the Configuration"
@@ -35,7 +44,8 @@ Task::config_reset() {
   Task::config
 }
 
-# Set a configuration variable
+# Set a configuration variable. Requires that you specify key=value pair where
+# Key is equal to the configuration key you'd like to set, and the value represents what it will be set to.
 Task::set(){
   : @desc "Set a configuration variable"
   : @param rest% "Configuration Key to set"

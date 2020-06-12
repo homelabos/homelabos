@@ -25,10 +25,14 @@
         "url": "https://open.spotify.com"
       }
     ],
-    "Homelab": [
+     "Homelab": [
       {
         "name": "Gitlab HomelabOS",
         "url": "https://gitlab.com/NickBusey/HomelabOS"
+      },
+      { 
+        "name": "HomelabOS Zulip Chat",
+        "url": "https://homelabos.zulipchat.com/"
       }
     ]
   },

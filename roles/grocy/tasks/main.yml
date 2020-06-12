@@ -1,13 +1,13 @@
 ---
 - name: Make grocy directory.
   file:
-    path: "/var/homelabos/grocy"
+    path: "{{volumes_root}}/grocy"
     state: directory
 
 - name: Copy grocy docker-compose.yml file into place.
   template:
     src: docker-compose.grocy.yml.j2
-    dest: /var/homelabos/grocy/docker-compose.grocy.yml
+    dest: "{{volumes_root }}/grocy/docker-compose.yml"
 
 - name: Configure grocy systemd service.
   template:

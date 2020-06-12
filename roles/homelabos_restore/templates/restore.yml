@@ -6,8 +6,8 @@ services:
     image: lobaro/restic-backup-docker
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}
-      - AWS_ACCESS_KEY_ID={{ s3_access_code }}
-      - AWS_SECRET_ACCESS_KEY={{ s3_secret_code }}
+      - AWS_ACCESS_KEY_ID={{ s3_access_key }}
+      - AWS_SECRET_ACCESS_KEY={{ s3_secret_key }}
       - RESTIC_PASSWORD={{ s3_backup_password }}
       - BACKUP_CRON={{ s3_backup_cron }}
       - HOSTNAME={{ domain }}

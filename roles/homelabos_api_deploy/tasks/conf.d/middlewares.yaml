@@ -1,0 +1,35 @@
+---
+
+http:
+  middlewares:
+    authelia:
+      forwardAuth:
+        address: "http://auth:9091/api/verify?rd=https://auth.{{ domain }}/"
+        trustForwardHeader: true
+{% if enable_tor %}
+    authelia-tor:
+      forwardAuth:
+        address: "http://auth-tor:9091/api/verify?rd=http://auth.{{ tor_domain }}/"
+        trustForwardHeader: true
+{% endif %}
+    basicAuth:
+      basicAuth:
+        usersFile: "/basicAuth"
+    redirect:
+      redirectScheme:
+        scheme: https
+    customFrameHomelab:
+      headers:
+        customFrameOptionsValue: "ALLOW-FROM http://{{ domain }} ALLOW-FROM https://{{ domain }}"
+{% if enable_tor %}
+    customFrameHomelab-tor:
+      headers:
+        customFrameOptionsValue: "ALLOW-FROM http://{{ tor_domain }}"
+{% endif %}
+    security-headers:
+      headers:
+        stsSeconds: 31536000
+        browserXssFilter: true
+        contentTypeNosniff: true
+        frameDeny: true
+        stsPreload: true

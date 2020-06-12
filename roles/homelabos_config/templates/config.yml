@@ -693,7 +693,7 @@ openvpn:
   domain: {{ openvpn.domain | default(False) }}
   subdomain: {{ openvpn.subdomain | default("openvpn") }}
 organizr:
-  enable: {{ organizr.enable | default(enable_organizr, None) | default(True) }}
+  enable: {{ organizr.enable | default(enable_organizr, None) | default(False) }}
   https_only: {{ organizr.https_only | default(False) }}
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
@@ -790,6 +790,12 @@ restic:
   auth: {{ restic.auth | default(False) }}
   domain: {{ restic.domain | default(False) }}
   subdomain: {{ restic.subdomain | default("restic") }}
+rsshub:
+  enable: {{ rsshub.enable | default(enable_rsshub, None) | default(False) }}
+  https_only: {{ rsshub.https_only | default(False) }}
+  auth: {{ rsshub.auth | default(False) }}
+  domain: {{ rsshub.domain | default(False) }}
+  subdomain: {{ rsshub.subdomain | default("rsshub")}}
 sabnzbd:
   enable: {{ sabnzbd.enable | default(enable_sabnzbd, None) | default(False) }}
   https_only: {{ sabnzbd.https_only | default(False) }}
@@ -935,6 +941,12 @@ xfinityusageinfluxdb:
   auth: {{ xfinityusageinfluxdb.auth | default(False) }}
   domain: {{ xfinityusageinfluxdb.domain| default(False) }}
   subdomain: {{ xfinityusageinfluxdb.subdomain | default("xfinityusageinfluxdb") }}
+unificontroller:
+  enable: {{ unificontroller.enable | default(enable_unificontroller, None) | default(False) }}
+  https_only: {{ unificontroller.https_only | default(False) }}
+  auth: {{ unificontroller.auth | default(False) }}
+  domain: {{ unificontroller.domain | default(False) }}
+  subdomain: {{ unificontroller.subdomain | default("unificontroller")}}
 wallabag:
   enable: {{ wallabag.enable | default(enable_wallabag, None) | default(False) }}
   https_only: {{ wallabag.https_only | default(False) }}

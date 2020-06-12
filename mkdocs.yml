@@ -124,12 +124,14 @@ nav:
       - Pi-hole: software/pihole.md
       - Poli: software/poli.md
       - PrivateBin: software/privatebin.md
+      - RssHub: software/rsshub.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
       - Shinobi: software/shinobi.md
       - Simply-Shorten: software/simply_shorten.md
       - The Spaghetti Detective: software/thespaghettidetective.md
       - Ubooquity: software/ubooquity.md
+      - UnifiController: software/unificontroller.md
       - Watchtower: software/watchtower.md
       - WebTrees: software/webtrees.md
       - Zammad: software/zammad.md

@@ -1,0 +1,37 @@
+---
+- name: Create the HomeLabOS user account and install Docker
+  hosts: all
+  tags:
+    - deploy
+  roles:
+    - homelabos_api_deploy
+
+# Configure a TOR hidden service for remote access without a public IP
+# This is installed directly on the host.
+- name: "Setup TOR"
+  hosts: all
+  tags:
+    - tor
+  become: true
+  roles:
+    - role: tor
+      when: enable_tor
+
+## TODO: Ansibel complains about include_role ???
+#- name: "Deploy Bastion Host with Wireguard"
+#  hosts: all
+#  tags:
+#    - bastion
+#  become: true
+#  tasks:
+#    - include_role:
+#        name: homelabos_wireguard
+#        when: bastion.enable == True
+
+# Install and configure HomelabOS services
+- name: Install and configure HomelabOS services
+  hosts: all
+  tags:
+    - deploy_service
+  roles:
+    - homelabos_api_deploy_service

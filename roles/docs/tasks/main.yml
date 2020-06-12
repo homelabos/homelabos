@@ -3,7 +3,7 @@
 - name: Install pipenv
   pip:
     name: pipenv
-    executable: /usr/bin/pip
+    executable: /usr/bin/pip3
 
 - name: Make HomelabOS documentation directory.
   file:
@@ -32,7 +32,7 @@
     src: "{{ item.src }}"
     dest: "{{ volumes_root }}/docs/docs/{{ item.path }}"
   with_filetree: "docs/"
-  when: item.state == 'file'
+  when: item.state == 'file' and item.src is match(".md")
 
 - name: copy configuration files
   copy:
@@ -44,12 +44,12 @@
     - mkdocs.yml
 
 - name: fetch pipenv dependencies
-  shell: pipenv install
+  shell: pipenv --three install
   args:
     chdir: "{{ volumes_root }}/docs"
 
 - name: build the documentation with mkdocs
-  shell: pipenv run mkdocs build
+  shell: pipenv --three run mkdocs build
   args:
     chdir: "{{ volumes_root }}/docs"
 

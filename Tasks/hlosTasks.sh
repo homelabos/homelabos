@@ -8,7 +8,7 @@ Task::logo() {
 
   Task::sudo_check
 
-  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
+  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
   already_ran[${FUNCNAME[0]}]=1
   cat homelaboslogo.txt
   Task::check_version
@@ -26,12 +26,24 @@ Task::generate_ansible_pass(){
   date +%s | sha256sum | base64 | head -c 32  > ~/.homelabos_vault_pass
 }
 
+#Shows the /docs/software/service.md rendered in the terminal
+Task::show(){
+  : @desc "Show the docs for the specified service"
+  : @param service "Service name: service=serviceName"
+
+  Task::run_docker mdv -t 729.8953 docs/software/${_service}.md
+  highlight "Current Configuration settings"
+  Task::show_config
+}
+
 # Builds the docker image used for HomelabOS Deployments
 Task::build() {
     : @desc "Builds the Docker Image used to deploy"
     : @param force "Forces a rebuild of the docker image"
 
-  if ! [[ -z $_force ]] ; then
+  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
+
+  if [[ -n ${_force} ]] ; then
     docker images -a | grep "homelabos" | awk '{print $3}' | xargs docker rmi --force
   fi
 
@@ -39,13 +51,16 @@ Task::build() {
   already_ran[${FUNCNAME[0]}]=1
   highlight "Preparing HomelabOS Docker Image"
   sudo docker inspect --type=image homelabos:$VERSION > /dev/null && highlight " Docker Image Already Built" || sudo docker build . -t homelabos:$VERSION
+  already_ran[${FUNCNAME[0]}]=1
+
 }
 
 # Manually forces a settings Sync via Git
 Task::git_sync() {
   : @desc "Manually forces a settings sync via git"
 
-  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
+  local return_dir=$PWD
+  if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
   already_ran[${FUNCNAME[0]}]=1
   mkdir -p settings > /dev/null 2>&1
   # If there is a git repo, then attempt to update
@@ -54,15 +69,15 @@ Task::git_sync() {
     cp git_sync_pre_commit settings/.git/hooks/pre-commit
     chmod +x settings/.git/hooks/pre-commit
     cd settings
-    colorize orange "Syncing settings via Git"
+    colorize yellow "Syncing settings via Git"
     git pull
     git add * > /dev/null
     git commit -a -m "Settings update" || true
     git push > /dev/null
   else
-    colorize orange "Warning! You do not have a git repo set up for your settings. Make sure to back them up using some other method. https://homelabos.com/docs/setup/installation/#syncing-settings-via-git "
+    colorize yellow "Warning! You do not have a git repo set up for your settings. Make sure to back them up using some other method. https://homelabos.com/docs/setup/installation/#syncing-settings-via-git "
   fi
-  cd ..
+  cd $return_dir
 
 }
 
@@ -133,7 +148,7 @@ Task::check_version() {
 
   function version_gt() { test "$(echo "$@" | tr " " "\n" | sort | head -n 1)" != "$1"; }
 
-  colorize orange "You currently have version: $VERSION_CURRENT"
+  colorize yellow "You currently have version: $VERSION_CURRENT"
   colorize green "The newest Version available is: $VERSION_LATEST"
 
   if version_gt $VERSION_LATEST $VERSION_CURRENT; then
@@ -142,4 +157,11 @@ Task::check_version() {
   else
     colorize green "You are up to date!"
   fi
+}
+
+# Links the hlos command into /usr/local/bin
+Task::install_cli(){
+  : @desc "Links the hlos cli into /usr/local/bin so you can call hlos without the ./"
+
+  sudo ln -s $PWD/hlos /usr/local/bin/hlos
 }

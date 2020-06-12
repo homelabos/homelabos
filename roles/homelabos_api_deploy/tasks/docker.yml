@@ -1,0 +1,35 @@
+---
+#####################################
+## What this playbook does:
+## - Install minimal on-host dependencies to get docker running
+#####################################
+- name: Install minimal system packages for adding Docker-ce repo
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: ['gnupg-agent']
+  become: yes
+
+# https://docs.docker.com/engine/install/debian/
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    # url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  become: yes
+
+- name: Add Docker Repository
+  apt_repository:
+    # repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian buster stable
+    state: present
+  become: yes
+
+- name: Update apt and install docker-ce
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: ['docker-ce', 'docker-ce-cli', 'containerd.io', 'docker-compose']
+  become: yes
+
+- name: Configure docker log settings
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+  become: yes

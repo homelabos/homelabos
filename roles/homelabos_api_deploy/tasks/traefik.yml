@@ -1,0 +1,61 @@
+####################
+##  Traefik
+####################
+- name: Make HomelabOS Traefik directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "1777"
+  loop:
+    - "{{ volumes_root }}/traefik"
+    - "{{ volumes_root }}/traefik/conf.d"
+  ignore_errors: "yes"
+
+# Needs passlib built into the ansible container
+- name: Write user to basic auth file
+  htpasswd:
+    path: "{{ volumes_root }}/traefik/basicAuth"
+    name: "{{ default_username }}"
+    password: "{{ default_password }}"
+    mode: 0600
+
+- name: Configure SSL
+  file:
+    path: "{{ volumes_root }}/traefik/acme.json"
+    mode: 0600
+    state: touch
+
+- name: Configure HomelabOS Traefik systemd service.
+  template:
+    src: homelabos.service
+    dest: /etc/systemd/system/homelabos.service
+  become: yes
+
+- name: Configure Traefik .yaml
+  template:
+    src: traefik.yaml
+    dest: "{{ volumes_root }}/traefik/traefik.yaml"
+
+- name: Configure Traefik conf.d
+  template:
+    src: conf.d/middlewares.yaml
+    dest: "{{ volumes_root }}/traefik/conf.d/middlewares.yaml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy Traefik docker-compose.yml file into place.
+  template:
+    src: docker-compose.traefik.yml.j2
+    dest: "{{ volumes_root }}/traefik/docker-compose.yml"
+  vars:
+    service_domain: "{% if traefik.domain %}{{ traefik.domain }}{% else %}{{ traefik.subdomain }}.{{ domain }}{% endif %}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Start HomelabOS Traefik
+  systemd:
+    name: homelabos
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: restarted
+  ignore_errors: "yes"
+  become: yes

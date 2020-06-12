@@ -14,3 +14,4 @@ pkg/
 # ignore swp files
 *.swp
 idea/
+bootstrap_install/server_credentials
