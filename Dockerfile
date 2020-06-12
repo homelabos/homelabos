@@ -57,6 +57,8 @@ RUN set -x && \
   echo "==> Installing Mitogen..." && \
   pip install mitogen && \
   \
+  echo "==> Installing TMV" && \
+  pip install mdv && \
   echo "==> Cleaning up..."  && \
   apk del build-dependencies && \
   rm -rf /var/cache/apk/* && \

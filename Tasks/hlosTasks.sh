@@ -26,6 +26,16 @@ Task::generate_ansible_pass(){
   date +%s | sha256sum | base64 | head -c 32  > ~/.homelabos_vault_pass
 }
 
+#Shows the /docs/software/service.md rendered in the terminal
+Task::show(){
+  : @desc "Show the docs for the specified service"
+  : @param service "Service name: service=serviceName"
+
+  Task::run_docker mdv -t 965.9469 docs/software/${_service}.md
+  highlight "Current Configuration settings"
+  Task::show_config
+}
+
 # Builds the docker image used for HomelabOS Deployments
 Task::build() {
     : @desc "Builds the Docker Image used to deploy"
