@@ -124,6 +124,7 @@ nav:
       - Pi-hole: software/pihole.md
       - Poli: software/poli.md
       - PrivateBin: software/privatebin.md
+      - RssHub: software/rsshub.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
       - Shinobi: software/shinobi.md

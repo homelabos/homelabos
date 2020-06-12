@@ -14,7 +14,11 @@ Task::sanity_check(){
   colorize green "Sanity checks passed"
 }
 
-# Ensures a vault is present, even if it's empty.
+Task::create_vault_pass() {
+    [ -f ~/.homelabos_vault_pass ] || Task::generate_ansible_pass
+}
+
+# Ensures there is a place to put all the required settings..
 Task::check_for_settings(){
   : @desc "Verifies User Settings exist. Creates it if it's not present"
     mkdir -p settings/passwords
@@ -24,6 +28,10 @@ Task::check_for_settings(){
         colorize red "Seems to be your first time running this."
         colorize light_red "Creating settings directory"
         mkdir -p settings
+    fi
+    if  ! [[ -d settings/passwords ]]; then
+        colorize light_red "Creating passwords directory"
+        mkdir -p settings/passwords
     fi
     if ! [[ -f settings/config.yml ]]; then
         colorize light_red "Creating an empty config file"

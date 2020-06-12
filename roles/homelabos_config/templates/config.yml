@@ -790,6 +790,12 @@ restic:
   auth: {{ restic.auth | default(False) }}
   domain: {{ restic.domain | default(False) }}
   subdomain: {{ restic.subdomain | default("restic") }}
+rsshub:
+  enable: {{ rsshub.enable | default(enable_rsshub, None) | default(False) }}
+  https_only: {{ rsshub.https_only | default(False) }}
+  auth: {{ rsshub.auth | default(False) }}
+  domain: {{ rsshub.domain | default(False) }}
+  subdomain: {{ rsshub.subdomain | default("rsshub")}}
 sabnzbd:
   enable: {{ sabnzbd.enable | default(enable_sabnzbd, None) | default(False) }}
   https_only: {{ sabnzbd.https_only | default(False) }}
