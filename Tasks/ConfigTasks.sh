@@ -22,6 +22,15 @@ Task::config(){
 
 }
 
+#Show the Configuration settings for a given service
+Task::show_config(){
+  : @desc "Shows the configuration settings for the specified service"
+  : @param service! "The name of the service. Use: service=serviceName"
+
+  Task::run_docker yq r "settings/config.yml" $_service
+
+}
+
 # Resets the local settings
 Task::config_reset() {
   : @desc "Resets the Configuration"
