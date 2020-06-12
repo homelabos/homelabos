@@ -5,7 +5,8 @@ Task::v7migrations(){
 }
 
 Task::vault_migration(){
-  if sudo egrep -q "\$ANSIBLE_VAULT" settings/vault.yml; then
+  if sudo egrep -q "ANSIBLE_VAULT.*AES256" settings/vault.yml; then
+    echo "decrypting"
     Task::decrypt
   fi
 
