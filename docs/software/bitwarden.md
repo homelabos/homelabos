@@ -2,10 +2,10 @@
 
 [Bitwarden](https://bitwarden.com/) is an open source password manager. HomelabOS utilizes an Open Source clone of the Bitwarden API server, [bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs). This is primarily due to performance and complexity reasons. `bitwarden_rs` requires just one Docker container, whereas the official `Bitwarden` install requires something like six different containers.
 
-The docker image comes from [bitwardenrs/server:latest](https://hub.docker.com/r/bitwardenrs/server) 
-and currently does not support arm devices. 
+The docker image comes from [bitwardenrs/server:latest](https://hub.docker.com/r/bitwardenrs/server)
+and currently does not support arm devices.
 If you are aware of a suitable substitution or replacement ([good place to start](https://hub.docker.com/search?q=bitwarden&type=image&architecture=arm%2Carm64)),
- [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478) 
+ [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 and test your idea using the [documentation](https://homelabos.com/docs/development/adding_services/).
 
 ## Security Note

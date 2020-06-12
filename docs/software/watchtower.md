@@ -13,7 +13,7 @@ By default, watchtower will watch all containers. However, sometimes only some c
 If you need to exclude some containers, set the `com.centurylinklabs.watchtower.enable` label to `false`.
 
 Example:
-go to `{{ volumesroot }}/watchtower/` and run `cp docker-compose.yml docker-compose.override.yml` (This creates the override file for you.).
+go to `{{ volumes_root }}/watchtower/` and run `cp docker-compose.yml docker-compose.override.yml` (This creates the override file for you.).
 Then edit the file and delete everything that is already in the docker-compose.yml file that you don't want to customize.
 
 from this

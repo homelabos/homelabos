@@ -12,10 +12,10 @@ docker-compose exec web /opt/pleroma/bin/pleroma_ctl user new {{default_username
 
 ## Access
 
-It is available at [https://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/](https://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/) or [http://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/](http://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ airsonic.subdomain + "." + domain }}{% endif %}/)
+It is available at [https://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/](https://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/) or [http://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/](http://{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ pleroma + "." + tor_domain }}/](http://{{ pleroma + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ pleroma.subdomain + "." + tor_domain }}/](http://{{ pleroma.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

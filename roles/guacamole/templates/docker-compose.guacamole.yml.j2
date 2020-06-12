@@ -14,7 +14,7 @@ services:
     volumes:
       - "{{ volumes_root }}/guacamole/dbinit:/init"
 
-  postgres:
+  guacpostgres:
     networks:
       - traefik_network
     image: postgres:latest
@@ -39,16 +39,14 @@ services:
     networks:
       - traefik_network
     restart: unless-stopped
-    ports:
-      - "8080:8080"
     environment:
       GUACD_HOSTNAME: guacd
-      POSTGRES_HOSTNAME: postgres
+      POSTGRES_HOSTNAME: guacpostgres
       POSTGRES_DATABASE: guacpostgress
       POSTGRES_USER: guacpostgress
       POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=ascii_letters')}}"
     depends_on:
-      - postgres
+      - guacpostgres
       - guacd
     labels: #- "traefik.http.frontend.rule=Host(`{{ service_domain }}`)"
       - "traefik.enable=true"

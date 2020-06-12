@@ -10,10 +10,10 @@ Follow the [Shinobi documentiton](https://shinobi.video/docs/start#content-accou
 
 ## Access
 
-It is available at [https://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/](https://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/) or [http://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/](http://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ airsonic.subdomain + "." + domain }}{% endif %}/)
+It is available at [https://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/](https://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/) or [http://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/](http://{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ shinobi + "." + tor_domain }}/](http://{{ shinobi + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ shinobi.subdomain + "." + tor_domain }}/](http://{{ shinobi.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

@@ -3,24 +3,31 @@
   systemd:
     name: homelabos
     state: stopped
+  ignore_errors: "yes"
 
 - name: Ensure enable services are not running
+  become: yes
   systemd:
     name: "{{ service_item }}"
     state: stopped
-    enable: false
-  when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ services|flatten(levels=1) }}"
+    enabled: false
+  when: query
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
+  ignore_errors: "yes"
+  vars:
+    query: "{{ service_item + '.enable' }}"
 
 - name: Clear old HomelabOS local backup if it exists.
   file:
     path: "{{ volumes_root }}.bak"
     state: absent
+  ignore_errors: "yes"
 
 - name: Create local backup of HomelabOS data (just in case).
   command: mv "{{ volumes_root }}" "{{ volumes_root }}.bak"
+  ignore_errors: "yes"
 
 - name: Create a new HomelabOS folder.
   file:
@@ -36,19 +43,23 @@
   command: "docker-compose -f \"{{ volumes_root }}_restore.yml\" -p homelabos_restore up -d"
 
 - name: Restore HomelabOS data. (This could take quite a while depending on how much data you have.)
-  command: "docker exec homelabosrestore_restore_1 restic restore latest --target /"
+  command: "docker exec homelabos_restore_restore_1 restic restore latest --target /"
 
 - name: Stop restore utility.
   command: "docker-compose -f \"{{ volumes_root }}_restore.yml\" -p homelabos_restore down"
 
-- name: Ensure enable services are restarted
+- name: Ensure enable services are not running
+  become: yes
   systemd:
     name: "{{ service_item }}"
     state: started
-    enable: false
-  when: "lookup('vars', 'enable_' ~ service_item)"
-  loop: "{{ services|flatten(levels=1) }}"
+    enabled: true
+  when: query
+  loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
+  ignore_errors: "yes"
+  vars:
+    query: "{{ service_item + '.enable' }}"
 
 ...

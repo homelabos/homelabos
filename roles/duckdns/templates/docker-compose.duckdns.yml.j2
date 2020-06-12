@@ -3,7 +3,7 @@ version: '3'
 
 services:
   duckdns:
-    image: linuxserver/duckdns 
+    image: linuxserver/duckdns
     restart: unless-stopped
     environment:
       - TZ={{ common_timezone }}

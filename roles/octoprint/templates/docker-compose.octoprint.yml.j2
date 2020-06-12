@@ -15,7 +15,7 @@ services:
     volumes:
       - "{{ volumes_root }}/octoprint/config:/home/octoprint"
 {% if octoprint.serial %}
-    devices: 
+    devices:
       - {{ octoprint.serial }}:{{ octoprint.serial }}
 {% else %}
 {% endif %}

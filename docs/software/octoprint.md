@@ -2,7 +2,7 @@
 
 [OctoPrint](https://octoprint.org/) The snappy web interface for your 3D printer.
 
-## Setup 
+## Setup
 To find the serial port and connect to your printer run
 ```
 ls /dev/serial/by-id/*
@@ -17,7 +17,7 @@ make set octoprint.serial [SERIAL ADDRESS HERE]
 It is available at [https://{% if octoprint.domain %}{{ octoprint.domain }}{% else %}{{ octoprint.subdomain + "." + domain }}{% endif %}/](https://{% if octoprint.domain %}{{ octoprint.domain }}{% else %}{{ octoprint.subdomain + "." + domain }}{% endif %}/) or [http://{% if octoprint.domain %}{{ octoprint.domain }}{% else %}{{ octoprint.subdomain + "." + domain }}{% endif %}/](http://{% if octoprint.domain %}{{ octoprint.domain }}{% else %}{{ octoprint.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ octoprint + "." + tor_domain }}/](http://{{ octoprint + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ octoprint.subdomain + "." + tor_domain }}/](http://{{ octoprint.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

@@ -23,4 +23,3 @@ else
     echo "Then retry the operation"
     read -p "Press ctrl-c and fix your ssh keys"
 fi
-

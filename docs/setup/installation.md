@@ -13,6 +13,7 @@
 ### Server
 
 - Ubuntu Server 20.04 or Debian 10.3
+- `sudo` must be available
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 !!! Warning
@@ -88,7 +89,7 @@ This is also the recommended installation method of:
 * [RVM](https://rvm.io/rvm/install).
 * [Docker](https://get.docker.com/)
 * [DockSTARTer](https://dockstarter.com/)
- 
+
 It's pretty standard practice at this point.
 
 If you still don't trust it, great, you'll fit right in here. Proceed to the Manual Set-up step below.

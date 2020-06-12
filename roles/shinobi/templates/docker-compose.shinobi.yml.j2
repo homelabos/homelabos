@@ -1,12 +1,12 @@
 #jinja2: trim_blocks:False
 ---
       version: '3'
-      
+
       networks:
         traefik_network:
           external:
             name: homelabos_traefik
-      
+
       services:
         shinobi_app:
           image: migoller/shinobidocker
@@ -65,7 +65,7 @@
       {% endif %}
           depends_on:
             - shinobi_db
-      
+
         shinobi_db:
           image: mariadb
           restart: unless-stopped

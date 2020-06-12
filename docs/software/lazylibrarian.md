@@ -7,7 +7,7 @@
 It is available at [https://{% if lazylibrarian.domain %}{{ lazylibrarian.domain }}{% else %}{{ lazylibrarian.subdomain + "." + domain }}{% endif %}/](https://{% if lazylibrarian.domain %}{{ lazylibrarian.domain }}{% else %}{{ lazylibrarian.subdomain + "." + domain }}{% endif %}/) or [http://{% if lazylibrarian.domain %}{{ lazylibrarian.domain }}{% else %}{{ lazylibrarian.subdomain + "." + domain }}{% endif %}/](http://{% if lazylibrarian.domain %}{{ lazylibrarian.domain }}{% else %}{{ lazylibrarian.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ lazylibrarian + "." + tor_domain }}/](http://{{ lazylibrarian + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ lazylibrarian.subdomain + "." + tor_domain }}/](http://{{ lazylibrarian.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

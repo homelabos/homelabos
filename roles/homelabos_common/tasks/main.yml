@@ -32,6 +32,9 @@
   snap:
     name: docker
     state: absent
+  when:
+    - ansible_facts['distribution'] == 'Ubuntu'
+    - ansible_facts['distribution_major_version'] is version('20.04', '>=')
 
 - name: Remove older docker.io based packages
   apt:

@@ -3,10 +3,13 @@
 ## Services Added
 
 - Added Keycloak - Open Source Identity and Access Management
+- Added The Spaghetti Detective - AI-based failure detection for 3D printer remote management and monitoring.
 - Added matterbridge - Bridges between many different chat protocols.
 - Added OctoPrint - The snappy web interface for your 3D printer.
+- Added Simply-Shorten - A simple selfhosted URL shortener with no name because naming is hard
 - Added Taisun - Single Server Docker Management for Humans
 - Added Teedy - Document Management made simple for everyone
+- Added Unifi Controller - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 
 # 0.7.1 - 0.7.2
 

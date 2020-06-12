@@ -7,7 +7,7 @@
 It is available at [https://{% if cockpit.domain %}{{ cockpit.domain }}{% else %}{{ cockpit.subdomain + "." + domain }}{% endif %}/](https://{% if cockpit.domain %}{{ cockpit.domain }}{% else %}{{ cockpit.subdomain + "." + domain }}{% endif %}/) or [http://{% if cockpit.domain %}{{ cockpit.domain }}{% else %}{{ cockpit.subdomain + "." + domain }}{% endif %}/](http://{% if cockpit.domain %}{{ cockpit.domain }}{% else %}{{ cockpit.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ cockpit + "." + tor_domain }}/](http://{{ cockpit + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ cockpit.subdomain + "." + tor_domain }}/](http://{{ cockpit.subdomain + "." + tor_domain }}/)
 {% endif %}
 
 ## Security enable/disable https_only and auth

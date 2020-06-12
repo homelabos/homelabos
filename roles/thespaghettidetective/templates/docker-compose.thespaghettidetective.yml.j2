@@ -1,0 +1,112 @@
+---
+version: '2.4'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+x-web-defaults: &web-defaults
+  restart: unless-stopped
+  networks:
+      - traefik_network
+  build:
+    context: web
+  volumes:
+    - ./web:/app
+  depends_on:
+    - redis
+  environment:
+    EMAIL_HOST: {{smtp.host}}
+    EMAIL_HOST_USER: {{smtp.user}}
+    EMAIL_HOST_PASSWORD: {{smtp.pass}}
+    EMAIL_PORT: {{smtp.port}}
+    EMAIL_USE_TLS: 'True'
+    DEFAULT_FROM_EMAIL: '{{ vault.smtp.from_email }}'
+    DEBUG: 'False'    # Don't set DEBUG to True, otherwise the static files will be cached in browser until hard-refresh
+    SITE_USES_HTTPS: 'False' # set it to 'True' if https is set up
+    SOCIAL_LOGIN: 'False'
+    REDIS_URL: 'redis://redis:6379'
+    DATABASE_URL: 'sqlite:////app/db.sqlite3'
+    INTERNAL_MEDIA_HOST: 'http://web:3334'
+    ML_API_HOST: 'http://ml_api:3333'
+    ACCOUNT_ALLOW_SIGN_UP: 'False'  # -> set to 'True' if you want to open sign up form
+
+    #### Optional env vars below this line ###
+    # TWILIO_ACCOUNT_SID: https://django-twilio.readthedocs.io/en/latest/settings.html for how to find and set the TWILIO_XXX vars
+    # TWILIO_AUTH_TOKEN:
+    # TWILIO_FROM_NUMBER:
+    # ENALBE_HISTORY:
+    # ML_API_TOKEN:
+    # SENTRY_DSN:
+    # TELEGRAM_BOT_TOKEN: https://core.telegram.org/bots#6-botfather for how to create a telegram bot and get its token
+
+services:
+  ml_api:
+    networks:
+      - traefik_network
+    hostname: ml_api
+    restart: unless-stopped
+    build:
+      context: ml_api
+    environment:
+        DEBUG: 'True'
+        FLASK_APP: 'server.py'
+        # ML_API_TOKEN:
+        # HAS_GPU: 'False'
+    command: bash -c "gunicorn --bind 0.0.0.0:3333 --workers 2 wsgi"
+
+  web:
+    <<: *web-defaults
+    networks:
+      - traefik_network
+    hostname: web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.thespaghettidetective.loadbalancer.server.scheme=http"
+      - "traefik.http.services.thespaghettidetective.loadbalancer.server.port=3334"
+      - "traefik.http.routers.thespaghettidetective-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.thespaghettidetective-http.entrypoints=http"
+{% if not thespaghettidetective.https_only %}
+      - "traefik.http.routers.thespaghettidetective-http.middlewares={% if thespaghettidetective.https_only %}redirect@file, {% else %}{% if thespaghettidetective.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+{% else %}
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.thespaghettidetective-http.middlewares=redirect-to-https"
+{% endif %}
+      - "traefik.http.routers.thespaghettidetective.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.thespaghettidetective.entrypoints=https"
+      - "traefik.http.routers.thespaghettidetective.middlewares={% if thespaghettidetective.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.thespaghettidetective.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.thespaghettidetective.tls.certresolver=dns"
+      - "traefik.http.routers.thespaghettidetective.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.thespaghettidetective.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.thespaghettidetective.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.thespaghettidetective-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.thespaghettidetective-tor-http.entrypoints=http"
+      - "traefik.http.routers.thespaghettidetective-tor-http.middlewares={% if thespaghettidetective.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+    ports:
+      - "3334:3334"
+    depends_on:
+      - ml_api
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver --noreload 0.0.0.0:3334"
+
+  tasks:
+    <<: *web-defaults
+    networks:
+      - traefik_network
+    hostname: tasks
+    command: sh -c "celery -A config worker --beat -l info -c 2 -Q realtime,celery"
+
+  redis:
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    image: redis:5.0-alpine

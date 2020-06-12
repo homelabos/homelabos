@@ -277,6 +277,8 @@ chowdown:
   subdomain: {{ chowdown.subdomain | default("chowdown") }}
 cockpit:
   enable: {{ cockpit.enable | default(enable_cockpit, None) | default(False) }}
+  domain: {{ cockpit.domain | default(False) }}
+  subdomain: {{ cockpit.subdomain | default("cockpit") }}
 codeserver:
   enable: {{ codeserver.enable | default(enable_codeserver, None) | default(False) }}
   https_only: {{ codeserver.https_only | default(False) }}
@@ -397,6 +399,7 @@ gitea:
   auth: {{ gitea.auth | default(False) }}
   domain: {{ gitea.domain | default(False) }}
   subdomain: {{ gitea.subdomain | default("gitea") }}
+  version: {{ gitea.version | default("1.11") }}
   use_mariadb: {{ gitea.use_mariadb | default(True) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
 gitlab:
@@ -690,7 +693,7 @@ openvpn:
   domain: {{ openvpn.domain | default(False) }}
   subdomain: {{ openvpn.subdomain | default("openvpn") }}
 organizr:
-  enable: {{ organizr.enable | default(enable_organizr, None) | default(True) }}
+  enable: {{ organizr.enable | default(enable_organizr, None) | default(False) }}
   https_only: {{ organizr.https_only | default(False) }}
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
@@ -811,6 +814,12 @@ sickchill:
   auth: {{ sickchill.auth | default(False) }}
   domain: {{ sickchill.domain | default(False) }}
   subdomain: {{ sickchill.subdomain | default("sickchill") }}
+simply_shorten:
+  enable: {{ simply_shorten.enable | default(enable_simply_shorten, None) | default(False) }}
+  https_only: {{ simply_shorten.https_only | default(False) }}
+  auth: {{ simply_shorten.auth | default(False) }}
+  domain: {{ simply_shorten.domain | default(False) }}
+  subdomain: {{ simply_shorten.subdomain | default("simply_shorten")}}
 snibox:
   enable: {{ snibox.enable | default(enable_snibox, None) | default(False) }}
   https_only: {{ snibox.https_only | default(False) }}
@@ -872,6 +881,12 @@ thelounge:
   auth: {{ thelounge.auth | default(False) }}
   domain: {{ thelounge.domain | default(False) }}
   subdomain: {{ thelounge.subdomain | default("thelounge") }}
+thespaghettidetective:
+  enable: {{ thespaghettidetective.enable | default(enable_thespaghettidetective, None) | default(False) }}
+  https_only: {{ thespaghettidetective.https_only | default(False) }}
+  auth: {{ thespaghettidetective.auth | default(False) }}
+  domain: {{ thespaghettidetective.domain | default(False) }}
+  subdomain: {{ thespaghettidetective.subdomain | default("thespaghettidetective")}}
 tick:
   enable: {{ tick.enable | default(enable_tick, None) | default(False) }}
   https_only: {{ tick.https_only | default(False) }}
@@ -920,6 +935,12 @@ xfinityusageinfluxdb:
   auth: {{ xfinityusageinfluxdb.auth | default(False) }}
   domain: {{ xfinityusageinfluxdb.domain| default(False) }}
   subdomain: {{ xfinityusageinfluxdb.subdomain | default("xfinityusageinfluxdb") }}
+unificontroller:
+  enable: {{ unificontroller.enable | default(enable_unificontroller, None) | default(False) }}
+  https_only: {{ unificontroller.https_only | default(False) }}
+  auth: {{ unificontroller.auth | default(False) }}
+  domain: {{ unificontroller.domain | default(False) }}
+  subdomain: {{ unificontroller.subdomain | default("unificontroller")}}
 wallabag:
   enable: {{ wallabag.enable | default(enable_wallabag, None) | default(False) }}
   https_only: {{ wallabag.https_only | default(False) }}

@@ -3,12 +3,12 @@
 http:
   routers:
     {{service_name}}-http:
-      rule: "Host(`{{service_name}}.{{domain}}`)"
+      rule: "Host(`{{ service_domain }}`)"
       entryPoint:
         - "http"
       service: "{{service_name}}"
     {{service_name}}:
-      rule: "Host(`{{service_name}}.{{domain}}`)"
+      rule: "Host(`{{ service_domain }}`)"
       entryPoints:
         - "https"
       middlewares:
@@ -20,6 +20,7 @@ http:
           - main: "{{domain}}"
             sans:
               - "*.{{domain}}"
+              - "{{ service_domain }}"
 
   services:
     {{service_name}}:

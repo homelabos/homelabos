@@ -1,0 +1,19 @@
+[Unit]
+Description=HomelabOS ansible-api Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+User={{ user_name }}
+Group={{ user_name }}
+TimeoutStartSec=infinity
+TimeoutStopSec=5min
+Restart=always
+RestartSec=3
+WorkingDirectory={{ volumes_root }}/ansible_api/
+
+ExecStart=/usr/bin/docker-compose up
+ExecStop=/usr/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target

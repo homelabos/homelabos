@@ -127,7 +127,10 @@ nav:
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
       - Shinobi: software/shinobi.md
+      - Simply-Shorten: software/simply_shorten.md
+      - The Spaghetti Detective: software/thespaghettidetective.md
       - Ubooquity: software/ubooquity.md
+      - UnifiController: software/unificontroller.md
       - Watchtower: software/watchtower.md
       - WebTrees: software/webtrees.md
       - Zammad: software/zammad.md

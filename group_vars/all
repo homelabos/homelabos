@@ -94,6 +94,7 @@ services:
   searx:
   shinobi:
   sickchill:
+  simply_shorten:
   snibox:
   sonarr:
   speedtest:
@@ -104,12 +105,14 @@ services:
   tautulli:
   teedy:
   thelounge:
+  thespaghettidetective:
   tick:
   tiddlywiki:
   transmission:
   trilium:
   turtl:
   ubooquity:
+  unificontroller:
   wallabag:
   watchtower:
   webdavserver:
@@ -213,6 +216,7 @@ sabnzbd:
 searx:
 shinobi:
 sickchill:
+simply_shorten:
 snibox:
 sonarr:
 speedtest:
@@ -222,12 +226,14 @@ taisun:
 tautulli:
 teedy:
 thelounge:
+thespaghettidetective:
 tick:
 tiddlywiki:
 transmission:
 trilium:
 turtl:
 ubooquity:
+unificontroller:
 wekan:
 watchtower:
 xfinityusageinfluxdb:
