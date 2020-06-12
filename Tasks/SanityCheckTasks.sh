@@ -13,6 +13,16 @@ Task::sanity_check(){
   colorize green "Sanity checks passed"
 }
 
+# Ensures a vault is present, even if it's empty.
+Task::check_for_vault(){
+  : @desc "Verifies a Vault exists. Creates it if it's not present"
+
+  if ! [[ -f settings/vault.yml ]]; then
+    colorize red "Seems to be your first time running this. Creating an empty Vault"
+    echo 'vault:|blank_on_purpose:' > settings/vault.yml
+  fi
+}
+
 Task::check_for_git(){
   git --version 2>&1 >/dev/null # improvement by tripleee
   GIT_IS_AVAILABLE=$?
