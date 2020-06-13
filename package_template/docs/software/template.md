@@ -6,10 +6,12 @@
 
 ## Setup
 
-To enable PackageTitleCase, run the folowing command
+To enable PackageTitleCase, run the following command:
+
 **`hlos enable PackageFileName`**
 
-To finalise any changes made, please run
+To finalise any changes made, please run:
+
 **`hlos update_one PackageFileName`**
 
 More information about available commands can be found in the documentation, [here]() 
