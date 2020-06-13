@@ -38,6 +38,11 @@
 set -E
 BASH_COMPAT=4.3  # currently needed for using 'break' outside of loop bodies.
 
+if ((BASH_VERSINFO[0] < 4)); then
+    echo "You must run this with bash version 4 or higher."
+    exit 2
+fi
+
 if ((BASH_VERSINFO[0] >= 4)); then
   declare -A colors=(
     [black]="$(echo -e '\e[30m')"
