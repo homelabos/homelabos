@@ -17,7 +17,9 @@ To finalise any changes made, please run:
 More information about available commands can be found in the documentation, [here]() 
 
 ## First run
+### Admin setup
 
+navigate to 
 
 ## Access
 
@@ -29,8 +31,12 @@ It is also available via Tor at [http://{{ PackageFileName.subdomain + "." + tor
 
 ## Security enable/disable https_only and auth
 
-To enable https_only or auth set the service config to True
-`settings/config.yml`
+To enable https_only or auth, run the corresponding example of either following command:
+
+**`hlos https only`**
+**`hlos auth enable`**
+
+make either of the following changes to the `settings/config.yml` file:
 
 ```
 PackageFileName:
