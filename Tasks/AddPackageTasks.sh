@@ -11,7 +11,8 @@ Task::add_package() {
   read -p "What's a good URL for the package? " url
   read -p "Enter a one-line-ish description for the packge? " description
 
-  package_file_name="${package_name// /''} | awk '{print tolower($0)}'"
+  nospaces="${package_name// /''}"
+  package_file_name=$( echo $nospaces | awk '{print tolower($0)}')
   branch_name="Adds-${package_name// /-}"
   echo $package_file_name
   Task::create_git_branch $branch_name
@@ -20,7 +21,7 @@ Task::add_package() {
   cp -R package_template/roles/template "roles/${package_file_name}"
 
   highlight "Editing Role Tasks & Renaming docker-compose template"
-  search_and_replace_in_file 'pkgtemplate' $package_file_name "/roles/$package_file_name/tasks/main.yml"
+  search_and_replace_in_file 'pkgtemplate' $package_file_name "roles/$package_file_name/tasks/main.yml"
   mv roles/$package_file_name/templates/docker-compose.template.yml.j2 roles/$package_file_name/templates/docker-compose.$package_file_name.yml.j2
   search_and_replace_in_file 'PackageFileName' $package_file_name roles/$package_file_name/templates/docker-compose.$package_file_name.yml.j2
 
