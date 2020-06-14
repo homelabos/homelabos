@@ -14,7 +14,7 @@ Task::add_package() {
   local package_file_name=${package_name// /''} | awk '{print tolower($0)}'
   local branch_name=${package_name// /-}
 
-  create_git_branch $branch_name
+  Task::create_git_branch $branch_name
 
   search_and_replace_in_file 'baz' 'woot' "test"
   highlight "Creating role folder"
@@ -38,7 +38,22 @@ Task::add_package() {
   highlight "Adding Docs to mkdocs.yml"
 
   highlight "Adding Package to the group_vars/all file"
-  #yq w -i group_vars/all services.test ''
+  yq w -i group_vars/all "services.$package_file_name" ''
+
+  #puts 'Step 7. Adding service to Readme.md'
+  highlight "Adding Service to Readme.md"
+
+  highlight "Adding service to Config Template"
+  # Copy template config to tmpfile
+  cp package_template/config.yml package_template/tmpfile.yml
+  # Edit the config tempfile
+  search_and_replace_in_file 'package_file_name' $package_file_name tmpfile
+  # yq merge -i roles/homelabos_config/templates/config.yml tmpfile
+  Task::run_docker yq merge -i roles/homelabos_config/templates/config.yml package_template/tmpfile.yml
+  # Remove tmp file
+  rm package_template/tmpfile.yml
+
+  highlight "Adding service to Changelog"
 }
 
 Task::create_git_branch() {
