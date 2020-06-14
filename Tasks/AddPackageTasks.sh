@@ -37,6 +37,8 @@ Task::add_package() {
 
   highlight "Adding Docs to mkdocs.yml"
 
+  highlight "Adding Package to the group_vars/all file"
+  #yq w -i group_vars/all services.test ''
 }
 
 Task::create_git_branch() {

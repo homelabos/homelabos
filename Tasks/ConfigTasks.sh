@@ -27,7 +27,7 @@ Task::show_config(){
   : @desc "Shows the configuration settings for the specified service"
   : @param service! "The name of the service. Use: service=serviceName"
 
-  Task::run_docker yq r "settings/config.yml" $_service
+  Task::run_docker yq r -C "settings/config.yml" $_service
 
 }
 
