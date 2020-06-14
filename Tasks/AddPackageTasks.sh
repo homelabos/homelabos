@@ -16,7 +16,6 @@ Task::add_package() {
 
   Task::create_git_branch $branch_name
 
-  search_and_replace_in_file 'baz' 'woot' "test"
   highlight "Creating role folder"
   cp -R package_template/roles/template roles/$package_file_name
 
@@ -59,7 +58,7 @@ Task::add_package() {
 Task::create_git_branch() {
   git fetch
   git checkout dev
-  git branch $1
+  git branch "Adds-$1"
   git checkout $1
 }
 
