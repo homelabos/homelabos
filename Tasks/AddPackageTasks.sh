@@ -17,7 +17,7 @@ Task::add_package() {
   Task::create_git_branch $branch_name
 
   highlight "Creating role folder"
-  cp -R package_template/roles/template roles/$package_file_name
+  cp -R "package_template/roles/template roles/$package_file_name"
 
   highlight "Editing Role Tasks & Renaming docker-compose template"
   search_and_replace_in_file 'pkgtemplate' $package_file_name "/roles/$package_file_name/tasks/main.yml"
@@ -59,6 +59,7 @@ Task::create_git_branch() {
   git fetch
   git checkout dev
   git branch "Adds-$1"
+
   git checkout $1
 }
 
