@@ -220,6 +220,7 @@ If you are having problems you can:
 - [Drone](software/drone) - Drone is a self-service continuous delivery platform
 - [Gitea](software/gitea) - Git hosting
 - [Gitlab](software/gitlab) - Git, projects, builds, docker repos hosting, etc
+- [Jenkins](software/jenkins) - The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
 - [Snibox](software/snibox) - Self-hosted snippet manager. Developed to collect and organize code snippets.
 
 ### Task management/To-do lists

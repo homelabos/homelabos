@@ -514,6 +514,13 @@ jellyfin:
   auth: {{ jellyfin.auth | default(False) }}
   domain: {{ jellyfin.domain | default(False) }}
   subdomain: {{ jellyfin.subdomain | default("jellyfin") }}
+jenkins:
+  enable: {{ jenkins.enable | default(enable_jenkins, None) | default(False) }}
+  https_only: {{ jenkins.https_only | default(False) }}
+  auth: {{ jenkins.auth | default(False) }}
+  domain: {{ jenkins.domain | default(False) }}
+  subdomain: {{ jenkins.subdomain | default("jenkins")}}
+  allow_docker: {{ jenkins.allow_docker | default(False)}}
 keycloak:
   enable: {{ keycloak.enable | default(enable_keycloak, None) | default(False) }}
   https_only: {{ keycloak.https_only | default(False) }}
