@@ -11,13 +11,13 @@ Task::add_package() {
   read -p "What's a good URL for the package? " url
   read -p "Enter a one-line-ish description for the packge? " description
 
-  local package_file_name=${package_name// /''} | awk '{print tolower($0)}'
-  local branch_name=${package_name// /-}
-
+  package_file_name="${package_name// /''} | awk '{print tolower($0)}'"
+  branch_name="Adds-${package_name// /-}"
+  echo $package_file_name
   Task::create_git_branch $branch_name
 
   highlight "Creating role folder"
-  cp -R "package_template/roles/template roles/$package_file_name"
+  cp -R package_template/roles/template "roles/${package_file_name}"
 
   highlight "Editing Role Tasks & Renaming docker-compose template"
   search_and_replace_in_file 'pkgtemplate' $package_file_name "/roles/$package_file_name/tasks/main.yml"
@@ -58,7 +58,7 @@ Task::add_package() {
 Task::create_git_branch() {
   git fetch
   git checkout dev && git pull
-  git branch "Adds-$1"
+  git branch $1
 
   git checkout $1
 }
