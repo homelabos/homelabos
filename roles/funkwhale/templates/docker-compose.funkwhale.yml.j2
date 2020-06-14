@@ -1,16 +1,13 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
 
 services:
-  app:
-    # REQUIRED
+  funkwhale:
     image: funkwhale/all-in-one:latest
     restart: unless-stopped
     networks:
@@ -27,29 +24,7 @@ services:
     volumes:
       - "{{ volumes_root }}/funkwhale:/data"
       - "{{ storage_dir }}/Music:/music:ro"
-    ports:
-      - "5000:80"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.funkwhale.loadbalancer.server.scheme=http"
       - "traefik.http.services.funkwhale.loadbalancer.server.port=80"
-      - "traefik.http.routers.funkwhale-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.funkwhale-http.entrypoints=http"
-      - "traefik.http.routers.funkwhale-http.middlewares={% if funkwhale.https_only %}redirect@file, security-headers@file, {% else %}{% if funkwhale.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.funkwhale.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.funkwhale.entrypoints=https"
-      - "traefik.http.routers.funkwhale.middlewares={% if funkwhale.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.funkwhale.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.funkwhale.tls.certresolver=dns"
-      - "traefik.http.routers.funkwhale.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.funkwhale.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.funkwhale.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.funkwhale-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.funkwhale-tor-http.entrypoints=http"
-      - "traefik.http.routers.funkwhale-tor-http.middlewares={% if funkwhale.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

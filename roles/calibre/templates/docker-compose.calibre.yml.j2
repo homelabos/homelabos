@@ -5,11 +5,12 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  calibre:
 
 services:
   calibre-alpine:
     networks:
-      - traefik_network
+      - calibre
     ports:
       - '8082:8080'
     volumes:
@@ -20,6 +21,7 @@ services:
   calibre-web:
     networks:
       - traefik_network
+      - calibre
     restart: always
     volumes:
       - "{{ storage_dir }}/Books:/books"
@@ -32,26 +34,6 @@ services:
       - PUID={{uid}}
     image: technosoft2000/calibre-web
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.calibre.loadbalancer.server.scheme=http"
       - "traefik.http.services.calibre.loadbalancer.server.port=8083"
-      - "traefik.http.routers.calibre-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.calibre-http.entrypoints=http"
-      - "traefik.http.routers.calibre-http.middlewares={% if calibre.https_only %}redirect@file, security-headers@file, {% else %}{% if calibre.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.calibre.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.calibre.entrypoints=https"
-      - "traefik.http.routers.calibre.middlewares={% if calibre.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.calibre.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.calibre.tls.certresolver=dns"
-      - "traefik.http.routers.calibre.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.calibre.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.calibre.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.calibre-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.calibre-tor-http.entrypoints=http"
-      - "traefik.http.routers.calibre-tor-http.middlewares={% if calibre.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

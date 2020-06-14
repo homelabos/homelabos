@@ -1,13 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
-networks:
-  traefik_network:
-    external:
-      name: homelabos_traefik
-
 services:
   minecraft:
     image: itzg/minecraft-server
@@ -22,19 +15,6 @@ services:
       - ONLINE_MODE={{ minecraft.online_mode}}
       - TYPE={{ minecraft.server_type }}
       - VERSION={{ minecraft.server_version }}
-
     ports:
       - 25565:25565
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.minecraft.loadbalancer.server.scheme=http"
-      - "traefik.http.services.minecraft.loadbalancer.server.port=0"
-      - "traefik.http.routers.minecraft-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.minecraft-http.entrypoints=http"
-      - "traefik.http.routers.minecraft-http.middlewares={% if minecraft.https_only %}redirect@file, security-headers@file, {% else %}{% if minecraft.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minecraft.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.minecraft.entrypoints=https"
-      - "traefik.http.routers.minecraft.middlewares={% if minecraft.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minecraft.tls=true"

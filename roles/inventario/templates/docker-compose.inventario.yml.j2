@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  inventario:
 
 services:
   # Home Inventory Management
@@ -13,41 +14,22 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+      - inventario
     environment:
       - MYSQL_DATABASE=inventario
       - MYSQL_TEST_DATABASE=inventario_test
       - MYSQL_USER=inventario
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/inventario_db_password chars=ascii_letters')}}"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.inventario.loadbalancer.server.scheme=http"
       - "traefik.http.services.inventario.loadbalancer.server.port=80"
-      - "traefik.http.routers.inventario-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.inventario-http.entrypoints=http"
-      - "traefik.http.routers.inventario-http.middlewares={% if inventario.https_only %}redirect@file, security-headers@file, {% else %}{% if inventario.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.inventario.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.inventario.entrypoints=https"
-      - "traefik.http.routers.inventario.middlewares={% if inventario.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.inventario.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.inventario.tls.certresolver=dns"
-      - "traefik.http.routers.inventario.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.inventario.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.inventario.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.inventario-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.inventario-tor-http.entrypoints=http"
-      - "traefik.http.routers.inventario-tor-http.middlewares={% if inventario.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   inventario_db:
     image: mariadb
     restart: unless-stopped
     networks:
-      - traefik_network
+      - inventario
     volumes:
       - "{{ volumes_root }}/inventario_db:/var/lib/mysql"
     environment:

@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  matomo:
 
 services:
  # Web Analytics
@@ -13,6 +14,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+      - matomo
     volumes:
       - "{{ volumes_root }}/matomo/data:/data"
     environment:
@@ -21,35 +23,15 @@ services:
       - MATOMO_DATABASE_PASSWORD={{lookup('password', './settings/passwords/matomo_db_password chars=ascii_letters')}}
       - MATOMO_DATABASE_DBNAME=matomo
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.matomo.loadbalancer.server.scheme=http"
       - "traefik.http.services.matomo.loadbalancer.server.port=80"
-      - "traefik.http.routers.matomo-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.matomo-http.entrypoints=http"
-      - "traefik.http.routers.matomo-http.middlewares={% if matomo.https_only %}redirect@file, security-headers@file, {% else %}{% if matomo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.matomo.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.matomo.entrypoints=https"
-      - "traefik.http.routers.matomo.middlewares={% if matomo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.matomo.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.matomo.tls.certresolver=dns"
-      - "traefik.http.routers.matomo.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.matomo.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.matomo.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.matomo-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.matomo-tor-http.entrypoints=http"
-      - "traefik.http.routers.matomo-tor-http.middlewares={% if matomo.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   matomo_db:
     image: mariadb
     restart: unless-stopped
     networks:
-      - traefik_network
+      - matomo
     volumes:
       - "{{ volumes_root }}/matomo/db:/var/lib/mysql"
     environment:

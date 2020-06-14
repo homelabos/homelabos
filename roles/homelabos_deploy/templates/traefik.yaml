@@ -4,25 +4,67 @@ global:
   checkNewVersion: true
   sendAnonymousUsage: {{ traefik.send_anonymous_usage }}
 
+log:
+  level: INFO
+  filePath: /var/log/traefik/traefik.log
+  format: json
+accessLog:
+  filePath: /var/log/traefik/access.log
+  format: json
+  fields:
+    defaultMode: keep
+    names:
+      clientUsername: drop
+    headers:
+      defaultMode: keep
+      names:
+        User-Agent: keep
+        Authorization: drop
+        Content-Type: keep
+
 entryPoints:
   http:
     address: :80
-    forwardedHeaders:
-      insecure: true
-    proxyProtocol:
-      insecure: true
   https:
     address: :443
-    forwardedHeaders:
-      insecure: true
-    proxyProtocol:
-      insecure: true
+    http:
+      tls:
+        options: default
+        certResolver: {% if traefik.dns_challenge_provider %}dns{% else %}http{% endif %}
+{% if traefik.dns_challenge_provider %}
+        domains:
+          - main: "{{ domain }}"
+            sans:
+              - "*.{{ domain }}"
+{% endif %}
+
   smtp: # for healthchecks incoming emails
     address: :25
-    forwardedHeaders:
-      insecure: true
-    proxyProtocol:
-      insecure: true
+  ssh:
+    address: ":2222"
+  #ping@internal
+  ping:
+    address: ":8081"
+  #metrics@internal
+  metrics:
+    address: ":8082"
+
+#Health
+ping:
+  entryPoint: "ping"
+  manualRouting: false
+#Metrics
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    manualRouting: false
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
 
 providers:
   providersThrottleDuration: 2s
@@ -45,14 +87,39 @@ log:
 certificatesResolvers:
   dns:
     acme:
+      caServer: https://acme-v02.api.letsencrypt.org/directory
       email: {{ ((admin_email == None) | ternary('test@test.com', admin_email)) }}
+      keyType: EC256
       storage: acme.json
       dnsChallenge:
+        delayBeforeCheck: 10
         provider: {{ traefik.dns_challenge_provider }}
+        resolvers:
+          - '1.1.1.1:53'
+          - '1.0.0.1:53'
   http:
     acme:
+      caServer: https://acme-v02.api.letsencrypt.org/directory
       email: {{ ((admin_email == None) | ternary('test@test.com', admin_email)) }}
+      keyType: EC256
       storage: acme.json
       httpChallenge:
         # used during the challenge
         entryPoint: http
+
+#ROUTERS
+  routers:
+    #TRAEFIK
+    api-redirect:
+      entryPoints:
+        - web
+      rule: "Host(`dashboard.technerdonline.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      service: api@internal
+    #TRAEFIK-SECURE
+    api-router:
+      rule: "Host(`dashboard.technerdonline.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      entryPoints:
+        - web-secure
+      middlewares:
+        - api-auth
+      service: api@internal

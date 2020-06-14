@@ -18,26 +18,6 @@ services:
       - "{{ storage_dir }}:/media"
       - "{{ storage_dir }}/temp:/cache"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.jellyfin.loadbalancer.server.scheme=http"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-      - "traefik.http.routers.jellyfin-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.jellyfin-http.entrypoints=http"
-      - "traefik.http.routers.jellyfin-http.middlewares={% if jellyfin.https_only %}redirect@file, security-headers@file, {% else %}{% if jellyfin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.jellyfin.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.jellyfin.entrypoints=https"
-      - "traefik.http.routers.jellyfin.middlewares={% if jellyfin.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.jellyfin.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.jellyfin.tls.certresolver=dns"
-      - "traefik.http.routers.jellyfin.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.jellyfin.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.jellyfin.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.jellyfin-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.jellyfin-tor-http.entrypoints=http"
-      - "traefik.http.routers.jellyfin-tor-http.middlewares={% if jellyfin.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

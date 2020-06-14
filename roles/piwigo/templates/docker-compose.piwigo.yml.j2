@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  piwigo:
 
 services:
   piwigo:
@@ -14,8 +15,7 @@ services:
       - mysqlpiwigo
     networks:
       - traefik_network
-    ports:
-      - 8088:80
+      - piwigo
     image: mathieuruellan/piwigo
     volumes:
         - "{{ volumes_root }}/piwigo/config:/config"
@@ -27,35 +27,15 @@ services:
         - "{{ volumes_root }}/piwigo/upload:/var/www/upload"
         - "{{ volumes_root }}/piwigo/logs:/var/log/apache2"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.piwigo.loadbalancer.server.scheme=http"
       - "traefik.http.services.piwigo.loadbalancer.server.port=80"
-      - "traefik.http.routers.piwigo-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.piwigo-http.entrypoints=http"
-      - "traefik.http.routers.piwigo-http.middlewares={% if piwigo.https_only %}redirect@file, security-headers@file, {% else %}{% if piwigo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.piwigo.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.piwigo.entrypoints=https"
-      - "traefik.http.routers.piwigo.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.piwigo.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.piwigo.tls.certresolver=dns"
-      - "traefik.http.routers.piwigo.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.piwigo.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.piwigo.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.piwigo-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.piwigo-tor-http.entrypoints=http"
-      - "traefik.http.routers.piwigo-tor-http.middlewares={% if piwigo.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   mysqlpiwigo:
     restart: unless-stopped
     image: mariadb:10.4
     networks:
-      - traefik_network
+      - piwigo
     volumes:
       - "{{ volumes_root }}/piwigo/mysql/:/var/lib/mysql"
     environment:

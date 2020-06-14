@@ -1,12 +1,13 @@
 ---
 version: '3'
+
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
 
 services:
-  app:
+  grocy:
     image: linuxserver/grocy
     restart: unless-stopped
     environment:
@@ -16,26 +17,6 @@ services:
     volumes:
       - "{{ volumes_root }}/grocy/config:/config"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.grocy.loadbalancer.server.scheme=http"
       - "traefik.http.services.grocy.loadbalancer.server.port=80"
-      - "traefik.http.routers.grocy-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.grocy-http.entrypoints=http"
-      - "traefik.http.routers.grocy-http.middlewares={% if grocy.https_only %}redirect@file, security-headers@file, {% else %}{% if grocy.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grocy.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.grocy.entrypoints=https"
-      - "traefik.http.routers.grocy.middlewares={% if grocy.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grocy.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.grocy.tls.certresolver=dns"
-      - "traefik.http.routers.grocy.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.grocy.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.grocy.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.grocy-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.grocy-tor-http.entrypoints=http"
-      - "traefik.http.routers.grocy-tor-http.middlewares={% if grocy.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

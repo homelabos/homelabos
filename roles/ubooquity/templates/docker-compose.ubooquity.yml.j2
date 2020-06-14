@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -10,7 +8,6 @@ networks:
 
 services:
   app:
-    # REQUIRED
     image: linuxserver/ubooquity
     restart: unless-stopped
     environment:
@@ -70,3 +67,5 @@ services:
       - "traefik.toradmin.port=2203"
       - "traefik.toradmin.http.middlewares.add-ubooquity-admin.addprefix.prefix=/ubooquity/admin"
 {% endif %}
+
+#Checking

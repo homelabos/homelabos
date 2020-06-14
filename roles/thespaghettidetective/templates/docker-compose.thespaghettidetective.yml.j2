@@ -1,17 +1,16 @@
 ---
 version: '2.4'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  thespaghettidetective:
 
 x-web-defaults: &web-defaults
   restart: unless-stopped
   networks:
-      - traefik_network
+      - thespaghettidetective
   build:
     context: web
   volumes:
@@ -46,7 +45,7 @@ x-web-defaults: &web-defaults
 services:
   ml_api:
     networks:
-      - traefik_network
+      - thespaghettidetective
     hostname: ml_api
     restart: unless-stopped
     build:
@@ -62,36 +61,12 @@ services:
     <<: *web-defaults
     networks:
       - traefik_network
+      - thespaghettidetective
     hostname: web
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.thespaghettidetective.loadbalancer.server.scheme=http"
       - "traefik.http.services.thespaghettidetective.loadbalancer.server.port=3334"
-      - "traefik.http.routers.thespaghettidetective-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.thespaghettidetective-http.entrypoints=http"
-{% if not thespaghettidetective.https_only %}
-      - "traefik.http.routers.thespaghettidetective-http.middlewares={% if thespaghettidetective.https_only %}redirect@file, {% else %}{% if thespaghettidetective.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.thespaghettidetective-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.thespaghettidetective.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.thespaghettidetective.entrypoints=https"
-      - "traefik.http.routers.thespaghettidetective.middlewares={% if thespaghettidetective.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.thespaghettidetective.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.thespaghettidetective.tls.certresolver=dns"
-      - "traefik.http.routers.thespaghettidetective.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.thespaghettidetective.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.thespaghettidetective.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.thespaghettidetective-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.thespaghettidetective-tor-http.entrypoints=http"
-      - "traefik.http.routers.thespaghettidetective-tor-http.middlewares={% if thespaghettidetective.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
     ports:
       - "3334:3334"
     depends_on:
@@ -101,12 +76,12 @@ services:
   tasks:
     <<: *web-defaults
     networks:
-      - traefik_network
+      - thespaghettidetective
     hostname: tasks
     command: sh -c "celery -A config worker --beat -l info -c 2 -Q realtime,celery"
 
   redis:
     networks:
-      - traefik_network
+      - thespaghettidetective
     restart: unless-stopped
     image: redis:5.0-alpine

@@ -5,12 +5,13 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  zulip:
 
 services:
   database:
     image: 'zulip/zulip-postgresql'
     networks:
-      - traefik_network
+      - zulip
     environment:
       POSTGRES_DB: 'zulip'
       POSTGRES_USER: 'zulip'
@@ -21,13 +22,13 @@ services:
   memcached:
     image: 'quay.io/sameersbn/memcached:latest'
     networks:
-      - traefik_network
+      - zulip
     restart: always
 
   rabbitmq:
     image: 'rabbitmq:3.7.7'
     networks:
-      - traefik_network
+      - zulip
     hostname: zulip-rabbit
     restart: always
     environment:
@@ -39,7 +40,7 @@ services:
   redis:
     image: 'quay.io/sameersbn/redis:latest'
     networks:
-      - traefik_network
+      - zulip
     volumes:
       - '{{ volumes_root }}/zulip/redis:/var/lib/redis:rw'
 
@@ -47,6 +48,7 @@ services:
     image: 'zulip/docker-zulip:2.0.2-0'
     networks:
       - traefik_network
+      - zulip
     environment:
       DB_HOST: 'database'
       DB_HOST_PORT: '5432'
@@ -78,26 +80,6 @@ services:
         soft: 40000
         hard: 50000
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.zulip.loadbalancer.server.scheme=http"
       - "traefik.http.services.zulip.loadbalancer.server.port=80"
-      - "traefik.http.routers.zulip-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.zulip-http.entrypoints=http"
-      - "traefik.http.routers.zulip-http.middlewares={% if zulip.https_only %}redirect@file, security-headers@file, {% else %}{% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.zulip.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.zulip.entrypoints=https"
-      - "traefik.http.routers.zulip.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.zulip.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.zulip.tls.certresolver=dns"
-      - "traefik.http.routers.zulip.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.zulip.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.zulip.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.zulip-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.zulip-tor-http.entrypoints=http"
-      - "traefik.http.routers.zulip-tor-http.middlewares={% if zulip.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

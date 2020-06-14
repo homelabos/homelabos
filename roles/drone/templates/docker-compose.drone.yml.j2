@@ -5,7 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
-  default:
+  drone:
 
 services:
   # Drone is a self-service continuous delivery platform
@@ -16,7 +16,7 @@ services:
       - "{{ volumes_root }}/drone/data:/data"
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - default
+      - drone
       - traefik_network
     environment:
 {% if gitea %}
@@ -33,29 +33,9 @@ services:
       - DRONE_DATABASE_SECRET={{lookup('password', './settings/passwords/drone_database-secret length=32 chars=ascii_letters,digits')}}
       - DRONE_TLS_AUTOCERT=false
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.drone.loadbalancer.server.scheme=http"
       - "traefik.http.services.drone.loadbalancer.server.port=80"
-      - "traefik.http.routers.drone-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.drone-http.entrypoints=http"
-      - "traefik.http.routers.drone-http.middlewares={% if drone.https_only %}redirect@file, security-headers@file, {% else %}{% if drone.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.drone.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.drone.entrypoints=https"
-      - "traefik.http.routers.drone.middlewares={% if drone.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.drone.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.drone.tls.certresolver=dns"
-      - "traefik.http.routers.drone.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.drone.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.drone.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.drone-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.drone-tor-http.entrypoints=http"
-      - "traefik.http.routers.drone-tor-http.middlewares={% if drone.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   drone-agent:
     image: drone/agent:1.0
@@ -65,10 +45,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - default
+      - drone
     environment:
       - DRONE_RPC_HOST=drone-server:80
       - DRONE_RPC_SECRET={{lookup('password', './settings/passwords/drone_secret length=32 chars=ascii_letters,digits')}}
       - DRONE_MAX_PROCS=1
-    labels:
-      - "traefik.enable=false"

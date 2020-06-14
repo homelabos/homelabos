@@ -5,13 +5,14 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  openldap:
 
 services:
   openldap:
     image: osixia/openldap:1.2.2
     restart: unless-stopped
     networks:
-      - traefik_network
+      - openldap
     ports:
       - 389:389
       - 689:689
@@ -28,29 +29,11 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+      - openldap
     environment:
       - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.openldap.loadbalancer.server.scheme=http"
-      - "traefik.http.services.openldap.loadbalancer.server.port=0"
-      - "traefik.http.routers.openldap-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.openldap-http.entrypoints=http"
-      - "traefik.http.routers.openldap-http.middlewares={% if openldap.https_only %}redirect@file, security-headers@file, {% else %}{% if openldap.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.openldap.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.openldap.entrypoints=https"
-      - "traefik.http.routers.openldap.middlewares={% if openldap.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.openldap.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.phpldapadmin.tls.certresolver=dns"
-      - "traefik.http.routers.phpldapadmin.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.phpldapadmin.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.phpldapadmin.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.phpldapadmin-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.phpldapadmin-tor-http.entrypoints=http"
-      - "traefik.http.routers.phpldapadmin-tor-http.middlewares={% if phpldapadmin.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+      - "traefik.http.services.openldap.loadbalancer.server.port=80"
+{% include './labels.j2' %}

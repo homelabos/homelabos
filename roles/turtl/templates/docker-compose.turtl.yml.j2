@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -36,34 +34,9 @@ services:
     volumes:
       - "{{ volumes_root }}/turtl/uploads:/uploads"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.turtl.loadbalancer.server.scheme=http"
       - "traefik.http.services.turtl.loadbalancer.server.port=8181"
-      - "traefik.http.routers.turtl-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.turtl-http.entrypoints=http"
-{% if not turtl.https_only %}
-      - "traefik.http.routers.turtl-http.middlewares={% if turtl.https_only %}redirect@file, {% else %}{% if turtl.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.turtl-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.turtl.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.turtl.entrypoints=https"
-      - "traefik.http.routers.turtl.middlewares={% if turtl.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.turtl.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.turtl.tls.certresolver=dns"
-      - "traefik.http.routers.turtl.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.turtl.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.turtl.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.turtl-tor-http.rule=Host(`turtl.{{ tor_domain }}`)"
-      - "traefik.http.routers.turtl-tor-http.entrypoints=http"
-      - "traefik.http.routers.turtl-tor-http.middlewares={% if turtl.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   postgres-db:
     image: postgres:11-alpine

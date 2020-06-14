@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  monicahq:
 
 services:
   # Personal Relationship Database
@@ -12,6 +13,7 @@ services:
     image: monicahq/monicahq
     networks:
       - traefik_network
+      - monicahq
     restart: unless-stopped
     depends_on:
       - monicahq_db
@@ -26,34 +28,14 @@ services:
       - APP_KEY="{{ lookup('password', './settings/passwords/monicahq_app_key chars=ascii_letters length=32') }}"
       - DB_PASSWORD="{{ lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters') }}"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.monicahq.loadbalancer.server.scheme=http"
       - "traefik.http.services.monicahq.loadbalancer.server.port=80"
-      - "traefik.http.routers.monicahq-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.monicahq-http.entrypoints=http"
-      - "traefik.http.routers.monicahq-http.middlewares={% if monicahq.https_only %}redirect@file, security-headers@file, {% else %}{% if monicahq.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.monicahq.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.monicahq.entrypoints=https"
-      - "traefik.http.routers.monicahq.middlewares={% if monicahq.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.monicahq.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.monicahq.tls.certresolver=dns"
-      - "traefik.http.routers.monicahq.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.monicahq.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.monicahq.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.monicahq-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.monicahq-tor-http.entrypoints=http"
-      - "traefik.http.routers.monicahq-tor-http.middlewares={% if monicahq.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   monicahq_db:
     image: mariadb
     networks:
-      - traefik_network
+      - monicahq
     restart: unless-stopped
     environment:
       - MYSQL_DATABASE=monica
