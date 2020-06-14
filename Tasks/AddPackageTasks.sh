@@ -57,7 +57,7 @@ Task::add_package() {
 
 Task::create_git_branch() {
   git fetch
-  git checkout dev
+  git checkout dev && git pull
   git branch "Adds-$1"
 
   git checkout $1
