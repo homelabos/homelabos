@@ -30,24 +30,32 @@ Task::add_package() {
 
   highlight "Editing Doc Template"
   local template="docs/software/$package_file_name.md"
-  search_and_replace_in_file 'PackageURL' $url $template
-  search_and_replace_in_file 'PackageOneLiner' $description $template
+
+  search_and_replace_in_file 'PackageURL' "$url" $template
+  search_and_replace_in_file 'PackageOneLiner' "$description" $template
   search_and_replace_in_file 'PackageFileName' $package_file_name $template
-  search_and_replace_in_file 'PackageTitleCase' $package_name $template
+  search_and_replace_in_file 'PackageTitleCase' "$package_name" $template
 
   highlight "Adding Docs to mkdocs.yml"
 
   highlight "Adding Package to the group_vars/all file"
-  yq w -i group_vars/all "services.$package_file_name" ''
+  Task::run_docker yq w -i group_vars/all "services.$package_file_name" ''
 
   #puts 'Step 7. Adding service to Readme.md'
   highlight "Adding Service to Readme.md"
 
   highlight "Adding service to Config Template"
-  # Copy template config to tmpfile
-  cp package_template/config.yml package_template/tmpfile.yml
+  # Create Template File for Merging
+  cat > package_template/tmpfile.yml <<EOL
+package_file_name:
+  enable: {{package_file_name.enable | default(enable_package_file_name, None) | default(False)}}
+  https_only: {{ package_file_name.https_only | default(False) }}
+  auth: {{ package_file_name.auth | default(False) }}
+  domain: {{ package_file_name.domain | default(False) }}
+  subdomain: {{ package_file_name.subdomain | default("package_file_name") }}
+EOL
   # Edit the config tempfile
-  search_and_replace_in_file 'package_file_name' $package_file_name tmpfile
+  search_and_replace_in_file 'package_file_name' $package_file_name package_template/tmpfile.yml
   # yq merge -i roles/homelabos_config/templates/config.yml tmpfile
   Task::run_docker yq merge -i roles/homelabos_config/templates/config.yml package_template/tmpfile.yml
   # Remove tmp file
@@ -65,5 +73,5 @@ Task::create_git_branch() {
 }
 
 function search_and_replace_in_file(){
-  sed -i -e "s/$1/$2/g" $3
+  sed -ie "s~$1~$2~g" $3
 }
