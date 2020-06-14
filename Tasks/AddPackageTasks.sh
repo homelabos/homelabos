@@ -14,7 +14,6 @@ Task::add_package() {
   nospaces="${package_name// /''}"
   package_file_name=$( echo $nospaces | awk '{print tolower($0)}')
   branch_name="Adds-${package_name// /-}"
-  echo $package_file_name
   Task::create_git_branch $branch_name
 
   highlight "Creating role folder"
@@ -73,5 +72,5 @@ Task::create_git_branch() {
 }
 
 function search_and_replace_in_file(){
-  sed -ie "s~$1~$2~g" $3
+  sed -i "s~$1~$2~g" $3
 }
