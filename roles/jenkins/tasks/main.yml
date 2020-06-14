@@ -4,6 +4,12 @@
     path: "{{ volumes_root }}/jenkins"
     state: directory
 
+- name: Make jenkins home directory.
+  file:
+    path: "{{ volumes_root }}/jenkins/jenkins_home"
+    state: directory
+    mode: '777'
+
 - name: Copy jenkins docker-compose.yml file into place.
   template:
     src: docker-compose.jenkins.yml.j2
