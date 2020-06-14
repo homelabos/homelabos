@@ -90,6 +90,7 @@ services:
   qbittorrent:
   radarr:
   restic:
+  rsshub:
   sabnzbd:
   searx:
   shinobi:

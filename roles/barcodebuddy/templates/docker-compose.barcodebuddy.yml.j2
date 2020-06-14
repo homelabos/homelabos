@@ -16,26 +16,6 @@ services:
     volumes:
       - "{{ volumes_root }}/barcodebuddy/config:/config"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.barcodebuddy.loadbalancer.server.scheme=http"
       - "traefik.http.services.barcodebuddy.loadbalancer.server.port=80"
-      - "traefik.http.routers.barcodebuddy-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.barcodebuddy-http.entrypoints=http"
-      - "traefik.http.routers.barcodebuddy-http.middlewares={% if barcodebuddy.https_only %}redirect@file, security-headers@file, {% else %}{% if barcodebuddy.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.barcodebuddy.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.barcodebuddy.entrypoints=https"
-      - "traefik.http.routers.barcodebuddy.middlewares={% if barcodebuddy.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.barcodebuddy.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.barcodebuddy.tls.certresolver=dns"
-      - "traefik.http.routers.barcodebuddy.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.barcodebuddy.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.barcodebuddy.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.barcodebuddy-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.barcodebuddy-tor-http.entrypoints=http"
-      - "traefik.http.routers.barcodebuddy-tor-http.middlewares={% if barcodebuddy.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

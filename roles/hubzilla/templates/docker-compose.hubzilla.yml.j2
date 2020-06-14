@@ -23,30 +23,9 @@ services:
       - {{ volumes_root }}/hubzilla/data:/var/www/html
       - {{ volumes_root }}/hubzilla/conf/hubzilla-nginx.conf:/etc/nginx/nginx.conf:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.hubzilla.loadbalancer.server.scheme=http"
       - "traefik.http.services.hubzilla.loadbalancer.server.port=80"
-      - "traefik.http.routers.hubzilla-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.hubzilla-http.entrypoints=http"
-      - "traefik.http.routers.hubzilla-http.middlewares={% if hubzilla.https_only %}redirect@file, security-headers@file, {% else %}{% if hubzilla.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.hubzilla.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.hubzilla.entrypoints=https"
-      - "traefik.http.routers.hubzilla.middlewares={% if hubzilla.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.hubzilla.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.hubzilla.tls.certresolver=dns"
-      - "traefik.http.routers.hubzilla.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.hubzilla.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.hubzilla.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.hubzilla-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.hubzilla-tor-http.entrypoints=http"
-      - "traefik.http.routers.hubzilla-tor-http.middlewares={% if hubzilla.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
-
+{% include './labels.j2' %}
 
   hubzilla:
   # Hubzilla service

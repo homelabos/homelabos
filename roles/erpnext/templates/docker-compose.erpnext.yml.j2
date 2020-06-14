@@ -1,17 +1,16 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  erpnext:
 
 services:
   redis-cache:
     networks:
-      - traefik_network
+      - erpnext
     image: redis:latest
     restart: on-failure
     volumes:
@@ -19,7 +18,7 @@ services:
 
   redis-queue:
     networks:
-      - traefik_network
+      - erpnext
     image: redis:latest
     restart: on-failure
     volumes:
@@ -27,7 +26,7 @@ services:
 
   redis-socketio:
     networks:
-      - traefik_network
+      - erpnext
     image: redis:latest
     restart: on-failure
     volumes:
@@ -35,7 +34,7 @@ services:
 
   mariadb:
     networks:
-      - traefik_network
+      - erpnext
     image: mariadb:10.3
     restart: on-failure
     environment:
@@ -72,36 +71,17 @@ services:
       - "{{ volumes_root }}/erpnext/assets-vol:/assets"
     networks:
       - traefik_network
+      - erpnext
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
       - "traefik.http.services.erpnext.loadbalancer.server.port=80"
-      - "traefik.http.routers.erpnext-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.erpnext-http.entrypoints=http"
-      - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, security-headers@file, {% else %}{% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.erpnext.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.erpnext.entrypoints=https"
-      - "traefik.http.routers.erpnext.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.erpnext.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.erpnext.tls.certresolver=dns"
-      - "traefik.http.routers.erpnext.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.erpnext.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.erpnext.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.erpnext-tor-http.entrypoints=http"
-      - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   erpnext-python:
     image: frappe/erpnext-worker:${VERSION}
     restart: on-failure
     networks:
-      - traefik_network
+      - erpnext
     environment:
       - MARIADB_HOST=${MARIADB_HOST}
       - REDIS_CACHE=redis-cache:6379
@@ -115,7 +95,7 @@ services:
 
   frappe-socketio:
     networks:
-      - traefik_network
+      - erpnext
     image: frappe/frappe-socketio:${VERSION}
     restart: on-failure
     depends_on:
@@ -128,7 +108,7 @@ services:
 
   frappe-worker-default:
     networks:
-      - traefik_network
+      - erpnext
     image: frappe/erpnext-worker:${VERSION}
     restart: on-failure
     command: worker
@@ -144,7 +124,7 @@ services:
   frappe-worker-short:
     image: frappe/erpnext-worker:${VERSION}
     networks:
-      - traefik_network
+      - erpnext
     restart: on-failure
     command: worker
     environment:
@@ -161,7 +141,7 @@ services:
   frappe-worker-long:
     image: frappe/erpnext-worker:${VERSION}
     networks:
-      - traefik_network
+      - erpnext
     restart: on-failure
     command: worker
     environment:
@@ -178,7 +158,7 @@ services:
   frappe-schedule:
     image: frappe/erpnext-worker:${VERSION}
     networks:
-      - traefik_network
+      - erpnext
     restart: on-failure
     command: schedule
     depends_on:

@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  ownphotos:
 
 services:
   proxy:
@@ -12,38 +13,19 @@ services:
     tty: true
     networks:
       - traefik_network
+      - ownphotos
     restart: always
     ports:
       - "3000:80"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ownphotos.loadbalancer.server.scheme=http"
       - "traefik.http.services.ownphotos.loadbalancer.server.port=80"
-      - "traefik.http.routers.ownphotos-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ownphotos-http.entrypoints=http"
-      - "traefik.http.routers.ownphotos-http.middlewares={% if ownphotos.https_only %}redirect@file, security-headers@file, {% else %}{% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ownphotos.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ownphotos.entrypoints=https"
-      - "traefik.http.routers.ownphotos.middlewares={% if ownphotos.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ownphotos.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.ownphotos.tls.certresolver=dns"
-      - "traefik.http.routers.ownphotos.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.ownphotos.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.ownphotos.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.ownphotos-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.ownphotos-tor-http.entrypoints=http"
-      - "traefik.http.routers.ownphotos-tor-http.middlewares={% if ownphotos.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   ownphotos-db:
     image: postgres
     networks:
-      - traefik_network
+      - ownphotos
     restart: always
     environment:
       - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/ownphotos_db_password chars=ascii_letters')}}"
@@ -54,7 +36,7 @@ services:
   frontend:
     image: hooram/ownphotos-frontend:dev
     networks:
-      - traefik_network
+      - ownphotos
     tty: true
     environment:
       - BACKEND_HOST={% if ownphotos.domain %}{{ ownphotos.domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}
@@ -62,7 +44,7 @@ services:
   backend:
     image: hooram/ownphotos:dev
     networks:
-      - traefik_network
+      - ownphotos
     volumes:
       - "{{ storage_dir }}/Pictures:/data"
       - "{{ volumes_root }}/ownphotos/thumbnails/:/code/protected_media"
@@ -86,6 +68,6 @@ services:
 
   ownphotos-redis:
     networks:
-      - traefik_network
+      - ownphotos
     image: redis
     container_name: ownphotos-redis

@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -10,32 +8,11 @@ networks:
 
 services:
   app:
-    # REQUIRED
     image: zhonglu/poli:0.10.1
     restart: unless-stopped
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.poli.loadbalancer.server.scheme=http"
       - "traefik.http.services.poli.loadbalancer.server.port=6688"
-      - "traefik.http.routers.poli-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.poli-http.entrypoints=http"
-      - "traefik.http.routers.poli-http.middlewares={% if poli.https_only %}redirect@file, security-headers@file, {% else %}{% if poli.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.poli.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.poli.entrypoints=https"
-      - "traefik.http.routers.poli.middlewares={% if poli.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.poli.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.poli.tls.certresolver=dns"
-      - "traefik.http.routers.poli.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.poli.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.poli.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.poli-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.poli-tor-http.entrypoints=http"
-      - "traefik.http.routers.poli-tor-http.middlewares={% if poli.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

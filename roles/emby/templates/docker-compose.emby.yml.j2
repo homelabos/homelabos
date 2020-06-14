@@ -20,26 +20,6 @@ services:
       - "{{ storage_dir }}/Video/TV:/mnt/media/TV"
       - "{{ storage_dir }}/temp/transcode:/config/transcoding-temp"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.emby.loadbalancer.server.scheme=http"
       - "traefik.http.services.emby.loadbalancer.server.port=8096"
-      - "traefik.http.routers.emby-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.emby-http.entrypoints=http"
-      - "traefik.http.routers.emby-http.middlewares={% if emby.https_only %}redirect@file, security-headers@file, {% else %}{% if emby.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.emby.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.emby.entrypoints=https"
-      - "traefik.http.routers.emby.middlewares={% if emby.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.emby.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.emby.tls.certresolver=dns"
-      - "traefik.http.routers.emby.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.emby.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.emby.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.emby-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.emby-tor-http.entrypoints=http"
-      - "traefik.http.routers.emby-tor-http.middlewares={% if emby.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

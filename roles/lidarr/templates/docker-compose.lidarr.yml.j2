@@ -22,26 +22,6 @@ services:
       - VERSION=stable
       - BACKUP=yes
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.lidarr.loadbalancer.server.scheme=http"
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
-      - "traefik.http.routers.lidarr-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.lidarr-http.entrypoints=http"
-      - "traefik.http.routers.lidarr-http.middlewares={% if lidarr.https_only %}redirect@file, security-headers@file, {% else %}{% if lidarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.lidarr.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.lidarr.entrypoints=https"
-      - "traefik.http.routers.lidarr.middlewares={% if lidarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.lidarr.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.lidarr.tls.certresolver=dns"
-      - "traefik.http.routers.lidarr.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.lidarr.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.lidarr.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.lidarr-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.lidarr-tor-http.entrypoints=http"
-      - "traefik.http.routers.lidarr-tor-http.middlewares={% if lidarr.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

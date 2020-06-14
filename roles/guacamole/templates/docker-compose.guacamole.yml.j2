@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  guacamole:
 
 services:
 
@@ -16,7 +17,7 @@ services:
 
   guacpostgres:
     networks:
-      - traefik_network
+      - guacamole
     image: postgres:latest
     restart: unless-stopped
     volumes:
@@ -30,7 +31,7 @@ services:
 
   guacd:
     networks:
-      - traefik_network
+      - guacamole
     image: guacamole/guacd:latest
     restart: unless-stopped
 
@@ -38,6 +39,7 @@ services:
     image: guacamole/guacamole:latest
     networks:
       - traefik_network
+      - guacamole
     restart: unless-stopped
     environment:
       GUACD_HOSTNAME: guacd
@@ -48,27 +50,7 @@ services:
     depends_on:
       - guacpostgres
       - guacd
-    labels: #- "traefik.http.frontend.rule=Host(`{{ service_domain }}`)"
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
+    labels:
       - "traefik.http.services.guacamole.loadbalancer.server.scheme=http"
       - "traefik.http.services.guacamole.loadbalancer.server.port=8080"
-      - "traefik.http.routers.guacamole-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.guacamole-http.entrypoints=http"
-      - "traefik.http.routers.guacamole-http.middlewares={% if guacamole.https_only %}redirect@file, security-headers@file, {% else %}{% if guacamole.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.guacamole.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.guacamole.entrypoints=https"
-      - "traefik.http.routers.guacamole.middlewares={% if guacamole.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.guacamole.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.guacamole.tls.certresolver=dns"
-      - "traefik.http.routers.guacamole.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.guacamole.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.guacamole.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.guacamole-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.guacamole-tor-http.entrypoints=http"
-      - "traefik.http.routers.guacamole-tor-http.middlewares={% if guacamole.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

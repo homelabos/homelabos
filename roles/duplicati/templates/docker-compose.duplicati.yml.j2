@@ -5,11 +5,13 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+
 services:
   duplicati:
     networks:
       - traefik_network
     image: linuxserver/duplicati
+    restart: unless-stopped
     container_name: duplicati
     environment:
       - PUID=1000
@@ -19,30 +21,7 @@ services:
       - "{{ volumes_root }}/duplicati/config:/config"
       - "{{ volumes_root }}/duplicati/backups:/backups"
       - "{{ volumes_root }}/duplicati/source:/source"
-    ports:
-      - 8200:8200
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.duplicati.loadbalancer.server.scheme=http"
       - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
-      - "traefik.http.routers.duplicati-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.duplicati-http.entrypoints=http"
-      - "traefik.http.routers.duplicati-http.middlewares={% if duplicati.https_only %}redirect@file, security-headers@file, {% else %}{% if duplicati.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.duplicati.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.duplicati.entrypoints=https"
-      - "traefik.http.routers.duplicati.middlewares={% if duplicati.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.duplicati.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.duplicati.tls.certresolver=dns"
-      - "traefik.http.routers.duplicati.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.duplicati.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.duplicati.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.duplicati-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.duplicati-tor-http.entrypoints=http"
-      - "traefik.http.routers.duplicati-tor-http.middlewares={% if duplicati.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
-    restart: unless-stopped
+{% include './labels.j2' %}

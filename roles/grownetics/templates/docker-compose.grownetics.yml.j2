@@ -5,13 +5,13 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  grownnetics:
 
 services:
-
   growdash:
     restart: always
     networks:
-        - traefik_network
+        - grownnetics
     environment:
         - DEV
         - FACILITY_NAME
@@ -51,7 +51,7 @@ services:
   deviceapi:
     restart: always
     networks:
-        - traefik_network
+        - grownnetics
     links:
         - appdb
         - redis
@@ -91,34 +91,15 @@ services:
     image: grownetics/nginx:${VERSION}
     networks:
         - traefik_network
+        - grownnetics
     restart: always
     links:
         - growdash
         - deviceapi
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.grownetics.loadbalancer.server.scheme=http"
       - "traefik.http.services.grownetics.loadbalancer.server.port=80"
-      - "traefik.http.routers.grownetics-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.grownetics-http.entrypoints=http"
-      - "traefik.http.routers.grownetics-http.middlewares={% if grownetics.https_only %}redirect@file, security-headers@file, {% else %}{% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grownetics.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.grownetics.entrypoints=https"
-      - "traefik.http.routers.grownetics.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grownetics.tls=true"
-{% if traefik.dns_challenge_provider %}
-        - "traefik.http.routers.grownetics.tls.certresolver=dns"
-        - "traefik.http.routers.grownetics.tls.domains[0].main={{ domain }}"
-        - "traefik.http.routers.grownetics.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-        - "traefik.http.routers.grownetics.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-        - "traefik.http.routers.grownetics-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-        - "traefik.http.routers.grownetics-tor-http.entrypoints=http"
-        - "traefik.http.routers.grownetics-tor-http.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   appdb:
     image: mariadb #:10.3
@@ -133,13 +114,13 @@ services:
     volumes:
         - ./data/appdb:/var/lib/mysql
     networks:
-        - traefik_network
+        - grownnetics
 
   redis:
     image: redis
     restart: always
     networks:
-        - traefik_network
+        - grownnetics
 
   growsocket:
     image: grownetics/socketio:latest
@@ -153,7 +134,7 @@ services:
         io.rancher.container.pull_image: always
         io.rancher.scheduler.affinity:host_label_ne: onsite=true
     networks:
-        - traefik_network
+        - grownnetics
 
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
@@ -167,4 +148,4 @@ services:
         - "15672:15672"
         - "5672:5672"
     networks:
-        - traefik_network
+        - grownnetics

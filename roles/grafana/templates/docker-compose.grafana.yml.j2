@@ -30,26 +30,6 @@ services:
       - GF_SECURITY_ADMIN_USER={{ default_username }}
       - GF_SECURITY_ADMIN_PASSWORD={{ default_password }}
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.grafana.loadbalancer.server.scheme=http"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-      - "traefik.http.routers.grafana-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.grafana-http.entrypoints=http"
-      - "traefik.http.routers.grafana-http.middlewares={% if grafana.https_only %}redirect@file, security-headers@file, {% else %}{% if grafana.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grafana.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.grafana.entrypoints=https"
-      - "traefik.http.routers.grafana.middlewares={% if grafana.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.grafana.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.grafana.tls.certresolver=dns"
-      - "traefik.http.routers.grafana.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.grafana.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.grafana.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.grafana-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.grafana-tor-http.entrypoints=http"
-      - "traefik.http.routers.grafana-tor-http.middlewares={% if grafana.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

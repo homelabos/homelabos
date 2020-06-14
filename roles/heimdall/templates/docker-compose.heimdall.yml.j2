@@ -10,7 +10,6 @@ networks:
 
 services:
   heimdall:
-    # REQUIRED
     image: linuxserver/heimdall
     restart: unless-stopped
     environment:
@@ -22,26 +21,6 @@ services:
     volumes:
       - "{{ volumes_root }}/heimdall/config:/config"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
       - "traefik.http.services.heimdall.loadbalancer.server.port=80"
-      - "traefik.http.routers.heimdall-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.heimdall-http.entrypoints=http"
-      - "traefik.http.routers.heimdall-http.middlewares={% if heimdall.https_only %}redirect@file, security-headers@file, {% else %}{% if heimdall.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.heimdall.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.heimdall.entrypoints=https"
-      - "traefik.http.routers.heimdall.middlewares={% if heimdall.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.heimdall.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.heimdall.tls.certresolver=dns"
-      - "traefik.http.routers.heimdall.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.heimdall.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.heimdall.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.heimdall-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.heimdall-tor-http.entrypoints=http"
-      - "traefik.http.routers.heimdall-tor-http.middlewares={% if heimdall.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

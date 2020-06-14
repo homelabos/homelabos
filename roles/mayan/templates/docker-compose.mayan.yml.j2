@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  mayan:
 
 volumes:
     broker:
@@ -20,7 +21,7 @@ services:
   broker:
     image: healthcheck/rabbitmq
     networks:
-      - traefik_network
+      - mayan
     environment:
       RABBITMQ_DEFAULT_USER: mayan
       RABBITMQ_DEFAULT_PASS: mayan
@@ -29,16 +30,18 @@ services:
       MAYAN_USER_GUID: {{gid_output.stdout}}
     volumes:
       - "{{ volumes_root }}/mayan/broker:/var/lib/rabbitmq"
+
   results:
     networks:
-      - traefik_network
+      - mayan
     image: healthcheck/redis
     volumes:
       - "{{ volumes_root }}/mayan/results:/data"
+
   db:
     image: healthcheck/postgres
     networks:
-      - traefik_network
+      - mayan
     environment:
       POSTGRES_DB: mayan
       POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/mayan_db_password chars=ascii_letters')}}"
@@ -47,9 +50,11 @@ services:
       MAYAN_USER_GUID: {{gid_output.stdout}}
     volumes:
       - "{{ volumes_root }}/mayan/db:/var/lib/postgresql/data"
+
   mayan-edms:
     networks:
       - traefik_network
+      - mayan
     image: mayanedms/mayanedms:latest
     depends_on:
       broker:
@@ -73,29 +78,9 @@ services:
       # version 3.2.7 and forward use this version
       MAYAN_USER_GID: {{gid_output.stdout}}
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mayan.loadbalancer.server.scheme=http"
       - "traefik.http.services.mayan.loadbalancer.server.port=8000"
-      - "traefik.http.routers.mayan-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mayan-http.entrypoints=http"
-      - "traefik.http.routers.mayan-http.middlewares={% if mayan.https_only %}redirect@file, security-headers@file, {% else %}{% if mayan.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mayan.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mayan.entrypoints=https"
-      - "traefik.http.routers.mayan.middlewares={% if mayan.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mayan.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.mayan.tls.certresolver=dns"
-      - "traefik.http.routers.mayan.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mayan.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.mayan.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.mayan-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.mayan-tor-http.entrypoints=http"
-      - "traefik.http.routers.mayan-tor-http.middlewares={% if mayan.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
     volumes:
       - "{{ volumes_root }}/mayan/app:/var/lib/mayan"
       - "{{ storage_dir }}/Documents/consume:/watched_files"

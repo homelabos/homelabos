@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the pacakge to be visible to Traefik. 
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -29,31 +27,6 @@ services:
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.unificontroller.loadbalancer.server.scheme=http"
       - "traefik.http.services.unificontroller.loadbalancer.server.port=8080"
-      - "traefik.http.routers.unificontroller-http.rule=Host(`{% if unificontroller.domain %}{{ unificontroller.domain }}{% else %}{{ unificontroller.subdomain + "." + domain }}{% endif %}`)"
-      - "traefik.http.routers.unificontroller-http.entrypoints=http"
-{% if not unificontroller.https_only %}
-      - "traefik.http.routers.unificontroller-http.middlewares={% if unificontroller.https_only %}redirect@file, {% else %}{% if unificontroller.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.unificontroller-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.unificontroller.rule=Host(`{% if unificontroller.domain %}{{ unificontroller.domain }}{% else %}{{ unificontroller.subdomain + "." + domain }}{% endif %}`)"
-      - "traefik.http.routers.unificontroller.entrypoints=https"
-      - "traefik.http.routers.unificontroller.middlewares={% if unificontroller.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.unificontroller.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.unificontroller.tls.certresolver=dns"
-      - "traefik.http.routers.unificontroller.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.unificontroller.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.unificontroller.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.unificontroller-tor-http.rule=Host(`{{ unificontroller.subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.unificontroller-tor-http.entrypoints=http"
-      - "traefik.http.routers.unificontroller-tor-http.middlewares={% if unificontroller.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
