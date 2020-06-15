@@ -9,7 +9,7 @@ networks:
 services:
   # Network level ad blocking
   pihole:
-    image: pihole/pihole:latest
+    image: pihole/pihole:{{ pihole.version }}
     restart: unless-stopped
     hostname: "{% if pihole.domain %}{{ pihole.domain }}{% else %}{{ pihole.subdomain + "." + domain }}{% endif %}"
     dns:

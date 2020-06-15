@@ -11,7 +11,7 @@ networks:
 services:
   app:
     # REQUIRED
-    image: sabnzbd/sabnzbd
+    image: sabnzbd/sabnzbd:{{ sabnzbd.version }}
     restart: unless-stopped
     environment:
       - SABNZBD_UID={{ uid_output.stdout }}

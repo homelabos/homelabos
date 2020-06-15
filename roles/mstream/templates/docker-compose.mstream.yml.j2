@@ -11,7 +11,7 @@ networks:
 services:
   app:
     # REQUIRED
-    image: linuxserver/mstream
+    image: linuxserver/mstream:{{ mstream.version }}
     restart: unless-stopped
     networks:
       - traefik_network

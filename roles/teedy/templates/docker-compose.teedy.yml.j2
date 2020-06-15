@@ -13,7 +13,7 @@ services:
   teedydb:
     networks:
       - teedy
-    image: postgres:latest
+    image: postgres:{{ teedy.db_version }}
     environment:
       - POSTGRES_DB=docs
       - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/teedy_postgres_password')}}
@@ -21,7 +21,7 @@ services:
       - "{{ volumes_root }}/teedy/postgres_data:/var/lib/postgresql/data"
 
   app:
-    image: sismics/docs:v1.8
+    image: sismics/docs:{{ teedy.version }}
     restart: unless-stopped
     depends_on:
       - teedydb

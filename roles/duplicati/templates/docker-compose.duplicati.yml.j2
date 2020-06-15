@@ -10,7 +10,7 @@ services:
   duplicati:
     networks:
       - traefik_network
-    image: linuxserver/duplicati
+    image: linuxserver/duplicati:{{ duplicati.version }}
     restart: unless-stopped
     container_name: duplicati
     environment:

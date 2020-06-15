@@ -10,7 +10,7 @@ networks:
 
 services:
   trilium:
-    image: 'zadam/trilium:latest'
+    image: zadam/trilium:{{ trilium.version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/trilium/trilium-data:/root/trilium-data"

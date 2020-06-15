@@ -8,7 +8,7 @@ networks:
 
 services:
   digiKam:
-    image: rpufky/digikam:stable
+    image: rpufky/digikam:{{ digikam.version }}
     environment:
       - USER_ID={{ uid }}
       - GROUP_ID={{ gid }}

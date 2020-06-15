@@ -11,7 +11,7 @@ networks:
 services:
   app:
     # REQUIRED
-    image: photoprism/photoprism:latest
+    image: photoprism/photoprism:{{ photoprism.version }}
     restart: unless-stopped
     networks:
       - traefik_network

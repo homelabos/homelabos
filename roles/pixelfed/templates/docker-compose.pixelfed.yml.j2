@@ -37,7 +37,7 @@ services:
     command: gosu www-data php artisan horizon
 
   db:
-    image: mariadb:10.4
+    image: mariadb:{{ pixelfed.db_version }}
     restart: unless-stopped
     networks:
       - pixelfed

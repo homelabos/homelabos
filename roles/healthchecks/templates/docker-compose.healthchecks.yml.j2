@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: linuxserver/healthchecks
+    image: linuxserver/healthchecks:{{ healthchecks.version }}
     networks:
       - traefik_network
     environment:

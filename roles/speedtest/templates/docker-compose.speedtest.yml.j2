@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: roest/docker-speedtest-analyser
+    image: roest/docker-speedtest-analyser:{{ speedtest.version }}
     volumes:
       - "{{ volumes_root }}/speedtest/data:/var/www/html/data"
     restart: unless-stopped

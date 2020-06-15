@@ -9,7 +9,7 @@ networks:
 services:
   # Sync Server
   syncthing:
-    image: linuxserver/syncthing
+    image: linuxserver/syncthing:{{ syncthing.version }}
     networks:
       - traefik_network
     restart: unless-stopped

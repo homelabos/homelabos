@@ -13,7 +13,7 @@ networks:
 services:
   # RSS Reader
   freshrss:
-    image: freshrss/freshrss:alpine
+    image: freshrss/freshrss:{{ freshrss.version }}
     networks:
       - traefik_network
       #- freshrss

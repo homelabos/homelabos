@@ -4,7 +4,7 @@ version: '3'
 services:
   # Backups https://nickbusey.gitlab.io/HomelabOS/software/restic/
   restic:
-    image: lobaro/restic-backup-docker
+    image: lobaro/restic-backup-docker:{{ restic.version }}
     restart: unless-stopped
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}

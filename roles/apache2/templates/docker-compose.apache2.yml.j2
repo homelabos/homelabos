@@ -8,7 +8,7 @@ networks:
 
 services:
   apache2:
-    image: httpd:2.4
+    image: httpd:{{ apache2.version }}
     restart: unless-stopped
     networks:
       - traefik_network

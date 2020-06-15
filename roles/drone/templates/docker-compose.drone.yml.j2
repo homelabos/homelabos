@@ -10,7 +10,7 @@ networks:
 services:
   # Drone is a self-service continuous delivery platform
   drone-server:
-    image: drone/drone:1.0
+    image: drone/drone:{{ drone.version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/drone/data:/data"
@@ -38,7 +38,7 @@ services:
 {% include './labels.j2' %}
 
   drone-agent:
-    image: drone/agent:1.0
+    image: drone/agent:{{ drone.agent_version }}
     restart: unless-stopped
     depends_on:
       - drone-server

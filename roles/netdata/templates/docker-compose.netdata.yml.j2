@@ -8,7 +8,7 @@ networks:
 
 services:
   netdata:
-    image: netdata/netdata
+    image: netdata/netdata:{{ netdata.version }}
     hostname: {{ domain }}
     networks:
       - traefik_network

@@ -10,7 +10,7 @@ networks:
 services:
   # Wallabag - self-hostable app for saving webpages
   wallabag:
-    image: wallabag/wallabag
+    image: wallabag/wallabag:{{ wallabag.version }}
     networks:
       - traefik_network
       - wallabag
@@ -43,7 +43,7 @@ services:
 {% include './labels.j2' %}
 
   wallabag_db:
-    image: mariadb:10.4
+    image: mariadb:{{ wallabag.db_version }}
     networks:
       - wallabag
     restart: unless-stopped
@@ -54,6 +54,6 @@ services:
       - MYSQL_PASSWORD={{lookup('password', './settings/passwords/wallabag_db_password chars=ascii_letters')}}
 
   redis:
-    image: redis:alpine
+    image: redis:{{ wallabag.redis_version }}
     networks:
       - wallabag

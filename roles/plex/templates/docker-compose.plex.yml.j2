@@ -9,7 +9,7 @@ networks:
 services:
   # Plex Media Server
   plex:
-    image: plexinc/pms-docker
+    image: plexinc/pms-docker:{{ plex.version }}
     hostname: {% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}
     networks:
       - traefik_network

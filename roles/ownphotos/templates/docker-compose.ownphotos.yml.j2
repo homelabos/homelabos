@@ -23,7 +23,7 @@ services:
 {% include './labels.j2' %}
 
   ownphotos-db:
-    image: postgres
+    image: postgres:{{ ownphotos.db_version }}
     networks:
       - ownphotos
     restart: always
@@ -34,7 +34,7 @@ services:
       - "{{ volumes_root }}/ownphotos/db-data:/var/lib/postgresql/data"
 
   frontend:
-    image: hooram/ownphotos-frontend:dev
+    image: hooram/ownphotos-frontend:{{ ownphotos.version }}
     networks:
       - ownphotos
     tty: true
@@ -42,7 +42,7 @@ services:
       - BACKEND_HOST={% if ownphotos.domain %}{{ ownphotos.domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}
 
   backend:
-    image: hooram/ownphotos:dev
+    image: hooram/ownphotos:{{ ownphotos.version }}
     networks:
       - ownphotos
     volumes:
@@ -69,5 +69,5 @@ services:
   ownphotos-redis:
     networks:
       - ownphotos
-    image: redis
+    image: redis:{{ ownphotos.redis_version }}
     container_name: ownphotos-redis

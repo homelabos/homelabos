@@ -9,7 +9,7 @@ networks:
 services:
   # Usenet Downloader
   nzbget:
-    image: linuxserver/nzbget
+    image: linuxserver/nzbget:{{ nzbget.version }}
     networks:
       - traefik_network
     restart: unless-stopped

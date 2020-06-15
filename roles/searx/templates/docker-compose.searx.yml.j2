@@ -8,7 +8,7 @@ networks:
 
 services:
   searx:
-    image: wonderfall/searx
+    image: wonderfall/searx:{{ searx.version }}
     restart: unless-stopped
     networks:
       - traefik_network

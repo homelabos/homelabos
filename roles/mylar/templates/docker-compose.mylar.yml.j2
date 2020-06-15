@@ -8,7 +8,7 @@ networks:
 
 services:
   mylar:
-    image: linuxserver/mylar
+    image: linuxserver/mylar:{{ mylar.version }}
     environment:
       - PUID={{ uid }}
       - PGID={{ gid }}

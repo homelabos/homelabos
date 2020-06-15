@@ -9,7 +9,7 @@ networks:
 services:
   # TV Downloader
   sonarr:
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:{{ sonarr.version }}
     networks:
       - traefik_network
     restart: unless-stopped

@@ -13,7 +13,7 @@ networks:
 services:
   # External dependencies
   redis:
-    image: redis:alpine
+    image: redis:{{ mailu.redis_version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/mailu/redis:/data"
@@ -22,7 +22,7 @@ services:
 
   # Core services
   front:
-    image: mailu/nginx:1.7
+    image: mailu/nginx:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     logging:
@@ -47,7 +47,7 @@ services:
 {% include './labels.j2' %}
 
   admin:
-    image: mailu/admin:1.7
+    image: mailu/admin:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -84,7 +84,7 @@ services:
 {% endif %}
 
   imap:
-    image: mailu/dovecot:1.7
+    image: mailu/dovecot:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -96,7 +96,7 @@ services:
       - front
 
   smtp:
-    image: mailu/postfix:1.7
+    image: mailu/postfix:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -107,7 +107,7 @@ services:
       - front
 
   antispam:
-    image: mailu/rspamd:1.7
+    image: mailu/rspamd:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -121,7 +121,7 @@ services:
 
   # Optional services
   antivirus:
-    image: mailu/clamav:1.7
+    image: mailu/clamav:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -130,7 +130,7 @@ services:
       - mail_network
 
   webdav:
-    image: mailu/radicale:1.7
+    image: mailu/radicale:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -140,7 +140,7 @@ services:
 
   certdumper:
     restart: unless-stopped
-    image: mailu/traefik-certdumper:1.7
+    image: mailu/traefik-certdumper:{{ mailu.version }}
     environment:
       - DOMAIN={% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}
 
@@ -152,7 +152,7 @@ services:
 
   # Webmail
   webmail:
-    image: mailu/rainloop:1.7
+    image: mailu/rainloop:{{ mailu.version }}
     restart: always
     env_file: .env
     volumes:

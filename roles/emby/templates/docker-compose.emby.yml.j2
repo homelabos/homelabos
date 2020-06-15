@@ -9,7 +9,7 @@ networks:
 services:
  # Media Server
   emby:
-    image: emby/embyserver:latest
+    image: emby/embyserver:{{ emby.version }}
     restart: unless-stopped
     networks:
       - traefik_network

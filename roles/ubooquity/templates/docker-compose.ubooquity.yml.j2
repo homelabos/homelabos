@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: linuxserver/ubooquity
+    image: linuxserver/ubooquity:{{ ubooquity.version }}
     restart: unless-stopped
     environment:
       - PUID={{ uid_output.stdout }}

@@ -8,7 +8,7 @@ networks:
 
 services:
   homedash:
-    image: gonzague/homedash
+    image: gonzague/homedash:{{ homedash.version }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - "{{ volumes_root }}/homedash:/data"

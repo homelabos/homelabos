@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: linuxserver/taisun
+    image: linuxserver/taisun:{{ taisun.version }}
     restart: unless-stopped
     networks:
       - traefik_network

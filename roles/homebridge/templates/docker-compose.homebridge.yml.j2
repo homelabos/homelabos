@@ -3,7 +3,7 @@ version: '3'
 
 services:
   homebridge:
-    image: oznu/homebridge:latest
+    image: oznu/homebridge:{{ homebridge.version }}
     restart: unless-stopped
     network_mode: host
     environment:

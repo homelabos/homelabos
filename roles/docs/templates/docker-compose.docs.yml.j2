@@ -9,7 +9,7 @@ networks:
 services:
   # HomelabOS Documentation
   docs:
-    image: kyma/docker-nginx
+    image: kyma/docker-nginx:{{ docs.version }}
     restart: unless-stopped
     networks:
       - traefik_network

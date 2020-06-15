@@ -10,7 +10,7 @@ networks:
 
 services:
   sickchill:
-    image: sickchill/sickchill:latest
+    image: sickchill/sickchill:{{ sickchill.version }}
     restart: unless-stopped
     networks:
       - traefik_network
