@@ -106,20 +106,3 @@ certificatesResolvers:
       httpChallenge:
         # used during the challenge
         entryPoint: http
-
-#ROUTERS
-  routers:
-    #TRAEFIK
-    api-redirect:
-      entryPoints:
-        - web
-      rule: "Host(`dashboard.technerdonline.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-      service: api@internal
-    #TRAEFIK-SECURE
-    api-router:
-      rule: "Host(`dashboard.technerdonline.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-      entryPoints:
-        - web-secure
-      middlewares:
-        - api-auth
-      service: api@internal
