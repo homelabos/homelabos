@@ -928,7 +928,7 @@ sabnzbd:
   version: {{ sabnzbd.version | default("latest") }}
 samba:
   enable: {{ samba.enable | default(enable_samba, None) | default(False) }}
-  version: {{ samba.version | default("samba") }}
+  version: {{ samba.version | default("latest") }}
   workgroup: {{ samba.workgroup | default("WORKGROUP") }}
   server_string: {{ samba.server_string | default("File Server") }}
   map_to_guest: {{ samba.map_to_guest | default("Bad User") }}
