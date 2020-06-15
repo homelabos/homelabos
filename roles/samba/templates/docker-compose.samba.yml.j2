@@ -23,4 +23,4 @@ services:
       - SAMBA_CONF_SERVER_STRING={{samba.server_string}}
       - SAMBA_CONF_MAP_TO_GUEST={{samba.map_to_guest}}
       - ACCOUNT_{{default_username}}={{default_password}}
-      - SAMBA_VOLUME_CONFIG_HomelabOS="[HomelabOS]; path=/shares/HomelabOS; guest ok = no; valid users = {{default_username}} read only = no; browseable = yes"
+      - SAMBA_VOLUME_CONFIG_HomelabOS="[HomelabOS]; path=/media; guest ok = yes; valid users = {{default_username}} read only = no; browseable = true;"
