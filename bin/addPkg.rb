@@ -196,6 +196,7 @@ config_block = <<~CONFIG
   auth: {{ #{to_insert}.auth | default(False) }}
   domain: {{ #{to_insert}.domain | default(False) }}
   subdomain: {{ #{to_insert}.subdomain | default("#{to_insert}")}}
+  version: {{ #{to_insert}.version | default("latest") }}
 CONFIG
     next_name = find_name_index_for_next_service to_insert
     lines = File.readlines filename
