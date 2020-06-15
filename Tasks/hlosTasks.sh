@@ -85,6 +85,7 @@ Task::git_sync() {
 Task::encrypt(){
   : @desc "Encrypts the vault"
   Task::run_docker ansible-vault encrypt settings/vault.yml
+  sudo chmod 640 settings/vault.yml
 }
 
 # Decrypts the vault
@@ -93,6 +94,7 @@ Task::decrypt(){
 
   highlight "Decrypting Vault"
   Task::run_docker ansible-vault decrypt settings/vault.yml || true
+  sudo chmod 640 settings/vault.yml
   highlight "Vault decrypted!"
 }
 
