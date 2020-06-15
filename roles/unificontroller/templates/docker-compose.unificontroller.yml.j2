@@ -8,7 +8,7 @@ networks:
 
 services:
   unifi-controller:
-    image: linuxserver/unifi-controller
+    image: linuxserver/unifi-controller:{{ unificontroller.version }}
     environment:
       - PUID=1000
       - PGID=1000

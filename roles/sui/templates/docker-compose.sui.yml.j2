@@ -10,7 +10,7 @@ networks:
 
 services:
   sui:
-    image: willfantom/sui:latest
+    image: willfantom/sui:{{ sui.version }}
     restart: unless-stopped
     networks:
       - traefik_network

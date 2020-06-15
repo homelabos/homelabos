@@ -10,7 +10,7 @@ networks:
 
 services:
   app:
-    image: bytemark/webdav
+    image: bytemark/webdav:{{ webdavserver.version }}
     restart: unless-stopped
     volumes:
       - "{{ storage_dir }}/webdav:/var/lib/dav"

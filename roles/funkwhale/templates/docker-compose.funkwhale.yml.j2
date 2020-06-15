@@ -8,7 +8,7 @@ networks:
 
 services:
   funkwhale:
-    image: funkwhale/all-in-one:latest
+    image: funkwhale/all-in-one:{{ funkwhale.version }}
     restart: unless-stopped
     networks:
       - traefik_network

@@ -10,7 +10,7 @@ networks:
 
 services:
   tautulli:
-    image: linuxserver/tautulli
+    image: linuxserver/tautulli:{{ tautulli.version }}
     restart: unless-stopped
     networks:
       - traefik_network

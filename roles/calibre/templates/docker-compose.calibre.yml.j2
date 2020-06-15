@@ -16,7 +16,7 @@ services:
     volumes:
       - "{{ storage_dir }}/Books:/library"
       - "{{ storage_dir }}/Downloads/Books:/incoming"
-    image: lmorel3/calibre-alpine
+    image: lmorel3/calibre-alpine:{{ calibre.server_version }}
 
   calibre-web:
     networks:
@@ -32,7 +32,7 @@ services:
       - CONTAINER_TIMEZONE={{common_timezone}}
       - PGID={{gid}}
       - PUID={{uid}}
-    image: technosoft2000/calibre-web
+    image: technosoft2000/calibre-web:{{ calibre.version }}
     labels:
       - "traefik.http.services.calibre.loadbalancer.server.scheme=http"
       - "traefik.http.services.calibre.loadbalancer.server.port=8083"

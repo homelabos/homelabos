@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: octoprint/octoprint
+    image: octoprint/octoprint:{{ octoprint.version }}
     restart: unless-stopped
     networks:
       - traefik_network

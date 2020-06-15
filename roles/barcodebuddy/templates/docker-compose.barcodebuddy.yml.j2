@@ -7,7 +7,7 @@ networks:
 
 services:
   app:
-    image: f0rc3/barcodebuddy-docker:{{ barcodebuddy.image_tag }}
+    image: f0rc3/barcodebuddy-docker:{{ barcodebuddy.version }}
     restart: unless-stopped
     environment:
       - TZ={{ common_timezone }}

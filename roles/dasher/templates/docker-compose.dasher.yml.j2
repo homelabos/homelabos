@@ -4,7 +4,7 @@ version: '3'
 services:
   # Amazon Dash Button
   dasher:
-    image: hijinx/dasher
+    image: hijinx/dasher:{{ dasher.version }}
     restart: unless-stopped
     network_mode: host
     volumes:

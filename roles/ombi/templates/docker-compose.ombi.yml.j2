@@ -10,7 +10,7 @@ services:
   ombi:
     networks:
       - traefik_network
-    image: hotio/ombi
+    image: hotio/ombi:{{ ombi.version }}
     environment:
       - UID={{ uid }}
       - GID={{ gid }}

@@ -11,7 +11,7 @@ networks:
 
 services:
   mariadb:
-    image: mariadb:10.3
+    image: mariadb:{{ huginn.db_version }}
     networks:
       - huginn
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
     networks:
       - traefik_network
       - huginn
-    image: huginn/huginn-single-process
+    image: huginn/huginn-single-process:{{ huginn.version }}
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD={{lookup('password', './settings/passwords/huginn_mysql_root_password chars=ascii_letters')}}
@@ -47,7 +47,7 @@ services:
   threaded:
     networks:
       - huginn
-    image: huginn/huginn-single-process
+    image: huginn/huginn-single-process:{{ huginn.version }}
     command: /scripts/init bin/threaded.rb
     restart: unless-stopped
     environment:

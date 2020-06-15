@@ -11,7 +11,7 @@ services:
   codiMdDatabase:
     networks:
       - codimd
-    image: postgres:9.6-alpine
+    image: postgres:{{ codimd.db_version }}
     environment:
       # MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters')"}}
       - POSTGRES_USER=codimd
@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   codiMdApp:
-    image: quay.io/codimd/server:latest
+    image: quay.io/codimd/server:{{ codimd.version }}
     restart: unless-stopped
     depends_on:
       - codiMdDatabase

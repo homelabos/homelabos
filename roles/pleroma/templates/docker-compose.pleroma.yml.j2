@@ -11,7 +11,7 @@ networks:
 
 services:
   db:
-    image: postgres:9.6-alpine
+    image: postgres:{{ pleroma.db_version }}
     restart: always
     networks:
       - pleroma

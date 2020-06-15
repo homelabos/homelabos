@@ -8,7 +8,7 @@ networks:
 
 services:
   lidarr:
-    image: hotio/lidarr
+    image: hotio/lidarr:{{ lidarr.version }}
     networks:
       - traefik_network
     volumes:

@@ -9,7 +9,7 @@ networks:
 services:
   # Home Automation
   homeassistant:
-    image: homeassistant/home-assistant
+    image: homeassistant/home-assistant:{{ homeassistant.version }}
     volumes:
       - "{{ volumes_root }}/homeassistant:/config"
       - /etc/localtime:/etc/localtime:ro

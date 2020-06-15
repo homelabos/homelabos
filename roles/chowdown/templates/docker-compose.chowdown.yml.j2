@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: gregyankovoy/chowdown:latest
+    image: gregyankovoy/chowdown:{{ chowdown.version }}
     restart: unless-stopped
     networks:
       - traefik_network

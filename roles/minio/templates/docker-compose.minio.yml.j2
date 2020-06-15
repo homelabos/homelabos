@@ -9,7 +9,7 @@ networks:
 services:
   # S3 Storage for Backups via Restic
   minio:
-    image: minio/minio
+    image: minio/minio:{{ minio.version }}
     networks:
       - traefik_network
     restart: unless-stopped

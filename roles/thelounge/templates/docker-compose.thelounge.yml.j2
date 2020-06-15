@@ -9,7 +9,7 @@ networks:
 services:
  # IRC Bouncer
   thelounge:
-    image: linuxserver/thelounge
+    image: linuxserver/thelounge:{{ thelounge.version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/thelounge:/config"

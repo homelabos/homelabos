@@ -9,7 +9,7 @@ networks:
 
 services:
   nextcloud-db:
-    image: postgres:alpine
+    image: postgres:{{ nextcloud.db_version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/nextcloud/postgres:/var/lib/postgresql/data"
@@ -22,13 +22,13 @@ services:
       - POSTGRES_USER=nextcloud
 
   nextcloud-redis:
-    image: redis:5.0-alpine
+    image: redis:{{ nextcloud.redis_version }}
     networks:
       - nextcloud
     restart: unless-stopped
 
   nextcloud:
-    image: nextcloud:apache
+    image: nextcloud:{{ nextcloud.version }}
     restart: unless-stopped
     networks:
       - traefik_network

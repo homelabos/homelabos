@@ -10,7 +10,7 @@ networks:
 services:
   gitlab:
     restart: unless-stopped
-    image: gitlab/gitlab-ce:latest
+    image: gitlab/gitlab-ce:{{ gitlab.version }}
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://gitlab.{{ domain }}'
@@ -124,7 +124,7 @@ services:
 {% include './labels.j2' %}
 
   gitlab-runner:
-    image: gitlab/gitlab-runner:alpine
+    image: gitlab/gitlab-runner:{{ gitlab.runner_version }}
     command: register -n --locked=false --url "http://gitlab/" --registration-token "{{ lookup('password', './settings/passwords/gitlab_runners_token chars=ascii_letters') }}" --clone-url http://gitlab --executor "docker" --docker-image "docker:latest" --docker-privileged --description "docker-runner" --tag-list "docker" --run-untagged="true" --locked="false" --access-level="not_protected"
     deploy:
       mode: replicated
@@ -140,7 +140,7 @@ services:
       - gitlab
 
   gitlab_db:
-    image: "postgres"
+    image: postgres:{{ gitlab.db_version }}
     restart: unless-stopped
     networks:
       - gitlab
@@ -153,7 +153,7 @@ services:
       - "{{ volumes_root }}/gitlab/db:/database"
 
   registry:
-    image: registry
+    image: registry:{{ gitlab.registry_version }}
     hostname: 'registry'
     restart: unless-stopped
     environment:

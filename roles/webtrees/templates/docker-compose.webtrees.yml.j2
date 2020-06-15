@@ -9,7 +9,7 @@ networks:
 
 services:
   webtrees_db:
-    image: mariadb:10.4
+    image: mariadb:{{ webtrees.db_version }}
     networks:
       - webtrees
     restart: unless-stopped
@@ -21,7 +21,7 @@ services:
 
   app:
     # REQUIRED
-    image: dtjs48jkt/webtrees
+    image: dtjs48jkt/webtrees:{{ webtrees.version }}
     restart: unless-stopped
     environment:
       - GROUP_ID={{gid_output.stdout }}

@@ -10,7 +10,7 @@ networks:
 services:
   # Personal Relationship Database
   monicahq:
-    image: monicahq/monicahq
+    image: monicahq/monicahq:{{ monicahq.version }}
     networks:
       - traefik_network
       - monicahq
@@ -33,7 +33,7 @@ services:
 {% include './labels.j2' %}
 
   monicahq_db:
-    image: mariadb
+    image: mariadb:{{ monicahq.db_version }}
     networks:
       - monicahq
     restart: unless-stopped

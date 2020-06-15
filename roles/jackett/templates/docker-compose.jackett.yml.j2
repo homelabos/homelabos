@@ -9,7 +9,7 @@ networks:
 services:
   # Torrent API
   jackett:
-    image: linuxserver/jackett
+    image: linuxserver/jackett:{{ jackett.version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/jackett/config:/config"

@@ -10,7 +10,7 @@ networks:
 
 services:
   app:
-    image: gotify/server
+    image: gotify/server:{{ gotify.version }}
     restart: unless-stopped
     networks:
       - traefik_network

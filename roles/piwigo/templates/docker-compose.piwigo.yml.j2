@@ -16,7 +16,7 @@ services:
     networks:
       - traefik_network
       - piwigo
-    image: mathieuruellan/piwigo
+    image: mathieuruellan/piwigo:{{ piwigo.version }}
     volumes:
         - "{{ volumes_root }}/piwigo/config:/config"
         - "{{ volumes_root }}/piwigo/data/galleries:/var/www/galleries"
@@ -33,7 +33,7 @@ services:
 
   mysqlpiwigo:
     restart: unless-stopped
-    image: mariadb:10.4
+    image: mariadb:{{ piwigo.db_version }}
     networks:
       - piwigo
     volumes:

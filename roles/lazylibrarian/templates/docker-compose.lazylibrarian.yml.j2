@@ -9,7 +9,7 @@ networks:
 
 services:
   app:
-    image: linuxserver/lazylibrarian
+    image: linuxserver/lazylibrarian:{{ lazylibrarian.version }}
     restart: unless-stopped
     networks:
       - traefik_network

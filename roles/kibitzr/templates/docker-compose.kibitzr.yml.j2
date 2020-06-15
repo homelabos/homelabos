@@ -4,7 +4,7 @@ version: '3'
 services:
   # IFTTT Replacement
   kibitzr:
-    image: peterdemin/kibitzr
+    image: peterdemin/kibitzr:{{ kibitzr.version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/kibitzr/config:/root/.config/kibitzr"

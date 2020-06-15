@@ -11,7 +11,7 @@ networks:
 
 services:
   frontend:
-    image: snibox/nginx-puma:1.15.9
+    image: snibox/nginx-puma:{{ snibox.web_version }}
     networks:
       - traefik_network
       - snibox
@@ -26,7 +26,7 @@ services:
 {% include './labels.j2' %}
 
   backend:
-    image: snibox/snibox:latest
+    image: snibox/snibox:{{ snibox.version }}
     command: sh -c "rm -rf tmp/pids && ./bin/rails s -p 3000 -b '0.0.0.0'"
     environment:
       DB_NAME: "postgres"
@@ -52,7 +52,7 @@ services:
       - snibox
 
   database:
-    image: postgres:10.7-alpine
+    image: postgres:{{ snibox.db_version }}
     volumes:
       #- '{{ volumes_root }}/snibox/pg-data:/var/lib/postgresql/data'
       - pg-data:/var/lib/postgresql/data

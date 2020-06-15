@@ -5,7 +5,7 @@ services:
   # Bandwidth Usage Logger
   xfinityusageinfluxdb:
     restart: unless-stopped
-    image: nickbusey/xfinityusageinfluxdb
+    image: nickbusey/xfinityusageinfluxdb:{{ xfinityusageinfluxdb.version }}
     environment:
       - XFINITY_USER={{ xfinity_user }}
       - XFINITY_PASSWORD={{ xfinity_password }}

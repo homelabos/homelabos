@@ -10,7 +10,7 @@ networks:
 
 services:
   shinobi_app:
-    image: migoller/shinobidocker
+    image: migoller/shinobidocker:{{ shinobi.version }}
     restart: unless-stopped
     hostname: {% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}
     networks:
@@ -44,7 +44,7 @@ services:
       - shinobi_db
 
   shinobi_db:
-    image: mariadb
+    image: mariadb:{{ shinobi.db_version }}
     restart: unless-stopped
     networks:
       - shinobi

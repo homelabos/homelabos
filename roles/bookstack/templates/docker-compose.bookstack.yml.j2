@@ -9,7 +9,7 @@ networks:
 
 services:
   mysql:
-    image: mysql:5.7.21
+    image: mysql:{{ bookstack.db_version }}
     networks:
       - bookstack
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
     - "{{ volumes_root }}/bookstack/mysql-data:/var/lib/mysql"
 
   bookstack:
-    image: solidnerd/bookstack:0.29.2
+    image: solidnerd/bookstack:{{ bookstack.version }}
     networks:
       - traefik_network
       - bookstack

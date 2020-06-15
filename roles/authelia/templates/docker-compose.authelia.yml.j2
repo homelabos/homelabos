@@ -11,7 +11,7 @@ networks:
 
 services:
   auth:
-    image: authelia/authelia:latest
+    image: authelia/authelia:{{ authelia.version }}
     restart: unless-stopped
     depends_on:
       - redis
@@ -30,12 +30,12 @@ services:
   redis:
     networks:
       - authelia
-    image: redis:5.0.5-alpine
+    image: redis:{{ authelia.redis_version }}
 
   postgres:
     networks:
       - authelia
-    image: postgres:latest
+    image: postgres:{{ authelia.db_version }}
     environment:
       POSTGRES_DB: my_authelia
       POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/authelia_postgres_password')}}

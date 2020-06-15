@@ -10,7 +10,7 @@ networks:
 services:
 
   init-guacamole-db:
-    image: guacamole/guacamole:latest
+    image: guacamole/guacamole:{{ guacamole.version }}
     command: ["/bin/sh", "-c", "test -e /init/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgres > /init/initdb.sql" ]
     volumes:
       - "{{ volumes_root }}/guacamole/dbinit:/init"
@@ -18,7 +18,7 @@ services:
   guacpostgres:
     networks:
       - guacamole
-    image: postgres:latest
+    image: postgres:{{ guacamole.db_version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/guacamole/dbinit:/docker-entrypoint-initdb.d"
@@ -32,11 +32,11 @@ services:
   guacd:
     networks:
       - guacamole
-    image: guacamole/guacd:latest
+    image: guacamole/guacd:{{ guacamole.proxy_version }}
     restart: unless-stopped
 
   guac:
-    image: guacamole/guacamole:latest
+    image: guacamole/guacamole:{{ guacamole.version }}
     networks:
       - traefik_network
       - guacamole

@@ -9,7 +9,7 @@ networks:
 
 services:
   ethercalc_redis:
-    image: redis:latest
+    image: redis:{{ ethercalc.redis_version }}
     networks:
       - ethercalc
     volumes:
@@ -19,7 +19,7 @@ services:
 
   ethercalc:
     # REQUIRED
-    image: audreyt/ethercalc
+    image: audreyt/ethercalc:{{ ethercalc.version }}
     restart: unless-stopped
     networks:
       - traefik_network

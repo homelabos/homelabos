@@ -9,7 +9,7 @@ networks:
 
 services:
   ghost:
-    image: ghost:3-alpine
+    image: ghost:{{ ghost.version }}
     networks:
       - traefik_network
     restart: unless-stopped

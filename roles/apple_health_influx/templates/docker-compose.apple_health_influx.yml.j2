@@ -4,7 +4,7 @@ version: '3'
 services:
   # Apple Health Data Importer
   apple_health_influx:
-    image: nickbusey/healthdata_influx:cron
+    image: nickbusey/healthdata_influx:{{ apple_health_influx.version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/nextcloud/data/{{ apple_health_nextcloud_username }}/files/export/:/export/"

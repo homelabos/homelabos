@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: elasticdog/tiddlywiki
+    image: elasticdog/tiddlywiki:{{ tiddlywiki.version }}
     restart: unless-stopped
     command: ./ --listen host=0.0.0.0
     networks:

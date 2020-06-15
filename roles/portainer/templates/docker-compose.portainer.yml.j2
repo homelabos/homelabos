@@ -9,7 +9,7 @@ networks:
 services:
   # Docker Control
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:{{ portainer.version }}
     restart: unless-stopped
     networks:
       - traefik_network

@@ -10,7 +10,7 @@ networks:
 services:
   # RSS Reader
   miniflux:
-    image: miniflux/miniflux:2.0.21
+    image: miniflux/miniflux:{{ miniflux.version }}
     networks:
       - traefik_network
       - miniflux
@@ -27,7 +27,7 @@ services:
 {% include './labels.j2' %}
 
   miniflux_db:
-    image: postgres:10.1
+    image: postgres:{{ miniflux.db_version }}
     networks:
       - miniflux
     restart: unless-stopped

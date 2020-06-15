@@ -9,7 +9,7 @@ networks:
 services:
   # Media Server
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:{{ jellyfin.version }}
     restart: unless-stopped
     networks:
       - traefik_network

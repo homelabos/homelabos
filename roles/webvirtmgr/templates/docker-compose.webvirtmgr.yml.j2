@@ -9,7 +9,7 @@ networks:
 services:
   # Web based KVM manager
   app:
-    image: odivlad/webvirtmgr
+    image: odivlad/webvirtmgr:{{ webvirtmgr.version }}
     restart: unless-stopped
     networks:
       - traefik_network

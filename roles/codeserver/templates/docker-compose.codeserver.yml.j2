@@ -8,7 +8,7 @@ networks:
 
 services:
   codeserver:
-    image: codercom/code-server
+    image: codercom/code-server:{{ codeserver.version }}
     environment:
       - PASSWORD={{ default_password }}
     volumes:

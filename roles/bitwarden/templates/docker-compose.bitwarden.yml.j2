@@ -9,7 +9,7 @@ networks:
 services:
   # Password Manager
   bitwarden_web:
-    image: bitwardenrs/server:latest
+    image: bitwardenrs/server:{{ bitwarden.version }}
     restart: unless-stopped
     networks:
       - traefik_network

@@ -9,7 +9,7 @@ networks:
 
 services:
   bulletnotes_db:
-    image: mongo:3.2.21
+    image: mongo:{{ bulletnotes.db_version }}
     networks:
       - bulletnotes
     restart: unless-stopped
@@ -21,7 +21,7 @@ services:
       - ./data/bulletnotes-db-dump:/dump
 
   bulletnotes:
-    image: nickbusey/bulletnotes
+    image: nickbusey/bulletnotes:{{ bulletnotes.version }}
     networks:
       - traefik_network
       - bulletnotes

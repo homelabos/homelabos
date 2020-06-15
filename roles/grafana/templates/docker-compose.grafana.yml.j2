@@ -9,7 +9,7 @@ networks:
 services:
  # Graphing
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:{{ grafana.version }}
     restart: unless-stopped
     networks:
       - traefik_network

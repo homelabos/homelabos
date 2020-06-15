@@ -10,7 +10,7 @@ networks:
 
 services:
   privatebin:
-    image: privatebin/nginx-fpm-alpine:1.3.4-alpine3.11
+    image: privatebin/nginx-fpm-alpine:{{ privatebin.version }}
     restart: unless-stopped
     networks:
       - traefik_network

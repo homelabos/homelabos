@@ -6,7 +6,7 @@ services:
   openvpn:
     cap_add:
       - NET_ADMIN
-    image: kylemanna/openvpn
+    image: kylemanna/openvpn:{{ openvpn.version }}
     ports:
       - "1194:1194/udp"
     restart: unless-stopped

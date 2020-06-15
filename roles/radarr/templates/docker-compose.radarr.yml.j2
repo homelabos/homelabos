@@ -9,7 +9,7 @@ networks:
 services:
   # Movie Downloader
   radarr:
-    image: linuxserver/radarr
+    image: linuxserver/radarr:{{ radarr.version }}
     networks:
       - traefik_network
     restart: unless-stopped

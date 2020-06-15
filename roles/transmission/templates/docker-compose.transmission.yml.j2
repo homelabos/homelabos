@@ -9,7 +9,7 @@ networks:
 services:
   # Torrent Downloader https://nickbusey.gitlab.io/HomelabOS/software/transmission/
   transmission:
-    image: haugene/transmission-openvpn
+    image: haugene/transmission-openvpn:{{ transmission.version }}
     networks:
       - traefik_network
     cap_add:
