@@ -926,6 +926,13 @@ sabnzbd:
   domain: {{ sabnzbd.domain | default(False) }}
   subdomain: {{ sabnzbd.subdomain | default("sabnzbd") }}
   version: {{ sabnzbd.version | default("latest") }}
+samba:
+  enable: {{ samba.enable | default(enable_samba, None) | default(False) }}
+  https_only: {{ samba.https_only | default(False) }}
+  auth: {{ samba.auth | default(False) }}
+  domain: {{ samba.domain | default(False) }}
+  subdomain: {{ samba.subdomain | default("samba")}}
+  version: {{ samba.version | default("samba") }}
 searx:
   enable: {{ searx.enable | default(enable_searx, None) | default(False) }}
   https_only: {{ searx.https_only | default(False) }}
