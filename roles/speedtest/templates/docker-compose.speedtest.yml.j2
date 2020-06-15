@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -10,8 +8,7 @@ networks:
 
 services:
   app:
-    # REQUIRED
-    image: roest/docker-speedtest-analyser
+    image: roest/docker-speedtest-analyser:{{ speedtest.version }}
     volumes:
       - "{{ volumes_root }}/speedtest/data:/var/www/html/data"
     restart: unless-stopped
@@ -20,26 +17,6 @@ services:
     environment:
       - SPEEDTEST_PARAMS= --server {{ speedtest.server }}
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.speedtest.loadbalancer.server.scheme=http"
       - "traefik.http.services.speedtest.loadbalancer.server.port=80"
-      - "traefik.http.routers.speedtest-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.speedtest-http.entrypoints=http"
-      - "traefik.http.routers.speedtest-http.middlewares={% if speedtest.https_only %}redirect@file, security-headers@file, {% else %}{% if speedtest.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.speedtest.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.speedtest.entrypoints=https"
-      - "traefik.http.routers.speedtest.middlewares={% if speedtest.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.speedtest.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.speedtest.tls.certresolver=dns"
-      - "traefik.http.routers.speedtest.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.speedtest.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.speedtest.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.speedtest-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.speedtest-tor-http.entrypoints=http"
-      - "traefik.http.routers.speedtest-tor-http.middlewares={% if speedtest.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -5,14 +5,16 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  paperless:
 
 services:
   # Document Storage
   paperless:
-    image: thepaperlessproject/paperless
+    image: thepaperlessproject/paperless:{{ paperless.version }}
     restart: unless-stopped
     networks:
       - traefik_network
+      - paperless
     ports:
       - "8325:8000"
     healthcheck:
@@ -30,35 +32,15 @@ services:
       - PAPERLESS_PASSPHRASE={{lookup('password', './settings/passwords/paperless_passphrase chars=ascii_letters')}}
     command: ["runserver", "--insecure", "--noreload", "0.0.0.0:8000"]
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.paperless.loadbalancer.server.scheme=http"
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
-      - "traefik.http.routers.paperless-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.paperless-http.entrypoints=http"
-      - "traefik.http.routers.paperless-http.middlewares={% if paperless.https_only %}redirect@file, security-headers@file, {% else %}{% if paperless.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.paperless.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.paperless.entrypoints=https"
-      - "traefik.http.routers.paperless.middlewares={% if paperless.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.paperless.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.paperless.tls.certresolver=dns"
-      - "traefik.http.routers.paperless.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.paperless.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.paperless.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.paperless-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.paperless-tor-http.entrypoints=http"
-      - "traefik.http.routers.paperless-tor-http.middlewares={% if paperless.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   paperless_consumer:
-    image: thepaperlessproject/paperless
+    image: thepaperlessproject/paperless:{{ paperless.version }}
     restart: unless-stopped
     networks:
-      - traefik_network
+      - paperless
     depends_on:
       - paperless
     volumes:

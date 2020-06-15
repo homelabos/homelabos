@@ -10,7 +10,7 @@ networks:
 
 services:
   url:
-    image: draganczukp/simply-shorten
+    image: draganczukp/simply-shorten:{{ simply_shorten.version }}
     environment:
       username: {{ default_username }}
       password: {{ default_password }}
@@ -20,27 +20,6 @@ services:
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.simply_shorten.loadbalancer.server.scheme=http"
       - "traefik.http.services.simply_shorten.loadbalancer.server.port=4567"
-      - "traefik.http.routers.simply_shorten-http.service=simply_shorten"
-      - "traefik.http.routers.simply_shorten-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.simply_shorten-http.entrypoints=http"
-      - "traefik.http.routers.simply_shorten-http.middlewares={% if simply_shorten.https_only %}redirect@file, {% else %}{% if simply_shorten.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.simply_shorten.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.simply_shorten.entrypoints=https"
-      - "traefik.http.routers.simply_shorten.middlewares={% if simply_shorten.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.simply_shorten.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.simply_shorten.tls.certresolver=dns"
-      - "traefik.http.routers.simply_shorten.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.simply_shorten.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.simply_shorten.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.simply_shorten-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.simply_shorten-tor-http.entrypoints=http"
-      - "traefik.http.routers.simply_shorten-tor-http.middlewares={% if simply_shorten.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -9,7 +9,7 @@ networks:
 services:
   # Web based KVM manager
   app:
-    image: odivlad/webvirtmgr
+    image: odivlad/webvirtmgr:{{ webvirtmgr.version }}
     restart: unless-stopped
     networks:
       - traefik_network
@@ -22,26 +22,6 @@ services:
     ports:
       - '8000:8000'
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.webvirtmgr.loadbalancer.server.scheme=http"
       - "traefik.http.services.webvirtmgr.loadbalancer.server.port=8000"
-      - "traefik.http.routers.webvirtmgr-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.webvirtmgr-http.entrypoints=http"
-      - "traefik.http.routers.webvirtmgr-http.middlewares={% if webvirtmgr.https_only %}redirect@file, security-headers@file, {% else %}{% if webvirtmgr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.webvirtmgr.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.webvirtmgr.entrypoints=https"
-      - "traefik.http.routers.webvirtmgr.middlewares={% if webvirtmgr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.webvirtmgr.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.webvirtmgr.tls.certresolver=dns"
-      - "traefik.http.routers.webvirtmgr.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.webvirtmgr.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.webvirtmgr.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.webvirtmgr-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.webvirtmgr-tor-http.entrypoints=http"
-      - "traefik.http.routers.webvirtmgr-tor-http.middlewares={% if webvirtmgr.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

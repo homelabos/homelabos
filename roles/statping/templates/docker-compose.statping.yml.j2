@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: statping/statping:latest
+    image: statping/statping:{{ statping.version }}
     restart: unless-stopped
     networks:
       - traefik_network
@@ -19,26 +19,6 @@ services:
       - DB_CONN=sqlite
       - DISABLE_LOGS=true
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.statping.loadbalancer.server.scheme=http"
       - "traefik.http.services.statping.loadbalancer.server.port=8080"
-      - "traefik.http.routers.statping-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.statping-http.entrypoints=http"
-      - "traefik.http.routers.statping-http.middlewares={% if statping.https_only %}redirect@file, security-headers@file, {% else %}{% if statping.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.statping.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.statping.entrypoints=https"
-      - "traefik.http.routers.statping.middlewares={% if statping.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.statping.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.statping.tls.certresolver=dns"
-      - "traefik.http.routers.statping.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.statping.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.statping.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.statping-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.statping-tor-http.entrypoints=http"
-      - "traefik.http.routers.statping-tor-http.middlewares={% if statping.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

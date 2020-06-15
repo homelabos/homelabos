@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  pixelfed:
 
 services:
   pixelfed:
@@ -13,30 +14,11 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+      - pixelfed
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.pixelfed.loadbalancer.server.scheme=http"
       - "traefik.http.services.pixelfed.loadbalancer.server.port=80"
-      - "traefik.http.routers.pixelfed-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.pixelfed-http.entrypoints=http"
-      - "traefik.http.routers.pixelfed-http.middlewares={% if pixelfed.https_only %}redirect@file, security-headers@file, {% else %}{% if pixelfed.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.pixelfed.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.pixelfed.entrypoints=https"
-      - "traefik.http.routers.pixelfed.middlewares={% if pixelfed.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.pixelfed.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.pixelfed.tls.certresolver=dns"
-      - "traefik.http.routers.pixelfed.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.pixelfed.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.pixelfed.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.pixelfed-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.pixelfed-tor-http.entrypoints=http"
-      - "traefik.http.routers.pixelfed-tor-http.middlewares={% if pixelfed.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
     env_file:
       - "{{ volumes_root }}/pixelfed/pixelfed.env"
     volumes:
@@ -51,14 +33,14 @@ services:
     volumes:
       - "{{ volumes_root }}/pixelfed/storage:/var/www/storage"
     networks:
-      - traefik_network
+      - pixelfed
     command: gosu www-data php artisan horizon
 
   db:
-    image: mariadb:10.4
+    image: mariadb:{{ pixelfed.db_version }}
     restart: unless-stopped
     networks:
-      - traefik_network
+      - pixelfed
     environment:
       - MYSQL_DATABASE=pixelfed
       - MYSQL_USER=pixelfed
@@ -73,6 +55,6 @@ services:
     volumes:
       - "{{ volumes_root }}/pixelfed/redis:/data"
     networks:
-      - traefik_network
+      - pixelfed
     command: >
      --requirepass {{ lookup('password', './settings/passwords/pixelfed_redis_password chars=ascii_letters length=15') }}

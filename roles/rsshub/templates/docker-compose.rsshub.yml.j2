@@ -8,7 +8,7 @@ networks:
 
 services:
   app:
-    image: diygod/rsshub
+    image: diygod/rsshub:{{ rsshub.version }}
     restart: unless-stopped
     networks:
       - traefik_network

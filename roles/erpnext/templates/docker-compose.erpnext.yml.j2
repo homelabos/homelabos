@@ -1,42 +1,41 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  erpnext:
 
 services:
   redis-cache:
     networks:
-      - traefik_network
-    image: redis:latest
+      - erpnext
+    image: redis:{{ erpnext.redis_version }}
     restart: on-failure
     volumes:
       - "{{ volumes_root }}/erpnext/redis-cache-vol:/data"
 
   redis-queue:
     networks:
-      - traefik_network
-    image: redis:latest
+      - erpnext
+    image: redis:{{ erpnext.redis_version }}
     restart: on-failure
     volumes:
       - "{{ volumes_root }}/erpnext/redis-queue-vol:/data"
 
   redis-socketio:
     networks:
-      - traefik_network
-    image: redis:latest
+      - erpnext
+    image: redis:{{ erpnext.redis_version }}
     restart: on-failure
     volumes:
       - "{{ volumes_root }}/erpnext/redis-socketi-vol:/data"
 
   mariadb:
     networks:
-      - traefik_network
-    image: mariadb:10.3
+      - erpnext
+    image: mariadb:{{ erpnext.db_version }}
     restart: on-failure
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
@@ -45,7 +44,7 @@ services:
       - "{{ volumes_root }}/erpnext/mariadb-vol:/var/lib/mysql"
 
   erpnext-nginx:
-    image: frappe/erpnext-nginx:${VERSION}
+    image: frappe/erpnext-nginx:{{ erpnext.version }}
     restart: on-failure
     environment:
       - FRAPPE_PY=erpnext-python
@@ -72,36 +71,17 @@ services:
       - "{{ volumes_root }}/erpnext/assets-vol:/assets"
     networks:
       - traefik_network
+      - erpnext
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
       - "traefik.http.services.erpnext.loadbalancer.server.port=80"
-      - "traefik.http.routers.erpnext-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.erpnext-http.entrypoints=http"
-      - "traefik.http.routers.erpnext-http.middlewares={% if erpnext.https_only %}redirect@file, security-headers@file, {% else %}{% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.erpnext.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.erpnext.entrypoints=https"
-      - "traefik.http.routers.erpnext.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.erpnext.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.erpnext.tls.certresolver=dns"
-      - "traefik.http.routers.erpnext.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.erpnext.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.erpnext.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.erpnext-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.erpnext-tor-http.entrypoints=http"
-      - "traefik.http.routers.erpnext-tor-http.middlewares={% if erpnext.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   erpnext-python:
-    image: frappe/erpnext-worker:${VERSION}
+    image: frappe/erpnext-worker:{{ erpnext.version }}
     restart: on-failure
     networks:
-      - traefik_network
+      - erpnext
     environment:
       - MARIADB_HOST=${MARIADB_HOST}
       - REDIS_CACHE=redis-cache:6379
@@ -115,8 +95,8 @@ services:
 
   frappe-socketio:
     networks:
-      - traefik_network
-    image: frappe/frappe-socketio:${VERSION}
+      - erpnext
+    image: frappe/frappe-socketio:{{ erpnext.version }}
     restart: on-failure
     depends_on:
       - redis-socketio
@@ -128,8 +108,8 @@ services:
 
   frappe-worker-default:
     networks:
-      - traefik_network
-    image: frappe/erpnext-worker:${VERSION}
+      - erpnext
+    image: frappe/erpnext-worker:{{ erpnext.version }}
     restart: on-failure
     command: worker
     depends_on:
@@ -142,9 +122,9 @@ services:
       - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
 
   frappe-worker-short:
-    image: frappe/erpnext-worker:${VERSION}
+    image: frappe/erpnext-worker:{{ erpnext.version }}
     networks:
-      - traefik_network
+      - erpnext
     restart: on-failure
     command: worker
     environment:
@@ -159,9 +139,9 @@ services:
       - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
 
   frappe-worker-long:
-    image: frappe/erpnext-worker:${VERSION}
+    image: frappe/erpnext-worker:{{ erpnext.version }}
     networks:
-      - traefik_network
+      - erpnext
     restart: on-failure
     command: worker
     environment:
@@ -176,9 +156,9 @@ services:
       - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
 
   frappe-schedule:
-    image: frappe/erpnext-worker:${VERSION}
+    image: frappe/erpnext-worker:{{ erpnext.version }}
     networks:
-      - traefik_network
+      - erpnext
     restart: on-failure
     command: schedule
     depends_on:

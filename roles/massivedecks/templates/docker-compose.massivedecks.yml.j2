@@ -7,47 +7,29 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  massivedecks:
 
 services:
   server:
-    image: "massivedecks/server:latest"
+    image: massivedecks/server:{{ massivedecks.server_version}}
     environment:
         - NODE_ENV=production
         - MD_SECRET={{"lookup('password', './settings/passwords/massivedecks_md_secret chars=ascii_letters')"}}
     networks:
-        - traefik_network
+        - massivedecks
     restart: unless-stopped
 
   client:
     depends_on:
         - server
-    image: "massivedecks/client:latest"
+    image: massivedecks/client:{{ massivedecks.client_version}}
     networks:
         - traefik_network
+        - massivedecks
     restart: unless-stopped
     links:
       - server
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.massivedecks.loadbalancer.server.scheme=http"
       - "traefik.http.services.massivedecks.loadbalancer.server.port=8080"
-      - "traefik.http.routers.massivedecks-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.massivedecks-http.entrypoints=http"
-      - "traefik.http.routers.massivedecks-http.middlewares={% if massivedecks.https_only %}redirect@file, security-headers@file, {% else %}{% if massivedecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.massivedecks.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.massivedecks.entrypoints=https"
-      - "traefik.http.routers.massivedecks.middlewares={% if massivedecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.massivedecks.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.massivedecks.tls.certresolver=dns"
-      - "traefik.http.routers.massivedecks.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.massivedecks.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.massivedecks.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.massivedecks-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.massivedecks-tor-http.entrypoints=http"
-      - "traefik.http.routers.massivedecks-tor-http.middlewares={% if massivedecks.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

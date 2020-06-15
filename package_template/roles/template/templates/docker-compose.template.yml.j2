@@ -7,46 +7,41 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  PackageFileName:
 
 services:
-  app:
+  PackageFileName:
+    restart: unless-stopped
     # REQUIRED
     image:
-    restart: unless-stopped
     networks:
       - traefik_network
+      - PackageFileName
+    depends_on:
+      - PackageFileName_db
+    volumes:
+      - "{{ volumes_root }}/PackageFileName/config:/etc/PackageFileName"
+      - "{{ volumes_root }}/PackageFileName/logs:/var/log/PackageFileName"
+      - "{{ volumes_root }}/PackageFileName/data:/var/opt/PackageFileName"
+      - "{{ volumes_root }}/PackageFileName/certs:/certs"
+      - "{{ volumes_root }}/PackageFileName/backups:/var/opt/PackageFileName/backups"
+    ports:
+      - "{{ PackageFileName.ssh_port }}:22"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.PackageFileName.loadbalancer.server.scheme=http"
-      - "traefik.http.services.PackageFileName.loadbalancer.server.port=3000"
-      - "traefik.http.routers.PackageFileName-http.service=PackageFileName"
-      - "traefik.http.routers.PackageFileName-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.PackageFileName-http.entrypoints=http"
-      - "traefik.http.routers.PackageFileName-http.middlewares={% if PackageFileName.https_only %}redirect@file, {% else %}{% if PackageFileName.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.PackageFileName.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.PackageFileName.entrypoints=https"
-      - "traefik.http.routers.PackageFileName.middlewares={% if PackageFileName.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.PackageFileName.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.PackageFileName.tls.certresolver=dns"
-      - "traefik.http.routers.PackageFileName.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.PackageFileName.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.PackageFileName.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.PackageFileName-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.PackageFileName-tor-http.entrypoints=http"
-      - "traefik.http.routers.PackageFileName-tor-http.middlewares={% if PackageFileName.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
-    # OPTIONAL
-    #links:
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters')"}}
+      - "traefik.http.services.PackageFileName.loadbalancer.server.port=80"
+{% include './labels.j2' %}
+
+
+  PackageFileName_db:
+    image: "postgres"
+    restart: unless-stopped
+    networks:
+      - PackageFileName
+    environment:
+      - POSTGRES_DB=PackageFileName_db
+      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/PackageFileName_db_password chars=ascii_letters') }}
+      - POSTGRES_USER=PackageFileName_user
+      - PGDATA=/database
+    volumes:
+      - "{{ volumes_root }}/PackageFileName/db:/database"

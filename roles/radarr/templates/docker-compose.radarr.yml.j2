@@ -9,7 +9,7 @@ networks:
 services:
   # Movie Downloader
   radarr:
-    image: linuxserver/radarr
+    image: linuxserver/radarr:{{ radarr.version }}
     networks:
       - traefik_network
     restart: unless-stopped
@@ -23,26 +23,6 @@ services:
       - "{{ storage_dir }}/Video/Movies:/movies"
       - "{{ storage_dir }}/Downloads/complete/movies:/downloads"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.radarr.loadbalancer.server.scheme=http"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
-      - "traefik.http.routers.radarr-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.radarr-http.entrypoints=http"
-      - "traefik.http.routers.radarr-http.middlewares={% if radarr.https_only %}redirect@file, security-headers@file, {% else %}{% if radarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.radarr.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.radarr.entrypoints=https"
-      - "traefik.http.routers.radarr.middlewares={% if radarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.radarr.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.radarr.tls.certresolver=dns"
-      - "traefik.http.routers.radarr.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.radarr.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.radarr.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.radarr-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.radarr-tor-http.entrypoints=http"
-      - "traefik.http.routers.radarr-tor-http.middlewares={% if radarr.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

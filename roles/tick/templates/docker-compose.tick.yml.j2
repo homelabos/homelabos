@@ -5,14 +5,15 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  tick:
 
 services:
   # System Statistics Logger
   telegraf:
-    image: telegraf
+    image: telegraf:{{ tick.telegraf_version }}
     restart: unless-stopped
     networks:
-      - traefik_network
+      - tick
     volumes:
       - "{{ volumes_root }}/tick/telegraf.conf:/etc/telegraf/telegraf.conf"
       - /var/run/docker.sock:/var/run/docker.sock
@@ -23,10 +24,10 @@ services:
 
   # Time Series Data Store
   influxdb:
-    image: influxdb
+    image: influxdb:{{ tick.influxdb_version }}
     restart: unless-stopped
     networks:
-      - traefik_network
+      - tick
     volumes:
       - "{{ volumes_root }}/influxdb:/var/lib/influxdb"
     ports:
@@ -34,44 +35,24 @@ services:
 
   # Define a Chronograf service
   chronograf:
-    image: chronograf
+    image: chronograf:{{ tick.chronograf_version }}
     networks:
-      - traefik_network
+      - tick
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
     #ports:
       #- "8888:8888"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.tick.loadbalancer.server.scheme=http"
-      - "traefik.http.services.tick.loadbalancer.server.port=0"
-      - "traefik.http.routers.tick-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.tick-http.entrypoints=http"
-      - "traefik.http.routers.tick-http.middlewares={% if tick.https_only %}redirect@file, security-headers@file, {% else %}{% if tick.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.tick.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.tick.entrypoints=https"
-      - "traefik.http.routers.tick.middlewares={% if tick.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.tick.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.chronograf.tls.certresolver=dns"
-      - "traefik.http.routers.chronograf.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.chronograf.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.chronograf.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.chronograf-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.chronograf-tor-http.entrypoints=http"
-      - "traefik.http.routers.chronograf-tor-http.middlewares={% if tick.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+      - "traefik.http.services.tick.loadbalancer.server.port=8888"
+{% include './labels.j2' %}
 
   # Define a Kapacitor service
   kapacitor:
-    image: kapacitor:1.3.3
+    image: kapacitor:{{ tick.kapacitor_version }}
     networks:
-      - traefik_network
+      - tick
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086

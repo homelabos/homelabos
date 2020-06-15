@@ -5,13 +5,15 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  miniflux:
 
 services:
   # RSS Reader
   miniflux:
-    image: miniflux/miniflux:2.0.21
+    image: miniflux/miniflux:{{ miniflux.version }}
     networks:
       - traefik_network
+      - miniflux
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgres://miniflux:%22{{lookup('password', './settings/passwords/miniflux_db_password chars=ascii_letters')}}%22@miniflux_db/miniflux?sslmode=disable
@@ -20,34 +22,14 @@ services:
       - ADMIN_USERNAME={{ default_username }}
       - ADMIN_PASSWORD={{ default_password }}
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.miniflux.loadbalancer.server.scheme=http"
       - "traefik.http.services.miniflux.loadbalancer.server.port=8080"
-      - "traefik.http.routers.miniflux-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.miniflux-http.entrypoints=http"
-      - "traefik.http.routers.miniflux-http.middlewares={% if miniflux.https_only %}redirect@file, security-headers@file, {% else %}{% if miniflux.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.miniflux.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.miniflux.entrypoints=https"
-      - "traefik.http.routers.miniflux.middlewares={% if miniflux.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.miniflux.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.miniflux.tls.certresolver=dns"
-      - "traefik.http.routers.miniflux.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.miniflux.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.miniflux.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.miniflux-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.miniflux-tor-http.entrypoints=http"
-      - "traefik.http.routers.miniflux-tor-http.middlewares={% if miniflux.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   miniflux_db:
-    image: postgres:10.1
+    image: postgres:{{ miniflux.db_version }}
     networks:
-      - traefik_network
+      - miniflux
     restart: unless-stopped
     environment:
       - POSTGRES_USER=miniflux

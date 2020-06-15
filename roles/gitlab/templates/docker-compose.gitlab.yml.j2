@@ -5,11 +5,12 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  gitlab
 
 services:
   gitlab:
     restart: unless-stopped
-    image: gitlab/gitlab-ce:latest
+    image: gitlab/gitlab-ce:{{ gitlab.version }}
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://gitlab.{{ domain }}'
@@ -106,6 +107,7 @@ services:
         letsencrypt['enable'] = false
     networks:
       - traefik_network
+      - gitlab
     depends_on:
       - gitlab_db
     volumes:
@@ -117,32 +119,12 @@ services:
     ports:
       - "{{ gitlab.ssh_port }}:22"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.gitlab.loadbalancer.server.scheme=http"
       - "traefik.http.services.gitlab.loadbalancer.server.port=80"
-      - "traefik.http.routers.gitlab-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.gitlab-http.entrypoints=http"
-      - "traefik.http.routers.gitlab-http.middlewares={% if gitlab.https_only %}redirect@file, security-headers@file, {% else %}{% if gitlab.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.gitlab.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.gitlab.entrypoints=https"
-      - "traefik.http.routers.gitlab.middlewares={% if gitlab.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.gitlab.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.gitlab.tls.certresolver=dns"
-      - "traefik.http.routers.gitlab.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.gitlab.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.gitlab.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.gitlab-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.gitlab-tor-http.entrypoints=http"
-      - "traefik.http.routers.gitlab-tor-http.middlewares={% if gitlab.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   gitlab-runner:
-    image: gitlab/gitlab-runner:alpine
+    image: gitlab/gitlab-runner:{{ gitlab.runner_version }}
     command: register -n --locked=false --url "http://gitlab/" --registration-token "{{ lookup('password', './settings/passwords/gitlab_runners_token chars=ascii_letters') }}" --clone-url http://gitlab --executor "docker" --docker-image "docker:latest" --docker-privileged --description "docker-runner" --tag-list "docker" --run-untagged="true" --locked="false" --access-level="not_protected"
     deploy:
       mode: replicated
@@ -153,15 +135,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ volumes_root }}/gitlab/gitlab-runner/config:/etc/gitlab-runner"
     networks:
-      - traefik_network
+      - gitlab
     depends_on:
       - gitlab
 
   gitlab_db:
-    image: "postgres"
+    image: postgres:{{ gitlab.db_version }}
     restart: unless-stopped
     networks:
-      - traefik_network
+      - gitlab
     environment:
       - POSTGRES_DB=gitlab_db
       - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/gitlab_db_password chars=ascii_letters') }}
@@ -171,7 +153,7 @@ services:
       - "{{ volumes_root }}/gitlab/db:/database"
 
   registry:
-    image: registry
+    image: registry:{{ gitlab.registry_version }}
     hostname: 'registry'
     restart: unless-stopped
     environment:
@@ -228,6 +210,8 @@ services:
     ports:
       - '5000:5000'
     networks:
-      - traefik_network
+      - gitlab
     depends_on:
       - gitlab-runner
+
+#checking

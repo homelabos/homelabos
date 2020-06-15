@@ -11,7 +11,7 @@ networks:
 services:
   app:
     # REQUIRED
-    image: itzg/minecraft-bedrock-server
+    image: itzg/minecraft-bedrock-server:{{ minecraftbedrockserver.version }}
     environment:
       - EULA={{minecraftbedrockserver.eula | upper }}
       - SERVER_NAME={{minecraftbedrockserver.server_name}}
@@ -41,36 +41,6 @@ services:
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.minecraftbedrockserver.loadbalancer.server.scheme=http"
       - "traefik.http.services.minecraftbedrockserver.loadbalancer.server.port=3000"
-      - "traefik.http.routers.minecraftbedrockserver-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.minecraftbedrockserver-http.entrypoints=http"
-      - "traefik.http.routers.minecraftbedrockserver-http.middlewares={% if minecraftbedrockserver.https_only %}redirect@file, security-headers@file, {% else %}{% if minecraftbedrockserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minecraftbedrockserver.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.minecraftbedrockserver.entrypoints=https"
-      - "traefik.http.routers.minecraftbedrockserver.middlewares={% if minecraftbedrockserver.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.minecraftbedrockserver.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.minecraftbedrockserver.tls.certresolver=dns"
-      - "traefik.http.routers.minecraftbedrockserver.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.minecraftbedrockserver.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.minecraftbedrockserver.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.minecraftbedrockserver-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.minecraftbedrockserver-tor-http.entrypoints=http"
-      - "traefik.http.routers.minecraftbedrockserver-tor-http.middlewares={% if minecraftbedrockserver.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
-    # OPTIONAL
-    #links:
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters')"}}
+{% include './labels.j2' %}

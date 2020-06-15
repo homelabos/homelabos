@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -10,7 +8,7 @@ networks:
 
 services:
   digiKam:
-    image: rpufky/digikam:stable
+    image: rpufky/digikam:{{ digikam.version }}
     environment:
       - USER_ID={{ uid }}
       - GROUP_ID={{ gid }}
@@ -25,31 +23,9 @@ services:
       - "{{ storage_dir }}/Pictures:/data"
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
-    ports:
-      - 5800:5800
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.digikam.loadbalancer.server.scheme=http"
       - "traefik.http.services.digikam.loadbalancer.server.port=5800"
-      - "traefik.http.routers.digikam-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.digikam-http.entrypoints=http"
-      - "traefik.http.routers.digikam-http.middlewares={% if digikam.https_only %}redirect@file, security-headers@file, {% else %}{% if digikam.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.digikam.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.digikam.entrypoints=https"
-      - "traefik.http.routers.digikam.middlewares={% if digikam.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.digikam.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.digikam.tls.certresolver=dns"
-      - "traefik.http.routers.digikam.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.digikam.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.digikam.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.digikam-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.digikam-tor-http.entrypoints=http"
-      - "traefik.http.routers.digikam-tor-http.middlewares={% if digikam.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -10,7 +8,7 @@ networks:
 
 services:
   app:
-    image: linuxserver/healthchecks
+    image: linuxserver/healthchecks:{{ healthchecks.version }}
     networks:
       - traefik_network
     environment:
@@ -29,26 +27,6 @@ services:
 
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.healthchecks.loadbalancer.server.scheme=http"
       - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
-      - "traefik.http.routers.healthchecks-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.healthchecks-http.entrypoints=http"
-      - "traefik.http.routers.healthchecks-http.middlewares={% if healthchecks.https_only %}redirect@file, security-headers@file, {% else %}{% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.healthchecks.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.healthchecks.entrypoints=https"
-      - "traefik.http.routers.healthchecks.middlewares={% if healthchecks.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.healthchecks.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.healthchecks.tls.certresolver=dns"
-      - "traefik.http.routers.healthchecks.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.healthchecks.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.healthchecks.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.healthchecks-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.healthchecks-tor-http.entrypoints=http"
-      - "traefik.http.routers.healthchecks-tor-http.middlewares={% if healthchecks.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

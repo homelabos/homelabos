@@ -8,7 +8,7 @@ networks:
 
 services:
   airsonic_web:
-    image: linuxserver/airsonic
+    image: linuxserver/airsonic{{ airsonic.version }}
     restart: unless-stopped
     environment:
       - PUID={{ uid_output.stdout }}
@@ -23,26 +23,6 @@ services:
       - "{{ storage_dir }}/Music:/music"
       - "{{ storage_dir }}/Music/Podcasts:/podcasts"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.airsonic.loadbalancer.server.scheme=http"
       - "traefik.http.services.airsonic.loadbalancer.server.port=4040"
-      - "traefik.http.routers.airsonic-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.airsonic-http.entrypoints=http"
-      - "traefik.http.routers.airsonic-http.middlewares={% if airsonic.https_only %}redirect@file, security-headers@file, {% else %}{% if airsonic.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.airsonic.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.airsonic.entrypoints=https"
-      - "traefik.http.routers.airsonic.middlewares={% if airsonic.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.airsonic.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.airsonic.tls.certresolver=dns"
-      - "traefik.http.routers.airsonic.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.airsonic.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.airsonic.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.airsonic-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.airsonic-tor-http.entrypoints=http"
-      - "traefik.http.routers.airsonic-tor-http.middlewares={% if airsonic.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -13,7 +13,7 @@ networks:
 services:
   # External dependencies
   redis:
-    image: redis:alpine
+    image: redis:{{ mailu.redis_version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/mailu/redis:/data"
@@ -22,7 +22,7 @@ services:
 
   # Core services
   front:
-    image: mailu/nginx:1.7
+    image: mailu/nginx:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     logging:
@@ -42,32 +42,12 @@ services:
       - traefik_network
       - mail_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
       - "traefik.http.services.mailu.loadbalancer.server.port=80"
-      - "traefik.http.routers.mailu-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mailu-http.entrypoints=http"
-      - "traefik.http.routers.mailu-http.middlewares={% if mailu.https_only %}redirect@file, security-headers@file, {% else %}{% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mailu.entrypoints=https"
-      - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.mailu.tls.certresolver=dns"
-      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.mailu.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.mailu-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.mailu-tor-http.entrypoints=http"
-      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   admin:
-    image: mailu/admin:1.7
+    image: mailu/admin:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -104,7 +84,7 @@ services:
 {% endif %}
 
   imap:
-    image: mailu/dovecot:1.7
+    image: mailu/dovecot:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -116,7 +96,7 @@ services:
       - front
 
   smtp:
-    image: mailu/postfix:1.7
+    image: mailu/postfix:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -127,7 +107,7 @@ services:
       - front
 
   antispam:
-    image: mailu/rspamd:1.7
+    image: mailu/rspamd:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -141,7 +121,7 @@ services:
 
   # Optional services
   antivirus:
-    image: mailu/clamav:1.7
+    image: mailu/clamav:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -150,7 +130,7 @@ services:
       - mail_network
 
   webdav:
-    image: mailu/radicale:1.7
+    image: mailu/radicale:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -160,7 +140,7 @@ services:
 
   certdumper:
     restart: unless-stopped
-    image: mailu/traefik-certdumper:1.7
+    image: mailu/traefik-certdumper:{{ mailu.version }}
     environment:
       - DOMAIN={% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}
 
@@ -172,7 +152,7 @@ services:
 
   # Webmail
   webmail:
-    image: mailu/rainloop:1.7
+    image: mailu/rainloop:{{ mailu.version }}
     restart: always
     env_file: .env
     volumes:
@@ -206,3 +186,5 @@ services:
       - "traefik.http.routers.mailu-tor-http.entrypoints=http"
       - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
+
+#Checking

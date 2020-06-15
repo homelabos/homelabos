@@ -5,6 +5,7 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  firefly:
 
 services:
   # Financial Tracker
@@ -34,45 +35,26 @@ services:
       - MAIL_ENCRYPTION=tls
       - TZ={{ common_timezone }}
       - ServerName=money.{{ domain }}
-    image: jc5x/firefly-iii
+    image: jc5x/firefly-iii:{{ firefly_iii.version }}
     networks:
       - traefik_network
+      - firefly
     volumes:
       - "{{ volumes_root }}/firefly/export:/var/www/firefly-iii/storage/export"
       - "{{ volumes_root }}/firefly/upload:/var/www/firefly-iii/storage/upload"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.firefly_iii.loadbalancer.server.scheme=http"
       - "traefik.http.services.firefly_iii.loadbalancer.server.port=80"
-      - "traefik.http.routers.firefly_iii-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.firefly_iii-http.entrypoints=http"
-      - "traefik.http.routers.firefly_iii-http.middlewares={% if firefly_iii.https_only %}redirect@file, security-headers@file, {% else %}{% if firefly_iii.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.firefly_iii.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.firefly_iii.entrypoints=https"
-      - "traefik.http.routers.firefly_iii.middlewares={% if firefly_iii.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.firefly_iii.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.firefly_iii.tls.certresolver=dns"
-      - "traefik.http.routers.firefly_iii.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.firefly_iii.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.firefly_iii.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.firefly_iii-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.firefly_iii-tor-http.entrypoints=http"
-      - "traefik.http.routers.firefly_iii-tor-http.middlewares={% if firefly_iii.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   firefly_iii_db:
-    image: "postgres:12"
+    image: postgres:{{ firefly-iii.db_version }}
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
       - POSTGRES_USER=firefly_db
       - POSTGRES_DB=firefly_db
     networks:
-      - traefik_network
+      - firefly
     volumes:
       - "{{ volumes_root }}/firefly/db:/var/lib/postgresql/data"
