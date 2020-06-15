@@ -106,6 +106,7 @@ If you are having problems you can:
 - [Ombi](software/ombi) - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
 - [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 - [Radarr](software/radarr-sonarr) - Automated movie downloading
+- [Samba](software/samba) - Export your HomelabOS storage_dirs as file shares to other computers on your local network
 - [SickChill](software/sickchill) - SickChill is an automatic Video Library Manager for TV Shows.
 - [Sonarr](software/radarr-sonarr) - Automated TV downloading
 - [Syncthing](software/syncthing) - File syncing software

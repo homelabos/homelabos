@@ -1,0 +1,47 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  samba:
+
+services:
+  samba:
+    restart: unless-stopped
+    # REQUIRED
+    image:
+    networks:
+      - traefik_network
+      - samba
+    depends_on:
+      - samba_db
+    volumes:
+      - "{{ volumes_root }}/samba/config:/etc/samba"
+      - "{{ volumes_root }}/samba/logs:/var/log/samba"
+      - "{{ volumes_root }}/samba/data:/var/opt/samba"
+      - "{{ volumes_root }}/samba/certs:/certs"
+      - "{{ volumes_root }}/samba/backups:/var/opt/samba/backups"
+    ports:
+      - "{{ samba.ssh_port }}:22"
+    labels:
+      - "traefik.http.services.samba.loadbalancer.server.scheme=http"
+      - "traefik.http.services.samba.loadbalancer.server.port=80"
+{% include './labels.j2' %}
+
+
+  samba_db:
+    image: "postgres"
+    restart: unless-stopped
+    networks:
+      - samba
+    environment:
+      - POSTGRES_DB=samba_db
+      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/samba_db_password chars=ascii_letters') }}
+      - POSTGRES_USER=samba_user
+      - PGDATA=/database
+    volumes:
+      - "{{ volumes_root }}/samba/db:/database"

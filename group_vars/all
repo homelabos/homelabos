@@ -93,6 +93,7 @@ services:
   restic:
   rsshub:
   sabnzbd:
+  samba:
   searx:
   shinobi:
   sickchill:
@@ -216,6 +217,7 @@ qbittorrent:
 radarr:
 restic:
 sabnzbd:
+samba:
 searx:
 shinobi:
 sickchill:

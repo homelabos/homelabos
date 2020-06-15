@@ -79,6 +79,7 @@ nav:
       - Ombi: software/ombi.md
       - Qbitorrent: software/qbittorrent.md
       - Radarr / Sonarr: software/radarr-sonarr.md
+      - Samba: software/samba.md
       - SickChill: software/sickchill.md
       - Synchthing: software/syncthing.md
       - Transmission: software/transmission.md
