@@ -4,19 +4,10 @@
 
 ## Access
 
-It is available at [https://{% if samba.domain %}{{ samba.domain }}{% else %}{{ samba.subdomain + "." + domain }}{% endif %}/](https://{% if samba.domain %}{{ samba.domain }}{% else %}{{ samba.subdomain + "." + domain }}{% endif %}/) or [http://{% if samba.domain %}{{ samba.domain }}{% else %}{{ samba.subdomain + "." + domain }}{% endif %}/](http://{% if samba.domain %}{{ samba.domain }}{% else %}{{ samba.subdomain + "." + domain }}{% endif %}/)
+This container exposes your {{storage_dir}}/* folders as a SMB/CIFS (Windows file sharing) network share.
 
-{% if enable_tor %}
-It is also available via Tor at [http://{{ samba.subdomain + "." + tor_domain }}/](http://{{ samba.subdomain + "." + tor_domain }}/)
-{% endif %}
-
-## Security enable/disable https_only and auth
-
-To enable https_only or auth set the service config to True
-`settings/config.yml`
+You can connect to it using windows, linux and mac via
 
 ```
-samba:
-  https_only: True
-  auth: True
+smb://{{default_username}}@{{homelab_ip}}/HomelabOS
 ```
