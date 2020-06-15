@@ -129,7 +129,7 @@ access_control:
     - domain: portainer.{{ domain }}
       policy: one_factor
 
-    - domain: auth.{{ domain }}
+    - domain: {{ service_domain }}
       policy: bypass
 
     - domain: '*.{{ domain }}'
@@ -156,7 +156,7 @@ session:
   # Value is in seconds, or duration notation. See: https://docs.authelia.com/configuration/index.html#duration-notation-format
   # Longer periods are considered less secure because a stolen cookie will last longer giving attackers more time to spy
   # or attack. Currently the default is 1M or 1 month.
-  remember_me_duration: 1M
+  remember_me_duration: {{ authelia.max.remember_me_duration }}
 
   # The domain to protect.
   # Note: the authenticator must also be in that domain. If empty, the cookie
