@@ -4,44 +4,28 @@ version: '3'
 # This networks section required for the package to be visible to Traefik.
 # DO NOT Remove
 networks:
-  traefik_network:
-    external:
-      name: homelabos_traefik
   samba:
-
+    driver: bridge
 services:
   samba:
     restart: unless-stopped
-    # REQUIRED
-    image:
+    image: servercontainers/samba:{{ samba.version }}
     networks:
-      - traefik_network
       - samba
-    depends_on:
-      - samba_db
     volumes:
-      - "{{ volumes_root }}/samba/config:/etc/samba"
-      - "{{ volumes_root }}/samba/logs:/var/log/samba"
-      - "{{ volumes_root }}/samba/data:/var/opt/samba"
-      - "{{ volumes_root }}/samba/certs:/certs"
-      - "{{ volumes_root }}/samba/backups:/var/opt/samba/backups"
+      # This is the parent folder of all HLOS storage
+      - "{{ storage_dir }}:/media"
     ports:
-      - "{{ samba.ssh_port }}:22"
+      - 139:139
+      - 445:445
+    environment:
+      - SAMBA_CONF_WORKGROUP={{samba.workgroup}}
+      - SAMBA_CONF_SERVER_STRING={{samba.server_string}}
+      - SAMBA_CONF_MAP_TO_GUEST={{samba.map_to_guest}}
+      - SAMBA_CONF_ENABLE_PASSWORD_SYNC={{samba.enable_password_sync}}
+      - "ACCOUNT_{{default_username}}={{default_password}}"
+      -SAMBA_VOLUME_CONFIG_HomelabOS="[HomelabOS]; path=/shares/HomelabOS; guest ok = no; valid users = {{default_username}} read only = no; browseable = yes"
     labels:
       - "traefik.http.services.samba.loadbalancer.server.scheme=http"
       - "traefik.http.services.samba.loadbalancer.server.port=80"
 {% include './labels.j2' %}
-
-
-  samba_db:
-    image: "postgres"
-    restart: unless-stopped
-    networks:
-      - samba
-    environment:
-      - POSTGRES_DB=samba_db
-      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/samba_db_password chars=ascii_letters') }}
-      - POSTGRES_USER=samba_user
-      - PGDATA=/database
-    volumes:
-      - "{{ volumes_root }}/samba/db:/database"
