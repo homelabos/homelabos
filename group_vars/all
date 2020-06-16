@@ -89,6 +89,7 @@ services:
   portainer:
   privatebin:
   qbittorrent:
+  quakejs:
   radarr:
   restic:
   rsshub:
@@ -213,6 +214,7 @@ poli:
 portainer:
 privatebin:
 qbittorrent:
+quakejs:
 radarr:
 restic:
 sabnzbd:
