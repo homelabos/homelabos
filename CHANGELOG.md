@@ -2,6 +2,7 @@
 
 ## Services Added
 
+- Added QuakeJS - QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten
 - Added Rsshub - RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
 - Added Teedy - Document Management made simple for everyone
 - Added Taisun - Single Server Docker Management for Humans

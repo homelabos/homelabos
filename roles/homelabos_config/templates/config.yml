@@ -898,6 +898,14 @@ qbittorrent:
   version: {{ qbittorrent.version | default("latest") }}
   vpn_enabled: !!str '{{ qbittorrent.vpn_enabled | default(false) }}'
   lan_network: {{ qbittorrent.lan_network | default("192.168.1.0/24") }}
+quakejs:
+  enable: {{ quakejs.enable | default(enable_quakejs, None) | default(False) }}
+  https_only: {{ quakejs.https_only | default(False) }}
+  auth: {{ quakejs.auth | default(False) }}
+  domain: {{ quakejs.domain | default(False) }}
+  subdomain: {{ quakejs.subdomain | default("quakejs")}}
+  version: {{ quakejs.version | default("latest") }}
+  server: {{ quakejs.server | default("homelabIp")}}
 radarr:
   enable: {{ radarr.enable | default(enable_radarr, None) | default(False) }}
   https_only: {{ radarr.https_only | default(False) }}
