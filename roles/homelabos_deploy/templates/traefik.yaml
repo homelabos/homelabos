@@ -32,6 +32,7 @@ entryPoints:
         options: default
         certResolver: {% if traefik.dns_challenge_provider %}dns{% else %}http{% endif %}
 {% if traefik.dns_challenge_provider %}
+
         domains:
           - main: "{{ domain }}"
             sans:

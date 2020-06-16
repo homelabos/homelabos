@@ -914,6 +914,8 @@ quakejs:
   subdomain: {{ quakejs.subdomain | default("quakejs")}}
   version: {{ quakejs.version | default("latest") }}
   server: {{ quakejs.server | default("homelabIp")}}
+  bastion_ports:
+    27960: 27960
 radarr:
   enable: {{ radarr.enable | default(enable_radarr, None) | default(False) }}
   https_only: {{ radarr.https_only | default(False) }}
