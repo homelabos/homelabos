@@ -179,53 +179,49 @@ airsonic:
   domain: {{ airsonic.domain | default(False) }}
   subdomain: {{ airsonic.subdomain | default("airsonic") }}
   version: {{ airsonic.version | default("latest") }}
-
-{% raw %}
-# Authelia Settings
 authelia:
-  enable: "{{ vault.authelia.enable }}"
-  https_only: "{{ vault.authelia.https_only }}"
-  auth: "{{ vault.authelia.enable }}"
-  domain: "{{ vault.authelia.domain }}"
-  subdomain: "{{ vault.authelia.subdomain }}"
+  enable: {{ authelia.enable | default(vault.authelia.enable, None) | default(False) }}
+  https_only: {{ authelia.https_only | default(vault.authelia.https_only, None) | default(False) }}
+  # Should always be set to False, don't change this
+  auth: False
+  domain: {{ authelia.domain | default(vault.authelia.domain, None) | default(False) }}
+  subdomain: {{ authelia.subdomain | default(vault.authelia.subdomain, None) | default("auth") }}
   version: {{ authelia.version | default("latest") }}
   redis_version: {{ authelia.redis_version | default("5.0.5-alpine") }}
   db_version: {{ authelia.db_version | default("latest") }}
-  redirect_url:  "{{ vault.authelia.redirect_url }}"
+  redirect_url:  {{ authelia.redirect_url | default(vault.authelia.redirect_url, None) | default("https://organizr." + domain) }}
   # Determines how verbose the logs are
-  log_level: "{{ vault.authelia.log_level }}"
-  # Do you want to login with your common name "john doe" or your username "jdoe"?
-  # defaults to Username
-  use_username: "{{ vault.authelia.use_username }}"
-  # This must be an address you can recieve mail at!
-  default_user_email: "{{ vault.authelia.default_user_email }}"
+  log_level: {{ authelia.log_level | default(vault.authelia.log_level, None) | default('debug') }}
+   # Use common name "john doe" or username "jdoe"?
+  use_username: {{ authelia.use_username | default(vault.authelia.use_username, None) | default(True) }}
+   # MUST be a REAL, ACCESSABLE address!
+  default_user_email: {{ authelia.default_user_email | default(vault.authelia.default_user_mail, None) | default() }}
   max:
-    # max # of retries to authenticate (default 5)
-    retries: "{{ vault.authelia.max.retries }}"
-    # max time before the retry count resets (default 2 min)
-    retries_in_time: "{{ vault.authelia.max.retries_in_time }}"
-    # if you exceed the max retry count within the time frame, you're banned
-    # for x seconds. (default 300 seconds /5 min)
-    retries_ban_time: "{{ vault.authelia.max.retries_ban_time }}"
+     # Value is in seconds, or duration notation. See: https://docs.authelia.com/configuration/index.html#duration-notation-format
+    remember_me_duration: {{ authelia.max.remember_me_duration | default('1M') }}
+     # max # of retries to authenticate (default 5)
+    retries: {{ authelia.max.retries | default(vault.authelia.max.retries, None) | default(5) }}
+     # max time before the retry count resets (default 2 min)
+    retries_in_time: {{ authelia.max.retries_in_time | default(vault.authelia.max.retries_in_time, None) | default(120) }}
+    # ban if max retry count within the time frame (in seconds) is exceeded
+    retries_ban_time: {{ authelia.max.retries_ban_time | default(vault.authelia.max.retries_ban_time, None) | default(300) }}
   default:
     # the number of authentication factors required by default
-    factor_count: "{{ vault.authelia.default.factor_count }}"
+    factor_count: {{ authelia.default.factor_count | default(vault.authelia.default.factor_count, None) | default('one_factor') }}
     # how long it takes for the cookie to expire (default, 1hr)
-    cookie_expiration: "{{ vault.authelia.default.cookie_expiration }}"
+    cookie_expiration: {{ authelia.default.cookie_expiration | default(vault.authelia.default.cookie_expiration, None) | default(3600000) }}
     # inactivity time for the cookie default (5m)
-    cookie_inactivity: "{{ vault.authelia.default.cookie_inactivity }}"
+    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(vault.authelia.default.cookie_inactivity, None) | default(300000) }}
     # default policy - deny by default
-    policy: "{{ vault.authelia.default.policy }}"
+    policy: {{ authelia.default.policy | default(vault.authelia.default.policy, None) | default('deny') }}
+{% raw %}
   duo:
-    hostname: "{{ vault.authelia.duo.hostname }}"
+    hostname: "{{ vault.authelia.duo.hostname}}"
     integration_key: "{{ vault.authelia.duo.integration_key }}"
     secret_key: "{{ vault.authelia.duo.secret_key }}"
   # Don't change these unless you know what you're doing
-  # Migration v0.7
   migration: "{{ vault.authelia.migration }}"
-  # End Migration v0.7
 {% endraw %}
-
 barcodebuddy:
   enable: {{ barcodebuddy.enable | default(enable_barcodebuddy, None) | default(False) }}
   https_only: {{ barcodebuddy.https_only | default(False) }}
@@ -240,26 +236,24 @@ beets:
   domain: {{ beets.domain | default(False) }}
   subdomain: {{ beets.subdomain | default("beets") }}
   version: {{ beets.version | default("latest") }}
-
-{% raw %}
 bitwarden:
-    enable: "{{ vault.bitwarden.enable | default(enable_bitwarden, None) | default(False) }}"
-    https_only: "{{ vault.bitwarden.https_only | default(False) }}"
-    auth: "{{ vault.bitwarden.auth | default(False) }}"
-    domain: "{{ vault.bitwarden.domain | default(False) }}"
-    subdomain: "{{ vault.bitwarden.subdomain | default('bitwarden') }}"
-    version: "{{ bitwarden.version | default('latest') }}"
+    enable: {{ bitwarden.enable | default(vault.bitwarden.enable, None) | default(False) }}
+    https_only: {{ bitwarden.https_only  | default(vault.bitwarden.https_only, None) | default(False) }}
+    auth: {{ bitwarden.auth  | default(vault.bitwarden.auth, None) | default(False) }}
+    domain: {{ bitwarden.domain  | default(vault.bitwarden.domain, None) | default(False) }}
+    subdomain: {{ bitwarden.subdomain  | default(vault.bitwarden.subdomain, None) | default("bitwarden") }}
+    version: {{ bitwarden.version | default("latest") }}
     # Enable admin page
     # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
     # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-    token: "{{ vault.bitwarden.token | default(default_password) }}"
-    signups_allowed: "{{ vault.bitwarden.signups_allowed | default('true') }}"
+{% raw %}
+    token: "{{ vault.bitwarden.token }}"
+{% endraw %}
+    signups_allowed: {{ bitwarden.signups_allowed  | default(vault.bitwarden.signups_allowed, None) | default('true') }}
     # Only allow signups from certain domains (set signups_allowed to "false")
     # Note that no e-mail validation is done, only e-mail domain that's provided on registration
     # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
-    signups_domains_whitelist: "{{ vault.bitwarden.signups_domains_whitelist | default(False) }}"
-{% endraw %}
-
+    signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist  | default(vault.bitwarden.signups_domains_whitelist, None) | default(False) }}
 bookstack:
   enable: {{ bookstack.enable | default(enable_bookstack, None) | default(False) }}
   https_only: {{ bookstack.https_only | default(False) }}
@@ -342,9 +336,11 @@ drone:
 {% raw %}
   gitea_id: "{{ vault.drone.gitea_id | default(False) }}"
   gitea_secret: "{{ vault.drone.gitea_secret | default(False) }}"
+{% endraw %}
 duckdns:
-  enable: "{{ vault.duckdns.enable | default(enable_duckdns, None) | default(False) }}"
-  version: "{{ duckdns.version | default('latest') }}"
+  enable: {{ duckdns.enable | default(vault.duckdns.enable, None) | default(False) }}
+  version: {{ duckdns.version | default("latest") }}
+{% raw %}
   token: "{{ vault.duckdns.token | default(False) }}"
 {% endraw %}
 duplicati:
@@ -1083,7 +1079,6 @@ ubooquity:
   domain: {{ ubooquity.domain | default(False) }}
   subdomain: {{ ubooquity.subdomain | default("ubooquity") }}
   version: {{ ubooquity.version | default("latest") }}
-
 unificontroller:
   enable: {{ unificontroller.enable | default(enable_unificontroller, None) | default(False) }}
   https_only: {{ unificontroller.https_only | default(False) }}
@@ -1100,10 +1095,10 @@ wallabag:
   version: {{ wallabag.version | default("latest") }}
   db_version: {{ wallabag.db_version | default("10.4") }}
   redis_version: {{ wallabag.redis_version | default("alpine") }}
-{% raw %}
 watchtower:
-  enable: "{{ vault.watchtower.enable | default(enable_watchtower, None) | default(False) }}"
-  notification: "{{ vault.watchtower.notification | default (False) }}"
+  enable: {{ watchtower.enable | default(vault.watchtower.enable, None) | default(False) }}
+  notification: {{ watchtower.notification | default(vault.watchtower.enable, None) | default (False) }}
+{% raw %}
   gotify_token: "{{ vault.watchtower.gotify_token | default (False) }}"
 {% endraw %}
 webtrees:
