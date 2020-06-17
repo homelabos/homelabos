@@ -18,6 +18,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 {% endif %}
     labels:
-      - "traefik.http.services.jellyfin.loadbalancer.server.scheme=http"
-      - "traefik.http.services.jellyfin.loadbalancer.server.port=8080"
+      - "traefik.http.services.jenkins.loadbalancer.server.scheme=http"
+      - "traefik.http.services.jenkins.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
