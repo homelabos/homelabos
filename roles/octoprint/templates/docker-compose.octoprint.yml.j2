@@ -13,13 +13,19 @@ services:
     networks:
       - traefik_network
     volumes:
-      - "{{ volumes_root }}/octoprint/config:/home/octoprint"
-{% if octoprint.serial %}
+      - octoprint_home:/home/octoprint
+      - octoprint_env:/opt
+{% if octoprint.devices %}
     devices:
-      - {{ octoprint.serial }}:{{ octoprint.serial }}
-{% else %}
+    {% for device in octoprint.devices %}
+  - "{{ device }}:{{ device }}"
+    {% endfor %}
 {% endif %}
     labels:
       - "traefik.http.services.octoprint.loadbalancer.server.scheme=http"
       - "traefik.http.services.octoprint.loadbalancer.server.port=5000"
 {% include './labels.j2' %}
+
+volumes:
+  octoprint_home:
+  octoprint_env:

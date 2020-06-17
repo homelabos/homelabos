@@ -8,6 +8,8 @@
   file:
     path: "{{ volumes_root }}/octoprint/config"
     state: directory
+    mode: "775"
+    recurse: yes
 
 
 - name: Copy octoprint docker-compose.yml file into place.
