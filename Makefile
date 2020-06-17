@@ -28,6 +28,8 @@ config: logo build
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "$(byel)========== Encrypting secrets ==========\n$(end)"
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
+	@sudo chmod 640 settings/vault.yml
+	@sudo chown $$USER:$$USER settings/vault.yml
 	@printf "$(byel)========== Done with configuration ==========\n$(end)"
 
 # Display the HomelabOS logo and MOTD
@@ -153,10 +155,14 @@ terraform_destroy: logo build git_sync
 decrypt:
 	@printf "$(byel)========== Decrypting Ansible Vault! ==========\n$(end)"
 	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
+	@sudo chmod 640 settings/vault.yml
+	@sudo chown $$USER:$$USER settings/vault.yml
 	@printf "$(byel)========== Vault decrypted! settings/vault.yml ==========\n$(end)"
 
 encrypt:
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml
+	@sudo chmod 640 settings/vault.yml
+	@sudo chown $$USER:$$USER settings/vault.yml
 
 set: logo
 	@printf "$(byel)========== Setting '$(filter-out $@,$(MAKECMDGOALS))' ==========$(end)"
