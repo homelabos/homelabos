@@ -16,15 +16,6 @@
     src: service.j2
     dest: /etc/systemd/system/quakejs.service
 
-- name: Setup Port Forwarding
-  include_role:
-    name: homelabos_port_forwarding
-  vars:
-    ports: "{{lookup('vars', 'quakejs').bastion_ports | dict2items}}"
-  when:
-    - bastion.enable == True
-    - "lookup('vars', 'quakejs').bastion_ports | dict2items is any"
-
 - name: Start quakejs
   systemd:
     name: quakejs
