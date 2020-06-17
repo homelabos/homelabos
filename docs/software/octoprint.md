@@ -7,9 +7,10 @@ To find the serial port and connect to your printer run
 ```
 ls /dev/serial/by-id/*
 ```
-then, set the value that corresponds to the 3D printer by running
+then, set the value that corresponds to the 3D printer by going into the config file and under octoprint (in the devices array) add the address that you recieved in the previous step.
+Using the pattern:
 ```
-make set octoprint.serial [SERIAL ADDRESS HERE]
+  devices: ['/dev/device1', '/dev/device2']
 ```
 
 ## Access
