@@ -1,6 +1,10 @@
 - debug:
     msg: "Port: {{item.key}} - {{item.value}}"
   loop: "{{ ports }}"
+  when: "'bastion' in group_names"
+
+- debug:
+    msg: "group_names = {{group_names}}"
 
 - name: Establish DNAT rules
   iptables:
@@ -12,7 +16,6 @@
     to_destination: "{{ bastion.wireguard.homelab_vpn_address }}:{{ item.value }}"
     jump: DNAT
   loop: "{{ports}}"
-  become: true
   when: "'bastion' in group_names"
 
 - name: Establish SNAT rules
