@@ -1,0 +1,30 @@
+---
+- name: Make jenkins directory.
+  file:
+    path: "{{ volumes_root }}/jenkins"
+    state: directory
+
+- name: Make jenkins home directory.
+  file:
+    path: "{{ volumes_root }}/jenkins/jenkins_home"
+    state: directory
+    mode: '777'
+
+- name: Copy jenkins docker-compose.yml file into place.
+  template:
+    src: docker-compose.jenkins.yml.j2
+    dest: "{{ volumes_root }}/jenkins/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure jenkins systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/jenkins.service
+
+- name: Start jenkins
+  systemd:
+    name: jenkins
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

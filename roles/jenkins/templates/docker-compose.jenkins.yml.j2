@@ -1,0 +1,23 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  jenkins:
+    image: jenkinsci/blueocean:{{ jenkins.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/jenkins/jenkins_home:/var/jenkins_home"
+{% if jenkins.allow_docker %}
+      - /var/run/docker.sock:/var/run/docker.sock
+{% endif %}
+    labels:
+      - "traefik.http.services.jellyfin.loadbalancer.server.scheme=http"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8080"
+{% include './labels.j2' %}
