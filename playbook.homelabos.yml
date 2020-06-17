@@ -60,10 +60,11 @@
 
 # Configure per-service port-forwarding
 - name: Configure per-service port-forwarding
-  hosts: bastion_server
+  gather_facts: False
+  hosts: bastion
   become: true
-  tags:
-    - bastion
+  become_method: sudo
+  tags: deploy
   tasks:
     - include_role:
         name: homelabos_port_forwarding
