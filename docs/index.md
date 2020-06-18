@@ -150,6 +150,7 @@ If you are having problems you can:
 - [Grownetics](software/grownetics) - Open source environmental mapping with plant management and tracking
 - [Hubzilla](software/hubzilla) - a powerful platform for creating interconnected websites featuring a decentralized identity
 - [Inventario](software/inventario) - Home inventory software
+- [InvoiceNinja](software/invoiceninja) - Free Open-Source Invoicing Software
 - [Mashio](software/mashio) - Home brewery management software
 - [Monica](software/monica) - Contact / relationship manager
 - [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.

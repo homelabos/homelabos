@@ -46,6 +46,7 @@ services:
   hubzilla:
   huginn:
   inventario:
+  invoiceninja:
   jackett:
   jellyfin:
   jenkins:
@@ -170,6 +171,7 @@ homedash:
 hubzilla:
 huginn:
 inventario:
+invoiceninja:
 jackett:
 jellyfin:
 jenkins:
