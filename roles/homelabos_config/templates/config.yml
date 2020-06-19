@@ -561,6 +561,13 @@ inventario:
   subdomain: {{ inventario.subdomain | default("inventario") }}
   version: {{ inventario.version | default("latest") }}
   db_version: {{ inventario.db_version | default("latest") }}
+invoiceninja:
+  enable: {{ invoiceninja.enable | default(enable_invoiceninja, None) | default(False) }}
+  https_only: {{ invoiceninja.https_only | default(False) }}
+  auth: {{ invoiceninja.auth | default(False) }}
+  domain: {{ invoiceninja.domain | default(False) }}
+  subdomain: {{ invoiceninja.subdomain | default("invoiceninja")}}
+  version: {{ invoiceninja.version | default("alpine-4") }}
 jackett:
   enable: {{ jackett.enable | default(enable_jackett, None) | default(False) }}
   https_only: {{ jackett.https_only | default(False) }}
