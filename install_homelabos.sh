@@ -21,7 +21,7 @@ is_tested() {
     if [ distro != "ubuntu" ] || [ distro  != "debian" ] ; then
         return 0
     else
-        returh 1
+        return 1
     fi
 }
 
