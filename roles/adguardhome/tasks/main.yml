@@ -1,0 +1,35 @@
+---
+- name: Make adguardhome directory.
+  file:
+    path: "{{ volumes_root }}/adguardhome"
+    state: directory
+
+- name: Make adguard directories
+  file:
+    path: "{{ volumes_root }}/adguardhome/{{item}}"
+    state: directory
+  loop:
+    - "work"
+    - "config"
+
+- name: Copy adguardhome docker-compose.yml file into place.
+  template:
+    src: docker-compose.adguardhome.yml.j2
+    dest: "{{ volumes_root }}/adguardhome/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure adguardhome systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/adguardhome.service
+
+- name: Reconfigure Systemd-resolved
+  include_role: homelabos_systemd-resolve
+
+- name: Start adguardhome
+  systemd:
+    name: adguardhome
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

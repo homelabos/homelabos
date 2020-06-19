@@ -101,6 +101,7 @@ nav:
       - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
     - Misc/Other:
+      - AdGuard Home: software/adguardhome.md
       - BarcodeBuddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
       - Cockpit: software/cockpit.md

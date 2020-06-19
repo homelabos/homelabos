@@ -2,6 +2,7 @@
 
 ## Services Added
 
+- Added AdGuard Home - Network-wide software for blocking ads and tracking.
 - Added Invoice Ninja - Free Open-Source Invoicing
 - Added Jenkins - The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
 - Added Rsshub - RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.

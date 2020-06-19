@@ -172,6 +172,13 @@ apple_health_influx:
   domain: {{ apple_health_influx.domain | default(False) }}
   subdomain: {{ apple_health_influx.subdomain | default("apple_health_influx") }}
   version: {{apple_health_influx.version | default("cron") }}
+adguardhome:
+  enable: {{ adguardhome.enable | default(enable_adguardhome, None) | default(False) }}
+  https_only: {{ adguardhome.https_only | default(False) }}
+  auth: {{ adguardhome.auth | default(False) }}
+  domain: {{ adguardhome.domain | default(False) }}
+  subdomain: {{ adguardhome.subdomain | default("adguardhome")}}
+  version: {{ adguardhome.version | default("latest") }}
 airsonic:
   enable: {{ airsonic.enable | default(enable_airsonic, None) | default(False) }}
   https_only: {{ airsonic.https_only | default(False) }}

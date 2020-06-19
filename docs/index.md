@@ -136,6 +136,7 @@ If you are having problems you can:
 
 ### Misc/Other
 
+- [AdGuard Home](software/adguardhome) - Network wide software for blocking ads and tracking
 - [Barcode Buddy](software/barcodebuddy) - Barcode system for [Grocy](software/grocy)
 - [Chowdown](software/chowdown) Simple recipes in Markdown format
 - [Cockpit](software/cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
