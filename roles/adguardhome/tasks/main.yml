@@ -19,6 +19,10 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
+- name: Install bCrypt
+  command: >
+    pip install bcrypt
+
 - name: Generate bCrypt password hash
   command: >
     python -c 'from passlib.hash import bcrypt; print(bcrypt.hash("{{default_password}}"))'
