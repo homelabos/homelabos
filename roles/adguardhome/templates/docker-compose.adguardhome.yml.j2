@@ -13,18 +13,20 @@ services:
     restart: unless-stopped
     # REQUIRED
     image: adguard/adguardhome:{{ adguardhome.version }}
+    cap_add:
+      - NET_ADMIN
     networks:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/adguardhome/config:/opt/adguardhome/conf"
       - "{{ volumes_root }}/adguardhome/work:/opt/adguardhome/work"
     ports:
-      - 53/tcp
-      - 53/udp
-      - 67/udp
-      - 68/tcp
-      - 68/udp
-      - 853/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      #- 68:68/tcp
+      #- 68:68/udp
+      - 853:853/tcp
       - 3000/tcp
     dns:
       - 127.0.0.1
@@ -33,19 +35,5 @@ services:
       - 8.8.4.4
     labels:
       - "traefik.http.services.adguardhome.loadbalancer.server.scheme=http"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=80"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
 {% include './labels.j2' %}
-
-
-  adguardhome_db:
-    image: "postgres"
-    restart: unless-stopped
-    networks:
-      - adguardhome
-    environment:
-      - POSTGRES_DB=adguardhome_db
-      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/adguardhome_db_password chars=ascii_letters') }}
-      - POSTGRES_USER=adguardhome_user
-      - PGDATA=/database
-    volumes:
-      - "{{ volumes_root }}/adguardhome/db:/database"

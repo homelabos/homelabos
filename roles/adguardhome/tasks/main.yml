@@ -19,13 +19,26 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
+- name: Generate bCrypt password hash
+  command: >
+    python -c 'from passlib.hash import bcrypt; print(bcrypt.hash("{{default_password}}"))'
+  register: passwrd
+
+- name: Copy adguardhome config file into place.
+  template:
+    src: AdGuardHome.j2
+    dest: "{{ volumes_root }}/adguardhome/config/AdGuardHome.yaml"
+  vars:
+    password: "{{passwrd.stdout}}"
+
 - name: Configure adguardhome systemd service.
   template:
     src: service.j2
     dest: /etc/systemd/system/adguardhome.service
 
 - name: Reconfigure Systemd-resolved
-  include_role: homelabos_systemd-resolve
+  include_role:
+    name: homelabos_systemd-resolve
 
 - name: Start adguardhome
   systemd:
