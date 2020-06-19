@@ -13,16 +13,11 @@ do
 done
 
 is_tested() {
-    distro=""
-    if [ -r /etc/os-release ]; then
-        distro="$(. /etc/os-release && echo "$ID")"
-    fi
-
-    if [ distro != "ubuntu" ] || [ distro  != "debian" ] ; then
-        return 0
-    else
-        return 1
-    fi
+	case "$(. /etc/os-release && echo "$ID")" in
+	*ubuntu* ) true ;;
+	*debian* ) true ;;
+	* ) false;;
+	esac
 }
 
 hlos_install() {
@@ -74,10 +69,13 @@ hlos_install() {
     printf "\x1B[01;92m================== Done.  ==================\n\x1B[0m\n\n"
 }
 
+#Check if distro is tested, warn if not.
 if is_tested; then
-    printf "\033[0;31mUntested operating system detected! You may press Ctrl+C now to abort this script.\nInstallation will proceed in 10 seconds.\n\n"
+echo
+else
+    printf "\n\033[0;31mUntested operating system detected! You may press Ctrl+C now to abort this script.\nInstallation will proceed in 10 seconds.\n\n"
     sleep 10
 fi
 
-## Actually do the install. Put in function and run at end to prevent parcial download and execution.
+# Actually do the install. Put in function and run at end to prevent parcial download and execution.
 hlos_install
