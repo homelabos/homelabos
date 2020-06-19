@@ -13,7 +13,7 @@ do
 done
 
 is_tested() {
-    ditro=""
+    distro=""
     if [ -r /etc/os-release ]; then
         distro="$(. /etc/os-release && echo "$ID")"
     fi
