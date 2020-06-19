@@ -19,8 +19,14 @@ This once requires some manual setup, unfortunately.
   - **Note:** When you start the service for the first time, the mariadb container needs to do some initial configuration and thus needs a bit longer to start completely.
 - Now the configuration is complete and the service is available
 
-**Note:**
-- Currently, there exists no official docker image of this software, because of this the build will be run on the server with the official git repository as build context. Be aware that this build will take about 15 minutes depending on the machine and it also results in a high CPU usage during the build time.
+## Post Install work
+
+You'll want to create a user, and import city data. To do that ssh to your server and execute these commands
+
+- `docker exec pixelfed_pixelfed_1 /bin/bash' - This will give you a shell to run the following commands
+- `php artisan user:create` - follow the prompts, ensure it's an admin user
+- `php artisan import:cities'
+- 'exit' - To exit the docker shell
 
 ## Access
 
