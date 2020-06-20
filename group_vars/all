@@ -1,5 +1,6 @@
 ---
 services:
+  adguardhome:
   airsonic:
   apache2:
   apple_health_influx:
@@ -46,8 +47,10 @@ services:
   hubzilla:
   huginn:
   inventario:
+  invoiceninja:
   jackett:
   jellyfin:
+  jenkins:
   keycloak:
   kibitzr:
   lazylibrarian:
@@ -126,6 +129,7 @@ services:
 docs:
 apache2:
 apple_health_influx:
+adguardhome:
 airsonic:
 authelia:
   enable:
@@ -169,8 +173,10 @@ homedash:
 hubzilla:
 huginn:
 inventario:
+invoiceninja:
 jackett:
 jellyfin:
+jenkins:
 keycloak:
 kibitzr:
 lazylibrarian:

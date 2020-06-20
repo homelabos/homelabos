@@ -172,6 +172,13 @@ apple_health_influx:
   domain: {{ apple_health_influx.domain | default(False) }}
   subdomain: {{ apple_health_influx.subdomain | default("apple_health_influx") }}
   version: {{apple_health_influx.version | default("cron") }}
+adguardhome:
+  enable: {{ adguardhome.enable | default(enable_adguardhome, None) | default(False) }}
+  https_only: {{ adguardhome.https_only | default(False) }}
+  auth: {{ adguardhome.auth | default(False) }}
+  domain: {{ adguardhome.domain | default(False) }}
+  subdomain: {{ adguardhome.subdomain | default("adguardhome")}}
+  version: {{ adguardhome.version | default("latest") }}
 airsonic:
   enable: {{ airsonic.enable | default(enable_airsonic, None) | default(False) }}
   https_only: {{ airsonic.https_only | default(False) }}
@@ -561,6 +568,13 @@ inventario:
   subdomain: {{ inventario.subdomain | default("inventario") }}
   version: {{ inventario.version | default("latest") }}
   db_version: {{ inventario.db_version | default("latest") }}
+invoiceninja:
+  enable: {{ invoiceninja.enable | default(enable_invoiceninja, None) | default(False) }}
+  https_only: {{ invoiceninja.https_only | default(False) }}
+  auth: {{ invoiceninja.auth | default(False) }}
+  domain: {{ invoiceninja.domain | default(False) }}
+  subdomain: {{ invoiceninja.subdomain | default("invoiceninja")}}
+  version: {{ invoiceninja.version | default("alpine-4") }}
 jackett:
   enable: {{ jackett.enable | default(enable_jackett, None) | default(False) }}
   https_only: {{ jackett.https_only | default(False) }}
@@ -575,6 +589,14 @@ jellyfin:
   domain: {{ jellyfin.domain | default(False) }}
   subdomain: {{ jellyfin.subdomain | default("jellyfin") }}
   version: {{ jellyfin.version | default ("latest") }}
+jenkins:
+  enable: {{ jenkins.enable | default(enable_jenkins, None) | default(False) }}
+  https_only: {{ jenkins.https_only | default(False) }}
+  auth: {{ jenkins.auth | default(False) }}
+  domain: {{ jenkins.domain | default(False) }}
+  subdomain: {{ jenkins.subdomain | default("jenkins")}}
+  allow_docker: {{ jenkins.allow_docker | default(False)}}
+  version: {{ jenkins.version | default ("latest") }}
 keycloak:
   enable: {{ keycloak.enable | default(enable_keycloak, None) | default(False) }}
   https_only: {{ keycloak.https_only | default(False) }}
@@ -765,7 +787,7 @@ nzbget:
 octoprint:
   enable: {{ octoprint.enable | default(enable_octoprint, None) | default(False) }}
   https_only: {{ octoprint.https_only | default(False) }}
-  serial: {{ octoprint.serial | default(False)}}
+  devices: {{ octoprint.devices | default([])}}
   auth: {{ octoprint.auth | default(False) }}
   domain: {{ octoprint.domain | default(False) }}
   subdomain: {{ octoprint.subdomain | default("octoprint")}}
