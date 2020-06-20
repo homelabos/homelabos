@@ -4,7 +4,9 @@
 
 ## Access
 
-It is available at [https://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/](https://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/) or [http://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/](http://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/)
+> Note, QuakeJS is only available via http. It will not work over https://
+
+It is available at [http://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/](http://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/) or [http://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/](http://{% if quakejs.domain %}{{ quakejs.domain }}{% else %}{{ quakejs.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
 It is also available via Tor at [http://{{ quakejs.subdomain + "." + tor_domain }}/](http://{{ quakejs.subdomain + "." + tor_domain }}/)
