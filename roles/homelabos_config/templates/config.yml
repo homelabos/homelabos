@@ -1167,7 +1167,7 @@ zammad:
   domain: {{ zammad.domain| default(False) }}
   subdomain: {{ zammad.subdomain | default("zammad") }}
   version: {{ zammad.version | default("3.3.0-19") }}
-  version: {{ zammad.memcached_version | default("1.5.22-alpine") }}
+  memcached_version: {{ zammad.memcached_version | default("1.5.22-alpine") }}
 zulip:
   enable: {{ zulip.enable | default(enable_zulip, None) | default(False) }}
   https_only: {{ zulip.https_only | default(False) }}
