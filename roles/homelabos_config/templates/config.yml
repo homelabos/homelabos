@@ -944,9 +944,6 @@ sabnzbd:
 samba:
   enable: {{ samba.enable | default(enable_samba, None) | default(False) }}
   version: {{ samba.version | default("latest") }}
-  workgroup: {{ samba.workgroup | default("WORKGROUP") }}
-  server_string: {{ samba.server_string | default("File Server") }}
-  map_to_guest: {{ samba.map_to_guest | default("Bad User") }}
 searx:
   enable: {{ searx.enable | default(enable_searx, None) | default(False) }}
   https_only: {{ searx.https_only | default(False) }}
