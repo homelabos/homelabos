@@ -25,6 +25,4 @@ services:
       - /tmp
     stdin_open: true
     tty: true
-    volumes:
-      - /mnt/homelabos/media:/media
     command: '-s "HomelabOS;/media;yes;no;no;{{default_username}};{{default_username}};{{default_username}}" -u "{{default_username}};{{default_password}}" -p'
