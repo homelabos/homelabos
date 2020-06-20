@@ -3,7 +3,7 @@
 [Heimdall](https://heimdall.site/) Heimdall Application Dashboard is a dashboard for all your web applications.
 
 The docker image comes from [linuxserver/heimdall](https://hub.docker.com/r/linuxserver/heimdall) and should support arm devices.
-If you attempt to run it on arm and encounter issues, 
+If you attempt to run it on arm and encounter issues,
 [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 
 ## Access

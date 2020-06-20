@@ -3,7 +3,7 @@
 [Home Assistant](https://www.home-assistant.io/) can automate just about any part of your home.
 
 The docker image comes from [homeassistant/home-assistant](https://hub.docker.com/r/homeassistant/home-assistant) and should support arm devices.
-If you attempt to run it on arm and encounter issues, 
+If you attempt to run it on arm and encounter issues,
 [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 
 ## Access
