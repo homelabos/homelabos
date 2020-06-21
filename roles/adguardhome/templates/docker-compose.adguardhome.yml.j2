@@ -1,0 +1,39 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  adguardhome:
+    restart: unless-stopped
+    # REQUIRED
+    image: adguard/adguardhome:{{ adguardhome.version }}
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/adguardhome/config:/opt/adguardhome/conf"
+      - "{{ volumes_root }}/adguardhome/work:/opt/adguardhome/work"
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      #- 68:68/tcp
+      #- 68:68/udp
+      - 853:853/tcp
+      - 3000/tcp
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+      - 8.8.8.8
+      - 8.8.4.4
+    labels:
+      - "traefik.http.services.adguardhome.loadbalancer.server.scheme=http"
+      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
+{% include './labels.j2' %}

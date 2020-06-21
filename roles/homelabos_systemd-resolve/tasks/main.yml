@@ -1,0 +1,26 @@
+---
+- name: Ensure /etc/systemd/resolved.conf.d exists
+  file:
+    path: /etc/systemd/resolved.conf.d
+    state: directory
+
+- name: Copy homelabos.conf systemd resolve configuration into place.
+  template:
+    src: homelabos.conf
+    dest: "/etc/systemd/resolved.conf.d/homelabos.conf"
+
+- name: Rename standard Resolv.conf file
+  command: mv /etc/resolv.conf /etc/resolv.conf.bkup
+
+- name: link the systemd resolve file into /etc
+  file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+
+- name: Reload & Restart systemd-resolved
+  systemd:
+    name: systemd-resolved
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: restarted

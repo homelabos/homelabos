@@ -2,7 +2,7 @@
 
 ## Services Added
 
-- Added QuakeJS - QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten
+- Added AdGuard Home - Network-wide software for blocking ads and tracking.
 - Added Invoice Ninja - Free Open-Source Invoicing
 - Added Jenkins - The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
 - Added QuakeJS - QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten

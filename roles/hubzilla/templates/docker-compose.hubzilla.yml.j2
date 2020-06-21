@@ -46,7 +46,7 @@ services:
       SMTP_PORT: {{ smtp.port }}
       SMTP_USER: {{ smtp.user }}
       SMTP_PASS: {{ smtp.pass }}
-      ADDON_LIST: "nsfw superblock diaspora pubcrawl"
+      ADDON_LIST="nsfw superblock diaspora pubcrawl"
       TIMEZONE: {{ common_timezone }}
     networks:
       - hubzilla

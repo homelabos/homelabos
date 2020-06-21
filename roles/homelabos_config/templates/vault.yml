@@ -70,10 +70,10 @@ vault:
       secret_key: {{ vault.authelia.duo.secret_key | default() }}
     # Don't change these unless you know what you're doing
     migration: {{ vault.authelia.migration | default(False) }}
-    
+
   bitwarden:
     token: {{ vault.bitwarden.token | default(default_password) }}
-    
+
   drone:
     gitea_id: {{ vault.drone.gitea_id | default(False) }}
     gitea_secret: {{ vault.drone.gitea_secret | default(False) }}
