@@ -15,8 +15,6 @@ services:
       - traefik_network
       - ownphotos
     restart: always
-    ports:
-      - "3000:80"
     labels:
       - "traefik.http.services.ownphotos.loadbalancer.server.scheme=http"
       - "traefik.http.services.ownphotos.loadbalancer.server.port=80"
