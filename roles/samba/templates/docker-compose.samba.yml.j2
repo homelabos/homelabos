@@ -15,7 +15,8 @@ services:
       - samba
     volumes:
       # This is the parent folder of all HLOS storage
-      - "{{ storage_dir }}:/media"
+      - "{{ storage_dir }}:/media:z"
+      - "{{ volumes_root }}/samba/config:/etc/samba"
     ports:
       - "137:137/udp"
       - "138:138/udp"
