@@ -9,8 +9,7 @@ networks:
 
 services:
   pixelfed:
-    build: https://github.com/pixelfed/pixelfed.git#dev
-    image: pixelfed
+    image: ethibox/pixelfed
     restart: unless-stopped
     networks:
       - traefik_network
@@ -25,8 +24,7 @@ services:
       - "{{ volumes_root }}/pixelfed/storage:/var/www/storage"
 
   worker:  # Comment this whole block if HORIZON_EMBED is true.
-    build: https://github.com/pixelfed/pixelfed.git#dev
-    image: pixelfed
+    image: ethibox/pixelfed
     restart: unless-stopped
     env_file:
       - "{{ volumes_root }}/pixelfed/pixelfed.env"
