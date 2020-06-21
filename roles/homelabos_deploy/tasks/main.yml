@@ -188,7 +188,7 @@
     name: homelabos
     enabled: "yes"
     daemon-reload: "yes"
-    state: restarted
+    state: started
   ignore_errors: "yes"
 
 - name: Read Tor SSH connection info
@@ -219,6 +219,9 @@
   loop_control:
     loop_var: service_item
   vars:
+    https_only: "{{ lookup('vars', service_item).https_only }}"
+    auth: "{{ lookup('vars', service_item).auth }}"
+    custom_domain: "{{ lookup('vars', service_item).domain }}"
     service_domain: "{% if lookup('vars', service_item).domain %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
     query: "{{ service_item + '.enable' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"

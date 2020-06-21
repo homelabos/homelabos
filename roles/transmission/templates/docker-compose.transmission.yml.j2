@@ -9,7 +9,7 @@ networks:
 services:
   # Torrent Downloader https://nickbusey.gitlab.io/HomelabOS/software/transmission/
   transmission:
-    image: haugene/transmission-openvpn
+    image: haugene/transmission-openvpn:{{ transmission.version }}
     networks:
       - traefik_network
     cap_add:
@@ -47,26 +47,6 @@ services:
       - TRANSMISSION_RATIO_LIMIT=2
       - TRANSMISSION_RATIO_LIMIT_enable=true
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.transmission.loadbalancer.server.scheme=http"
       - "traefik.http.services.transmission.loadbalancer.server.port=9091"
-      - "traefik.http.routers.transmission-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.transmission-http.entrypoints=http"
-      - "traefik.http.routers.transmission-http.middlewares={% if transmission.https_only %}redirect@file, security-headers@file, {% else %}{% if transmission.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.transmission.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.transmission.entrypoints=https"
-      - "traefik.http.routers.transmission.middlewares={% if transmission.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.transmission.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.transmission.tls.certresolver=dns"
-      - "traefik.http.routers.transmission.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.transmission.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.transmission.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.transmission-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.transmission-tor-http.entrypoints=http"
-      - "traefik.http.routers.transmission-tor-http.middlewares={% if transmission.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

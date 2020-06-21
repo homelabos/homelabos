@@ -9,7 +9,7 @@ networks:
 services:
   # TV Downloader
   sonarr:
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:{{ sonarr.version }}
     networks:
       - traefik_network
     restart: unless-stopped
@@ -23,26 +23,6 @@ services:
       - "{{ storage_dir }}/Video/TV:/tv"
       - "{{ storage_dir }}/Downloads/complete/tv:/downloads"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sonarr.loadbalancer.server.scheme=http"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
-      - "traefik.http.routers.sonarr-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.sonarr-http.entrypoints=http"
-      - "traefik.http.routers.sonarr-http.middlewares={% if sonarr.https_only %}redirect@file, security-headers@file, {% else %}{% if sonarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.sonarr.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.sonarr.entrypoints=https"
-      - "traefik.http.routers.sonarr.middlewares={% if sonarr.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.sonarr.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.sonarr.tls.certresolver=dns"
-      - "traefik.http.routers.sonarr.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.sonarr.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.sonarr.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.sonarr-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.sonarr-tor-http.entrypoints=http"
-      - "traefik.http.routers.sonarr-tor-http.middlewares={% if sonarr.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -8,36 +8,16 @@ networks:
 
 services:
   homedash:
-    image: gonzague/homedash
+    image: gonzague/homedash:{{ homedash.version }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - "{{ volumes_root }}/homedash:/data"
     environment:
-      - SALT=ivPWITRH5KPJE5oQQAgxuiCgIxBez6MF6idGmasWTUjZzhEx3iAtnI9TSAo6HAevApRoujC5
+      - SALT=ivPWITRH5KPJE5oQQAgxuiCgIxBez6MF6idGmasWTUjZzhEx3iAtnI9TSAo6HAevApRoujC5 #checking
     restart: unless-stopped
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.homedash.loadbalancer.server.scheme=http"
       - "traefik.http.services.homedash.loadbalancer.server.port=4567"
-      - "traefik.http.routers.homedash-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.homedash-http.entrypoints=http"
-      - "traefik.http.routers.homedash-http.middlewares={% if homedash.https_only %}redirect@file, security-headers@file, {% else %}{% if homedash.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.homedash.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.homedash.entrypoints=https"
-      - "traefik.http.routers.homedash.middlewares={% if homedash.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.homedash.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.homedash.tls.certresolver=dns"
-      - "traefik.http.routers.homedash.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.homedash.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.homedash.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.homedash-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.homedash-tor-http.entrypoints=http"
-      - "traefik.http.routers.homedash-tor-http.middlewares={% if homedash.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

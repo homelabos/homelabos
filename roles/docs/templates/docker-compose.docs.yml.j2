@@ -9,33 +9,13 @@ networks:
 services:
   # HomelabOS Documentation
   docs:
-    image: kyma/docker-nginx
+    image: kyma/docker-nginx:{{ docs.version }}
     restart: unless-stopped
     networks:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/docs/site:/var/www"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
       - "traefik.http.services.docs.loadbalancer.server.port=80"
-      - "traefik.http.routers.docs-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.docs-http.entrypoints=http"
-      - "traefik.http.routers.docs-http.middlewares={% if docs.https_only %}redirect@file, security-headers@file, {% else %}{% if docs.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.docs.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.docs.entrypoints=https"
-      - "traefik.http.routers.docs.middlewares={% if docs.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.docs.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.docs.tls.certresolver=dns"
-      - "traefik.http.routers.docs.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.docs.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.docs.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.docs-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.docs-tor-http.entrypoints=http"
-      - "traefik.http.routers.docs-tor-http.middlewares={% if docs.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -101,6 +101,7 @@ nav:
       - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
     - Misc/Other:
+      - AdGuard Home: software/adguardhome.md
       - BarcodeBuddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
       - Cockpit: software/cockpit.md
@@ -116,6 +117,7 @@ nav:
       - Grownetics: software/grownetics.md
       - Hubzilla: software/hubzilla.md
       - Inventario: software/inventario.md
+      - InvoiceNinja: software/invoiceninja.md
       - Mashio: software/mashio.md
       - Monica: software/monica.md
       - n8n: software/n8n.md
@@ -173,6 +175,7 @@ nav:
       - Drone: software/drone.md
       - Gitea: software/gitea.md
       - GitLab: software/gitlab.md
+      - Jenkins: software/jenkins.md
       - Snibox: software/snibox.md
     - Task management/To-do lists:
       - Wekan: software/wekan.md

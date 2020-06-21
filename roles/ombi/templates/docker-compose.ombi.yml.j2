@@ -10,7 +10,7 @@ services:
   ombi:
     networks:
       - traefik_network
-    image: hotio/ombi
+    image: hotio/ombi:{{ ombi.version }}
     environment:
       - UID={{ uid }}
       - GID={{ gid }}
@@ -19,26 +19,6 @@ services:
       - "{{ volumes_root }}/ombi/config:/config"
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ombi.loadbalancer.server.scheme=http"
       - "traefik.http.services.ombi.loadbalancer.server.port=5000"
-      - "traefik.http.routers.ombi-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ombi-http.entrypoints=http"
-      - "traefik.http.routers.ombi-http.middlewares={% if ombi.https_only %}redirect@file, security-headers@file, {% else %}{% if ombi.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ombi.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ombi.entrypoints=https"
-      - "traefik.http.routers.ombi.middlewares={% if ombi.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ombi.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.ombi.tls.certresolver=dns"
-      - "traefik.http.routers.ombi.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.ombi.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.ombi.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.ombi-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.ombi-tor-http.entrypoints=http"
-      - "traefik.http.routers.ombi-tor-http.middlewares={% if ombi.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

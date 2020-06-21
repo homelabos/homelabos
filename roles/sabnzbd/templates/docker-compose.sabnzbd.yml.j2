@@ -11,7 +11,7 @@ networks:
 services:
   app:
     # REQUIRED
-    image: sabnzbd/sabnzbd
+    image: sabnzbd/sabnzbd:{{ sabnzbd.version }}
     restart: unless-stopped
     environment:
       - SABNZBD_UID={{ uid_output.stdout }}
@@ -23,26 +23,6 @@ services:
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sabnzbd.loadbalancer.server.scheme=http"
       - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"
-      - "traefik.http.routers.sabnzbd-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.sabnzbd-http.entrypoints=http"
-      - "traefik.http.routers.sabnzbd-http.middlewares={% if sabnzbd.https_only %}redirect@file, security-headers@file, {% else %}{% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.sabnzbd.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.sabnzbd.entrypoints=https"
-      - "traefik.http.routers.sabnzbd.middlewares={% if sabnzbd.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.sabnzbd.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.sabnzbd.tls.certresolver=dns"
-      - "traefik.http.routers.sabnzbd.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.sabnzbd.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.sabnzbd.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.sabnzbd-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.sabnzbd-tor-http.entrypoints=http"
-      - "traefik.http.routers.sabnzbd-tor-http.middlewares={% if sabnzbd.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

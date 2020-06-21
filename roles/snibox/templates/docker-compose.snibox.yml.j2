@@ -11,7 +11,7 @@ networks:
 
 services:
   frontend:
-    image: snibox/nginx-puma:1.15.9
+    image: snibox/nginx-puma:{{ snibox.web_version }}
     networks:
       - traefik_network
       - snibox
@@ -21,32 +21,12 @@ services:
     depends_on:
       - backend
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.snibox.loadbalancer.server.scheme=http"
       - "traefik.http.services.snibox.loadbalancer.server.port=80"
-      - "traefik.http.routers.snibox-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.snibox-http.entrypoints=http"
-      - "traefik.http.routers.snibox-http.middlewares={% if snibox.https_only %}redirect@file, security-headers@file, {% else %}{% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.snibox.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.snibox.entrypoints=https"
-      - "traefik.http.routers.snibox.middlewares={% if snibox.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.snibox.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.snibox.tls.certresolver=dns"
-      - "traefik.http.routers.snibox.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.snibox.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.snibox.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.snibox-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.snibox-tor-http.entrypoints=http"
-      - "traefik.http.routers.snibox-tor-http.middlewares={% if snibox.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   backend:
-    image: snibox/snibox:latest
+    image: snibox/snibox:{{ snibox.version }}
     command: sh -c "rm -rf tmp/pids && ./bin/rails s -p 3000 -b '0.0.0.0'"
     environment:
       DB_NAME: "postgres"
@@ -72,7 +52,7 @@ services:
       - snibox
 
   database:
-    image: postgres:10.7-alpine
+    image: postgres:{{ snibox.db_version }}
     volumes:
       #- '{{ volumes_root }}/snibox/pg-data:/var/lib/postgresql/data'
       - pg-data:/var/lib/postgresql/data

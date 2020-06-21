@@ -5,15 +5,16 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  nextcloud:
 
 services:
   nextcloud-db:
-    image: postgres:alpine
+    image: postgres:{{ nextcloud.db_version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/nextcloud/postgres:/var/lib/postgresql/data"
     networks:
-      - traefik_network
+      - nextcloud
     restart: unless-stopped
     environment:
       - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
@@ -21,16 +22,17 @@ services:
       - POSTGRES_USER=nextcloud
 
   nextcloud-redis:
-    image: redis:5.0-alpine
+    image: redis:{{ nextcloud.redis_version }}
     networks:
-      - traefik_network
+      - nextcloud
     restart: unless-stopped
 
   nextcloud:
-    image: nextcloud:apache
+    image: nextcloud:{{ nextcloud.version }}
     restart: unless-stopped
     networks:
       - traefik_network
+      - nextcloud
     user: {{ uid }}:{{ gid }}
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0
@@ -72,26 +74,6 @@ services:
       - nextcloud-db
       - nextcloud-redis
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.nextcloud.loadbalancer.server.scheme=http"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
-      - "traefik.http.routers.nextcloud-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.nextcloud-http.entrypoints=http"
-      - "traefik.http.routers.nextcloud-http.middlewares={% if nextcloud.https_only %}redirect@file, security-headers@file, {% else %}{% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.nextcloud.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.nextcloud.entrypoints=https"
-      - "traefik.http.routers.nextcloud.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.nextcloud.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.nextcloud.tls.certresolver=dns"
-      - "traefik.http.routers.nextcloud.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.nextcloud.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.nextcloud.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.nextcloud-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.nextcloud-tor-http.entrypoints=http"
-      - "traefik.http.routers.nextcloud-tor-http.middlewares={% if nextcloud.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

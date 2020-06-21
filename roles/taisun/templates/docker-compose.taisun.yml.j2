@@ -1,8 +1,6 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
@@ -10,39 +8,13 @@ networks:
 
 services:
   app:
-    # REQUIRED
-    image: linuxserver/taisun
+    image: linuxserver/taisun:{{ taisun.version }}
     restart: unless-stopped
     networks:
       - traefik_network
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.taisun.loadbalancer.server.scheme=http"
       - "traefik.http.services.taisun.loadbalancer.server.port=3000"
-      - "traefik.http.routers.taisun-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.taisun-http.entrypoints=http"
-{% if not taisun.https_only %}
-      - "traefik.http.routers.taisun-http.middlewares={% if taisun.https_only %}redirect@file, {% else %}{% if taisun.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.taisun-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.taisun.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.taisun.entrypoints=https"
-      - "traefik.http.routers.taisun.middlewares={% if taisun.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.taisun.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.taisun.tls.certresolver=dns"
-      - "traefik.http.routers.taisun.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.taisun.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.taisun.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.taisun-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.taisun-tor-http.entrypoints=http"
-      - "traefik.http.routers.taisun-tor-http.middlewares={% if taisun.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

@@ -7,6 +7,8 @@ purple := $(shell tput setaf 93)
 byel := $(bold)$(shell tput setaf 11)
 bgre := $(bold)$(shell tput setaf 10)
 bora := $(bold)$(shell tput setaf 214)
+uid := $$(id -u)
+gid := $$(id -g)
 
 # Deploy HomelabOS - `make`
 deploy: logo build git_sync config
@@ -28,6 +30,8 @@ config: logo build
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "$(byel)========== Encrypting secrets ==========\n$(end)"
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
+	@sudo chmod 640 settings/vault.yml
+	@sudo chown $(uid):$(gid) settings/vault.yml
 	@printf "$(byel)========== Done with configuration ==========\n$(end)"
 
 # Display the HomelabOS logo and MOTD
@@ -153,10 +157,16 @@ terraform_destroy: logo build git_sync
 decrypt:
 	@printf "$(byel)========== Decrypting Ansible Vault! ==========\n$(end)"
 	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
+	@sudo chmod 640 settings/vault.yml
+	@sudo chown $(uid):$(gid) settings/vault.yml
 	@printf "$(byel)========== Vault decrypted! settings/vault.yml ==========\n$(end)"
 
 encrypt:
+	@printf "$(byel)========== Encrypting Ansible Vault! ==========\n$(end)"
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml
+	@sudo chmod 640 settings/vault.yml
+	@sudo chown $(uid):$(gid) settings/vault.yml
+	@printf "$(byel)========== Vault Encrypted! settings/vault.yml ==========\n$(end)"
 
 set: logo
 	@printf "$(byel)========== Setting '$(filter-out $@,$(MAKECMDGOALS))' ==========$(end)"

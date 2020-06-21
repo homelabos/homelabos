@@ -37,17 +37,9 @@ BEGIN {
       lines.delete_at start_index if start_index != 0
     end
     array_to_insert = [
-      '      - "traefik.enable=true"',
-      '      - "traefik.docker.network=homelabos_traefik"',
       "      - \"traefik.http.services.#{service}.loadbalancer.server.scheme=http\"",
       "      - \"traefik.http.services.#{service}.loadbalancer.server.port=#{port}\"",
-      "      - \"traefik.http.routers.#{service}-http.rule=Host(`{{ service_domain }}`)\"",
-      "      - \"traefik.http.routers.#{service}-http.entrypoints=http\"",
-      "      - \"traefik.http.routers.#{service}-http.middlewares={% if #{service}.https_only %}redirect@file, security-headers@file, {% else %}{% if #{service}.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file\"",
-      "      - \"traefik.http.routers.#{service}.rule=Host(`{{ service_domain }}`)\"",
-      "      - \"traefik.http.routers.#{service}.entrypoints=https\"",
-      "      - \"traefik.http.routers.#{service}.middlewares={% if #{service}.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file\"",
-      "      - \"traefik.http.routers.#{service}.tls=true\""
+      "{% include \'./labels.j2\' %}"
     ]
     lines.insert(start_index, *array_to_insert)
     File.open(filepath, 'w+') do |f|

@@ -7,52 +7,35 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  authelia:
 
 services:
   auth:
-    image: authelia/authelia:latest
+    image: authelia/authelia:{{ authelia.version }}
     restart: unless-stopped
     depends_on:
       - redis
       - postgres
     networks:
       - traefik_network
+      - authelia
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.authelia.loadbalancer.server.scheme=http"
       - "traefik.http.services.authelia.loadbalancer.server.port=9091"
-      - "traefik.http.routers.authelia-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.authelia-http.entrypoints=http"
-      - "traefik.http.routers.authelia-http.middlewares={% if authelia.https_only %}redirect@file, security-headers@file, {% else %}{% if authelia.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.authelia.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.authelia.entrypoints=https"
-      - "traefik.http.routers.authelia.middlewares={% if authelia.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.authelia.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.authelia.tls.certresolver=dns"
-      - "traefik.http.routers.authelia.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.authelia.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.authelia.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.authelia-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.authelia-tor-http.entrypoints=http"
-{% endif %}
+{% include './labels.j2' %}
     volumes:
-      - "{{ volumes_root }}/authelia/authelia_config.yml:/etc/authelia/configuration.yml:ro"
+      - "{{ volumes_root }}/authelia/authelia_config.yml:/config/configuration.yml:ro"
       - "{{ volumes_root }}/authelia/userdb.yml:/etc/authelia/userdb.yml"
 
   redis:
     networks:
-      - traefik_network
-    image: redis:5.0.5-alpine
+      - authelia
+    image: redis:{{ authelia.redis_version }}
 
   postgres:
     networks:
-      - traefik_network
-    image: postgres:latest
+      - authelia
+    image: postgres:{{ authelia.db_version }}
     environment:
       POSTGRES_DB: my_authelia
       POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/authelia_postgres_password')}}

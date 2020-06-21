@@ -7,24 +7,27 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  teedy:
 
 services:
   teedydb:
     networks:
-      - traefik_network
-    image: postgres:latest
+      - teedy
+    image: postgres:{{ teedy.db_version }}
     environment:
       - POSTGRES_DB=docs
       - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/teedy_postgres_password')}}
     volumes:
       - "{{ volumes_root }}/teedy/postgres_data:/var/lib/postgresql/data"
+
   app:
-    image: sismics/docs:v1.8
+    image: sismics/docs:{{ teedy.version }}
     restart: unless-stopped
     depends_on:
       - teedydb
     networks:
       - traefik_network
+      - teedy
     volumes:
       - "{{ storage_dir }}/Documents:/data"
     environment:
@@ -33,31 +36,6 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD={{lookup('password', './settings/passwords/teedy_postgres_password')}}
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.teedy.loadbalancer.server.scheme=http"
       - "traefik.http.services.teedy.loadbalancer.server.port=8080"
-      - "traefik.http.routers.teedy-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.teedy-http.entrypoints=http"
-{% if not teedy.https_only %}
-      - "traefik.http.routers.teedy-http.middlewares={% if teedy.https_only %}redirect@file, {% else %}{% if teedy.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.teedy-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.teedy.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.teedy.entrypoints=https"
-      - "traefik.http.routers.teedy.middlewares={% if teedy.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.teedy.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.teedy.tls.certresolver=dns"
-      - "traefik.http.routers.teedy.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.teedy.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.teedy.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.teedy-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.teedy-tor-http.entrypoints=http"
-      - "traefik.http.routers.teedy-tor-http.middlewares={% if teedy.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
