@@ -3,7 +3,7 @@
 [HomeBridge](https://homebridge.io/) HomeKit support for the impatient
 
 The docker image comes from [oznu/homebridge](https://hub.docker.com/r/oznu/homebridge) and should support arm devices.
-If you attempt to run it on arm and encounter issues, 
+If you attempt to run it on arm and encounter issues,
 [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 
 ## Access
