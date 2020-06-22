@@ -46,7 +46,7 @@ To make it easy for anyone to own all their data in an easy and secure way, with
 
 [Become a Supporter on Patreon](https://www.patreon.com/nickbusey)
 
-## [Contributing](https://nickbusey.gitlab.io/HomelabOS/development/contributing/)
+## [Contributing](https://homelabos.com/docs/development/contributing/)
 
 ## Watch Live Development
 
