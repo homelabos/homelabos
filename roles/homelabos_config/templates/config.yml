@@ -88,7 +88,7 @@ plex_claim: "{{ vault.plex_claim }}"
 # Mapbox Api keys: Used for OwnPhotos
 mapbox_api_key: "{{ vault.mapbox_api_key }}"
 
-# Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+# Restic S3 Backup Server Information name: Docs: https://homelabos.com/docs/setup/backups/
 s3_access_key: "{{ vault.s3_access_key }}"
 s3_secret_key: "{{ vault.s3_secret_key }}"
 s3_backup_password: "{{ vault.s3_backup_password }}"
@@ -1188,7 +1188,7 @@ darksky_key: {{ darksky_key | default() }}
 latitude: {{ latitude | default() }}
 longitude: {{ longitude | default() }}
 
-# NAS Config (Docs: https://nickbusey.gitlab.io/HomelabOS/setup/installation/#nas-network-attached-storage-configuration)
+# NAS Config (Docs: https://homelabos.com/docs/setup/installation/#nas-network-attached-storage-configuration)
 nas_enable: {{ nas_enable | default(False) }}
 nas_host: {{ nas_host | default() }}
 nas_mount_type: {{ nas_mount_type | default() }}
@@ -1202,5 +1202,4 @@ nas_workgroup: {{ nas_workgroup | default() }}
 s3_backup_cron: {{ s3_backup_cron | default() }}
 s3_path: {{ s3_path | default() }}
 
-# Apple Health Data Importer name: Docs: https://nickbusey.gitlab.io/HomelabOS/software/applehealth/
 apple_health_nextcloud_username: {{ apple_health_nextcloud_username | default()  }}
