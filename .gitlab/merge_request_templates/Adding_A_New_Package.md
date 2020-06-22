@@ -11,4 +11,4 @@
 - [ ] The package has been added to `roles/homelabos_config/templates/config.yml.j2` under the `# Services List` section.
 - [ ] The package has been added to `roles/homelabos_config/templates/config.yml.j2` as a standalone section with subsection `https_only` and `auth`, if needed.
 - [ ] This ansible template uses the password module for security.
-- [ ] This Merge Request follows the [contributing](https://nickbusey.gitlab.io/HomelabOS/development/contributing/) guidelines.
+- [ ] This Merge Request follows the [contributing](https://homelabos.com/docs/development/contributing/) guidelines.
