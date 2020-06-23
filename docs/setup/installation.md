@@ -68,17 +68,17 @@ to act as a bastion host via Tinc vpn and nginx.
 
 S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back up to. You can use Amazon's service, or one of many other S3 compatible providers. You can also back up to another HomelabOS instance if that other instance is running Minio, a self-hosted S3 service.
 
-# Installation
+## Installation
 
 [Video Installation Tutorial](https://youtu.be/lbmViEFTj4o)
 
-## Automatic Set-up (One-liner)
+### Automatic Set-up (One-liner)
 
 * On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)`
 
 * Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
-### But isn't piping bash to curl insecure?
+#### But isn't piping bash to curl insecure?
 
 Not really. If you're using https (we are), then you can be sure you're getting the file you expect.
 
@@ -94,7 +94,7 @@ It's pretty standard practice at this point.
 
 If you still don't trust it, great, you'll fit right in here. Proceed to the Manual Set-up step below.
 
-## Manual Set-up
+### Manual Set-up
 
 * Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
 
