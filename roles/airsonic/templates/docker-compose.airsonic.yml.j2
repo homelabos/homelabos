@@ -8,7 +8,7 @@ networks:
 
 services:
   airsonic_web:
-    image: linuxserver/airsonic{{ airsonic.version }}
+    image: linuxserver/airsonic:{{ airsonic.version }}
     restart: unless-stopped
     environment:
       - PUID={{ uid_output.stdout }}
