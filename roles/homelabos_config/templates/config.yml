@@ -43,7 +43,7 @@ bastion:
   server_address: {{ bastion.server_address | default(False) }}
   wireguard:
     bastion_vpn_address: {{ bastion.wireguard.bastion_vpn_address | default("10.0.1.1") }}
-    homelab_vpn_address: {{ bastion.wireguard.home_vpn_address | default("10.0.1.2") }}
+    homelab_vpn_address: {{ bastion.wireguard.homelab_vpn_address | default("10.0.1.2") }}
     netmask: {{ bastion.wireguard.netmask | default("/24") }}
     port: {{ bastion.wireguard.port | default("51820") }}
     keepalive: {{ bastion.wireguard.keepalive | default("25") }}
