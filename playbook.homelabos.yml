@@ -6,6 +6,9 @@
   become: "True"
   become_method: sudo
   any_errors_fatal: true
+  # Hacky fix for Ansible not following it's own configuration settings.
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   pre_tasks:
     - name: "Update Apt Cache"
       raw: sudo apt-get update
