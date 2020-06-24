@@ -24,7 +24,7 @@ vault:
   # Mapbox Api keys: Used for OwnPhotos
   mapbox_api_key: {{ vault.mapbox_api_key | default() }}
 
-  # Restic S3 Backup Server Information name: Docs: https://nickbusey.gitlab.io/HomelabOS/setup/backups/
+  # Restic S3 Backup Server Information name: Docs: https://homelabos.com/docs/setup/backups/
   s3_access_key: {{ vault.s3_access_key | default() }}
   s3_secret_key: {{ vault.s3_secret_key | default() }}
   s3_backup_password: {{ vault.s3_backup_password | default() }}
