@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
     environment:
       - MONGO_URL=mongodb://bulletnotes_db:27017/bulletnotes
-      - ROOT_URL=http://{% if bulletnotes.domain %}{{ bulletnotes.domain }}{% else %}{{ bulletnotes.subdomain + "." + domain }}{% endif %}
+      - ROOT_URL=http://{{ service_domain }}
     labels:
       - "traefik.http.services.bulletnotes.loadbalancer.server.scheme=http"
       - "traefik.http.services.bulletnotes.loadbalancer.server.port=3000"
