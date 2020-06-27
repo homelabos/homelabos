@@ -20,7 +20,9 @@ Of course keep in mind when self hosting your own S3, you likely want to keep go
 
 ## Configure the Backup Service
 
-Set your S3 keys in `host_vars/myserver`.
+You need to set 4 parameters, `s3_path`, `s3_access_key`, `s3_secret_key`, and `s3_backup_password`. You should generate a stronge password for `s3_backup_password`. You can set these all with `make set s3_path pathhere` etc.
+
+You can also manually set your S3 keys in `settings/vault.yml` and `settings/config.yml`. Type `make decrypt` to decrypt it first if needed.
 
 Once these are set, HomelabOS will back up all it's core data every night at 4 AM.
 
