@@ -38,6 +38,7 @@ services:
     image: chronograf:{{ tick.chronograf_version }}
     networks:
       - tick
+      - traefik_network
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
