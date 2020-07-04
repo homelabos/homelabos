@@ -5,13 +5,13 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
-  grownnetics:
+  grownetics:
 
 services:
   growdash:
     restart: always
     networks:
-        - grownnetics
+        - grownetics
     environment:
         - DEV
         - FACILITY_NAME
@@ -46,12 +46,12 @@ services:
         - SMTP_PASS
     image: grownetics/growdash:${VERSION}
     volumes:
-        - ./tmp:/tmp:cached
+        - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
 
   deviceapi:
     restart: always
     networks:
-        - grownnetics
+        - grownetics
     links:
         - appdb
         - redis
@@ -85,13 +85,13 @@ services:
         - INFLUX_PORT
     image: grownetics/growdash:${VERSION}
     volumes:
-      - ./tmp:/tmp:cached
+      - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
 
   nginx:
     image: grownetics/nginx:${VERSION}
     networks:
         - traefik_network
-        - grownnetics
+        - grownetics
     restart: always
     links:
         - growdash
@@ -112,15 +112,15 @@ services:
         - MYSQL_USER
         - MYSQL_PASSWORD
     volumes:
-        - ./data/appdb:/var/lib/mysql
+        - "{{ volumes_root }}/grownetics/appdb:/var/lib/mysql"
     networks:
-        - grownnetics
+        - grownetics
 
   redis:
     image: redis
     restart: always
     networks:
-        - grownnetics
+        - grownetics
 
   growsocket:
     image: grownetics/socketio:latest
@@ -134,18 +134,142 @@ services:
         io.rancher.container.pull_image: always
         io.rancher.scheduler.affinity:host_label_ne: onsite=true
     networks:
-        - grownnetics
+        - grownetics
 
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
     restart: always
     environment:
-        # - RABBITMQ_DEFAULT_USER:RABBIT_USER
-        - RABBITMQ_DEFAULT_USER=rabbit
-        # - RABBITMQ_DEFAULT_PASS:RABBIT_PASS
-        - RABBITMQ_DEFAULT_PASS=rabbit
+      # - RABBITMQ_DEFAULT_USER:RABBIT_USER
+      - RABBITMQ_DEFAULT_USER=rabbit
+      # - RABBITMQ_DEFAULT_PASS:RABBIT_PASS
+      - RABBITMQ_DEFAULT_PASS=rabbit
     ports:
-        - "15672:15672"
-        - "5672:5672"
+      - "15672:15672"
+      - "5672:5672"
     networks:
-        - grownnetics
+      - grownetics
+
+
+  #
+  # Service Discovery - Consul
+  #
+  consul:
+    image: consul
+    restart: always
+    command: consul agent -ui -client 0.0.0.0
+    network_mode: host
+    volumes:
+      - "{{ volumes_root }}/grownetics/consul-data:/consul/data"
+      - "{{ volumes_root }}/grownetics/consul-config:/consul/config"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.consul.loadbalancer.server.scheme=http"
+      - "traefik.http.services.consul.loadbalancer.server.port=8500"
+      - "traefik.http.routers.consul-http.rule=Host(`consul.{{ service_domain }}`)"
+      - "traefik.http.routers.consul-http.entrypoints=http"
+      - "traefik.http.routers.consul-http.middlewares={% if grownetics.https_only %}redirect@file, security-headers@file, {% else %}{% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.consul.rule=Host(`consul.{{ service_domain }}`)"
+      - "traefik.http.routers.consul.entrypoints=https"
+      - "traefik.http.routers.consul.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.consul.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.consul.tls.certresolver=dns"
+      - "traefik.http.routers.consul.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.consul.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.consul.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.consul-tor-http.rule=Host(`consul.{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.consul-tor-http.entrypoints=http"
+      - "traefik.http.routers.consul-tor-http.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+  # Holds all data points, as well as system performance data and other time series metrics
+  influxdb:
+    image: influxdb
+    restart: always
+    volumes:
+      - "{{ volumes_root }}/grownetics/influxdb:/var/lib/influxdb"
+    networks:
+      - grownetics
+    environment:
+      - INFLUXDB_HTTP_LOG_ENABLED=false
+
+  # Alerting
+  kapacitor:
+    image: kapacitor
+    networks:
+      - grownetics
+    links:
+      - influxdb
+    environment:
+      - KAPACITOR_INFLUXDB_0_URLS_0=http://influxdb:8086
+
+  # Records system metrics to Influx
+  telegraf:
+    image: telegraf
+    networks:
+      - grownetics
+    restart: always
+    links:
+      - consul
+      - appdb
+      - influxdb
+      - rabbitmq
+      - redis
+      - growdash
+      - deviceapi
+      - nginx
+    volumes:
+      - "{{ volumes_root }}/grownetics/telegraf.conf:/etc/telegraf/telegraf.conf"
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Charting and display
+  chronograf:
+    image: chronograf
+    restart: always
+    networks:
+      - traefik_network
+      - grownetics
+    links:
+      - influxdb
+      - kapacitor
+    volumes:
+      - "{{ volumes_root }}/grownetics/chronograf:/var/lib/chronograf"
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - KAPACITOR_URL=http://kapacitor:8086
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.chronograf.loadbalancer.server.scheme=http"
+      - "traefik.http.services.chronograf.loadbalancer.server.port=8888"
+      - "traefik.http.routers.chronograf-http.rule=Host(`chronograf.{{ service_domain }}`)"
+      - "traefik.http.routers.chronograf-http.entrypoints=http"
+      - "traefik.http.routers.chronograf-http.middlewares={% if grownetics.https_only %}redirect@file, security-headers@file, {% else %}{% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.chronograf.rule=Host(`chronograf.{{ service_domain }}`)"
+      - "traefik.http.routers.chronograf.entrypoints=https"
+      - "traefik.http.routers.chronograf.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.chronograf.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.chronograf.tls.certresolver=dns"
+      - "traefik.http.routers.chronograf.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.chronograf.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.chronograf.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.chronograf-tor-http.rule=Host(`chronograf.{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.chronograf-tor-http.entrypoints=http"
+      - "traefik.http.routers.chronograf-tor-http.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
+
+  # Better charting
+  grafana:
+    image: grafana/grafana-dev:master-9fe0dcec0ed35d443b95f8f1a180d2ec93448210
+    restart: always
+    links:
+      - influxdb

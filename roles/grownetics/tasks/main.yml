@@ -12,6 +12,11 @@
     src: env.j2
     dest: "{{ volumes_root }}/grownetics/.env"
 
+- name: Copy telegraf.conf file into place.
+  template:
+    src: telegraf.conf
+    dest: "{{ volumes_root }}/grownetics/telegraf.conf"
+
 - name: Copy grownetics docker-compose.yml file into place.
   template:
     src: docker-compose.grownetics.yml.j2
