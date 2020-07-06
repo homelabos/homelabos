@@ -3,7 +3,8 @@
 # Spin up a cloud server with Terraform https://homelabos.com/docs/setup/terraform/
 Task::terraform(){
   : @desc "Spin up a cloud server with Terraform"
-
+  : @param config_dir="settings"
+  
   Task::logo
   Task::build
   Task::git_sync
@@ -11,7 +12,7 @@ Task::terraform(){
 
   highlight "Deploying cloud server"
   # Generate Terraform files
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.terraform.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i inventory playbook.terraform.yml
 
   # Run terraform
   # If we send multiple commands to the docker container (/bin/bash -c), we can "cd" into the "settings" directory
@@ -29,8 +30,9 @@ Task::terraform(){
 # Destroys servers created by terraform
 Task::terraform_destroy(){
   : @desc "Destroys servers created by terraform"
+  : @param config_dir="settings"
 
   highlight "Destroying cloud servers"
-  Task::run_docker /bin/bash -c "cd settings; terraform destroy"
+  Task::run_docker /bin/bash -c "cd $_config_dir; terraform destroy"
   highlight "Cloud Servers destroyed"
 }

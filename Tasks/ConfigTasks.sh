@@ -5,6 +5,7 @@
 # Config - Updates the config file, and ensures the vault is encrypted.
 Task::config(){
   : @desc "Creates or Updates the config file as necessary."
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
@@ -15,7 +16,7 @@ Task::config(){
   [ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
   [ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i config_inventory playbook.config.yml
   highlight "Encrypting Secrets in the Vault"
   Task::run_docker ansible-vault encrypt settings/vault.yml || true
   highlight "Configuration Complete"

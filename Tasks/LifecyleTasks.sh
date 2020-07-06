@@ -2,7 +2,8 @@
 
 # Main deployment task - used to deploy HLOS
 Task::deploy(){
-    : @desc "Main deployment task - used to deploy HLOS"
+  : @desc "Main deployment task - used to deploy HLOS"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
@@ -10,12 +11,13 @@ Task::deploy(){
   Task::config
 
   highlight "Deploying HomelabOS"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.homelabos.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i inventory playbook.homelabos.yml
 }
 
 # Restart All Enabled services
 Task::restart(){
   : @desc "Restart all enabled services"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
@@ -23,7 +25,7 @@ Task::restart(){
   Task::config
 
   highlight "Stopping all services"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i inventory playbook.restart.yml
   highlight "Services restarting"
 }
 
@@ -31,13 +33,15 @@ Task::restart(){
 Task::restart_one(){
   : @desc "Restarts the specified service"
   : @param service "Service Name"
+  : @param config_dir="settings"
 
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.restart.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.restart.yml
 }
 
 # Stop All Enabled services
 Task::stop(){
   : @desc "Restart all enabled services"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
@@ -45,7 +49,7 @@ Task::stop(){
   Task::config
 
   highlight "Stopping all services"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.stop.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i inventory playbook.stop.yml
   highlight "Services restarting"
 }
 
@@ -53,19 +57,21 @@ Task::stop(){
 Task::stop_one(){
   : @desc "Restarts the specified service"
   : @param service "Service Name"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
   Task::git_sync
   Task::config
 
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.stop.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.stop.yml
 }
 
 # Removes One Service
 Task::remove_one(){
   : @desc "Removes the specified service on the HomelabOS server"
   : @param service "Service Name"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
@@ -73,7 +79,7 @@ Task::remove_one(){
   Task::config
 
   highlight "Removing data for ${_service}"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.remove.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.remove.yml
   highlight "Removal Complete"
 }
 
@@ -81,6 +87,7 @@ Task::remove_one(){
 Task::reset_one(){
   : @desc "Resets the specified service' files on the HomelabOS server"
   : @param service "Service Name"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
@@ -88,9 +95,9 @@ Task::reset_one(){
   Task::config
 
   highlight "Resetting ${_service}"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.stop.yml
-	Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.remove.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.stop.yml
+	Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory playbook.remove.yml
 	highlight "Redeploying ${_service}"
-	Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory -t deploy playbook.homelabos.yml
+	Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" --extra-vars='{"services":["'${_service}'"]}' -i inventory -t deploy playbook.homelabos.yml
 	highlight "Done resetting ${_service}"
 }

@@ -39,7 +39,7 @@ Task::show(){
 # Builds the docker image used for HomelabOS Deployments
 Task::build() {
     : @desc "Builds the Docker Image used to deploy"
-    : @param force "Forces a rebuild of the docker image"
+    : @param force=false "Forces a rebuild of the docker image"
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
 
@@ -101,19 +101,22 @@ Task::decrypt(){
 # Uninstalls HomelabOS
 Task::uninstall(){
   : @desc "Uninstalls HomelabOS"
+  : @param config_dir="settings"
 
   Task::logo
   Task::build
 
   highlight "Uninstall HomelabOS Completely"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.remove.yml
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i inventory -t deploy playbook.remove.yml
   highlight "Uninstall Complete"
 }
 
 # Restores a server from Backups. Assuming Backups were running
 Task::restore() {
   : @desc "Restore a server from backups. Assuming backups were running"
-  Task::run_docker ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory restore.yml
+  : @param config_dir="settings"
+
+  Task::run_docker ansible-playbook --extra-vars="@$_config_dir/config.yml" --extra-vars="@$_config_dir/vault.yml" -i inventory restore.yml
 }
 
 # Opens a shell in the HomelabOS deploy container
