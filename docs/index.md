@@ -132,7 +132,7 @@ If you are having problems you can:
 - [Funkwhale](software/funkwhale) - A social platform to enjoy and share music
 - [Jellyfin](software/jellyfin) - The Free Software Media System
 - [MStream](software/mstream) - All your music, everywhere you go.
-- [PeerTube](softare/peertube) - ActivityPub based Video Sharing
+- [PeerTube](software/peertube) - ActivityPub based Video Sharing
 - [Plex](software/plex) - Personal Media Server
 
 ### Misc/Other
