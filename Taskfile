@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Source all the .sh files in Tasks/
+for f in ./Tasks/*.sh; do source $f; done
+
+set -eu
+VERSION=`cat VERSION`
+# global state array noting which tasks have previously run in this execution
+declare -gA already_ran

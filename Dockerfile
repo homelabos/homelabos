@@ -31,44 +31,54 @@ ENV PYTHON_PACKAGES \
 #    echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> #/etc/apk/repositories
 
 RUN set -x && \
-    \
-    echo "==> Adding build-dependencies..."  && \
-    apk --update add --virtual build-dependencies \
-      gcc \
-      musl-dev \
-      libffi-dev \
-      openssl-dev \
-      python3-dev && \
-    \
-    echo "==> Upgrading apk and system..."  && \
-    apk update && apk upgrade && \
-    \
-    echo "==> Adding Python runtime..."  && \
-    apk add --no-cache ${BUILD_PACKAGES} && \
-    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi && \
-    pip install --upgrade pip && \
-    pip install ${PYTHON_PACKAGES} && \
-    \
-    echo "==> Installing Ansible..."  && \
-    pip install ansible==${ANSIBLE_VERSION} && \
-    \
-    echo "==> Installing Mitogen..." && \
-    pip install mitogen && \
-    \
-    echo "==> Cleaning up..."  && \
-    apk del build-dependencies && \
-    rm -rf /var/cache/apk/* && \
-    \
-    echo "==> Adding hosts for convenience..."  && \
-    mkdir -p /etc/ansible /ansible && \
-    echo "[local]" >> /etc/ansible/hosts && \
-    echo "localhost" >> /etc/ansible/hosts && \
-    \
-    echo "==> Installing necessities..."  && \
-    wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip && \
-    unzip terraform_0.12.0_linux_amd64.zip && \
-    mv terraform /usr/local/bin
+  \
+  echo "==> Adding build-dependencies..."  && \
+  apk --update add --virtual build-dependencies \
+  gcc \
+  wget \
+  musl-dev \
+  libffi-dev \
+  openssl-dev \
+  python3-dev && \
+  \
+  echo "==> Upgrading apk and system..."  && \
+  apk update && apk upgrade && \
+  \
+  echo "==> Adding Python runtime..."  && \
+  apk add --no-cache ${BUILD_PACKAGES} && \
+  if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+  if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi && \
+  pip install --upgrade pip && \
+  pip install ${PYTHON_PACKAGES} && \
+  \
+  echo "==> Installing Ansible..."  && \
+  pip install ansible==${ANSIBLE_VERSION} && \
+  \
+  echo "==> Installing Mitogen..." && \
+  pip install mitogen && \
+  \
+  echo "==> Installing TMV" && \
+  pip install mdv && \
+  echo "==> Cleaning up..."  && \
+  apk del build-dependencies && \
+  rm -rf /var/cache/apk/* && \
+  \
+  echo "==> Adding hosts for convenience..."  && \
+  mkdir -p /etc/ansible /ansible && \
+  echo "[local]" >> /etc/ansible/hosts && \
+  echo "localhost" >> /etc/ansible/hosts && \
+  \
+  echo "==> Installing necessities..."  && \
+  wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip && \
+  unzip terraform_0.12.0_linux_amd64.zip && \
+  mv terraform /usr/local/bin && \
+  if [ uname -m == "x86_64" ]; then key="yq_linux_amd64"; else key="yq_linux_arm64"; fi && \
+  wget $(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep browser_download_url | grep $key | cut -d '"' -f 4) -O /usr/bin/yq && \
+  chmod +x /usr/bin/yq
+
+
+
+
 
 ENV ANSIBLE_GATHERING smart
 ENV ANSIBLE_HOST_KEY_CHECKING false
