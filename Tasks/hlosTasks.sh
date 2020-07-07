@@ -43,8 +43,11 @@ Task::build() {
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
 
-  if [[ -n ${_force} ]] ; then
-    docker images -a | grep "homelabos" | awk '{print $3}' | xargs docker rmi --force
+  if [[ -n ${_force-false} ]] ; then
+    hlos_dockerimage=$(docker images -a | grep "homelabos" | awk '{print $3}')
+    if [[ -n ${hlos_dockerimage} ]]; then
+      ${hlos_dockerimage} | xargs docker rmi --force
+    fi
   fi
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
