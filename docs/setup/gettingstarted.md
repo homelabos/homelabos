@@ -26,48 +26,5 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 ## Homelab Commands
 
-`[client]$ make` - Deploys HomelabOS to the server
-
-`[client]$ make config` - Creates the settings/config.yml file and populates it with basic information
-
-`[client]$ make config_reset` - Resets all local settings
-
-`[client]$ make git_sync` - Syncs user settings to a git repo
-
-`[client]$ make list_services` - Lists all available services to make it easier to find ot what is available
-
-`[client]$ make logo` - Displays the HomelabOS logo, and checks the version
-
-`[client]$ make build` - Builds the HomelabOS deploy docker image
-
-`[client]$ make remove_one <service>` - Removes the specified service e.g. `[client]$ make remove_one inventario`
-
-`[client]$ make restart` - Restarts all enabled services
-
-`[client]$ make restart_one <service>` - Restarts the specified service e.g. `[client]$ make restart_one inventario`
-
-`[client]$ make reset_one <service>` - Resets the specified service's data e.g. `[client]$ make reset_one inventario`
-
-`[client]$ make restore` - Restores a server with the most recent backup. Assuming Backups were running.
-
-`[client]$ make set <setting> <value>` - Sets the setting to value, e.g. `[client]$ make set organizr.enable True`
-
-`[client]$ make get <setting>` - Displays the current setting of value, e.g. `[client]$ make get organizr.enable`
-
-`[client]$ make tag <tag>` - Runs just the items tagged with a specific tag e.g. `[client]$ make tag tinc`
-
-`[client]$ make terraform` - Spin up cloud servers with Terraform [See documentation](https://homelabos.com/docs/setup/terraform/)
-
-`[client]$ make terraform_destroy` - Destroy servers created by Terraform
-
-`[client]$ make update` - Skips the initial setup and updates HomelabOS services
-
-`[client]$ make update_one <service>` - Updates just one HomelabOS service e.g. `[client]$ make update_one inventario`
-
-`[client]$ make uninstall` - Removes HomelabOS services
-
-`[client]$ make decrypt` - Decrypts the settings/vault.yml file so you can edit it.
-
-`[client]$ make stop` - Stops all enabled services
-
-`[client]$ make stop_one <service>` - Stops the specified service e.g. `[client]$ make stop_one inventario`
+`./hlos -t` will list all available commands.
+`./hlos -h COMMAND` will show help info for the specified command.
