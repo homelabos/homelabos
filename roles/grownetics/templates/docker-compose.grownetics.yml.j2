@@ -20,6 +20,7 @@ services:
         - DEMO
         - ENVIRONMENT
         - REMOTE_URL
+        - PORT
         - VERSION
         - SHORT_NAME
 
@@ -143,10 +144,10 @@ services:
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.socket.loadbalancer.server.scheme=http"
       - "traefik.http.services.socket.loadbalancer.server.port=8989"
-      - "traefik.http.routers.socket-http.rule=Host(`{{ service_domain }}`) && Path(`/socket.io/`)"
+      - "traefik.http.routers.socket-http.rule=Host(`socket.{{ service_domain }}`)"
       - "traefik.http.routers.socket-http.entrypoints=http"
       - "traefik.http.routers.socket-http.middlewares={% if grownetics.https_only %}redirect@file, security-headers@file, {% else %}{% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.socket.rule=Host(`{{ service_domain }}`) && Path(`/socket.io/`)"
+      - "traefik.http.routers.socket.rule=Host(`socket.{{ service_domain }}`)"
       - "traefik.http.routers.socket.entrypoints=https"
       - "traefik.http.routers.socket.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
       - "traefik.http.routers.socket.tls=true"
