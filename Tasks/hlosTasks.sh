@@ -44,7 +44,7 @@ Task::build() {
   if [[ -n ${_force-false} ]] ; then
     hlos_dockerimage=$(docker images -a | grep "homelabos" | awk '{print $3}')
     if [[ -n ${hlos_dockerimage} ]]; then
-      ${hlos_dockerimage} | xargs docker rmi --force
+      docker rmi --force ${hlos_dockerimage}
     fi
   fi
 
