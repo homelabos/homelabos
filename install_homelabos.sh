@@ -60,7 +60,7 @@ hlos_install() {
 
     printf "We have detected and set your homelab_ip to: $HOMELAB_IP\nIf this is incorrect, edit your /var/homelabos/install/settings/config.yml file to fix it.\n"
     printf "\n\n\x1B[01;92m========== HomelabOS downloaded! ==========\n\x1B[0m"
-    make
+    hlos deploy
     printf "\n\x1B[01;93mYou can check the status of Organizr with 'systemctl status organizr' or 'sudo docker ps'"
     printf "\nTo enable more services, run [38;5;184m'cd /var/homelabos/install'\x1B[01;93m then 'make set servicename.enable true'"
     printf "\nwhere servicename is a service you would like to have."
