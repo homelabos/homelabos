@@ -1,6 +1,10 @@
 ### REQUIRED ###
 # These values are REQUIRED for HomelabOS to work.
 
+# Domain that will be used to point at the server
+# Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
+domain: {{ domain | default('localhost') }}
+
 # SSH accessible IP address
 homelab_ip: {{ homelab_ip }}
 
@@ -9,6 +13,15 @@ homelab_port: {{ homelab_port | default('22') }}
 
 # User name used to connect via ssh. Must have passwordless sudo.
 homelab_ssh_user: {{ homelab_ssh_user }}
+
+# Timezone of the server
+common_timezone: {{ common_timezone | default('Etc/UTC') }}
+
+# An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
+# Necessary for SSL / LetsEncrypt to work.
+admin_email: {{ admin_email | default('test@test.com') }}
+
+ansible_port: {{ ansible_port | default(22) }}
 
 # Default user name to create as admin with services
 default_username: {{ default_username }}
@@ -127,18 +140,6 @@ traefik:
     CF_API_EMAIL: "{{ vault.traefik.additional_env_vars.CF_API_EMAIL }}"
     CF_API_KEY: "{{ vault.traefik.additional_env_vars.CF_API_KEY }}"
 {% endraw %}
-# Timezone of the server
-common_timezone: {{ common_timezone | default('Etc/UTC') }}
-
-# Domain that will be used to point at the server
-# Must have a DNS A record of `*.yourserver.com` pointing at your server's IP.
-domain: {{ domain | default('localhost') }}
-
-# An email that is accessible outside of HomelabOS that you can receive system alerts and notices at.
-# Necessary for SSL / LetsEncrypt to work.
-admin_email: {{ admin_email | default('test@test.com') }}
-
-ansible_port: {{ ansible_port | default(22) }}
 
 # Features
 
@@ -1202,7 +1203,7 @@ nas_workgroup: {{ nas_workgroup | default() }}
 
 # Example: 0 4 * * *
 # Backup every day at 4:00 AM
-s3_backup_cron: {{ s3_backup_cron | default() }}
+s3_backup_cron: {{ s3_backup_cron | default("0 4 * * *") }}
 s3_path: {{ s3_path | default() }}
 
 apple_health_nextcloud_username: {{ apple_health_nextcloud_username | default()  }}
