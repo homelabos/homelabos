@@ -4,7 +4,7 @@ This is the Frequently Asked Questions section.
 
 Use the page table of contents to navigate it quickly. Also the search in these docs is instant and easy.
 
-## `make` command throws a docker related error
+## `hlos` command throws a docker related error
 
 * Make sure HomelabOS successfully installed docker on the server. If its not installed, try installing it manually.
 ```
@@ -15,7 +15,7 @@ Use the page table of contents to navigate it quickly. Also the search in these 
 ```
 [server]$ systemctl status homelabos
 ```
-* Make sure the admin user specified during `make config` is created.
+* Make sure the admin user specified during `hlos config` is created.
 ```
 [server]$ compgen -u
 ```
@@ -75,9 +75,9 @@ Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. 
 
 ## I can't find certain config values like Authelia
 
-Check your `config/vault.yml` file. If it's encrypted just run `make decrypt`
+Check your `config/vault.yml` file. If it's encrypted just run `hlos decrypt`
 
-You also don't need to edit the `config/` files directly at all, or worry about where the config values are. Just use `make set` and `make get` and it will access the variable correctly regardless of what config file it lives in.
+You also don't need to edit the `config/` files directly at all, or worry about where the config values are. Just use `hlos set` and `hlos get` and it will access the variable correctly regardless of what config file it lives in.
 
 ## I get `exec user process caused 'exec format error'`
 
