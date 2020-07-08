@@ -6,8 +6,6 @@
 Task::logo() {
     : @desc "Prints the Logo"
 
-  Task::sudo_check
-
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
   already_ran[${FUNCNAME[0]}]=1
   cat homelaboslogo.txt
