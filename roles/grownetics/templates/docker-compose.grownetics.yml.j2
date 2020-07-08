@@ -40,10 +40,19 @@ services:
         - RABBIT_PASS
         - INFLUX_HOST
         - INFLUX_PORT
+        - TWILIO_SID
+        - TWILIO_TOKEN
+
+
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+        - RESTIC_REPOSITORY
+        - RESTIC_PASSWORD
 
         - SMTP_HOST
         - SMTP_USER
         - SMTP_PASS
+        - CONSUL_HOST
     image: grownetics/growdash:${VERSION}
     volumes:
         - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
@@ -52,10 +61,6 @@ services:
     restart: always
     networks:
         - grownetics
-    links:
-        - appdb
-        - redis
-        - rabbitmq
     environment:
         - DEV
         - FACILITY_NAME
@@ -83,6 +88,7 @@ services:
         - RABBIT_PASS
         - INFLUX_HOST
         - INFLUX_PORT
+        - CONSUL_HOST
     image: grownetics/growdash:${VERSION}
     volumes:
       - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
@@ -93,6 +99,8 @@ services:
         - traefik_network
         - grownetics
     restart: always
+    ports:
+      - "81:81"
     links:
         - growdash
         - deviceapi
@@ -127,14 +135,33 @@ services:
     restart: always
     ports:
         - 8989:8989
-    links:
-        - rabbitmq
-        - nginx
-    labels:
-        io.rancher.container.pull_image: always
-        io.rancher.scheduler.affinity:host_label_ne: onsite=true
     networks:
+        - traefik_network
         - grownetics
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.socket.loadbalancer.server.scheme=http"
+      - "traefik.http.services.socket.loadbalancer.server.port=8989"
+      - "traefik.http.routers.socket-http.rule=Host(`{{ service_domain }}`) && Path(`/socket.io/`)"
+      - "traefik.http.routers.socket-http.entrypoints=http"
+      - "traefik.http.routers.socket-http.middlewares={% if grownetics.https_only %}redirect@file, security-headers@file, {% else %}{% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.socket.rule=Host(`{{ service_domain }}`) && Path(`/socket.io/`)"
+      - "traefik.http.routers.socket.entrypoints=https"
+      - "traefik.http.routers.socket.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.socket.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.socket.tls.certresolver=dns"
+      - "traefik.http.routers.socket.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.socket.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.socket.tls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.socket-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`) && Path(`/socket.io/`)"
+      - "traefik.http.routers.socket-tor-http.entrypoints=http"
+      - "traefik.http.routers.socket-tor-http.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}
 
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
@@ -150,6 +177,45 @@ services:
     networks:
       - grownetics
 
+  growpulse:
+    image: grownetics/growdash:${VERSION}
+    restart: always
+    command: /var/www/html/growpulse.sh
+    networks:
+      - grownetics
+    environment:
+      - DEV
+      - FACILITY_NAME
+      - FACILITY_ID
+      - CERES
+      - ENVIRONMENT
+      - REMOTE_URL
+      - SHORT_NAME
+      - VERSION
+
+      - DB_HOSTNAME
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_TEST_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+      - REDIS_HOSTNAME
+      - RABBIT_HOST
+      - RABBIT_PORT
+      - RABBIT_USER
+      - RABBIT_PASS
+      - INFLUX_HOST
+      - INFLUX_PORT
+      - THRESHOLD_DEVICE_BOOTS
+      - THRESHOLD_DATA_RECEIVED
+      - THRESHOLD_CT_ON
+      - ZULIP_URL
+      - ZULIP_CREDS
+      - CONSUL_HOST
+      - TWILIO_SID
+      - TWILIO_TOKEN
+
 
   #
   # Service Discovery - Consul
@@ -157,8 +223,10 @@ services:
   consul:
     image: consul
     restart: always
-    command: consul agent -ui -client 0.0.0.0
-    network_mode: host
+    ports:
+      - "8500:8500"
+    networks:
+    - grownetics
     volumes:
       - "{{ volumes_root }}/grownetics/consul-data:/consul/data"
       - "{{ volumes_root }}/grownetics/consul-config:/consul/config"
@@ -214,18 +282,52 @@ services:
     networks:
       - grownetics
     restart: always
-    links:
-      - consul
-      - appdb
-      - influxdb
-      - rabbitmq
-      - redis
-      - growdash
-      - deviceapi
-      - nginx
     volumes:
       - "{{ volumes_root }}/grownetics/telegraf.conf:/etc/telegraf/telegraf.conf"
       - /var/run/docker.sock:/var/run/docker.sock
+
+  notifications:
+    image: grownetics/growdash:${VERSION}
+    networks:
+      - grownetics
+    restart: always
+    command: bash -c "chmod +x /var/www/html/notification.sh && /var/www/html/notification.sh"
+    environment:
+      - DEV
+      - FACILITY_NAME
+      - SHORT_NAME
+      - FACILITY_ID
+      - CERES
+      - ENVIRONMENT
+      - REMOTE_URL
+      - VERSION
+
+      - DB_HOSTNAME
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_TEST_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+
+      - REDIS_HOSTNAME
+      - RABBIT_HOST
+      - RABBIT_PORT
+      - RABBIT_USER
+      - RABBIT_PASS
+      - INFLUX_HOST
+      - INFLUX_PORT
+
+      - TWILIO_SID
+      - TWILIO_TOKEN
+
+      - SMTP_HOST
+      - SMTP_USER
+      - SMTP_PASS
+
+      - ZULIP_URL
+      - ZULIP_PASS
+
+      - CONSUL_HOST
 
   # Charting and display
   chronograf:
@@ -266,10 +368,3 @@ services:
       - "traefik.http.routers.chronograf-tor-http.entrypoints=http"
       - "traefik.http.routers.chronograf-tor-http.middlewares={% if grownetics.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
 {% endif %}
-
-  # Better charting
-  grafana:
-    image: grafana/grafana-dev:master-9fe0dcec0ed35d443b95f8f1a180d2ec93448210
-    restart: always
-    links:
-      - influxdb
