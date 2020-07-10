@@ -103,6 +103,7 @@ If you are having problems you can:
 - [Lidarr](software/lidarr) - Sonarr but for Music.
 - [Minio](software/minio) - S3 hosting
 - [Mylar](software/mylar) - An automated Comic Book manager
+- [NZBHydra2](https://github.com/theotherp/nzbhydra2/) NZBHydra 2 is a meta search for newznab indexers and torznab trackers.
 - [Ombi](software/ombi) - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
 - [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 - [Radarr](software/radarr-sonarr) - Automated movie downloading
