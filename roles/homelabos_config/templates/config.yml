@@ -919,7 +919,7 @@ qbittorrent:
   domain: {{ qbittorrent.domain| default(False) }}
   subdomain: {{ qbittorrent.subdomain | default("qbittorrent") }}
   version: {{ qbittorrent.version | default("latest") }}
-  vpn_enabled: !!str '{{ qbittorrent.vpn_enabled | default(false) }}'
+  vpn_enabled: '{{ qbittorrent.vpn_enabled | default(false) }}'
   lan_network: {{ qbittorrent.lan_network | default("192.168.1.0/24") }}
 radarr:
   enable: {{ radarr.enable | default(enable_radarr, None) | default(False) }}
