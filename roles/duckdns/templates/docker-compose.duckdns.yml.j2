@@ -7,5 +7,5 @@ services:
     restart: unless-stopped
     environment:
       - TZ={{ common_timezone }}
-      - SUBDOMAINS={{ domain }}
+      - SUBDOMAINS={{ duckdns.subdomains }}
       - TOKEN={{duckdns.token}}
