@@ -81,9 +81,6 @@ api:
   dashboard: true
   insecure: true
 
-log:
-  level: ERROR
-
 certificatesResolvers:
   dns:
     acme:
