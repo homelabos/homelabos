@@ -69,6 +69,10 @@ bastion:
     587: 587
     998: 998
     4190: 4190
+    465: 465
+    110: 110
+    993: 993
+    995: 995
   # MIGRATION v0.7
   # Should HomelabOS reset the bastion server IP tables rules?
   # Enable this if you are upgrading a Tinc bastion host
@@ -635,7 +639,13 @@ mailu:
   subdomain: {{ mailu.subdomain | default("mailu") }}
   version: {{ mailu.version | default ("1.7") }}
   redis_version: {{ mailu.redis_version | default ("alpine") }}
+  certdumper_version: {{ mailu.certdumper_version | default ("master") }}
   forward_to_smtp: {{ mailu.forward_to_smtp | default(False)  }}
+  enable_secure_imap: {{ mailu.enable_secure_imap | default(True) }} #port 993
+  enable_secure_pop3: {{ mailu.enable_secure_pop3 | default(False) }} #port 995
+  enable_unsecure_pop3: {{ mailu.enable_unsecure_pop3 | default(False) }} #port 110
+  enable_unsecure_imap: {{ mailu.enable_unsecure_imap | default(False) }} #port 143
+  enable_legacy_smtps: {{ mailu.enable_legacy_smtps | default(False) }}   #port 465
 mashio:
   enable: {{ mashio.enable | default(enable_mashio, None) | default(False) }}
   https_only: {{ mashio.https_only | default(False) }}

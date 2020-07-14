@@ -48,6 +48,60 @@ entryPoints:
   #metrics@internal
   metrics:
     address: ":8082"
+{% if mailu.enable %}
+  smtp: 
+    address: :25
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+  smtp-msa:
+    address: :587
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+{% endif %}
+{% if mailu.enable_secure_imap %}
+  imaps:
+    address: :993
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+{% endif %}
+{% if mailu.enable_secure_pop3 %}
+  pop3s:
+    address: :995
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+{% endif %}
+{% if mailu.enable_unsecure_imap %}
+  imap:
+    address: :143
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+{% endif %}
+{% if mailu.enable_unsecure_pop3 %}
+  pop3:
+    address: :110
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+{% endif %}
+{% if mailu.enable_legacy_smtps %}
+  smtps:
+    address: :465
+    forwardedHeaders:
+      insecure: true
+    proxyProtocol:
+      insecure: true
+{% endif %}
 
 #Health
 ping:
