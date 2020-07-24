@@ -1,0 +1,24 @@
+---
+- name: Make xteve directory.
+  file:
+    path: "{{ volumes_root }}/xteve"
+    state: directory
+
+- name: Copy xteve docker-compose.yml file into place.
+  template:
+    src: docker-compose.xteve.yml.j2
+    dest: "{{ volumes_root }}/xteve/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure xteve systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/xteve.service
+
+- name: Start xteve
+  systemd:
+    name: xteve
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started
