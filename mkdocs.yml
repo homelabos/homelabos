@@ -84,6 +84,7 @@ nav:
       - Synchthing: software/syncthing.md
       - Transmission: software/transmission.md
       - WebDAV: software/webdavserver.md
+      - Xteve: software/xteve.md
     - Games:
       - Factorio: software/factorio.md
       - Minecraft: software/minecraft.md

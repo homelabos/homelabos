@@ -17,6 +17,7 @@
 - Added Taisun - Single Server Docker Management for Humans
 - Added Teedy - Document Management made simple for everyone
 - Added Unifi Controller - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
+- Added Xteve - An emulted TV Tuner for IPTV services.
 
 # 0.7.1 - 0.7.2
 
@@ -39,7 +40,7 @@
 - Added Barcode Buddy - Barcode system for Grocy
 - Added CodiMD - The best platform to write and share markdown
 - Added Cockpit - Cockpit admin interface package for configuring and troubleshooting a system
-- Added Chowdown -  Simple recipes in Markdown format
+- Added Chowdown - Simple recipes in Markdown format
 - Added Digikam - Professional Photo Management with the Power of Open Source
 - Added DuckDNS - Free Dynamic DNS client
 - Added ELK Stack - Elastic Search, Logstash and Kibana

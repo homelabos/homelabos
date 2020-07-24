@@ -112,6 +112,7 @@ If you are having problems you can:
 - [Syncthing](software/syncthing) - File syncing software
 - [Transmission](software/transmission) - BitTorrent client
 - [WebDAV](software/webdavserver) - Apache based WebDAV server
+- [Xteve](software/xteve) - Emulated TV Tuner for IPTV
 
 ### Games
 

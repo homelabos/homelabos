@@ -125,6 +125,7 @@ services:
   webvirtmgr:
   wekan:
   xfinityusageinfluxdb:
+  xteve:
   zammad:
   zulip:
 docs:
@@ -246,6 +247,7 @@ unificontroller:
 wekan:
 watchtower:
 xfinityusageinfluxdb:
+xteve:
 wallabag:
 webdavserver:
 webtrees:
