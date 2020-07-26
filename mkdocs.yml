@@ -76,6 +76,7 @@ nav:
       - Lidarr: software/lidarr.md
       - Minio: software/minio.md
       - Mylar: software/mylar.md
+      - NZBHydra2: software/nzbhydra2.md
       - Ombi: software/ombi.md
       - Qbitorrent: software/qbittorrent.md
       - Radarr / Sonarr: software/radarr-sonarr.md
