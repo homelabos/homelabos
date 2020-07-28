@@ -27,15 +27,17 @@ services:
       - "{{ volumes_root }}/pixelfed/pixelfed.env:/var/www/.env"
       - "{{ volumes_root }}/pixelfed/storage:/var/www/storage"
 
-  worker:  # Comment this whole block if HORIZON_EMBED is true.
+  worker: # Comment this whole block if HORIZON_EMBED is true.
     image: dmacedo/pixelfed:latest
+    networks:
+      - pixelfed
     restart: unless-stopped
     env_file:
       - "{{ volumes_root }}/pixelfed/pixelfed.env"
+    environment:
+      - DB_PASSWORD="{{ lookup('password', './settings/passwords/pixelfed_db_password chars=ascii_letters') }}"
     volumes:
       - "{{ volumes_root }}/pixelfed/storage:/var/www/storage"
-    networks:
-      - pixelfed
     command: gosu www-data php artisan horizon
 
   db:
@@ -52,11 +54,11 @@ services:
       - "{{ volumes_root }}/pixelfed/mysql:/var/lib/mysql"
 
   redis:
-    image: redis:5-alpine
+    image: redis:6-alpine
     restart: unless-stopped
-    volumes:
-      - "{{ volumes_root }}/pixelfed/redis:/data"
     networks:
       - pixelfed
+    volumes:
+      - "{{ volumes_root }}/pixelfed/redis:/data"
     command: >
-     --requirepass {{ lookup('password', './settings/passwords/pixelfed_redis_password chars=ascii_letters length=15') }}
+     --requirepass "{{ lookup('password', './settings/passwords/pixelfed_redis_password chars=ascii_letters length=15') }}"
