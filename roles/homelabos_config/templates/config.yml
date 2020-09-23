@@ -831,6 +831,8 @@ organizr:
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
   subdomain: {{ organizr.subdomain | default("organizr") }}
+  fpm: {{ organizr.fpm | default("false") }} 
+  branch: {{ organizr.branch | default("master") }}
   version: {{ organizr.version | default("latest") }}
 ownphotos:
   enable: {{ ownphotos.enable | default(enable_ownphotos, None) | default(False) }}

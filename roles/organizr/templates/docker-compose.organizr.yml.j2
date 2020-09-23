@@ -9,11 +9,14 @@ networks:
 services:
   # Dashboard
   organizr:
-    image: organizrtools/organizr-v2:{{ 'armhf' if arm else 'latest' }}
+    image: organizr/organizr:latest
     # image: organizrtools/organizr-v2:{{ organizr.version }}
     restart: unless-stopped
     networks:
       - traefik_network
+    enviroment:
+      - fpm={{ organizr.fpm }}
+      - branch={{ organizr.branch }}
     volumes:
       - "{{ volumes_root }}/organizr:/config"
     labels:
