@@ -1,6 +1,6 @@
 # SUI
 
-[SUI](https://gitlab.com/WillFantom/sui) a startpage for your server and / or new tab page
+[SUI](https://github.com/WillFantom/sui) a startpage for your server and / or new tab page
 
 ## Access
 

@@ -1,6 +1,6 @@
-# Rsshub
+# RSSHub
 
-[Rsshub](https://docs.rsshub.app/en/) RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
+[RSSHub](https://docs.rsshub.app/en/) RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
 
 Additional config can be set via environment variables within the docker-compose file. Full configuragtion details can be [found here](https://docs.rsshub.app/en/install/#configuration).
 

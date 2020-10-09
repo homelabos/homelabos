@@ -55,7 +55,7 @@ nav:
       - Portainer: software/portainer.md
       - Taisun: software/taisun.md
     - Document Management:
-      - Mayan: software/mayan.md
+      - Mayan EDMS: software/mayan.md
       - Paperless: software/paperless.md
       - Teedy: software/teedy.md
     - E-books:
@@ -77,11 +77,12 @@ nav:
       - Minio: software/minio.md
       - Mylar: software/mylar.md
       - Ombi: software/ombi.md
-      - Qbitorrent: software/qbittorrent.md
-      - Radarr / Sonarr: software/radarr-sonarr.md
+      - qBittorrent: software/qbittorrent.md
+      - Radarr: software/radarr-sonarr.md
       - Samba: software/samba.md
       - SickChill: software/sickchill.md
-      - Synchthing: software/syncthing.md
+      - Sonarr: software/radarr-sonarr.md
+      - Syncthing: software/syncthing.md
       - Transmission: software/transmission.md
       - WebDAV: software/webdavserver.md
     - Games:
@@ -95,15 +96,15 @@ nav:
       - Airsonic: software/airsonic.md
       - Beets: software/beets.md
       - Emby: software/emby.md
-      - Jellyfin: software/jellyfin.md
-      - MassiveDecks: software/massivedecks.md
-      - Mstream: software/mstream.md
-      - Added PeerTube: software/peertube.md
-      - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
+      - Jellyfin: software/jellyfin.md
+      - Massive Decks: software/massivedecks.md
+      - mStream: software/mstream.md
+      - PeerTube: software/peertube.md
+      - Plex: software/plex.md
     - Misc/Other:
       - AdGuard Home: software/adguardhome.md
-      - BarcodeBuddy: software/barcodebuddy.md
+      - Barcode Buddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
       - Cockpit: software/cockpit.md
       - CodiMD: software/codimd.md
@@ -127,11 +128,11 @@ nav:
       - Pi-hole: software/pihole.md
       - Poli: software/poli.md
       - PrivateBin: software/privatebin.md
-      - RssHub: software/rsshub.md
+      - RSSHub: software/rsshub.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
       - Shinobi: software/shinobi.md
-      - Simply-Shorten: software/simply_shorten.md
+      - Simply-Shorten: software/simply-shorten.md
       - The Spaghetti Detective: software/thespaghettidetective.md
       - Ubooquity: software/ubooquity.md
       - UnifiController: software/unificontroller.md
@@ -141,7 +142,7 @@ nav:
     - Money, Budgeting and Management:
       - Firefly III: software/firefly.md
     - Monitoring:
-      - ELKStack: software/elkstack.md
+      - ELK Stack: software/elkstack.md
       - Grafana: software/grafana.md
       - HealthChecks: software/healthchecks.md
       - Huginn: software/huginn.md
@@ -172,7 +173,7 @@ nav:
     - Social Networking:
       - Pleroma: software/pleroma.md
     - Software Development:
-      - Codeserver: software/codeserver.md
+      - code-server: software/codeserver.md
       - Drone: software/drone.md
       - Gitea: software/gitea.md
       - GitLab: software/gitlab.md
@@ -182,11 +183,11 @@ nav:
       - Wekan: software/wekan.md
     - VPN:
       - OpenVPN: software/openvpn.md
-    - Webservers:
+    - Web servers:
       - Apache2: software/apache2.md
     - Wikis:
-      - Bookstack: software/bookstack.md
-      - Tiddlywiki: software/tiddlywiki.md
+      - BookStack: software/bookstack.md
+      - TiddlyWiki: software/tiddlywiki.md
   - Development:
       - Adding Services: development/adding_services.md
       - Contributing: development/contributing.md
