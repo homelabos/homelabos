@@ -106,7 +106,7 @@ nav:
       - AdGuard Home: software/adguardhome.md
       - Barcode Buddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
-      - Cockpit: software/cockpit.md
+      - Cockpit: software/system-cockpit.md
       - CodiMD: software/codimd.md
       - Darksky: software/darksky.md
       - Dasher: software/dasher.md
