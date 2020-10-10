@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    enviroment:
+    environment:
       - fpm={{ organizr.fpm }}
       - branch={{ organizr.branch }}
     volumes:
