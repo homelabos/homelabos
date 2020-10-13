@@ -5,7 +5,7 @@
 ## Configuration
 
 To make either Sonarr or Radarr work, you need to configure an
-Indexer and a Downlad Client.
+Indexer and a Download Client.
 
 ### Indexer: Jackett
 
