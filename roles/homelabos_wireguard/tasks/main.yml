@@ -20,15 +20,6 @@
 
 # END MIGRATION
 
-- name: Add the WireGuard PPA repository
-  apt_repository:
-    repo: ppa:wireguard/wireguard
-    state: present
-  register: result
-  until: result is succeeded
-  retries: 10
-  delay: 3
-
 - name: Install WireGuard
   apt:
     name: wireguard
