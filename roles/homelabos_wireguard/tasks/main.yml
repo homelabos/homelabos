@@ -58,6 +58,7 @@
     src: /etc/wireguard/publickey
     dest: fetch/server_public_key
     flat: true
+  become: true
   when: "'bastion' in group_names"
 
 - name: Fetch HomeServer Public Key
@@ -65,18 +66,21 @@
     src: /etc/wireguard/publickey
     dest: fetch/client_public_key
     flat: true
+  become: true
   when: "'homelabos' in group_names"
 
 - name: Copy BastionServer public key to HomeServer
   copy:
     src: fetch/server_public_key
     dest: /etc/wireguard/serverpublickey
+  become: true
   when: "'homelabos' in group_names"
 
 - name: Copy HomeServer public key to BastionServer
   copy:
     src: fetch/client_public_key
     dest: /etc/wireguard/homeserverpublickey
+  become: true
   when: "'bastion' in group_names"
 
 - name: Register BastionServer public key as a variable
