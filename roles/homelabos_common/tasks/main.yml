@@ -72,11 +72,6 @@
     link: /usr/bin/python
     path: /usr/bin/python3
 
-- name: Install Passlib
-  pip:
-    name: passlib
-    executable: pip3
-
 - name: timezone - configure /etc/timezone
   copy:
     content: "{{ common_timezone | regex_replace('$', '\n') }}"
