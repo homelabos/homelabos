@@ -20,14 +20,15 @@
 
 # END MIGRATION
 
-- name: Add the WireGuard PPA repository
+- name: Enable Debian Backports
   apt_repository:
-    repo: ppa:wireguard/wireguard
+    repo: deb http://deb.debian.org/debian buster-backports main
     state: present
   register: result
   until: result is succeeded
   retries: 10
   delay: 3
+  when: ansible_facts['distribution'] == "Debian"
 
 - name: Install WireGuard
   apt:
