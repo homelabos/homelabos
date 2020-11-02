@@ -57,3 +57,15 @@
     - deploy
   roles:
     - homelabos_deploy
+
+# Configure per-service port-forwarding
+- name: Configure per-service port-forwarding
+  gather_facts: False
+  hosts: bastion
+  become: true
+  become_method: sudo
+  tags: deploy
+  tasks:
+    - include_role:
+        name: homelabos_port_forwarding
+      when: bastion.enable == True

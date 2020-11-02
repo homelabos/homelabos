@@ -130,6 +130,7 @@ If you are having problems you can:
 - [Factorio](software/factorio) Factorio headless server in a Docker container
 - [Minecraft](software/minecraft) Minecraft server with select-able version
 - [MinecraftBedrockServer](software/minecraftbedrockserver) Minecraft Bedrock Server
+- [QuakeJS](software/quakejs) Play Quake3 in your browser
 
 ### Gateways and terminal sharing
 

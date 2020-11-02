@@ -5,6 +5,7 @@
 - Added AdGuard Home - Network-wide software for blocking ads and tracking.
 - Added Invoice Ninja - Free Open-Source Invoicing
 - Added Jenkins - The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
+- Added QuakeJS - QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten
 - Added Rsshub - RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
 - Added Samba - Export your HLOS storage_dirs as CIFS/SMB file shares
 - Added Teedy - Document Management made simple for everyone

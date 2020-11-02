@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: homelabos
   become: "True"
 
   tasks:
@@ -9,10 +9,10 @@
         name: "{{ service_item }}"
         state: restarted
         enabled: true
-      when: "query"
+      when: " query "
       loop: "{{ services | flatten(1) }}"
       loop_control:
         loop_var: service_item
       ignore_errors: "yes"
       vars:
-        query: "{{ service_item + '.enable' }}"
+        query: "{{ service_item + '.enable'}}"
