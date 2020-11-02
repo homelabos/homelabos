@@ -1176,6 +1176,13 @@ xfinityusageinfluxdb:
   domain: {{ xfinityusageinfluxdb.domain| default(False) }}
   subdomain: {{ xfinityusageinfluxdb.subdomain | default("xfinityusageinfluxdb") }}
   version: {{ xfinityusageinfluxdb.version | default("latest") }}
+xteve:
+  enable: {{ xteve.enable | default(enable_xteve, None) | default("latest") }}
+  https_only: {{ xteve.https_only | default(False) }}
+  auth: {{ xteve.auth | default(False) }}
+  domain: {{ xteve.domain | default(False) }}
+  subdomain: {{ xteve.subdomain | default("xteve") }}
+  version: {{ xteve.version | default("lastest") }}
 zammad:
   enable: {{ zammad.enable | default(enable_zammad, None) | default(False) }}
   https_only: {{ zammad.https_only | default(False) }}
