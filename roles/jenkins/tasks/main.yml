@@ -17,6 +17,11 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
+- name: Copy jenkins docker-compose.yml file into place.
+  template:
+    src: Dockerfile.j2
+    dest: "{{ volumes_root }}/jenkins/Dockerfile"
+
 - name: Configure jenkins systemd service.
   template:
     src: service.j2

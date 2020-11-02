@@ -601,6 +601,7 @@ jenkins:
   domain: {{ jenkins.domain | default(False) }}
   subdomain: {{ jenkins.subdomain | default("jenkins")}}
   allow_docker: {{ jenkins.allow_docker | default(False)}}
+  additional_packages: {{ jenkins.additional_packages | default([]) }}
   version: {{ jenkins.version | default ("latest") }}
 keycloak:
   enable: {{ keycloak.enable | default(enable_keycloak, None) | default(False) }}

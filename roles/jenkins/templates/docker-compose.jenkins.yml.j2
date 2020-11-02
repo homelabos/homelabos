@@ -8,7 +8,7 @@ networks:
 
 services:
   jenkins:
-    image: jenkinsci/blueocean:{{ jenkins.version }}
+    build: .
     restart: unless-stopped
     networks:
       - traefik_network
