@@ -59,6 +59,7 @@ services:
       - REDIS_HOST=nextcloud-redis
       - NEXTCLOUD_ADMIN_USER={{ default_username }}
       - NEXTCLOUD_ADMIN_PASSWORD={{ default_password }}
+      - NEXTCLOUD_DATA_DIR=/data
       - NEXTCLOUD_TRUSTED_DOMAINS={{ service_domain }}
       - NEXTCLOUD_UPDATE=1 # triggers the automated install on first run.
       # SMTP settings
