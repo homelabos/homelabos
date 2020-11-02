@@ -28,6 +28,8 @@ services:
     restart: unless-stopped
     networks:
       - tick
+      # This exposes it on our internal traefik network, which lets grafana, and others, talk to influx.
+      - traefik_network
     volumes:
       - "{{ volumes_root }}/influxdb:/var/lib/influxdb"
     ports:
