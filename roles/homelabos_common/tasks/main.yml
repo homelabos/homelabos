@@ -28,24 +28,6 @@
   tags:
     - dependencies
 
-- name: Ensure Docker is not installed via Snap
-  snap:
-    name: docker
-    state: absent
-  when:
-    - ansible_facts['distribution'] == 'Ubuntu'
-    - ansible_facts['distribution_major_version'] is version('20.04', '>=')
-
-- name: Remove older docker.io based packages
-  apt:
-    name:
-      - docker
-      - docker.io
-      - containerd
-      - runc
-      - docker-engine
-    state: absent
-
 - name: Add an apt key for Docker-ce Repo
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
