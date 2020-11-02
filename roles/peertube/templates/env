@@ -15,7 +15,10 @@ PEERTUBE_SMTP_TLS=false
 PEERTUBE_SMTP_DISABLE_STARTTLS=false
 PEERTUBE_ADMIN_EMAIL={{admin_email}}
 POSTFIX_myhostname={% if peertube.domain %}{{ peertube.domain }}{% else %}{{ peertube.subdomain + "." + domain }}{% endif %}
-
+# Redis fails to connect properly - Peertube will not start. Add this and Peertube starts.
+PEERTUBE_REDIS_HOSTNAME=pt_redis
+PEERTUBE_REDIS_PORT=6379
+PEETTUBE_REDIS_AUTH=
 # /!\ Prefer to use the PeerTube admin interface to set the following configurations /!\
 #PEERTUBE_SIGNUP_ENABLED=true
 #PEERTUBE_TRANSCODING_ENABLED=true
