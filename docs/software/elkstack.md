@@ -21,6 +21,8 @@ It is also available via Tor at [http://elkstack.{{ tor_domain }}/](http://elkst
 To enable https_only or auth set the service config to True
 `settings/config.yml`
 
+```
 elkstack:
   https_only: True
   auth: True
+```
