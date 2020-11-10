@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=master
+VERSION=dev
 REPO=NickBusey
 
 while getopts r:v: option
