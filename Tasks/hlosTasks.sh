@@ -41,12 +41,13 @@ Task::build() {
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then return ; fi
 
-  if [[ -n ${_force-false} ]] ; then
-    hlos_dockerimage=$(docker images -a | grep "homelabos" | awk '{print $3}')
-    if [[ -n ${hlos_dockerimage} ]]; then
-      docker rmi --force ${hlos_dockerimage}
-    fi
-  fi
+  # if [[ -n ${_force-false} ]] ; then
+  #   highlight "Force rebuilding HomelabOS docker image."
+  #   hlos_dockerimage=$(docker images -a | grep "homelabos" | awk '{print $3}')
+  #   if [[ -n ${hlos_dockerimage} ]]; then
+  #     docker rmi --force ${hlos_dockerimage}
+  #   fi
+  # fi
 
   if [[ -v "already_ran[${FUNCNAME[0]}]" ]] ;  then exit 0; fi
   already_ran[${FUNCNAME[0]}]=1
