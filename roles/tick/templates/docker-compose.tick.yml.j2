@@ -31,7 +31,7 @@ services:
       # This exposes it on our internal traefik network, which lets grafana, and others, talk to influx.
       - traefik_network
     volumes:
-      - "{{ volumes_root }}/influxdb:/var/lib/influxdb"
+      - "{{ volumes_root }}/tick/influxdb:/var/lib/influxdb"
     ports:
       - 8086:8086
 
