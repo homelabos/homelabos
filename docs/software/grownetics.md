@@ -15,7 +15,7 @@ Login with default credentials:
 
 User: `admin@grownetics.co`
 
-Pass: `GrowBetter16`
+Pass: `GrowBetter`
 
 ## Access
 
