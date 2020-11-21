@@ -13,8 +13,8 @@ services:
     networks:
       - traefik_network
     environment:
-      - PUID={{uid_output.stdout }}
-      - PGID={{gid_output.stdout }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
       - FUNKWHALE_HOSTNAME={{ service_domain }}
       - FUNKWHALE_PROTOCOL=https
       - MEDIA_ROOT=/srv/funkwhale/data/media

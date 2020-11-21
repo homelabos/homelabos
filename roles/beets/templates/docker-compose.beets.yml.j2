@@ -10,8 +10,8 @@ services:
   beets:
     image: linuxserver/beets:{{ beets.version }}
     environment:
-      - PUID={{ uid }}
-      - PGID={{ gid }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
       - TZ={{ common_timezone }}
     volumes:
       - "{{ volumes_root }}/beets/config:/config"

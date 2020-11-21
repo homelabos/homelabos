@@ -10,8 +10,8 @@ services:
   digiKam:
     image: rpufky/digikam:{{ digikam.version }}
     environment:
-      - USER_ID={{ uid }}
-      - GROUP_ID={{ gid }}
+      - USER_ID={{ uid_output.stdout }}
+      - GROUP_ID={{ gid_output.stdout }}
       - TZ={{ common_timezone }}
       - KEEP_APP_RUNNING=1
       - DISPLAY_WIDTH=1920

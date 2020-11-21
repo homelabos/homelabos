@@ -10,8 +10,8 @@ services:
   unifi-controller:
     image: linuxserver/unifi-controller:{{ unificontroller.version }}
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
       - MEM_LIMIT=1024M #optional
     volumes:
       - "{{ volumes_root }}/unificontroller/config:/config"

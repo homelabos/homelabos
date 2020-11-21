@@ -14,8 +14,8 @@ services:
     restart: unless-stopped
     container_name: duplicati
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
       - CLI_ARGS=--webservice-password={{ default_password }}
     volumes:
       - "{{ volumes_root }}/duplicati/config:/config"

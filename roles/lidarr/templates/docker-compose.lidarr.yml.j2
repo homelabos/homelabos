@@ -16,8 +16,8 @@ services:
       - "{{ storage_dir }}/Music:/media/Music"
     environment:
       - TZ={{ common_timezone }}
-      - PUID={{ uid }}
-      - PGID={{ gid }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
       - UMASK=022
       - VERSION=stable
       - BACKUP=yes
