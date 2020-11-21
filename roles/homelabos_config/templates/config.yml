@@ -1188,7 +1188,7 @@ xfinityusageinfluxdb:
   subdomain: {{ xfinityusageinfluxdb.subdomain | default("xfinityusageinfluxdb") }}
   version: {{ xfinityusageinfluxdb.version | default("latest") }}
 xteve:
-  enable: {{ xteve.enable | default(enable_xteve, None) | default("latest") }}
+  enable: {{ xteve.enable | default(enable_xteve, None) | default(False) }}
   https_only: {{ xteve.https_only | default(False) }}
   auth: {{ xteve.auth | default(False) }}
   domain: {{ xteve.domain | default(False) }}
