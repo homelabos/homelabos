@@ -175,9 +175,6 @@
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
-- name: Pull HomelabOS Traefik Image
-  command: chdir={{ volumes_root }}/traefik/ docker-compose pull
-
 - name: Makefile helper to guide users
   template:
     src: helper.Makefile.j2
