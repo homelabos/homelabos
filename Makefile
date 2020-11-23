@@ -121,15 +121,15 @@ restart_one: logo build git_sync config
 
 # Stop all enabled services
 stop: logo build git_sync config
-	@printf "\x1B[01;93m========== Restarting all services ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Stopping all services ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.stop.yml
-	@printf "\x1B[01;93m========== Done restarting all services! ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Done stopping all services! ==========\n\x1B[0m"
 
 # Stop one service
 stop_one: logo build git_sync config
-	@printf "\x1B[01;93m========== Restarting '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Stopping '$(filter-out $@,$(MAKECMDGOALS))' ==========\n\x1B[0m"
 	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' -i inventory playbook.stop.yml
-	@printf "\x1B[01;93m========== Done restarting '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
+	@printf "\x1B[01;93m========== Done stopping '$(filter-out $@,$(MAKECMDGOALS))'! ==========\n\x1B[0m"
 
 # Spin up cloud servers with Terraform https://homelabos.com/docs/setup/terraform/
 terraform: logo build git_sync
