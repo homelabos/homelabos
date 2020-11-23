@@ -194,4 +194,14 @@ services:
       - imap
     networks:
       - mail_network
+      
+  # Fetchmail    
+  fetchmail:
+    image: mailu/fetchmail:1.8
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - "/var/homelabos/mailu/fetch:/data"
+    networks:
+      - mail_network
 #Checking
