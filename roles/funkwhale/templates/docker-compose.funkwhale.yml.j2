@@ -16,14 +16,14 @@ services:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
       - FUNKWHALE_HOSTNAME={{ service_domain }}
-      - FUNKWHALE_PROTOCOL=https
-      - MEDIA_ROOT=/srv/funkwhale/data/media
+      - FUNKWHALE_PROTOCOL={{ if funkwhale.https_only }}https{{ else }}http{{ end }}
+      - MEDIA_ROOT=/music
       - DJANGO_SETTINGS_MODULE=config.settings.production
       - DJANGO_SECRET_KEY={{lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters length=128')}}
-      - FUNKWHALE_FRONTEND_PATH=/srv/funkwhale/front/dist
+      - FUNKWHALE_FRONTEND_PATH=/data/front/dist
     volumes:
       - "{{ volumes_root }}/funkwhale:/data"
-      - "{{ storage_dir }}/Music:/music:ro"
+      - "{{ storage_dir }}/Music:/music"
     labels:
       - "traefik.http.services.funkwhale.loadbalancer.server.scheme=http"
       - "traefik.http.services.funkwhale.loadbalancer.server.port=80"
