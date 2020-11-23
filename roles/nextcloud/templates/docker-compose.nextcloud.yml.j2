@@ -33,7 +33,7 @@ services:
     networks:
       - traefik_network
       - nextcloud
-    user: {{ uid }}:{{ gid }}
+    user: {{ uid_output.stdout }}:{{ gid_output.stdout }}
     sysctls:
       - net.ipv4.ip_unprivileged_port_start=0
       # The line above allows an unprivileged user (the uid/gid of the homelab user) to

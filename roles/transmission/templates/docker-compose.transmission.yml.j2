@@ -34,8 +34,8 @@ services:
       - OPENVPN_PASSWORD={{ openvpn_password }}
       - OPENVPN_CONFIG={{ openvpn_config }}
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 300
-      - PGID=0
-      - PUID=0
+      - PGID={{ gid_output.stdout }}
+      - PUID={{ uid_output.stdout }}
       - TZ={{ common_timezone }}
       #- TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
       #- TRANSMISSION_RPC_PASSWORD={{ default_password }}

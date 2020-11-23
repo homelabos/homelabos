@@ -13,6 +13,8 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+    ports:
+      - 8096:8096
     volumes:
       - "{{ volumes_root }}/jellyfin/config:/config"
       - "{{ storage_dir }}:/media"

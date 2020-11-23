@@ -4,8 +4,18 @@
 
 ## Access
 
-It is available at [https://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/](https://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/) or [http://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/](http://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/)
+It is available at [https://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/ubooquity](https://{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/ubooquity)
 
 {% if enable_tor %}
-It is also available via Tor at [http://{{ ubooquity.subdomain + "." + tor_domain }}/](http://{{ ubooquity.subdomain + "." + tor_domain }}/)
+It is also available via Tor at [http://{{ ubooquity.subdomain + "." + tor_domain }}/ubooquity](http://{{ ubooquity.subdomain + "." + tor_domain }}/ubooquity)
+{% endif %}
+
+## Admin Access
+
+The admin interface is available at [https://admin.{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/ubooquity/admin](https://admin{% if ubooquity.domain %}{{ ubooquity.domain }}{% else %}{{ ubooquity.subdomain + "." + domain }}{% endif %}/ubooquity/admin)
+
+Be sure to set an admin password after enabling the service.
+
+{% if enable_tor %}
+The admin interface is also available via Tor at [http://admin.{{ ubooquity.subdomain + "." + tor_domain }}/ubooquity/admin](http://admin.{{ ubooquity.subdomain + "." + tor_domain }}/ubooquity/admin)
 {% endif %}

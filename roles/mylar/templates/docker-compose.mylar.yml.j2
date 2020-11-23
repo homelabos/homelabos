@@ -10,8 +10,8 @@ services:
   mylar:
     image: linuxserver/mylar:{{ mylar.version }}
     environment:
-      - PUID={{ uid }}
-      - PGID={{ gid }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
     volumes:
       - "{{ volumes_root }}/mylar/config:/config"
       - "{{ storage_dir }}/Books/Comics:/comics"
