@@ -201,7 +201,7 @@ services:
     restart: unless-stopped
     env_file: .env
     volumes:
-      - "/var/homelabos/mailu/fetch:/data"
+      - "{{ volumes_root }}/mailu/fetch:/data"
     networks:
       - mail_network
 #Checking
