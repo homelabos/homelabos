@@ -352,6 +352,7 @@ drone:
 duckdns:
   enable: {{ duckdns.enable | default(vault.duckdns.enable, None) | default(False) }}
   version: {{ duckdns.version | default("latest") }}
+  subdomains: {{ duckdns.subdomains | default("mysubdomain") }}
 {% raw %}
   token: "{{ vault.duckdns.token | default(False) }}"
 {% endraw %}
