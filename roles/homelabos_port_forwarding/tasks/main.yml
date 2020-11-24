@@ -1,14 +1,3 @@
-- name: Setup Port-forwarding per service.
-  include_tasks: forward.yml
-  when:
-    - query
-    - "lookup('vars', service_item).bastion_ports | dict2items is any"
-  loop: "{{ services | flatten(1) }}"
-  loop_control:
-    loop_var: service_item
-  vars:
-    ports: "{{lookup('vars', service_item).bastion_ports | dict2items}}"
-
 - name: Set ipTables post-routing masquerade
   iptables:
     table: nat
