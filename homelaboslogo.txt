@@ -11,4 +11,4 @@
 [38;5;208m                        https://nickbusey.com [0m
 
 [38;5;184m               with the help of many great contributors [0m
-[38;5;208m            https://gitlab.com/NickBusey/HomelabOS/graphs/master [0m
+[38;5;208m            https://gitlab.com/NickBusey/HomelabOS/-/graphs/master [0m
