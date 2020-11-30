@@ -13,12 +13,12 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/lidarr/config:/config"
-      - "{{ storage_dir }}/Music:/media/Music"
+      - "{{ storage_dir }}/Music:/music"
+      - "{{ storage_dir }}/Downloads/complete/music:/downloads"
     environment:
       - TZ={{ common_timezone }}
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
-      - UMASK=022
       - VERSION=stable
       - BACKUP=yes
     labels:
