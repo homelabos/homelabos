@@ -8,7 +8,7 @@ networks:
 
 services:
   grocy:
-    image: linuxserver/grocy:{{ grocy.version }}
+    image: ghcr.io/linuxserver/grocy
     restart: unless-stopped
     environment:
       - TZ={{ common_timezone }}
