@@ -24,7 +24,7 @@ If you attempt to run it on arm and encounter issues,
 
 ## Prerequisites
 
-> Note: Authelia is written in GO, and there is a known GO issue with certain Linux Kernel Versions. Specifically, Ubuntu 20.04 ships with a default kernel of 5.3.0-46 (as of 4/28/2020) Using this kernel will result in a constantly-dying-and-restarting Authelia container with a note that shows Runtime: mlock of signal stack failed.... Update your kernel to 5.3.15+, 5.4.2+, or 5.5+ You *must* upgrade your docker hosts' kerenl to one of those versions for Authelia to work
+> Note: Authelia is written in GO, and there is a known GO issue with certain Linux Kernel Versions. If you experience a constantly-dying-and-restarting Authelia container with a note that shows Runtime: mlock of signal stack failed.... Update your kernel to 5.4+. You *must* upgrade your docker hosts' kernel for Authelia to work
 
 1. Authelia requires a working SMTP server to authenticate new users and register devices.
 
