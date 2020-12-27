@@ -746,6 +746,7 @@ monicahq:
   subdomain: {{ monicahq.subdomain | default("monicahq") }}
   version: {{ monicahq.version | default("latest") }}
   db_version: {{ monicahq.db_version | default("latest") }}
+  disable_signup: {{ monicahq.disable_signup | default(True) }}
 mstream:
   enable: {{ mstream.enable | default(enable_mstream, None) | default(False) }}
   https_only: {{ mstream.https_only | default(False) }}
