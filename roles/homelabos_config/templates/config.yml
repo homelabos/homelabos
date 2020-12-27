@@ -894,6 +894,7 @@ pixelfed:
   subdomain: {{ pixelfed.subdomain | default("pixelfed") }}
   db_version: {{ pixelfed.db_version | default("10.4") }}
   redis_version: {{ pixelfed.redis_version | default("5-alpine") }}
+  open_registration: {{ pixelfed.open_registration | default(True) }}
 pleroma:
   enable: {{ pleroma.enable | default(enable_pleroma, None) | default(False) }}
   https_only: {{ pleroma.https_only | default(False) }}
