@@ -4,12 +4,12 @@ http:
   middlewares:
     authelia:
       forwardAuth:
-        address: "http://auth:9091/api/verify?rd=https://auth.{{ domain }}/"
+        address: "http://auth:9091/api/verify?rd=https://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/"
         trustForwardHeader: true
 {% if enable_tor %}
     authelia-tor:
       forwardAuth:
-        address: "http://auth-tor:9091/api/verify?rd=http://auth.{{ tor_domain }}/"
+        address: "http://auth-tor:9091/api/verify?rd=http://{{ authelia.subdomain }}.{{ tor_domain }}/"
         trustForwardHeader: true
 {% endif %}
     basicAuth:
