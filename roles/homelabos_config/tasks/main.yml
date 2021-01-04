@@ -6,6 +6,13 @@
     state: directory
     mode: '0755'
 
+# TODO: Create this directory as the user
+- name: Create overrides path if it does not exist
+  file:
+    path: settings/overrides
+    state: directory
+    mode: '0755'
+
 - name: Copy HomelabOS config file into place
   template:
     src: "config.yml"

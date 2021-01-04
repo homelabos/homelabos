@@ -237,6 +237,30 @@
   vars:
     query: "not {{ service_item + '.enable' }}"
 
+- name: Remove old docker overrides
+  file:
+    path: "{{ volumes_root }}/{{ service_item }}/docker-compose.override.yml"
+    state: absent
+  when: query
+  loop: "{{ services | flatten(1) }}"
+  loop_control:
+    loop_var: service_item
+  vars:
+    query: "{{ service_item + '.enable' }}"
+  ignore_errors: true
+
+- name: Copy current docker overrides
+  copy:
+    src: "settings/overrides/{{ service_item }}.override.yml"
+    dest: "{{ volumes_root }}/{{ service_item }}/docker-compose.override.yml"
+  when: query
+  loop: "{{ services | flatten(1) }}"
+  loop_control:
+    loop_var: service_item
+  vars:
+    query: "{{ service_item + '.enable' }}"
+  ignore_errors: true
+
 # Migration v0.7
 - name: remove docker-compose.SERVICENAME.yml
   file:
