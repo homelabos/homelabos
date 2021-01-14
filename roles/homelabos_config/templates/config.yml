@@ -65,6 +65,7 @@ bastion:
     keepalive: {{ bastion.wireguard.keepalive | default("25") }}
   ports_to_forward:
     2222: 22
+    222: 222
     80: 80
     443: 443
     25: 25

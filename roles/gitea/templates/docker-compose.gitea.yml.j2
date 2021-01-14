@@ -38,7 +38,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
-      - "{{ gitea.gitea_ssh_port }}:22"
+      - "{{ gitea.gitea_ssh_port }}:222"
     labels:
       - "traefik.http.services.gitea.loadbalancer.server.scheme=http"
       - "traefik.http.services.gitea.loadbalancer.server.port=3000"
