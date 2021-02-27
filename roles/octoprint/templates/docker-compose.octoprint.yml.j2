@@ -1,0 +1,31 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    image: octoprint/octoprint:{{ octoprint.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - octoprint_home:/home/octoprint
+      - octoprint_env:/opt
+{% if octoprint.devices %}
+    devices:
+    {% for device in octoprint.devices %}
+  - "{{ device }}:{{ device }}"
+    {% endfor %}
+{% endif %}
+    labels:
+      - "traefik.http.services.octoprint.loadbalancer.server.scheme=http"
+      - "traefik.http.services.octoprint.loadbalancer.server.port=5000"
+{% include './labels.j2' %}
+
+volumes:
+  octoprint_home:
+  octoprint_env:

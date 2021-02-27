@@ -1,0 +1,26 @@
+---
+version: '3.3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  quakejs:
+    restart: unless-stopped
+    # REQUIRED
+    image: treyyoder/quakejs:{{quakejs.version}}
+    networks:
+      - traefik_network
+    environment:
+      - SERVER={{service_domain}}
+      - HTTP_PORT=80
+    ports:
+      - '27960:27960'
+    labels:
+      - "traefik.http.services.quakejs.loadbalancer.server.scheme=http"
+      - "traefik.http.services.quakejs.loadbalancer.server.port=80"
+{% include './labels.j2' %}

@@ -5,49 +5,31 @@ networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  mashio:
 
 services:
   # Home Brewery Management
   app:
-    image: nickbusey/mashio
+    image: nickbusey/mashio:{{ mashio.version }}
     restart: unless-stopped
     networks:
       - traefik_network
+      - mashio
     environment:
       - MYSQL_DATABASE=mashio
       - MYSQL_TEST_DATABASE=mashio_test
       - MYSQL_USER=mashio
       - MYSQL_PASSWORD="{{lookup('password', './settings/passwords/mashio_db_password chars=ascii_letters')}}"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mashio.loadbalancer.server.scheme=http"
       - "traefik.http.services.mashio.loadbalancer.server.port=80"
-      - "traefik.http.routers.mashio-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mashio-http.entrypoints=http"
-      - "traefik.http.routers.mashio-http.middlewares={% if mashio.https_only %}redirect@file, security-headers@file, {% else %}{% if mashio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mashio.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mashio.entrypoints=https"
-      - "traefik.http.routers.mashio.middlewares={% if mashio.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mashio.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.mashio.tls.certresolver=dns"
-      - "traefik.http.routers.mashio.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mashio.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.mashio.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.mashio-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.mashio-tor-http.entrypoints=http"
-      - "traefik.http.routers.mashio-tor-http.middlewares={% if mashio.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
 
   mashio_db:
-    image: mariadb
+    image: mariadb:{{ mashio.db_version }}
     restart: unless-stopped
     networks:
-      - traefik_network
+      - mashio
     volumes:
       - "{{ volumes_root }}/mashio_db:/var/lib/mysql"
     environment:

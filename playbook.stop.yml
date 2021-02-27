@@ -10,7 +10,7 @@
       systemd:
         name: "{{ service_item }}"
         state: stopped
-      when: query == true
+      when: query
       loop: "{{ services|flatten(levels=1) }}"
       loop_control:
         loop_var: service_item

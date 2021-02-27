@@ -28,13 +28,14 @@ nav:
   - Getting Started: setup/gettingstarted.md
   - Troubleshooting / FAQ: setup/faq.md
   - Setup:
-    - Backups: setup/backups.md
-    - Bastion Server: setup/bastion.md
-    - Email: setup/email.md
-    - Traefik: setup/traefik.md
-    - Terraform: setup/terraform.md
-    - Tor Onion Services: setup/tor.md
-    - VPN Setup: setup/vpn.md
+      - Backups: setup/backups.md
+      - Bastion Server: setup/bastion.md
+      - Email: setup/email.md
+      - Storage: setup/storage.md
+      - Traefik: setup/traefik.md
+      - Terraform: setup/terraform.md
+      - Tor Onion Services: setup/tor.md
+      - VPN Setup: setup/vpn.md
   - Included Software:
     - Analytics:
       - Matomo: software/matomo.md
@@ -47,11 +48,16 @@ nav:
     - Calendaring and Contacts Management:
       - NextCloud: software/nextcloud.md
     - Chat:
+      - Matterbridge: software/matterbridge.md
       - The Lounge: software/thelounge.md
       - Zulip: software/zulip.md
+    - Docker & VM Management:
+      - Portainer: software/portainer.md
+      - Taisun: software/taisun.md
     - Document Management:
-      - Mayan: software/mayan.md
+      - Mayan EDMS: software/mayan.md
       - Paperless: software/paperless.md
+      - Teedy: software/teedy.md
     - E-books:
       - Calibre: software/calibre.md
       - Lazylibrarian: software/lazylibrarian.md
@@ -59,6 +65,7 @@ nav:
       - Mailu: software/mailu.md
     - Federated Identity/Authentication:
       - Authelia: software/authelia.md
+      - Keycloak: software/keycloak.md
       - OpenLDAP: software/openldap.md
     - Feed Readers:
       - FreshRSS: software/freshrss.md
@@ -70,16 +77,20 @@ nav:
       - Minio: software/minio.md
       - Mylar: software/mylar.md
       - Ombi: software/ombi.md
-      - Qbitorrent: software/qbittorrent.md
-      - Radarr / Sonarr: software/radarr-sonarr.md
+      - qBittorrent: software/qbittorrent.md
+      - Radarr: software/radarr-sonarr.md
+      - Samba: software/samba.md
       - SickChill: software/sickchill.md
-      - Synchthing: software/syncthing.md
+      - Sonarr: software/radarr-sonarr.md
+      - Syncthing: software/syncthing.md
       - Transmission: software/transmission.md
       - WebDAV: software/webdavserver.md
+      - Xteve: software/xteve.md
     - Games:
       - Factorio: software/factorio.md
       - Minecraft: software/minecraft.md
       - MinecraftBedrockServer: software/minecraftbedrockserver.md
+      - QuakeJS: software/quakejs.md
     - Gateways and terminal sharing:
       - Guacamole: software/guacamole.md
       - WebVirtMgr: software/webvirtmgr.md
@@ -87,14 +98,15 @@ nav:
       - Airsonic: software/airsonic.md
       - Beets: software/beets.md
       - Emby: software/emby.md
-      - Jellyfin: software/jellyfin.md
-      - MassiveDecks: software/massivedecks.md
-      - Mstream: software/mstream.md
-      - Added PeerTube: software/peertube.md
-      - Plex: software/plex.md
       - Funkwhale: software/funkwhale.md
+      - Jellyfin: software/jellyfin.md
+      - Massive Decks: software/massivedecks.md
+      - mStream: software/mstream.md
+      - PeerTube: software/peertube.md
+      - Plex: software/plex.md
     - Misc/Other:
-      - BarcodeBuddy: software/barcodebuddy.md
+      - AdGuard Home: software/adguardhome.md
+      - Barcode Buddy: software/barcodebuddy.md
       - Chowdown: software/chowdown.md
       - Cockpit: software/system-cockpit.md
       - CodiMD: software/codimd.md
@@ -109,25 +121,30 @@ nav:
       - Grownetics: software/grownetics.md
       - Hubzilla: software/hubzilla.md
       - Inventario: software/inventario.md
+      - InvoiceNinja: software/invoiceninja.md
       - Mashio: software/mashio.md
       - Monica: software/monica.md
       - n8n: software/n8n.md
       - NodeRED: software/nodered.md
+      - OctoPrint: software/octoprint.md
       - Pi-hole: software/pihole.md
       - Poli: software/poli.md
-      - Portainer: software/portainer.md
       - PrivateBin: software/privatebin.md
+      - RSSHub: software/rsshub.md
       - Sabnzbd: software/sabnzbd.md
       - Searx: software/searx.md
       - Shinobi: software/shinobi.md
+      - Simply-Shorten: software/simply-shorten.md
+      - The Spaghetti Detective: software/thespaghettidetective.md
       - Ubooquity: software/ubooquity.md
+      - UnifiController: software/unificontroller.md
       - Watchtower: software/watchtower.md
       - WebTrees: software/webtrees.md
       - Zammad: software/zammad.md
     - Money, Budgeting and Management:
       - Firefly III: software/firefly.md
     - Monitoring:
-      - ELKStack: software/elkstack.md
+      - ELK Stack: software/elkstack.md
       - Grafana: software/grafana.md
       - HealthChecks: software/healthchecks.md
       - Huginn: software/huginn.md
@@ -158,22 +175,23 @@ nav:
     - Social Networking:
       - Pleroma: software/pleroma.md
     - Software Development:
-      - Codeserver: software/codeserver.md
+      - code-server: software/codeserver.md
       - Drone: software/drone.md
       - Gitea: software/gitea.md
       - GitLab: software/gitlab.md
+      - Jenkins: software/jenkins.md
       - Snibox: software/snibox.md
     - Task management/To-do lists:
       - Wekan: software/wekan.md
     - VPN:
       - OpenVPN: software/openvpn.md
-    - Webservers:
+    - Web servers:
       - Apache2: software/apache2.md
     - Wikis:
-      - Bookstack: software/bookstack.md
-      - Tiddlywiki: software/tiddlywiki.md
+      - BookStack: software/bookstack.md
+      - TiddlyWiki: software/tiddlywiki.md
   - Development:
-    - Adding Services: development/adding_services.md
-    - Contributing: development/contributing.md
-    - Migrations: development/migrations.md
-    - Vagrant: development/vagrant.md
+      - Adding Services: development/adding_services.md
+      - Contributing: development/contributing.md
+      - Migrations: development/migrations.md
+      - Vagrant: development/vagrant.md

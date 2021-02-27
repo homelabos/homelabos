@@ -20,14 +20,15 @@
 
 # END MIGRATION
 
-- name: Add the WireGuard PPA repository
+- name: Enable Debian Backports
   apt_repository:
-    repo: ppa:wireguard/wireguard
+    repo: deb http://deb.debian.org/debian buster-backports main
     state: present
   register: result
   until: result is succeeded
   retries: 10
   delay: 3
+  when: ansible_facts['distribution'] == "Debian"
 
 - name: Install WireGuard
   apt:
@@ -67,6 +68,7 @@
     src: /etc/wireguard/publickey
     dest: fetch/server_public_key
     flat: true
+  become: true
   when: "'bastion' in group_names"
 
 - name: Fetch HomeServer Public Key
@@ -74,18 +76,21 @@
     src: /etc/wireguard/publickey
     dest: fetch/client_public_key
     flat: true
+  become: true
   when: "'homelabos' in group_names"
 
 - name: Copy BastionServer public key to HomeServer
   copy:
     src: fetch/server_public_key
     dest: /etc/wireguard/serverpublickey
+  become: true
   when: "'homelabos' in group_names"
 
 - name: Copy HomeServer public key to BastionServer
   copy:
     src: fetch/client_public_key
     dest: /etc/wireguard/homeserverpublickey
+  become: true
   when: "'bastion' in group_names"
 
 - name: Register BastionServer public key as a variable

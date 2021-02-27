@@ -1,60 +1,33 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
+  ethercalc:
 
 services:
   ethercalc_redis:
-    image: redis:latest
+    image: redis:{{ ethercalc.redis_version }}
+    networks:
+      - ethercalc
     volumes:
       - {{ volumes_root }}/ethercalc/redis:/data
     command: redis-server --appendonly yes
     restart: unless-stopped
+
   ethercalc:
     # REQUIRED
-    image: audreyt/ethercalc
+    image: audreyt/ethercalc:{{ ethercalc.version }}
     restart: unless-stopped
     networks:
       - traefik_network
+      - ethercalc
     environment:
       - REDIS_PORT_6379_TCP_ADDR=ethercalc_redis
       - RESIS_PORT_6379_TCP_PORT=6379
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ethercalc.loadbalancer.server.scheme=http"
       - "traefik.http.services.ethercalc.loadbalancer.server.port=8000"
-      - "traefik.http.routers.ethercalc-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ethercalc-http.entrypoints=http"
-      - "traefik.http.routers.ethercalc-http.middlewares={% if ethercalc.https_only %}redirect@file, security-headers@file, {% else %}{% if ethercalc.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ethercalc.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ethercalc.entrypoints=https"
-      - "traefik.http.routers.ethercalc.middlewares={% if ethercalc.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ethercalc.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.ethercalc.tls.certresolver=dns"
-      - "traefik.http.routers.ethercalc.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.ethercalc.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.ethercalc.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.ethercalc-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.ethercalc-tor-http.entrypoints=http"
-      - "traefik.http.routers.ethercalc-tor-http.middlewares={% if ethercalc.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
-    # OPTIONAL
-    #links:
-    #  - inventario_db
-    #environment:
-    #  - MYSQL_DATABASE=package_name
-    #  - MYSQL_TEST_DATABASE=package_name
-    #  - MYSQL_USER=package_name
-    # The next line demonstrates how to generate a random, secure password and store it locally in the settings
-    # folder so that your service password doesn't change on every deploy.
-    #  - MYSQL_PASSWORD={{"lookup('password', './settings/passwords/package_name_db_password chars=ascii_letters')"}}
+{% include './labels.j2' %}

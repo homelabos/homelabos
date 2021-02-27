@@ -1,10 +1,31 @@
 ---
+# Initial setup so Ansible can actually work.
+- name: Install python (required by Ansible).
+  gather_facts: "False"
+  hosts: all
+  become: "True"
+  become_method: sudo
+  any_errors_fatal: true
+  pre_tasks:
+    - name: "Update Apt Cache"
+      raw: sudo apt-get update
+      run_once: true
+    - name: "Install Python"
+      raw: sudo apt-get -y install python-simplejson python3 python3-simplejson python3-pip python3-virtualenv python3-passlib python3-openssl
+      run_once: true
+    - name: Configure python and pip
+      raw: sudo apt-get -y purge python-simplejson && if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi
+      run_once: true
+
 # Restore HomelabOS from the most recent backup.
 - hosts: all
-  become: "True"
+  become: true
   # gather_facts: "True"
-  tags: restore
+  tags:
+    - common
+    - restore
 
   roles:
+    - homelabos_common
     - homelabos_restore
 ...

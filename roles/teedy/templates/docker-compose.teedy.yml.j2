@@ -1,0 +1,41 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  teedy:
+
+services:
+  teedydb:
+    networks:
+      - teedy
+    image: postgres:{{ teedy.db_version }}
+    environment:
+      - POSTGRES_DB=docs
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/teedy_postgres_password')}}
+    volumes:
+      - "{{ volumes_root }}/teedy/postgres_data:/var/lib/postgresql/data"
+
+  app:
+    image: sismics/docs:{{ teedy.version }}
+    restart: unless-stopped
+    depends_on:
+      - teedydb
+    networks:
+      - traefik_network
+      - teedy
+    volumes:
+      - "{{ storage_dir }}/Documents:/data"
+    environment:
+      - DOCS_BASE_URL={{ service_domain }}
+      - DATABASE_URL=jdbc:postgresql://teedydb:5432/docs
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD={{lookup('password', './settings/passwords/teedy_postgres_password')}}
+    labels:
+      - "traefik.http.services.teedy.loadbalancer.server.scheme=http"
+      - "traefik.http.services.teedy.loadbalancer.server.port=8080"
+{% include './labels.j2' %}

@@ -20,7 +20,7 @@ To contribute a bug fix, service, or enhancement you'll need to:
 2. Branch Dev in your fork
 3. Develop your feature/fix
 4. Commit to your branch on your fork
-5. Create a Merge Request 
+5. Create a Merge Request
 
 ## Getting set up to contribute
 
@@ -52,11 +52,11 @@ Gitlab is great for tracking changes to source code, but it relies on the develo
 
 ## Making a contribution to a new Issue
 
-1. Make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`. 
-2. Create an issue in the [master project GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues). From this issue, click the `Create Merge Request` button. 
-3. Now click the `Check Out Branch` button and copy Step 1, run that command on your local copy of the repository. 
-4. Now make your changes and commit and push them. 
-5. In GitLab, go to your Merge Request and make sure it is not labeled WIP and that all the check boxes are checked (If applicable). 
+1. Make sure you don't have any outstanding un-related changes in your local repository with `git status`. You should see `nothing to commit, working tree clean`.
+2. Create an issue in the [master project GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues). From this issue, click the `Create Merge Request` button.
+3. Now click the `Check Out Branch` button and copy Step 1, run that command on your local copy of the repository.
+4. Now make your changes and commit and push them.
+5. In GitLab, go to your Merge Request and make sure it is not labeled WIP and that all the check boxes are checked (If applicable).
 
 Once you've submitted the MR it will be reviewed, and if it receives 2 approvals, it will be merged. You don't need to do anything after submitting unless requested. Don't worry about rebasing, or closing the merge request. If the Merge Request needs changes, the maintainers will add commends describing the needed changes, add `WIP:` back to the start of the title, and assign it back to the submitter.
 
@@ -66,7 +66,29 @@ Once you've submitted the MR it will be reviewed, and if it receives 2 approvals
 > `git checkout your-new-feature`
 > `git rebase dev`
 
-## Working with Issues
+## Before submitting a merge request install pre-commit (optional)
+
+###Quote from Pre-Commit
+> Git hook scripts are useful for identifying simple issues before submission to code review. We run our hooks on every commit to automatically point out issues in code such as missing semicolons, trailing whitespace, and debug statements. By pointing these issues out before code review, this allows a code reviewer to focus on the architecture of a change while not wasting time with trivial style nitpicks.
+
+### Installation instructions
+
+Before you can run hooks, you need to have the pre-commit package manager installed.
+
+Using pip:
+Run `pip install pre-commit`
+
+Using [homebrew](https://brew.sh/):
+`brew install pre-commit`
+
+Install the git hook scripts
+cd to the folder from where you run `make`,
+run `pre-commit install` to set up the git hook scripts.
+
+(optional) Run against all the files
+`pre-commit run --all-files`
+
+# Working with Issues
 
 ### Labels
 
@@ -103,4 +125,4 @@ To serve the docs locally run `make docs_local`.
 
 ## Working locally on the website
 
-To work on the [HomelabOS webiste](https://homelabos.com/) just type `make web` to serve it locally.
+To work on the [HomelabOS website](https://homelabos.com/) just type `make web` to serve it locally.

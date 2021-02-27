@@ -4,18 +4,18 @@ This is the Frequently Asked Questions section.
 
 Use the page table of contents to navigate it quickly. Also the search in these docs is instant and easy.
 
-## `make` command throws a docker related error
+## `hlos` command throws a docker related error
 
 * Make sure HomelabOS successfully installed docker on the server. If its not installed, try installing it manually.
 ```
 [server]$ docker run hello-world
-``` 
+```
 * Make sure you are running the latest docker and docker compose on both your client and server. The Docker version installed via `apt` can be old. Recommended install directions are [here](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 * Check HomelabOS status on the server and make sure it is loaded and active.
 ```
 [server]$ systemctl status homelabos
-``` 
-* Make sure the admin user specified during `make config` is created.
+```
+* Make sure the admin user specified during `hlos config` is created.
 ```
 [server]$ compgen -u
 ```
@@ -56,7 +56,7 @@ If you can't even access the dashboard at {{ homelab_ip }}:8181, check the statu
 ```
 [server]$ systemctl status homelabos
 ```
-This should give you some insight into what the issue is. Also you should be able to run 
+This should give you some insight into what the issue is. Also you should be able to run
 ```
 [server]$ docker ps | grep traefik
 ```
@@ -75,9 +75,9 @@ Traefik generates SSL certs via LetsEncrypt, and LetsEncrypt has rate limiting. 
 
 ## I can't find certain config values like Authelia
 
-Check your `config/vault.yml` file. If it's encrypted just run `make decrypt`
+Check your `config/vault.yml` file. If it's encrypted just run `hlos decrypt`
 
-You also don't need to edit the `config/` files directly at all, or worry about where the config values are. Just use `make set` and `make get` and it will access the variable correctly regardless of what config file it lives in.
+You also don't need to edit the `config/` files directly at all, or worry about where the config values are. Just use `hlos set` and `hlos get` and it will access the variable correctly regardless of what config file it lives in.
 
 ## I get `exec user process caused 'exec format error'`
 
@@ -98,3 +98,9 @@ Yes.
 ## If I don't have a domain, what do I enter for the domain field?
 
 Make something up. Something like `myhomelab.local` is fine. HomelabOS will generate a file on the server `/var/homelabos/homelabos_hosts`. You can use this file to add to your computer's hosts override file (`/etc/hosts` on *nix based OSs), or to map on your router or DNS server as DNS overrides. HomelabOS generates one line o `SERVER_IP SERVICE_NAME.DOMAIN_NAME SERVICENAME` for each service. So if you used the example fake domain given above, and you enabled [Jellyfin](../software/jellyfin.md), you can access it at `jellyfin.myhomelab.local` once you have your DNS overrides set up.
+
+## Can I use a 32 bit OS?
+
+No.
+
+Docker requires 64 bit. Nothing we can do about that, sorry.

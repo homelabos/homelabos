@@ -1,0 +1,25 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  url:
+    image: draganczukp/simply-shorten:{{ simply_shorten.version }}
+    environment:
+      username: {{ default_username }}
+      password: {{ default_password }}
+    volumes:
+      - "{{ volumes_root }}/simply_shorten/urls.sqlite:/urls.sqlite"
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.http.services.simply_shorten.loadbalancer.server.scheme=http"
+      - "traefik.http.services.simply_shorten.loadbalancer.server.port=4567"
+{% include './labels.j2' %}

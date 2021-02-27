@@ -1,0 +1,51 @@
+---
+- name: Make thespaghettidetective directory.
+  file:
+    path: "{{ volumes_root }}/thespaghettidetective"
+    state: directory
+
+- name: Create Temporary Repository Directory
+  tempfile:
+    state: directory
+    suffix: repo
+  register: repodir
+
+- name: Clone The Spaghetti Detective Repository
+  git:
+    repo: "https://github.com/TheSpaghettiDetective/TheSpaghettiDetective.git"
+    dest: "{{ repodir.path }}"
+    clone: yes
+    update: yes
+
+- name: Copy and Overwrite Exsisting files
+  copy:
+    src: "{{ repodir.path }}/"
+    dest: "{{ volumes_root }}/thespaghettidetective"
+    remote_src: yes
+    mode: '777'
+    directory_mode: '777'
+
+- name: Remove Temporary Repository Directory
+  file:
+    path: "{{ repodir.path }}"
+    state: absent
+  when: repodir.path is defined
+
+- name: Copy thespaghettidetective docker-compose.yml file into place.
+  template:
+    src: docker-compose.thespaghettidetective.yml.j2
+    dest: "{{ volumes_root }}/thespaghettidetective/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure thespaghettidetective systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/thespaghettidetective.service
+
+- name: Start thespaghettidetective
+  systemd:
+    name: thespaghettidetective
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

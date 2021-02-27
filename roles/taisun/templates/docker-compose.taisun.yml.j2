@@ -1,0 +1,20 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  app:
+    image: linuxserver/taisun:{{ taisun.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.http.services.taisun.loadbalancer.server.scheme=http"
+      - "traefik.http.services.taisun.loadbalancer.server.port=3000"
+{% include './labels.j2' %}

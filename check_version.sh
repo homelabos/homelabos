@@ -10,7 +10,7 @@ echo -e "Newest Version:\x1B[01;95m $VERSION_LATEST \n\x1B[0m"
 
 if version_gt $VERSION_LATEST $VERSION_CURRENT; then
    echo -e "\x1B[01;31m * You should update to version $VERSION_LATEST! * "
-   echo -e " * Update at https://gitlab.com/NickBusey/HomelabOS/releases * \n\x1B[0m"
+   echo -e " * Update at https://gitlab.com/NickBusey/HomelabOS/-/releases * \n\x1B[0m"
 else
   echo -e "\x1B[01;32mYou are up to date! \n\x1B[0m"
 fi

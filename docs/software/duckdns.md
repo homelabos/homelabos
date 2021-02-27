@@ -2,6 +2,10 @@
 
 [DuckDNS](http://duckdns.org/) is free dynamic DNS hosted on AWS. This provides a client to update the IP pointed to by DuckDNS.
 
+The docker image comes from [linuxserver/duckdns](https://hub.docker.com/r/linuxserver/duckdns) and should support arm devices.
+If you attempt to run it on arm and encounter issues,
+[please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
+
 ## Access
 
 This service does not provide an interface

@@ -1,0 +1,8 @@
+FROM jenkinsci/blueocean:{{ jenkins.version }}
+
+USER root
+
+{% if jenkins.additional_packages %}
+RUN apk update
+RUN apk add {% for package in jenkins.additional_packages %}{{ package }} {% endfor %}
+{% endif %}

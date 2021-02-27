@@ -116,8 +116,8 @@ puts 'Done!'
 
 puts <<-FINAL
 
-Two things: 
-1. This script places the docs page in the misc/other section. 
+Two things:
+1. This script places the docs page in the misc/other section.
     Please edit mkdocs.yml to place this package in the appropriate section.
 2. Please Don't forget to edit the docker-compose file
 FINAL
@@ -176,7 +176,7 @@ BEGIN {
     first_instance_found = false
     lines.dup.each_with_index do |line, index|
       next unless line.strip == "#{next_name}:"
-      if first_instance_found 
+      if first_instance_found
         lines.insert index, service_name
       else
         first_instance_found = true
@@ -196,6 +196,7 @@ config_block = <<~CONFIG
   auth: {{ #{to_insert}.auth | default(False) }}
   domain: {{ #{to_insert}.domain | default(False) }}
   subdomain: {{ #{to_insert}.subdomain | default("#{to_insert}")}}
+  version: {{ #{to_insert}.version | default("latest") }}
 CONFIG
     next_name = find_name_index_for_next_service to_insert
     lines = File.readlines filename

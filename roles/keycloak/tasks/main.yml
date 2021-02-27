@@ -1,0 +1,24 @@
+---
+- name: Make keycloak directory.
+  file:
+    path: "{{ volumes_root }}/keycloak"
+    state: directory
+
+- name: Copy keycloak docker-compose.yml file into place.
+  template:
+    src: docker-compose.keycloak.yml.j2
+    dest: "{{ volumes_root }}/keycloak/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure keycloak systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/keycloak.service
+
+- name: Start keycloak
+  systemd:
+    name: keycloak
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

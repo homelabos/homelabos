@@ -1,0 +1,12 @@
+package_file_name:
+  enable:
+    {
+      {
+        package_file_name.enable | default(enable_package_file_name,
+        None) | default(False),
+      },
+    }
+  https_only: { { package_file_name.https_only | default(False) } }
+  auth: { { package_file_name.auth | default(False) } }
+  domain: { { package_file_name.domain | default(False) } }
+  subdomain: { { package_file_name.subdomain | default("package_file_name") } }

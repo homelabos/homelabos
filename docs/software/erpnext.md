@@ -2,6 +2,11 @@
 
 [ERPNext](https://github.com/frappe/frappe_docker) Open Source ERP for Everyone.
 
+The docker image comes from [multiple images](https://hub.docker.com/u/frapper)
+and currently does not support arm devices.
+If you are aware of a suitable substitution or replacement, [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
+and test your idea using the [documentation](https://homelabos.com/docs/development/adding_services/).
+
 ## Setup
 
 On your server run:

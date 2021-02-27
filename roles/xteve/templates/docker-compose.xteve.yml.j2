@@ -1,0 +1,22 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  xteve:
+    image: dnsforge/xteve:{{ xteve.version }}
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - "{{ volumes_root }}/config:/home/xteve/conf"
+      - "{{ volumes_root }}/tmp:/tmp/xteve"
+    labels:
+      - "traefik.http.services.xteve.loadbalancer.server.scheme=http"
+      - "traefik.http.services.xteve.loadbalancer.server.port=34400"
+{% include './labels.j2' %}

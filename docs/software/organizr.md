@@ -1,6 +1,6 @@
 # Organizr
 
-[Organizr](https://lamarios.github.io/organizr2/) is a simple dashboard that allows to monitor and interact with many different services.
+[Organizr](https://organizr.app/) is a simple dashboard that allows to monitor and interact with many different services.
 
 ## Access
 

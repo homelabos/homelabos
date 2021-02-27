@@ -1,6 +1,6 @@
 # Tautulli
 
-[Tautulli](https://github.com/tautulli/tautulli) A Python based monitoring and tracking tool for Plex Media Server. 
+[Tautulli](https://github.com/tautulli/tautulli) A Python based monitoring and tracking tool for Plex Media Server.
 
 ## Access
 

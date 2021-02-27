@@ -10,7 +10,7 @@ networks:
 
 services:
   sui:
-    image: willfantom/sui:latest
+    image: willfantom/sui:{{ sui.version }}
     restart: unless-stopped
     networks:
       - traefik_network
@@ -18,34 +18,9 @@ services:
       - "{{ volumes_root }}/sui/configs:/sui"
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.sui.loadbalancer.server.scheme=http"
       - "traefik.http.services.sui.loadbalancer.server.port=6999"
-      - "traefik.http.routers.sui-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.sui-http.entrypoints=http"
-{% if not sui.https_only %}
-      - "traefik.http.routers.sui-http.middlewares={% if sui.https_only %}redirect@file, {% else %}{% if sui.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.sui-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.sui.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.sui.entrypoints=https"
-      - "traefik.http.routers.sui.middlewares={% if sui.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.sui.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.sui.tls.certresolver=dns"
-      - "traefik.http.routers.sui.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.sui.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.sui.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.sui-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.sui-tor-http.entrypoints=http"
-      - "traefik.http.routers.sui-tor-http.middlewares={% if sui.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}
       - "sui.enabled=true"
       - "sui.name=dashboard"
       - "sui.icon=home"

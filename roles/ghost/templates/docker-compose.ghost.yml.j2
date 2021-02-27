@@ -8,9 +8,8 @@ networks:
       name: homelabos_traefik
 
 services:
-
   ghost:
-    image: ghost:3-alpine
+    image: ghost:{{ ghost.version }}
     networks:
       - traefik_network
     restart: unless-stopped
@@ -28,26 +27,6 @@ services:
     volumes:
       - "{{ volumes_root }}/ghost/content:/var/lib/ghost/content"
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.ghost.loadbalancer.server.scheme=http"
       - "traefik.http.services.ghost.loadbalancer.server.port=2368"
-      - "traefik.http.routers.ghost-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ghost-http.entrypoints=http"
-      - "traefik.http.routers.ghost-http.middlewares={% if ghost.https_only %}redirect@file, security-headers@file, {% else %}{% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ghost.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.ghost.entrypoints=https"
-      - "traefik.http.routers.ghost.middlewares={% if ghost.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.ghost.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.ghost.tls.certresolver=dns"
-      - "traefik.http.routers.ghost.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.ghost.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.ghost.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.ghost-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.ghost-tor-http.entrypoints=http"
-      - "traefik.http.routers.ghost-tor-http.middlewares={% if ghost.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

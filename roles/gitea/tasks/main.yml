@@ -4,6 +4,15 @@
     path: "{{ volumes_root }}/gitea"
     state: directory
 
+- name: Check that old db folder exists
+  stat:
+    path: "{{ volumes_root }}/gitea_db"
+  register: old_gitea_db
+
+- name: Move old db folder to new location
+  command: mv "{{ volumes_root }}/gitea_db" "{{ volumes_root }}/gitea/db"
+  when: old_gitea_db.stat.exists and old_gitea_db.stat.isdir
+
 - name: Copy gitea docker-compose.yml file into place.
   template:
     src: docker-compose.gitea.yml.j2

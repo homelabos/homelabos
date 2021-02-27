@@ -1,0 +1,91 @@
+---
+#####################################
+## What this playbook does:
+## - Retrieve GID/UID for hlos user - used when setting up NAS drives
+## - Tag: host_deps
+##     Bootstrap server with software needs
+## - Tag: create_user
+##     Create the hlos user account. Can be run with host_deps
+## - Tag: deploy_base
+##     Copy down the HLOS repository
+##     Run as the hlos user (i.e. change ansible cfg to switch to the new user!)
+## - Tag: deploy_after_config
+##     Setup remaining things after the config has been created. These tasks depend on variables set there.
+##     Traefik, Tor, NAS/Samba
+#####################################
+
+## Stage 1 of deployment:
+- name: Import Create User tasks
+  import_tasks: create_user.yml
+  tags:
+    - create_user
+
+- name: Import Docker installation tasks
+  import_tasks: docker.yml
+  tags:
+    - deploy_base
+
+- name: Import Install HomeLabOS tasks
+  import_tasks: deploy.yml
+  tags:
+    - deploy_base
+
+- name: Import ansible_api installation tasks
+  import_role:
+    name: homelabos_ansible_api
+  tags:
+    - deploy_base
+
+- name: Import hlos_web installation tasks
+  import_role:
+    name: homelabos_web
+  tags:
+    - deploy_base
+
+## Stage 2 of deployment:
+## - Install all on-host dependencies
+#####################################
+- name: Install required system packages
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: ['git', 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'gnupg-agent', 'python3-docker', 'python3-distutils', 'python3-passlib']
+  become: yes
+  tags:
+    - deploy_host_deps
+  # TODO: python3-pip and mkdocs is used by the 'docs' service.  Why are the docs not built in a container?
+  # 'python3-pip', 'mkdocs']
+  # It pulls in a massive amount of packages just for this purpose.
+  # Need theme: material
+  # Need : pymdownx.details , git-revision-date-localized
+  # service docs is non-functional.
+
+## Stage 3 of deployment:
+## Requirement: Default configuration is completed. I.e. settings/config.yml and vault.yml exist.
+## - If variables are supplied to ansible, the configuraton will complete without prompts.
+## - Setup Traefik, NAS dirs, Tor etc.
+#####################################
+- name: Get UID of {{ homelab_ssh_user }}
+  command: id -u {{ homelab_ssh_user }}
+  register: uid_output
+  tags:
+    - deploy_host_deps
+
+- name: Get GID of {{ homelab_ssh_user }}
+  command: id -g {{ homelab_ssh_user }}
+  register: gid_output
+  tags:
+    - deploy_host_deps
+
+- name: Import Traefik tasks
+  import_tasks: traefik.yml
+  tags:
+    - deploy_host_deps
+
+- name: Import NAS/Directory tasks
+  import_tasks: nas_dirs.yml
+  tags:
+    - deploy_host_deps
+
+- name: Import Tor tasks
+  import_tasks: tor.yml
+  tags:
+    - deploy_host_deps

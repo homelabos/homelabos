@@ -1,0 +1,24 @@
+---
+- name: Make taisun directory.
+  file:
+    path: "{{ volumes_root }}/taisun"
+    state: directory
+
+- name: Copy taisun docker-compose.yml file into place.
+  template:
+    src: docker-compose.taisun.yml.j2
+    dest: "{{ volumes_root }}/taisun/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure taisun systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/taisun.service
+
+- name: Start taisun
+  systemd:
+    name: taisun
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

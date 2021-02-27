@@ -13,7 +13,7 @@ networks:
 services:
   # External dependencies
   redis:
-    image: redis:alpine
+    image: redis:{{ mailu.redis_version }}
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/mailu/redis:/data"
@@ -22,19 +22,29 @@ services:
 
   # Core services
   front:
-    image: mailu/nginx:1.7
+    image: mailu/nginx:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     logging:
       driver: json-file
     ports:
-      - "25:25"
-      - "465:465"
-      - "587:587"
-      - "110:110"
-      - "995:995"
-      - "143:143"
-      - "993:993"
+      - "25:25"    #SMTP (mail server to mail server communication)
+      - "587:587"  #SMTP-MSA (Simple Mail Transfer Protocol - Message Submission Agent)
+{% if mailu.enable_secure_imap %}
+      - "993:993"  #IMAPS (Secure)
+{% endif %}
+{% if mailu.enable_secure_pop3 %}
+      - "995:995"  #POP3S (Secure)
+{% endif %}  
+{% if mailu.enable_legacy_smtps %}
+      - "465:465" #SMTPS (Non-standard port... legacy)
+{% endif %}
+{% if mailu.enable_unsecure_pop3 %}
+      - "110:110" #POP3
+{% endif %}
+{% if mailu.enable_unsecure_imap %}
+     - "143:143" #IMAP
+{% endif %}
     volumes:
       - "{{ volumes_root }}/mailu/certs:/certs"
       - "{{ volumes_root }}/mailu/overrides/nginx:/overrides"
@@ -42,32 +52,60 @@ services:
       - traefik_network
       - mail_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
       - "traefik.http.services.mailu.loadbalancer.server.port=80"
-      - "traefik.http.routers.mailu-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mailu-http.entrypoints=http"
-      - "traefik.http.routers.mailu-http.middlewares={% if mailu.https_only %}redirect@file, security-headers@file, {% else %}{% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.mailu.entrypoints=https"
-      - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.mailu.tls.certresolver=dns"
-      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.mailu.tls.certresolver=http"
+{% include './labels.j2' %}
+      
+      # Default minimum routes needed for email to work 
+      # 25 (unsecure SMTP) and 587 (secure SMTP)
+      - "traefik.tcp.routers.mailu_smtp.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_smtp.entrypoints=smtp"
+      - "traefik.tcp.routers.mailu_smtp.service=mailu_smtp"
+      - "traefik.tcp.services.mailu_smtp.loadbalancer.server.port=25"
+
+      - "traefik.tcp.routers.mailu_smtp_msa.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_smtp_msa.entrypoints=smtp-msa"
+      - "traefik.tcp.routers.mailu_smtp_msa.tls.passthrough=true"
+      - "traefik.tcp.routers.mailu_smtp_msa.service=mailu_smtp_msa"
+      - "traefik.tcp.services.mailu_smtp_msa.loadbalancer.server.port=587"
+{% if mailu.enable_secure_imap %}
+      - "traefik.tcp.routers.mailu_imaps.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_imaps.entrypoints=imaps"
+      - "traefik.tcp.routers.mailu_imaps.tls.passthrough=true"
+      - "traefik.tcp.routers.mailu_imaps.service=mailu_imaps"
+      - "traefik.tcp.services.mailu_imaps.loadbalancer.server.port=993"
 {% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.mailu-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.mailu-tor-http.entrypoints=http"
-      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% if mailu.enable_secure_pop3 %}
+      - "traefik.tcp.routers.mailu_pop3s.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_pop3s.entrypoints=pop3s"
+      - "traefik.tcp.routers.mailu_pop3s.tls.passthrough=true"
+      - "traefik.tcp.routers.mailu_pop3s.service=mailu_pop3s"
+      - "traefik.tcp.services.mailu_pop3s.loadbalancer.server.port=995"
+{% endif %}
+{% if mailu.enable_legacy_smtps %}
+      # Optional nonstandard legacy smtps
+      - "traefik.tcp.routers.mailu_smtps.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_smtps.entrypoints=smtps"
+      - "traefik.tcp.routers.mailu_smtps.tls.passthrough=true"
+      - "traefik.tcp.routers.mailu_smtps.service=mailu_smts"
+      - "traefik.tcp.services.mailu_smtps.loadbalancer.server.port=465"
+{% endif %}
+{% if mailu.enable_unsecure_pop3 %}
+      # Optional unsecure pop3
+      - "traefik.tcp.routers.mailu_pop3.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_pop3.entrypoints=pop3"
+      - "traefik.tcp.routers.mailu_pop3.service=mailu_pop3"
+      - "traefik.tcp.services.mailu_pop3.loadbalancer.server.port=110"
+{% endif %}
+{% if mailu.enable_unsecure_imap %}
+      - "traefik.tcp.routers.mailu_imap.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.mailu_imap.entrypoints=imap"
+      - "traefik.tcp.routers.mailu_imap.service=mailu_imap"
+      - "traefik.tcp.services.mailu_imap.loadbalancer.server.port=143"
 {% endif %}
 
   admin:
-    image: mailu/admin:1.7
+    image: mailu/admin:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -76,35 +114,10 @@ services:
     depends_on:
       - redis
     networks:
-      - traefik_network
       - mail_network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mailu.loadbalancer.server.port=80"
-      - "traefik.http.routers.mailu-http.rule=Host(`admin.{{ service_domain }}`)"
-      - "traefik.http.routers.mailu-http.entrypoints=http"
-      - "traefik.http.routers.mailu-http.middlewares={% if mailu.https_only %}redirect@file, security-headers@file, {% else %}{% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.rule=Host(`admin.{{ service_domain }}`)"
-      - "traefik.http.routers.mailu.entrypoints=https"
-      - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.mailu.tls.certresolver=dns"
-      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.mailu.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.mailu-tor-http.rule=Host(`admin.{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.mailu-tor-http.entrypoints=http"
-      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
 
   imap:
-    image: mailu/dovecot:1.7
+    image: mailu/dovecot:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -116,7 +129,7 @@ services:
       - front
 
   smtp:
-    image: mailu/postfix:1.7
+    image: mailu/postfix:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -127,7 +140,7 @@ services:
       - front
 
   antispam:
-    image: mailu/rspamd:1.7
+    image: mailu/rspamd:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -141,7 +154,7 @@ services:
 
   # Optional services
   antivirus:
-    image: mailu/clamav:1.7
+    image: mailu/clamav:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -150,7 +163,7 @@ services:
       - mail_network
 
   webdav:
-    image: mailu/radicale:1.7
+    image: mailu/radicale:{{ mailu.version }}
     restart: unless-stopped
     env_file: .env
     volumes:
@@ -160,10 +173,10 @@ services:
 
   certdumper:
     restart: unless-stopped
-    image: mailu/traefik-certdumper:1.7
+    image: mailu/traefik-certdumper:{{mailu.certdumper_version}} #Need latest as it supports the TRAEFIK_VERSION command
     environment:
-      - DOMAIN={% if mailu.domain %}{{ mailu.domain }}{% else %}{{ mailu.subdomain + "." + domain }}{% endif %}
-
+      - TRAEFIK_VERSION=v2
+      - DOMAIN={{ service_domain }}
     volumes:
       # Folder, which contains the acme.json
       - "{{ volumes_root}}/traefik:/traefik"
@@ -172,7 +185,7 @@ services:
 
   # Webmail
   webmail:
-    image: mailu/rainloop:1.7
+    image: mailu/rainloop:{{ mailu.version }}
     restart: always
     env_file: .env
     volumes:
@@ -180,29 +193,15 @@ services:
     depends_on:
       - imap
     networks:
-      - traefik_network
       - mail_network
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mailu.loadbalancer.server.port=80"
-      - "traefik.http.routers.mailu-http.rule=Host(`webmail.{{ service_domain }}`)"
-      - "traefik.http.routers.mailu-http.entrypoints=http"
-      - "traefik.http.routers.mailu-http.middlewares={% if mailu.https_only %}redirect@file, security-headers@file, {% else %}{% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.rule=Host(`webmail.{{ service_domain }}`)"
-      - "traefik.http.routers.mailu.entrypoints=https"
-      - "traefik.http.routers.mailu.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.mailu.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.mailu.tls.certresolver=dns"
-      - "traefik.http.routers.mailu.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.mailu.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.mailu.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.mailu-tor-http.rule=Host(`webmail.{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.mailu-tor-http.entrypoints=http"
-      - "traefik.http.routers.mailu-tor-http.middlewares={% if mailu.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+      
+  # Fetchmail    
+  fetchmail:
+    image: mailu/fetchmail:1.8
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - "{{ volumes_root }}/mailu/fetch:/data"
+    networks:
+      - mail_network
+#Checking

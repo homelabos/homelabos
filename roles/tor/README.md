@@ -27,7 +27,7 @@ _None._
 | tor_hidden_services| List of services to be set up                  | _None_        |
 
 ##### ***Hidden service***
-* **dir**: Directory to store the hidden service configuration. 
+* **dir**: Directory to store the hidden service configuration.
 * **port**: Port to expose to the TOR-Network
 * **source**: The ip-address and port of the service to be exposed.
 * *version*: When defined used as a hidden service version (usually not set or 3)

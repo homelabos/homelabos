@@ -1,41 +1,18 @@
 ---
 version: '3'
 
-# This networks section required for the package to be visible to Traefik.
-# DO NOT Remove
 networks:
   traefik_network:
     external:
       name: homelabos_traefik
 
 services:
-  app:
-    # REQUIRED
-    image: sebp/elk
+  elk:
+    image: sebp/elk:{{ elkstack.version }}
     restart: unless-stopped
     networks:
       - traefik_network
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.services.elkstack.loadbalancer.server.scheme=http"
       - "traefik.http.services.elkstack.loadbalancer.server.port=5601"
-      - "traefik.http.routers.elkstack-http.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.elkstack-http.entrypoints=http"
-      - "traefik.http.routers.elkstack-http.middlewares={% if elkstack.https_only %}redirect@file, security-headers@file, {% else %}{% if elkstack.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.elkstack.rule=Host(`{{ service_domain }}`)"
-      - "traefik.http.routers.elkstack.entrypoints=https"
-      - "traefik.http.routers.elkstack.middlewares={% if elkstack.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.elkstack.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.elkstack.tls.certresolver=dns"
-      - "traefik.http.routers.elkstack.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.elkstack.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.elkstack.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.elkstack-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.elkstack-tor-http.entrypoints=http"
-      - "traefik.http.routers.elkstack-tor-http.middlewares={% if elkstack.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

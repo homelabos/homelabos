@@ -4,33 +4,17 @@
     path: "{{ volumes_root }}/nextcloud"
     state: directory
 
-- name: Get UID
-  command: id -u {{ homelab_ssh_user }}
-  register: uid_output
-  become: false
-
-- name: Get GID
-  command: id -g {{ homelab_ssh_user }}
-  register: gid_output
-  become: false
-
-# Migration v0.7
-- name: folder nextcloud_db present
-  stat: path={{ volumes_root }}/nextcloud_db
-  register: folder_present
-
-- name: Stop nextcloud
-  systemd:
-    name: nextcloud
-    enabled: "no"
-    daemon-reload: "yes"
-    state: stopped
-  when: folder_present.stat.exists
-
-- name: Move nextcloud_db to nextcloud/db
-  command: mv "{{ volumes_root }}/nextcloud_db" "{{ volumes_root }}/nextcloud/db"
-  when: folder_present.stat.exists
-# End Migration v0.7
+- name: Create necessary folders, with appropriate permissions.
+  file:
+    path: "{{ volumes_root }}/nextcloud/{{ item }}"
+    state: directory
+    owner: "{{ uid_output.stdout }}"
+    group: "{{ gid_output.stdout }}"
+  with_items:
+    - "apps"
+    - "config"
+    - "webroot"
+    - "themes"
 
 - name: Copy nextcloud docker-compose.yml file into place.
   template:
@@ -38,8 +22,8 @@
     dest: "{{ volumes_root }}/nextcloud/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    uid: "{{ uid_output.stdout }}"
-    gid: "{{ gid_output.stdout }}"
+    uid: "{{uid_output.stdout}}"
+    gid: "{{gid_output.stdout}}"
 
 - name: Configure nextcloud systemd service.
   template:

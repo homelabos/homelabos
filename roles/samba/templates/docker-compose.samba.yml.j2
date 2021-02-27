@@ -1,0 +1,29 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  samba:
+    driver: bridge
+
+services:
+  samba:
+    restart: unless-stopped
+    image: dperson/samba:{{ samba.version }}
+    networks:
+      - samba
+    volumes:
+      # This is the parent folder of all HLOS storage
+      - "{{ storage_dir }}:/media:z"
+      - "{{ volumes_root }}/samba/config:/etc/samba"
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
+    tmpfs:
+      - /tmp
+    stdin_open: true
+    tty: true
+    command: '-s "HomelabOS;/media;yes;no;no;{{default_username}};{{default_username}};{{default_username}}" -u "{{default_username}};{{default_password}}" -p'

@@ -1,0 +1,43 @@
+####################
+## Tor
+####################
+# Hacky ansible workaround. Would love to remove these 4 tasks.
+# Long story short it ensures the `tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"` bit can work.
+- name: Ensure tor host folder exists
+  file:
+    path: /var/lib/tor/ssh-onion/
+    state: directory
+  become: yes
+
+- name: Ensure tor host folder exists
+  file:
+    path: /var/lib/tor/http-onion/
+    state: directory
+  become: yes
+
+- name: Ensure blank tor host files exist
+  file:
+    path: /var/lib/tor/ssh-onion/hostname
+    state: touch
+  become: yes
+
+- name: Ensure blank tor host files exist
+  file:
+    path: /var/lib/tor/http-onion/hostname
+    state: touch
+  become: yes
+# / Hack
+
+- name: Read Tor connection info
+  shell: cat /var/lib/tor/http-onion/hostname
+  register: tor_http_domain_file
+
+- name: Read Tor SSH connection info
+  shell: cat /var/lib/tor/ssh-onion/hostname
+  register: tor_ssh_domain_file
+  when: "lookup('vars', 'enable_tor')"
+
+- name: Read Tor connection info
+  shell: cat /var/lib/tor/http-onion/hostname
+  register: tor_http_domain_file
+  when: "lookup('vars', 'enable_tor')"

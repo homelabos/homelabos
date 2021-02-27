@@ -7,6 +7,7 @@
       - cifs-utils
       - curl
       - software-properties-common
+      - gnupg-agent
       - git
       - htop
       - iftop
@@ -18,14 +19,33 @@
       - unattended-upgrades
       - vim
       - zsh
-      - docker
-      - docker-compose
       - whois
       - python3
       - python3-pip
       - python3-virtualenv
+      - python3-setuptools
       - python3-passlib
       - python3-openssl
+  tags:
+    - dependencies
+
+- name: Add an apt key for Docker-ce Repo
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add the Docker-ce Repo
+  apt_repository:
+    repo: deb https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }} stable
+    state: present
+
+- name: Install Docker and docker-compose
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose
+      - containerd.io
   tags:
     - dependencies
 
@@ -34,11 +54,6 @@
     name: python
     link: /usr/bin/python
     path: /usr/bin/python3
-
-- name: Install Passlib
-  pip:
-    name: passlib
-    executable: pip3
 
 - name: timezone - configure /etc/timezone
   copy:
