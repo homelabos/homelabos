@@ -24,7 +24,7 @@ smtp:
   from_email:
   from_name:
 ```
-4. Save, and run **`hlos deploy`** again; to re-encrypt the `vault.yml` file
+4. Save, and run **`make deploy`** again; to re-encrypt the `vault.yml` file
 
 
 # Mail Server

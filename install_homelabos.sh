@@ -24,7 +24,10 @@ hlos_install() {
     sudo apt update
 
     printf "\x1B[01;93m========== Install make and docker ==========\n\x1B[0m"
-    sudo apt install -y make docker.io
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo apt-get update
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt install -y make docker-ce docker-ce-cli docker-compose containerd.io
 
     printf "\x1B[01;93m========== Ensure keys exist ==========\n\x1B[0m"
     # Create .ssh/ if it doesn't exist
@@ -64,7 +67,7 @@ hlos_install() {
     printf "\nTo enable more services, run [38;5;184m'cd /var/homelabos/install'\x1B[01;93m then 'hlos set servicename.enable true'"
     printf "\nwhere servicename is a service you would like to have."
     printf "\n\nExample: [38;5;184m'hlos set miniflux.enable true'";
-    printf "\n\n\x1B[01;93mOnce you have enabled all the services you would like, simply run \x1B[38;5;184m'hlos deploy'.\x1B[01;93m\n\n";
+    printf "\n\n\x1B[01;93mOnce you have enabled all the services you would like, simply run \x1B[38;5;184m'make deploy'.\x1B[01;93m\n\n";
     printf "\x1B[01;92m================== Done.  ==================\n\x1B[0m\n\n"
 }
 

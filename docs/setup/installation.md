@@ -50,7 +50,7 @@ You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP add
 
 #### Changing your domain
 
-If you need to change your domain (or subdomain) simply run `hlos set domain new.domain.com` then run `hlos deploy` again.
+If you need to change your domain (or subdomain) simply run `hlos set domain new.domain.com` then run `make deploy` again.
 
 ### Port Forwarding
 
@@ -106,7 +106,7 @@ If you still don't trust it, great, you'll fit right in here. Proceed to the Man
 !!! Note
     You will be prompted for the basic information to get started. The passwords entered here will be stored on the client computer and are used by ansible to configure your server. After you enter the information, HomelabOS will configure your local docker images and build your initial `settings/` files.
 
-* Once you have updated your settings simply deploy HomelabOS with `hlos deploy`. You can run `hlos deploy` as many times as needed to get your settings correct.
+* Once you have updated your settings simply deploy HomelabOS with `make deploy`. You can run `make deploy` as many times as needed to get your settings correct.
 
 You can check http://{{ homelab_ip }}:8181 in a browser to see the Traefik dashboard.
 
@@ -119,11 +119,11 @@ Run `hlos set SERVICENAME.enable true` where SERVICENAME is the name of the serv
 !!! example
     `hlos set miniflux.enable true`
 
-Then run `hlos deploy` again. That's it. It will take a few minutes for your server to download and start the relevant images.
+Then run `make deploy` again. That's it. It will take a few minutes for your server to download and start the relevant images.
 
 
 !!! warning
-    Some services expose set up pages on start up. If you don't complete the set up step, there is a chance someone else could beat you to it. If they do just run `hlos reset_one SERVICENAME` then `hlos deploy` again and the service will reset to it's freshly installed state.
+    Some services expose set up pages on start up. If you don't complete the set up step, there is a chance someone else could beat you to it. If they do just run `hlos reset_one SERVICENAME` then `make deploy` again and the service will reset to it's freshly installed state.
 
 You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
 
@@ -135,7 +135,7 @@ You can SSH into the server, and run `systemctl status SERVICENAME` where SERVIC
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
 So you can create a private repo on your Gitea instance for example, then clone that repo over the
 settings folder. Now any changes you make to `settings/` files will be commited and pushed to that git
-repo whenever you run `hlos deploy`, `hlos update` or `hlos config`.
+repo whenever you run `make deploy`, `hlos update` or `hlos config`.
 
 ## Backing up your Vault Password
 
@@ -150,7 +150,7 @@ If you installed with the Automatic/One-Liner install, your vault password exist
 
 It is recommended to register an actual domain to point at your Homelab, but if you can't or would prefer not to, you can use HomelabOS fully inside your network. Simply make up a domain that ends in `.local` and enter that as your domain in `host_vars/myserver`.
 
-When HomelabOS `hlos deploy` command completes, it creates a file on the server at `{{ volumes_root }}/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
+When HomelabOS `make deploy` command completes, it creates a file on the server at `{{ volumes_root }}/homelabos_hosts`. You can take the contents of this file and create local DNS overrides using it. All your requests should complete as expected.
 
 ## NAS Network Attached Storage Configuration
 
@@ -169,7 +169,7 @@ To configure your NAS, edit the `# NAS Config` section of `settings/config.yml`.
 5. If authenticating to access SMB shares, set your username and password in `nas_user` and `nas_path`.
 6. Set your Windows domain in `nas_workgroup`, if applicable.
 
-Re-run `hlos deploy` to configure and enable your NAS.
+Re-run `make deploy` to configure and enable your NAS.
 
 ??? example "Example [unRAID](https://unraid.net) configuration"
     ```

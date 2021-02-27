@@ -19,7 +19,7 @@ You can use the [HomelabOS Terraform feature](/docs/setup/terraform), or set it 
 
 Set any `bastion` config values to their correct settings.
 
-Run `hlos deploy` as usual, and HomelabOS will take care of everything else.
+Run `make deploy` as usual, and HomelabOS will take care of everything else.
 
 Now point your domain name to your cloud server's IP address rather than your home IP address,
 and everything should be happy!
