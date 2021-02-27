@@ -833,7 +833,7 @@ openvpn:
   subdomain: {{ openvpn.subdomain | default("openvpn") }}
   version: {{ openvpn.version | default("latest") }}
 organizr:
-  enable: {{ organizr.enable | default(enable_organizr, None) | default(False) }}
+  enable: {{ organizr.enable | default(enable_organizr, None) | default(True) }}
   https_only: {{ organizr.https_only | default(False) }}
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
