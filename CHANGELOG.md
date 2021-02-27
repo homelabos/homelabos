@@ -1,5 +1,4 @@
 # 0.8
-
 ## Services Added
 
 - Added AdGuard Home - Network-wide software for blocking ads and tracking.
