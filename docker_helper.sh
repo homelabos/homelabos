@@ -10,7 +10,7 @@ if [ ! -f "$HOME/.homelabos_vault_pass" ]; then
 fi
 
 if [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" -a -f "$HOME/.homelabos_vault_pass" ]; then
-    ./docker.sh run --rm -it \
+    docker run --rm -it \
       -v ${SSH_KEY}:/root/.ssh/id_rsa \
       -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub \
       -v $(pwd):/data \
