@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=dev
+VERSION=v0.8
 REPO=NickBusey
 
 while getopts r:v: option
@@ -64,9 +64,9 @@ hlos_install() {
     printf "\n\n\x1B[01;92m========== HomelabOS downloaded! ==========\n\x1B[0m"
     make deploy
     printf "\n\x1B[01;93mYou can check the status of Organizr with 'systemctl status organizr' or 'sudo docker ps'"
-    printf "\nTo enable more services, run [38;5;184m'cd /var/homelabos/install'\x1B[01;93m then 'hlos set servicename.enable true'"
+    printf "\nTo enable more services, run [38;5;184m'cd /var/homelabos/install'\x1B[01;93m then 'make set servicename.enable true'"
     printf "\nwhere servicename is a service you would like to have."
-    printf "\n\nExample: [38;5;184m'hlos set miniflux.enable true'";
+    printf "\n\nExample: [38;5;184m'make set miniflux.enable true'";
     printf "\n\n\x1B[01;93mOnce you have enabled all the services you would like, simply run \x1B[38;5;184m'make deploy'.\x1B[01;93m\n\n";
     printf "\x1B[01;92m================== Done.  ==================\n\x1B[0m\n\n"
 }
