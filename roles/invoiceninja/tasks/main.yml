@@ -38,7 +38,8 @@
 
 - name: Generate new encryption key.
   shell: >
-    docker run --rm -i invoiceninja/invoiceninja:{{invoiceninja.version}} php artisan key:generate --show | awk 'END{print}'
+    docker run --rm -i invoiceninja/invoiceninja:{{invoiceninja.version}} php artisan key:generate --show |
+    awk 'END{print}'
   register: application_key
   become: false
 
