@@ -22,6 +22,8 @@ ENV BUILD_PACKAGES \
   jq
 
 ENV PYTHON_PACKAGES \
+  setuptools-rust \
+  rust \
   python3-keyczar \
   boto3 \
   docker-py \
