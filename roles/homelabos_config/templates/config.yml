@@ -798,7 +798,7 @@ nextcloud:
   auth: {{ nextcloud.auth | default(False) }}
   domain: {{ nextcloud.domain | default(False) }}
   subdomain: {{ nextcloud.subdomain | default("nextcloud") }}
-  version: {{ nextcloud.version | default("apache") }}
+  version: {{ nextcloud.version | default("21-apache") }}
   db_version: {{ nextcloud.db_version | default("alpine") }}
   redis_version: {{ nextcloud.redis_version | default("5.0-alpine") }}
 nodered:
