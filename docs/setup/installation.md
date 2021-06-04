@@ -96,12 +96,12 @@ If you still don't trust it, great, you'll fit right in here. Proceed to the Man
 
 ### Manual Set-up
 
-* Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder. From inside the folder run `./hlos install_cli` now you can run `hlos` directly. Otherwise just append `./` to the `hlos` commands listed below.
+* Download the [latest version](https://gitlab.com/NickBusey/HomelabOS/-/releases) to your client computer and extract the folder.
 
 !!! Note
-    If you are using HomelabOS to provision a [bastion](bastion.md) server, run: `$ hlos terraform`
+    If you are using HomelabOS to provision a [bastion](bastion.md) server, run: `make terraform`
 
-* From inside the HomelabOS folder, set up the initial config: `hlos config`
+* From inside the HomelabOS folder, set up the initial config: `make config`
 
 !!! Note
     You will be prompted for the basic information to get started. The passwords entered here will be stored on the client computer and are used by ansible to configure your server. After you enter the information, HomelabOS will configure your local docker images and build your initial `settings/` files.
@@ -114,16 +114,16 @@ See a full list of commands in the [Getting Started Section](/docs/setup/getting
 
 ## Enabling Services
 
-Run `hlos set SERVICENAME.enable true` where SERVICENAME is the name of the service you want to enable.
+Run `make set SERVICENAME.enable true` where SERVICENAME is the name of the service you want to enable.
 
 !!! example
-    `hlos set miniflux.enable true`
+    `make set miniflux.enable true`
 
 Then run `make deploy` again. That's it. It will take a few minutes for your server to download and start the relevant images.
 
 
 !!! warning
-    Some services expose set up pages on start up. If you don't complete the set up step, there is a chance someone else could beat you to it. If they do just run `hlos reset_one SERVICENAME` then `make deploy` again and the service will reset to it's freshly installed state.
+    Some services expose set up pages on start up. If you don't complete the set up step, there is a chance someone else could beat you to it. If they do just run `make reset_one SERVICENAME` then `make deploy` again and the service will reset to it's freshly installed state.
 
 You can SSH into the server, and run `systemctl status SERVICENAME` where SERVICENAME is the name of the server you want to check  is running. It will show you status and/or errors of the service.
 
@@ -135,7 +135,7 @@ You can SSH into the server, and run `systemctl status SERVICENAME` where SERVIC
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
 So you can create a private repo on your Gitea instance for example, then clone that repo over the
 settings folder. Now any changes you make to `settings/` files will be commited and pushed to that git
-repo whenever you run `make deploy`, `hlos update` or `hlos config`.
+repo whenever you run `make deploy`, `make update` or `make config`.
 
 ## Backing up your Vault Password
 
