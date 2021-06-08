@@ -22,8 +22,9 @@ ENV BUILD_PACKAGES \
   jq
 
 ENV PYTHON_PACKAGES \
-  setuptools-rust \
-  rust \
+  # Rust install broken, disabled until fix is available
+  #setuptools-rust \
+  #rust \
   python3-keyczar \
   boto3 \
   docker-py \
@@ -93,7 +94,8 @@ ENV ANSIBLE_CONFIG=/data/ansible.cfg
 ENV PYTHONPATH /ansible/lib
 ENV PATH /ansible/bin:$PATH
 ENV ANSIBLE_LIBRARY /ansible/library
-ENV ANSIBLE_STRATEGY_PLUGINS=/usr/local/lib/python3.8/site-packages/ansible_mitogen/plugins/strategy
-ENV ANSIBLE_STRATEGY=mitogen_linear
+# Mitogen disabled until rust install gets fixed
+# ENV ANSIBLE_STRATEGY_PLUGINS=/usr/local/lib/python3.8/site-packages/ansible_mitogen/plugins/strategy
+# ENV ANSIBLE_STRATEGY=mitogen_linear
 
 WORKDIR /data
