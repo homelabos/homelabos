@@ -10,7 +10,6 @@ services:
   # Dashboard
   organizr:
     image: organizr/organizr:latest
-    # image: organizrtools/organizr-v2:{{ organizr.version }}
     restart: unless-stopped
     networks:
       - traefik_network
