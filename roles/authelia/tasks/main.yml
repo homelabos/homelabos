@@ -12,11 +12,17 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
+- name: Check if userdb.yml exists.
+  stat:
+    path: "{{ volumes_root }}/authelia/userdb.yml"
+  register: userdb
+
 - name: Generate new argon2id compatible password.
   shell: >
     docker run --rm authelia/authelia:latest authelia hash-password {{default_password}} | awk '{print $3}'
   register: authelia_hash
   become: false
+  when: not userdb
 
 - name: Copy userdb.yml file into place.
   template:
@@ -24,6 +30,7 @@
     dest: "{{ volumes_root }}/authelia/userdb.yml"
   vars:
     authelia_hash: "{{ authelia_hash.stdout }}"
+  when: not userdb
 
 - name: Copy authelia_config.yml file into place.
   template:

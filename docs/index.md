@@ -8,7 +8,7 @@ HomelabOS is a collection of various separate services. You can find more inform
 
 ## [Getting Started](setup/gettingstarted)
 
-## [Understanding Storage](/setup/storage)
+## [Understanding Storage](setup/storage)
 
 ## Getting Help
 

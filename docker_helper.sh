@@ -15,7 +15,7 @@ if [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" -a -f "$HOME/.homelabos_vault_pass" 
       -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub \
       -v $(pwd):/data \
       -v $HOME/.homelabos_vault_pass:/ansible_vault_pass \
-      homelabos:${VERSION} "$@"
+      nickbusey/homelabos:${VERSION} "$@"
 else
     echo "You have no SSH keys in your home directory: $HOME"
     echo "Please generate a set of keys using the command:"
