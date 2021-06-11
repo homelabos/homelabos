@@ -100,7 +100,7 @@ services:
   searx:
   shinobi:
   sickchill:
-  simply_shorten:
+  simply-shorten:
   snibox:
   sonarr:
   speedtest:
@@ -228,7 +228,7 @@ samba:
 searx:
 shinobi:
 sickchill:
-simply_shorten:
+simply-shorten:
 snibox:
 sonarr:
 speedtest:

@@ -1,24 +1,24 @@
 ---
-- name: Make simply_shorten directory.
+- name: Make simply-shorten directory.
   file:
-    path: "{{ volumes_root }}/simply_shorten"
+    path: "{{ volumes_root }}/simply-shorten"
     state: directory
 
-- name: Copy simply_shorten docker-compose.yml file into place.
+- name: Copy simply-shorten docker-compose.yml file into place.
   template:
-    src: docker-compose.simply_shorten.yml.j2
-    dest: "{{ volumes_root }}/simply_shorten/docker-compose.yml"
+    src: docker-compose.simply-shorten.yml.j2
+    dest: "{{ volumes_root }}/simply-shorten/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-- name: Configure simply_shorten systemd service.
+- name: Configure simply-shorten systemd service.
   template:
     src: service.j2
-    dest: /etc/systemd/system/simply_shorten.service
+    dest: /etc/systemd/system/simply-shorten.service
 
-- name: Start simply_shorten
+- name: Start simply-shorten
   systemd:
-    name: simply_shorten
+    name: simply-shorten
     enabled: "yes"
     daemon-reload: "yes"
     state: started
