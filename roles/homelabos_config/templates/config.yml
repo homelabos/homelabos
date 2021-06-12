@@ -1004,13 +1004,13 @@ sickchill:
   domain: {{ sickchill.domain | default(False) }}
   subdomain: {{ sickchill.subdomain | default("sickchill") }}
   version: {{ sickchill.version | default("latest") }}
-simply-shorten:
-  enable: {{ simply-shorten.enable | default(enable_simply-shorten, None) | default(False) }}
-  https_only: {{ simply-shorten.https_only | default(False) }}
-  auth: {{ simply-shorten.auth | default(False) }}
-  domain: {{ simply-shorten.domain | default(False) }}
-  subdomain: {{ simply-shorten.subdomain | default("simply-shorten")}}
-  version: {{ simply-shorten.version | default("latest") }}
+simplyshorten:
+  enable: {{ simplyshorten.enable | default(enable_simplyshorten, None) | default(False) }}
+  https_only: {{ simplyshorten.https_only | default(False) }}
+  auth: {{ simplyshorten.auth | default(False) }}
+  domain: {{ simplyshorten.domain | default(False) }}
+  subdomain: {{ simplyshorten.subdomain | default("simplyshorten")}}
+  version: {{ simplyshorten.version | default("latest") }}
 snibox:
   enable: {{ snibox.enable | default(enable_snibox, None) | default(False) }}
   https_only: {{ snibox.https_only | default(False) }}

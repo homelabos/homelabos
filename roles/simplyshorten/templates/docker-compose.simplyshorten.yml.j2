@@ -10,16 +10,16 @@ networks:
 
 services:
   url:
-    image: draganczukp/simply-shorten:{{ simply-shorten.version }}
+    image: draganczukp/simplyshorten:{{ simplyshorten.version }}
     environment:
       username: {{ default_username }}
       password: {{ default_password }}
     volumes:
-      - "{{ volumes_root }}/simply-shorten/urls.sqlite:/urls.sqlite"
+      - "{{ volumes_root }}/simplyshorten/urls.sqlite:/urls.sqlite"
     restart: unless-stopped
     networks:
       - traefik_network
     labels:
-      - "traefik.http.services.simply-shorten.loadbalancer.server.scheme=http"
-      - "traefik.http.services.simply-shorten.loadbalancer.server.port=4567"
+      - "traefik.http.services.simplyshorten.loadbalancer.server.scheme=http"
+      - "traefik.http.services.simplyshorten.loadbalancer.server.port=4567"
 {% include './labels.j2' %}
