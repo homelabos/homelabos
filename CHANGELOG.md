@@ -1,3 +1,15 @@
+# 0.8.3
+
+Bug fixes
+
+# 0.8.2
+
+Pull docker image rather than build by default
+
+# 0.8.1
+
+Bug fixes
+
 # 0.8
 ## Services Added
 
