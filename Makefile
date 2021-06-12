@@ -3,12 +3,12 @@
 VERSION := $(cat VERSION)
 
 # Deploy HomelabOS - `make`
-deploy: logo git_sync config
+deploy: logo build git_sync config
 	@printf "\x1B[01;93m========== Deploying HomelabOS ==========\n\x1B[0m"
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.homelabos.yml
+	./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.homelabos.yml
 
 # Initial configuration
-config: logo
+config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@printf "\x1B[01;93m========== Updating configuration files ==========\n\x1B[0m"
@@ -35,6 +35,7 @@ build:
 	@$(eval VERSION=`cat VERSION`)
 	@printf "\x1B[01;93m========== Preparing HomelabOS docker image ==========\n\x1B[0m"
 # First build the docker images needed to deploy
+	@sudo docker pull nickbusey/homelabos:$(VERSION) || true
 	@sudo docker inspect --type=image nickbusey/homelabos:$(VERSION) > /dev/null && printf "\x1B[01;93m========== Docker image already built ==========\n\x1B[0m" || sudo docker build . -t nickbusey/homelabos:$(VERSION)
 
 # Attempt to sync user settings to a git repo
