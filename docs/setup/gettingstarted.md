@@ -26,5 +26,5 @@ HomelabOS will use Traefik's built in LetsEncrypt integration to automatically g
 
 ## Homelab Commands
 
-`hlos -t` will list all available commands.
-`hlos -h COMMAND` will show help info for the specified command.
+`make -t` will list all available commands.
+`make -h COMMAND` will show help info for the specified command.
