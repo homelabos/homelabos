@@ -55,7 +55,7 @@ At some point, you may need to change where your `storage_dir` points, either be
 3. Copy or Move the contents of your `/mnt/nas` directory to the newly mounted directory.
 4. Edit your. `settings/config.yml` and change `storage_dir` to point at the newly mounted directory.
 5. Run `systemctl start docker` _on your HomelabOS server_ to reenable docker
-6. Run `hlos update` to re-deploy HomelabOS with the new storage_dir set.
+6. Run `make update` to re-deploy HomelabOS with the new storage_dir set.
 
 ## Understanding NAS configuration for HomelabOS
 
@@ -65,7 +65,7 @@ HomelabOS has a NAS section in the `settings/config.yml` file. This allows you t
 
 Your NAS options are:
 
-- Setting `nas_enable` to `True` means that HomelabOS will start maintaining the mounting of your NAS for you, _after you run hlos update_
+- Setting `nas_enable` to `True` means that HomelabOS will start maintaining the mounting of your NAS for you, _after you run make update_
 - `nas_host`: this is the IP or hostname of your NAS server/device. ie: 192.168.1.130
 - `nas_mount_type`: your options here are `nfs`, `cifs`, or `smb`. While Ubuntu can mount just about anything, HomelabOS only knows how to maintain those three connection types.
 - `nas_share_path`: this represents the path to the shared directory on your NAS.

@@ -17,7 +17,7 @@
 - [Passwordless SSH via SSH keys](https://linuxconfig.org/passwordless-ssh) working.
 
 !!! Warning
-    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `hlos set arm True`
+    If you are running on an ARM infrastructure such as Raspberry PI, set `arm` to true. Run: `make set arm True`
 
 ## Optional Items
 
@@ -50,7 +50,7 @@ You need to point your `{{ domain }}`, as well as `*.{{ domain }}` to the IP add
 
 #### Changing your domain
 
-If you need to change your domain (or subdomain) simply run `hlos set domain new.domain.com` then run `make deploy` again.
+If you need to change your domain (or subdomain) simply run `make set domain new.domain.com` then run `make deploy` again.
 
 ### Port Forwarding
 

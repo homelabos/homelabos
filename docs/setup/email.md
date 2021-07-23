@@ -9,7 +9,7 @@ Once that is completed, you can plug the settings they provide into
 your `settings/vault.yml` file.
 To do this:
 
-1. run the **`hlos decrypt`** command
+1. run the **`make decrypt`** command
 2. find and edit the `vault.yml` file
     > NOTE: editing this file will require superuser/ root permissions
 3. Set the following settings to what you have been provided
