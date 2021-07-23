@@ -1,3 +1,7 @@
+# 0.8.4
+
+Documentation clean up
+
 # 0.8.3
 
 Bug fixes
