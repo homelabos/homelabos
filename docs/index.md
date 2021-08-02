@@ -170,6 +170,7 @@ If you are having problems you can:
 - [Invidious](software/invidious) -  Invidious is an alternative front-end to YouTube 
 - [InvoiceNinja](software/invoiceninja) - Free Open-Source Invoicing Software
 - [Mashio](software/mashio) - Home brewery management software
+- [Mealie](software/mealie) - Recipe manager and meal planner
 - [Monica](software/monica) - Contact / relationship manager
 - [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.
 - [NodeRED](software/nodered) - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.

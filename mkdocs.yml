@@ -124,6 +124,7 @@ nav:
       - Invidious: software/invidious.md
       - InvoiceNinja: software/invoiceninja.md
       - Mashio: software/mashio.md
+      - Mealie: software/mealie.md
       - Monica: software/monica.md
       - n8n: software/n8n.md
       - NodeRED: software/nodered.md

@@ -698,6 +698,13 @@ mayan:
   db_version: {{ mayan.db_version | default("latest") }}
   redis_version: {{ mayan.redis_version | default("latest") }}
   rabbit_version: {{ mayan.rabbit_version | default("latest") }}
+mealie:
+  enable: {{ mealie.enable | default(enable_mealie, None) | default(False) }}
+  https_only: {{ mealie.https_only | default(False) }}
+  auth: {{ mealie.auth | default(False) }}
+  domain: {{ mealie.domain | default(False) }}
+  subdomain: {{ mealie.subdomain | default("mealie") }}
+  version: {{ mealie.version | default("latest") }}
 minecraft:
   enable: {{ minecraft.enable | default(enable_minecraft, None) | default(False) }}
   https_only: {{ minecraft.https_only | default(False) }}
