@@ -276,8 +276,8 @@ bookstack:
   auth: {{ bookstack.auth | default(False) }}
   domain: {{ bookstack.domain | default(False) }}
   subdomain: {{ bookstack.subdomain | default("bookstack") }}
-  version: {{ bookstack.version | default("0.29.2") }}
-  db_version: {{bookstack.db_version | default("5.7.21") }}
+  version: {{ bookstack.version | default("latest") }}
+  db_version: {{bookstack.db_version | default("latest") }}
 bulletnotes:
   enable: {{ bulletnotes.enable | default(enable_bulletnotes, None) | default(False) }}
   https_only: {{ bulletnotes.https_only | default(False) }}

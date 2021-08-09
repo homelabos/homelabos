@@ -8,8 +8,8 @@ networks:
   bookstack:
 
 services:
-  mysql:
-    image: mysql:{{ bookstack.db_version }}
+  mariadb:
+    image: ghcr.io/linuxserver/mariadb:{{ bookstack.db_version }}
     networks:
       - bookstack
     restart: unless-stopped
@@ -22,24 +22,23 @@ services:
     - "{{ volumes_root }}/bookstack/mysql-data:/var/lib/mysql"
 
   bookstack:
-    image: solidnerd/bookstack:{{ bookstack.version }}
+    image: ghcr.io/linuxserver/bookstack:{{ bookstack.version }}
     networks:
       - traefik_network
       - bookstack
     restart: unless-stopped
     depends_on:
-    - mysql
+    - mariadb
     environment:
-    - DB_HOST=mysql:3306
+    - DB_HOST=mariadb
     - DB_DATABASE=bookstack
     - DB_USERNAME=bookstack
     - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=ascii_letters')}}
     - APP_URL=https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}
-
     volumes:
     - "{{ volumes_root }}/bookstack/uploads:/var/www/bookstack/public/uploads"
     - "{{ volumes_root }}/bookstack/storage-uploads:/var/www/bookstack/public/storage"
     labels:
       - "traefik.http.services.bookstack.loadbalancer.server.scheme=http"
-      - "traefik.http.services.bookstack.loadbalancer.server.port=8080"
+      - "traefik.http.services.bookstack.loadbalancer.server.port=80"
 {% include './labels.j2' %}
