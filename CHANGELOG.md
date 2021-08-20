@@ -34,6 +34,7 @@ Bug fixes
 - Added Teedy - Document Management made simple for everyone
 - Added Unifi Controller - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 - Added Xteve - An emulted TV Tuner for IPTV services.
+- Added Speedtest Tracker - An alternative tool to run periodic speedtests.
 
 # 0.7.1 - 0.7.2
 
