@@ -38,7 +38,7 @@ services:
       - TZ={{ common_timezone }}
       - ServerName={% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}
 {% endif %}
-    image: jc5x/firefly-iii:{{ firefly_iii.version }}
+    image: fireflyiii/core:{{ firefly_iii.version }}
     networks:
       - traefik_network
       - firefly
