@@ -13,7 +13,7 @@ services:
     networks:
       - traefik_network
     restart: unless-stopped
-    command: server /data
+    command: server --console-address ":9001" /data
     volumes:
       - "{{ storage_dir }}/Backups/minio:/data"
       - "{{ volumes_root }}/minio/config:/root/.minio/"
