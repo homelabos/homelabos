@@ -15,6 +15,9 @@ services:
       - traefik_network
     environment:
       - OOKLA_EULA_GDPR=true
+      - TZ={{ common_timezone }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
     volumes:
       - "{{ volumes_root }}/speedtest_tracker/config:/config"
     logging:
