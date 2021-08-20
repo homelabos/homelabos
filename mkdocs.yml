@@ -150,6 +150,7 @@ nav:
       - Huginn: software/huginn.md
       - Netdata: software/netdata.md
       - Speedtest: software/speedtest.md
+      - Speedtest Tracker: software/speedtest_tracker.md
       - Statping: software/statping.md
       - Tautulli: software/tautulli.md
       - TICK: software/tick.md
