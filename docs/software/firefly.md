@@ -13,3 +13,9 @@ It is available at [https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{
 {% if enable_tor %}
 It is also available via Tor at [http://{{ firefly_iii.subdomain + "." + tor_domain }}/](http://{{ firefly_iii.subdomain + "." + tor_domain }}/)
 {% endif %}
+
+## Configuration
+
+The default Docker image for this service is `jc5x/firefly-iii`, additionally it uses Postgresql as a database. However, we strongly recomment to use `fireflyiii/core` as the Docker image and Mariadb as a database. The old values has been kept for compatibility reasons. jc5x's image has been discountinued and the latest version returns an error on start.
+
+To do the change, set `firefly_iii.image` to `fireflyiii/core` and `firefly_iii.db_type` to `mysql`

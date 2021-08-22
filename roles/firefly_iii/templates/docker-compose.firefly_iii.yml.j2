@@ -10,17 +10,27 @@ networks:
 services:
   # Financial Tracker
   firefly_iii_app:
+    image: "{{ firefly_iii.image }}:{{ firefly_iii.version }}"
     restart: unless-stopped
     depends_on:
       - firefly_iii_db
     environment:
+{% if firefly_iii.db_type == "pgsql" %}
       - DB_CONNECTION=pgsql
       - DB_HOST=firefly_iii_db
       - DB_DATABASE=firefly_db
       - DB_USERNAME=firefly_db
       - DB_PORT=5432
-      - TRUSTED_PROXIES=**
+{% endif %}
+{% if firefly_iii.db_type == "mysql" %}
+      - DB_CONNECTION=mysql
+      - DB_HOST=firefly_iii_db
+      - DB_DATABASE=firefly_db
+      - DB_USERNAME=firefly_db
+      - DB_PORT=3306
+{% endif %}
       - DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
+      - TRUSTED_PROXIES=**
       - APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=ascii_letters length=32') }}
       # Using heroku as APP_ENV, just to ensure generated URIs start with HTTPS, leveraging:
       # https://github.com/firefly-iii/firefly-iii/blob/master/app/Providers/AppServiceProvider.php#L42
@@ -38,7 +48,6 @@ services:
       - TZ={{ common_timezone }}
       - ServerName={% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}
 {% endif %}
-    image: fireflyiii/core:{{ firefly_iii.version }}
     networks:
       - traefik_network
       - firefly
@@ -50,6 +59,7 @@ services:
       - "traefik.http.services.firefly_iii.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
 
+{% if firefly_iii.db_type == "pgsql" %}
   firefly_iii_db:
     image: postgres:{{ firefly_iii.db_version }}
     restart: unless-stopped
@@ -61,3 +71,19 @@ services:
       - firefly
     volumes:
       - "{{ volumes_root }}/firefly_iii/db:/var/lib/postgresql/data"
+{% endif %}
+
+{% if firefly_iii.db_type == "mysql" %}
+  firefly_iii_db:
+    image: mariadb
+    restart: unless-stopped
+    environment:
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
+      - MARIADB_ROOT_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
+      - MYSQL_USER=firefly_db
+      - MYSQL_DATABASE=firefly_db
+    networks:
+      - firefly
+    volumes:
+      - "{{ volumes_root }}/firefly_iii/db_mysql:/var/lib/mysql"
+{% endif %}
