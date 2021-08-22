@@ -1,7 +1,7 @@
 # 0.8.4
 
 - Documentation clean up
-- Change Firefly_iii's image from "jc5x/firefly-iii" to "fireflyiii/core"
+- Add configuration options to change Firefly's image and database
 
 # 0.8.3
 
