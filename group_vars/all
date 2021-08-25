@@ -46,6 +46,7 @@ services:
   homedash:
   hubzilla:
   huginn:
+  internetmonitoring:
   inventario:
   invoiceninja:
   jackett:
@@ -175,6 +176,7 @@ homebridge:
 homedash:
 hubzilla:
 huginn:
+internetmonitoring:
 inventario:
 invoiceninja:
 jackett:
@@ -185,8 +187,8 @@ kibitzr:
 lazylibrarian:
 lidarr:
 mailu:
-massivedecks:
 mashio:
+massivedecks:
 matomo:
 matterbridge:
 mayan:

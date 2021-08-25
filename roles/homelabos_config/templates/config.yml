@@ -570,6 +570,15 @@ huginn:
   subdomain: {{ huginn.subdomain | default("huginn") }}
   version: {{ huginn.version | default("latest") }}
   db_version: {{ huginn.db_version | default("10.3") }}
+internetmonitoring:
+  enable: {{ internetmonitoring.enable | default(enable_internetmonitoring, None) | default(False) }}
+  https_only: {{ internetmonitoring.https_only | default(False) }}
+  auth: {{ internetmonitoring.auth | default(False) }}
+  domain: {{ internetmonitoring.domain | default(False) }}
+  subdomain: {{ internetmonitoring.subdomain | default("internetmonitoring") }}
+  monitoring_enable: {{ internetmonitoring.monitoring_enable | default(true) }}
+  monitoring_speedtest_interval: {{ internetmonitoring.monitoring_speedtest_interval | default("30m") }}
+  monitoring_ping_interval: {{ internetmonitoring.monitoring_ping_interval | default("5s") }}
 inventario:
   enable: {{ inventario.enable | default(enable_inventario, None) | default(False) }}
   https_only: {{ inventario.https_only | default(False) }}
@@ -838,7 +847,7 @@ organizr:
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
   subdomain: {{ organizr.subdomain | default("organizr") }}
-  fpm: {{ organizr.fpm | default("false") }} 
+  fpm: {{ organizr.fpm | default("false") }}
   branch: {{ organizr.branch | default("master") }}
   version: {{ organizr.version | default("latest") }}
 ownphotos:

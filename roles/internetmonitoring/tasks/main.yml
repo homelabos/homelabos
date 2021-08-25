@@ -1,0 +1,66 @@
+---
+- name: Make internetmonitoring directory.
+  file:
+    path: "{{ volumes_root }}/internetmonitoring"
+    state: directory
+
+- name: Make internetmonitoring directories
+  file:
+    path: "{{ volumes_root }}/internetmonitoring/{{item}}"
+    state: directory
+  loop:
+    - "blackbox/config"
+    - "grafana/data"
+    - "grafana/provisioning/dashboards"
+    - "grafana/provisioning/datasources"
+    - "prometheus/config"
+    - "prometheus/data"
+
+- name: Copy internetmonitoring docker-compose.yml file into place.
+  template:
+    src: docker-compose.internetmonitoring.yml.j2
+    dest: "{{ volumes_root }}/internetmonitoring/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Copy templated internetmonitoring files into place
+  template:
+    src: templates/{{ item.src }}
+    dest: "{{ volumes_root }}/internetmonitoring/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: grafana/config.monitoring.j2
+      dest: grafana/config.monitoring
+    - src: grafana/dashboard.yml
+      dest: grafana/provisioning/dashboards/dashboard.yml
+    - src: grafana/datasource.yml
+      dest: grafana/provisioning/datasources/datasource.yml
+    - src: prometheus/prometheus.yml.j2
+      dest: prometheus/config/prometheus.yml
+    - src: prometheus/pinghosts.yaml.j2
+      dest: prometheus/config/pinghosts.yaml
+    - src: blackbox.yml.j2
+      dest: blackbox/config/blackbox.yml
+
+- name: Copy other internetmonitoring files into place
+  copy:
+    src: templates/{{ item.src }}
+    dest: "{{ volumes_root }}/internetmonitoring/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: grafana/internet-connection.json
+      dest: grafana/provisioning/dashboards/internet-connection.json
+    - src: prometheus/alert.rules
+      dest: prometheus/alert.rules
+
+- name: Configure internetmonitoring systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/internetmonitoring.service
+
+- name: Start internetmonitoring
+  systemd:
+    name: internetmonitoring
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

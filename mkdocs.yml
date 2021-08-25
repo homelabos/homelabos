@@ -148,6 +148,7 @@ nav:
       - Grafana: software/grafana.md
       - HealthChecks: software/healthchecks.md
       - Huginn: software/huginn.md
+      - Internet Monitoring: software/internetmonitoring.md
       - Netdata: software/netdata.md
       - Speedtest: software/speedtest.md
       - Statping: software/statping.md

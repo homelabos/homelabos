@@ -1,3 +1,9 @@
+# DEV
+
+## Services Added
+
+- Added Internet Monitoring - Internet Monitoring Docker Stack for tracking speed and ping over time with Prometheus + Grafana
+
 # 0.8.4
 
 Documentation clean up

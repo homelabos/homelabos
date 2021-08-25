@@ -198,6 +198,7 @@ If you are having problems you can:
 - [Grafana](software/grafana) - Pretty graphs
 - [HealthChecks](software/healthchecks) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [Huginn](software/huginn) - Create agents that monitor and act on your behalf
+- [InternetMonitoring](software/internetmonitoring) - Stack to monitor internet speed and ping
 - [Netdata](software/netdata) - Monitor your systems and applications, the right way!
 - [Speedtest](software/speedtest) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 - [Statping](software/statping) - Web and App Status Monitoring for Any Type of Project
