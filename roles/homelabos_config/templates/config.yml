@@ -838,7 +838,7 @@ organizr:
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
   subdomain: {{ organizr.subdomain | default("organizr") }}
-  fpm: {{ organizr.fpm | default("false") }} 
+  fpm: {{ organizr.fpm | default("false") }}
   branch: {{ organizr.branch | default("master") }}
   version: {{ organizr.version | default("latest") }}
 ownphotos:
@@ -1035,6 +1035,13 @@ speedtest:
   subdomain: {{ speedtest.subdomain | default("speedtest") }}
   version: {{ speedtest.version | default("latest") }}
   server: {{ speedtest.server | default (11441) }}
+speedtest_tracker:
+  enable: {{ speedtest_tracker.enable | default(enable_speedtest_tracker, None) | default(False) }}
+  https_only: {{ speedtest_tracker.https_only | default(False) }}
+  auth: {{ speedtest_tracker.auth | default(False) }}
+  domain: {{ speedtest_tracker.domain | default(False) }}
+  subdomain: {{ speedtest_tracker.subdomain | default("speedtest_tracker") }}
+  version: {{ speedtest_tracker.version | default("latest") }}
 statping:
   enable: {{ statping.enable | default(enable_statping, None) | default(False) }}
   https_only: {{ statping.https_only | default(False) }}

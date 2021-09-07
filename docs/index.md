@@ -200,6 +200,7 @@ If you are having problems you can:
 - [Huginn](software/huginn) - Create agents that monitor and act on your behalf
 - [Netdata](software/netdata) - Monitor your systems and applications, the right way!
 - [Speedtest](software/speedtest) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
+- [Speedtest-Tracker](software/speedtest_tracker) - An alternative tool to run periodic speedtests
 - [Statping](software/statping) - Web and App Status Monitoring for Any Type of Project
 - [Tautulli](software/tautulli) - Monitor your Plex Server
 - [TICK](software/tick) - Enables Telegraf, InfluxDB, Chronograf, and Kapacitor

@@ -1,0 +1,31 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # Speedtest-tracker
+  app:
+    image: henrywhitaker3/speedtest-tracker:{{ speedtest_tracker.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      - OOKLA_EULA_GDPR=true
+      - TZ={{ common_timezone }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+    volumes:
+      - "{{ volumes_root }}/speedtest_tracker/config:/config"
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "200k"
+    labels:
+      - "traefik.http.services.speedtest_tracker.loadbalancer.server.scheme=http"
+      - "traefik.http.services.speedtest_tracker.loadbalancer.server.port=80"
+{% include './labels.j2' %}
