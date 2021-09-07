@@ -10,7 +10,7 @@ networks:
 services:
   # Financial Tracker
   firefly_iii_app:
-    image: "{{ firefly_iii.image }}:{{ firefly_iii.version }}"
+    image: "fireflyiii/core:{{ firefly_iii.version }}"
     restart: unless-stopped
     depends_on:
       - firefly_iii_db
