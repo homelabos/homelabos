@@ -78,7 +78,7 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 * Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
-#### But isn't piping bash to curl insecure?
+#### But isn't piping curl to bash insecure?
 
 Not really. If you're using https (we are), then you can be sure you're getting the file you expect.
 
