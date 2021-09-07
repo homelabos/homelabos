@@ -15,20 +15,11 @@ services:
     depends_on:
       - firefly_iii_db
     environment:
-{% if firefly_iii.db_type == "pgsql" %}
-      - DB_CONNECTION=pgsql
-      - DB_HOST=firefly_iii_db
-      - DB_DATABASE=firefly_db
-      - DB_USERNAME=firefly_db
-      - DB_PORT=5432
-{% endif %}
-{% if firefly_iii.db_type == "mysql" %}
       - DB_CONNECTION=mysql
       - DB_HOST=firefly_iii_db
       - DB_DATABASE=firefly_db
       - DB_USERNAME=firefly_db
       - DB_PORT=3306
-{% endif %}
       - DB_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
       - TRUSTED_PROXIES=**
       - APP_KEY={{ lookup('password', './settings/passwords/firefly_app_key chars=ascii_letters length=32') }}
@@ -36,8 +27,7 @@ services:
       # https://github.com/firefly-iii/firefly-iii/blob/master/app/Providers/AppServiceProvider.php#L42
       # This fixes issue with SSL termination at traefik, and forces HTTPS URIs everywhere
       - APP_ENV=heroku
-      - APP_URL=https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}
-{% endif %}
+      - APP_URL=https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}
       - MAIL_DRIVER=smtp
       - MAIL_HOST={{ smtp.host }}
       - MAIL_PORT={{ smtp.port }}
@@ -59,21 +49,6 @@ services:
       - "traefik.http.services.firefly_iii.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
 
-{% if firefly_iii.db_type == "pgsql" %}
-  firefly_iii_db:
-    image: postgres:{{ firefly_iii.db_version }}
-    restart: unless-stopped
-    environment:
-      - POSTGRES_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}
-      - POSTGRES_USER=firefly_db
-      - POSTGRES_DB=firefly_db
-    networks:
-      - firefly
-    volumes:
-      - "{{ volumes_root }}/firefly_iii/db:/var/lib/postgresql/data"
-{% endif %}
-
-{% if firefly_iii.db_type == "mysql" %}
   firefly_iii_db:
     image: mariadb
     restart: unless-stopped
@@ -86,4 +61,3 @@ services:
       - firefly
     volumes:
       - "{{ volumes_root }}/firefly_iii/db_mysql:/var/lib/mysql"
-{% endif %}

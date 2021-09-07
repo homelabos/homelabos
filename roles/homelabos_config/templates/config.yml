@@ -413,10 +413,6 @@ firefly_iii:
   subdomain: {{ firefly_iii.subdomain | default("firefly_iii") }}
   version: {{ firefly_iii.version | default("latest") }}
   db_version: {{ firefly_iii.db_version | default("12") }}
-  # Valid values are "pgsql" or "mysql"
-  db_type: {{ firefly_iii.db_type | default("pgsql") }}
-  # "fireflyiii/core" is the latest and correct version, but "jc5x/firefly-iii" kept for compatibility reasons
-  image: {{ firefly_iii.image | default("jc5x/firefly-iii") }}
 folding_at_home:
   enable: {{ folding_at_home.enable | default(enable_folding_at_home, None) | default(False) }}
   https_only: {{ folding_at_home.https_only | default(False) }}
