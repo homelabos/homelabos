@@ -77,11 +77,3 @@ Out of the box, the standard config bypasses Authelia for Authelia itself, and d
 ```
 
 > Note, Authelia does understand the concept of groups, and can limit some services to particular groups, ie: administarators. You might use this to limit say, portainer, to admins.
-
-## Access
-
-It is available at [https://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/](https://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/) or [http://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/](http://{% if authelia.domain %}{{ authelia.domain }}{% else %}{{ authelia.subdomain + "." + domain }}{% endif %}/)
-
-{% if enable_tor %}
-It is also available via Tor at [http://{{ authelia.subdomain + "." + tor_domain }}/](http://{{ authelia.subdomain + "." + tor_domain }}/)
-{% endif %}
