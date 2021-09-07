@@ -578,6 +578,15 @@ inventario:
   subdomain: {{ inventario.subdomain | default("inventario") }}
   version: {{ inventario.version | default("latest") }}
   db_version: {{ inventario.db_version | default("latest") }}
+invidious:
+  enable: {{ invidious.enable | default(enable_invidious, None) | default(False) }}
+  https_only: {{ invidious.https_only | default(False) }}
+  auth: {{ invidious.auth | default(False) }}
+  domain: {{ invidious.domain | default(False) }}
+  subdomain: {{ invidious.subdomain | default("invidious")}}
+  version: {{ invidious.version | default("latest") }}
+  cpus_limit: {{ invidious.cpus_limit | default("0.5") }}
+  mem_limit: {{ invidious.mem_limit | default("1024M") }}
 invoiceninja:
   enable: {{ invoiceninja.enable | default(enable_invoiceninja, None) | default(False) }}
   https_only: {{ invoiceninja.https_only | default(False) }}
