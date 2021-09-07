@@ -4,6 +4,7 @@
 
 ## Services Added
 - Added Speedtest Tracker - An alternative tool to run periodic speedtests.
+- Added Mealie - Simple recipes in Markdown format.
 
 # 0.8.4
 
