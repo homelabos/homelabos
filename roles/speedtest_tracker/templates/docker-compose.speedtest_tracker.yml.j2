@@ -16,8 +16,8 @@ services:
     environment:
       - OOKLA_EULA_GDPR=true
       - TZ={{ common_timezone }}
-      - PUID={{ uid_output.stdout }}
-      - PGID={{ gid_output.stdout }}
+      - PUID=1
+      - PGID=1
     volumes:
       - "{{ volumes_root }}/speedtest_tracker/config:/config"
     logging:
