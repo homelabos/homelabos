@@ -167,6 +167,7 @@ If you are having problems you can:
 - [Grownetics](software/grownetics) - Open source environmental mapping with plant management and tracking
 - [Hubzilla](software/hubzilla) - a powerful platform for creating interconnected websites featuring a decentralized identity
 - [Inventario](software/inventario) - Home inventory software
+- [Invidious](software/invidious) -  Invidious is an alternative front-end to YouTube 
 - [InvoiceNinja](software/invoiceninja) - Free Open-Source Invoicing Software
 - [Mashio](software/mashio) - Home brewery management software
 - [Monica](software/monica) - Contact / relationship manager
