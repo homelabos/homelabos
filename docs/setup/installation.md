@@ -144,6 +144,10 @@ repo whenever you run `make deploy`, `make update` or `make config`.
 
 If you installed with the Automatic/One-Liner install, your vault password exists at `~/.homelabos_vault_pass` for the user you ran the script as. Make sure to back this password up somewhere safe, and ideally _not_ in your `settings/` folder. If someone gains access to your `settings/` folder and the vault password, bad things can happen. Store them separately.
 
+## Enabling Documentation
+
+To have HomelabOS serve it's docs on your system with correct links filled out for all enabled services, run `make set docs.enable true` then `make` again to deploy it.
+
 ## [Troubleshooting / FAQ](faq.md)
 
 ## Network Configuration
