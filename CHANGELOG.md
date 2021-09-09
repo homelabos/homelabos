@@ -1,10 +1,12 @@
 # 0.8.5
+
 ## Changes
 - Add configuration options to change Firefly's image and database
 
 ## Services Added
 - Added Speedtest Tracker - An alternative tool to run periodic speedtests.
 - Added Mealie - Simple recipes in Markdown format.
+- Added Internet Monitoring - Internet Monitoring Docker Stack for tracking speed and ping over time with Prometheu + Grafana
 
 # 0.8.4
 

@@ -1,0 +1,89 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  internetmonitoring:
+
+services:
+  internetmonitoring:
+    restart: unless-stopped
+    image: grafana/grafana
+    networks:
+      - traefik_network
+      - internetmonitoring
+    depends_on:
+      - prometheus
+    volumes:
+      - "{{ volumes_root }}/internetmonitoring/grafana/data:/var/lib/grafana"
+      - "{{ volumes_root }}/internetmonitoring/grafana/provisioning/:/etc/grafana/provisioning/"
+    ports:
+      - 3030:3000
+    env_file:
+      - "{{ volumes_root }}/internetmonitoring/grafana/config.monitoring"
+    labels:
+      - "traefik.http.services.internetmonitoring.loadbalancer.server.scheme=http"
+      - "traefik.http.services.internetmonitoring.loadbalancer.server.port=3000"
+{% include './labels.j2' %}
+
+  ping:
+    tty: true
+    stdin_open: true
+    ports:
+      - 9115:9115
+    image: prom/blackbox-exporter
+    restart: always
+    volumes:
+      - "{{ volumes_root }}/internetmonitoring/blackbox/config:/config"
+    command:
+      - '--config.file=/config/blackbox.yml'
+    networks:
+      - internetmonitoring
+
+  speedtest:
+    ports:
+      - 9798:9798
+    image: miguelndecarvalho/speedtest-exporter
+    restart: always
+    networks:
+      - internetmonitoring
+
+  nodeexp:
+    privileged: true
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+    restart: always
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points'
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    networks:
+      - internetmonitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    volumes:
+      - "{{ volumes_root }}/internetmonitoring/prometheus/config:/etc/prometheus/"
+      - "{{ volumes_root }}/internetmonitoring/prometheus/data:/prometheus"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=90d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    links:
+      - ping:ping
+      - speedtest:speedtest
+    networks:
+      - internetmonitoring
