@@ -22,7 +22,7 @@
     docker run --rm authelia/authelia:latest authelia hash-password {{default_password}} | awk '{print $3}'
   register: authelia_hash
   become: false
-  when: not userdb
+  when: not userdb.stat.exists
 
 - name: Copy userdb.yml file into place.
   template:
@@ -30,7 +30,7 @@
     dest: "{{ volumes_root }}/authelia/userdb.yml"
   vars:
     authelia_hash: "{{ authelia_hash.stdout }}"
-  when: not userdb
+  when: not userdb.stat.exists
 
 - name: Copy authelia_config.yml file into place.
   template:
@@ -50,16 +50,6 @@
   template:
     src: service.j2
     dest: /etc/systemd/system/authelia.service
-
-# Migration v0.7
-# Authelia v3 to v4
-- name: Migrate Authelia v3 to v4
-  shell: >
-    docker run --rm -v {{ volumes_root }}/authelia/authelia_config.yml:/config.yml
-    --net=homelabos_traefik authelia/authelia authelia migrate mongo
-    --config=/config.yml --url=mongodb://authelia_mongo_1 --database=my_authelia
-  when: authelia.migration == True
-# End Migration v0.7
 
 - name: Start authelia
   systemd:
