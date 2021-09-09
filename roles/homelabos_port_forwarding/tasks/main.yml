@@ -1,3 +1,4 @@
+---
 - name: Establish DNAT rules
   iptables:
     table: nat
