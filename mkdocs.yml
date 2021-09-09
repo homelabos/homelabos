@@ -30,6 +30,7 @@ nav:
   - Setup:
       - Backups: setup/backups.md
       - Bastion Server: setup/bastion.md
+      - Docker Overrides: setup/dockeroverrides.md
       - Email: setup/email.md
       - Storage: setup/storage.md
       - Traefik: setup/traefik.md
