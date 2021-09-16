@@ -3,41 +3,41 @@
   connection: local
   vars_prompt:
     - name: homelab_ip
-      prompt: "What is the IP of your server that you can SSH to?
+      prompt: "What is the IP of your server that you can SSH to? \
               (Press return if none.)"
       private: "False"
       when: homelab_ip is not defined
 
     - name: homelab_ssh_user
-      prompt: "What is the user you can SSH to your homelab server with?
+      prompt: "What is the user you can SSH to your homelab server with? \
               (Press return if none.)"
       private: "False"
       when: homelab_ssh_user is not defined
 
     - name: ansible_become_password
-      prompt: "What is the password the user you SSH with needs for sudo access?
+      prompt: "What is the password the user you SSH with needs for sudo access? \
               (Press return if none.)"
       when: ansible_become_password is not defined
 
     - name: default_username
-      prompt: "What is the default username you would like created as an admin on the various HomelabOS services?
+      prompt: "What is the default username you would like created as an admin on the various HomelabOS services? \
               (Press return if none.)"
       private: "False"
       when: default_username is not defined
 
     - name: default_password
-      prompt: "What is the default password you would like for this account?
+      prompt: "What is the default password you would like for this account? \
               (Press return if none.)"
       when: default_password is not defined
 
     - name: domain
-      prompt: "What is the domain you have pointed at your Homelab server with ports 80 and 443?
+      prompt: "What is the domain you have pointed at your Homelab server with ports 80 and 443? \
               (Press return if none.)"
       private: "False"
       when: domain is not defined
 
     - name: admin_email
-      prompt: "What is a current valid email address for the admin? (Required for HTTPS via LetsEncrypt)
+      prompt: "What is a current valid email address for the admin? (Required for HTTPS via LetsEncrypt) \
               (Press return if none.)"
       private: "False"
       when: admin_email is not defined
