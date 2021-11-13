@@ -18,7 +18,7 @@
       when: enable_tor
 
 ## TODO: Ansibel complains about include_role ???
-#- name: "Deploy Bastion Host with Wireguard"
+# - name: "Deploy Bastion Host with Wireguard"
 #  hosts: all
 #  tags:
 #    - bastion

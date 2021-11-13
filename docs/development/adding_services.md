@@ -2,6 +2,11 @@
 
 Before you begin, please familiarize yourself with the [contributing](contributing.md) document.
 
+Also, make sure the project meets our standards for inclusion.
+
+* Services should be in development for at least a year.
+* Services should be actively maintained. (Last commit within 6 months.)
+
 # Using the addPkg.rb script to Add services to HomelabOS
 
 ## What does the script do?
@@ -70,6 +75,10 @@ The service should be added under the list of `Available Software`.
 
 In the config template `roles/homelabos_config/templates/config.yml.j2` the
 service should be added in alphabetical order under the `# Services List` section.
+
+## Add Service to CHANGELOG.md
+
+Add at the top of the file, rather than under the previously newest release.
 
 # How to Debug a New Service
 

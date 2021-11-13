@@ -1,5 +1,5 @@
 {
     "url": "http://homelabos:8080",
-    "ignored": ["PROMETHEUS@INTERNAL", "NOOP@INTERNAL", "API@INTERNAL", "DASHBOARD@INTERNAL"],
+    "ignored": ["PROMETHEUS@INTERNAL", "NOOP@INTERNAL", "API@INTERNAL", "DASHBOARD@INTERNAL", "PING@INTERNAL", "SUI"],
     "dockers": ["local-docker"]
 }

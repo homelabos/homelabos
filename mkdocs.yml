@@ -30,6 +30,7 @@ nav:
   - Setup:
       - Backups: setup/backups.md
       - Bastion Server: setup/bastion.md
+      - Docker Overrides: setup/dockeroverrides.md
       - Email: setup/email.md
       - Storage: setup/storage.md
       - Traefik: setup/traefik.md
@@ -121,8 +122,10 @@ nav:
       - Grownetics: software/grownetics.md
       - Hubzilla: software/hubzilla.md
       - Inventario: software/inventario.md
+      - Invidious: software/invidious.md
       - InvoiceNinja: software/invoiceninja.md
       - Mashio: software/mashio.md
+      - Mealie: software/mealie.md
       - Monica: software/monica.md
       - n8n: software/n8n.md
       - NodeRED: software/nodered.md
@@ -148,8 +151,10 @@ nav:
       - Grafana: software/grafana.md
       - HealthChecks: software/healthchecks.md
       - Huginn: software/huginn.md
+      - Internet Monitoring: software/internetmonitoring.md
       - Netdata: software/netdata.md
       - Speedtest: software/speedtest.md
+      - Speedtest Tracker: software/speedtest_tracker.md
       - Statping: software/statping.md
       - Tautulli: software/tautulli.md
       - TICK: software/tick.md

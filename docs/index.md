@@ -167,8 +167,10 @@ If you are having problems you can:
 - [Grownetics](software/grownetics) - Open source environmental mapping with plant management and tracking
 - [Hubzilla](software/hubzilla) - a powerful platform for creating interconnected websites featuring a decentralized identity
 - [Inventario](software/inventario) - Home inventory software
+- [Invidious](software/invidious) -  Invidious is an alternative front-end to YouTube 
 - [InvoiceNinja](software/invoiceninja) - Free Open-Source Invoicing Software
 - [Mashio](software/mashio) - Home brewery management software
+- [Mealie](software/mealie) - Recipe manager and meal planner
 - [Monica](software/monica) - Contact / relationship manager
 - [n8n](software/n8n) - n8n is a free and open node based Workflow Automation Tool.
 - [NodeRED](software/nodered) - Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
@@ -198,8 +200,10 @@ If you are having problems you can:
 - [Grafana](software/grafana) - Pretty graphs
 - [HealthChecks](software/healthchecks) - A Cron Monitoring Tool written in Python & Django https://healthchecks.io
 - [Huginn](software/huginn) - Create agents that monitor and act on your behalf
+- [InternetMonitoring](software/internetmonitoring) - Stack to monitor internet speed and ping
 - [Netdata](software/netdata) - Monitor your systems and applications, the right way!
 - [Speedtest](software/speedtest) - A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
+- [Speedtest-Tracker](software/speedtest_tracker) - An alternative tool to run periodic speedtests
 - [Statping](software/statping) - Web and App Status Monitoring for Any Type of Project
 - [Tautulli](software/tautulli) - Monitor your Plex Server
 - [TICK](software/tick) - Enables Telegraf, InfluxDB, Chronograf, and Kapacitor

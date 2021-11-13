@@ -1,0 +1,24 @@
+---
+- name: Make mealie directory.
+  file:
+    path: "{{ volumes_root }}/mealie"
+    state: directory
+
+- name: Copy mealie docker-compose.yml file into place.
+  template:
+    src: docker-compose.mealie.yml.j2
+    dest: "{{ volumes_root }}/mealie/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure mealie systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/mealie.service
+
+- name: Start mealie
+  systemd:
+    name: mealie
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

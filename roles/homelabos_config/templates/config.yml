@@ -276,8 +276,8 @@ bookstack:
   auth: {{ bookstack.auth | default(False) }}
   domain: {{ bookstack.domain | default(False) }}
   subdomain: {{ bookstack.subdomain | default("bookstack") }}
-  version: {{ bookstack.version | default("0.29.2") }}
-  db_version: {{bookstack.db_version | default("5.7.21") }}
+  version: {{ bookstack.version | default("latest") }}
+  db_version: {{bookstack.db_version | default("latest") }}
 bulletnotes:
   enable: {{ bulletnotes.enable | default(enable_bulletnotes, None) | default(False) }}
   https_only: {{ bulletnotes.https_only | default(False) }}
@@ -570,6 +570,15 @@ huginn:
   subdomain: {{ huginn.subdomain | default("huginn") }}
   version: {{ huginn.version | default("latest") }}
   db_version: {{ huginn.db_version | default("10.3") }}
+internetmonitoring:
+  enable: {{ internetmonitoring.enable | default(enable_internetmonitoring, None) | default(False) }}
+  https_only: {{ internetmonitoring.https_only | default(False) }}
+  auth: {{ internetmonitoring.auth | default(False) }}
+  domain: {{ internetmonitoring.domain | default(False) }}
+  subdomain: {{ internetmonitoring.subdomain | default("internetmonitoring") }}
+  monitoring_enable: {{ internetmonitoring.monitoring_enable | default(true) }}
+  monitoring_speedtest_interval: {{ internetmonitoring.monitoring_speedtest_interval | default("30m") }}
+  monitoring_ping_interval: {{ internetmonitoring.monitoring_ping_interval | default("5s") }}
 inventario:
   enable: {{ inventario.enable | default(enable_inventario, None) | default(False) }}
   https_only: {{ inventario.https_only | default(False) }}
@@ -578,6 +587,15 @@ inventario:
   subdomain: {{ inventario.subdomain | default("inventario") }}
   version: {{ inventario.version | default("latest") }}
   db_version: {{ inventario.db_version | default("latest") }}
+invidious:
+  enable: {{ invidious.enable | default(enable_invidious, None) | default(False) }}
+  https_only: {{ invidious.https_only | default(False) }}
+  auth: {{ invidious.auth | default(False) }}
+  domain: {{ invidious.domain | default(False) }}
+  subdomain: {{ invidious.subdomain | default("invidious")}}
+  version: {{ invidious.version | default("latest") }}
+  cpus_limit: {{ invidious.cpus_limit | default("0.5") }}
+  mem_limit: {{ invidious.mem_limit | default("1024M") }}
 invoiceninja:
   enable: {{ invoiceninja.enable | default(enable_invoiceninja, None) | default(False) }}
   https_only: {{ invoiceninja.https_only | default(False) }}
@@ -689,6 +707,13 @@ mayan:
   db_version: {{ mayan.db_version | default("latest") }}
   redis_version: {{ mayan.redis_version | default("latest") }}
   rabbit_version: {{ mayan.rabbit_version | default("latest") }}
+mealie:
+  enable: {{ mealie.enable | default(enable_mealie, None) | default(False) }}
+  https_only: {{ mealie.https_only | default(False) }}
+  auth: {{ mealie.auth | default(False) }}
+  domain: {{ mealie.domain | default(False) }}
+  subdomain: {{ mealie.subdomain | default("mealie") }}
+  version: {{ mealie.version | default("latest") }}
 minecraft:
   enable: {{ minecraft.enable | default(enable_minecraft, None) | default(False) }}
   https_only: {{ minecraft.https_only | default(False) }}
@@ -782,7 +807,7 @@ nextcloud:
   auth: {{ nextcloud.auth | default(False) }}
   domain: {{ nextcloud.domain | default(False) }}
   subdomain: {{ nextcloud.subdomain | default("nextcloud") }}
-  version: {{ nextcloud.version | default("apache") }}
+  version: {{ nextcloud.version | default("21-apache") }}
   db_version: {{ nextcloud.db_version | default("alpine") }}
   redis_version: {{ nextcloud.redis_version | default("5.0-alpine") }}
 nodered:
@@ -838,7 +863,7 @@ organizr:
   auth: {{ organizr.auth | default(False) }}
   domain: {{ organizr.domain | default(False) }}
   subdomain: {{ organizr.subdomain | default("organizr") }}
-  fpm: {{ organizr.fpm | default("false") }} 
+  fpm: {{ organizr.fpm | default("false") }}
   branch: {{ organizr.branch | default("master") }}
   version: {{ organizr.version | default("latest") }}
 ownphotos:
@@ -1035,6 +1060,13 @@ speedtest:
   subdomain: {{ speedtest.subdomain | default("speedtest") }}
   version: {{ speedtest.version | default("latest") }}
   server: {{ speedtest.server | default (11441) }}
+speedtest_tracker:
+  enable: {{ speedtest_tracker.enable | default(enable_speedtest_tracker, None) | default(False) }}
+  https_only: {{ speedtest_tracker.https_only | default(False) }}
+  auth: {{ speedtest_tracker.auth | default(False) }}
+  domain: {{ speedtest_tracker.domain | default(False) }}
+  subdomain: {{ speedtest_tracker.subdomain | default("speedtest_tracker") }}
+  version: {{ speedtest_tracker.version | default("latest") }}
 statping:
   enable: {{ statping.enable | default(enable_statping, None) | default(False) }}
   https_only: {{ statping.https_only | default(False) }}

@@ -1,3 +1,17 @@
+# 0.8.5
+
+## Changes
+- Add configuration options to change Firefly's image and database
+
+## Services Added
+- Added Speedtest Tracker - An alternative tool to run periodic speedtests.
+- Added Mealie - Simple recipes in Markdown format.
+- Added Internet Monitoring - Internet Monitoring Docker Stack for tracking speed and ping over time with Prometheu + Grafana
+
+# 0.8.4
+
+- Documentation clean up
+
 # 0.8.3
 
 Bug fixes
@@ -30,6 +44,7 @@ Bug fixes
 - Added Teedy - Document Management made simple for everyone
 - Added Unifi Controller - The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 - Added Xteve - An emulted TV Tuner for IPTV services.
+- Added Invidious - An alternative front-end to YouTube
 
 # 0.7.1 - 0.7.2
 

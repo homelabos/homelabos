@@ -36,7 +36,8 @@
 
 - name: Add the Docker-ce Repo
   apt_repository:
-    repo: deb https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }} stable
+    repo: deb https://download.docker.com/linux/{{ansible_distribution|lower}}
+          {{ansible_distribution_release|lower}} stable
     state: present
 
 - name: Install Docker and docker-compose

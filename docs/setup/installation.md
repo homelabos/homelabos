@@ -78,7 +78,7 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 * Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
-#### But isn't piping bash to curl insecure?
+#### But isn't piping curl to bash insecure?
 
 Not really. If you're using https (we are), then you can be sure you're getting the file you expect.
 
@@ -143,6 +143,10 @@ repo whenever you run `make deploy`, `make update` or `make config`.
     This bit is important.
 
 If you installed with the Automatic/One-Liner install, your vault password exists at `~/.homelabos_vault_pass` for the user you ran the script as. Make sure to back this password up somewhere safe, and ideally _not_ in your `settings/` folder. If someone gains access to your `settings/` folder and the vault password, bad things can happen. Store them separately.
+
+## Enabling Documentation
+
+To have HomelabOS serve it's docs on your system with correct links filled out for all enabled services, run `make set docs.enable true` then `make` again to deploy it.
 
 ## [Troubleshooting / FAQ](faq.md)
 

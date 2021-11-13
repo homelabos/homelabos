@@ -46,7 +46,9 @@ services:
   homedash:
   hubzilla:
   huginn:
+  internetmonitoring:
   inventario:
+  invidious:
   invoiceninja:
   jackett:
   jellyfin:
@@ -61,6 +63,7 @@ services:
   matomo:
   matterbridge:
   mayan:
+  mealie:
   minecraft:
   minecraftbedrockserver:
   miniflux:
@@ -104,6 +107,7 @@ services:
   snibox:
   sonarr:
   speedtest:
+  speedtest_tracker:
   statping:
   sui:
   syncthing:
@@ -175,7 +179,9 @@ homebridge:
 homedash:
 hubzilla:
 huginn:
+internetmonitoring:
 inventario:
+invidious:
 invoiceninja:
 jackett:
 jellyfin:
@@ -185,11 +191,12 @@ kibitzr:
 lazylibrarian:
 lidarr:
 mailu:
-massivedecks:
 mashio:
+massivedecks:
 matomo:
 matterbridge:
 mayan:
+mealie:
 minecraft:
 minecraftbedrockserver:
 miniflux:
@@ -232,6 +239,7 @@ simplyshorten:
 snibox:
 sonarr:
 speedtest:
+speedtest_tracker:
 statping:
 syncthing:
 taisun:

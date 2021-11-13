@@ -47,16 +47,24 @@
 #####################################
 - name: Install required system packages
   apt: name={{ item }} state=latest update_cache=yes
-  loop: ['git', 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'gnupg-agent', 'python3-docker', 'python3-distutils', 'python3-passlib']
+  loop: ['apt-transport-https',
+         'ca-certificates',
+         'curl',
+         'git',
+         'gnupg-agent',
+         'python3-distutils',
+         'python3-docker',
+         'python3-passlib',
+         'software-properties-common']
   become: yes
   tags:
     - deploy_host_deps
-  # TODO: python3-pip and mkdocs is used by the 'docs' service.  Why are the docs not built in a container?
-  # 'python3-pip', 'mkdocs']
-  # It pulls in a massive amount of packages just for this purpose.
-  # Need theme: material
-  # Need : pymdownx.details , git-revision-date-localized
-  # service docs is non-functional.
+## TODO: python3-pip and mkdocs is used by the 'docs' service.  Why are the docs not built in a container?
+## 'python3-pip', 'mkdocs']
+## It pulls in a massive amount of packages just for this purpose.
+## Need theme: material
+## Need : pymdownx.details , git-revision-date-localized
+## service docs is non-functional.
 
 ## Stage 3 of deployment:
 ## Requirement: Default configuration is completed. I.e. settings/config.yml and vault.yml exist.

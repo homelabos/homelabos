@@ -1,0 +1,29 @@
+---
+- name: Make invidious directory.
+  file:
+    path: "{{ volumes_root }}/invidious"
+    state: directory
+
+- name: Clone invidious repository
+  git:
+    repo: "https://github.com/iv-org/invidious.git"
+    dest: "{{ volumes_root }}/invidious/repo"
+
+- name: Copy invidious docker-compose.yml file into place.
+  template:
+    src: docker-compose.invidious.yml.j2
+    dest: "{{ volumes_root }}/invidious/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure invidious systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/invidious.service
+
+- name: Start invidious
+  systemd:
+    name: invidious
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

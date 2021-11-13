@@ -57,6 +57,7 @@ services:
       - CRON_PERIOD=15m
       - TZ={{ common_timezone }}
       - REDIS_HOST=nextcloud-redis
+      - TRUSTED_PROXIES=172.0.0.0/8
       - NEXTCLOUD_ADMIN_USER={{ default_username }}
       - NEXTCLOUD_ADMIN_PASSWORD={{ default_password }}
       - NEXTCLOUD_DATA_DIR=/data
@@ -77,4 +78,17 @@ services:
     labels:
       - "traefik.http.services.nextcloud.loadbalancer.server.scheme=http"
       - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+# Create a nextcloud header middleware so that values can be overwritten to achieve an A+ result from the security scan
+# and remove the warnings from the setup and security overview.
+# Documentation for headers: https://doc.traefik.io/traefik/middlewares/headers/
+      - "traefik.http.middlewares.nextcloud-headers.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.nextcloud-headers.headers.framedeny=true"
+      - "traefik.http.middlewares.nextcloud-headers.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.nextcloud-headers.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.nextcloud-headers.headers.sslredirect=true"
+      - "traefik.http.middlewares.nextcloud-headers.headers.customFrameOptionsValue=SAMEORIGIN"
 {% include './labels.j2' %}
+ # overwrite these middlewares to add the dav redirects only for nextcloud
+ # If this is needed for other roles, then it can be added to roles/homelabos_deploy/tasks/conf.d/middlewares.yaml
+      - "traefik.http.routers.nextcloud-http.middlewares={% if https_only == True %}redirect@file, {% else %}{% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}nextcloud-headers"
+      - "traefik.http.routers.nextcloud.middlewares={% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}nextcloud-headers"
