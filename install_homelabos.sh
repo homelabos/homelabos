@@ -1,6 +1,10 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 VERSION=v0.8.4
+=======
+VERSION=v0.8.6
+>>>>>>> dev
 REPO=NickBusey
 
 while getopts r:v: option

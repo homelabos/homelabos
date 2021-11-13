@@ -1,3 +1,8 @@
+# 0.8.6
+
+## Fixed
+- Install script fix
+
 # 0.8.5
 
 ## Changes
