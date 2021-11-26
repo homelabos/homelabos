@@ -33,7 +33,7 @@ services:
       - "traefik.http.routers.{{ vikunja_service_name }}.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.services.{{ vikunja_service_name }}.loadbalancer.server.port=80"
 {% if enable_tor %}
-      - "traefik.http.routers.{{ vikunja_service_name }}-tor-http.rule=Host(`{{ lookup('vars', 'vikunja').subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.{{ vikunja_service_name }}-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
 {% endif %}
 {% include './vikunja_labels.j2' %}
 
