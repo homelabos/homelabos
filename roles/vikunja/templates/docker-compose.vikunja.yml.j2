@@ -40,11 +40,11 @@ services:
 {% set vikunja_service_name = "vikunja_api" %}
   vikunja_api:
     image: "vikunja/api:{{ vikunja.api_version }}"
-#    container_name: api
     networks:
       - traefik_network
       - vikunja
     environment:
+      VIKUNJA_SERVICE_ENABLEREGISTRATION: "false"
       VIKUNJA_DATABASE_HOST: vikunja_db
       VIKUNJA_DATABASE_TYPE: postgres
       VIKUNJA_DATABASE_USER: vikunja
