@@ -253,6 +253,7 @@ If you are having problems you can:
 ### Task management/To-do lists
 
 - [Wekan](software/wekan) - Open source Kanban board with MIT license
+- [Vikunja](software/vikunja) - The to-do app to organize your life
 
 ### VPN
 

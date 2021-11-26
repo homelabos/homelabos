@@ -188,6 +188,7 @@ nav:
       - Snibox: software/snibox.md
     - Task management/To-do lists:
       - Wekan: software/wekan.md
+      - Vikunja: software/vikunja.md
     - VPN:
       - OpenVPN: software/openvpn.md
     - Web servers:

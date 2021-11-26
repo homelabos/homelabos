@@ -1,0 +1,61 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  vikunja:
+
+services:
+  vikunja_db:
+    image: "postgres:{{ vikunja.db_version }}"
+    networks:
+      - vikunja
+    environment:
+      POSTGRES_USER: vikunja
+      POSTGRES_PASSWORD: "{{ lookup('password', './settings/passwords/vikunja_db_password chars=ascii_letters') }}"
+    volumes:
+      - "{{ volumes_root }}/vikunja/db:/var/lib/postgresql/data"
+    restart: unless-stopped
+
+{% set service_item = "vikunja-api" %}
+  vikunja_api:
+    image: "vikunja/api:{{ vikunja.api_version }}"
+    container_name: api
+    networks:
+      - traefik_network
+      - vikunja
+    environment:
+      VIKUNJA_DATABASE_HOST: vikunja_db
+      VIKUNJA_DATABASE_TYPE: postgres
+      VIKUNJA_DATABASE_USER: vikunja
+      VIKUNJA_DATABASE_DATABASE: vikunja
+      VIKUNJA_DATABASE_PASSWORD: "{{ lookup('password', './settings/passwords/vikunja_db_password chars=ascii_letters') }}"
+    volumes:
+      - "{{ volumes_root }}/vikunja/files:/app/vikunja/files"
+    depends_on:
+      - vikunja_db
+    restart: unless-stopped
+    labels:
+      - "traefik.http.services.{{ service_item }}.loadbalancer.server.scheme=http"
+{% include './labels.j2' %}
+      - "traefik.http.routers.{{ service_item }}.rule=Host(`{{ service_domain }}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)"
+{% if enable_tor %}
+      - "traefik.http.routers.{{ service_item }}-tor-http.rule=Host(`{{ lookup('vars', 'vikunja').subdomain }}.{{ tor_domain }}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)"
+{% endif %}
+
+{% set service_item = "vikunja-frontend" %}
+  vikunja_frontend:
+    image: "vikunja/frontend:{{ vikunja.frontend_version }}"
+    networks:
+      - traefik_network
+      - vikunja
+    restart: unless-stopped
+    labels:
+      - "traefik.http.services.{{ service_item }}.loadbalancer.server.scheme=http"
+{% include './labels.j2' %}
+      - "traefik.http.routers.{{ service_item }}.rule=Host(`{{ service_domain }}`)"
+{% if enable_tor %}
+      - "traefik.http.routers.{{ service_item }}-tor-http.rule=Host(`{{ lookup('vars', 'vikunja').subdomain }}.{{ tor_domain }}`)"
+{% endif %}
