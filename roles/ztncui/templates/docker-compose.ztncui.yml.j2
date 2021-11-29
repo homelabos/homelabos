@@ -1,0 +1,27 @@
+---
+version: '3'
+
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  ztncui:
+    image: keynetworks/ztncui:{{ ztncui.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    environment:
+      NODE_ENV: production
+      ZTNCUI_PASSWD: "{{lookup('password', './settings/passwords/ztncui_passphrase chars=ascii_letters')}}"
+      HTTP_PORT: 7742
+      HTTP_ALL_INTERFACES: "yes"
+    volumes:
+      - "{{ volumes_root }}/ztncui/ztncui:/opt/key-networks/ztncui/etc"
+      - "{{ volumes_root }}/ztncui/zt1:/var/lib/zerotier-one"
+    labels:
+      - "traefik.http.services.ztncui.loadbalancer.server.scheme=http"
+      - "traefik.http.services.ztncui.loadbalancer.server.port=7742"
+{% include './labels.j2' %}

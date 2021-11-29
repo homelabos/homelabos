@@ -133,6 +133,7 @@ services:
   xfinityusageinfluxdb:
   xteve:
   zammad:
+  ztncui:
   zulip:
 docs:
 apache2:
@@ -265,6 +266,7 @@ webdavserver:
 webtrees:
 webvirtmgr:
 zammad:
+ztncui:
 zulip:
 enable_tinc: false
 vpn_ip: 10.0.0.1

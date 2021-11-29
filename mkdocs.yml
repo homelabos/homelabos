@@ -144,6 +144,7 @@ nav:
       - Watchtower: software/watchtower.md
       - WebTrees: software/webtrees.md
       - Zammad: software/zammad.md
+      - ZeroTier network controller user interface: software/ztncui.md
     - Money, Budgeting and Management:
       - Firefly III: software/firefly.md
     - Monitoring:

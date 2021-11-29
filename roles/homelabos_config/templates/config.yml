@@ -1248,6 +1248,13 @@ zammad:
   subdomain: {{ zammad.subdomain | default("zammad") }}
   version: {{ zammad.version | default("3.3.0-19") }}
   memcached_version: {{ zammad.memcached_version | default("1.5.22-alpine") }}
+ztncui:
+  enable: {{ ztncui.enable | default(enable_ztncui, None) | default(False) }}
+  https_only: {{ ztncui.https_only | default(False) }}
+  auth: {{ ztncui.auth | default(False) }}
+  domain: {{ ztncui.domain| default(False) }}
+  subdomain: {{ ztncui.subdomain | default("ztncui") }}
+  version: {{ ztncui.version | default("latest") }}
 zulip:
   enable: {{ zulip.enable | default(enable_zulip, None) | default(False) }}
   https_only: {{ zulip.https_only | default(False) }}
