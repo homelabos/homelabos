@@ -24,7 +24,7 @@ services:
       - SYMFONY__ENV__DATABASE_USER=wallabag
       - SYMFONY__ENV__DATABASE_PASSWORD={{lookup('password', './settings/passwords/wallabag_db_password chars=ascii_letters')}}
       - MYSQL_DATABASE=wallabag
-      - SYMFONY__ENV__DATABASE_CHARSET=utf8
+      - SYMFONY__ENV__DATABASE_CHARSET=utf8mb4
       - SYMFONY__ENV__MAILER_HOST=127.0.0.1
       - SYMFONY__ENV__MAILER_USER=~
       - SYMFONY__ENV__MAILER_PASSWORD=~
