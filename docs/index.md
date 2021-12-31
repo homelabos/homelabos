@@ -239,6 +239,7 @@ If you are having problems you can:
 
 ### Social Networking
 
+- [phpBB](software/phpbb) - phpBB is an Internet forum package in the PHP scripting language.
 - [Pleroma](software/pleroma) - Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
 
 ### Software Development

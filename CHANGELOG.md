@@ -1,3 +1,8 @@
+# Dev
+
+## Services Added
+- Added phpBB - phpBB is an Internet forum package in the PHP scripting language.
+
 # 0.8.6
 
 ## Fixed

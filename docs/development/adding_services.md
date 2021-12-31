@@ -67,7 +67,7 @@ The service needs to be added within
 
 Place it in the `services:` section in alphabetical order.
 
-## Add Service to README
+## Add Service to docs/index.md
 
 The service should be added under the list of `Available Software`.
 

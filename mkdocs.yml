@@ -178,6 +178,7 @@ nav:
     - Read it Later Lists:
       - Wallabag: software/wallabag.md
     - Social Networking:
+      - phpBB: software/phpbb.md
       - Pleroma: software/pleroma.md
     - Software Development:
       - code-server: software/codeserver.md

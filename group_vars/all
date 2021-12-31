@@ -85,6 +85,7 @@ services:
   paperless:
   peertube:
   photoprism:
+  phpbb:
   pihole:
   piwigo:
   pixelfed:
@@ -218,6 +219,7 @@ ownphotos:
 paperless:
 peertube:
 photoprism:
+phpbb:
 pihole:
 piwigo:
 pixelfed:

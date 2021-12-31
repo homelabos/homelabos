@@ -898,6 +898,13 @@ photoprism:
   domain: {{ photoprism.domain | default(False) }}
   subdomain: {{ photoprism.subdomain | default("photoprism") }}
   version: {{ photoprism.version | default("latest") }}
+phpbb:
+  enable: {{ phpbb.enable | default(enable_phpbb, None) | default(False) }}
+  https_only: {{ phpbb.https_only | default(False) }}
+  auth: {{ phpbb.auth | default(False) }}
+  domain: {{ phpbb.domain | default(False) }}
+  subdomain: {{ phpbb.subdomain | default("phpbb") }}
+  version: {{ phpbb.version | default("latest") }}
 pihole:
   enable: {{ pihole.enable | default(enable_pihole, None) | default(False) }}
   https_only: {{ pihole.https_only | default(False) }}

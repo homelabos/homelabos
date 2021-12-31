@@ -1,0 +1,46 @@
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  phpbb:
+
+services:
+  mariadb:
+    networks:
+      - phpbb
+    image: docker.io/bitnami/mariadb:10.3
+    environment:
+      - MARIADB_USER=bn_phpbb
+      - MARIADB_DATABASE=bitnami_phpbb
+      - MARIADB_PASSWORD={{lookup('password', './settings/passwords/phpbb_db_password chars=ascii_letters')}}
+      - MARIADB_ROOT_PASSWORD={{lookup('password', './settings/passwords/phpbb_db_root_password chars=ascii_letters')}}
+    volumes:
+      - "{{ volumes_root }}/phpbb/mariadb_data:/bitnami/mariadb:rw"
+  phpbb:
+    image: docker.io/bitnami/phpbb:3
+    networks:
+      - traefik_network
+      - phpbb
+    environment:
+      - PHPBB_USERNAME={{ default_username }}
+      - PHPBB_PASSWORD={{ default_password }}
+      - PHPBB_EMAIL=user@example.com
+      - PHPBB_DATABASE_HOST=mariadb
+      - PHPBB_DATABASE_PORT_NUMBER=3306
+      - PHPBB_DATABASE_USER=bn_phpbb
+      - PHPBB_DATABASE_NAME=bitnami_phpbb
+      - PHPBB_DATABASE_PASSWORD={{lookup('password', './settings/passwords/phpbb_db_password chars=ascii_letters')}}
+      - PHPBB_SMTP_HOST={{ smtp.host }}
+      - PHPBB_SMTP_PORT={{ smtp.port }}
+      - PHPBB_SMTP_USER={{ smtp.user }}
+      - PHPBB_SMTP_PASSWORD={{ smtp.pass }}
+    volumes:
+      - "{{ volumes_root }}/phpbb/phpbb_data:/bitnami/phpbb:rw"
+    depends_on:
+      - mariadb
+    labels:
+      - "traefik.http.services.phpbb.loadbalancer.server.scheme=http"
+      - "traefik.http.services.phpbb.loadbalancer.server.port=8080"
+{% include './labels.j2' %}
