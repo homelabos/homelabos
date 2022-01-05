@@ -4,4 +4,4 @@
     name: tor
     state: reloaded
     enabled: yes
-  when: ansible_distribution != "MaxOSX"
+  when: ansible_distribution != "MacOSX"
