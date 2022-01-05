@@ -515,7 +515,7 @@ guacamole:
   domain: {{ guacamole.domain | default(False) }}
   subdomain: {{ guacamole.subdomain | default("guacamole") }}
   version: {{ guacamole.version | default("latest") }}
-  db_version: {{ guacamole.db_version | default("latest") }}
+  db_version: {{ guacamole.db_version | default("13.4") }}
   proxy_version: {{ guacamole.proxy_version | default("latest") }}
 healthchecks:
   enable: {{ healthchecks.enable | default(enable_healthchecks, None) | default(False) }}
