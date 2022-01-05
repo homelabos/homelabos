@@ -16,7 +16,7 @@ A large MR with several unrelated fixes in it can be held up from being merged b
 
 To contribute a bug fix, service, or enhancement you'll need to:
 
-1. Establish and maintain a mirrored Fork
+1. Establish and maintain a Fork
 2. Branch Dev in your fork
 3. Develop your feature/fix
 4. Commit to your branch on your fork
