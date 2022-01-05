@@ -11,6 +11,8 @@
       - cockpit-ws
       - cockpit-packagekit
       - cockpit-networkmanager
+  environment:
+    DEBIAN_FRONTEND: noninteractive
 
 - name: Find the IP address of the docker host from within traefik
   shell: >

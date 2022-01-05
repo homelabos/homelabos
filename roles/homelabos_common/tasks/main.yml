@@ -26,6 +26,8 @@
       - python3-setuptools
       - python3-passlib
       - python3-openssl
+  environment:
+    DEBIAN_FRONTEND: noninteractive
   tags:
     - dependencies
 
@@ -47,6 +49,8 @@
       - docker-ce-cli
       - docker-compose
       - containerd.io
+  environment:
+    DEBIAN_FRONTEND: noninteractive
   tags:
     - dependencies
 

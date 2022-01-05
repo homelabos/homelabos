@@ -37,6 +37,8 @@
       - jq
       - network-manager
       - socat
+  environment:
+    DEBIAN_FRONTEND: noninteractive
   when: homeassistant.use_supervisord
 
 - name: Create System Home Assistant Config file

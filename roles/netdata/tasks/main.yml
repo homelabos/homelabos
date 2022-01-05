@@ -8,6 +8,8 @@
   apt:
     name:
       - apache2-utils
+  environment:
+    DEBIAN_FRONTEND: noninteractive
 
 - name: Test Setting Fact.
   shell: htpasswd -nbB {{ default_username }} "{{ default_password }}" | sed -e s/\\$/\\$\\$/g

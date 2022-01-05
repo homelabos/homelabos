@@ -57,6 +57,8 @@
          'python3-passlib',
          'software-properties-common']
   become: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
   tags:
     - deploy_host_deps
 ## TODO: python3-pip and mkdocs is used by the 'docs' service.  Why are the docs not built in a container?
