@@ -105,6 +105,7 @@ nav:
       - mStream: software/mstream.md
       - PeerTube: software/peertube.md
       - Plex: software/plex.md
+      - Tubearchivist: software/tubearchivist.md
     - Misc/Other:
       - AdGuard Home: software/adguardhome.md
       - Barcode Buddy: software/barcodebuddy.md

@@ -1,0 +1,61 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  tubearchivist:
+
+services:
+  tubearchivist:
+    restart: unless-stopped
+    image: bbilly1/tubearchivist:{{ tubearchivist.version }}
+    networks:
+      - traefik_network
+      - tubearchivist
+    volumes:
+      - "{{ storage_dir }}/Video/Tubearchivist/cache:/cache"
+      - "{{ storage_dir }}/Video/Tubearchivist/media:/youtube"
+    environment:
+      - TA_USERNAME=tubearchivist
+      - "TA_PASSWORD={{lookup('password', './settings/passwords/tubearchivist_ta_passphrase chars=ascii_letters')}}"
+      - ES_URL=http://tubearchivist-es:9200
+      - REDIS_HOST=tubearchivist-redis
+      - HOST_UID={{ uid_output.stdout }}
+      - HOST_GID={{ gid_output.stdout }}
+      - "ELASTIC_PASSWORD={{lookup('password', './settings/passwords/tubearchivist_elasticsearch_passphrase chars=ascii_letters')}}"
+    depends_on:
+      - tubearchivist-es
+      - tubearchivist-redis
+    labels:
+      - "traefik.http.services.tubearchivist.loadbalancer.server.scheme=http"
+      - "traefik.http.services.tubearchivist.loadbalancer.server.port=8000"
+{% include './labels.j2' %}
+
+  tubearchivist-redis:
+    image: redislabs/rejson:{{ tubearchivist.redis_version }}
+    restart: unless-stopped
+    networks:
+      - tubearchivist
+    volumes:
+      - "{{ volumes_root }}/tubearchivist/redis:/data"
+    depends_on:
+      - tubearchivist-es
+
+  tubearchivist-es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:{{ tubearchivist.elasticsearch_version }}
+    restart: unless-stopped
+    networks:
+      - tubearchivist
+    environment:
+      - "ELASTIC_PASSWORD={{lookup('password', './settings/passwords/tubearchivist_elasticsearch_passphrase chars=ascii_letters')}}"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "xpack.security.enabled=true"
+      - "discovery.type=single-node"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - "{{ volumes_root }}/tubearchivist/elasticsearch:/usr/share/elasticsearch/data"

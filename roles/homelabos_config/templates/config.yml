@@ -1161,6 +1161,15 @@ trilium:
   domain: {{ trilium.domain| default(False) }}
   subdomain: {{ trilium.subdomain | default("trilium") }}
   version: {{ trilium.version | default("latest") }}
+tubearchivist:
+  enable: {{ tubearchivist.enable | default(enable_tubearchivist, None) | default(False) }}
+  https_only: {{ tubearchivist.https_only | default(False) }}
+  auth: {{ tubearchivist.auth | default(False) }}
+  domain: {{ tubearchivist.domain| default(False) }}
+  subdomain: {{ tubearchivist.subdomain | default("tubearchivist") }}
+  version: {{ tubearchivist.version | default("latest") }}
+  redis_version: {{ tubearchivist.redis_version | default("latest") }}
+  elasticsearch_version: {{ tubearchivist.elasticsearch_version | default("7.15.1") }}
 turtl:
   enable: {{ turtl.enable | default(enable_turtl, None) | default(False) }}
   https_only: {{ turtl.https_only | default(False) }}

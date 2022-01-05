@@ -1,0 +1,36 @@
+---
+- name: Make tubearchivist directory.
+  file:
+    path: "{{ volumes_root }}/tubearchivist"
+    state: directory
+
+- name: Make tubearchivist's Redis directory
+  file:
+    path: "{{ volumes_root }}/tubearchivist/redis"
+    state: directory
+    mode: u+rwx,g+rwx,o+rx
+
+- name: Make tubearchivist's ElasticSearch directory
+  file:
+    path: "{{ volumes_root }}/tubearchivist/elasticsearch"
+    state: directory
+    mode: u+rwx,g+rwx,o+rx
+
+- name: Copy tubearchivist docker-compose.yml file into place.
+  template:
+    src: docker-compose.tubearchivist.yml.j2
+    dest: "{{ volumes_root }}/tubearchivist/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure tubearchivist systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/tubearchivist.service
+
+- name: Start tubearchivist
+  systemd:
+    name: tubearchivist
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

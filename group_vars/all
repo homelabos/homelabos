@@ -121,6 +121,7 @@ services:
   tiddlywiki:
   transmission:
   trilium:
+  tubearchivist:
   turtl:
   ubooquity:
   unificontroller:
@@ -254,6 +255,7 @@ tick:
 tiddlywiki:
 transmission:
 trilium:
+tubearchivist:
 turtl:
 ubooquity:
 unificontroller:

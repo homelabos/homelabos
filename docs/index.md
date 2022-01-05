@@ -148,6 +148,7 @@ If you are having problems you can:
 - [mStream](software/mstream) - All your music, everywhere you go.
 - [PeerTube](software/peertube) - ActivityPub based Video Sharing
 - [Plex](software/plex) - Personal Media Server
+- [Tubearchivist](software/tubearchivist) - Your self hosted YouTube media server
 
 ### Misc/Other
 
