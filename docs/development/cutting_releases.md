@@ -8,6 +8,7 @@ This is the process to cut a new versioned release.
 * Update CHANGELOG with new version number
 * Update install_homelabos.sh with new version number
 * Push up docker image for latest build
+  * `docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t nickbusey homelabos:v0.8.6 . --push`
 * Push up changes, merge MR into master
 * From master tag the release in GitLab
 * Check out dev, revert VERSION and install_homelabos.sh to `dev`
