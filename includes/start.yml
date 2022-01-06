@@ -1,0 +1,8 @@
+---
+
+- name: Start {{ service_item }}
+  systemd:
+    name: "{{ service_item }}"
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

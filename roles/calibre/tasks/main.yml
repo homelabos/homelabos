@@ -1,36 +1,7 @@
 ---
-- name: Make calibre directory.
-  file:
-    path: "{{ volumes_root }}/calibre"
-    state: directory
 
-- name: Get UID
-  command: id -u {{ homelab_ssh_user }}
-  register: uid_output
-  become: false
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Get GID
-  command: id -g {{ homelab_ssh_user }}
-  register: gid_output
-  become: false
-
-- name: Copy calibre docker-compose.yml file into place.
-  template:
-    src: docker-compose.calibre.yml.j2
-    dest: "{{ volumes_root }}/calibre/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    uid: "{{ uid_output.stdout }}"
-    gid: "{{ gid_output.stdout }}"
-
-- name: Configure calibre systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/calibre.service
-
-- name: Start calibre
-  systemd:
-    name: calibre
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

@@ -1,0 +1,36 @@
+---
+- name: Copy {{ service_item }} documentation into place.
+  template:
+    src: docs_software/{{ service_item }}.md
+    dest: "{{ volumes_root }}/docs/docs/software/{{ service_item }}.md"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Make {{ service_item }} directory.
+  file:
+    path: "{{ volumes_root }}/{{ service_item }}"
+    state: directory
+
+- name: Get UID
+  command: id -u {{ homelab_ssh_user }}
+  register: uid_output
+  become: false
+
+- name: Get GID
+  command: id -g {{ homelab_ssh_user }}
+  register: gid_output
+  become: false
+
+- name: Copy {{ service_item }} docker-compose.yml file into place.
+  template:
+    src: docker-compose.{{ service_item }}.yml.j2
+    dest: "{{ volumes_root }}/{{ service_item }}/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    uid: "{{ uid_output.stdout }}"
+    gid: "{{ gid_output.stdout }}"
+
+- name: Configure {{ service_item }} systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/{{ service_item }}.service

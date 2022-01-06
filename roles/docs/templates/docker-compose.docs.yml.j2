@@ -9,12 +9,12 @@ networks:
 services:
   # HomelabOS Documentation
   docs:
-    image: kyma/docker-nginx:{{ docs.version }}
+    image: httpd:{{ docs.version }}
     restart: unless-stopped
     networks:
       - traefik_network
     volumes:
-      - "{{ volumes_root }}/docs/site:/var/www"
+      - "{{ volumes_root }}/docs/site:/usr/local/apache2/htdocs/"
     labels:
       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
       - "traefik.http.services.docs.loadbalancer.server.port=80"

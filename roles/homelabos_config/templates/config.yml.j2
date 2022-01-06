@@ -161,7 +161,7 @@ enable_tor: {{ enable_tor | default(False) }}
 
 # Services
 docs:
-  enable: {{ docs.enable | default(enable_docs, None) | default(False) }}
+  enable: {{ docs.enable | default(enable_docs, None) | default(True) }}
   https_only: {{ docs.https_only | default(False) }}
   auth: {{ docs.auth | default(False) }}
   domain: {{ docs.domain | default(False) }}
@@ -1276,13 +1276,6 @@ zulip:
   rabbit_version: {{ zulip.rabbit_version | default("3.7.7") }}
 
 ### OPTIONAL ### These valuse are OPTIONAL and enable extra HomelabOS functionality.
-
-# Your DarkSky API Key. Get one at http://darksky.net/dev
-darksky_key: {{ darksky_key | default() }}
-
-# Your location
-latitude: {{ latitude | default() }}
-longitude: {{ longitude | default() }}
 
 # NAS Config (Docs: https://homelabos.com/docs/setup/installation/#nas-network-attached-storage-configuration)
 nas_enable: {{ nas_enable | default(False) }}

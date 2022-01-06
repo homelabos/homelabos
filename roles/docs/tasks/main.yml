@@ -32,7 +32,14 @@
     src: "{{ item.src }}"
     dest: "{{ volumes_root }}/docs/docs/{{ item.path }}"
   with_filetree: "docs/"
-  when: item.state == 'file' and item.src is match(".md")
+  when: item.state == 'file' and item.src is search("\.md$")
+
+- name: Configure HomelabOS Documentation images.
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ volumes_root }}/docs/docs/{{ item.path }}"
+  with_filetree: "docs/"
+  when: item.state == 'file' and item.src is search("\.png$")
 
 - name: copy configuration files
   copy:
@@ -43,15 +50,10 @@
     - Pipfile.lock
     - mkdocs.yml
 
-- name: fetch pipenv dependencies
-  shell: pipenv --three install
-  args:
-    chdir: "{{ volumes_root }}/docs"
-
-- name: build the documentation with mkdocs
-  shell: pipenv --three run mkdocs build
-  args:
-    chdir: "{{ volumes_root }}/docs"
+- name: Build docs using mkdocs Docker image
+  shell:
+    chdir: /var/homelabos/docs
+    cmd: docker run -v $(pwd):/target nickbusey/homelabos-mkdocs mkdocs build
 
 - name: Copy HomelabOS docker-compose.yml file into place.
   template:

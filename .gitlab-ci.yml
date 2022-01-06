@@ -19,6 +19,7 @@ pages:
   - pip install mkdocs mkdocs-material mkdocs-git-revision-date-localized-plugin
   # For debugging in the pipeline logs
   - mkdocs --version
+  - mv docs_software docs/software
   - mkdocs build
   - mv site public/docs
   artifacts:

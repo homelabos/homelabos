@@ -6,8 +6,7 @@ The docker image comes from [grafana/grafana](https://hub.docker.com/r/grafana/g
 If you attempt to run it on arm and encounter issues,
 [please see issue 478](https://gitlab.com/NickBusey/HomelabOS/-/issues/478)
 
-You can use it to visualize the Weather data imported by [influxdb_darksky](software/influxdb_darksky),
-power, activity, and other data from [Home Assistant](software/homeassistant), and general server
+You can use it to visualize the data from [Home Assistant](software/homeassistant), and general server
 information via Telegraf.
 
 Grafana comes configured with a Dashboard and Datasource connected for you out of the box. This default

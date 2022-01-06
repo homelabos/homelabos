@@ -157,7 +157,6 @@ If you are having problems you can:
 - [Chowdown](software/chowdown) Simple recipes in Markdown format
 - [Cockpit](software/system-cockpit) - Cockpit Admin interface for configuring and troubleshooting a system
 - [CodiMD](software/codimd) The best platform to write and share markdown
-- [Darksky](software/darksky) - Local weather reported via [darksky-influxdb](https://github.com/ErwinSteffens/darksky-influxdb)
 - [Dasher](software/dasher) - Amazon Dash button support
 - [DuckDNS](software/duckdns) is free dynamic DNS hosted on AWS. This provides a client to update the IP pointed to by DuckDNS.
 - [EtherCalc](software/ethercalc) - Web Spreadsheet

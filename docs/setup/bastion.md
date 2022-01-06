@@ -34,5 +34,11 @@ SSH to port 2222 and you will be accessing the home server directly.
 You can also use [sshuttle](https://github.com/sshuttle/sshuttle) to access your server
 via a VPN. Install sshuttle then run `sshuttle -r USER@CLOUD_SERVER_DOMAIN 0/0`.
 
-You can now ssh directly to 10.0.0.1 and load http://10.0.0.1:8181 in a browser to
+You can now ssh directly to 10.0.1.2 and load http://10.0.1.2:8181 in a browser to
 access the Traefik dashboard for example.
+
+## Trouble Shooting
+
+On your HomelabOS server run `systemctl status wireguard-homelabos`
+
+On your bastion server run `systemctl status wg-quick@wg0`

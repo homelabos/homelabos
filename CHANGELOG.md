@@ -2,7 +2,16 @@
 
 ## Services Added
 - Added phpBB - phpBB is an Internet forum package in the PHP scripting language.
+- Added tubearchivist - Your self hosted YouTube media server
+- Added ztncui - ZeroTier network controller user interface
 
+## Services Removed
+- Removed darksky-influxdb - Darksky API is no longer.
+
+## Improvements
+- Improved script organization and deployment
+- Improved documentation, now enabled by default
+- Added service testing script
 # 0.8.6
 
 ## Fixed
