@@ -150,16 +150,13 @@ traefik:
 {% endraw %}
 
 # Features
-
 # You can enable/disable different HomelabOS features here by changing False to True and vice versa.
 
+# TOR Access
+# This enables access with a TOR hidden service. Both HTTP and SSL. https://homelabos.com/docs/setup/tor/
 enable_tor: {{ enable_tor | default(False) }}
 
-# Force SSL Usage
-# Only set this to true after everything is working, and https certificates have been generated.
-# https_only: {{ https_only | default(False) }}
-
-# Services
+# HomelabOS Documentation, only shows docs for services you have enabled
 docs:
   enable: {{ docs.enable | default(enable_docs, None) | default(True) }}
   https_only: {{ docs.https_only | default(False) }}
@@ -167,6 +164,8 @@ docs:
   domain: {{ docs.domain | default(False) }}
   subdomain: {{ docs.subdomain | default("docs") }}
   version: {{docs.version | default("latest") }}
+
+# Services
 apache2:
   enable: {{ apache2.enable | default(enable_apache2, None) | default(False) }}
   https_only: {{ apache2.https_only | default(False) }}
