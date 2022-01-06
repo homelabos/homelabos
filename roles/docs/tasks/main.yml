@@ -47,7 +47,7 @@
 
 - name: Build docs using mkdocs Docker image
   shell:
-    chdir: /var/homelabos/docs
+    chdir: "{{ volumes_root }}/docs"
     cmd: docker run -v $(pwd):/target nickbusey/homelabos-mkdocs mkdocs build
 
 - name: Copy HomelabOS docker-compose.yml file into place.
