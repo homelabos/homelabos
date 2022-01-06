@@ -24,6 +24,7 @@ func main() {
 
 	var noDocsServices []string
 	var notInIndex []string
+	var notUsingIncludes []string
 	var serviceCount int
 
 	fmt.Println("Checking services:\n")
@@ -52,6 +53,18 @@ func main() {
 				serviceOk = false
 			}
 
+			// Detect if the service is using the new include style
+			buffer, err = ioutil.ReadFile("roles/" + file.Name() + "/tasks/main.yml")
+			if err != nil {
+				// File doesn't exist
+			}
+			fileContents = string(buffer)
+
+			if !strings.Contains(fileContents, "includes/start.yml") {
+				notUsingIncludes = append(notUsingIncludes, file.Name())
+				serviceOk = false
+			}
+
 			// Output service status
 			if serviceOk {
 				fmt.Print(string(colorGreen), ".")
@@ -76,6 +89,11 @@ func main() {
 
 	fmt.Print("Services not in documentation index.md: \n", string(colorYellow))
 	for _, serviceName := range notInIndex {
+		fmt.Print(serviceName + "\n")
+	}
+
+	fmt.Print("Services not using the new includes format:", string(colorYellow))
+	for _, serviceName := range notUsingIncludes {
 		fmt.Print(serviceName + "\n")
 	}
 }

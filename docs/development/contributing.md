@@ -126,3 +126,9 @@ To serve the docs locally run `make docs_local`.
 ## Working locally on the website
 
 To work on the [HomelabOS website](https://homelabos.com/) just type `make web` to serve it locally.
+
+## Running the Tests
+
+Requirements: [Golang](https://go.dev/) installed and working.
+
+From the root directory: `go run .`
