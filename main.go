@@ -27,7 +27,8 @@ func main() {
 	var notUsingIncludes []string
 	var serviceCount int
 
-	fmt.Println("Checking services:\n")
+	fmt.Println("Checking services:")
+	fmt.Println()
 	for _, file := range files {
 		// Filter out HomelabOS internals
 		if !strings.Contains(file.Name(), "homelabos") &&
@@ -57,6 +58,7 @@ func main() {
 			buffer, err = ioutil.ReadFile("roles/" + file.Name() + "/tasks/main.yml")
 			if err != nil {
 				// File doesn't exist
+				serviceOk = false
 			}
 			fileContents = string(buffer)
 
