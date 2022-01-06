@@ -33,4 +33,3 @@
 
 - name: Start {{service_item}}
   include: includes/start.yml
-  
