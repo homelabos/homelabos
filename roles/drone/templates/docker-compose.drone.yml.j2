@@ -38,7 +38,7 @@ services:
 {% include './labels.j2' %}
 
   drone-agent:
-    image: drone/agent:{{ drone.agent_version }}
+    image: drone/drone-runner-docker:{{ drone.agent_version }}
     restart: unless-stopped
     depends_on:
       - drone-server
@@ -48,5 +48,6 @@ services:
       - drone
     environment:
       - DRONE_RPC_HOST=drone-server:80
+      - DRONE_RPC_PROTO=http
       - DRONE_RPC_SECRET={{lookup('password', './settings/passwords/drone_secret length=32 chars=ascii_letters,digits')}}
       - DRONE_MAX_PROCS=1

@@ -347,8 +347,8 @@ drone:
   auth: {{ drone.auth | default(False) }}
   domain: {{ drone.domain | default(False) }}
   subdomain: {{ drone.subdomain | default("drone") }}
-  version: {{ drone.version | default("1.0") }}
-  agent_version: {{ drone.agent_version | default("1.0") }}
+  version: {{ drone.version | default("latest") }}
+  agent_version: {{ drone.agent_version | default("latest") }}
 {% raw %}
   gitea_id: "{{ vault.drone.gitea_id | default(False) }}"
   gitea_secret: "{{ vault.drone.gitea_secret | default(False) }}"
