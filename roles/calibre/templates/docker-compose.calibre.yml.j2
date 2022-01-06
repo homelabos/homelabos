@@ -25,14 +25,14 @@ services:
     restart: always
     volumes:
       - "{{ storage_dir }}/Books:/books"
-      - "{{ volumes_root }}/calibre/calibre-web/config:/calibre-web/config"
+      - "{{ volumes_root }}/calibre/calibre-web/config:/config"
     environment:
       - USE_CONFIG_DIR=true
       - SET_CONTAINER_TIMEZONE=true
       - CONTAINER_TIMEZONE={{common_timezone}}
       - PGID={{ uid_output.stdout }}
       - PUID={{ gid_output.stdout }}
-    image: technosoft2000/calibre-web:{{ calibre.version }}
+    image: linuxserver/calibre-web:{{ calibre.version }}
     labels:
       - "traefik.http.services.calibre.loadbalancer.server.scheme=http"
       - "traefik.http.services.calibre.loadbalancer.server.port=8083"
