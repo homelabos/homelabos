@@ -25,7 +25,10 @@ func main() {
 	var noDocsServices []string
 	var notInIndex []string
 	var notUsingIncludes []string
+
 	var serviceCount int
+	var happyServices int
+	var sadServices int
 
 	fmt.Println("Checking services:")
 	fmt.Println()
@@ -70,8 +73,10 @@ func main() {
 			// Output service status
 			if serviceOk {
 				fmt.Print(string(colorGreen), ".")
+				happyServices++
 			} else {
 				fmt.Print(string(colorRed), "X")
+				sadServices++
 			}
 		}
 	}
@@ -79,7 +84,13 @@ func main() {
 	fmt.Println(string(colorReset))
 	fmt.Println()
 	fmt.Print("Detected services: ", string(colorBlue))
-	fmt.Printf("%d\n", serviceCount)
+	fmt.Printf("%d", serviceCount)
+	fmt.Println(string(colorReset))
+	fmt.Print("Happy services: ", string(colorGreen))
+	fmt.Printf("%d", happyServices)
+	fmt.Println(string(colorReset))
+	fmt.Print("Detected services: ", string(colorRed))
+	fmt.Printf("%d", sadServices)
 	fmt.Println(string(colorReset))
 
 	fmt.Print("Services without documentation: \n", string(colorYellow))
