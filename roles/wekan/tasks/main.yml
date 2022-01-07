@@ -1,24 +1,7 @@
 ---
-- name: Make wekan directory.
-  file:
-    path: "{{ volumes_root }}/wekan"
-    state: directory
 
-- name: Copy wekan docker-compose.yml file into place.
-  template:
-    src: docker-compose.wekan.yml.j2
-    dest: "{{ volumes_root }}/wekan/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure wekan systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/wekan.service
-
-- name: Start wekan
-  systemd:
-    name: wekan
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

@@ -1,24 +1,7 @@
 ---
-- name: Make webVirtMgr directory.
-  file:
-    path: "{{ volumes_root }}/webvirtmgr"
-    state: directory
 
-- name: Copy webVirtMgr docker-compose.yml file into place.
-  template:
-    src: docker-compose.webvirtmgr.yml.j2
-    dest: "{{ volumes_root }}/webvirtmgr/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure webVirtMgr systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/webvirtmgr.service
-
-- name: Start webVirtMgr
-  systemd:
-    name: webvirtmgr
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

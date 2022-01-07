@@ -1,24 +1,7 @@
 ---
-- name: Make unificontroller directory.
-  file:
-    path: "{{ volumes_root }}/unificontroller"
-    state: directory
 
-- name: Copy unificontroller docker-compose.yml file into place.
-  template:
-    src: docker-compose.unificontroller.yml.j2
-    dest: "{{ volumes_root }}/unificontroller/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure unificontroller systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/unificontroller.service
-
-- name: Start unificontroller
-  systemd:
-    name: unificontroller
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

@@ -1,10 +1,9 @@
 ---
-- name: Make zulip directory.
-  file:
-    path: "{{ volumes_root }}/zulip"
-    state: directory
 
-- name: Copy zulip docker-compose.yml file into place.
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Put in custom zulip vars for the docker compose
   template:
     src: docker-compose.zulip.yml.j2
     dest: "{{ volumes_root }}/zulip/docker-compose.yml"
@@ -14,14 +13,5 @@
     zulip_rabbitmq_pass: "{{lookup('password', './settings/passwords/zulip_rabbitmq_pass chars=ascii_letters')}}"
     zulip_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
 
-- name: Configure zulip systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/zulip.service
-
-- name: Start zulip
-  systemd:
-    name: zulip
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

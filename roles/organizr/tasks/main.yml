@@ -1,24 +1,7 @@
 ---
-- name: Make organizr directory.
-  file:
-    path: "{{ volumes_root }}/organizr"
-    state: directory
 
-- name: Copy organizr docker-compose.yml file into place.
-  template:
-    src: docker-compose.organizr.yml.j2
-    dest: "{{ volumes_root }}/organizr/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure organizr systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/organizr.service
-
-- name: Start organizr
-  systemd:
-    name: organizr
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

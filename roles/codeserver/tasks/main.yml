@@ -1,29 +1,16 @@
 ---
-- name: Make code-server directory.
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Make additional code-server directories.
   file:
     path: "{{ item }}"
     state: directory
     mode: 0777
   loop:
-    - "{{ volumes_root }}/codeserver"
     - "{{ volumes_root }}/codeserver/.local"
     - "{{ volumes_root }}/codeserver/project"
 
-- name: Copy code-server docker-compose.yml file into place.
-  template:
-    src: docker-compose.codeserver.yml.j2
-    dest: "{{ volumes_root }}/codeserver/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Configure code-server systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/codeserver.service
-
-- name: Start code-server
-  systemd:
-    name: codeserver
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

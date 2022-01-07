@@ -1,31 +1,18 @@
 ---
-- name: Make zammad directory.
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Make zammads directories.
   file:
     path: "{{ item }}"
     state: directory
     mode: 0777
   loop:
-    - "{{ volumes_root }}/zammad"
     - "{{ volumes_root }}/zammad/zammad-data"
     - "{{ volumes_root }}/zammad/postgresql-data"
     - "{{ volumes_root }}/zammad/elasticsearch-data"
     - "{{ volumes_root }}/zammad/zammad-backup"
 
-- name: Copy zammad docker-compose.yml file into place.
-  template:
-    src: docker-compose.zammad.yml.j2
-    dest: "{{ volumes_root }}/zammad/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Configure zammad systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/zammad.service
-
-- name: Start zammad
-  systemd:
-    name: zammad
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

@@ -1,24 +1,7 @@
 ---
-- name: Make ztncui directory.
-  file:
-    path: "{{ volumes_root }}/ztncui"
-    state: directory
 
-- name: Copy ztncui docker-compose.yml file into place.
-  template:
-    src: docker-compose.ztncui.yml.j2
-    dest: "{{ volumes_root }}/ztncui/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure ztncui systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/ztncui.service
-
-- name: Start ztncui
-  systemd:
-    name: ztncui
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

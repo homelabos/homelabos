@@ -1,24 +1,7 @@
 ---
-- name: Make trilium directory.
-  file:
-    path: "{{ volumes_root }}/trilium"
-    state: directory
 
-- name: Copy trilium docker-compose.yml file into place.
-  template:
-    src: docker-compose.trilium.yml.j2
-    dest: "{{ volumes_root }}/trilium/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure trilium systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/trilium.service
-
-- name: Start trilium
-  systemd:
-    name: trilium
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

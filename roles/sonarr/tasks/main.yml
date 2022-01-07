@@ -1,24 +1,7 @@
 ---
-- name: Make sonarr directory.
-  file:
-    path: "{{ volumes_root }}/sonarr"
-    state: directory
 
-- name: Copy sonarr docker-compose.yml file into place.
-  template:
-    src: docker-compose.sonarr.yml.j2
-    dest: "{{ volumes_root }}/sonarr/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure sonarr systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/sonarr.service
-
-- name: Start sonarr
-  systemd:
-    name: sonarr
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

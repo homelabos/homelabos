@@ -1,24 +1,7 @@
 ---
-- name: Make paperless directory.
-  file:
-    path: "{{ volumes_root }}/paperless"
-    state: directory
 
-- name: Copy paperless docker-compose.yml file into place.
-  template:
-    src: docker-compose.paperless.yml.j2
-    dest: "{{ volumes_root }}/paperless/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure paperless systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/paperless.service
-
-- name: Start paperless
-  systemd:
-    name: paperless
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

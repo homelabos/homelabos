@@ -1,24 +1,7 @@
 ---
-- name: Make speedtest directory.
-  file:
-    path: "{{ volumes_root }}/speedtest/data"
-    state: directory
 
-- name: Copy speedtest docker-compose.yml file into place.
-  template:
-    src: docker-compose.speedtest.yml.j2
-    dest: "{{ volumes_root }}/speedtest/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure speedtest systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/speedtest.service
-
-- name: Start speedtest
-  systemd:
-    name: speedtest
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

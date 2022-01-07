@@ -1,24 +1,7 @@
 ---
-- name: Make snibox directory.
-  file:
-    path: "{{ volumes_root }}/snibox"
-    state: directory
 
-- name: Copy snibox docker-compose.yml file into place.
-  template:
-    src: docker-compose.snibox.yml.j2
-    dest: "{{ volumes_root }}/snibox/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure snibox systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/snibox.service
-
-- name: Start snibox
-  systemd:
-    name: snibox
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml
