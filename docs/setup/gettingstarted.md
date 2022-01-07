@@ -5,6 +5,11 @@ Congratulations! You have successfully installed HomelabOS!
 ## Using Included Services
 
 Click `Software` on the left of this Documentation. Pick the service you want to access. Everything you need to get started with it will be there.
+
+## Enabling More Services
+
+Type `make set SERVICENAME.enable true` where SERVICENAME is the service you want to start.
+
 ## Securing Services
 
 If you want to add an extra layer of authentication to a service, all you have to do is set `servicename.auth` to true. If [Authelia](/docs/software/authelia/) is enabled, it will handle authentication. Otherwise, Traefik will use HTTP Basic Auth with `default_username` and `default_password` as the credentials.
