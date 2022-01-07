@@ -101,6 +101,7 @@ services:
   sabnzbd:
   samba:
   searx:
+  seat:
   shinobi:
   sickchill:
   simplyshorten:
@@ -236,6 +237,7 @@ restic:
 sabnzbd:
 samba:
 searx:
+seat:
 shinobi:
 sickchill:
 simplyshorten:

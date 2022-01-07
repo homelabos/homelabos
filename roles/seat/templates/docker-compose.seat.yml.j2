@@ -1,0 +1,96 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  seat:
+
+services:
+  mariadb:
+    image: mariadb:10
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: seat
+      MYSQL_PASSWORD: {{lookup('password', './settings/passwords/seat_db_password chars=ascii_letters')}}
+      MYSQL_DATABASE: seat
+    volumes:
+      - "{{ volumes_root }}/seat/mariadb_data:/var/lib/mysql"
+    networks:
+      - seat
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10Mb"
+        max-file: "5"
+
+  redis:
+    image: redis:5-alpine
+    restart: always
+    networks:
+      - seat
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10Mb"
+        max-file: "5"
+
+  seat-web:
+    image: eveseat/seat:4
+    restart: always
+    command: web
+    env_file:
+      - .env
+    labels:
+      - "traefik.http.services.seat.loadbalancer.server.scheme=http"
+      - "traefik.http.services.seat.loadbalancer.server.port=80"
+{% include './labels.j2' %}
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - seat
+      - traefik_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10Mb"
+        max-file: "5"
+
+  seat-worker:
+    image: eveseat/seat:4
+    restart: always
+    command: worker
+    env_file:
+      - .env
+    depends_on:
+      - seat-web # so that we can get db migrations done
+      - mariadb
+      - redis
+    networks:
+      - seat
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10Mb"
+        max-file: "5"
+
+  seat-cron:
+    image: eveseat/seat:4
+    restart: always
+    command: cron
+    env_file:
+      - .env
+    depends_on:
+      - seat-web # so that we can get db migrations done
+      - mariadb
+      - redis
+    networks:
+      - seat
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10Mb"
+        max-file: "5"

@@ -1,0 +1,12 @@
+---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Configure seat .env
+  template:
+    src: env.j2
+    dest: "{{ volumes_root }}/seat/.env"
+
+- name: Start {{service_item}}
+  include: includes/start.yml

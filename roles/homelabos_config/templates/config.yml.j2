@@ -1020,6 +1020,16 @@ searx:
   domain: {{ searx.domain | default(False) }}
   subdomain: {{ searx.subdomain | default("searx") }}
   version: {{ searx.version | default("latest") }}
+seat:
+  enable: {{ seat.enable | default(enable_seat, None) | default(False) }}
+  https_only: {{ seat.https_only | default(False) }}
+  auth: {{ seat.auth | default(False) }}
+  domain: {{ seat.domain | default(False) }}
+  subdomain: {{ seat.subdomain | default("seat") }}
+  version: {{ seat.version | default("latest") }}
+  eve_client_id: {{ seat.eve_client_id | default("") }}
+  eve_client_secret: {{ seat.eve_client_secret | default("") }}
+  app_key: {{ seat.app_key | default("") }}
 shinobi:
   enable: {{ shinobi.enable | default(enable_shinobi, None) | default(False) }}
   https_only: {{ shinobi.https_only | default(False) }}
