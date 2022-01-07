@@ -186,6 +186,10 @@ count_services:
 # This lists each folder in roles/ on it's own line, then excludes anything with homelabos or 'docs' in it, which are HomelabOS things and not services. Then it counts the number of lines.
 	@ls -l roles | grep -v -e "homelab" -e "docs" | wc -l
 
+# Run sanity checks on services
+test:
+	@docker run -w /usr/src/app -v ${PWD}:/usr/src/app golang go run main.go
+
 # Hacky fix to allow make to accept multiple arguments
 %:
 	@:

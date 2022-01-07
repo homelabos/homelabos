@@ -105,6 +105,8 @@ func main() {
 		fmt.Print(serviceName + "\n")
 	}
 
+	fmt.Println(string(colorReset))
+
 	fmt.Print("Services not using the new includes format:", string(colorYellow))
 	for _, serviceName := range notUsingIncludes {
 		fmt.Print(serviceName + "\n")
