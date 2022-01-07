@@ -28,16 +28,16 @@ services:
       - bookstack
     restart: unless-stopped
     depends_on:
-    - mariadb
+      - mariadb
     environment:
-    - DB_HOST=mariadb
-    - DB_DATABASE=bookstack
-    - DB_USERNAME=bookstack
-    - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=ascii_letters')}}
-    - APP_URL=https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}
+      - DB_HOST=mariadb
+      - DB_DATABASE=bookstack
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD={{lookup('password', './settings/passwords/bookstack_db_password chars=ascii_letters')}}
+      - APP_URL=https://{% if bookstack.domain %}{{ bookstack.domain }}{% else %}{{ bookstack.subdomain + "." + domain }}{% endif %}
     volumes:
-    - "{{ volumes_root }}/bookstack/uploads:/var/www/bookstack/public/uploads"
-    - "{{ volumes_root }}/bookstack/storage-uploads:/var/www/bookstack/public/storage"
+      - "{{ volumes_root }}/bookstack/uploads:/var/www/bookstack/public/uploads"
+      - "{{ volumes_root }}/bookstack/storage-uploads:/var/www/bookstack/public/storage"
     labels:
       - "traefik.http.services.bookstack.loadbalancer.server.scheme=http"
       - "traefik.http.services.bookstack.loadbalancer.server.port=80"

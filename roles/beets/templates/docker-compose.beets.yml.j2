@@ -9,6 +9,8 @@ networks:
 services:
   beets:
     image: linuxserver/beets:{{ beets.version }}
+    networks:
+      - traefik_network
     environment:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
