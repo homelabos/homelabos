@@ -208,6 +208,19 @@
   register: gid_output
   become: false
 
+- name: Deploy documentation
+  include_role:
+    name: docs
+  vars:
+    https_only: "{{ lookup('vars', service_item).https_only }}"
+    auth: "{{ lookup('vars', service_item).auth }}"
+    custom_domain: "{{ lookup('vars', service_item).domain }}"
+    service_domain: "{% if lookup('vars', service_item).domain %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
+    query: "{{ service_item + '.enable' }}"
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
+    service_item: docs
+
 - name: Deploy enabled Services
   include_role:
     name: "{{ service_item }}"
@@ -223,6 +236,18 @@
     query: "{{ service_item + '.enable' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
+
+- name: Build docs using mkdocs Docker image
+  shell:
+    chdir: /var/homelabos/docs
+    cmd: docker run -v $(pwd):/target nickbusey/homelabos-mkdocs mkdocs build
+
+- name: Start HomelabOS Documentation
+  systemd:
+    name: docs
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: restarted
 
 - name: Ensure disabled services are not running
   systemd:
@@ -260,20 +285,6 @@
   vars:
     query: "{{ service_item + '.enable' }}"
   ignore_errors: true
-
-# Migration v0.7
-- name: remove docker-compose.SERVICENAME.yml
-  file:
-    state: absent
-    path: "{{ volumes_root }}/{{ service_item }}/docker-compose.{{ service_item }}.yml"
-  when: "query"
-  loop: "{{ services|flatten(levels=1) }}"
-  loop_control:
-    loop_var: service_item
-  ignore_errors: "yes"
-  vars:
-    query: "{{ service_item + '.enable' }}"
-# End Migration v0.7
 
 - debug:
     msg: "HomelabOS Installed successfully! Access Organizr at https://organizr.{{ domain }}/ or your Traefik dashboard at http://{{ homelab_ip }}:8181 to get started."

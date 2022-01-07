@@ -1,9 +1,10 @@
 # Getting Started
 
-Once you are all setup and ready to go you should be able to load Organizr at [http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/](http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/).
+Congratulations! You have successfully installed HomelabOS!
 
-If you see `{ domain }` in the link above, you are either viewing these docs on the hosted GitLab pages and not actually through HomelabOS, or something is configured incorrectly.
+## Using Included Services
 
+Click `Software` on the left of this Documentation. Pick the service you want to access. Everything you need to get started with it will be there.
 ## Securing Services
 
 If you want to add an extra layer of authentication to a service, all you have to do is set `servicename.auth` to true. If [Authelia](/docs/software/authelia/) is enabled, it will handle authentication. Otherwise, Traefik will use HTTP Basic Auth with `default_username` and `default_password` as the credentials.
@@ -12,13 +13,11 @@ If you want to add an extra layer of authentication to a service, all you have t
 
 HomelabOS sets up `{{ volumes_root }}` on your server, which maps to `/var/homelabos` by default
 
-## Using Organizr
+## Organizr
+
+You should be able to load Organizr at [http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/](http://{% if organizr.domain %}{{ organizr.domain }}{% else %}{{ organizr.subdomain + "." + domain }}{% endif %}/).
 
 You can click the `Settings` link, then `Edit Tabs` to be able to add links to all the various HomelabOS services.
-
-In the very near future, HomelabOS will provision these tab links for you automatically.
-
-The URLs for all the services can be found in their individual documentation section.
 
 ## HTTPS via LetsEncrypt
 

@@ -89,7 +89,7 @@ func main() {
 	fmt.Print("Happy services: ", string(colorGreen))
 	fmt.Printf("%d", happyServices)
 	fmt.Println(string(colorReset))
-	fmt.Print("Detected services: ", string(colorRed))
+	fmt.Print("Sad services: ", string(colorRed))
 	fmt.Printf("%d", sadServices)
 	fmt.Println(string(colorReset))
 

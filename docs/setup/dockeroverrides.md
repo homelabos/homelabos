@@ -1,3 +1,4 @@
+{% raw %}
 # Docker Compose Overrides
 
 ## What is it?
@@ -81,3 +82,4 @@ services:
     volumes:
       "/mnt/NAS/media/video:/media"
 ```
+{% endraw %}

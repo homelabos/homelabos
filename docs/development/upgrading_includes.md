@@ -1,3 +1,4 @@
+{% raw %}
 # Upgrading Existing Serivce to use the new Includes
 
 Original `tasks/main.yml` file for tick looked like this:
@@ -72,3 +73,5 @@ Wheter or not extra steps are required is on a per service basis, and will requi
 Moving to this style will greatly reduce our lines of code, as well as eliminate errors as everything will be much more consistent. It also improves how we deploy our documentation, due to new steps in `includes/setup.yml`.
 
 If a service for some reason needs to _not_ do a step from `includes/setup.yml` or `includes/setup.yml`, simply don't include the includes for that service, and do what is needed instead.
+
+{% endraw %}

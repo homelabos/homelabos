@@ -1,3 +1,4 @@
+{% raw %}
 # Before you begin
 
 Before you begin, please familiarize yourself with the [contributing](contributing.md) document.
@@ -74,3 +75,5 @@ If it's not running with an error like `(code=exited, status=1/FAILURE)`
 Grab the value of the ExecStart line, and run it by hand. So if the ExecStart line looks like:
 `ExecStart=/usr/bin/docker-compose -p zulip up`
 then manually change directory `cd {{ volumes_root }}/zulip` and run the bit after the =, `/usr/bin/docker-compose -p zulip up` to see the error output directly.
+
+{% endraw %}
