@@ -35,6 +35,8 @@ build:
 	@$(eval VERSION=`cat VERSION`)
 	@printf "\033[92m========== Preparing HomelabOS docker image ==========\033[0m\n"
 # First build the docker images needed to deploy
+	@chmod +x docker_setup.sh
+	@./docker_setup.sh
 	@sudo docker pull nickbusey/homelabos:$(VERSION) || true
 	@sudo docker inspect --type=image nickbusey/homelabos:$(VERSION) > /dev/null && printf "\033[92m========== Docker image already built ==========\033[0m\n" || sudo docker build . -t nickbusey/homelabos:$(VERSION)
 
