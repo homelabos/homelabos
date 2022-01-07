@@ -1,29 +1,12 @@
 ---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
 - name: Configure Dasher
   template:
     src: dasher.config.json
-    dest: "{{ volumes_root }}/dasher/config.json"
+    dest: "{{ volumes_root }}/{{service_item}}/config.json"
 
-- name: Make dasher directory.
-  file:
-    path: "{{ volumes_root }}/dasher"
-    state: directory
-
-- name: Copy dasher docker-compose.yml file into place.
-  template:
-    src: docker-compose.dasher.yml.j2
-    dest: "{{ volumes_root }}/dasher/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Configure dasher systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/dasher.service
-
-- name: Start dasher
-  systemd:
-    name: dasher
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml
