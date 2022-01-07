@@ -6,6 +6,7 @@ kibitzr-creds.yml
 inventory
 fetch/
 settings/
+settings.*
 /site
 /.vscode
 .DS_Store
