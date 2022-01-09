@@ -1,6 +1,6 @@
 # Piwigo
 
-[Piwigo](https://piwigo.org/) is a home inventory managament system.
+[Piwigo](https://piwigo.org/) is open source photo management software. Manage, organize and share your photo easily on the web. Designed for organisations, teams and individuals.
 
 ## Access
 
