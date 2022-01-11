@@ -287,10 +287,10 @@
   ignore_errors: true
 
 - debug:
-    msg: "HomelabOS Installed successfully! Access Organizr at https://organizr.{{ domain }}/ or your Traefik dashboard at http://{{ homelab_ip }}:8181 to get started."
+    msg: "HomelabOS Installed successfully! Access the docs at https://docs.{{ domain }}/ to get started."
 
 - debug:
-    msg: "You can also access your services via Tor at http://{{ tor_http_domain_file.stdout }}"
+    msg: "You can also access your docs via Tor at http://docs.{{ tor_http_domain_file.stdout }}"
   when: enable_tor
 
 - debug:
