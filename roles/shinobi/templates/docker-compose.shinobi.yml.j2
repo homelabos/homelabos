@@ -12,7 +12,7 @@ services:
   shinobi_app:
     image: migoller/shinobidocker:{{ shinobi.version }}
     restart: unless-stopped
-    hostname: {% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}
+    hostname: '{% if shinobi.domain %}{{ shinobi.domain }}{% else %}{{ shinobi.subdomain + "." + domain }}{% endif %}'
     networks:
       - traefik_network
       - shinobi

@@ -28,7 +28,7 @@ services:
       - DRONE_GIT_ALWAYS_AUTH=true
       - DRONE_RPC_SECRET={{lookup('password', './settings/passwords/drone_secret length=32 chars=ascii_letters,digits')}}
       - DRONE_SERVER_PROTO=https
-      - DRONE_SERVER_HOST={% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}
+      - DRONE_SERVER_HOST='{% if drone.domain %}{{ drone.domain }}{% else %}{{ drone.subdomain + "." + domain }}'
 {% endif %}
       - DRONE_DATABASE_SECRET={{lookup('password', './settings/passwords/drone_database-secret length=32 chars=ascii_letters,digits')}}
       - DRONE_TLS_AUTOCERT=false

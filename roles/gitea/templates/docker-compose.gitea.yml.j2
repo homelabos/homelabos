@@ -25,13 +25,11 @@ services:
       - DB_USER=gitea
       - DB_PASSWD={{ lookup('password', './settings/passwords/gitea_db_password chars=ascii_letters,digits') }}
 {% endif %}
-      - SSH_DOMAIN={% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}
-{% endif %}
+      - SSH_DOMAIN='{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}{% endif %}'
       - SSH_PORT={{ gitea.gitea_ssh_port }}
       - LFS_START_SERVER=true
       - RUN_MODE=prod
-      - ROOT_URL=https://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}
-{% endif %}
+      - ROOT_URL='https://{% if gitea.domain %}{{ gitea.domain }}{% else %}{{ gitea.subdomain + "." + domain }}{% endif %}'
     restart: unless-stopped
     volumes:
       - "{{ volumes_root }}/gitea:/data"

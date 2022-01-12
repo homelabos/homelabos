@@ -27,7 +27,7 @@ services:
       # https://github.com/firefly-iii/firefly-iii/blob/master/app/Providers/AppServiceProvider.php#L42
       # This fixes issue with SSL termination at traefik, and forces HTTPS URIs everywhere
       - APP_ENV=heroku
-      - APP_URL=https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}
+      - APP_URL='https://{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}'
       - MAIL_DRIVER=smtp
       - MAIL_HOST={{ smtp.host }}
       - MAIL_PORT={{ smtp.port }}
@@ -36,8 +36,7 @@ services:
       - MAIL_PASSWORD={{ smtp.pass }}
       - MAIL_ENCRYPTION=tls
       - TZ={{ common_timezone }}
-      - ServerName={% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}
-{% endif %}
+      - ServerName='{% if firefly_iii.domain %}{{ firefly_iii.domain }}{% else %}{{ firefly_iii.subdomain + "." + domain }}{% endif %}'
     networks:
       - traefik_network
       - firefly

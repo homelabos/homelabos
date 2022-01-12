@@ -2,7 +2,7 @@ use Mix.Config
 
 config :pleroma, Pleroma.Web.Endpoint,
    http: [ ip: {0, 0, 0, 0}, ],
-   url: [host: "{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}", scheme: "https", port: 443],
+   url: [host: '{% if pleroma.domain %}{{ pleroma.domain }}{% else %}{{ pleroma.subdomain + "." + domain }}{% endif %}', scheme: "https", port: 443],
    secret_key_base: "{{secret_key.stdout}}"
 
 config :pleroma, :instance,

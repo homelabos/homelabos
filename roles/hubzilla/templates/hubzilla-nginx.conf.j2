@@ -22,7 +22,7 @@ http {
         listen 80;
         root /var/www/html;
         index index.php;
-        server_name {% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %};
+        server_name '{% if hubzilla.domain %}{{ hubzilla.domain }}{% else %}{{ hubzilla.subdomain + "." + domain }}{% endif %}';
         gzip on;
         gzip_vary on;
         gzip_comp_level 4;

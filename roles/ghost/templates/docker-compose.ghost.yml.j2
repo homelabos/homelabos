@@ -14,7 +14,7 @@ services:
       - traefik_network
     restart: unless-stopped
     environment:
-      url: "https://{% if ghost.domain %}{{ ghost.domain }}{% else %}{{ ghost.subdomain + "." + domain }}{% endif %}"
+      url: 'https://{% if ghost.domain %}{{ ghost.domain }}{% else %}{{ ghost.subdomain + "." + domain }}{% endif %}'
 {% if smtp.user %}
       mail__transport: SMTP
       mail__from: "'Blog {{ domain }}' <{{ smtp.from_email }}>"

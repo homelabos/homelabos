@@ -10,7 +10,7 @@ services:
   # Plex Media Server
   plex:
     image: plexinc/pms-docker:{{ plex.version }}
-    hostname: {% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}
+    hostname: '{% if plex.domain %}{{ plex.domain }}{% else %}{{ plex.subdomain + "." + domain }}{% endif %}'
     networks:
       - traefik_network
     restart: unless-stopped

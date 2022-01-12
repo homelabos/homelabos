@@ -11,7 +11,7 @@ services:
   pihole:
     image: pihole/pihole:{{ pihole.version }}
     restart: unless-stopped
-    hostname: "{% if pihole.domain %}{{ pihole.domain }}{% else %}{{ pihole.subdomain + "." + domain }}{% endif %}"
+    hostname: '{% if pihole.domain %}{{ pihole.domain }}{% else %}{{ pihole.subdomain + "." + domain }}{% endif %}'
     dns:
       - 127.0.0.1
       - 1.1.1.1
@@ -24,7 +24,7 @@ services:
       - "{{ volumes_root }}/pihole/dnsmasq.d/:/etc/dnsmasq.d/"
     environment:
       - WEBPASSWORD={{ default_password }}
-      - VIRTUAL_HOST={% if pihole.domain %}{{ pihole.domain }}{% else %}{{ pihole.subdomain + "." + domain }}{% endif %}
+      - VIRTUAL_HOST='{% if pihole.domain %}{{ pihole.domain }}{% else %}{{ pihole.subdomain + "." + domain }}{% endif %}'
       - ServerIP={{ homelab_ip }}
     ports:
       - 53:53/tcp

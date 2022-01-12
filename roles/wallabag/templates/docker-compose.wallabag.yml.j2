@@ -29,7 +29,7 @@ services:
       - SYMFONY__ENV__MAILER_USER=~
       - SYMFONY__ENV__MAILER_PASSWORD=~
       - SYMFONY__ENV__FROM_EMAIL=wallabag@example.com
-      - SYMFONY__ENV__DOMAIN_NAME=https://{% if wallabag.domain %}{{ wallabag.domain }}{% else %}{{ wallabag.subdomain + "." + domain }}{% endif %}
+      - SYMFONY__ENV__DOMAIN_NAME='https://{% if wallabag.domain %}{{ wallabag.domain }}{% else %}{{ wallabag.subdomain + "." + domain }}{% endif %}'
 
     volumes:
       - "{{ volumes_root }}/wallabag/data:/var/www/wallabag/data"

@@ -14,8 +14,8 @@ services:
     environment:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
-      - SITE_ROOT={% if healthchecks.domain %}{{ healthchecks.domain }}{% else %}{{ healthchecks.subdomain + "." + domain }}{% endif %}
-      - SITE_NAME={% if healthchecks.domain %}{{ healthchecks.domain }}{% else %}{{ healthchecks.subdomain + "." + domain }}{% endif %}
+      - SITE_ROOT='{% if healthchecks.domain %}{{ healthchecks.domain }}{% else %}{{ healthchecks.subdomain + "." + domain }}{% endif %}'
+      - SITE_NAME='{% if healthchecks.domain %}{{ healthchecks.domain }}{% else %}{{ healthchecks.subdomain + "." + domain }}{% endif %}'
       - DEFAULT_FROM_EMAIL={{smtp.from_email}}
       - EMAIL_HOST={{smtp.host}}
       - EMAIL_PORT={{smtp.port}}

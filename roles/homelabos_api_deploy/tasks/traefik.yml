@@ -49,9 +49,7 @@
     src: docker-compose.traefik.yml.j2
     dest: "{{ volumes_root }}/traefik/docker-compose.yml"
   vars:
-    service_domain: "{% if traefik.domain %}{{ traefik.domain }}
-                     {% else %}{{ traefik.subdomain }}.{{ domain }}
-                     {% endif %}"
+    service_domain: '{% if traefik.domain %}{{ traefik.domain }}{% else %}{{ traefik.subdomain }}.{{ domain }}{% endif %}'
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Start HomelabOS Traefik

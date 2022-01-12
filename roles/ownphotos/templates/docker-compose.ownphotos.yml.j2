@@ -37,7 +37,7 @@ services:
       - ownphotos
     tty: true
     environment:
-      - BACKEND_HOST={% if ownphotos.domain %}{{ ownphotos.domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}
+      - BACKEND_HOST='{% if ownphotos.domain %}{{ ownphotos.domain }}{% else %}{{ ownphotos.subdomain + "." + domain }}{% endif %}'
 
   backend:
     image: hooram/ownphotos:{{ ownphotos.version }}
