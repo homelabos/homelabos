@@ -9,17 +9,37 @@ networks:
 
 services:
   nextcloud-db:
+{% if nextcloud.use_mariadb %}
+    image: mariadb
+    container_name: nextcloud_mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+{% else %}
     image: postgres:{{ nextcloud.db_version }}
     restart: unless-stopped
+{% endif %}
     volumes:
+{% if nextcloud.use_mariadb %}
+      - "{{ volumes_root }}/nextcloud/mysql:/var/lib/mysql"
+{% else %}
       - "{{ volumes_root }}/nextcloud/postgres:/var/lib/postgresql/data"
+{% endif %}
     networks:
       - nextcloud
+{% if not nextcloud.use_mariadb %}
     restart: unless-stopped
+{% endif %}
     environment:
+{% if nextcloud.use_mariadb %}
+      - MYSQL_ROOT_PASSWORD={{ default_password }}
+      - MYSQL_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+{% else %}
       - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
+{% endif %}
 
   nextcloud-redis:
     image: redis:{{ nextcloud.redis_version }}
@@ -47,10 +67,17 @@ services:
       - "{{ volumes_root }}/nextcloud/themes:/var/www/html/themes"
       - "{{ storage_dir }}:/mnt/homelabos"
     environment:
+{% if nextcloud.use_mariadb %}
+      - MYSQL_HOST=nextcloud-db
+      - MYSQL_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+{% else %}
       - POSTGRES_HOST=nextcloud-db
       - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/nextcloud_db_password chars=ascii_letters')}}
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
+{% endif %}
       - UPLOAD_MAX_SIZE=10G
       - APC_SHM_SIZE=128M
       - OPCACHE_MEM_SIZE=128

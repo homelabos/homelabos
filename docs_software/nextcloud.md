@@ -7,9 +7,9 @@
 Nextcloud can be a beast to setup. Therefore, HomelabOS does as much as it can to provide intelligent defaults, and common configuration settings out of the box.
 
 Specifically, HomelabOS configures Nextcloud in the following ways:
-* Postgres as the default database server
+* Postgres as the default database server, mariadb as an alternative
 * Redis for caching
-* Nextcloud 18, served by Apache
+* Nextcloud 21, served by Apache
 * Docker is set to run the main Nextcloud container as the same Uid/Gid that mounts your NAS. (or your non-root server-user's UID/GID)
 * 'App Store' Access is enabled
 * Default Username is pulled from your config/vault yaml file

@@ -809,6 +809,7 @@ nextcloud:
   subdomain: {{ nextcloud.subdomain | default("nextcloud") }}
   version: {{ nextcloud.version | default("21-apache") }}
   db_version: {{ nextcloud.db_version | default("alpine") }}
+  use_mariadb: {{ nextcloud.use_mariadb | default(False) }}
   redis_version: {{ nextcloud.redis_version | default("5.0-alpine") }}
 nodered:
   enable: {{ nodered.enable | default(enable_nodered, None) | default(False) }}
