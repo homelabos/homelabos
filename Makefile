@@ -16,7 +16,7 @@ config: logo build
 	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\033[92m========== Encrypting secrets ==========\033[0m\n"
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\033[92m========== Done with configuration ==========\033[0m\n"
@@ -64,9 +64,9 @@ update: logo build git_sync config
 # Update just one HomelabOS service `make update_one inventario`
 update_one: logo build git_sync config
 	@printf "\033[92m========== Update $(filter-out $@,$(MAKECMDGOALS)) ==========\033[0m\n"
-	@./docker_helper.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
 	@printf "\033[92m========== Restart $(filter-out $@,$(MAKECMDGOALS)) ==========\033[0m\n"
-	@./docker_helper.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
 	@printf "\033[92m========== Update completed! ==========\033[0m\n"
 
 # Remove HomelabOS services
@@ -104,7 +104,7 @@ restore: logo build git_sync config
 
 # Run linting scripts
 lint: logo build
-	@printf "[38;5;208mLint: [0m"
+	@printf "Lint: "
 	@./docker_helper.sh ./lint.sh
 
 # Restart all enabled services
@@ -146,11 +146,11 @@ terraform_destroy: logo build git_sync
 
 decrypt:
 	@printf "\033[92m========== Decrypting Ansible Vault! ==========\033[0m\n"
-	@./docker_helper.sh ansible-vault decrypt settings/vault.yml
+	@./docker_helper_notty.sh ansible-vault decrypt settings/vault.yml
 	@printf "\033[92m========== Vault decrypted! settings/vault.yml ==========\033[0m\n"
 
 encrypt:
-	@./docker_helper.sh ansible-vault encrypt settings/vault.yml
+	@./docker_helper_notty.sh ansible-vault encrypt settings/vault.yml
 
 set: logo
 	@printf "\033[92m========== Setting '$(filter-out $@,$(MAKECMDGOALS))' ==========\033[0m\n"
@@ -195,4 +195,3 @@ test:
 # Hacky fix to allow make to accept multiple arguments
 %:
 	@:
-

@@ -18,10 +18,11 @@ http:
     redirect:
       redirectScheme:
         scheme: https
+{% if domain %}
     customFrameHomelab:
       headers:
         customFrameOptionsValue: "ALLOW-FROM http://{{ domain }} ALLOW-FROM https://{{ domain }}"
-{% if enable_tor %}
+{% endif %}{% if enable_tor %}
     customFrameHomelab-tor:
       headers:
         customFrameOptionsValue: "ALLOW-FROM http://{{ tor_domain }}"
