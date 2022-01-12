@@ -17,6 +17,7 @@ vault:
 
   do_access_token: {{ vault.do_access_token | default(False) }}
   do_region: {{ vault.do_region | default('nyc1') }}
+  do_size: {{ do_size | default('s-1vcpu-1gb') }}
 
   # After claiming your token at https://www.plex.tv/claim/ you will only have four minutes to run make and deploy plexinc
   plex_claim: {{ vault.plex_claim | default('CHANGE_TO_GIVEN_TOKEN') }}
