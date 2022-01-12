@@ -114,8 +114,12 @@ services:
       - "traefik.http.middlewares.nextcloud-headers.headers.browserXssFilter=true"
       - "traefik.http.middlewares.nextcloud-headers.headers.sslredirect=true"
       - "traefik.http.middlewares.nextcloud-headers.headers.customFrameOptionsValue=SAMEORIGIN"
+# Reference documentation: https://doc.traefik.io/traefik/middlewares/redirectregex/
+      - "traefik.http.middlewares.nextcloud-dav.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+      - "traefik.http.middlewares.nextcloud-dav.redirectregex.replacement=https://$$1/remote.php/dav/"
+      - "traefik.http.middlewares.nextcloud-dav.redirectregex.permanent=true"
 {% include './labels.j2' %}
- # overwrite these middlewares to add the dav redirects only for nextcloud
- # If this is needed for other roles, then it can be added to roles/homelabos_deploy/tasks/conf.d/middlewares.yaml
-      - "traefik.http.routers.nextcloud-http.middlewares={% if https_only == True %}redirect@file, {% else %}{% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}nextcloud-headers"
-      - "traefik.http.routers.nextcloud.middlewares={% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}nextcloud-headers"
+# overwrite these middlewares to add the dav redirects only for nextcloud
+# If this is needed for other roles, then it can be added to roles/homelabos_deploy/tasks/conf.d/middlewares.yaml
+      - "traefik.http.routers.nextcloud-http.middlewares={% if https_only == True %}redirect@file, {% else %}{% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file,nextcloud-headers,nextcloud-dav"
+      - "traefik.http.routers.nextcloud.middlewares={% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file,nextcloud-headers,nextcloud-dav"
