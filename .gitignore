@@ -12,6 +12,9 @@ settings.*
 .DS_Store
 pkg/
 
+# Ignore windows fork.ps1
+fork.ps1
+
 # ignore swp files
 *.swp
 idea/
