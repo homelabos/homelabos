@@ -11,16 +11,6 @@
     path: "{{ volumes_root }}/{{ service_item }}"
     state: directory
 
-- name: Get UID
-  command: id -u {{ homelab_ssh_user }}
-  register: uid_output
-  become: false
-
-- name: Get GID
-  command: id -g {{ homelab_ssh_user }}
-  register: gid_output
-  become: false
-
 - name: Copy {{ service_item }} docker-compose.yml file into place.
   template:
     src: docker-compose.{{ service_item }}.yml.j2
