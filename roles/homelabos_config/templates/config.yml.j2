@@ -1147,9 +1147,9 @@ tick:
   domain: {{ tick.domain | default(False) }}
   subdomain: {{ tick.subdomain | default("tick") }}
   telegraf_version: {{ tick.telegraf_version | default("latest") }}
-  influxdb_version: {{ tick.influxdb_version | default("1.7") }}
+  influxdb_version: {{ tick.influxdb_version | default("1.8") }}
   chronograf_version: {{ tick.chronograf_version | default("latest") }}
-  kapacitor_version: {{ tick.kapacitor_version | default("1.3.3") }}
+  kapacitor_version: {{ tick.kapacitor_version | default("latest") }}
 tiddlywiki:
   enable: {{ tiddlywiki.enable | default(enable_tiddlywiki, None) | default(False) }}
   https_only: {{ tiddlywiki.https_only | default(False) }}
