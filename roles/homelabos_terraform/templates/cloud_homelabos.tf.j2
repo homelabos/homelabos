@@ -7,6 +7,6 @@ resource "digitalocean_droplet" "web" {
   image = "ubuntu-20-04-x64"
   name = "homelabos"
   region = "{{ do_region | default('nyc1') }}"
-  size = "s-1vcpu-1gb"
+  size = "{{ do_size | default('s-1vcpu-1gb') }}"
   ssh_keys = ["${digitalocean_ssh_key.default.fingerprint}"]
 }
