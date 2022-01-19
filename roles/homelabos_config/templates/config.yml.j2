@@ -858,6 +858,13 @@ openvpn:
   domain: {{ openvpn.domain | default(False) }}
   subdomain: {{ openvpn.subdomain | default("openvpn") }}
   version: {{ openvpn.version | default("latest") }}
+overseerr:
+  enable: {{ overseerr.enable | default(enable_overseerr, None) | default(False) }}
+  https_only: {{ overseerr.https_only | default(False) }}
+  auth: {{ overseerr.auth | default(False) }}
+  domain: {{ overseerr.domain | default(False) }}
+  subdomain: {{ overseerr.subdomain | default("overseerr") }}
+  version: {{ overseerr.version | default("latest") }}
 organizr:
   enable: {{ organizr.enable | default(enable_organizr, None) | default(True) }}
   https_only: {{ organizr.https_only | default(False) }}
