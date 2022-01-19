@@ -1,0 +1,24 @@
+---
+- name: Make vikunja directory.
+  file:
+    path: "{{ volumes_root }}/vikunja"
+    state: directory
+
+- name: Copy vikunja docker-compose.yml file into place.
+  template:
+    src: docker-compose.vikunja.yml.j2
+    dest: "{{ volumes_root }}/vikunja/docker-compose.yml"
+  vars:
+    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+
+- name: Configure vikunja systemd service.
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/vikunja.service
+
+- name: Start vikunja
+  systemd:
+    name: vikunja
+    enabled: "yes"
+    daemon-reload: "yes"
+    state: started

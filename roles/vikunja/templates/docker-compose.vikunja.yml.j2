@@ -1,0 +1,66 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  vikunja:
+
+services:
+  vikunja_db:
+    image: "postgres:{{ vikunja.db_version }}"
+    networks:
+      - vikunja
+    environment:
+      POSTGRES_USER: vikunja
+      POSTGRES_PASSWORD: "{{ lookup('password', './settings/passwords/vikunja_db_password chars=ascii_letters') }}"
+    volumes:
+      - "{{ volumes_root }}/vikunja/db:/var/lib/postgresql/data"
+    restart: unless-stopped
+
+{% set vikunja_service_name = "vikunja_frontend" %}
+  vikunja_frontend:
+    image: "vikunja/frontend:{{ vikunja.frontend_version }}"
+    environment:
+      PUID: {{ uid_output.stdout }}
+      PGID: {{ gid_output.stdout }}
+    networks:
+      - traefik_network
+      - vikunja
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.{{ vikunja_service_name }}.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.services.{{ vikunja_service_name }}.loadbalancer.server.port=80"
+{% if enable_tor %}
+      - "traefik.http.routers.{{ vikunja_service_name }}-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
+{% endif %}
+{% include './vikunja_labels.j2' %}
+
+{% set vikunja_service_name = "vikunja_api" %}
+  vikunja_api:
+    image: "vikunja/api:{{ vikunja.api_version }}"
+    networks:
+      - traefik_network
+      - vikunja
+    environment:
+      VIKUNJA_SERVICE_ENABLEREGISTRATION: "false"
+      VIKUNJA_DATABASE_HOST: vikunja_db
+      VIKUNJA_DATABASE_TYPE: postgres
+      VIKUNJA_DATABASE_USER: vikunja
+      VIKUNJA_DATABASE_DATABASE: vikunja
+      VIKUNJA_DATABASE_PASSWORD: "{{ lookup('password', './settings/passwords/vikunja_db_password chars=ascii_letters') }}"
+      PUID: {{ uid_output.stdout }}
+      PGID: {{ gid_output.stdout }}
+    volumes:
+      - "{{ volumes_root }}/vikunja/files:/app/vikunja/files"
+    depends_on:
+      - vikunja_db
+    restart: unless-stopped
+    labels:
+      - "traefik.http.services.{{ vikunja_service_name }}.loadbalancer.server.port=3456"
+      - "traefik.http.routers.{{ vikunja_service_name }}.rule=Host(`{{ service_domain }}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)"
+{% if enable_tor %}
+      - "traefik.http.routers.{{ vikunja_service_name }}-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)"
+{% endif %}
+{% include './vikunja_labels.j2' %}

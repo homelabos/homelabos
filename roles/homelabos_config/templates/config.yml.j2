@@ -1201,6 +1201,15 @@ unificontroller:
   domain: {{ unificontroller.domain | default(False) }}
   subdomain: {{ unificontroller.subdomain | default("unificontroller")}}
   version: {{ unificontroller.version | default("latest") }}
+vikunja:
+  enable: {{ vikunja.enable | default(enable_vikunja, None) | default(False) }}
+  https_only: {{ vikunja.https_only | default(False) }}
+  auth: {{ vikunja.auth | default(False) }}
+  domain: {{ vikunja.domain | default(False) }}
+  subdomain: {{ vikunja.subdomain | default("vikunja")}}
+  api_version: {{ vikunja.api_version | default("latest") }}
+  db_version: {{ vikunja.db_version | default("latest") }}
+  frontend_version: {{ vikunja.frontend_version | default("latest") }}
 wallabag:
   enable: {{ wallabag.enable | default(enable_wallabag, None) | default(False) }}
   https_only: {{ wallabag.https_only | default(False) }}
