@@ -80,6 +80,7 @@ services:
   openldap:
   openvpn:
   organizr:
+  overseerr:
   ownphotos:
   paperless:
   peertube:

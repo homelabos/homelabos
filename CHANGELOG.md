@@ -6,6 +6,7 @@
 - Added ztncui - ZeroTier network controller user interface
 - Added SEaT - A Simple, EVE Online API Tool and Corporation Manager
 - Added Readarr = Sonarr for books
+- Added Overseerr = a request management and media discovery tool built to work with your existing Plex ecosystem.
 
 ## Services Removed
 - Removed darksky-influxdb - Darksky API is no longer.

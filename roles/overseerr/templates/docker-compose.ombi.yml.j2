@@ -1,0 +1,24 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  overseerr:
+    networks:
+      - traefik_network
+    image: sctx/overseerr:{{ overseerr.version }}
+    environment:
+      - UID={{ uid_output.stdout }}
+      - GID={{ gid_output.stdout }}
+      - TZ={{common_timezone}}
+    volumes:
+      - "{{ volumes_root }}/overseerr/config:/app/config"
+    restart: unless-stopped
+    labels:
+      - "traefik.http.services.overseerr.loadbalancer.server.scheme=http"
+      - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
+{% include './labels.j2' %}
