@@ -92,7 +92,6 @@ If you are having problems you can:
 - [Calibre](software/calibre) - Calibre and Calibre Web - Complete ebook library management.
 - [Lazylibrarian](software/lazylibrarian) - Follow authors and grab metadata for all your digital reading needs
 - [Readarr](software/readarr) - Sonarr for your books.
-
 ### Email
 
 - [Mailu](software/mailu) - is a simple yet full-featured mail server as a set of Docker images.
@@ -116,6 +115,7 @@ If you are having problems you can:
 - [Minio](software/minio) - S3 hosting
 - [Mylar](software/mylar) - An automated Comic Book manager
 - [Ombi](software/ombi) - Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+- [Overseer](software/overseerr) - a request management and media discovery tool built to work with your existing Plex ecosystem.
 - [qBittorrent](software/qbittorrent) - Open-source alternative to µTorrent
 - [Radarr](software/radarr-sonarr) - Automated movie downloading
 - [Samba](software/samba) - Export your HomelabOS storage_dirs as file shares to other computers on your local network
