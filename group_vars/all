@@ -96,6 +96,7 @@ services:
   qbittorrent:
   quakejs:
   radarr:
+  readarr:
   restic:
   rsshub:
   sabnzbd:
