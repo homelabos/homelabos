@@ -9,7 +9,7 @@ Nextcloud can be a beast to setup. Therefore, HomelabOS does as much as it can t
 Specifically, HomelabOS configures Nextcloud in the following ways:
 * Postgres as the default database server, mariadb as an alternative
 * Redis for caching
-* Nextcloud 21, served by Apache
+* Nextcloud 22, served by Apache
 * Docker is set to run the main Nextcloud container as the same Uid/Gid that mounts your NAS. (or your non-root server-user's UID/GID)
 * 'App Store' Access is enabled
 * Default Username is pulled from your config/vault yaml file
@@ -31,6 +31,9 @@ Specifically, HomelabOS configures Nextcloud in the following ways:
     Once make has finished running, it will take a few minutes - depending on your servers' hardware capabilities - to finish setting up Nextcloud. HomelabOS pre-configures:
     * Database
     * Default User & Password - check your config and vault files for details on what these are set to.
+
+!!! Warning "Nextcloud only supports upgrading to the next major version." 
+    If the version of nextcloud.version field is not 21-apache, then iteratively update one major version at a time from the version currently running to 22-apache. This can be done by changing the version number explicitly in the nextcloud.version field of settings/config.yml to the next major version and running `make restart_one nextcloud`.
 
 ## Post Installation Configuration
 
