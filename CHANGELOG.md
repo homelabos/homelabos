@@ -5,6 +5,7 @@
 - Added tubearchivist - Your self hosted YouTube media server
 - Added ztncui - ZeroTier network controller user interface
 - Added SEaT - A Simple, EVE Online API Tool and Corporation Manager
+- Added Readarr = Sonarr for books
 
 ## Services Removed
 - Removed darksky-influxdb - Darksky API is no longer.
