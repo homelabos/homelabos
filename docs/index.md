@@ -91,6 +91,7 @@ If you are having problems you can:
 
 - [Calibre](software/calibre) - Calibre and Calibre Web - Complete ebook library management.
 - [Lazylibrarian](software/lazylibrarian) - Follow authors and grab metadata for all your digital reading needs
+- [Readarr](software/readarr) - Sonarr for your books.
 
 ### Email
 

@@ -1,0 +1,27 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  readarr:
+    image: ghcr.io/linuxserver/readarr:{{ readarr.version }}
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/readarr/config:/config"
+      - "{{ storage_dir }}/Books:/books"
+      - "{{ storage_dir }}/Downloads:/downloads"
+    environment:
+      - TZ={{ common_timezone }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - VERSION=stable
+      - BACKUP=yes
+    labels:
+      - "traefik.http.services.readarr.loadbalancer.server.scheme=http"
+      - "traefik.http.services.readarr.loadbalancer.server.port=8787"
+{% include './labels.j2' %}
