@@ -867,6 +867,13 @@ organizr:
   fpm: {{ organizr.fpm | default("false") }}
   branch: {{ organizr.branch | default("master") }}
   version: {{ organizr.version | default("latest") }}
+overseerr:
+  enable: {{ overseerr.enable | default(enable_overseerr, None) | default(False) }}
+  https_only: {{ overseerr.https_only | default(False) }}
+  auth: {{ overseerr.auth | default(False) }}
+  domain: {{ overseerr.domain | default(False) }}
+  subdomain: {{ overseerr.subdomain | default("overseerr") }}
+  version: {{ overseerr.version | default("latest") }}
 ownphotos:
   enable: {{ ownphotos.enable | default(enable_ownphotos, None) | default(False) }}
   https_only: {{ ownphotos.https_only | default(False) }}
