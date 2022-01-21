@@ -3,12 +3,12 @@
 ###############################################################
 
 # The port to listen on
-port: 9091
+server.port: 9091
 
 # Log level
 #
 # Level of verbosity for logs
-log_level: {{ authelia.log_level }}
+log.level: {{ authelia.log_level }}
 
 # The secret used to generate JWT tokens when validating user identity by
 # email confirmation.
@@ -192,6 +192,8 @@ storage:
   # The directory where the DB files will be saved
   #local:
   #  path: /var/lib/authelia/db.sqlite3
+
+  encryption_key: {{lookup('password', './settings/passwords/authelia_storage_encryption_key chars=ascii_letters length=30')}}
 
   # Settings to connect to MySQL server
   # mysql:
