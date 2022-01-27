@@ -39,6 +39,9 @@ Use the page table of contents to navigate it quickly. Also the search in these 
 * Are your services running? Check `docker ps` and `systemctl status SERVICENAME`
     * E.g. `systemctl status organizr` on the server.
 * Are your services listed in the Traefik dashboard? Hit http://{{ homelab_ip }}:8181/
+* Are your services returning output?
+    * Assuming you have organizr enabled, try this from your server. If you don't have organizr enabled, swap `organizr` for another service you do have enabled. `curl -H Host:organizr.YOURDOMAIN localhost`
+    * If you get back a bunch of HTML, then everything on the server is fine, and your problem lies somewhere else, likely DNS, port forwarding, something like that.
 
 If you can hit DOMAIN.com and get SERVER_IP where port 80 and 443 are forwarded and DOMAIN.com is listed in Traefik as the Organizr endpoint, and you STILL can't load the page, ask in [chat](https://homelabos.zulipchat.com/) or open an issue on [GitLab](https://gitlab.com/NickBusey/HomelabOS/-/issues).
 
