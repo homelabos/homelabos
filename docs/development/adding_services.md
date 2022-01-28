@@ -46,11 +46,9 @@ All mounted docker volumes should point to a folder named after the service that
 Each service should have it's own page within the `docs_software/` folder.
 Use existing docs as a template.
 
-## Add Service to Inventory File
-
-The service needs to be added within `group_vars/all`.
-
-Place it in the `services:` section in alphabetical order. Also place it in the top level list.
+## Run Build Tool
+$ `go run main.go`
+This will regenerate the `group_vars/all` file.
 
 ## Add Service to docs/index.md
 

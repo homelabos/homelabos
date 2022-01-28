@@ -13,8 +13,10 @@
 
 ## Improvements
 - Improved script organization and deployment
-- Improved documentation, now enabled by default
+- Improved documentation deployment, now enabled by default
 - Added service testing script
+- All services now self contained in their folders
+
 # 0.8.6
 
 ## Fixed

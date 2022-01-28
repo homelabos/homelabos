@@ -7,6 +7,15 @@ deploy: logo build git_sync config
 	@printf "\033[92m========== Deploying HomelabOS ==========\033[0m\n"
 	./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.homelabos.yml
 
+
+help: logo
+	@printf "\033[92m========== HomelabOS Commands ==========\033[0m\n"
+	@echo
+	@echo 'Usage:'
+	@echo '    make deploy          Deploy HomelabOS.'
+	@echo '    make lint            Runs the linter against the yaml in the project'
+	@echo
+
 # Initial configuration
 config: logo build
 # If config.yml does not exist, populate it with a 'blank'
@@ -104,8 +113,8 @@ restore: logo build git_sync config
 
 # Run linting scripts
 lint: logo build
-	@printf "Lint: "
-	@./docker_helper.sh ./lint.sh
+	@printf "\033[92m========== Running Lint on Yaml ==========\033[0m\n"
+	@./lint.sh
 
 # Restart all enabled services
 restart: logo build git_sync config
