@@ -241,7 +241,6 @@ var packageCmd = &cobra.Command{
 It also generates the config.yml template file.`,
 	//It also generates the docs/index.md 'Included Software' section.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("package command")
 		// Generate group_vars/all
 		outputFile, err := os.Create("./group_vars/all")
 		if err != nil {
@@ -260,6 +259,8 @@ It also generates the config.yml template file.`,
 		}
 		template, _ = template.New("config").Parse(configTemplate)
 		template.Execute(configFile, services)
+
+		fmt.Println("Done")
 	},
 }
 

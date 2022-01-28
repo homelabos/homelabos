@@ -78,6 +78,10 @@ update_one: logo build git_sync config
 	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
 	@printf "\033[92m========== Update completed! ==========\033[0m\n"
 
+test_one:
+	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"],"$(filter-out $@,$(MAKECMDGOALS))":{"enable":"true"}}' -i inventory -t deploy playbook.homelabos.yml
+
+
 # Remove HomelabOS services
 uninstall: logo build
 	@printf "\033[92m========== Uninstall HomelabOS completely ==========\033[0m\n"

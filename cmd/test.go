@@ -143,23 +143,15 @@ func deployTest(service services.Service) {
 	// Test service deploy
 
 	// Enable the service 4
-	cmd := exec.Command("./set_setting.sh", service.Name+".enable", "true")
 	var out bytes.Buffer
 	var stderr bytes.Buffer
+
+	// Deploy the service 5
+	cmd := exec.Command("make", "update_one", service.Name)
+
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
 	err := cmd.Run()
-	if err != nil {
-		fmt.Println("Failed enabling " + service.Name)
-	}
-	service.Status = "4"
-
-	// Deploy the service 5
-	cmd = exec.Command("make", "update_one", service.Name)
-
-	cmd.Stdout = &out
-	cmd.Stderr = &stderr
-	err = cmd.Run()
 	if err != nil {
 		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		fmt.Println("Failed update_one " + service.Name)

@@ -6,7 +6,6 @@ services:
   apple_health_influx: 
   authelia: 
   barcodebuddy: 
-  beets: 
   bitwarden: 
   bookstack: 
   bulletnotes: 
@@ -147,7 +146,6 @@ apache2:
 apple_health_influx: 
 authelia: 
 barcodebuddy: 
-beets: 
 bitwarden: 
 bookstack: 
 bulletnotes: 

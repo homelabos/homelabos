@@ -1,0 +1,8 @@
+  redis_version: {{ mailu.redis_version | default ("alpine") }}
+  certdumper_version: {{ mailu.certdumper_version | default ("master") }}
+  forward_to_smtp: {{ mailu.forward_to_smtp | default(False)  }}
+  enable_secure_imap: {{ mailu.enable_secure_imap | default(True) }} #port 993
+  enable_secure_pop3: {{ mailu.enable_secure_pop3 | default(False) }} #port 995
+  enable_unsecure_pop3: {{ mailu.enable_unsecure_pop3 | default(False) }} #port 110
+  enable_unsecure_imap: {{ mailu.enable_unsecure_imap | default(False) }} #port 143
+  enable_legacy_smtps: {{ mailu.enable_legacy_smtps | default(False) }}   #port 465

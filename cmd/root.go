@@ -11,8 +11,8 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "generated code example",
-	Short: "Homelabos Ctl",
+	Use:   "homelabosCtl code example",
+	Short: "homelabosCtl",
 	Long:  `Use this package to develop HomelabOS.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
