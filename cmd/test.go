@@ -12,10 +12,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gitlab.com/nickbusey/homelabos/services"
 )
 
-var serviceCount int
 var happyServices int
 var sadServices int
 
@@ -37,8 +37,9 @@ var testCmd = &cobra.Command{
 	Short: "Test HomelabOS services",
 	Long:  `This command tests every HomelabOS service.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		servicesList = services.GenerateServicesList()
+		servicesList = services.GenerateServicesList(viper.GetString("services"))
 		servicesRemaining = len(servicesList)
+		serviceCount := servicesRemaining
 
 		watchdog()
 
@@ -58,11 +59,14 @@ var testCmd = &cobra.Command{
 }
 
 func init() {
+	testCmd.Flags().Int("level", 1, "Level of test to run. 1 = Just Sanity. 2 = Full Deploy test.")
+	viper.BindPFlag("level", testCmd.Flags().Lookup("level"))
+	testCmd.Flags().String("services", "", "Comma delimited list of services to test.")
+	viper.BindPFlag("services", testCmd.Flags().Lookup("services"))
 	rootCmd.AddCommand(testCmd)
 }
 
 func watchdog() {
-
 	// Check if more tests can be started
 	for _, service := range servicesList {
 		if testsRunning < maxTests {
@@ -71,23 +75,21 @@ func watchdog() {
 				service.Status = "0"
 				servicesList[service.Name] = service
 				testsRunning++
-				servicesRemaining--
 
 				// Start the next test
-				go testService(service)
+				go sanityCheck(service)
 			}
 		}
-
 	}
 
-	if servicesRemaining > 0 {
+	if testsRunning > 0 && servicesRemaining > 0 {
 		// Restart the watchdog
 		watchdog()
 	}
 
 }
 
-func testService(service services.Service) {
+func sanityCheck(service services.Service) {
 	serviceOk := true
 
 	// Detect if the service has a doc file 1
@@ -129,8 +131,12 @@ func testService(service services.Service) {
 		fmt.Print(string(colorRed), "X")
 		sadServices++
 	}
-
-	testsRunning--
+	if viper.GetInt("level") > 1 {
+		deployTest(service)
+	} else {
+		testsRunning--
+		servicesRemaining--
+	}
 }
 
 func deployTest(service services.Service) {
@@ -205,4 +211,5 @@ func deployTest(service services.Service) {
 	// Put screenshot into service doc
 
 	// If test is perfect, add to verified service list
+	testsRunning--
 }

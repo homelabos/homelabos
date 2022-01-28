@@ -248,7 +248,7 @@ It also generates the config.yml template file.`,
 			log.Println("create file: ", err)
 			return
 		}
-		services := services.GenerateServicesList()
+		services := services.GenerateServicesList("")
 		template, _ := template.New("group_vars/all").Parse(groupVarsTemplate)
 		template.Execute(outputFile, services)
 
