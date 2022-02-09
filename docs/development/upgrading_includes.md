@@ -121,6 +121,8 @@ These have been migrated to roles/zulip/additional_configs.yml
 
 This new file should have no empty new lines at the end, and should have 2 spaces at the start of each line.
 
+If the service doesn't have any extra configs, this step can be skipped.
+
 ### Documentation migration
 
 The documentation file for the service needs moved from software_docs/SERVICENAME.md to roles/SERVICENAME/docs.md
@@ -143,6 +145,7 @@ This file is used to generate docs/index.md as well as roles/homelabos_config/te
 
 Category should be one of the following: 
 
+```
 analytics
 automation
 blogging-platforms
@@ -172,5 +175,8 @@ task-managementto-do-lists
 vpn
 web-servers
 wikis
+```
+
+Version should be set to the value listed at https://gitlab.com/NickBusey/HomelabOS/-/blob/615a9b1f95a678f846600f28673c3274992a6688/roles/homelabos_config/templates/config.yml.j2
 
 {% endraw %}
