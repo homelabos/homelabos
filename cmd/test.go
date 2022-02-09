@@ -92,36 +92,28 @@ func watchdog() {
 func sanityCheck(service services.Service) {
 	serviceOk := true
 
-	// Detect if the service has a doc file 1
-	if _, err := os.Stat("./docs_software/" + service.Name + ".md"); errors.Is(err, os.ErrNotExist) {
+	// Detect if the service has a doc file
+	if _, err := os.Stat("./roles/" + service.Name + "/docs.md"); errors.Is(err, os.ErrNotExist) {
 		serviceOk = false
 	}
-	service.Status = "1"
 
-	// Detect if the service is included in docs/index.md 2
-	buffer, err := ioutil.ReadFile("docs/index.md")
-	if err != nil {
-		panic(err)
-	}
-	fileContents := string(buffer)
-
-	if !strings.Contains(fileContents, service.Name) {
+	// Detect if the service has a service.yml file
+	if _, err := os.Stat("./roles/" + service.Name + "/service.yml"); errors.Is(err, os.ErrNotExist) {
 		serviceOk = false
 	}
-	service.Status = "2"
 
-	// Detect if the service is using the new include style 3
-	buffer, err = ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
+	// Detect if the service is using the new include style
+	buffer, err := ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
 	if err != nil {
 		// File doesn't exist
 		serviceOk = false
 	}
-	fileContents = string(buffer)
+	fileContents := string(buffer)
 
 	if !strings.Contains(fileContents, "includes/start.yml") {
+		
 		serviceOk = false
 	}
-	service.Status = "3"
 
 	// Output service status
 	if serviceOk {
