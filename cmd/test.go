@@ -82,7 +82,7 @@ func watchdog() {
 		}
 	}
 
-	if testsRunning > 0 && servicesRemaining > 0 {
+	if testsRunning > 0 || servicesRemaining > 0 {
 		// Restart the watchdog
 		watchdog()
 	}
