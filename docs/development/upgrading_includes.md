@@ -179,4 +179,6 @@ wikis
 
 Version should be set to the value listed at https://gitlab.com/NickBusey/HomelabOS/-/blob/615a9b1f95a678f846600f28673c3274992a6688/roles/homelabos_config/templates/config.yml.j2
 
+Running `go run main.go test --services SERVICENAME` will tell you if you did things correctly or not (for the most part, should still test deploy the service).
+
 {% endraw %}
