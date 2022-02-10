@@ -143,7 +143,7 @@ version: 2.0.2-0
 
 This file is used to generate docs/index.md as well as roles/homelabos_config/templates/config.yml.j2.
 
-Category should be one of the following: 
+Category should be one of the following, and should match the category it is listed under in the documentation: 
 
 ```
 analytics
