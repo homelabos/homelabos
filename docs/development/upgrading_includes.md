@@ -181,4 +181,6 @@ Version should be set to the value listed at https://gitlab.com/NickBusey/Homela
 
 Running `go run main.go test --services SERVICENAME` will tell you if you did things correctly or not (for the most part, should still test deploy the service).
 
+Assuming the service passes the test, run `go run main.go package` and now you should be able to deploy the service.
+
 {% endraw %}
