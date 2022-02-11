@@ -1,4 +1,4 @@
-.PHONY: logo decrypt build deploy docs_build restore develop lint docs_local count_services
+.PHONY: logo decrypt build deploy docs_build restore develop lint docs_local count_services develop
 
 VERSION := $(cat VERSION)
 
@@ -116,7 +116,7 @@ restore: logo build git_sync config
 	@printf "\033[92m========== Done restoring from backup! ==========\033[0m\n"
 
 # Run linting scripts
-lint: logo build
+lint:
 	@printf "\033[92m========== Running Lint on Yaml ==========\033[0m\n"
 	@./lint.sh
 
@@ -165,12 +165,12 @@ decrypt:
 encrypt:
 	@./docker_helper_notty.sh ansible-vault encrypt settings/vault.yml
 
-set: logo
+set:
 	@printf "\033[92m========== Setting '$(filter-out $@,$(MAKECMDGOALS))' ==========\033[0m\n"
 	@./set_setting.sh $(filter-out $@,$(MAKECMDGOALS))
 	@printf "\033[92m========== Done! ==========\033[0m\n"
 
-get: logo
+get:
 	@printf "\033[92m========== Getting '$(filter-out $@,$(MAKECMDGOALS))' ==========\033[0m\n"
 	@./get_setting.sh $(filter-out $@,$(MAKECMDGOALS))
 	@printf "\033[92m========== Done! ==========\033[0m\n"
@@ -180,7 +180,7 @@ web:
 	cd website && hugo serve
 
 # Spin up a development stack
-develop: logo build config
+vagrant: logo build config
 	@printf "\033[92m========== Spinning up dev stack ==========\033[0m\n"
 	@[ -f settings/test_config.yml ] || cp settings/config.yml settings/test_config.yml
 	@vagrant up --provision
@@ -202,7 +202,7 @@ count_services:
 	@ls -l roles | grep -v -e "homelab" -e "docs" | wc -l
 
 # Run sanity checks on services
-test:
+develop:
 	@docker run -w /usr/src/app -v ${PWD}:/usr/src/app golang go run main.go
 
 # Hacky fix to allow make to accept multiple arguments
