@@ -41,7 +41,7 @@ var testCmd = &cobra.Command{
 		servicesRemaining = len(servicesList)
 		serviceCount := servicesRemaining
 
-		watchdog()
+		watchdog(viper.GetInt("verbosity"))
 
 		// Generate group_vars/all based on service list
 		fmt.Println(string(colorReset))
@@ -61,12 +61,14 @@ var testCmd = &cobra.Command{
 func init() {
 	testCmd.Flags().Int("level", 1, "Level of test to run. 1 = Just Sanity. 2 = Full Deploy test.")
 	viper.BindPFlag("level", testCmd.Flags().Lookup("level"))
+	testCmd.Flags().Int("verbosity", 0, "Verbosity level of output. 0 = Minimal. 1 = Debug.")
+	viper.BindPFlag("verbosity", testCmd.Flags().Lookup("verbosity"))
 	testCmd.Flags().String("services", "", "Comma delimited list of services to test.")
 	viper.BindPFlag("services", testCmd.Flags().Lookup("services"))
 	rootCmd.AddCommand(testCmd)
 }
 
-func watchdog() {
+func watchdog(verbosity int) {
 	// Check if more tests can be started
 	for _, service := range servicesList {
 		if testsRunning < maxTests {
@@ -77,41 +79,52 @@ func watchdog() {
 				testsRunning++
 
 				// Start the next test
-				go sanityCheck(service)
+				go sanityCheck(service, verbosity)
 			}
 		}
 	}
 
 	if testsRunning > 0 || servicesRemaining > 0 {
 		// Restart the watchdog
-		watchdog()
+		watchdog(verbosity)
 	}
 
 }
 
-func sanityCheck(service services.Service) {
+func sanityCheck(service services.Service, verbosity int) {
 	serviceOk := true
 
 	// Detect if the service has a doc file
 	if _, err := os.Stat("./roles/" + service.Name + "/docs.md"); errors.Is(err, os.ErrNotExist) {
+		if verbosity > 0 {
+			fmt.Println("No doc file found for " + service.Name)
+		}
 		serviceOk = false
 	}
 
 	// Detect if the service has a service.yml file
 	if _, err := os.Stat("./roles/" + service.Name + "/service.yml"); errors.Is(err, os.ErrNotExist) {
+		if verbosity > 0 {
+			fmt.Println("No service file found for " + service.Name)
+		}
 		serviceOk = false
 	}
 
 	// Detect if the service is using the new include style
 	buffer, err := ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
 	if err != nil {
+		if verbosity > 0 {
+			fmt.Println("No task file found for " + service.Name)
+		}
 		// File doesn't exist
 		serviceOk = false
 	}
 	fileContents := string(buffer)
 
 	if !strings.Contains(fileContents, "includes/start.yml") {
-
+		if verbosity > 0 {
+			fmt.Println("Task file not using imports for " + service.Name)
+		}
 		serviceOk = false
 	}
 
