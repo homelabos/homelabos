@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -71,7 +70,6 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 
 		version, _ := data["version"]
 		if version != nil && len([]rune(version.(string))) > 0 {
-			fmt.Println(serviceName)
 			services[serviceName] = Service{
 				serviceName,
 				data["description"].(string), version.(string), additionalConfigsString, "_", category}
