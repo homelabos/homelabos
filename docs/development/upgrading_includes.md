@@ -125,7 +125,7 @@ If the service doesn't have any extra configs, this step can be skipped.
 
 ### Documentation migration
 
-The documentation file for the service needs moved from software_docs/SERVICENAME.md to roles/SERVICENAME/docs.md
+The documentation file for the service needs moved from docs_software/SERVICENAME.md to roles/SERVICENAME/docs.md
 
 ### service.yml
 
