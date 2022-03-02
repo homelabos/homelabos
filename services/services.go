@@ -51,6 +51,8 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 		yfile, err := ioutil.ReadFile("./roles/" + serviceName + "/service.yml")
 
 		if err != nil {
+			// If we don't have a service file, add the service anyway, so it shows up as failing.
+			services[serviceName] = Service{serviceName, "", "latest", "", "_", GetCategory("misc-other")}
 			continue
 		}
 		data := make(map[interface{}]interface{})
