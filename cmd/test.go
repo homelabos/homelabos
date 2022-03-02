@@ -59,11 +59,11 @@ var testCmd = &cobra.Command{
 }
 
 func init() {
-	testCmd.Flags().Int("level", 1, "Level of test to run. 1 = Just Sanity. 2 = Full Deploy test.")
+	testCmd.Flags().IntP("level", "l", 1, "Level of test to run. 1 = Just Sanity. 2 = Full Deploy test.")
 	viper.BindPFlag("level", testCmd.Flags().Lookup("level"))
-	testCmd.Flags().Int("verbosity", 0, "Verbosity level of output. 0 = Minimal. 1 = Debug.")
+	testCmd.Flags().IntP("verbosity", "v", 0, "Verbosity level of output. 0 = Minimal. 1 = Debug.")
 	viper.BindPFlag("verbosity", testCmd.Flags().Lookup("verbosity"))
-	testCmd.Flags().String("services", "", "Comma delimited list of services to test.")
+	testCmd.Flags().StringP("services", "s", "", "Comma delimited list of services to test.")
 	viper.BindPFlag("services", testCmd.Flags().Lookup("services"))
 	rootCmd.AddCommand(testCmd)
 }
