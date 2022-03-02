@@ -4,6 +4,8 @@ If you don't have a server to test against, you can use Vagrant to test HomelabO
 
 First you must [install Vagrant](https://www.vagrantup.com/downloads.html).
 
+You probably also want to install Virtualbox. `sudo apt install -y virtualbox`
+
 ## Deploying to Vagrant
 
 Simply run `make develop`. This will spin up a Vagrant machine, and provision it

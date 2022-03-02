@@ -25,7 +25,7 @@ It also generates the config.yml template file.`,
 			log.Println("create file: ", err)
 			return
 		}
-		services := services.GenerateServicesList("")
+		services := services.GenerateServicesList("ztncui")
 		template, _ := template.New("group_vars/all").Parse(templates.GroupVarsAll)
 		template.Execute(outputFile, services)
 
@@ -37,6 +37,15 @@ It also generates the config.yml template file.`,
 		}
 		template, _ = template.New("config").Parse(templates.ConfigTemplate)
 		template.Execute(configFile, services)
+
+		// Generate docs/index.md
+		docsIndexFile, err := os.Create("./docs/index.md")
+		if err != nil {
+			log.Println("create file: ", err)
+			return
+		}
+		template, _ = template.New("docs").Parse(templates.DocsIndex)
+		template.Execute(docsIndexFile, services)
 
 		fmt.Println("Done")
 	},

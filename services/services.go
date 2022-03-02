@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -13,10 +14,12 @@ var serviceNames []string
 
 type Service struct {
 	Name              string
+	Description       string
 	Version           string
 	AdditionalConfigs string
 	// Either _ for pending or a number indicating what step it's on
-	Status string
+	Status   string
+	Category Category
 }
 
 func GenerateServicesList(servicesFilter string) map[string]Service {
@@ -43,11 +46,11 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 
 	for _, serviceName := range serviceNames {
 		// Generate list of services
-		// Pull version number
+
+		// Pull service settings
 		yfile, err := ioutil.ReadFile("./roles/" + serviceName + "/service.yml")
 
 		if err != nil {
-			services[serviceName] = Service{serviceName, "latest", "", "_"}
 			continue
 		}
 		data := make(map[interface{}]interface{})
@@ -61,10 +64,15 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 		if err == nil {
 			additionalConfigsString = string(additionalConfigsFile)
 		}
-		for key, value := range data {
-			if key == "version" {
-				services[serviceName] = Service{serviceName, value.(string), additionalConfigsString, "_"}
-			}
+
+		category := GetCategory(serviceName)
+
+		version, _ := data["version"]
+		if version != nil && len([]rune(version.(string))) > 0 {
+			fmt.Println(serviceName)
+			services[serviceName] = Service{
+				serviceName,
+				data["description"].(string), version.(string), additionalConfigsString, "_", category}
 		}
 	}
 

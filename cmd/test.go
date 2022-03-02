@@ -111,7 +111,7 @@ func sanityCheck(service services.Service) {
 	fileContents := string(buffer)
 
 	if !strings.Contains(fileContents, "includes/start.yml") {
-		
+
 		serviceOk = false
 	}
 
