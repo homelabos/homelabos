@@ -161,7 +161,7 @@ file-sharing-and-synchronization
 games
 gateways-and-terminal-sharing
 media-streaming
-miscother
+misc-other
 money-budgeting-and-management
 monitoring
 note-taking-and-editors
@@ -176,6 +176,8 @@ vpn
 web-servers
 wikis
 ```
+
+It should match the category the software was listed under here https://gitlab.com/NickBusey/HomelabOS/-/blob/615a9b1f95a678f846600f28673c3274992a6688/docs/index.md
 
 Version should be set to the value listed at https://gitlab.com/NickBusey/HomelabOS/-/blob/615a9b1f95a678f846600f28673c3274992a6688/roles/homelabos_config/templates/config.yml.j2
 
