@@ -101,8 +101,9 @@ func sanityCheck(service services.Service, verbosity int) {
 			fmt.Println("No doc file found for " + service.Name)
 		}
 		serviceOk = false
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Detect if the service has a service.yml file
 	if _, err := os.Stat("./roles/" + service.Name + "/service.yml"); errors.Is(err, os.ErrNotExist) {
@@ -110,8 +111,9 @@ func sanityCheck(service services.Service, verbosity int) {
 			fmt.Println("No service file found for " + service.Name)
 		}
 		serviceOk = false
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Make sure the service has a task file
 	buffer, err := ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
@@ -121,8 +123,9 @@ func sanityCheck(service services.Service, verbosity int) {
 		}
 		// File doesn't exist
 		serviceOk = false
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Detect if the service is using the new include style
 	fileContents := string(buffer)
@@ -131,8 +134,9 @@ func sanityCheck(service services.Service, verbosity int) {
 			fmt.Println("Task file not using imports for " + service.Name)
 		}
 		serviceOk = false
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Output service status
 	if serviceOk {
@@ -166,8 +170,9 @@ func deployTest(service services.Service) {
 	if err != nil {
 		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		fmt.Println("Failed update_one " + service.Name)
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Try and hit service, get valid 200, if not wait 10 seconds try again (timeout 5mins) 6
 	ii := 0
@@ -184,7 +189,6 @@ func deployTest(service services.Service) {
 			ii++
 		}
 	}
-	service.Status++
 
 	// Get screenshot of service (selenium)
 	cmd = exec.Command("docker", "run", "--rm", "-v", "/Users/nick/Code/HomelabOS:/srv", "lifenz/docker-screenshot", "http://"+service.Name+".164.90.159.227.sslip.io", "roles/"+service.Name+"/files/"+service.Name+".png", "800px", "5000", "1")
@@ -195,8 +199,9 @@ func deployTest(service services.Service) {
 		// fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		fmt.Println("Failed getting screenshot for " + service.Name)
 		// return
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Disable the service
 	cmd = exec.Command("./set_setting.sh", service.Name+".enable", "false")
@@ -206,8 +211,9 @@ func deployTest(service services.Service) {
 	if err != nil {
 		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		return
+	} else {
+		service.Status++
 	}
-	service.Status++
 
 	// Put Test Score into service doc
 
