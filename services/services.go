@@ -16,8 +16,8 @@ type Service struct {
 	Description       string
 	Version           string
 	AdditionalConfigs string
-	// Either _ for pending or a number indicating what step it's on
-	Status   string
+	// Either -1 for pending or a number indicating what step it last succeeded
+	Status   int
 	Category Category
 }
 
@@ -51,7 +51,7 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 
 		if err != nil {
 			// If we don't have a service file, add the service anyway, so it shows up as failing.
-			services[serviceName] = Service{serviceName, "", "latest", "", "_", GetCategory("misc-other")}
+			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other")}
 			continue
 		}
 		data := make(map[interface{}]interface{})
@@ -66,13 +66,12 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 			additionalConfigsString = string(additionalConfigsFile)
 		}
 
-		category := GetCategory(serviceName)
-
-		version, _ := data["version"]
+		version := data["version"]
 		if version != nil && len([]rune(version.(string))) > 0 {
+			category := GetCategory(data["category"].(string))
 			services[serviceName] = Service{
 				serviceName,
-				data["description"].(string), version.(string), additionalConfigsString, "_", category}
+				data["description"].(string), version.(string), additionalConfigsString, -1, category}
 		}
 	}
 

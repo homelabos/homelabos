@@ -1,8 +1,3 @@
-Add service filtering to test
-
-Add test level
-    full deploy test or just sanity check
-
-Add new service.yml and doc structure to tests
-
-Generate docs/index
+# v1.0 Release Plan
+Deploy multiple copies of the same service
+Clean up backup/restore flow

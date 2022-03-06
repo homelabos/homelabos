@@ -56,7 +56,7 @@ If you are having problems you can:
 
 {{ range $category := . }}### {{ $category.Name }}
 {{ range $service := $category.Services}}
-{{ $service.Name }} Hmmm
+#### {{ $service.Name }}
 {{ $service.Description }}
 {{ end }}
 {{ end }}
