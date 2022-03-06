@@ -41,6 +41,7 @@ var testCmd = &cobra.Command{
 		servicesRemaining = len(servicesList)
 		serviceCount := servicesRemaining
 
+		fmt.Println(string(colorReset))
 		watchdog(viper.GetInt("verbosity"))
 
 		// Generate group_vars/all based on service list
@@ -73,8 +74,8 @@ func watchdog(verbosity int) {
 	for _, service := range servicesList {
 		if testsRunning < maxTests {
 			status := service.Status
-			if status == "_" {
-				service.Status = "0"
+			if status == -1 {
+				service.Status = 0
 				servicesList[service.Name] = service
 				testsRunning++
 
@@ -101,6 +102,7 @@ func sanityCheck(service services.Service, verbosity int) {
 		}
 		serviceOk = false
 	}
+	service.Status++
 
 	// Detect if the service has a service.yml file
 	if _, err := os.Stat("./roles/" + service.Name + "/service.yml"); errors.Is(err, os.ErrNotExist) {
@@ -109,8 +111,9 @@ func sanityCheck(service services.Service, verbosity int) {
 		}
 		serviceOk = false
 	}
+	service.Status++
 
-	// Detect if the service is using the new include style
+	// Make sure the service has a task file
 	buffer, err := ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
 	if err != nil {
 		if verbosity > 0 {
@@ -119,21 +122,24 @@ func sanityCheck(service services.Service, verbosity int) {
 		// File doesn't exist
 		serviceOk = false
 	}
-	fileContents := string(buffer)
+	service.Status++
 
+	// Detect if the service is using the new include style
+	fileContents := string(buffer)
 	if !strings.Contains(fileContents, "includes/start.yml") {
 		if verbosity > 0 {
 			fmt.Println("Task file not using imports for " + service.Name)
 		}
 		serviceOk = false
 	}
+	service.Status++
 
 	// Output service status
 	if serviceOk {
 		fmt.Print(string(colorGreen), ".")
 		happyServices++
 	} else {
-		fmt.Print(string(colorRed), "X")
+		fmt.Print(string(colorRed), service.Status)
 		sadServices++
 	}
 	if viper.GetInt("level") > 1 {
@@ -161,7 +167,7 @@ func deployTest(service services.Service) {
 		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		fmt.Println("Failed update_one " + service.Name)
 	}
-	service.Status = "5"
+	service.Status++
 
 	// Try and hit service, get valid 200, if not wait 10 seconds try again (timeout 5mins) 6
 	ii := 0
@@ -178,9 +184,9 @@ func deployTest(service services.Service) {
 			ii++
 		}
 	}
-	service.Status = "6"
+	service.Status++
 
-	// Get screenshot of service (selenium) 7
+	// Get screenshot of service (selenium)
 	cmd = exec.Command("docker", "run", "--rm", "-v", "/Users/nick/Code/HomelabOS:/srv", "lifenz/docker-screenshot", "http://"+service.Name+".164.90.159.227.sslip.io", "roles/"+service.Name+"/files/"+service.Name+".png", "800px", "5000", "1")
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
@@ -190,9 +196,9 @@ func deployTest(service services.Service) {
 		fmt.Println("Failed getting screenshot for " + service.Name)
 		// return
 	}
-	service.Status = "7"
+	service.Status++
 
-	// Disable the service 8
+	// Disable the service
 	cmd = exec.Command("./set_setting.sh", service.Name+".enable", "false")
 	cmd.Stdout = &out
 	cmd.Stderr = &stderr
@@ -201,7 +207,7 @@ func deployTest(service services.Service) {
 		fmt.Println(fmt.Sprint(err) + ": " + stderr.String())
 		return
 	}
-	service.Status = "8"
+	service.Status++
 
 	// Put Test Score into service doc
 
