@@ -1,0 +1,2 @@
+  db_version: {{ hubzilla.db_version | default("12.2-alpine") }}
+  web_version: {{ hubzilla.web_version | default("1.17.10-alpine") }}

@@ -1,0 +1,5 @@
+---
+full_service_name: Gotify
+description: A simple server for sending and receiving messages in real-time per WebSocket. (Includes a sleek web-ui)
+category: misc-other
+version: latest

@@ -216,6 +216,14 @@ barcodebuddy:
   subdomain: {{ barcodebuddy.subdomain | default("barcodebuddy") }}
   version: {{ barcodebuddy.version | default("latest") }}
 
+beets:
+  enable: {{ beets.enable | default(enable_beets, None) | default(False) }}
+  https_only: {{ beets.https_only | default(False) }}
+  auth: {{ beets.auth | default(False) }}
+  domain: {{ beets.domain | default(False) }}
+  subdomain: {{ beets.subdomain | default("beets") }}
+  version: {{ beets.version | default("latest") }}
+
 bitwarden:
   enable: {{ bitwarden.enable | default(enable_bitwarden, None) | default(False) }}
   https_only: {{ bitwarden.https_only | default(False) }}
@@ -223,6 +231,17 @@ bitwarden:
   domain: {{ bitwarden.domain | default(False) }}
   subdomain: {{ bitwarden.subdomain | default("bitwarden") }}
   version: {{ bitwarden.version | default("latest") }}
+    # Enable admin page
+    # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
+    # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
+{% raw %}
+    token: "{{ vault.bitwarden.token }}"
+{% endraw %}
+    signups_allowed: {{ bitwarden.signups_allowed  | default(vault.bitwarden.signups_allowed, None) | default('true') }}
+    # Only allow signups from certain domains (set signups_allowed to "false")
+    # Note that no e-mail validation is done, only e-mail domain that's provided on registration
+    # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
+    signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist  | default(vault.bitwarden.signups_domains_whitelist, None) | default(False) }}
 
 bookstack:
   enable: {{ bookstack.enable | default(enable_bookstack, None) | default(False) }}
@@ -278,15 +297,7 @@ codimd:
   auth: {{ codimd.auth | default(False) }}
   domain: {{ codimd.domain | default(False) }}
   subdomain: {{ codimd.subdomain | default("codimd") }}
-  version: {{ codimd.version | default("latest") }}
-
-dasher:
-  enable: {{ dasher.enable | default(enable_dasher, None) | default(False) }}
-  https_only: {{ dasher.https_only | default(False) }}
-  auth: {{ dasher.auth | default(False) }}
-  domain: {{ dasher.domain | default(False) }}
-  subdomain: {{ dasher.subdomain | default("dasher") }}
-  version: {{ dasher.version | default("latest") }}
+  version: {{ codimd.version | default("9.6-alpine") }}
 
 digikam:
   enable: {{ digikam.enable | default(enable_digikam, None) | default(False) }}
@@ -294,15 +305,15 @@ digikam:
   auth: {{ digikam.auth | default(False) }}
   domain: {{ digikam.domain | default(False) }}
   subdomain: {{ digikam.subdomain | default("digikam") }}
-  version: {{ digikam.version | default("latest") }}
+  version: {{ digikam.version | default("stable") }}
 
-docs:
-  enable: {{ docs.enable | default(enable_docs, None) | default(False) }}
-  https_only: {{ docs.https_only | default(False) }}
-  auth: {{ docs.auth | default(False) }}
-  domain: {{ docs.domain | default(False) }}
-  subdomain: {{ docs.subdomain | default("docs") }}
-  version: {{ docs.version | default("latest") }}
+docs.sh:
+  enable: {{ docs.sh.enable | default(enable_docs.sh, None) | default(False) }}
+  https_only: {{ docs.sh.https_only | default(False) }}
+  auth: {{ docs.sh.auth | default(False) }}
+  domain: {{ docs.sh.domain | default(False) }}
+  subdomain: {{ docs.sh.subdomain | default("docs.sh") }}
+  version: {{ docs.sh.version | default("latest") }}
 
 drone:
   enable: {{ drone.enable | default(enable_drone, None) | default(False) }}
@@ -311,6 +322,10 @@ drone:
   domain: {{ drone.domain | default(False) }}
   subdomain: {{ drone.subdomain | default("drone") }}
   version: {{ drone.version | default("latest") }}
+{% raw %}
+  gitea_id: "{{ vault.drone.gitea_id | default(False) }}"
+  gitea_secret: "{{ vault.drone.gitea_secret | default(False) }}"
+{% endraw %}
 
 duckdns:
   enable: {{ duckdns.enable | default(enable_duckdns, None) | default(False) }}
@@ -319,6 +334,9 @@ duckdns:
   domain: {{ duckdns.domain | default(False) }}
   subdomain: {{ duckdns.subdomain | default("duckdns") }}
   version: {{ duckdns.version | default("latest") }}
+{% raw %}
+  token: "{{ vault.duckdns.token | default(False) }}"
+{% endraw %}
 
 duplicati:
   enable: {{ duplicati.enable | default(enable_duplicati, None) | default(False) }}
@@ -722,6 +740,14 @@ mstream:
   domain: {{ mstream.domain | default(False) }}
   subdomain: {{ mstream.subdomain | default("mstream") }}
   version: {{ mstream.version | default("latest") }}
+
+mybb:
+  enable: {{ mybb.enable | default(enable_mybb, None) | default(False) }}
+  https_only: {{ mybb.https_only | default(False) }}
+  auth: {{ mybb.auth | default(False) }}
+  domain: {{ mybb.domain | default(False) }}
+  subdomain: {{ mybb.subdomain | default("mybb") }}
+  version: {{ mybb.version | default("latest") }}
 
 mylar:
   enable: {{ mylar.enable | default(enable_mylar, None) | default(False) }}

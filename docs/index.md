@@ -71,6 +71,9 @@ Threaded chat software
 
 ### E-books
 
+#### calibre
+Ebook management system.
+
 ### Email
 
 #### mailu
@@ -82,19 +85,25 @@ Mailu is a simple yet full-featured mail server as a set of Docker images.
 
 ### File Sharing and Synchronization
 
+#### duplicati
+Free backup software to store encrypted backups online
+
 ### Games
 
 ### Gateways and terminal sharing
 
 ### Media Streaming
 
+#### airsonic
+Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+
+#### beets
+Beets is the media library management system for obsessive-compulsive music geeks.
+
 ### Misc/Other
 
 #### adguardhome
 Network-wide software for blocking ads and tracking.
-
-#### airsonic
-
 
 #### apache2
 
@@ -105,53 +114,20 @@ Network-wide software for blocking ads and tracking.
 #### authelia
 
 
-#### barcodebuddy
-
-
-#### bitwarden
-
-
-#### bookstack
-
-
-#### bulletnotes
-
-
-#### calibre
-
-
 #### chowdown
-
+Simple recipes in Markdown format
 
 #### cockpit
-
-
-#### codeserver
-
+Cockpit admin interface package for configuring and troubleshooting a system
 
 #### codimd
+The best platform to write and share markdown
 
-
-#### dasher
-
-
-#### digikam
-
-
-#### docs
-
-
-#### drone
+#### docs.sh
 
 
 #### duckdns
-
-
-#### duplicati
-
-
-#### elkstack
-
+DuckDNS is free dynamic DNS hosted on AWS.
 
 #### emby
 
@@ -286,6 +262,9 @@ Network-wide software for blocking ads and tracking.
 
 
 #### mstream
+
+
+#### mybb
 
 
 #### mylar
@@ -499,19 +478,37 @@ ZeroTier network controller user interface
 
 ### Monitoring
 
+#### elkstack
+Elastic Search, Logstash and Kibana
+
 ### Note-taking and Editors
 
+#### bulletnotes
+Open source note taking app
+
 ### Password Managers
+
+#### bitwarden
+Bitwarden is an open source password manager
 
 ### Personal Dashboards
 
 ### Photo and Video Galleries
+
+#### digikam
+Professional Photo Management with the Power of Open Source
 
 ### Read it Later Lists
 
 ### Social Networking
 
 ### Software Development
+
+#### codeserver
+Run VS Code on a remote server.
+
+#### drone
+Drone is a self-service continuous delivery platform
 
 #### gitea
 Git hosting platform
@@ -523,5 +520,8 @@ Git hosting platform
 ### Web servers
 
 ### Wikis
+
+#### bookstack
+Simple & Free Wiki Software
 
 

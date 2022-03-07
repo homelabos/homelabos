@@ -1,0 +1,5 @@
+---
+full_service_name: Grafana
+description: Grafana is a Time Series Database graphing application.
+category: monitoring
+version: latest

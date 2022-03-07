@@ -1,0 +1,2 @@
+  db_version: {{ guacamole.db_version | default("13.4") }}
+  proxy_version: {{ guacamole.proxy_version | default("latest") }}

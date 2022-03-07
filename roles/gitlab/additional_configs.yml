@@ -1,0 +1,18 @@
+  runner_version: {{ gitlab.runner_version | default("alpine") }}
+  db_version: {{ gitlab.db_version | default("latest") }}
+  registry_version: {{ gitlab.registry_version | default("latest") }}
+  # Currently using default AWS vault entries for region/access_key/secret_key
+  aws_lfs_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
+  aws_lfs_bucket: {{ gitlab.aws_lfs_bucket | default(False) }}
+  aws_storage_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
+  aws_storage_bucket: {{ gitlab.aws_storage_bucket | default(False) }}
+  aws_backup_enabled: {{ gitlab.aws_backup_enabled | default(False) }}
+  aws_backup_bucket: {{ gitlab.aws_backup_bucket | default(False) }}
+  aws_registry_enabled: {{ gitlab.aws_registry_enabled | default(False) }}
+  aws_registry_bucket: {{ gitlab.aws_registry_bucket | default(False) }}
+  ssh_port: {{ gitlab.ssh_port | default(223) }}
+  registry:
+    https_only: {{ gitlab.registry.https_only | default(False) }}
+    auth: {{ gitlab.registry.auth | default(False) }}
+    domain: {{ gitlab.registry.domain | default(False) }}
+    subdomain: {{ gitlab.registry.subdomain | default("registry") }}

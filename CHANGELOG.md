@@ -10,6 +10,9 @@
 
 ## Services Removed
 - Removed darksky-influxdb - Darksky API is no longer.
+- Removed InternetMonitoring - Can be re-added, but was redundant to several other services and included too much (prometheus.)
+- Removed Dasher - No longer maintained
+- Removed apple_health_influx - No longer maintained
 
 ## Improvements
 - Improved script organization and deployment

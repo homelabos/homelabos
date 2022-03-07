@@ -1,0 +1,2 @@
+  db_version: {{ erpnext.db_version | default("10.3") }}
+  redis_version: {{ erpnext.redis_version | default("latest") }}

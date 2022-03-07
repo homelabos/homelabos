@@ -1,0 +1,5 @@
+  username: {{ folding_at_home.username | default( default_username ) }}
+  # Team HomelabOS - https://stats.foldingathome.org/team/261443
+  team: {{ folding_at_home.team | default( "261443" ) }}
+  # Valid values are 'light', 'medium' or 'full'
+  power: {{ folding_at_home.power | default("full") }}

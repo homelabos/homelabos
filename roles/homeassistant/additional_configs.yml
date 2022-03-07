@@ -1,0 +1,1 @@
+  use_supervisord: {{ homeassistant.use_supervisord | default(False)}}

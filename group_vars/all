@@ -6,6 +6,7 @@ services:
   apple_health_influx: 
   authelia: 
   barcodebuddy: 
+  beets: 
   bitwarden: 
   bookstack: 
   bulletnotes: 
@@ -14,9 +15,8 @@ services:
   cockpit: 
   codeserver: 
   codimd: 
-  dasher: 
   digikam: 
-  docs: 
+  docs.sh: 
   drone: 
   duckdns: 
   duplicati: 
@@ -68,6 +68,7 @@ services:
   minio: 
   monicahq: 
   mstream: 
+  mybb: 
   mylar: 
   n8n: 
   netdata: 
@@ -146,6 +147,7 @@ apache2:
 apple_health_influx: 
 authelia: 
 barcodebuddy: 
+beets: 
 bitwarden: 
 bookstack: 
 bulletnotes: 
@@ -154,9 +156,8 @@ chowdown:
 cockpit: 
 codeserver: 
 codimd: 
-dasher: 
 digikam: 
-docs: 
+docs.sh: 
 drone: 
 duckdns: 
 duplicati: 
@@ -208,6 +209,7 @@ miniflux:
 minio: 
 monicahq: 
 mstream: 
+mybb: 
 mylar: 
 n8n: 
 netdata: 

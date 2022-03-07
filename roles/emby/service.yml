@@ -1,0 +1,5 @@
+---
+full_service_name: Emby
+description: Emby is a media server
+category: media-streaming
+version: latest
