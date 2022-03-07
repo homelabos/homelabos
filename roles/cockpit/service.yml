@@ -1,0 +1,5 @@
+---
+full_service_name: Cockpit
+description: Cockpit admin interface package for configuring and troubleshooting a system
+category: misc-other
+version: latest

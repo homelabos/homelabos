@@ -139,6 +139,7 @@ full_service_name: Zulip Chat
 description: Threaded chat software
 category: chat
 version: 2.0.2-0
+
 ```
 
 This file is used to generate docs/index.md as well as roles/homelabos_config/templates/config.yml.j2.

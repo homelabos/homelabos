@@ -1,0 +1,41 @@
+---
+
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  mybb:
+
+services:
+  mybb:
+    image: mybb/mybb:{{ mybb.version }}
+    networks:
+      - mybb
+    volumes:
+    - /var/homelabos/mybb/app:/var/www/html:rw
+
+  nginx:
+    image: nginx:mainline-alpine
+    volumes:
+    - /var/homelabos/mybb/nginx:/etc/nginx/conf.d:ro
+    - /var/homelabos/mybb/app:/var/www/html:ro
+    networks:
+      - traefik_network
+      - mybb
+    labels:
+      - "traefik.http.services.mybb.loadbalancer.server.scheme=http"
+      - "traefik.http.services.mybb.loadbalancer.server.port=80"
+{% include './labels.j2' %}
+
+  postgresql:
+    environment:
+      POSTGRES_DB: mybb
+      POSTGRES_PASSWORD: {{lookup('password', './settings/passwords/mybb_db_password chars=ascii_letters')}}
+      POSTGRES_USER: mybb
+    image: postgres:13.2-alpine
+    networks:
+      - mybb
+    volumes:
+    - /var/homelabos/mybb/postgres/data:/var/lib/postgresql/data:rw

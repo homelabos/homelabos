@@ -1,0 +1,21 @@
+---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Make mybb directories
+  file:
+    path: "{{ volumes_root }}/mybb/{{item}}"
+    state: directory
+  loop:
+    - "nginx"
+    - "app"
+    - "postgres/data"
+
+- name: Copy mybb nginx config file into place.
+  copy:
+    src: default.conf
+    dest: "{{ volumes_root }}/mybb/nginx/default.conf"
+
+- name: Start {{service_item}}
+  include: includes/start.yml

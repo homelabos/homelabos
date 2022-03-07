@@ -1,0 +1,4 @@
+{% raw %}
+  gitea_id: "{{ vault.drone.gitea_id | default(False) }}"
+  gitea_secret: "{{ vault.drone.gitea_secret | default(False) }}"
+{% endraw %}

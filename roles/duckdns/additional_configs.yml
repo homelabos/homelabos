@@ -1,0 +1,3 @@
+{% raw %}
+  token: "{{ vault.duckdns.token | default(False) }}"
+{% endraw %}
