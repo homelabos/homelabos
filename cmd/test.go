@@ -28,6 +28,8 @@ var colorBlue string = "\033[34m"
 var maxTests = 5
 var testsRunning = 0
 var servicesRemaining = 0
+var maxPoints = 0
+var totalPoints = 0
 
 var servicesList map[string]services.Service
 
@@ -56,6 +58,10 @@ var testCmd = &cobra.Command{
 		fmt.Print("Sad services: ", string(colorRed))
 		fmt.Printf("%d", sadServices)
 		fmt.Println(string(colorReset))
+		fmt.Printf("Total points: %d\n", totalPoints)
+		fmt.Printf("Remaining points to fix: %d\n", serviceCount*4-totalPoints)
+		fmt.Printf("Max possible points: %d\n", serviceCount*4)
+		fmt.Printf("Percent: %.2f\n", float64(totalPoints)/float64(serviceCount*4)*100)
 	},
 }
 
@@ -146,6 +152,7 @@ func sanityCheck(service services.Service, verbosity int) {
 		fmt.Print(string(colorRed), service.Status)
 		sadServices++
 	}
+	totalPoints += service.Status
 	if viper.GetInt("level") > 1 {
 		deployTest(service)
 	} else {
