@@ -1,6 +1,6 @@
 # Mealie
 
-[Mealie](https://hay-kot.github.io/mealie/)  Simple recipes in Markdown format
+[Mealie](https://hay-kot.github.io/mealie/) Simple recipes in Markdown format
 
 The docker image comes from [hkotel/mealie:latest](https://hub.docker.com/r/hkotel/mealie)
 

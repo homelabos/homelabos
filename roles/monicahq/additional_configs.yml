@@ -1,0 +1,2 @@
+  db_version: {{ monicahq.db_version | default("latest") }}
+  disable_signup: {{ monicahq.disable_signup | default(True) }}
