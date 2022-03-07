@@ -1,0 +1,1 @@
+  db_version: {{ matomo.db_version | default ("latest") }}

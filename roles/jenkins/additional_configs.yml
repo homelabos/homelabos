@@ -1,0 +1,2 @@
+  allow_docker: {{ jenkins.allow_docker | default(False)}}
+  additional_packages: {{ jenkins.additional_packages | default([]) }}

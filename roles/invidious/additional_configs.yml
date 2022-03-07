@@ -1,0 +1,2 @@
+  cpus_limit: {{ invidious.cpus_limit | default("0.5") }}
+  mem_limit: {{ invidious.mem_limit | default("1024M") }}
