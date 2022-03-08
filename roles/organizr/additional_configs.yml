@@ -1,0 +1,2 @@
+  fpm: {{ organizr.fpm | default("false") }}
+  branch: {{ organizr.branch | default("master") }}
