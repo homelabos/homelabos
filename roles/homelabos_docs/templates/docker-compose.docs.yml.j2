@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.docs.tls.domains[0].sans=*.{{ domain }}"
 {% endif %}
 {% else %}
-      - "traefik.http.routers.docs.itls.certresolver=http"
+      - "traefik.http.routers.docs.tls.certresolver=http"
 {% endif %}
 {% if enable_tor %}
       - "traefik.http.routers.docs-tor-http.rule=Host(`{{ lookup('vars', 'docs').subdomain }}.{{ tor_domain }}`)"
