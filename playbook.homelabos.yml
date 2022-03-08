@@ -49,6 +49,16 @@
         name: homelabos_wireguard
       when: bastion.enable == True
 
+- name: Configure documentation
+  hosts: homelabos
+  become: true
+  # gather_facts: "True"
+  tags:
+    - homelabos
+    - deploy
+  roles:
+    - homelabos_docs
+
 # Install and configure HomelabOS services
 - name: Install and configure HomelabOS services
   hosts: homelabos

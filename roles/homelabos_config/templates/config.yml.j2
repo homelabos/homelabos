@@ -192,14 +192,6 @@ apache2:
   subdomain: {{ apache2.subdomain | default("apache2") }}
   version: {{ apache2.version | default("latest") }}
 
-apple_health_influx:
-  enable: {{ apple_health_influx.enable | default(enable_apple_health_influx, None) | default(False) }}
-  https_only: {{ apple_health_influx.https_only | default(False) }}
-  auth: {{ apple_health_influx.auth | default(False) }}
-  domain: {{ apple_health_influx.domain | default(False) }}
-  subdomain: {{ apple_health_influx.subdomain | default("apple_health_influx") }}
-  version: {{ apple_health_influx.version | default("latest") }}
-
 authelia:
   enable: {{ authelia.enable | default(enable_authelia, None) | default(False) }}
   https_only: {{ authelia.https_only | default(False) }}
@@ -231,17 +223,17 @@ bitwarden:
   domain: {{ bitwarden.domain | default(False) }}
   subdomain: {{ bitwarden.subdomain | default("bitwarden") }}
   version: {{ bitwarden.version | default("latest") }}
-    # Enable admin page
-    # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
-    # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
+  # Enable admin page
+  # IMPORTANT: Activate HTTPS before enabling this feature, to avoid possible MITM attacks.
+  # Reference: https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
 {% raw %}
-    token: "{{ vault.bitwarden.token }}"
+  token: "{{ vault.bitwarden.token }}"
 {% endraw %}
-    signups_allowed: {{ bitwarden.signups_allowed  | default(vault.bitwarden.signups_allowed, None) | default('true') }}
-    # Only allow signups from certain domains (set signups_allowed to "false")
-    # Note that no e-mail validation is done, only e-mail domain that's provided on registration
-    # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
-    signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist  | default(vault.bitwarden.signups_domains_whitelist, None) | default(False) }}
+  signups_allowed: {{ bitwarden.signups_allowed  | default(vault.bitwarden.signups_allowed, None) | default('true') }}
+  # Only allow signups from certain domains (set signups_allowed to "false")
+  # Note that no e-mail validation is done, only e-mail domain that's provided on registration
+  # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
+  signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist  | default(vault.bitwarden.signups_domains_whitelist, None) | default(False) }}
 
 bookstack:
   enable: {{ bookstack.enable | default(enable_bookstack, None) | default(False) }}
@@ -307,14 +299,6 @@ digikam:
   subdomain: {{ digikam.subdomain | default("digikam") }}
   version: {{ digikam.version | default("stable") }}
 
-docs.sh:
-  enable: {{ docs.sh.enable | default(enable_docs.sh, None) | default(False) }}
-  https_only: {{ docs.sh.https_only | default(False) }}
-  auth: {{ docs.sh.auth | default(False) }}
-  domain: {{ docs.sh.domain | default(False) }}
-  subdomain: {{ docs.sh.subdomain | default("docs.sh") }}
-  version: {{ docs.sh.version | default("latest") }}
-
 drone:
   enable: {{ drone.enable | default(enable_drone, None) | default(False) }}
   https_only: {{ drone.https_only | default(False) }}
@@ -368,7 +352,9 @@ erpnext:
   auth: {{ erpnext.auth | default(False) }}
   domain: {{ erpnext.domain | default(False) }}
   subdomain: {{ erpnext.subdomain | default("erpnext") }}
-  version: {{ erpnext.version | default("latest") }}
+  version: {{ erpnext.version | default("v11") }}
+  db_version: {{ erpnext.db_version | default("10.3") }}
+  redis_version: {{ erpnext.redis_version | default("latest") }}
 
 ethercalc:
   enable: {{ ethercalc.enable | default(enable_ethercalc, None) | default(False) }}
@@ -377,6 +363,7 @@ ethercalc:
   domain: {{ ethercalc.domain | default(False) }}
   subdomain: {{ ethercalc.subdomain | default("ethercalc") }}
   version: {{ ethercalc.version | default("latest") }}
+  redis_version: {{ ethercalc.redis_version | default("latest") }}
 
 factorio:
   enable: {{ factorio.enable | default(enable_factorio, None) | default(False) }}
@@ -393,6 +380,7 @@ firefly_iii:
   domain: {{ firefly_iii.domain | default(False) }}
   subdomain: {{ firefly_iii.subdomain | default("firefly_iii") }}
   version: {{ firefly_iii.version | default("latest") }}
+  db_version: {{ firefly_iii.db_version | default("12") }}
 
 folding_at_home:
   enable: {{ folding_at_home.enable | default(enable_folding_at_home, None) | default(False) }}
@@ -401,6 +389,11 @@ folding_at_home:
   domain: {{ folding_at_home.domain | default(False) }}
   subdomain: {{ folding_at_home.subdomain | default("folding_at_home") }}
   version: {{ folding_at_home.version | default("latest") }}
+  username: {{ folding_at_home.username | default( default_username ) }}
+  # Team HomelabOS - https://stats.foldingathome.org/team/261443
+  team: {{ folding_at_home.team | default( "261443" ) }}
+  # Valid values are 'light', 'medium' or 'full'
+  power: {{ folding_at_home.power | default("full") }}
 
 freshrss:
   enable: {{ freshrss.enable | default(enable_freshrss, None) | default(False) }}
@@ -408,7 +401,7 @@ freshrss:
   auth: {{ freshrss.auth | default(False) }}
   domain: {{ freshrss.domain | default(False) }}
   subdomain: {{ freshrss.subdomain | default("freshrss") }}
-  version: {{ freshrss.version | default("latest") }}
+  version: {{ freshrss.version | default("alpine") }}
 
 funkwhale:
   enable: {{ funkwhale.enable | default(enable_funkwhale, None) | default(False) }}
@@ -424,7 +417,7 @@ ghost:
   auth: {{ ghost.auth | default(False) }}
   domain: {{ ghost.domain | default(False) }}
   subdomain: {{ ghost.subdomain | default("ghost") }}
-  version: {{ ghost.version | default("latest") }}
+  version: {{ ghost.version | default("3-alpine") }}
 
 gitea:
   enable: {{ gitea.enable | default(enable_gitea, None) | default(False) }}
@@ -444,6 +437,24 @@ gitlab:
   domain: {{ gitlab.domain | default(False) }}
   subdomain: {{ gitlab.subdomain | default("gitlab") }}
   version: {{ gitlab.version | default("latest") }}
+  runner_version: {{ gitlab.runner_version | default("alpine") }}
+  db_version: {{ gitlab.db_version | default("latest") }}
+  registry_version: {{ gitlab.registry_version | default("latest") }}
+  # Currently using default AWS vault entries for region/access_key/secret_key
+  aws_lfs_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
+  aws_lfs_bucket: {{ gitlab.aws_lfs_bucket | default(False) }}
+  aws_storage_enabled: {{ gitlab.aws_lfs_enabled | default(False) }}
+  aws_storage_bucket: {{ gitlab.aws_storage_bucket | default(False) }}
+  aws_backup_enabled: {{ gitlab.aws_backup_enabled | default(False) }}
+  aws_backup_bucket: {{ gitlab.aws_backup_bucket | default(False) }}
+  aws_registry_enabled: {{ gitlab.aws_registry_enabled | default(False) }}
+  aws_registry_bucket: {{ gitlab.aws_registry_bucket | default(False) }}
+  ssh_port: {{ gitlab.ssh_port | default(223) }}
+  registry:
+    https_only: {{ gitlab.registry.https_only | default(False) }}
+    auth: {{ gitlab.registry.auth | default(False) }}
+    domain: {{ gitlab.registry.domain | default(False) }}
+    subdomain: {{ gitlab.registry.subdomain | default("registry") }}
 
 gotify:
   enable: {{ gotify.enable | default(enable_gotify, None) | default(False) }}
@@ -484,6 +495,8 @@ guacamole:
   domain: {{ guacamole.domain | default(False) }}
   subdomain: {{ guacamole.subdomain | default("guacamole") }}
   version: {{ guacamole.version | default("latest") }}
+  db_version: {{ guacamole.db_version | default("13.4") }}
+  proxy_version: {{ guacamole.proxy_version | default("latest") }}
 
 healthchecks:
   enable: {{ healthchecks.enable | default(enable_healthchecks, None) | default(False) }}
@@ -508,6 +521,7 @@ homeassistant:
   domain: {{ homeassistant.domain | default(False) }}
   subdomain: {{ homeassistant.subdomain | default("homeassistant") }}
   version: {{ homeassistant.version | default("latest") }}
+  use_supervisord: {{ homeassistant.use_supervisord | default(False)}}
 
 homebridge:
   enable: {{ homebridge.enable | default(enable_homebridge, None) | default(False) }}
@@ -531,7 +545,9 @@ hubzilla:
   auth: {{ hubzilla.auth | default(False) }}
   domain: {{ hubzilla.domain | default(False) }}
   subdomain: {{ hubzilla.subdomain | default("hubzilla") }}
-  version: {{ hubzilla.version | default("latest") }}
+  version: {{ hubzilla.version | default("4.6") }}
+  db_version: {{ hubzilla.db_version | default("12.2-alpine") }}
+  web_version: {{ hubzilla.web_version | default("1.17.10-alpine") }}
 
 huginn:
   enable: {{ huginn.enable | default(enable_huginn, None) | default(False) }}
@@ -540,14 +556,7 @@ huginn:
   domain: {{ huginn.domain | default(False) }}
   subdomain: {{ huginn.subdomain | default("huginn") }}
   version: {{ huginn.version | default("latest") }}
-
-internetmonitoring:
-  enable: {{ internetmonitoring.enable | default(enable_internetmonitoring, None) | default(False) }}
-  https_only: {{ internetmonitoring.https_only | default(False) }}
-  auth: {{ internetmonitoring.auth | default(False) }}
-  domain: {{ internetmonitoring.domain | default(False) }}
-  subdomain: {{ internetmonitoring.subdomain | default("internetmonitoring") }}
-  version: {{ internetmonitoring.version | default("latest") }}
+  db_version: {{ huginn.db_version | default("10.3") }}
 
 inventario:
   enable: {{ inventario.enable | default(enable_inventario, None) | default(False) }}
@@ -556,6 +565,7 @@ inventario:
   domain: {{ inventario.domain | default(False) }}
   subdomain: {{ inventario.subdomain | default("inventario") }}
   version: {{ inventario.version | default("latest") }}
+  db_version: {{ inventario.db_version | default("latest") }}
 
 invidious:
   enable: {{ invidious.enable | default(enable_invidious, None) | default(False) }}
@@ -564,6 +574,8 @@ invidious:
   domain: {{ invidious.domain | default(False) }}
   subdomain: {{ invidious.subdomain | default("invidious") }}
   version: {{ invidious.version | default("latest") }}
+  cpus_limit: {{ invidious.cpus_limit | default("0.5") }}
+  mem_limit: {{ invidious.mem_limit | default("1024M") }}
 
 invoiceninja:
   enable: {{ invoiceninja.enable | default(enable_invoiceninja, None) | default(False) }}
@@ -571,7 +583,7 @@ invoiceninja:
   auth: {{ invoiceninja.auth | default(False) }}
   domain: {{ invoiceninja.domain | default(False) }}
   subdomain: {{ invoiceninja.subdomain | default("invoiceninja") }}
-  version: {{ invoiceninja.version | default("latest") }}
+  version: {{ invoiceninja.version | default("alpine-4") }}
 
 jackett:
   enable: {{ jackett.enable | default(enable_jackett, None) | default(False) }}
@@ -596,6 +608,8 @@ jenkins:
   domain: {{ jenkins.domain | default(False) }}
   subdomain: {{ jenkins.subdomain | default("jenkins") }}
   version: {{ jenkins.version | default("latest") }}
+  allow_docker: {{ jenkins.allow_docker | default(False)}}
+  additional_packages: {{ jenkins.additional_packages | default([]) }}
 
 keycloak:
   enable: {{ keycloak.enable | default(enable_keycloak, None) | default(False) }}
@@ -604,6 +618,7 @@ keycloak:
   domain: {{ keycloak.domain | default(False) }}
   subdomain: {{ keycloak.subdomain | default("keycloak") }}
   version: {{ keycloak.version | default("latest") }}
+  db_version: {{ keycloak.db_version | default("alpine") }}
 
 kibitzr:
   enable: {{ kibitzr.enable | default(enable_kibitzr, None) | default(False) }}
@@ -652,6 +667,7 @@ mashio:
   domain: {{ mashio.domain | default(False) }}
   subdomain: {{ mashio.subdomain | default("mashio") }}
   version: {{ mashio.version | default("latest") }}
+  db_version: {{ mashio.db_version | default ("latest") }}
 
 massivedecks:
   enable: {{ massivedecks.enable | default(enable_massivedecks, None) | default(False) }}
@@ -668,6 +684,7 @@ matomo:
   domain: {{ matomo.domain | default(False) }}
   subdomain: {{ matomo.subdomain | default("matomo") }}
   version: {{ matomo.version | default("latest") }}
+  db_version: {{ matomo.db_version | default ("latest") }}
 
 matterbridge:
   enable: {{ matterbridge.enable | default(enable_matterbridge, None) | default(False) }}
@@ -684,6 +701,9 @@ mayan:
   domain: {{ mayan.domain | default(False) }}
   subdomain: {{ mayan.subdomain | default("mayan") }}
   version: {{ mayan.version | default("latest") }}
+  db_version: {{ mayan.db_version | default("latest") }}
+  redis_version: {{ mayan.redis_version | default("latest") }}
+  rabbit_version: {{ mayan.rabbit_version | default("latest") }}
 
 mealie:
   enable: {{ mealie.enable | default(enable_mealie, None) | default(False) }}
@@ -715,7 +735,8 @@ miniflux:
   auth: {{ miniflux.auth | default(False) }}
   domain: {{ miniflux.domain | default(False) }}
   subdomain: {{ miniflux.subdomain | default("miniflux") }}
-  version: {{ miniflux.version | default("latest") }}
+  version: {{ miniflux.version | default("2.0.21") }}
+  db_version: {{ miniflux.db_version | default("10.1") }}
 
 minio:
   enable: {{ minio.enable | default(enable_minio, None) | default(False) }}
@@ -732,6 +753,8 @@ monicahq:
   domain: {{ monicahq.domain | default(False) }}
   subdomain: {{ monicahq.subdomain | default("monicahq") }}
   version: {{ monicahq.version | default("latest") }}
+  db_version: {{ monicahq.db_version | default("latest") }}
+  disable_signup: {{ monicahq.disable_signup | default(True) }}
 
 mstream:
   enable: {{ mstream.enable | default(enable_mstream, None) | default(False) }}
@@ -836,6 +859,8 @@ organizr:
   domain: {{ organizr.domain | default(False) }}
   subdomain: {{ organizr.subdomain | default("organizr") }}
   version: {{ organizr.version | default("latest") }}
+  fpm: {{ organizr.fpm | default("false") }}
+  branch: {{ organizr.branch | default("master") }}
 
 overseerr:
   enable: {{ overseerr.enable | default(enable_overseerr, None) | default(False) }}

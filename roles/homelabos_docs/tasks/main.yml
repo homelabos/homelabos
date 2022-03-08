@@ -50,7 +50,13 @@
     src: docker-compose.docs.yml.j2
     dest: "{{ volumes_root }}/docs/docker-compose.yml"
   vars:
+    https_only: "{{ lookup('vars', 'docs').https_only }}"
+    auth: "{{ lookup('vars', 'docs').auth }}"
+    custom_domain: "{{ lookup('vars', 'docs').domain }}"
+    service_domain: "{% if lookup('vars', 'docs').domain %}{{ lookup('vars', 'docs').domain }}{% else %}{{ lookup('vars', 'docs').subdomain }}.{{ domain }}{% endif %}"
+    query: "{{ 'docs' + '.enable' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
 - name: Configure HomelabOS systemd service.
   template:

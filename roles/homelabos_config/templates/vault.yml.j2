@@ -88,7 +88,7 @@ vault:
 
 # These are here so the Prompts during initial setup work properly.
 # SUDO password
-ansible_become_password: "{{ ansible_become_password | default() }}"
+ansible_become_password: {{ ansible_become_password | default() }}
 
 # Default password to go with the default user
 default_password: "{{ default_password | default() }}"

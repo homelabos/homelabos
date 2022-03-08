@@ -18,4 +18,30 @@ services:
     labels:
       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
       - "traefik.http.services.docs.loadbalancer.server.port=80"
-{% include './labels.j2' %}
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.routers.docs-http.service=docs"
+      - "traefik.http.routers.docs-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.docs-http.entrypoints=http"
+      - "traefik.http.routers.docs-http.middlewares={% if https_only == True %}redirect@file, {% else %}{% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.docs.service=docs"
+      - "traefik.http.routers.docs.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.docs.entrypoints=https"
+      - "traefik.http.routers.docs.middlewares={% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.docs.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.docs.tls.certresolver=dns"
+{% if custom_domain != False %}
+      - "traefik.http.routers.docs.tls.domains[0].main={{ service_domain }}"
+{% else %}
+      - "traefik.http.routers.docs.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.docs.tls.domains[0].sans=*.{{ domain }}"
+{% endif %}
+{% else %}
+      - "traefik.http.routers.docs.itls.certresolver=http"
+{% endif %}
+{% if enable_tor %}
+      - "traefik.http.routers.docs-tor-http.rule=Host(`{{ lookup('vars', 'docs').subdomain }}.{{ tor_domain }}`)"
+      - "traefik.http.routers.docs-tor-http.entrypoints=http"
+      - "traefik.http.routers.docs-tor-http.middlewares={% if auth == True %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
+{% endif %}

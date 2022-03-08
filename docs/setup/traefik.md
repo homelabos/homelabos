@@ -1,3 +1,4 @@
+{% raw %}
 # Traefik
 
 [Traefik v2](https://traefik.io/) is a modern HTTP reverse proxy and load balancer, which is used by HomelabOS to automatically make accessible all the docker containers, both on http and https (with Let's Encrypt certificate).
@@ -80,3 +81,5 @@ This will make your service accessible under https://{service_name}.{{ domain }}
 
 ### customFrameHomelab-tor
 * ALLOW-FROM http://{{ organizr.subdomain + "." + tor_domain }}
+
+{% endraw %}

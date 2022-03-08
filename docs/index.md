@@ -54,13 +54,31 @@ If you are having problems you can:
 
 ### Analytics
 
+#### matomo
+Open source analytics
+
 ### Automation
 
+#### homeassistant
+Home Assistant can automate just about any part of your home.
+
+#### homebridge
+HomeKit support for the impatient
+
+#### kibitzr
+Kibitzr acts as a replacement for IFTTT
+
 ### Blogging Platforms
+
+#### ghost
+Ghost is a fully open source, adaptable platform for building and running a modern online publication
 
 ### Calendaring and Contacts Management
 
 ### Chat
+
+#### matterbridge
+A program that allows users to link multiple chat platforms.
 
 #### zulip
 Threaded chat software
@@ -69,10 +87,16 @@ Threaded chat software
 
 ### Document Management
 
+#### mayan
+Mayan EDMS is a document management system.
+
 ### E-books
 
 #### calibre
 Ebook management system.
+
+#### lazylibrarian
+LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs.
 
 ### Email
 
@@ -81,16 +105,40 @@ Mailu is a simple yet full-featured mail server as a set of Docker images.
 
 ### Federated Identity/Authentication
 
+#### keycloak
+Open Source Identity and Access Management
+
 ### Feed Readers
+
+#### freshrss
+FreshRSS is a free, self-hostable aggregator.
+
+#### miniflux
+Miniflux is a minimalist and opinionated feed reader.
 
 ### File Sharing and Synchronization
 
 #### duplicati
 Free backup software to store encrypted backups online
 
+#### jackett
+Jackett provides API Support for your favorite torrent trackers.
+
+#### lidarr
+Sonarr but for Music.
+
+#### minio
+Minio is an S3 storage utility.
+
 ### Games
 
+#### factorio
+Factorio headless server in a Docker container
+
 ### Gateways and terminal sharing
+
+#### guacamole
+Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH.
 
 ### Media Streaming
 
@@ -100,15 +148,27 @@ Airsonic is a free, web-based media streamer, providing ubiquitous access to you
 #### beets
 Beets is the media library management system for obsessive-compulsive music geeks.
 
+#### emby
+Emby is a media server
+
+#### funkwhale
+A social platform to enjoy and share music
+
+#### jellyfin
+Jellyfin is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.
+
+#### massivedecks
+Massive Decks is a comedy party game based on Cards against Humanity.
+
+#### mstream
+All your music, everywhere you go.
+
 ### Misc/Other
 
 #### adguardhome
 Network-wide software for blocking ads and tracking.
 
 #### apache2
-
-
-#### apple_health_influx
 
 
 #### authelia
@@ -123,128 +183,44 @@ Cockpit admin interface package for configuring and troubleshooting a system
 #### codimd
 The best platform to write and share markdown
 
-#### docs.sh
-
-
 #### duckdns
 DuckDNS is free dynamic DNS hosted on AWS.
 
-#### emby
-
-
 #### erpnext
-
+Open Source ERP for Everyone.
 
 #### ethercalc
-
-
-#### factorio
-
-
-#### firefly_iii
-
+EtherCalc is a web spreadsheet
 
 #### folding_at_home
-
-
-#### freshrss
-
-
-#### funkwhale
-
-
-#### ghost
-
-
-#### gitlab
-
+Folding@home software allows you to share your unused computer power with scientists researching diseases.
 
 #### gotify
-
-
-#### grafana
-
+A simple server for sending and receiving messages in real-time per WebSocket. (Includes a sleek web-ui)
 
 #### grocy
-
+ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 
 #### grownetics
-
-
-#### guacamole
-
-
-#### healthchecks
-
-
-#### heimdall
-
-
-#### homeassistant
-
-
-#### homebridge
-
-
-#### homedash
-
+Growentics is an open source environmental mapping with plant management and tracking software suite.
 
 #### hubzilla
-
-
-#### huginn
-
-
-#### internetmonitoring
-
+HubZilla is a powerful platform for creating interconnected websites featuring a decentralized/nomadic identity.
 
 #### inventario
-
+Inventario is a home inventory managament system.
 
 #### invidious
-
+Invidious is an alternative front-end to YouTube
 
 #### invoiceninja
-
-
-#### jackett
-
-
-#### jellyfin
-
-
-#### jenkins
-
-
-#### keycloak
-
-
-#### kibitzr
-
-
-#### lazylibrarian
-
-
-#### lidarr
-
+Free Open-Source Invoicing
 
 #### mashio
-
-
-#### massivedecks
-
-
-#### matomo
-
-
-#### matterbridge
-
-
-#### mayan
-
+Mashio is a home brewery management software.
 
 #### mealie
-
+Simple recipes in Markdown format
 
 #### minecraft
 
@@ -252,17 +228,8 @@ DuckDNS is free dynamic DNS hosted on AWS.
 #### minecraftbedrockserver
 
 
-#### miniflux
-
-
-#### minio
-
-
 #### monicahq
-
-
-#### mstream
-
+Monica is an open source personal CRM.
 
 #### mybb
 
@@ -295,9 +262,6 @@ DuckDNS is free dynamic DNS hosted on AWS.
 
 
 #### openvpn
-
-
-#### organizr
 
 
 #### overseerr
@@ -476,10 +440,22 @@ ZeroTier network controller user interface
 
 ### Money, Budgeting and Management
 
+#### firefly_iii
+Firefly III is a money management app.
+
 ### Monitoring
 
 #### elkstack
 Elastic Search, Logstash and Kibana
+
+#### grafana
+Grafana is a Time Series Database graphing application.
+
+#### healthchecks
+A Cron Monitoring Tool written in Python & Django
+
+#### huginn
+Create agents that monitor and act on your behalf. Your agents are standing by!
 
 ### Note-taking and Editors
 
@@ -492,6 +468,15 @@ Open source note taking app
 Bitwarden is an open source password manager
 
 ### Personal Dashboards
+
+#### heimdall
+Heimdall Application Dashboard is a dashboard for all your web applications.
+
+#### homedash
+Homedash is a simple dashboard that allows to monitor and interact with many different services.
+
+#### organizr
+Access all your HomelabOS services in one easy place.
 
 ### Photo and Video Galleries
 
@@ -512,6 +497,12 @@ Drone is a self-service continuous delivery platform
 
 #### gitea
 Git hosting platform
+
+#### gitlab
+Gitlab the single application for the entire DevOps lifecycle
+
+#### jenkins
+The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
 
 ### Task management/To-do lists
 

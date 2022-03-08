@@ -3,7 +3,6 @@ services:
   adguardhome: 
   airsonic: 
   apache2: 
-  apple_health_influx: 
   authelia: 
   barcodebuddy: 
   beets: 
@@ -16,7 +15,6 @@ services:
   codeserver: 
   codimd: 
   digikam: 
-  docs.sh: 
   drone: 
   duckdns: 
   duplicati: 
@@ -44,7 +42,6 @@ services:
   homedash: 
   hubzilla: 
   huginn: 
-  internetmonitoring: 
   inventario: 
   invidious: 
   invoiceninja: 
@@ -144,7 +141,6 @@ services:
 adguardhome: 
 airsonic: 
 apache2: 
-apple_health_influx: 
 authelia: 
 barcodebuddy: 
 beets: 
@@ -157,7 +153,6 @@ cockpit:
 codeserver: 
 codimd: 
 digikam: 
-docs.sh: 
 drone: 
 duckdns: 
 duplicati: 
@@ -185,7 +180,6 @@ homebridge:
 homedash: 
 hubzilla: 
 huginn: 
-internetmonitoring: 
 inventario: 
 invidious: 
 invoiceninja: 
