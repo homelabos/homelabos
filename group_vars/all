@@ -7,6 +7,7 @@ services:
   barcodebuddy: 
   beets: 
   bitwarden: 
+  bitwarden_business: 
   bookstack: 
   bulletnotes: 
   calibre: 
@@ -145,6 +146,7 @@ authelia:
 barcodebuddy: 
 beets: 
 bitwarden: 
+bitwarden_business: 
 bookstack: 
 bulletnotes: 
 calibre: 

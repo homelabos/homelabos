@@ -5,6 +5,7 @@
     dest: "{{ volumes_root }}/docs/docs/software/{{ service_item }}.md"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+  when: "{{ service_item }}.source_service is undefined"
 
 - name: Make {{ service_item }} directory.
   file:
@@ -13,7 +14,7 @@
 
 - name: Copy {{ service_item }} docker-compose.yml file into place.
   template:
-    src: docker-compose.{{ service_item }}.yml.j2
+    src: docker-compose.{{ lookup('vars',service_item).source_service | default(service_item) }}.yml.j2
     dest: "{{ volumes_root }}/{{ service_item }}/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"

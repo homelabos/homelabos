@@ -174,6 +174,9 @@ Network-wide software for blocking ads and tracking.
 #### authelia
 
 
+#### bitwarden_business
+
+
 #### chowdown
 Simple recipes in Markdown format
 

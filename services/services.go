@@ -3,6 +3,7 @@ package services
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -34,12 +35,29 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 
 		for _, file := range files {
 			var serviceName = file.Name()
-
-			// Filter out HomelabOS internals
-			if !strings.Contains(serviceName, "homelabos") &&
+			info, _ := os.Stat("./roles/" + file.Name())
+			if info.IsDir() &&
+				!strings.Contains(serviceName, "homelabos") &&
 				serviceName != "tor" {
 				serviceNames = append(serviceNames, serviceName)
 			}
+		}
+	}
+
+	// Load additional services
+	// TODO: Make this an optional flag, disable when packaging config
+	// Only want it to take effect for groupVars/all
+
+	yfile, err := ioutil.ReadFile("./settings/additional_services_config.yml")
+
+	if err == nil {
+		data := make(map[interface{}]interface{})
+		err2 := yaml.Unmarshal(yfile, &data)
+		if err2 != nil {
+			log.Fatal(err2)
+		}
+		for serviceName, _ := range data {
+			serviceNames = append(serviceNames, serviceName.(string))
 		}
 	}
 

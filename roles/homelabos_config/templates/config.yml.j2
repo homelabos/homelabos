@@ -45,6 +45,9 @@ arm: {{ arm | default('False') }}
 # Used by OpenLDAP
 ldap_org_name: {{ ldap_org_name | default('My LDAP Org') }}
 
+# Enable SSLIP (ex: https://organizr.192.168.0.10.sslip.io/)
+enable_sslip: {{ enable_sslip | default('False') }}
+
 # This configuration dictionary sets various details of your bastion host.
 # see the docs for more information about what a bastion host is and how
 # the HomelabOS bastion host works.
@@ -234,6 +237,14 @@ bitwarden:
   # Note that no e-mail validation is done, only e-mail domain that's provided on registration
   # Can be a single entry "example.com", or multiple comma separated: "example.com,example.net,example.org"
   signups_domains_whitelist: {{ bitwarden.signups_domains_whitelist  | default(vault.bitwarden.signups_domains_whitelist, None) | default(False) }}
+
+bitwarden_business:
+  enable: {{ bitwarden_business.enable | default(enable_bitwarden_business, None) | default(False) }}
+  https_only: {{ bitwarden_business.https_only | default(False) }}
+  auth: {{ bitwarden_business.auth | default(False) }}
+  domain: {{ bitwarden_business.domain | default(False) }}
+  subdomain: {{ bitwarden_business.subdomain | default("bitwarden_business") }}
+  version: {{ bitwarden_business.version | default("latest") }}
 
 bookstack:
   enable: {{ bookstack.enable | default(enable_bookstack, None) | default(False) }}

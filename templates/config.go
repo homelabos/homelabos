@@ -47,6 +47,9 @@ arm: {{"{{"}} arm | default('False') {{"}}"}}
 # Used by OpenLDAP
 ldap_org_name: {{"{{"}} ldap_org_name | default('My LDAP Org') {{"}}"}}
 
+# Enable SSLIP (ex: https://organizr.192.168.0.10.sslip.io/)
+enable_sslip: {{"{{"}} enable_sslip | default('False') {{"}}"}}
+
 # This configuration dictionary sets various details of your bastion host.
 # see the docs for more information about what a bastion host is and how
 # the HomelabOS bastion host works.

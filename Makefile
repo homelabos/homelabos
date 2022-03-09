@@ -5,7 +5,7 @@ VERSION := $(cat VERSION)
 # Deploy HomelabOS - `make`
 deploy: logo build git_sync config
 	@printf "\033[92m========== Deploying HomelabOS ==========\033[0m\n"
-	./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.homelabos.yml
+	./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.homelabos.yml
 
 
 help: logo
@@ -20,12 +20,14 @@ help: logo
 config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
+	@printf "\033[92m========== Packaging configuration ==========\033[0m\n"
+	@go run main.go package
 	@printf "\033[92m========== Updating configuration files ==========\033[0m\n"
 	@mkdir -p settings/passwords
 	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
-	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\033[92m========== Encrypting secrets ==========\033[0m\n"
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\033[92m========== Done with configuration ==========\033[0m\n"
@@ -66,20 +68,20 @@ config_reset: logo build
 # Update just HomelabOS Services (skipping slower initial setup steps)
 update: logo build git_sync config
 	@printf "\033[92m========== Update HomelabOS ==========\033[0m\n"
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
-	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
 	@printf "\033[92m========== Update completed! ==========\033[0m\n"
 
 # Update just one HomelabOS service `make update_one inventario`
 update_one: logo build git_sync config
 	@printf "\033[92m========== Update $(filter-out $@,$(MAKECMDGOALS)) ==========\033[0m\n"
-	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i inventory -t deploy playbook.homelabos.yml
 	@printf "\033[92m========== Restart $(filter-out $@,$(MAKECMDGOALS)) ==========\033[0m\n"
-	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"]}' --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i inventory playbook.restart.yml
 	@printf "\033[92m========== Update completed! ==========\033[0m\n"
 
 test_one:
-	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"],"$(filter-out $@,$(MAKECMDGOALS))":{"enable":"true"}}' -i inventory -t deploy playbook.homelabos.yml
+	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"],"$(filter-out $@,$(MAKECMDGOALS))":{"enable":"true"}}' -i inventory -t deploy playbook.homelabos.yml
 
 
 # Remove HomelabOS services

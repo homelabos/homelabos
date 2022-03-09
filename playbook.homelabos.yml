@@ -55,7 +55,6 @@
   # gather_facts: "True"
   tags:
     - homelabos
-    - deploy
   roles:
     - homelabos_docs
 
