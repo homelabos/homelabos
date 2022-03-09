@@ -33,7 +33,4 @@ services:
       - 1.1.1.1
       - 8.8.8.8
       - 8.8.4.4
-    labels:
-      - "traefik.http.services.adguardhome.loadbalancer.server.scheme=http"
-      - "traefik.http.services.adguardhome.loadbalancer.server.port=3000"
 {% include './labels.j2' %}

@@ -180,6 +180,7 @@ docs:
   domain: {{"{{"}} {{ $service.Name }}.domain | default(False) {{"}}"}}
   subdomain: {{"{{"}} {{ $service.Name }}.subdomain | default("{{ $service.Name }}") {{"}}"}}
   version: {{"{{"}} {{ $service.Name }}.version | default("{{ $service.Version }}") {{"}}"}}
+  port: {{"{{"}} {{ $service.Name }}.port | default("{{ $service.Port }}") {{"}}"}}
 {{ $service.AdditionalConfigs }}
 {{ end }}
 

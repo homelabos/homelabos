@@ -1,6 +1,6 @@
     labels:
       - "traefik.http.services.{{ service_item }}.loadbalancer.server.scheme=http"
-      - "traefik.http.services.{{ service_item }}.loadbalancer.server.port={{ lookup('vars', service_item).service_port }}"
+      - "traefik.http.services.{{ service_item }}.loadbalancer.server.port={{ lookup('vars', service_item).port }}"
       - "traefik.enable=true"
       - "traefik.docker.network=homelabos_traefik"
       - "traefik.http.routers.{{ service_item }}-http.service={{ service_item }}"

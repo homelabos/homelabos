@@ -22,7 +22,4 @@ services:
       - "{{ volumes_root }}/airsonic/playlists:/playlists"
       - "{{ storage_dir }}/Music:/music"
       - "{{ storage_dir }}/Music/Podcasts:/podcasts"
-    labels:
-      - "traefik.http.services.airsonic.loadbalancer.server.scheme=http"
-      - "traefik.http.services.airsonic.loadbalancer.server.port=4040"
 {% include './labels.j2' %}

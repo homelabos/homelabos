@@ -20,6 +20,7 @@ type Service struct {
 	// Either -1 for pending or a number indicating what step it last succeeded
 	Status   int
 	Category Category
+	Port     int
 }
 
 func GenerateServicesList(servicesFilter string, includeAdditionalServices bool) map[string]Service {
@@ -62,13 +63,12 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 
 	for _, serviceName := range serviceNames {
 		// Generate list of services
-
 		// Pull service settings
 		yfile, err := ioutil.ReadFile("./roles/" + serviceName + "/service.yml")
 
 		if err != nil {
 			// If we don't have a service file, add the service anyway, so it shows up as failing.
-			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other")}
+			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0}
 			continue
 		}
 		data := make(map[interface{}]interface{})
@@ -84,11 +84,14 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 		}
 
 		version := data["version"]
-		if version != nil && len([]rune(version.(string))) > 0 {
+		port := data["port"]
+		if version != nil && port != nil && len([]rune(version.(string))) > 0 {
 			category := GetCategory(data["category"].(string))
 			services[serviceName] = Service{
 				serviceName,
-				data["description"].(string), version.(string), additionalConfigsString, -1, category}
+				data["description"].(string), version.(string), additionalConfigsString, -1, category, port.(int)}
+		} else {
+			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0}
 		}
 	}
 

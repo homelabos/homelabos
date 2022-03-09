@@ -26,6 +26,7 @@ config: logo build
 	@mkdir -p settings/passwords
 	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
+	@[ -f settings/additional_services_config.yml ] || cp config.yml.blank settings/additional_services_config.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
 	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\033[92m========== Encrypting secrets ==========\033[0m\n"
