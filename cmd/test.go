@@ -124,7 +124,7 @@ func sanityCheck(service services.Service, verbosity int) {
 
 	// Detect if the service.yml defines a port
 	fileContents := string(buffer)
-	if strings.Contains(fileContents, "labels:") {
+	if !strings.Contains(fileContents, "port:") {
 		if verbosity > 0 {
 			fmt.Println("Service.yml didn't define a port for " + service.Name)
 		}
@@ -181,7 +181,11 @@ func sanityCheck(service services.Service, verbosity int) {
 
 	// Output service status
 	if serviceOk {
-		fmt.Print(string(colorGreen), ".")
+		if viper.GetInt("verbosity") > 0 {
+			fmt.Print(string(colorGreen), "Service OK!: "+service.Name)
+		} else {
+			fmt.Print(string(colorGreen), ".")
+		}
 		happyServices++
 	} else {
 		fmt.Print(string(colorRed), service.Status)
