@@ -32,7 +32,4 @@ services:
       - SIGNUPS_DOMAINS_WHITELIST={{ bitwarden.signups_domains_whitelist }}
 {% endif %}
       - TZ={{ common_timezone }}
-    labels:
-      - "traefik.http.services.{{ service_item }}.loadbalancer.server.scheme=http"
-      - "traefik.http.services.{{ service_item }}.loadbalancer.server.port=80"
 {% include './labels.j2' %}

@@ -28,7 +28,7 @@ var colorBlue string = "\033[34m"
 var maxTests = 5
 var testsRunning = 0
 var servicesRemaining = 0
-var maxPoints = 0
+var maxPoints = 7
 var totalPoints = 0
 
 var servicesList map[string]services.Service
@@ -39,7 +39,7 @@ var testCmd = &cobra.Command{
 	Short: "Test HomelabOS services",
 	Long:  `This command tests every HomelabOS service.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		servicesList = services.GenerateServicesList(viper.GetString("services"))
+		servicesList = services.GenerateServicesList(viper.GetString("services"), false)
 		servicesRemaining = len(servicesList)
 		serviceCount := servicesRemaining
 
@@ -59,9 +59,9 @@ var testCmd = &cobra.Command{
 		fmt.Printf("%d", sadServices)
 		fmt.Println(string(colorReset))
 		fmt.Printf("Total points: %d\n", totalPoints)
-		fmt.Printf("Remaining points to fix: %d\n", serviceCount*4-totalPoints)
-		fmt.Printf("Max possible points: %d\n", serviceCount*4)
-		fmt.Printf("Percent: %.2f\n", float64(totalPoints)/float64(serviceCount*4)*100)
+		fmt.Printf("Remaining points to fix: %d\n", serviceCount*maxPoints-totalPoints)
+		fmt.Printf("Max possible points: %d\n", serviceCount*maxPoints)
+		fmt.Printf("Percent: %.2f\n", float64(totalPoints)/float64(serviceCount*maxPoints)*100)
 	},
 }
 
@@ -112,7 +112,8 @@ func sanityCheck(service services.Service, verbosity int) {
 	}
 
 	// Detect if the service has a service.yml file
-	if _, err := os.Stat("./roles/" + service.Name + "/service.yml"); errors.Is(err, os.ErrNotExist) {
+	buffer, err := ioutil.ReadFile("./roles/" + service.Name + "/service.yml")
+	if err != nil {
 		if verbosity > 0 {
 			fmt.Println("No service file found for " + service.Name)
 		}
@@ -121,8 +122,19 @@ func sanityCheck(service services.Service, verbosity int) {
 		service.Status++
 	}
 
+	// Detect if the service.yml defines a port
+	fileContents := string(buffer)
+	if strings.Contains(fileContents, "labels:") {
+		if verbosity > 0 {
+			fmt.Println("Service.yml didn't define a port for " + service.Name)
+		}
+		serviceOk = false
+	} else {
+		service.Status++
+	}
+
 	// Make sure the service has a task file
-	buffer, err := ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
+	buffer, err = ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
 	if err != nil {
 		if verbosity > 0 {
 			fmt.Println("No task file found for " + service.Name)
@@ -134,10 +146,33 @@ func sanityCheck(service services.Service, verbosity int) {
 	}
 
 	// Detect if the service is using the new include style
-	fileContents := string(buffer)
+	fileContents = string(buffer)
 	if !strings.Contains(fileContents, "includes/start.yml") {
 		if verbosity > 0 {
 			fmt.Println("Task file not using imports for " + service.Name)
+		}
+		serviceOk = false
+	} else {
+		service.Status++
+	}
+
+	// Make sure the service has a docker-compose file
+	buffer, err = ioutil.ReadFile("roles/" + service.Name + "/templates/docker-compose." + service.Name + ".yml.j2")
+	if err != nil {
+		if verbosity > 0 {
+			fmt.Println("No compose file found for " + service.Name)
+		}
+		// File doesn't exist
+		serviceOk = false
+	} else {
+		service.Status++
+	}
+
+	// Detect if the service is using the new label style
+	fileContents = string(buffer)
+	if strings.Contains(fileContents, "labels:") {
+		if verbosity > 0 {
+			fmt.Println("Compose file not using new label format for " + service.Name)
 		}
 		serviceOk = false
 	} else {

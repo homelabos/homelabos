@@ -22,7 +22,7 @@ type Service struct {
 	Category Category
 }
 
-func GenerateServicesList(servicesFilter string) map[string]Service {
+func GenerateServicesList(servicesFilter string, includeAdditionalServices bool) map[string]Service {
 	services = make(map[string]Service)
 
 	if len(servicesFilter) > 0 {
@@ -45,19 +45,18 @@ func GenerateServicesList(servicesFilter string) map[string]Service {
 	}
 
 	// Load additional services
-	// TODO: Make this an optional flag, disable when packaging config
-	// Only want it to take effect for groupVars/all
+	if includeAdditionalServices {
+		yfile, err := ioutil.ReadFile("./settings/additional_services_config.yml")
 
-	yfile, err := ioutil.ReadFile("./settings/additional_services_config.yml")
-
-	if err == nil {
-		data := make(map[interface{}]interface{})
-		err2 := yaml.Unmarshal(yfile, &data)
-		if err2 != nil {
-			log.Fatal(err2)
-		}
-		for serviceName, _ := range data {
-			serviceNames = append(serviceNames, serviceName.(string))
+		if err == nil {
+			data := make(map[interface{}]interface{})
+			err2 := yaml.Unmarshal(yfile, &data)
+			if err2 != nil {
+				log.Fatal(err2)
+			}
+			for serviceName, _ := range data {
+				serviceNames = append(serviceNames, serviceName.(string))
+			}
 		}
 	}
 

@@ -25,7 +25,7 @@ var packageCmd = &cobra.Command{
 			log.Println("create file: ", err)
 			return
 		}
-		servicesList := services.GenerateServicesList("")
+		servicesList := services.GenerateServicesList("", true)
 		template, _ := template.New("group_vars/all").Parse(templates.GroupVarsAll)
 		template.Execute(outputFile, servicesList)
 

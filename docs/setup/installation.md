@@ -142,6 +142,30 @@ You can SSH into the server, and run `systemctl status SERVICENAME` where SERVIC
 !!! example
     `systemctl status miniflux`
 
+## Deploying the same service twice
+
+If you need two of the same service, enabling additional copies is simple.
+
+Open `settings/additional_services_config.yml` and add the following:
+
+```
+servicename_alternatename:
+    source_service: servicename
+    subdomain: alternatename
+    enable: true
+```
+
+For example, to duplicate Nextcloud for your skydiving group:
+
+```
+nextcloud_skydiving:
+    source_service: nextcloud
+    subdomain: skydiving
+    enable: true
+```
+
+Run `make` as usual, and you will be able to access skydiving.YOURDOMAIN (according to the rest of your settings).
+
 ## Syncing Settings via Git
 
 HomelabOS will automatically keep the `settings/` folder in sync with a git repo if it has one.
