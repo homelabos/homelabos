@@ -22,7 +22,4 @@ services:
       - "{{ volumes_root }}/sonarr/config:/config"
       - "{{ storage_dir }}/Video/TV:/tv"
       - "{{ storage_dir }}/Downloads/complete/tv:/downloads"
-    labels:
-      - "traefik.http.services.sonarr.loadbalancer.server.scheme=http"
-      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
 {% include './labels.j2' %}
