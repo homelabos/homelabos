@@ -12,6 +12,11 @@ settings.*
 .DS_Store
 pkg/
 
+# Generated files
+docs/index.md
+group_vars/all
+roles/homelabos_config/templates/config.yml.j2
+
 # ignore swp files
 *.swp
 idea/
