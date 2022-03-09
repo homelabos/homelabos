@@ -83,6 +83,10 @@ update_one: logo build git_sync config
 test_one:
 	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" --extra-vars='{"services":["$(filter-out $@,$(MAKECMDGOALS))"],"$(filter-out $@,$(MAKECMDGOALS))":{"enable":"true"}}' -i inventory -t deploy playbook.homelabos.yml
 
+# Run sanity and deployment tests on all HomelabOS services.
+# This is for developers of HomelabOS, users can ignore.
+test:
+	@go run main.go test
 
 # Remove HomelabOS services
 uninstall: logo build
