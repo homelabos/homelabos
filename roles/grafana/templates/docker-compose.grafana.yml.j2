@@ -29,7 +29,4 @@ services:
 {% endif %}
       - GF_SECURITY_ADMIN_USER={{ default_username }}
       - GF_SECURITY_ADMIN_PASSWORD={{ default_password }}
-    labels:
-      - "traefik.http.services.grafana.loadbalancer.server.scheme=http"
-      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 {% include './labels.j2' %}

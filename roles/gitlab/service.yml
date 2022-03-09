@@ -3,3 +3,4 @@ full_service_name: Gitlab
 description: Gitlab the single application for the entire DevOps lifecycle
 category: software-development
 version: latest
+port: 80

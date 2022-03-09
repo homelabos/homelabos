@@ -38,7 +38,4 @@ services:
     volumes:
       - "{{ volumes_root }}/bookstack/uploads:/var/www/bookstack/public/uploads"
       - "{{ volumes_root }}/bookstack/storage-uploads:/var/www/bookstack/public/storage"
-    labels:
-      - "traefik.http.services.bookstack.loadbalancer.server.scheme=http"
-      - "traefik.http.services.bookstack.loadbalancer.server.port=80"
 {% include './labels.j2' %}

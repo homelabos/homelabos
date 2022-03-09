@@ -26,7 +26,4 @@ services:
 {% endif %}
     volumes:
       - "{{ volumes_root }}/ghost/content:/var/lib/ghost/content"
-    labels:
-      - "traefik.http.services.ghost.loadbalancer.server.scheme=http"
-      - "traefik.http.services.ghost.loadbalancer.server.port=2368"
 {% include './labels.j2' %}

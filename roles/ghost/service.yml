@@ -3,3 +3,4 @@ full_service_name: Ghost
 description: Ghost is a fully open source, adaptable platform for building and running a modern online publication
 category: blogging-platforms
 version: 3-alpine
+port: 2368

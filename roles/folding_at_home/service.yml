@@ -3,3 +3,4 @@ full_service_name: Folding@home
 description: Folding@home software allows you to share your unused computer power with scientists researching diseases.
 category: misc-other
 version: latest
+port: 7396

@@ -3,3 +3,4 @@ full_service_name: Grocy
 description: ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 category: misc-other
 version: latest
+port: 80

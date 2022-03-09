@@ -3,3 +3,4 @@ full_service_name: Factorio Server
 description: Factorio headless server in a Docker container
 category: games
 version: latest
+port: 0

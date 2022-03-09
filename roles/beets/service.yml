@@ -3,3 +3,4 @@ full_service_name: Beets
 description: Beets is the media library management system for obsessive-compulsive music geeks.
 category: media-streaming
 version: latest
+port: 8337

@@ -3,3 +3,4 @@ full_service_name: Chowdown
 description: Simple recipes in Markdown format
 category: misc-other
 version: latest
+port: 4000

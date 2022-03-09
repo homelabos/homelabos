@@ -14,7 +14,4 @@ services:
     restart: unless-stopped
     ports:
       - 7396:7396
-    labels:
-      - "traefik.http.services.folding_at_home.loadbalancer.server.scheme=http"
-      - "traefik.http.services.folding_at_home.loadbalancer.server.port=7396"
 {% include './labels.j2' %}

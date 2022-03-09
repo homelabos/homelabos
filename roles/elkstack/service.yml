@@ -3,3 +3,4 @@ full_service_name: ELK Stack
 description: Elastic Search, Logstash and Kibana
 category: monitoring
 version: latest
+port: 5601

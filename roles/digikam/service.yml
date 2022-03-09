@@ -3,3 +3,4 @@ full_service_name: Digikam
 description: Professional Photo Management with the Power of Open Source
 category: photo-and-video-galleries
 version: stable
+port: 5800

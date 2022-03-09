@@ -12,7 +12,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.elkstack.loadbalancer.server.scheme=http"
-      - "traefik.http.services.elkstack.loadbalancer.server.port=5601"
 {% include './labels.j2' %}

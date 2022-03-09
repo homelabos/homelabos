@@ -118,9 +118,6 @@ services:
       - "{{ volumes_root }}/gitlab/backups:/var/opt/gitlab/backups"
     ports:
       - "{{ gitlab.ssh_port }}:22"
-    labels:
-      - "traefik.http.services.gitlab.loadbalancer.server.scheme=http"
-      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   gitlab-runner:

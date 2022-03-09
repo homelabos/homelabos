@@ -72,9 +72,6 @@ services:
     networks:
       - traefik_network
       - erpnext
-    labels:
-      - "traefik.http.services.erpnext.loadbalancer.server.scheme=http"
-      - "traefik.http.services.erpnext.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   erpnext-python:

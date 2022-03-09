@@ -3,3 +3,4 @@ full_service_name: Drone
 description: Drone is a self-service continuous delivery platform
 category: software-development
 version: latest
+port: 80

@@ -15,7 +15,4 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/barcodebuddy/config:/config"
-    labels:
-      - "traefik.http.services.barcodebuddy.loadbalancer.server.scheme=http"
-      - "traefik.http.services.barcodebuddy.loadbalancer.server.port=80"
 {% include './labels.j2' %}

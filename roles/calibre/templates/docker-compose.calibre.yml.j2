@@ -33,7 +33,4 @@ services:
       - PGID={{ uid_output.stdout }}
       - PUID={{ gid_output.stdout }}
     image: linuxserver/calibre-web:{{ calibre.version }}
-    labels:
-      - "traefik.http.services.calibre.loadbalancer.server.scheme=http"
-      - "traefik.http.services.calibre.loadbalancer.server.port=8083"
 {% include './labels.j2' %}

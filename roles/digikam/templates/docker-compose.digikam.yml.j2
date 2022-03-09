@@ -25,7 +25,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.digikam.loadbalancer.server.scheme=http"
-      - "traefik.http.services.digikam.loadbalancer.server.port=5800"
 {% include './labels.j2' %}

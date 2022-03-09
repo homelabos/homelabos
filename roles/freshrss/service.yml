@@ -3,3 +3,4 @@ full_service_name: FreshRSS
 description: FreshRSS is a free, self-hostable aggregator.
 category: feed-readers
 version: alpine
+port: 80

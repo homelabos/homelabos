@@ -27,7 +27,4 @@ services:
     environment:
       - REDIS_PORT_6379_TCP_ADDR=ethercalc_redis
       - RESIS_PORT_6379_TCP_PORT=6379
-    labels:
-      - "traefik.http.services.ethercalc.loadbalancer.server.scheme=http"
-      - "traefik.http.services.ethercalc.loadbalancer.server.port=8000"
 {% include './labels.j2' %}

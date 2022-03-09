@@ -31,7 +31,4 @@ services:
       - codimd
     environment:
       - CMD_DB_URL=postgres://codimd:{{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}@codiMdDatabase:5432/codimd
-    labels:
-      - "traefik.http.services.codimd.loadbalancer.server.scheme=http"
-      - "traefik.http.services.codimd.loadbalancer.server.port=3000"
 {% include './labels.j2' %}

@@ -3,3 +3,4 @@ full_service_name: ERPNext
 description: Open Source ERP for Everyone.
 category: misc-other
 version: v11
+port: 80

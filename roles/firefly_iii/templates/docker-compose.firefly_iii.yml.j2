@@ -43,9 +43,6 @@ services:
     volumes:
       - "{{ volumes_root }}/firefly_iii/export:/var/www/firefly-iii/storage/export"
       - "{{ volumes_root }}/firefly_iii/upload:/var/www/firefly-iii/storage/upload"
-    labels:
-      - "traefik.http.services.firefly_iii.loadbalancer.server.scheme=http"
-      - "traefik.http.services.firefly_iii.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
 
   firefly_iii_db:

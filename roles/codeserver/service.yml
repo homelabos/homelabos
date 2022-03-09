@@ -3,3 +3,4 @@ full_service_name: Codeserver
 description: Run VS Code on a remote server.
 category: software-development
 version: latest
+port: 8080

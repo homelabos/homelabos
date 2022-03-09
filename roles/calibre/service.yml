@@ -3,3 +3,4 @@ full_service_name: Calibre
 description: Ebook management system.
 category: ebooks
 version: latest
+port: 8083

@@ -20,7 +20,4 @@ services:
       - "{{ storage_dir }}/Music:/music"
       - "{{ storage_dir }}/Downloads/Music:/downloads"
     restart: unless-stopped
-    labels:
-      - "traefik.http.services.beets.loadbalancer.server.scheme=http"
-      - "traefik.http.services.beets.loadbalancer.server.port=8337"
 {% include './labels.j2' %}
