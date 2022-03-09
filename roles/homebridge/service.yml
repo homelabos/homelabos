@@ -3,3 +3,4 @@ full_service_name: HomeBridge
 description: HomeKit support for the impatient
 category: automation
 version: latest
+ports: 8123

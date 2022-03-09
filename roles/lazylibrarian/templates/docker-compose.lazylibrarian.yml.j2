@@ -22,7 +22,4 @@ services:
       - "{{ volumes_root }}/lazylibrarian/config:/config"
       - "{{ storage_dir }}/Books:/books"
       - "{{ storage_dir }}/Downloads/completed/books:/downloads"
-    labels:
-      - "traefik.http.services.lazylibrarian.loadbalancer.server.scheme=http"
-      - "traefik.http.services.lazylibrarian.loadbalancer.server.port=5299"
 {% include './labels.j2' %}

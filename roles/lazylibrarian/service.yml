@@ -3,3 +3,4 @@ full_service_name: LazyLlibrarian
 description: LazyLibrarian is a program to follow authors and grab metadata for all your digital reading needs.
 category: ebooks
 version: latest
+port: 5299

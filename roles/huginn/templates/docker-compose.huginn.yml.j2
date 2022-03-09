@@ -37,9 +37,6 @@ services:
       - HUGINN_DATABASE_USERNAME=root
       - HUGINN_DATABASE_NAME=huginn
       - APP_SECRET_TOKEN={{lookup('password', './settings/passwords/huginn_appToken_password length=128')}}
-    labels:
-      - "traefik.http.services.huginn.loadbalancer.server.scheme=http"
-      - "traefik.http.services.huginn.loadbalancer.server.port=3000"
 {% include './labels.j2' %}
     depends_on:
       - mariadb

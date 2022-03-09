@@ -107,9 +107,6 @@ services:
     links:
         - growdash
         - deviceapi
-    labels:
-      - "traefik.http.services.grownetics.loadbalancer.server.scheme=http"
-      - "traefik.http.services.grownetics.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   appdb:

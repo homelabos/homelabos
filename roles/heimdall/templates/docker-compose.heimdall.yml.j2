@@ -20,7 +20,4 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/heimdall/config:/config"
-    labels:
-      - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
-      - "traefik.http.services.heimdall.loadbalancer.server.port=80"
 {% include './labels.j2' %}

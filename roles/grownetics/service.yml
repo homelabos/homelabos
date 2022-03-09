@@ -3,3 +3,4 @@ full_service_name: Grownetics
 description: Growentics is an open source environmental mapping with plant management and tracking software suite.
 category: misc-other
 version: latest
+port: 80

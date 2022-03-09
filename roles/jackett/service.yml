@@ -3,3 +3,4 @@ full_service_name: Jackett
 description: Jackett provides API Support for your favorite torrent trackers.
 category: file-sharing-and-synchronization
 version: latest
+port: 9117

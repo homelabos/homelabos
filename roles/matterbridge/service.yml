@@ -3,3 +3,4 @@ full_service_name: Matterbridge
 description: A program that allows users to link multiple chat platforms.
 category: chat
 version: latest
+port: 0

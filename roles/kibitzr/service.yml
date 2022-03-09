@@ -3,3 +3,4 @@ full_service_name: Kibitzr
 description: Kibitzr acts as a replacement for IFTTT
 category: automation
 version: latest
+port: 0

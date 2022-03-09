@@ -25,7 +25,4 @@ services:
     volumes:
       - "{{ volumes_root }}/mstream/config:/config"
       - "{{ storage_dir }}/Music:/music"
-    labels:
-      - "traefik.http.services.mstream.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mstream.loadbalancer.server.port=3000"
 {% include './labels.j2' %}

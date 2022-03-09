@@ -22,7 +22,4 @@ services:
       - 1883:1883
       # - 8080:8080
       - 51827:51827
-    labels:
-      - "traefik.http.services.homeassistant.loadbalancer.server.scheme=http"
-      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
 {% include './labels.j2' %}

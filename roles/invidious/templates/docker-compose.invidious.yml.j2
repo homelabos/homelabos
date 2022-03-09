@@ -48,7 +48,4 @@ services:
         registration_enabled: false
         domain:
       # external_port:
-    labels:
-      - "traefik.http.services.invidious.loadbalancer.server.scheme=http"
-      - "traefik.http.services.invidious.loadbalancer.server.port=3000"
 {% include './labels.j2' %}

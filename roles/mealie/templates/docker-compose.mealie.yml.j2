@@ -35,7 +35,4 @@ services:
       # MAX_WORKERS=8
     volumes:
       - "{{ volumes_root }}/mealie/data/:/app/data"
-    labels:
-      - "traefik.http.services.mealie.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mealie.loadbalancer.server.port=80"
 {% include './labels.j2' %}

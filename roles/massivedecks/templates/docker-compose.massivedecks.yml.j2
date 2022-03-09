@@ -29,7 +29,4 @@ services:
     restart: unless-stopped
     links:
       - server
-    labels:
-      - "traefik.http.services.massivedecks.loadbalancer.server.scheme=http"
-      - "traefik.http.services.massivedecks.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

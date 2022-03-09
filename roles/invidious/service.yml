@@ -3,3 +3,4 @@ full_service_name: Invidious
 description: Invidious is an alternative front-end to YouTube
 category: misc-other
 version: latest
+port: 3000

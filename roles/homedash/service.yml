@@ -3,3 +3,4 @@ full_service_name: Homedash
 description: Homedash is a simple dashboard that allows to monitor and interact with many different services.
 category: personal-dashboards
 version: latest
+port: 4567

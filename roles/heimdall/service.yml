@@ -3,3 +3,4 @@ full_service_name: Heimdall
 description: Heimdall Application Dashboard is a dashboard for all your web applications.
 category: personal-dashboards
 version: latest
+port: 80

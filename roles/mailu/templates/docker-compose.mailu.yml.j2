@@ -51,9 +51,6 @@ services:
     networks:
       - traefik_network
       - mail_network
-    labels:
-      - "traefik.http.services.mailu.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mailu.loadbalancer.server.port=80"
 {% include './labels.j2' %}
       
       # Default minimum routes needed for email to work 

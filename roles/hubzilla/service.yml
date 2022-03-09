@@ -3,3 +3,4 @@ full_service_name: HubZilla
 description: HubZilla is a powerful platform for creating interconnected websites featuring a decentralized/nomadic identity.
 category: misc-other
 version: "4.6"
+port: 80

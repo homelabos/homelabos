@@ -3,3 +3,4 @@ full_service_name: Miniflux
 description: Miniflux is a minimalist and opinionated feed reader.
 category: feed-readers
 version: 2.0.21
+port: 8080

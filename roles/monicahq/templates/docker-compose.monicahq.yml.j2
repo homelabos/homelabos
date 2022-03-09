@@ -27,9 +27,6 @@ services:
     environment:
       - APP_KEY="{{ lookup('password', './settings/passwords/monicahq_app_key chars=ascii_letters length=32') }}"
       - DB_PASSWORD="{{ lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters') }}"
-    labels:
-      - "traefik.http.services.monicahq.loadbalancer.server.scheme=http"
-      - "traefik.http.services.monicahq.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   monicahq_db:

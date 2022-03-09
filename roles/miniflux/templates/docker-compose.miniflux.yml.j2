@@ -21,9 +21,6 @@ services:
       - CREATE_ADMIN=1
       - ADMIN_USERNAME={{ default_username }}
       - ADMIN_PASSWORD={{ default_password }}
-    labels:
-      - "traefik.http.services.miniflux.loadbalancer.server.scheme=http"
-      - "traefik.http.services.miniflux.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
 
   miniflux_db:

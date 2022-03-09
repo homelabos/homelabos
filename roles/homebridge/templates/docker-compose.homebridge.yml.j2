@@ -12,7 +12,4 @@ services:
       - PGID={{ gid_output.stdout }}
     volumes:
       - "{{ volumes_root }}/homebridge:/homebridge"
-    labels:
-      - "traefik.http.services.homebridge.loadbalancer.server.scheme=http"
-      - "traefik.http.services.homebridge.loadbalancer.server.port=8123"
 {% include './labels.j2' %}

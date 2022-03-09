@@ -77,9 +77,6 @@ services:
       MAYAN_USER_GUID: {{gid_output.stdout}}
       # version 3.2.7 and forward use this version
       MAYAN_USER_GID: {{gid_output.stdout}}
-    labels:
-      - "traefik.http.services.mayan.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mayan.loadbalancer.server.port=8000"
 {% include './labels.j2' %}
     volumes:
       - "{{ volumes_root }}/mayan/app:/var/lib/mayan"

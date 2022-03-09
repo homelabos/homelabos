@@ -3,3 +3,4 @@ full_service_name: Keycloak
 description: Open Source Identity and Access Management
 category: federated-identity-authentication
 version: latest
+port: 8080

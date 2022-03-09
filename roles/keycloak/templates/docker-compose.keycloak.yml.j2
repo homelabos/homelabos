@@ -51,7 +51,4 @@ services:
       networks:
         - keycloak
         - traefik_network
-      labels:
-      - "traefik.http.services.keycloak.loadbalancer.server.scheme=http"
-      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

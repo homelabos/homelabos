@@ -21,7 +21,4 @@ services:
       - PGID={{ gid_output.stdout }}
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.jackett.loadbalancer.server.scheme=http"
-      - "traefik.http.services.jackett.loadbalancer.server.port=9117"
 {% include './labels.j2' %}

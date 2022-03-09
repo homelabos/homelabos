@@ -26,7 +26,4 @@ services:
       - "{{ volumes_root }}/healthchecks/config:/config"
 
     restart: unless-stopped
-    labels:
-      - "traefik.http.services.healthchecks.loadbalancer.server.scheme=http"
-      - "traefik.http.services.healthchecks.loadbalancer.server.port=8000"
 {% include './labels.j2' %}

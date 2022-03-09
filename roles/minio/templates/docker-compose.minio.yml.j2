@@ -24,7 +24,4 @@ services:
       MINIO_GID: {{ gid_output.stdout }}
       MINIO_ACCESS_KEY: {{minio_access_key}}
       MINIO_SECRET_KEY: {{minio_secret_access_key}}
-    labels:
-      - "traefik.http.services.minio.loadbalancer.server.scheme=http"
-      - "traefik.http.services.minio.loadbalancer.server.port=9000"
 {% include './labels.j2' %}

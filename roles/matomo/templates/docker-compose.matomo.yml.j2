@@ -22,9 +22,6 @@ services:
       - MATOMO_DATABASE_USERNAME=matomo
       - MATOMO_DATABASE_PASSWORD={{lookup('password', './settings/passwords/matomo_db_password chars=ascii_letters')}}
       - MATOMO_DATABASE_DBNAME=matomo
-    labels:
-      - "traefik.http.services.matomo.loadbalancer.server.scheme=http"
-      - "traefik.http.services.matomo.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   matomo_db:
