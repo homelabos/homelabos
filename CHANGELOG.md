@@ -19,6 +19,8 @@
 - Improved documentation deployment, now enabled by default
 - Added service testing script
 - All services now self contained in their folders
+- Deploy N instances of any service
+- Deploy services without needing a domain name via sslip.io support
 
 # 0.8.6
 
