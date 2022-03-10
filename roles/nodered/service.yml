@@ -1,0 +1,6 @@
+---
+full_service_name: Node-RED
+description: Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
+category: misc-other
+version: latest-12-minimal
+port: 1880

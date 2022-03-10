@@ -1,0 +1,6 @@
+---
+full_service_name: Netdata
+description: Real-time performance monitoring, done right!
+category: monitoring
+version: latest
+port: 19999

@@ -18,7 +18,4 @@ services:
     volumes:
       - "{{ volumes_root }}/ombi/config:/config"
     restart: unless-stopped
-    labels:
-      - "traefik.http.services.ombi.loadbalancer.server.scheme=http"
-      - "traefik.http.services.ombi.loadbalancer.server.port=5000"
 {% include './labels.j2' %}

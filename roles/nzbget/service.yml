@@ -1,0 +1,6 @@
+---
+full_service_name: nzbget
+description: Efficient Usenet downloader.
+category: file-sharing-and-synchronization
+version: latest
+port: 6789

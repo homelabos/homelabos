@@ -19,7 +19,4 @@ services:
       - {{ volumes_root }}/nodered/data:/data
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.nodered.loadbalancer.server.scheme=http"
-      - "traefik.http.services.nodered.loadbalancer.server.port=1880"
 {% include './labels.j2' %}

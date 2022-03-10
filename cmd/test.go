@@ -183,7 +183,7 @@ func sanityCheck(service services.Service, verbosity int) {
 	// Output service status
 	if serviceOk {
 		if viper.GetInt("verbosity") > 0 {
-			fmt.Print(string(colorGreen), "Service OK!: "+service.Name)
+			fmt.Println(string(colorGreen), "Service OK!: "+service.Name)
 		} else {
 			fmt.Print(string(colorGreen), ".")
 		}

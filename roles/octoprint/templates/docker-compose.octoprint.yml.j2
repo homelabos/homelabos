@@ -21,9 +21,6 @@ services:
   - "{{ device }}:{{ device }}"
     {% endfor %}
 {% endif %}
-    labels:
-      - "traefik.http.services.octoprint.loadbalancer.server.scheme=http"
-      - "traefik.http.services.octoprint.loadbalancer.server.port=5000"
 {% include './labels.j2' %}
 
 volumes:

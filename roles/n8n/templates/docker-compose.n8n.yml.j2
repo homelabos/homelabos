@@ -18,7 +18,4 @@ services:
     environment:
       - GENERIC_TIMEZONE={{common_timezone}}
       - TZ={{common_timezone}}
-    labels:
-      - "traefik.http.services.n8n.loadbalancer.server.scheme=http"
-      - "traefik.http.services.n8n.loadbalancer.server.port=5678"
 {% include './labels.j2' %}

@@ -1,0 +1,6 @@
+---
+full_service_name: Nextcloud
+description: Nextcloud is your Dropbox / Google Calendar replacement.
+category: calendaring-and-contacts-manager
+version: 22-apache
+port: 80

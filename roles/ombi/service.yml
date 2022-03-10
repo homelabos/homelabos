@@ -1,0 +1,6 @@
+---
+full_service_name: Ombi
+description: Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+category: file-sharing-and-synchronization
+version: latest
+port: 5000

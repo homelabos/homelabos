@@ -22,7 +22,4 @@ services:
     volumes:
       - "{{ volumes_root }}/nzbget:/config"
       - "{{ storage_dir }}/Downloads:/downloads"
-    labels:
-      - "traefik.http.services.nzbget.loadbalancer.server.scheme=http"
-      - "traefik.http.services.nzbget.loadbalancer.server.port=6789"
 {% include './labels.j2' %}

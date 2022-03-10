@@ -33,7 +33,4 @@ services:
     environment:
       - PHPLDAPADMIN_LDAP_HOSTS=openldap
       - PHPLDAPADMIN_HTTPS=false
-    labels:
-      - "traefik.http.services.openldap.loadbalancer.server.scheme=http"
-      - "traefik.http.services.openldap.loadbalancer.server.port=80"
 {% include './labels.j2' %}

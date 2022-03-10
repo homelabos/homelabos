@@ -1,0 +1,6 @@
+---
+full_service_name: Mylar
+description: An automated Comic Book manager
+category: file-sharing-and-synchronization
+version: latest
+port: 8090

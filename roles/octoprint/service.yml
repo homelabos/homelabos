@@ -1,0 +1,6 @@
+---
+full_service_name: OctoPrint
+description: The snappy web interface for your 3D printer.
+category: misc-other
+version: latest
+port: 5000

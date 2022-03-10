@@ -19,7 +19,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.mylar.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mylar.loadbalancer.server.port=8090"
 {% include './labels.j2' %}

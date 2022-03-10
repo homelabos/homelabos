@@ -1,0 +1,3 @@
+  node_options: {{ nodered.node_options | default("") }}
+  enable_projects: {{ nodered.enable_projects | default(False) }}
+  safe_mode: {{ nodered.safe_mode | default(False) }}
