@@ -1,15 +1,7 @@
 ---
-- name: Make pihole directory.
-  file:
-    path: "{{ volumes_root }}/pihole"
-    state: directory
 
-- name: Copy pihole docker-compose.yml file into place.
-  template:
-    src: docker-compose.pihole.yml.j2
-    dest: "{{ volumes_root }}/pihole/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
 - name: Pull pihole docker images
   docker_compose:
@@ -22,12 +14,9 @@
     src: service.j2
     dest: /etc/systemd/system/pihole.service
 
-- name: Start pihole
-  systemd:
-    name: pihole
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+    
+- name: Start {{service_item}}
+  include: includes/start.yml
 
 - name: Stop systemd-resolve
   systemd:

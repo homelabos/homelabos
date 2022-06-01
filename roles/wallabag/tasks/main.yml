@@ -1,4 +1,10 @@
 ---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+
+
 - name: Make wallabag directory.
   file:
     path: "{{ item }}"
@@ -38,9 +44,12 @@
     src: service.j2
     dest: /etc/systemd/system/wallabag.service
 
-- name: Start wallabag
-  systemd:
-    name: wallabag
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+# - name: Start wallabag
+#   systemd:
+#     name: wallabag
+#     enabled: "yes"
+#     daemon-reload: "yes"
+#     state: started
+
+- name: Start {{service_item}}
+  include: includes/start.yml

@@ -1,0 +1,6 @@
+---
+full_service_name: PhotoPrism
+description: PhotoPrism Personal Photo Management powered by Go and Google TensorFlow. Free and open-source.
+category: photo-and-video-galleries
+version: latest
+port: 2342

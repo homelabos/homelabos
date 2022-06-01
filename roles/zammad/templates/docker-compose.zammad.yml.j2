@@ -77,9 +77,6 @@ services:
     networks:
       - traefik_network
       - zammad
-    labels:
-      - "traefik.http.services.zammad.loadbalancer.server.scheme=http"
-      - "traefik.http.services.zammad.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   zammad-postgresql:

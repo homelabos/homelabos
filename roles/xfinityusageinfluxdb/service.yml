@@ -1,0 +1,6 @@
+---
+full_service_name: xfinityusageinfluxdb
+description: xfinityusageinfluxdb is a service that runs on the xfinityusageinfluxdb server.
+category: misc-other
+version: latest
+port: 80

@@ -3,3 +3,4 @@ full_service_name: ZeroTier network controller UI
 description: ZeroTier network controller user interface
 category: misc-other
 version: latest
+port: 7742

@@ -35,7 +35,4 @@ services:
       - "{{ storage_dir }}/Pictures:/photoprism/originals" # can contain subdirectories or be made up of multiple mounts
       - "{{ storage_dir }}/Pictures/PhotoPrismImport:/photoprism/import" # optional import directory
       - "{{ volumes_root }}/photoprism/storage/:/photoprism/storage" # peristent data including thumbnails and cache
-    labels:
-      - "traefik.http.services.photoprism.loadbalancer.server.scheme=http"
-      - "traefik.http.services.photoprism.loadbalancer.server.port=2342"
 {% include './labels.j2' %}

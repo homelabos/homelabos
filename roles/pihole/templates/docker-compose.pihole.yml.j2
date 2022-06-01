@@ -29,9 +29,6 @@ services:
     ports:
       - 53:53/tcp
       - 53:53/udp
-    labels:
-      - "traefik.http.services.pihole.loadbalancer.server.scheme=http"
-      - "traefik.http.services.pihole.loadbalancer.server.port=80"
 {% include './labels.j2' %}
     extra_hosts:
 {% for service in services %}

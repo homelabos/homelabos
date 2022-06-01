@@ -1,0 +1,6 @@
+---
+full_service_name: webvirtmgr
+description: WebVirtMgr is a complete Kernel Virtual Machine (KVM) hypervisor manager.
+category: gateways-and-terminal-sharing
+version: latest
+port: 8000

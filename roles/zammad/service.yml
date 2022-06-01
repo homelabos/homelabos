@@ -1,0 +1,6 @@
+---
+full_service_name: Zammad
+description: Zammad is a web-based, open source user support/ticketing solution.
+category: misc-other
+version: latest
+port: 80

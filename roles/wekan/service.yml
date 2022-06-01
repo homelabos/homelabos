@@ -1,0 +1,6 @@
+---
+full_service_name: wekan
+description: Wekan Open is source Kanban board with MIT license
+category: task-management-to-do-lists
+version: latest
+port: 8080

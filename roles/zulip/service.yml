@@ -3,3 +3,4 @@ full_service_name: Zulip Chat
 description: Threaded chat software
 category: chat
 version: 2.0.2-0
+port: 80

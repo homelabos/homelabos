@@ -21,7 +21,4 @@ services:
     volumes:
       - "{{ volumes_root }}/ztncui/ztncui:/opt/key-networks/ztncui/etc"
       - "{{ volumes_root }}/ztncui/zt1:/var/lib/zerotier-one"
-    labels:
-      - "traefik.http.services.ztncui.loadbalancer.server.scheme=http"
-      - "traefik.http.services.ztncui.loadbalancer.server.port=7742"
 {% include './labels.j2' %}

@@ -21,7 +21,4 @@ services:
       - WEBVIRTMGR_ADMIN_PASSWORD="{{lookup('password', './settings/passwords/webvirtmgr_db_password chars=ascii_letters')}}"
     ports:
       - '8000:8000'
-    labels:
-      - "traefik.http.services.webvirtmgr.loadbalancer.server.scheme=http"
-      - "traefik.http.services.webvirtmgr.loadbalancer.server.port=8000"
 {% include './labels.j2' %}

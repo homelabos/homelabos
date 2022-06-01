@@ -34,7 +34,4 @@ services:
       - ROOT_URL=http://{{ wekan.subdomain }}.{{ domain }}
     depends_on:
       - wekandb
-    labels:
-      - "traefik.http.services.wekan.loadbalancer.server.scheme=http"
-      - "traefik.http.services.wekan.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

@@ -1,0 +1,6 @@
+---
+full_service_name: webtrees
+description: WebTrees is Online genealogy software
+category: misc-other
+version: latest
+port: 8079

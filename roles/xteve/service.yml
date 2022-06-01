@@ -1,0 +1,6 @@
+---
+full_service_name: Xteve
+description: Xteve is an emulated TV Tuner for IPTV services. It offers guide management and smart filtering of channels from your IPTV provider.
+category: misc-other
+version: latest
+port: 34400

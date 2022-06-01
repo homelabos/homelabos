@@ -45,7 +45,4 @@ services:
       - webtrees
     depends_on:
       - webtrees_db
-    labels:
-      - "traefik.http.services.webtrees.loadbalancer.server.scheme=http"
-      - "traefik.http.services.webtrees.loadbalancer.server.port=8079"
 {% include './labels.j2' %}

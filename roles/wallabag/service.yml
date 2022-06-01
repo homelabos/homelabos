@@ -1,0 +1,6 @@
+---
+full_service_name: Wallabag
+description: Wallabag Save and classify articles. Read them later. Freely.
+category: read-it-later-lists
+version: latest
+port: 80

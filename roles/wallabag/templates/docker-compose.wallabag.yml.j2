@@ -37,9 +37,6 @@ services:
     depends_on:
       - wallabag_db
       - redis
-    labels:
-      - "traefik.http.services.wallabag.loadbalancer.server.scheme=http"
-      - "traefik.http.services.wallabag.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   wallabag_db:

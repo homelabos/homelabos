@@ -26,7 +26,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.unificontroller.loadbalancer.server.scheme=http"
-      - "traefik.http.services.unificontroller.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

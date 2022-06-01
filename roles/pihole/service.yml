@@ -1,0 +1,6 @@
+---
+full_service_name: Pihole
+description: Pi-hole provides network-wide ad blocking via your own Linux hardware.
+category: misc-other
+version: latest
+port: 80

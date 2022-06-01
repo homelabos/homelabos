@@ -1,0 +1,6 @@
+---
+full_service_name: webdavserver
+description: WebDAV Server A simple WebDAV service. If you enable WebDAV over SSL you will have a secure file transfer service setup, which is useful for e.g. syncing your notes from Joplin. If you don't need all the extra from NextCloud/OwnCloud, this service could be what you need.
+category: misc-other
+version: latest
+port: 80

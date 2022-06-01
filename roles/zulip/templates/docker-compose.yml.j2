@@ -79,7 +79,4 @@ services:
       nofile:
         soft: 40000
         hard: 50000
-    labels:
-      - "traefik.http.services.zulip.loadbalancer.server.scheme=http"
-      - "traefik.http.services.zulip.loadbalancer.server.port=80"
 {% include './labels.j2' %}

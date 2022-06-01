@@ -1,0 +1,6 @@
+---
+full_service_name: watchtower
+description: Watchtower is a process for automating Docker container base image updates
+category: misc-other
+version: latest
+port: 80
