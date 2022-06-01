@@ -3,8 +3,6 @@
 - name: Setup {{service_item}}
   include: includes/setup.yml
 
-
-
 - name: Make wallabag directory.
   file:
     path: "{{ item }}"

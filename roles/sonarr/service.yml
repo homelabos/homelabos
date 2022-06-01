@@ -1,6 +1,6 @@
 ---
 full_service_name: Sonarr
-description: Smart PVR for newsgroup and bittorrent users. 
+description: Smart PVR for newsgroup and bittorrent users.
 category: file-sharing-and-synchronization
 version: latest
 port: 8989
