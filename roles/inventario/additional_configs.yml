@@ -1,1 +1,0 @@
-  db_version: {{ inventario.db_version | default("latest") }}
