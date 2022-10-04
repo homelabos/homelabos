@@ -1,0 +1,76 @@
+{% if paperless_ngx.https_only %}
+{%      set protocol = 'https' %}
+{% else %}
+{%      set protocol = 'http' %}
+{% endif %}
+
+{% if paperless_ngx.domain %}
+{%      set url = paperless_ngx.domain %}
+{% else %}
+{%      set url = paperless_ngx.subdomain + "." + domain %}
+{% endif %}
+
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  paperless_ngx:
+
+services:
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:{{ paperless_ngx.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - paperless_ngx
+    volumes:
+      - "{{ volumes_root }}/paperless_ngx/data:/usr/src/paperless/data"
+      - "{{ volumes_root }}/paperless_ngx/media:/usr/src/paperless/media"
+      - "{{ storage_dir }}/Documents/paperless_ngx_consume:/usr/src/paperless/consume"
+      - "{{ storage_dir }}/Documents/paperless_ngx_export:/usr/src/paperless/export"
+    depends_on:
+      - paperless_db
+      - paperless_redis
+    environment:
+      PAPERLESS_PORT: {{ paperless_ngx.port }}
+      PAPERLESS_TIME_ZONE: "{{ common_timezone }}"
+      PAPERLESS_URL: '{{ protocol }}://{{ url }}'
+
+      PAPERLESS_OCR_LANGUAGE: "{{ paperless_ngx.ocr_main_language }}"
+      PAPERLESS_OCR_LANGUAGES: "{{ paperless_ngx.ocr_additional_languages }}"
+      COMPOSE_PROJECT_NAME: "paperless"
+      PAPERLESS_ADMIN_USER: "admin"
+      PAPERLESS_ADMIN_PASSWORD: "{{lookup('password', './settings/passwords/paperless_ngx_admin_passphrase chars=ascii_letters')}}"
+
+      PAPERLESS_DBPASS: "{{lookup('password', './settings/passwords/paperless_ngx_db_password chars=ascii_letters')}}"
+      PAPERLESS_DBHOST: "paperless_db"
+      PAPERLESS_DBNAME: "paperless_ngx"
+      PAPERLESS_DBPORT: 5432
+      PAPERLESS_DBUSER: "paperless_ngx"
+
+      PAPERLESS_REDIS: "redis://paperless_redis:6379"
+
+{% include './labels.j2' %}
+
+  paperless_db:
+    image: postgres:{{ paperless_ngx.db_version }}
+    restart: unless-stopped
+    networks:
+      - paperless_ngx
+    volumes:
+      - "{{ volumes_root }}/paperless_ngx/postgres:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/paperless_ngx_db_password chars=ascii_letters')}}"
+      POSTGRES_DB: "paperless_ngx"
+      POSTGRES_USER: "paperless_ngx"
+
+  paperless_redis:
+    image: redis:{{ paperless_ngx.redis_version }}
+    restart: unless-stopped
+    networks:
+      - paperless_ngx
+    volumes:
+      - "{{ volumes_root }}/paperless_ngx/redis:/data"

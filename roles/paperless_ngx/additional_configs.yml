@@ -1,0 +1,4 @@
+  db_version: {{ paperless_ngx.db_version | default("14.5-alpine3.16") }}
+  redis_version: {{ paperless_ngx.redis_version | default("7.0-alpine") }}
+  ocr_main_language: {{ paperless_ngx.ocr_main_language | default("eng") }}
+  ocr_additional_languages: {{ paperless_ngx.ocr_additional_languages | default("") }}

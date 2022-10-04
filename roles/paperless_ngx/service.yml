@@ -1,0 +1,6 @@
+---
+full_service_name: Paperless ngx
+description: A document management system
+category: document-management
+version: 1.9.2
+port: 8000
