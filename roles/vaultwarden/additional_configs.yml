@@ -1,0 +1,1 @@
+  signups_allowed: {{ vaultwarden.db_version | default("False") }}

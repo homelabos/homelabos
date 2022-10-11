@@ -1,0 +1,48 @@
+{% if vaultwarden.https_only %}
+{%      set protocol = 'https' %}
+{% else %}
+{%      set protocol = 'http' %}
+{% endif %}
+
+{% if vaultwarden.domain %}
+{%      set url = vaultwarden.domain %}
+{% else %}
+{%      set url = vaultwarden.subdomain + "." + domain %}
+{% endif %}
+
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:{{ vaultwarden.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/vaultwarden/data:/data"
+    environment:
+      TZ: "{{ common_timezone }}"
+      SIGNUPS_ALLOWED: "{{ vaultwarden.signups_allowed }}"
+      DOMAIN: '{{ protocol }}://{{ url }}'
+      ADMIN_TOKEN: "{{ lookup('password', './settings/passwords/vaultwarden_admin_token length=32 chars=ascii_letters') }}"
+      SHOW_PASSWORD_HINT: "false"
+      WEBSOCKET_ENABLED: "false"
+      SENDS_ALLOWED: "true"
+
+{% if smtp.host %}
+      SMTP_HOST: "{{ smtp.host }}"
+      SMTP_FROM: "{{ smtp.from_email }}"
+      SMTP_PORT: "{{ smtp.port }}"
+      SMTP_USERNAME: "{{ smtp.user }}"
+      SMTP_PASSWORD: "{{ smtp.pass }}"
+      SMTP_SECURITY: "starttls"
+      SMTP_TIMEOUT: 15
+{% endif %}
+
+{% include './labels.j2' %}

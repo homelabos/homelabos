@@ -1,0 +1,6 @@
+---
+full_service_name: Vaultwarden
+description: Vaultwarden is an open source password manager
+category: password-managers
+version: 1.25.2
+port: 80
