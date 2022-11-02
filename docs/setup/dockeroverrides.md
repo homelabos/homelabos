@@ -80,6 +80,6 @@ services:
     ports:
       - 9999:8096
     volumes:
-      "/mnt/NAS/media/video:/media"
+      - "/mnt/NAS/media/video:/media"
 ```
 {% endraw %}
