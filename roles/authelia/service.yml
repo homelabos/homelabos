@@ -1,0 +1,6 @@
+---
+full_service_name: Authelia
+description: Authelia is an open-source full-featured authentication server available on Github
+category: miscfederated-identityauthentication
+version: latest
+port: 9091

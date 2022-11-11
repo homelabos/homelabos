@@ -1,26 +1,7 @@
 ---
-- name: Make homebridge directory.
-  file:
-    path: "{{ volumes_root }}/homebridge"
-    state: directory
 
-- name: Copy homebridge docker-compose.yml file into place.
-  template:
-    src: docker-compose.homebridge.yml.j2
-    dest: "{{ volumes_root }}/homebridge/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    uid: "{{ uid_output.stdout }}"
-    gid: "{{ gid_output.stdout }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure homebridge systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/homebridge.service
-
-- name: Start homebridge
-  systemd:
-    name: homebridge
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml
