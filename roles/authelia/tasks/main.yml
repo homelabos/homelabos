@@ -1,16 +1,7 @@
 ---
 
-- name: Make authelia directory.
-  file:
-    path: "{{ volumes_root }}/authelia"
-    state: directory
-
-- name: Copy authelia docker-compose.yml file into place.
-  template:
-    src: docker-compose.authelia.yml.j2
-    dest: "{{ volumes_root }}/authelia/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
 - name: Check if userdb.yml exists.
   stat:
@@ -46,20 +37,5 @@
   vars:
     domain_parts: "{{ domain.split('.') }}"
 
-- name: Configure authelia systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/authelia.service
-
-- name: Start authelia
-  systemd:
-    name: authelia
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
-
-- debug:
-    msg:
-      - "Authelia redirects to {{ authelia.redirect_url }}"
-      - "You can change this by setting the authelia.redirect_url setting to the one of your own choice."
-      - "Example: ./set_setting authelia.redirect_service https://heimdall.example.com"
+- name: Start {{service_item}}
+  include: includes/start.yml
