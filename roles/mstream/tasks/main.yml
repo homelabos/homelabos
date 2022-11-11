@@ -1,24 +1,7 @@
 ---
-- name: Make mstream directory.
-  file:
-    path: "{{ volumes_root }}/mstream"
-    state: directory
 
-- name: Copy mstream docker-compose.yml file into place.
-  template:
-    src: docker-compose.mstream.yml.j2
-    dest: "{{ volumes_root }}/mstream/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure mstream systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/mstream.service
-
-- name: Start mstream
-  systemd:
-    name: mstream
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

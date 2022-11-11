@@ -1,0 +1,6 @@
+---
+full_service_name: Paperless
+description: Document management
+category: document-management
+version: latest
+port: 8000

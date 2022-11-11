@@ -40,7 +40,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.minecraftbedrockserver.loadbalancer.server.scheme=http"
-      - "traefik.http.services.minecraftbedrockserver.loadbalancer.server.port=3000"
 {% include './labels.j2' %}

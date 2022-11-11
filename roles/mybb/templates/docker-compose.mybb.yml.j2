@@ -24,9 +24,6 @@ services:
     networks:
       - traefik_network
       - mybb
-    labels:
-      - "traefik.http.services.mybb.loadbalancer.server.scheme=http"
-      - "traefik.http.services.mybb.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   postgresql:

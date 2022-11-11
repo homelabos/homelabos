@@ -20,7 +20,4 @@ services:
       - HTTP_PORT=80
     ports:
       - '27960:27960'
-    labels:
-      - "traefik.http.services.quakejs.loadbalancer.server.scheme=http"
-      - "traefik.http.services.quakejs.loadbalancer.server.port=80"
 {% include './labels.j2' %}

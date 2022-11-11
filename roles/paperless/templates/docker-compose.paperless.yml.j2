@@ -31,9 +31,6 @@ services:
       - PAPERLESS_OCR_LANGUAGES=
       - PAPERLESS_PASSPHRASE={{lookup('password', './settings/passwords/paperless_passphrase chars=ascii_letters')}}
     command: ["runserver", "--insecure", "--noreload", "0.0.0.0:8000"]
-    labels:
-      - "traefik.http.services.paperless.loadbalancer.server.scheme=http"
-      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
 {% include './labels.j2' %}
 
   paperless_consumer:

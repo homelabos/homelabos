@@ -1,0 +1,6 @@
+---
+full_service_name: QuakeJS
+description: QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten
+category: games
+version: latest
+port: 80

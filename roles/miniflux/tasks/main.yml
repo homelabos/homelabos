@@ -1,24 +1,7 @@
 ---
-- name: Make miniflux directory.
-  file:
-    path: "{{ volumes_root }}/miniflux"
-    state: directory
 
-- name: Copy miniflux docker-compose.yml file into place.
-  template:
-    src: docker-compose.miniflux.yml.j2
-    dest: "{{ volumes_root }}/miniflux/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure miniflux systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/miniflux.service
-
-- name: Start miniflux
-  systemd:
-    name: miniflux
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml
