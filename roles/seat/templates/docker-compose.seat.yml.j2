@@ -43,9 +43,6 @@ services:
     command: web
     env_file:
       - .env
-    labels:
-      - "traefik.http.services.seat.loadbalancer.server.scheme=http"
-      - "traefik.http.services.seat.loadbalancer.server.port=80"
 {% include './labels.j2' %}
     depends_on:
       - mariadb

@@ -12,7 +12,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.poli.loadbalancer.server.scheme=http"
-      - "traefik.http.services.poli.loadbalancer.server.port=6688"
 {% include './labels.j2' %}

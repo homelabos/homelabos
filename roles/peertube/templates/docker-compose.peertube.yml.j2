@@ -55,7 +55,4 @@ services:
       - .env
     ports:
       - 9000:9000
-    labels:
-      - "traefik.http.services.peertube.loadbalancer.server.scheme=http"
-      - "traefik.http.services.peertube.loadbalancer.server.port=9000"
 {% include './labels.j2' %}

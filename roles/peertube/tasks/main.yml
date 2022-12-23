@@ -1,34 +1,9 @@
 ---
-- name: Make peertube directory.
-  file:
-    path: "{{ volumes_root }}/peertube"
-    state: directory
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Copy peertube docker-compose.yml file into place.
-  template:
-    src: docker-compose.peertube.yml.j2
-    dest: "{{ volumes_root }}/peertube/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Copy peertube .env file into place.
-  template:
-    src: env
-    dest: "{{ volumes_root }}/peertube/.env"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Configure peertube systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/peertube.service
-
-- name: Start peertube
-  systemd:
-    name: peertube
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml
 
 - name: Capture initial password
   shell: >

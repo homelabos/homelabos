@@ -36,9 +36,6 @@ services:
       - MYSQL_DATABASE=shinobi
       - MYSQL_ROOT_PASSWORD="{{lookup('password', './settings/passwords/shinobi_db_root_password chars=ascii_letters')}}"
       - MYSQL_ROOT_USER=root
-    labels:
-      - "traefik.http.services.shinobi.loadbalancer.server.scheme=http"
-      - "traefik.http.services.shinobi.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
     depends_on:
       - shinobi_db

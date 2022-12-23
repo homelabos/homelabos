@@ -166,12 +166,11 @@
   lineinfile:
     path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: query
+  when: "service_item + '.enable'"
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   vars:
-    query: "{{ service_item + '.enable' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
@@ -208,23 +207,23 @@
   register: gid_output
   become: false
 
-- name: Deploy documentation
-  include_role:
-    name: docs
-  vars:
-    https_only: "{{ lookup('vars', service_item).https_only }}"
-    auth: "{{ lookup('vars', service_item).auth }}"
-    custom_domain: "{{ lookup('vars', service_item).domain }}"
-    service_domain: "{% if lookup('vars', service_item).domain %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
-    query: "{{ service_item + '.enable' }}"
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
-    service_item: docs
+# - name: Deploy documentation
+#   include_role:
+#     name: docs
+#   vars:
+#     https_only: "{{ lookup('vars', service_item).https_only }}"
+#     auth: "{{ lookup('vars', service_item).auth }}"
+#     custom_domain: "{{ lookup('vars', service_item).domain }}"
+#     service_domain: "{% if lookup('vars', service_item).domain %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
+#     query: "{{ service_item + '.enable' }}"
+#     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+#     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
+#     service_item: docs
 
 - name: Deploy enabled Services
   include_role:
     name: "{{ lookup('vars', service_item).source_service | default(service_item) }}"
-  when: query
+  when: services[service_item].enable
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
@@ -233,7 +232,6 @@
     auth: "{{ lookup('vars', service_item).auth | default(False) }}"
     custom_domain: "{{ lookup('vars', service_item).domain | default(False) }}"
     service_domain: "{% if lookup('vars', service_item).domain | default(False) %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
-    query: "{{ service_item + '.enable' }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 

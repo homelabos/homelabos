@@ -1,0 +1,6 @@
+---
+full_service_name: Poli
+description: An easy-to-use BI server built for SQL lovers. Power data analysis in SQL and gain faster business insights.
+category: misc-other
+version: latest
+port: 6688

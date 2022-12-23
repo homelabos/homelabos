@@ -1,0 +1,5 @@
+---
+full_service_name: PeerTube
+description: ActivityPub based Video Sharing
+category: media-streaming
+port: 9000

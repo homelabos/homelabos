@@ -1,27 +1,7 @@
 ---
-- name: Make duplicati directory.
-  file:
-    path: "{{ volumes_root }}/duplicati"
-    state: directory
 
-- debug:
-    var: tor_http_domain_file
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Copy duplicati docker-compose.yml file into place.
-  template:
-    src: docker-compose.duplicati.yml.j2
-    dest: "{{ volumes_root }}/duplicati/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-
-- name: Configure duplicati systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/duplicati.service
-
-- name: Start duplicati
-  systemd:
-    name: duplicati
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml
