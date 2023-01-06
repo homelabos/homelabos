@@ -27,7 +27,8 @@
            if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi
       when: ansible_distribution_major_version|int > 22
     - name: Configure python and pip
-      raw: sudo apt-get -y if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
+      raw: if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi &&
+           if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python ; fi
       when: ansible_distribution_major_version|int < 21
 
 # Configure a TOR hidden service for remote access without a public IP
