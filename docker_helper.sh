@@ -11,10 +11,10 @@ fi
 
 if [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" -a -f "$HOME/.homelabos_vault_pass" ]; then
     docker run --rm -it \
-      -v ${SSH_KEY}:/root/.ssh/id_rsa \
-      -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub \
-      -v $(pwd):/data \
-      -v $HOME/.homelabos_vault_pass:/ansible_vault_pass \
+      -v ${SSH_KEY}:/root/.ssh/id_rsa:Z \
+      -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub:Z \
+      -v $(pwd):/data:Z \
+      -v $HOME/.homelabos_vault_pass:/ansible_vault_pass:Z \
       nickbusey/homelabos:${VERSION} "$@"
 else
     echo "You have no SSH keys in your home directory: $HOME"
