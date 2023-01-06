@@ -38,7 +38,4 @@ services:
       - POSTGRES_USER=pleroma
       - DB_PASS={{lookup('password', './settings/passwords/pleroma_db_password chars=ascii_letters')}}
       - POSTGRES_DB=pleroma
-    labels:
-      - "traefik.http.services.pleroma.loadbalancer.server.scheme=http"
-      - "traefik.http.services.pleroma.loadbalancer.server.port=4000"
 {% include './labels.j2' %}

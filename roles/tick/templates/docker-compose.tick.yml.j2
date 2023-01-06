@@ -44,11 +44,6 @@ services:
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
-    #ports:
-      #- "8888:8888"
-    labels:
-      - "traefik.http.services.tick.loadbalancer.server.scheme=http"
-      - "traefik.http.services.tick.loadbalancer.server.port=8888"
 {% include './labels.j2' %}
 
   # Define a Kapacitor service

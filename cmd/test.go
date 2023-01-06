@@ -124,8 +124,8 @@ func sanityCheck(service services.Service, verbosity int) {
 	}
 
 	// Detect if the service.yml defines a port
-	fileContents := string(buffer)
-	if !strings.Contains(fileContents, "port:") {
+	serviceYmlContents := string(buffer)
+	if !strings.Contains(serviceYmlContents, "port:") {
 		if verbosity > 0 {
 			fmt.Println("Service.yml didn't define a port for " + service.Name)
 		}
@@ -147,7 +147,7 @@ func sanityCheck(service services.Service, verbosity int) {
 	}
 
 	// Detect if the service is using the new include style
-	fileContents = string(buffer)
+	fileContents := string(buffer)
 	if !strings.Contains(fileContents, "includes/start.yml") {
 		if verbosity > 0 {
 			fmt.Println("Task file not using imports for " + service.Name)
@@ -171,7 +171,7 @@ func sanityCheck(service services.Service, verbosity int) {
 
 	// Detect if the service is using the new label style
 	fileContents = string(buffer)
-	if strings.Contains(fileContents, "labels:") {
+	if strings.Contains(fileContents, "labels:") && !strings.Contains(serviceYmlContents, "port: false") {
 		if verbosity > 0 {
 			fmt.Println("Compose file not using new label format for " + service.Name)
 		}

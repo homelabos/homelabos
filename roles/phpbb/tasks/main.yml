@@ -1,29 +1,7 @@
 ---
-- name: Make phpbb directory.
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0777
-  loop:
-    - "{{ volumes_root }}/phpbb"
-    - "{{ volumes_root }}/phpbb/mariadb_data"
-    - "{{ volumes_root }}/phpbb/phpbb_data"
 
-- name: Copy phpbb docker-compose.yml file into place.
-  template:
-    src: docker-compose.phpbb.yml.j2
-    dest: "{{ volumes_root }}/phpbb/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure phpbb systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/phpbb.service
-
-- name: Start phpbb
-  systemd:
-    name: phpbb
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

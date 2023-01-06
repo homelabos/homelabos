@@ -85,7 +85,7 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 
 		version := data["version"]
 		port := data["port"]
-		if version != nil && port != nil && len([]rune(version.(string))) > 0 {
+		if version != nil && port != nil && port != false && len([]rune(version.(string))) > 0 {
 			category := GetCategory(data["category"].(string))
 			services[serviceName] = Service{
 				serviceName,

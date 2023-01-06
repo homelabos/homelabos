@@ -1,0 +1,5 @@
+---
+full_service_name: Pleroma
+description: Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
+category: social-networking
+port: 4000

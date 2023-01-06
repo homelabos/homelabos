@@ -3,3 +3,4 @@ full_service_name: Guacamole
 description: Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH.
 category: gateways-and-terminal-sharing
 version: latest
+port: false

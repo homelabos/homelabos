@@ -1,0 +1,5 @@
+---
+full_service_name: Syncthing
+description: File syncing software
+category: file-sharing-and-synchronization
+port: 8384

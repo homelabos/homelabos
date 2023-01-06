@@ -40,7 +40,4 @@ services:
       - "{{ volumes_root }}/phpbb/phpbb_data:/bitnami/phpbb:rw"
     depends_on:
       - mariadb
-    labels:
-      - "traefik.http.services.phpbb.loadbalancer.server.scheme=http"
-      - "traefik.http.services.phpbb.loadbalancer.server.port=8080"
 {% include './labels.j2' %}
