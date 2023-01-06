@@ -17,9 +17,6 @@ services:
     volumes:
       - "{{ volumes_root }}/sui/configs:/sui"
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - "traefik.http.services.sui.loadbalancer.server.scheme=http"
-      - "traefik.http.services.sui.loadbalancer.server.port=6999"
 {% include './labels.j2' %}
       - "sui.enabled=true"
       - "sui.name=dashboard"

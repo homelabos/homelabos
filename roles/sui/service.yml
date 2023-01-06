@@ -1,0 +1,6 @@
+---
+full_service_name: SUI
+description: SUI a startpage for your server and / or new tab page
+category: personal-dashboards
+version: latest
+port: 6999
