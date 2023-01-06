@@ -1,0 +1,6 @@
+---
+full_service_name: Searx
+description: A privacy-respecting, hackable metasearch engine.
+category: misc-other
+version: latest
+port: 8888

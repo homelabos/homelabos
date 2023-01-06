@@ -1,0 +1,5 @@
+---
+full_service_name: Taisun
+description: Single Server Docker Management for Humans
+category: docker-vm-management
+port: 3000

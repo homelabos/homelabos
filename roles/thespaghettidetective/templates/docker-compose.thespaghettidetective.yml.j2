@@ -64,9 +64,6 @@ services:
       - traefik_network
       - thespaghettidetective
     hostname: web
-    labels:
-      - "traefik.http.services.thespaghettidetective.loadbalancer.server.scheme=http"
-      - "traefik.http.services.thespaghettidetective.loadbalancer.server.port=3334"
 {% include './labels.j2' %}
     ports:
       - "3334:3334"

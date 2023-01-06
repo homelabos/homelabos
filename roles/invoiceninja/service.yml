@@ -3,3 +3,4 @@ full_service_name: Invoice Ninja
 description: Free Open-Source Invoicing
 category: misc-other
 version: alpine-4
+port: 80

@@ -34,7 +34,4 @@ services:
       - "32412:32412/udp"
       - "32413:32413/udp"
       - "32414:32414/udp"
-    labels:
-      - "traefik.http.services.plex.loadbalancer.server.scheme=http"
-      - "traefik.http.services.plex.loadbalancer.server.port=32400"
 {% include './labels.j2' %}

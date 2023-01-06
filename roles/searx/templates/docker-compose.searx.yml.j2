@@ -16,7 +16,4 @@ services:
       - "{{ volumes_root }}/searx/settings.yml:/usr/local/searx/searx/settings.yml"
     environment:
       - BASE_URL=https://{{ service_domain }}
-    labels:
-      - "traefik.http.services.searx.loadbalancer.server.scheme=http"
-      - "traefik.http.services.searx.loadbalancer.server.port=8888"
 {% include './labels.j2' %}

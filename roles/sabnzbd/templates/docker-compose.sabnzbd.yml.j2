@@ -22,7 +22,4 @@ services:
       - "{{ storage_dir }}:/media"
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.sabnzbd.loadbalancer.server.scheme=http"
-      - "traefik.http.services.sabnzbd.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

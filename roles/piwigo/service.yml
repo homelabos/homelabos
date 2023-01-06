@@ -1,0 +1,6 @@
+---
+full_service_name: Piwigo
+description: Piwigo is open source photo management software. Manage, organize and share your photo easily on the web. Designed for organisations, teams and individuals.
+category: photo-and-video-galleries
+version: latest
+port: 80

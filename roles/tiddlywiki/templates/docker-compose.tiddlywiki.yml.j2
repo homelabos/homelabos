@@ -15,7 +15,4 @@ services:
       - traefik_network
     volumes:
       - "{{ volumes_root }}/tiddlywiki:/tiddlywiki"
-    labels:
-      - "traefik.http.services.tiddlywiki.loadbalancer.server.scheme=http"
-      - "traefik.http.services.tiddlywiki.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

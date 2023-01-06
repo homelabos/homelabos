@@ -1,8 +1,7 @@
 ---
-- name: Make thespaghettidetective directory.
-  file:
-    path: "{{ volumes_root }}/thespaghettidetective"
-    state: directory
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
 - name: Create Temporary Repository Directory
   tempfile:
@@ -38,14 +37,5 @@
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
-- name: Configure thespaghettidetective systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/thespaghettidetective.service
-
-- name: Start thespaghettidetective
-  systemd:
-    name: thespaghettidetective
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

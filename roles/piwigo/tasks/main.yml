@@ -1,26 +1,7 @@
 ---
-- name: Make piwigo directory.
-  file:
-    path: "{{ volumes_root }}/piwigo"
-    state: directory
 
-- name: Copy piwigo docker-compose.yml file into place.
-  template:
-    src: docker-compose.piwigo.yml.j2
-    dest: "{{ volumes_root }}/piwigo/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    uid: "{{ uid_output.stdout }}"
-    gid: "{{ gid_output.stdout }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
-- name: Configure piwigo systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/piwigo.service
-
-- name: Start piwigo
-  systemd:
-    name: piwigo
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

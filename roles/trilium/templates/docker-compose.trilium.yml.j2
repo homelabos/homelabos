@@ -16,7 +16,4 @@ services:
       - "{{ volumes_root }}/trilium/trilium-data:/root/trilium-data"
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.trilium.loadbalancer.server.scheme=http"
-      - "traefik.http.services.trilium.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

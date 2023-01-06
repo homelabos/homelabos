@@ -1,8 +1,7 @@
 ---
-- name: Make invoiceninja directory.
-  file:
-    path: "{{ volumes_root }}/invoiceninja"
-    state: directory
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
 - name: Make config directories
   file:
@@ -43,22 +42,5 @@
   register: application_key
   become: false
 
-- name: Copy invoiceninja docker-compose.yml file into place.
-  template:
-    src: docker-compose.invoiceninja.yml.j2
-    dest: "{{ volumes_root }}/invoiceninja/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-    application_key: application_key
-
-- name: Configure invoiceninja systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/invoiceninja.service
-
-- name: Start invoiceninja
-  systemd:
-    name: invoiceninja
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

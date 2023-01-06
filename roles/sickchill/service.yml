@@ -1,0 +1,6 @@
+---
+full_service_name: Sickchill
+description: SickChill is an automatic Video Library Manager for TV Shows.
+category: file-sharing-and-synchronization
+version: latest
+port: 80

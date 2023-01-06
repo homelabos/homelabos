@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run --rm -it -v $(pwd):/data cytopia/yamllint -c yamllint.conf .
+docker run --rm -v $(pwd):/data cytopia/yamllint -c yamllint.conf .

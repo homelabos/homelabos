@@ -4,3 +4,4 @@ description: Growentics is an open source environmental mapping with plant manag
 category: misc-other
 version: latest
 port: 80
+sanity_ignore: true

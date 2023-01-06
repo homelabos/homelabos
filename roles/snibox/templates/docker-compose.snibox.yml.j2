@@ -20,9 +20,6 @@ services:
       - static-files:/var/www/html
     depends_on:
       - backend
-    labels:
-      - "traefik.http.services.snibox.loadbalancer.server.scheme=http"
-      - "traefik.http.services.snibox.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   backend:

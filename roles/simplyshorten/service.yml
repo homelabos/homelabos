@@ -1,0 +1,5 @@
+---
+full_service_name: Simply-Shorten
+description: A simple selfhosted URL shortener with no name because naming is hard
+category: misc-other
+port: 4567

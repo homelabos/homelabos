@@ -26,9 +26,6 @@ services:
         - "{{ volumes_root }}/piwigo/cache:/var/www/_data/i"
         - "{{ volumes_root }}/piwigo/upload:/var/www/upload"
         - "{{ volumes_root }}/piwigo/logs:/var/log/apache2"
-    labels:
-      - "traefik.http.services.piwigo.loadbalancer.server.scheme=http"
-      - "traefik.http.services.piwigo.loadbalancer.server.port=80"
 {% include './labels.j2' %}
 
   mysqlpiwigo:

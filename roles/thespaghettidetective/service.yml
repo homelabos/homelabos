@@ -1,0 +1,6 @@
+---
+full_service_name: The Spaghetti Detective
+description: AI-based failure detection for 3D printer remote management and monitoring.
+category: misc-other
+version: latest
+port: 3334

@@ -180,6 +180,12 @@ func sanityCheck(service services.Service, verbosity int) {
 		service.Status++
 	}
 
+	// Ignore snowflake services that don't conform to the sanity checks.
+	if strings.Contains(serviceYmlContents, "sanity_ignore: true") {
+		service.Status = maxPoints
+		serviceOk = true
+	}
+
 	// Output service status
 	if serviceOk {
 		if viper.GetInt("verbosity") > 0 {

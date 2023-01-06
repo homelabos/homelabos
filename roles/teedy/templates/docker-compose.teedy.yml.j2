@@ -35,7 +35,4 @@ services:
       - DATABASE_URL=jdbc:postgresql://teedydb:5432/docs
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD={{lookup('password', './settings/passwords/teedy_postgres_password')}}
-    labels:
-      - "traefik.http.services.teedy.loadbalancer.server.scheme=http"
-      - "traefik.http.services.teedy.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

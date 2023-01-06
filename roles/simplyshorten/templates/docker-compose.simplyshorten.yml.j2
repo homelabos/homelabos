@@ -19,7 +19,4 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.simplyshorten.loadbalancer.server.scheme=http"
-      - "traefik.http.services.simplyshorten.loadbalancer.server.port=4567"
 {% include './labels.j2' %}
