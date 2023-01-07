@@ -9,7 +9,7 @@ networks:
 
 services:
   mariadb:
-    image: ghcr.io/linuxserver/mariadb:{{ bookstack.db_version }}
+    image: mariadb:{{ bookstack.db_version }}
     networks:
       - bookstack
     restart: unless-stopped

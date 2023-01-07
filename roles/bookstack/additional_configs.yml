@@ -1,0 +1,1 @@
+  db_version: {{ bookstack.db_version | default("10.9.3") }}
