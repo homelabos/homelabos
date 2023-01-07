@@ -1,0 +1,6 @@
+---
+full_service_name: apache2
+description: Web server
+category: web-servers
+version: latest
+port: 80

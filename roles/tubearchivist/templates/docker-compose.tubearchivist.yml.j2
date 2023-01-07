@@ -28,9 +28,6 @@ services:
     depends_on:
       - tubearchivist-es
       - tubearchivist-redis
-    labels:
-      - "traefik.http.services.tubearchivist.loadbalancer.server.scheme=http"
-      - "traefik.http.services.tubearchivist.loadbalancer.server.port=8000"
 {% include './labels.j2' %}
 
   tubearchivist-redis:

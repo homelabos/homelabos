@@ -21,7 +21,4 @@ services:
       - PGID={{ gid_output.stdout }}
       - VERSION=stable
       - BACKUP=yes
-    labels:
-      - "traefik.http.services.readarr.loadbalancer.server.scheme=http"
-      - "traefik.http.services.readarr.loadbalancer.server.port=8787"
 {% include './labels.j2' %}

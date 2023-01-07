@@ -1,0 +1,6 @@
+---
+full_service_name: RSSHub
+description: RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
+category: misc-other
+version: latest
+port: 80

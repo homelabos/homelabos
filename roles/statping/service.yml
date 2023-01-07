@@ -1,0 +1,6 @@
+---
+full_service_name: Statping
+description: Web and App Status Monitoring for Any Type of Project
+category: monitoring
+version: latest
+port: 8080

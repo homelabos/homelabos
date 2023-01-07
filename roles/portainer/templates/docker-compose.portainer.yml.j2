@@ -16,7 +16,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ volumes_root }}/portainer:/data"
-    labels:
-      - "traefik.http.services.portainer.loadbalancer.server.scheme=http"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 {% include './labels.j2' %}

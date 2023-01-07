@@ -25,7 +25,4 @@ services:
       options:
         max-file: "10"
         max-size: "200k"
-    labels:
-      - "traefik.http.services.speedtest_tracker.loadbalancer.server.scheme=http"
-      - "traefik.http.services.speedtest_tracker.loadbalancer.server.port=80"
 {% include './labels.j2' %}

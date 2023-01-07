@@ -1,0 +1,6 @@
+---
+full_service_name: Tubearchivist
+description: Your self hosted YouTube media server
+category: media-streaming
+version: latest
+port: 8000

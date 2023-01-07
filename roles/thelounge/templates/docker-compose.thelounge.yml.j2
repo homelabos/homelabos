@@ -18,7 +18,4 @@ services:
       - PGID={{ gid_output.stdout }}
     networks:
       - traefik_network
-    labels:
-      - "traefik.http.services.thelounge.loadbalancer.server.scheme=http"
-      - "traefik.http.services.thelounge.loadbalancer.server.port=9000"
 {% include './labels.j2' %}

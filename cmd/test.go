@@ -195,7 +195,11 @@ func sanityCheck(service services.Service, verbosity int) {
 		}
 		happyServices++
 	} else {
-		fmt.Print(string(colorRed), service.Status)
+		if viper.GetInt("verbosity") > 0 {
+			fmt.Println(string(colorRed), "Service SAD!: "+service.Name)
+		} else {
+			fmt.Print(string(colorRed), service.Status)
+		}
 		sadServices++
 	}
 	totalPoints += service.Status

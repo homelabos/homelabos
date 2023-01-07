@@ -1,0 +1,6 @@
+---
+full_service_name: Readarr
+description: Radarr but for books.
+category: e-books
+version: latest
+port: 8787

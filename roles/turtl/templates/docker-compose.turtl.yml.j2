@@ -33,9 +33,6 @@ services:
       TURTL_UPLOADS_URL: 'http{% if turtl.https_only %}s{% endif %}://{% if turtl.domain %}{{ turtl.domain }}{% else %}{{ service_domain }}{% endif %}/uploads'
     volumes:
       - "{{ volumes_root }}/turtl/uploads:/uploads"
-    labels:
-      - "traefik.http.services.turtl.loadbalancer.server.scheme=http"
-      - "traefik.http.services.turtl.loadbalancer.server.port=8181"
 {% include './labels.j2' %}
 
   postgres-db:

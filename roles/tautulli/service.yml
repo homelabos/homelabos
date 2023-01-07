@@ -1,0 +1,6 @@
+---
+full_service_name: Tautulli
+description: A Python based monitoring and tracking tool for Plex Media Server.
+category: monitoring
+version: latest
+port: 8181

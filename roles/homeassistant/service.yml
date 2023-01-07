@@ -4,3 +4,4 @@ description: Home Assistant can automate just about any part of your home.
 category: automation
 version: latest
 port: 8123
+sanity_ignore: true

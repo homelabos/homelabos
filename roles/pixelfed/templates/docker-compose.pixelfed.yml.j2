@@ -14,9 +14,6 @@ services:
     networks:
       - traefik_network
       - pixelfed
-    labels:
-      - "traefik.http.services.pixelfed.loadbalancer.server.scheme=http"
-      - "traefik.http.services.pixelfed.loadbalancer.server.port=80"
 {% include './labels.j2' %}
     env_file:
       - "{{ volumes_root }}/pixelfed/pixelfed.env"

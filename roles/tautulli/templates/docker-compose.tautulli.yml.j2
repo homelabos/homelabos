@@ -21,7 +21,4 @@ services:
       - PGID={{ gid_output.stdout }}
       - PUID={{ uid_output.stdout }}
       - TZ={{ common_timezone }}
-    labels:
-      - "traefik.http.services.tautulli.loadbalancer.server.scheme=http"
-      - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
 {% include './labels.j2' %}

@@ -18,7 +18,4 @@ services:
     environment:
       - DB_CONN=sqlite
       - DISABLE_LOGS=true
-    labels:
-      - "traefik.http.services.statping.loadbalancer.server.scheme=http"
-      - "traefik.http.services.statping.loadbalancer.server.port=8080"
 {% include './labels.j2' %}

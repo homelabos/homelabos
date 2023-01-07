@@ -1,0 +1,6 @@
+---
+full_service_name: TheLounge
+description: TheLounge is a web based IRC client that syncs nicely across devices, and stays online when you aren't.
+category: chat
+version: latest
+port: 9000

@@ -1,0 +1,6 @@
+---
+full_service_name: Portainer
+description: Docker management interface, for the more advanced user.
+category: docker-vm-management
+version: latest
+port: 9000

@@ -1,0 +1,6 @@
+---
+full_service_name: Speedtest-Tracker
+description: A tool to run periodic speedtests check every hour and graphs the results
+category: monitoring
+version: latest
+port: 80

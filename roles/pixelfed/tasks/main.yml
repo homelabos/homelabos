@@ -1,29 +1,12 @@
 ---
-- name: Make pixelfed directory.
-  file:
-    path: "{{ volumes_root }}/pixelfed"
-    state: directory
 
-- name: Copy pixelfed docker-compose.yml file into place.
-  template:
-    src: docker-compose.pixelfed.yml.j2
-    dest: "{{ volumes_root }}/pixelfed/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
+- name: Setup {{service_item}}
+  include: includes/setup.yml
 
 - name: Copy pixelfed .env file into place.
   template:
     src: pixelfed.env.j2
     dest: "{{ volumes_root }}/pixelfed/pixelfed.env"
 
-- name: Configure pixelfed systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/pixelfed.service
-
-- name: Start pixelfed
-  systemd:
-    name: pixelfed
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

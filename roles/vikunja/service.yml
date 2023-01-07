@@ -3,4 +3,4 @@ full_service_name: vikunja
 description: Vikunja is a web-based project management tool
 category: software-development
 version: latest
-port: 3456
+port: false

@@ -1,4 +1,8 @@
 ---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
 - name: Make gitlab directories
   file:
     path: "{{ item }}"
@@ -24,19 +28,5 @@
     csr_path: "{{ volumes_root }}/gitlab/certs/registry.csr"
     provider: selfsigned
 
-- name: Copy gitlab docker-compose.yml file into place.
-  template:
-    src: docker-compose.gitlab.yml.j2
-    dest: "{{ volumes_root }}/gitlab/docker-compose.yml"
-
-- name: Configure gitlab systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/gitlab.service
-
-- name: Start gitlab
-  systemd:
-    name: gitlab
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

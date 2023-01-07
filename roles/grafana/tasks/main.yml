@@ -1,4 +1,8 @@
 ---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
 - name: Make grafana directory.
   file:
     path: "{{ item }}"
@@ -9,13 +13,6 @@
     - "{{ volumes_root }}/grafana/data"
     - "{{ volumes_root }}/grafana/dashboards"
     - "{{ volumes_root }}/grafana/datasources"
-
-- name: Copy grafana docker-compose.yml file into place.
-  template:
-    src: docker-compose.grafana.yml.j2
-    dest: "{{ volumes_root }}/grafana/docker-compose.yml"
-  vars:
-    tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Configure grafana influx datasource
   template:
@@ -30,14 +27,5 @@
     - grafana.dashboards.yaml
     - grafana.dash.homelab.json
 
-- name: Configure grafana systemd service.
-  template:
-    src: service.j2
-    dest: /etc/systemd/system/grafana.service
-
-- name: Start grafana
-  systemd:
-    name: grafana
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: started
+- name: Start {{service_item}}
+  include: includes/start.yml

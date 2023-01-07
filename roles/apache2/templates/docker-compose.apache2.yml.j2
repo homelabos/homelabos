@@ -15,7 +15,4 @@ services:
     volumes:
       - "{{ volumes_root }}/apache2/root/:/usr/local/apache2/htdocs/"
       - "{{ volumes_root }}/apache2/httpd.conf:/usr/local/apache2/conf/httpd.conf"
-    labels:
-      - "traefik.http.services.apache2.loadbalancer.server.scheme=http"
-      - "traefik.http.services.apache2.loadbalancer.server.port=80"
 {% include './labels.j2' %}
