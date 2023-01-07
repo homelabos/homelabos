@@ -61,6 +61,7 @@ services:
       # Used / needed for apache to l
     volumes:
       - "{{ volumes_root }}/nextcloud/webroot:/var/www/html"
+      - "{{ volumes_root }}/nextcloud/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini"
       - "{{ volumes_root }}/nextcloud/config:/var/www/html/config"
       - "{{ storage_dir }}/Documents/NextCloud:/data"
       - "{{ volumes_root }}/nextcloud/apps:/var/www/html/custom_apps"

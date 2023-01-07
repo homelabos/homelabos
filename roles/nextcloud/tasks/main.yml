@@ -15,5 +15,12 @@
     - "webroot"
     - "themes"
 
+- name: Create redis-session.ini file
+  file:
+    path: "{{ volumes_root }}/nextcloud/redis-session.ini"
+    state: touch
+    owner: "{{ uid_output.stdout }}"
+    group: "{{ gid_output.stdout }}"
+
 - name: Start {{service_item}}
   include: includes/start.yml
