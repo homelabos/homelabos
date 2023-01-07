@@ -1,0 +1,2 @@
+  db_version: {{ wallabag.db_version | default("10.9.3") }}
+  redis_version: {{ wallabag.redis_version | default("7.0-alpine") }}
