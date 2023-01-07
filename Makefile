@@ -21,7 +21,7 @@ config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@printf "\033[92m========== Packaging configuration ==========\033[0m\n"
-	@docker run -v /root/HomelabOS:/go/src -w /go/src golang go run main.go package
+	@docker run -v ${PWD}:/go/src -w /go/src golang go run main.go package
 	@printf "\033[92m========== Updating configuration files ==========\033[0m\n"
 	@mkdir -p settings/passwords
 	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
