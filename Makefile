@@ -21,14 +21,14 @@ config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@printf "\033[92m========== Packaging configuration ==========\033[0m\n"
-	@go run main.go package
+	@docker run -v /root/HomelabOS:/go/src -w /go/src golang go run main.go package
 	@printf "\033[92m========== Updating configuration files ==========\033[0m\n"
 	@mkdir -p settings/passwords
 	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
 	@[ -f settings/vault.yml ] || cp config.yml.blank settings/vault.yml
 	@[ -f settings/additional_services_config.yml ] || cp config.yml.blank settings/additional_services_config.yml
 	@[ -f settings/config.yml ] || cp config.yml.blank settings/config.yml
-	@./docker_helper_notty.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
+	@./docker_helper.sh ansible-playbook --extra-vars="@settings/config.yml" --extra-vars="@settings/additional_services_config.yml" --extra-vars="@settings/vault.yml" -i config_inventory playbook.config.yml
 	@printf "\033[92m========== Encrypting secrets ==========\033[0m\n"
 	@./docker_helper.sh ansible-vault encrypt settings/vault.yml || true
 	@printf "\033[92m========== Done with configuration ==========\033[0m\n"
@@ -39,7 +39,7 @@ logo:
 	@chmod +x check_version.sh
 	@$(eval VERSION=`cat VERSION`)
 	@./check_version.sh
-	@printf "MOTD:\n\n\x1B[01;92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
+	@printf "MOTD:\n\n\033[92m" && curl -m 2 https://gitlab.com/NickBusey/HomelabOS/raw/master/MOTD || printf "Couldn't get MOTD"
 	@printf "\n\n\033[0m\n"
 
 # Build the HomelabOS docker images
