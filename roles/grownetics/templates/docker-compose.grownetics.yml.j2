@@ -110,7 +110,7 @@ services:
 {% include './labels.j2' %}
 
   appdb:
-    image: mariadb #:10.3
+    image: mariadb:10.5
     restart: always
     command: mysqld --sql_mode=""
     environment:
