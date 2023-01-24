@@ -223,11 +223,12 @@
 - name: Deploy enabled Services
   include_role:
     name: "{{ lookup('vars', service_item).source_service | default(service_item) }}"
-  when: services[service_item].enable
+  when: query
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   vars:
+    query: "{{ lookup('vars', service_item).enable }}"
     https_only: "{{ lookup('vars', service_item).https_only | default(False) }}"
     auth: "{{ lookup('vars', service_item).auth | default(False) }}"
     custom_domain: "{{ lookup('vars', service_item).domain | default(False) }}"
