@@ -56,7 +56,9 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 				log.Fatal(err2)
 			}
 			for serviceName, _ := range data {
-				serviceNames = append(serviceNames, serviceName.(string))
+				if serviceName != "blank_on_purpose" {
+					serviceNames = append(serviceNames, serviceName.(string))
+				}
 			}
 		}
 	}

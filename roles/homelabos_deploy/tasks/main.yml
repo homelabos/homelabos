@@ -166,11 +166,12 @@
   lineinfile:
     path: "{{ volumes_root }}/homelab_hosts"
     line: "{{ ansible_host }} {{ service_item }}.{{ domain }} {{ service_item }}"
-  when: "service_item + '.enable'"
+  when: query
   loop: "{{ services | flatten(1) }}"
   loop_control:
     loop_var: service_item
   vars:
+    query: "{{ lookup('vars', service_item).enable }}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
