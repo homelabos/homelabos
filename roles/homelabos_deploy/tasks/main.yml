@@ -260,7 +260,7 @@
     loop_var: service_item
   ignore_errors: "yes"
   vars:
-    query: "not {{ service_item + '.enable' }}"
+    query: "not {{ lookup('vars', service_item).enable }}"
 
 - name: Remove old docker overrides
   file:
