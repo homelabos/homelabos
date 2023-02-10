@@ -15,4 +15,4 @@
       loop_control:
         loop_var: service_item
       vars:
-        query: "{{ service_item + '.enable' }}"
+        query: "{{ lookup('vars', service_item).enable }}"
