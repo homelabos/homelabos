@@ -24,7 +24,8 @@ hlos_install() {
     sudo apt update
 
     printf "\x1B[01;93m========== Install make and docker ==========\n\x1B[0m"
-    sudo apt install -y make docker-ce docker-ce-cli docker-compose containerd.io
+    sudo apt install -y make
+    sudo apt install -y docker-compose
 
     printf "\x1B[01;93m========== Ensure keys exist ==========\n\x1B[0m"
     # Create .ssh/ if it doesn't exist
