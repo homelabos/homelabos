@@ -21,7 +21,7 @@ config: logo build
 # If config.yml does not exist, populate it with a 'blank'
 # yml file so the first attempt at parsing it succeeds
 	@printf "\033[92m========== Packaging configuration ==========\033[0m\n"
-	@docker run -v ${PWD}:/go/src -w /go/src golang go run main.go package
+	@docker run -v ${PWD}:/go/src:Z -w /go/src golang go run main.go package
 	@printf "\033[92m========== Updating configuration files ==========\033[0m\n"
 	@mkdir -p settings/passwords
 	@[ -f ~/.homelabos_vault_pass ] || ./generate_ansible_pass.sh
@@ -195,7 +195,7 @@ vagrant: logo build config
 
 # Serve the HomelabOS Documentation locally
 docs_local:
-	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
+	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material:Z
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo build git_sync config
@@ -210,7 +210,7 @@ count_services:
 
 # Run sanity checks on services
 develop:
-	@docker run -w /usr/src/app -v ${PWD}:/usr/src/app golang go run main.go
+	@docker run -w /usr/src/app -v ${PWD}:/usr/src/app:Z golang go run main.go
 
 # Hacky fix to allow make to accept multiple arguments
 %:
