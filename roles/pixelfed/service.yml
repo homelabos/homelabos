@@ -3,5 +3,4 @@ full_service_name: Pixelfed
 description: Pixelfed is a free and ethical photo sharing platform, powered by ActivityPub federation.
 category: photo-and-video-galleries
 version: latest
-db_version: latest
 port: 80
