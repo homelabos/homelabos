@@ -72,27 +72,24 @@ S3 is Amazon's Simple Storage Service which HomelabOS can optionally use to back
 
 [Video Installation Tutorial](https://youtu.be/lbmViEFTj4o)
 
-### Automatic Set-up (One-liner)
+### Automatic Set-up
 
-* On your server run: `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)`
+#### Paranoid method
+```
+wget https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh
+cat install_homelabos.sh
+```
 
-* Make sure to back up your `{{ volumes_root }}/install` directory nightly.
+Inspect the script to confirm it is not doing anything malicious.
 
-#### But isn't piping curl to bash insecure?
+```
+chmod +x install_homelabos.sh
+./install_homelabos.sh
+```
 
-Not really. If you're using https (we are), then you can be sure you're getting the file you expect.
+#### Lazy method
+`bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)`
 
-This is also the recommended installation method of:
-
-* [Rust](https://www.rust-lang.org/tools/install)
-* [homebrew](https://brew.sh/)
-* [RVM](https://rvm.io/rvm/install).
-* [Docker](https://get.docker.com/)
-* [DockSTARTer](https://dockstarter.com/)
-
-It's pretty standard practice at this point.
-
-If you still don't trust it, great, you'll fit right in here. Proceed to the Manual Set-up step below.
 
 ### Manual Set-up
 
@@ -179,6 +176,10 @@ repo whenever you run `make deploy`, `make update` or `make config`.
     This bit is important.
 
 If you installed with the Automatic/One-Liner install, your vault password exists at `~/.homelabos_vault_pass` for the user you ran the script as. Make sure to back this password up somewhere safe, and ideally _not_ in your `settings/` folder. If someone gains access to your `settings/` folder and the vault password, bad things can happen. Store them separately.
+
+## Backing up your data
+
+Make sure to back up your `{{ volumes_root }}/install` directory nightly.
 
 ## [Troubleshooting / FAQ](faq.md)
 
