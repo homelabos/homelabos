@@ -86,6 +86,7 @@ Bug fixes
 ## Features
 
 - Added Encrypted Secrets - All secrets stored in the settings repo are now automatically encrypted with Ansible Vault. Use `make decrypt` to see the values in the file. It re-encrypts when you run `make`.
+- Added Graylog - Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
 - Added One-Line Deploy - `bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/install_homelabos.sh)`
 - Updated everything to use Traefik v2
 
