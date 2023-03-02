@@ -1,8 +1,8 @@
 # From https://github.com/walokra/docker-ansible-playbook
 
-FROM python:3.8-alpine
+FROM python:3.11-alpine
 
-ENV ANSIBLE_VERSION 2.10.7
+ENV ANSIBLE_VERSION 2.12
 
 ENV BUILD_PACKAGES \
   bash \
@@ -25,7 +25,7 @@ ENV PYTHON_PACKAGES \
   # Rust install broken, disabled until fix is available
   #setuptools-rust \
   #rust \
-  python3-keyczar \
+  #python3-keyczar \
   boto3 \
   docker-py \
   pyOpenSSL
@@ -56,7 +56,8 @@ RUN set -x && \
   pip install ${PYTHON_PACKAGES} && \
   \
   echo "==> Installing Ansible..."  && \
-  pip install ansible==${ANSIBLE_VERSION} && \
+  pip install ansible-core==${ANSIBLE_VERSION} && \
+  ansible-galaxy collection install community.general && \
   \
   echo "==> Installing Mitogen..." && \
   pip install mitogen && \

@@ -29,7 +29,7 @@ services:
     environment:
       TZ: "{{ common_timezone }}"
       SIGNUPS_ALLOWED: "{{ vaultwarden.signups_allowed }}"
-      DOMAIN: '{{ protocol }}://{{ url }}'
+      DOMAIN: {{ protocol }}://{{ url }}
       ADMIN_TOKEN: "{{ lookup('password', './settings/passwords/vaultwarden_admin_token length=32 chars=ascii_letters') }}"
       SHOW_PASSWORD_HINT: "false"
       WEBSOCKET_ENABLED: "false"

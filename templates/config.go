@@ -35,7 +35,7 @@ volumes_root: {{"{{"}} volumes_root | default('/var/homelabos') {{"}}"}}
 storage_dir: {{"{{"}} storage_dir | default('/mnt/nas') {{"}}"}}
 
 # Default Ubuntu release name to follow. Valid examples include: bionic, cosmic, disco
-ubuntu_release: {{"{{"}} ubuntu_release | default('focal') {{"}}"}}
+ubuntu_release: {{"{{"}} ubuntu_release | default('jammy') {{"}}"}}
 
 # For technical reasons these can't live here.
 #ansible_become_password: In vault.yml
