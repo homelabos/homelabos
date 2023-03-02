@@ -5,7 +5,7 @@
     dest: "{{ volumes_root }}/docs/docs/software/{{ service_item }}.md"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
-  when: "{{ service_item }}.source_service is undefined"
+  when: docs.enable == True and "{{ service_item }}.source_service is undefined"
 
 - name: Make {{ service_item }} directory.
   file:
