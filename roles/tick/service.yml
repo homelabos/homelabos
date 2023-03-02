@@ -3,3 +3,7 @@ full_service_name: TICK
 description: Enables Telegraf, InfluxDB, Chronograf, and Kapacitor
 category: monitoring
 port: 8888
+telegraf_version: latest
+influxdb_version: latest
+chronograf_version: latest
+kapacitor_version: latest

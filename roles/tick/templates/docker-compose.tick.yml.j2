@@ -10,7 +10,7 @@ networks:
 services:
   # System Statistics Logger
   telegraf:
-    image: telegraf:{{ tick.telegraf_version }}
+    image: telegraf:latest
     restart: unless-stopped
     networks:
       - tick
@@ -20,11 +20,10 @@ services:
       - /sys:/rootfs/sys:ro
       - /proc:/rootfs/proc:ro
       - /etc:/rootfs/etc:ro
-      # - /mnt/nas:/mnt/nas
 
   # Time Series Data Store
   influxdb:
-    image: influxdb:{{ tick.influxdb_version }}
+    image: influxdb:latest
     restart: unless-stopped
     networks:
       - tick
@@ -37,7 +36,7 @@ services:
 
   # Define a Chronograf service
   chronograf:
-    image: chronograf:{{ tick.chronograf_version }}
+    image: chronograf:latest
     networks:
       - tick
       - traefik_network
@@ -48,11 +47,9 @@ services:
 
   # Define a Kapacitor service
   kapacitor:
-    image: kapacitor:{{ tick.kapacitor_version }}
+    image: kapacitor:latest
     networks:
       - tick
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
-    #ports:
-      #- "9092:9092"
