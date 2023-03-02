@@ -41,12 +41,12 @@ services:
       - traefik_network
       - firefly
     volumes:
-      - "{{ volumes_root }}/firefly_iii/export:/var/www/firefly-iii/storage/export"
-      - "{{ volumes_root }}/firefly_iii/upload:/var/www/firefly-iii/storage/upload"
+      - "{{ volumes_root }}/firefly_iii/export:/var/www/html/storage/export"
+      - "{{ volumes_root }}/firefly_iii/upload:/var/www/html/storage/upload"
 {% include './labels.j2' %}
 
   firefly_iii_db:
-    image: mariadb
+    image: mariadb:{{ firefly_iii.db_version }}
     restart: unless-stopped
     environment:
       - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/firefly_db_password chars=ascii_letters') }}

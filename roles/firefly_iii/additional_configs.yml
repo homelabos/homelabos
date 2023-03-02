@@ -1,1 +1,1 @@
-  db_version: {{ firefly_iii.db_version | default("12") }}
+  db_version: {{ firefly_iii.db_version | default("10.9.3") }}
