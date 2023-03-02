@@ -30,6 +30,6 @@ services:
     restart: unless-stopped
     environment:
       - POSTGRES_USER=miniflux
-      - POSTGRES_PASSWORD="{{lookup('password', './settings/passwords/miniflux_db_password chars=ascii_letters')}}"
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/miniflux_db_password chars=ascii_letters')}}
     volumes:
       - "{{ volumes_root }}/miniflux/db:/var/lib/postgresql/data"
