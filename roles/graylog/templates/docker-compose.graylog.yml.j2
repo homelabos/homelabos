@@ -12,10 +12,6 @@ services:
     command: --serviceExecutor adaptive
     volumes:
       - {{ volumes_root }}/graylog/mongo_data:/data/db
-    networks:
-      - traefik_network
-    labels:
-      - "traefik.enable=false"
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.8
@@ -29,16 +25,11 @@ services:
       memlock:
         soft: -1
         hard: -1
-#    mem_limit: 1g
     volumes:
       - {{ volumes_root }}/graylog/es_data:/usr/share/elasticsearch/data
-    networks:
-      - traefik_network
-    labels:
-      - "traefik.enable=false"
 
   graylog:
-    image: graylog/graylog:3.2
+    image: graylog/graylog:{{ graylog.version }}
     restart: unless-stopped
     environment:
       - GRAYLOG_ROOT_USERNAME={{ default_username }}
@@ -87,35 +78,4 @@ services:
       - 12201:12201
       # GELF UDP
       - 12201:12201/udp
-
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=homelabos_traefik"
-      - "traefik.http.middlewares.httpsHeader.headers.customrequestheaders.X-Graylog-Server-URL=https://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}"
-      - "traefik.http.middlewares.httpHeader.headers.customrequestheaders.X-Graylog-Server-URL=http://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}"
-      - "traefik.http.services.graylog.loadbalancer.server.scheme=http"
-      - "traefik.http.services.graylog.loadbalancer.server.port=9000"
-      - "traefik.http.routers.graylog-http.rule=Host(`{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}`)"
-      - "traefik.http.routers.graylog-http.entrypoints=http"
-{% if not graylog.https_only %}
-      - "traefik.http.routers.graylog-http.middlewares=httpHeader,{% if graylog.https_only %}redirect@file, {% else %}{% if graylog.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
-{% else %}
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.graylog-http.middlewares=redirect-to-https"
-{% endif %}
-      - "traefik.http.routers.graylog.rule=Host(`{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}`)"
-      - "traefik.http.routers.graylog.entrypoints=https"
-      - "traefik.http.routers.graylog.middlewares=httpsHeader,{% if graylog.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file"
-      - "traefik.http.routers.graylog.tls=true"
-{% if traefik.dns_challenge_provider %}
-      - "traefik.http.routers.graylog.tls.certresolver=dns"
-      - "traefik.http.routers.graylog.tls.domains[0].main={{ domain }}"
-      - "traefik.http.routers.graylog.tls.domains[0].sans=*.{{ domain }}"
-{% else %}
-      - "traefik.http.routers.graylog.tls.certresolver=http"
-{% endif %}
-{% if enable_tor %}
-      - "traefik.http.routers.graylog-tor-http.rule=Host(`{{ graylog.subdomain }}.{{ tor_domain }}`)"
-      - "traefik.http.routers.graylog-tor-http.entrypoints=http"
-      - "traefik.http.routers.graylog-tor-http.middlewares={% if graylog.auth %}{% if authelia.enable %}authelia-tor@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab-tor@file"
-{% endif %}
+{% include './labels.j2' %}

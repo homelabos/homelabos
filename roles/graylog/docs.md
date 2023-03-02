@@ -1,6 +1,6 @@
 # Graylog
 
-[Graylog](https://www.graylog.org/) Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
+[Graylog](https://www.graylog.org/) is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
 
 ## Access
 
