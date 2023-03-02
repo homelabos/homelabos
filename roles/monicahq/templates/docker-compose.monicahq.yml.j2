@@ -10,7 +10,7 @@ networks:
 services:
   # Personal Relationship Database
   monicahq:
-    image: monicahq/monicahq:{{ monicahq.version }}
+    image: monica:{{ monicahq.version }}
     networks:
       - traefik_network
       - monicahq
