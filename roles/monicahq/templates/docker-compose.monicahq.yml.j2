@@ -26,7 +26,7 @@ services:
       - "{{ volumes_root }}/monicahq/monicahq.env"
     environment:
       - APP_KEY="{{ lookup('password', './settings/passwords/monicahq_app_key chars=ascii_letters length=32') }}"
-      - DB_PASSWORD="{{ lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters') }}"
+      - DB_PASSWORD={{ lookup('password', './settings/passwords/monicahq_db_password chars=ascii_letters') }}
 {% include './labels.j2' %}
 
   monicahq_db:
