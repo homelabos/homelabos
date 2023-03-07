@@ -2,5 +2,6 @@
 full_service_name: Graylog
 description: Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
 category: monitoring
-version: latest
+version: 3.2
 port: 80
+allow_highlighting: true

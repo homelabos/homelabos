@@ -46,10 +46,5 @@
     group: 1100
     recurse: yes
 
-- name: Generate new sha256 compatible password.
-  shell: echo -n {{ default_password }} | sha256sum |awk '{ print $0 }'|cut -d ' ' -f 1
-  register: graylog_root_pw
-  become: false
-
 - name: Start {{service_item}}
   include: includes/start.yml

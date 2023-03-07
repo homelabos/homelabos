@@ -29,11 +29,11 @@ services:
         - BURNOUT_PROTECTION_DELAY
 
         - DB_HOSTNAME
-        - MYSQL_ROOT_PASSWORD
-        - MYSQL_DATABASE
-        - MYSQL_TEST_DATABASE
-        - MYSQL_USER
-        - MYSQL_PASSWORD
+        - MARIADB_ROOT_PASSWORD
+        - MARIADB_DATABASE
+        - MARIADB_TEST_DATABASE
+        - MARIADB_USER
+        - MARIADB_PASSWORD
 
         - REDIS_HOSTNAME
         - RABBIT_HOST
@@ -55,7 +55,7 @@ services:
         - SMTP_USER
         - SMTP_PASS
         - CONSUL_HOST
-    image: grownetics/growdash:${VERSION}
+    image: grownetics/growdash:{{ grownetics.version }}
     volumes:
         - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
 
@@ -78,11 +78,11 @@ services:
         - BURNOUT_PROTECTION_DELAY
 
         - DB_HOSTNAME
-        - MYSQL_ROOT_PASSWORD
-        - MYSQL_DATABASE
-        - MYSQL_TEST_DATABASE
-        - MYSQL_USER
-        - MYSQL_PASSWORD
+        - MARIADB_ROOT_PASSWORD
+        - MARIADB_DATABASE
+        - MARIADB_TEST_DATABASE
+        - MARIADB_USER
+        - MARIADB_PASSWORD
 
         - REDIS_HOSTNAME
         - RABBIT_HOST
@@ -92,12 +92,12 @@ services:
         - INFLUX_HOST
         - INFLUX_PORT
         - CONSUL_HOST
-    image: grownetics/growdash:${VERSION}
+    image: grownetics/growdash:{{ grownetics.version }}
     volumes:
       - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
 
   nginx:
-    image: grownetics/nginx:${VERSION}
+    image: grownetics/nginx:{{ grownetics.version }}
     networks:
         - traefik_network
         - grownetics
@@ -114,11 +114,11 @@ services:
     restart: always
     command: mysqld --sql_mode=""
     environment:
-        - MYSQL_ROOT_PASSWORD
-        - MYSQL_DATABASE
-        - MYSQL_TEST_DATABASE
-        - MYSQL_USER
-        - MYSQL_PASSWORD
+        - MARIADB_ROOT_PASSWORD
+        - MARIADB_DATABASE
+        - MARIADB_TEST_DATABASE
+        - MARIADB_USER
+        - MARIADB_PASSWORD
     volumes:
         - "{{ volumes_root }}/grownetics/appdb:/var/lib/mysql"
     networks:
@@ -131,7 +131,7 @@ services:
         - grownetics
 
   growsocket:
-    image: grownetics/socketio:latest
+    image: grownetics/socketio:{{ grownetics.version }}
     restart: always
     ports:
         - 8989:8989
@@ -178,7 +178,7 @@ services:
       - grownetics
 
   growpulse:
-    image: grownetics/growdash:${VERSION}
+    image: grownetics/growdash:{{ grownetics.version }}
     restart: always
     command: /var/www/html/growpulse.sh
     networks:
@@ -195,11 +195,11 @@ services:
       - VERSION
 
       - DB_HOSTNAME
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_TEST_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
+      - MARIADB_ROOT_PASSWORD
+      - MARIADB_DATABASE
+      - MARIADB_TEST_DATABASE
+      - MARIADB_USER
+      - MARIADB_PASSWORD
 
       - REDIS_HOSTNAME
       - RABBIT_HOST
@@ -258,7 +258,7 @@ services:
 {% endif %}
 
   notifications:
-    image: grownetics/growdash:${VERSION}
+    image: grownetics/growdash:{{ grownetics.version }}
     networks:
       - grownetics
       - traefik_network
@@ -275,11 +275,11 @@ services:
       - VERSION
 
       - DB_HOSTNAME
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_TEST_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
+      - MARIADB_ROOT_PASSWORD
+      - MARIADB_DATABASE
+      - MARIADB_TEST_DATABASE
+      - MARIADB_USER
+      - MARIADB_PASSWORD
 
       - REDIS_HOSTNAME
       - RABBIT_HOST

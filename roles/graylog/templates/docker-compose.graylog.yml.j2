@@ -35,7 +35,7 @@ services:
       - GRAYLOG_ROOT_USERNAME={{ default_username }}
       # (GRAYLOG_PASSWORD_SECRET must be at least 16 characters)!
       - GRAYLOG_PASSWORD_SECRET={{lookup('password', './settings/passwords/graylog_password_secret length=16')}}
-      - GRAYLOG_ROOT_PASSWORD_SHA2={{ graylog_root_pw.stdout }} ## TODO: find another way
+      - GRAYLOG_ROOT_PASSWORD_SHA2=="{{lookup('password', './settings/passwords/graylog_root_pass chars=ascii_letters')}}"
       - GRAYLOG_HTTP_EXTERNAL_URI=http://{% if graylog.domain %}{{ graylog.domain }}{% else %}{{ graylog.subdomain + "." + domain }}{% endif %}/
       - GRAYLOG_HTTP_BIND_ADDRESS=0.0.0.0:9000
 {% if smtp.host %}
@@ -48,13 +48,10 @@ services:
       - GRAYLOG_TRANSPORT_EMAIL_AUTH_USERNAME={{ smtp.user }}
       - GRAYLOG_TRANSPORT_EMAIL_AUTH_PASSWORD={{ smtp.pass }}
       - GRAYLOG_TRANSPORT_EMAIL_FROM={{ smtp.from_email }}
-  {% else %}
+{% else %}
       - GRAYLOG_TRANSPORT_EMAIL_ENABLED=False
 {% endif %}
-
       - GRAYLOG_ROOT_TIMEZONE={{ common_timezone }}
-      - GRAYLOG_ALLOW_HIGHLIGHTING={{ graylog.allow_highlighting }}
-      - GRAYLOG_ALLOW_LEADING_WILDCARD_SEARCHES={{ graylog.allow_leading_wildcard_searches }}
     volumes:
       - {{ volumes_root }}/graylog/graylog_journal:/usr/share/graylog/data/journal
       - {{ volumes_root }}/graylog/graylog_plugin:/usr/share/graylog/plugin/
