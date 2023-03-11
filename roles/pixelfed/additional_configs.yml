@@ -1,3 +1,4 @@
   db_version: {{ pixelfed.db_version | default("latest") }}
   redis_version: {{ pixelfed.redis_version | default("latest") }}
   open_registration: {{ pixelfed.open_registration | default(True) }}
+  activity_pub_enabled: {{ pixelfed.activity_pub_enabled | default(False) }}
