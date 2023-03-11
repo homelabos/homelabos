@@ -1,0 +1,6 @@
+---
+full_service_name: nzbhydra2
+description: NZBHydra 2 is a meta search for newznab indexers and torznab trackers.
+category: file-sharing-and-synchronization
+version: latest
+port: 5076

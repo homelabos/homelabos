@@ -1,3 +1,8 @@
+# Dev
+
+## Services Added
+- Added NZBHydra 2 - A meta search for newznab indexers and torznab trackers.
+
 # v0.9
 ## Services Added
 - Added phpBB - phpBB is an Internet forum package in the PHP scripting language.

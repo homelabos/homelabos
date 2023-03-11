@@ -1,0 +1,26 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+      external:
+            name: homelabos_traefik
+
+services:
+  nzbhydra2:
+    restart: unless-stopped
+    # REQUIRED 
+    image: linuxserver/nzbhydra2
+    networks:
+      - traefik_network
+    container_name: nzbhydra2
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - TZ={{ common_timezone }}
+    volumes:
+      - "{{ volumes_root }}/nzbhydra2/config:/config"
+      - "{{ storage_dir }}/Downloads:/downloads"
+{% include './labels.j2' %}
