@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -85,13 +86,14 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 			additionalConfigsString = string(additionalConfigsFile)
 		}
 
-		version := data["version"]
+		fmt.Println(serviceName)
+		version := fmt.Sprintf("%f", data["version"])
 		port := data["port"]
-		if version != nil && port != nil && port != false && len([]rune(version.(string))) > 0 {
+		if version != "" && port != nil && port != false && len([]rune(version)) > 0 {
 			category := GetCategory(data["category"].(string))
 			services[serviceName] = Service{
 				serviceName,
-				data["description"].(string), version.(string), additionalConfigsString, -1, category, port.(int)}
+				data["description"].(string), version, additionalConfigsString, -1, category, port.(int)}
 		} else {
 			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0}
 		}
