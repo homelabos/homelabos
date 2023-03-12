@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"sort"
 	"text/template"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gitlab.com/nickbusey/homelabos/services"
 	"gitlab.com/nickbusey/homelabos/templates"
 )
@@ -82,10 +84,30 @@ var packageCmd = &cobra.Command{
 		template, _ = template.New("docs").Parse(templates.DocsIndex)
 		template.Execute(docsIndexFile, alphaSortedCategories)
 
+		if viper.GetBool("release") {
+			// Marshall doc.md files into the correct place
+			if err := os.Mkdir("docs/software", os.ModePerm); err != nil {
+			fmt.Println(err)
+			}
+
+			for _, service := range servicesList {
+				// mv roles/service.name/docs.md docs/software/service.name
+				oldLocation := fmt.Sprintf("./roles/%s/docs.md", service.Name)
+				newLocation := fmt.Sprintf("./docs/software/%s.md", service.Name)
+				// err := os.Rename(oldLocation, newLocation)
+				_, err := exec.Command("cp", oldLocation, newLocation).CombinedOutput()
+				if err != nil {
+					fmt.Println(err)
+				}
+			}
+		}
+
 		fmt.Println("Done")
 	},
 }
 
 func init() {
+	packageCmd.Flags().BoolP("release", "r", false, "Is this for a HomelabOS version release? (If so, include ALL software)")
+	viper.BindPFlag("release", packageCmd.Flags().Lookup("release"))
 	rootCmd.AddCommand(packageCmd)
 }
