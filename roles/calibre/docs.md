@@ -12,6 +12,8 @@ and test your idea using the [documentation](https://homelabos.com/docs/developm
 
 ## Access
 
+Default login is user admin with password admin123, please change the password immediately. 
+
 It is available at [https://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/](https://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/) or [http://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/](http://{% if calibre.domain %}{{ calibre.domain }}{% else %}{{ calibre.subdomain + "." + domain }}{% endif %}/)
 
 {% if enable_tor %}
