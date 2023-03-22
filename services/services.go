@@ -87,14 +87,20 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 		}
 
 		fmt.Println(serviceName)
-		version := fmt.Sprintf("%f", data["version"])
+		version := fmt.Sprintf("%s", data["version"])
 		port := data["port"]
 		if version != "" && port != nil && port != false && len([]rune(version)) > 0 {
 			category := GetCategory(data["category"].(string))
 			services[serviceName] = Service{
 				serviceName,
-				data["description"].(string), version, additionalConfigsString, -1, category, port.(int)}
+				data["description"].(string),
+				version,
+				additionalConfigsString,
+				-1,
+				category,
+				port.(int)}
 		} else {
+			fmt.Printf("%s failed!\n\n",serviceName)
 			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0}
 		}
 	}
