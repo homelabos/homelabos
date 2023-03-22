@@ -1,6 +1,0 @@
----
-full_service_name: Bulletnotes
-description: Open source note taking app
-category: note-taking-and-editor
-version: latest
-port: 3000

@@ -195,7 +195,7 @@ vagrant: logo build config
 
 # Serve the HomelabOS Documentation locally
 docs_local:
-	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material:Z
+	@docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
 
 # Build the HomelabOs Documentation - Requires mkdocs with the Material Theme
 docs_build: logo build git_sync config

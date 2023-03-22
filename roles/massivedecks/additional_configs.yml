@@ -1,0 +1,2 @@
+  server_version: {{ massivedecks.server_version | default("latest") }}
+  client_version: {{ massivedecks.client_version | default("latest") }}

@@ -1,4 +1,7 @@
-# Dev
+# v0.9.1
+
+## Fixes
+- Fix for fresh install and build script
 
 ## Services Added
 - Added NZBHydra 2 - A meta search for newznab indexers and torznab trackers.
