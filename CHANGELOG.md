@@ -1,4 +1,7 @@
-# Dev
+# v0.9.1
+
+## Fixes
+- Fix for fresh install and build script
 
 ## Fixes
 - Fix for fresh install and build script
