@@ -135,7 +135,7 @@ supporters:
   supporterItems:
     # supporter item loop
     - name : "DigitalOcean"
-      image : "images/800px-DigitalOcean_logo.png"
+      image : "images/digitalocean_logo.png"
       url: "https://www.digitalocean.com/"
     - name : "Zulip"
       image : "images/zulip_logo.png"
