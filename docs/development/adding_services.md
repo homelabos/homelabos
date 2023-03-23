@@ -47,17 +47,8 @@ Each service should have it's own page within the `docs_software/` folder.
 Use existing docs as a template.
 
 ## Run Build Tool
-$ `go run main.go`
-This will regenerate the `group_vars/all` file.
-
-## Add Service to docs/index.md
-
-The service should be added under the list of `Available Software`.
-
-## Add Service to `config.yml.j2`
-
-In the config template `roles/homelabos_config/templates/config.yml.j2` the
-service should be added in alphabetical order under the `# Services List` section.
+$ `go run main.go package`
+This will regenerate the `docs/index.md` file.
 
 ## Add Service to CHANGELOG.md
 
