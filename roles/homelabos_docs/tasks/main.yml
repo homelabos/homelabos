@@ -27,7 +27,7 @@
     src: "{{ item.src }}"
     dest: "{{ volumes_root }}/docs/docs/{{ item.path }}"
   with_filetree: "docs/"
-  when: item.state == 'file' and item.src is search("\.md$")
+  when: item.state == 'file' and item.src is search("\.md$") and item.path is not search("development")
 
 - name: Configure HomelabOS Documentation images.
   copy:
