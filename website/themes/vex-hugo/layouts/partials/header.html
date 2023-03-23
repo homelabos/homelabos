@@ -15,7 +15,7 @@
           </li>
           {{ range .Site.Menus.main }}
           <li class="nav-item">
-            <a class="nav-link page-scroll" href="#{{ .URL }}">{{ .Name }}</a>
+            <a class="nav-link page-scroll" href="{{ .URL }}">{{ .Name }}</a>
           </li>
           {{ end }}
         </ul>
