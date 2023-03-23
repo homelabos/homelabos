@@ -39,22 +39,28 @@ Look at other services as a reference.
 
 All mounted docker volumes should point to a folder named after the service that is using it, and located under `{{ volumes_root }}`.
 
-## Add Service to Documentation
+## Create service.yml in the role folder
+Contents in this format
+```yaml
+---
+full_service_name: Airsonic
+description: Airsonic is a free, web-based media streamer, providing ubiquitous access to your music.
+project_url: https://airsonic.github.io/
+category: media-streaming
+version: latest
+port: 4040
+```
 
-### Create a Documentation Page
+## Create a Documentation Page
 
-Each service should have it's own page within the `docs_software/` folder.
-Use existing docs as a template.
+Each service should have a `docs.md` file in it's folder.
 
-## Run Build Tool
-$ `go run main.go package`
-This will regenerate the `docs/index.md` file.
+## Test it
+### Run the test tool
+$ `go run main.go test`
+Fix any issues.
 
-## Add Service to CHANGELOG.md
-
-Add at the top of the file, rather than under the previously newest release.
-
-# How to Debug a New Service
+### How to Debug a New Service
 
 After a new service has been deployed, run `systemctl status SERVICE_NAME` to see
 how it's doing.
@@ -64,5 +70,14 @@ If it's not running with an error like `(code=exited, status=1/FAILURE)`
 Grab the value of the ExecStart line, and run it by hand. So if the ExecStart line looks like:
 `ExecStart=/usr/bin/docker-compose -p zulip up`
 then manually change directory `cd {{ volumes_root }}/zulip` and run the bit after the =, `/usr/bin/docker-compose -p zulip up` to see the error output directly.
+
+## Finalize It
+### Run Build Tool
+$ `go run main.go package`
+This will regenerate the `docs/index.md` file.
+
+### Add Service to CHANGELOG.md
+
+Add at the top of the file under the `Dev` section, rather than under the previous release.
 
 {% endraw %}
