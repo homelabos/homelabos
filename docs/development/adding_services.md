@@ -1,5 +1,6 @@
-{% raw %}
-# Before you begin
+# Adding Services to HomelabOS
+
+## Before you Begin
 
 Before you begin, please familiarize yourself with the [contributing](contributing.md) document.
 
@@ -8,9 +9,9 @@ Also, make sure the project meets our standards for inclusion.
 * Services should be in development for at least a year.
 * Services should be actively maintained. (Last commit within 6 months.)
 
-# How to Manually Add Services to HomelabOS
+## Adding a service
 
-## Create Role Folder
+### Create Role Folder
 
 Make the following folder structure
 ```
@@ -35,11 +36,8 @@ If the default setup and start steps don't work, remove the includes, copy/paste
 
 In templates/ add `docker-compose.servicename.yml.j2` and fill that out.
 Look at other services as a reference.
-### Use hardcoded volume paths
 
-All mounted docker volumes should point to a folder named after the service that is using it, and located under `{{ volumes_root }}`.
-
-## Create service.yml in the role folder
+### Create service.yml in the role folder
 Contents in this format
 ```yaml
 ---
@@ -51,9 +49,22 @@ version: latest
 port: 4040
 ```
 
-## Create a Documentation Page
+### Create a Documentation Page
 
 Each service should have a `docs.md` file in it's folder.
+
+### Review
+
+You should have at the minimum the following files.
+```
+servicename/
+  tasks/
+    main.yml
+  templates/
+    docker-compose.servicename.yml.j2
+  docs.md
+  service.yml
+```
 
 ## Test it
 ### Run the test tool
@@ -79,5 +90,3 @@ This will regenerate the `docs/index.md` file.
 ### Add Service to CHANGELOG.md
 
 Add at the top of the file under the `Dev` section, rather than under the previous release.
-
-{% endraw %}
