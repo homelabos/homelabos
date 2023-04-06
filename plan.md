@@ -1,7 +1,6 @@
-# v0.9 Cleanup
+# v0.9.3 Cleanup
+Re-enable mitogen.
 push multi-arch docker image
-Add doc versions to homelabos.com docs
-Include go binary in docker image to prevent installing go libs every time
 Require version setting for every service
 
 # v1.0 Release Plan

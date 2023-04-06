@@ -21,6 +21,7 @@ services:
         - DEMO
         - ENVIRONMENT
         - REMOTE_DOMAIN
+        - REMOTE_SOCKET_DOMAIN
         - PORT
         - VERSION
         - SHORT_NAME
@@ -58,6 +59,7 @@ services:
     image: grownetics/growdash:{{ grownetics.version }}
     volumes:
         - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
+{% include './labels.j2' %}
 
   deviceapi:
     restart: always
@@ -95,19 +97,6 @@ services:
     image: grownetics/growdash:{{ grownetics.version }}
     volumes:
       - "{{ volumes_root }}/grownetics/tmp:/tmp:cached"
-
-  nginx:
-    image: grownetics/nginx:{{ grownetics.version }}
-    networks:
-        - traefik_network
-        - grownetics
-    restart: always
-    ports:
-      - "81:81"
-    links:
-        - growdash
-        - deviceapi
-{% include './labels.j2' %}
 
   appdb:
     image: mariadb:10.5
@@ -166,11 +155,6 @@ services:
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
     restart: always
-    environment:
-      # - RABBITMQ_DEFAULT_USER:RABBIT_USER
-      - RABBITMQ_DEFAULT_USER=rabbit
-      # - RABBITMQ_DEFAULT_PASS:RABBIT_PASS
-      - RABBITMQ_DEFAULT_PASS=rabbit
     ports:
       - "15672:15672"
       - "5672:5672"

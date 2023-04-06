@@ -39,7 +39,7 @@ features:
   rightSide:
     # feature item loop
   - icon : "tf-ion-thumbsup"
-    title : "One Line Deploy"
+    title : "(Optional) One Line Deploy"
     content : "$ bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)"
 
     # feature item loop
@@ -121,12 +121,25 @@ cta:
 testimonial:
   enable : true
   title : "Testimonials"
-  testimonialItem:
+  testimonialItems:
     # testimonial item loop
     - name : "Nick Busey"
       designation : "Developer"
       image : "images/testimonial-1.jpg"
       content : "It seems to work."
+
+############################## Supporters ##########################
+supporters:
+  enable : true
+  title : "Supporters"
+  supporterItems:
+    # supporter item loop
+    - name : "DigitalOcean"
+      image : "images/digitalocean_logo.png"
+      url: "https://www.digitalocean.com/"
+    - name : "Zulip"
+      image : "images/zulip_logo.png"
+      url: "https://zulip.com"
 
 ############################# Community #######################
 community:
@@ -172,11 +185,3 @@ community:
         enable : true
         label : "HomelabOS on Twitter"
         link : "https://twitter.com/HomelabOS"
-
-    - title : "Patreon"
-      # image : "images/.png"
-      content : "Support HomelabOS development financially on Patreon."
-      button:
-        enable : true
-        label : "Nick Busey on Patreon"
-        link : "https://patreon.com/NickBusey"

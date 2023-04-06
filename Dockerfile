@@ -1,6 +1,17 @@
+FROM golang
+WORKDIR /go/src/gitlab.com/nickbusey/homelabos/
+COPY main.go ./
+COPY go.mod ./
+COPY services/ ./services/
+COPY cmd/ ./cmd/
+COPY templates/ ./templates/
+RUN go get .
+RUN CGO_ENABLED=0 go build -a -installsuffix cgo -o homelabos .
+
 # From https://github.com/walokra/docker-ansible-playbook
 
 FROM python:3.11-alpine
+COPY --from=0 /go/src/gitlab.com/nickbusey/homelabos/homelabos /usr/bin/homelabos
 
 ENV ANSIBLE_VERSION 2.12
 

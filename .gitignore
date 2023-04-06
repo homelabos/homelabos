@@ -13,10 +13,10 @@ settings.*
 pkg/
 
 # Generated files
-docs/index.md
 docs/software/
 group_vars/all
 roles/homelabos_config/templates/config.yml.j2
+public/
 
 # ignore swp files
 *.swp

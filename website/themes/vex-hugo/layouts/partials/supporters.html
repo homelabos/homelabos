@@ -1,0 +1,28 @@
+{{ if .Site.Data.homepage.supporters.enable }}
+<section class="supporters section" id="supporter">
+    <div class="container">
+        {{ with .Site.Data.homepage.supporters }}
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="heading">
+                    <h2>{{ .title | markdownify }}</h2>
+                    <h3>These organizations donate resources to the HomelabOS project.</h3>
+                </div>
+            </div>
+            {{ range .supporterItems }}
+            <div class="col-lg-4 col-sm-6 mb-5 mb-lg-0 text-center">
+                <div class="supporter-block">
+                    <div class="author-details">
+                        <a href="{{ .url }}">
+                            <img src="{{ .image | absURL }}" alt="{{ .name }}">
+                            <h4>{{ .name }}</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    </div>
+</section>
+{{ end }}
