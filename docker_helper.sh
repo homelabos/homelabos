@@ -3,13 +3,7 @@
 VERSION=$(cat VERSION)
 SSH_KEY=${SSH_KEY:-"${HOME}/.ssh/id_rsa"}
 
-if [ ! -f "$HOME/.homelabos_vault_pass" ]; then
-    echo "Oops, I cannot find your vault password in $HOME/.homelabos_vault_pass"
-    echo "This is unusual, but could be caused by the user being changed during setup."
-    read -p "Press ctrl-c and create the file in the right place.  Then file a bug report."
-fi
-
-if [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" -a -f "$HOME/.homelabos_vault_pass" ]; then
+if [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" ]; then
     docker run --rm -it \
       -v ${SSH_KEY}:/root/.ssh/id_rsa:Z \
       -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub:Z \
