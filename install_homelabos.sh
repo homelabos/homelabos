@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(curl https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/VERSION)
+VERSION=$(curl https://gitlab.com/NickBusey/HomelabOS/-/raw/master/VERSION)
 REPO=NickBusey
 
 while getopts r:v: option
