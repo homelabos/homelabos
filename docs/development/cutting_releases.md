@@ -5,7 +5,7 @@ This is the process to cut a new versioned release.
 * Cut the Release
   * Make a new GitLab Issue for the release targeting the `master` branch.
   * Start a MR for the Issue.
-  * Set the version number of the new release in the files: `VERSION` and `CHANGELOG`
+  * Set the version number of the new release in the files: `install_homelabos.sh`, `VERSION` and `CHANGELOG`
   * Push up docker image for latest build
     * Enable buildx on Ubuntu
       `wget https://github.com/docker/buildx/releases/download/v0.10.4/buildx-v0.10.4.linux-amd64`
@@ -17,4 +17,4 @@ This is the process to cut a new versioned release.
   * From `master` tag the release in GitLab. Add that version's `CHANGELOG` section to the `Message` of the tag.
 
 * Clean up the dev branch
-  * Revert version to `dev` in the files: `VERSION` and `CHANGELOG`
+  * Revert version to `dev` in the files: `install_homelabos.sh`, `VERSION` and `CHANGELOG`
