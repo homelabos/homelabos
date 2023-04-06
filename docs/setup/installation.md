@@ -88,7 +88,9 @@ chmod +x install_homelabos.sh
 ```
 
 #### Lazy method
-`bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)`
+```
+bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)
+```
 
 
 ### Manual Set-up
