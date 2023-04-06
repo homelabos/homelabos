@@ -39,7 +39,7 @@ features:
   rightSide:
     # feature item loop
   - icon : "tf-ion-thumbsup"
-    title : "One Line Deploy"
+    title : "(Optional) One Line Deploy"
     content : "$ bash <(curl -s https://gitlab.com/NickBusey/HomelabOS/-/raw/master/install_homelabos.sh)"
 
     # feature item loop
