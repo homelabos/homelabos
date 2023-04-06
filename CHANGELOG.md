@@ -1,6 +1,11 @@
 # Dev
 
 
+# v0.9.2.1
+
+## Fixes
+- Install script patch
+
 # v0.9.2
 
 ## Improvements
