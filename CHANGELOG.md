@@ -1,10 +1,9 @@
-# Dev
+# v0.9.2
 
+## Improvements
+- Use multi-stage docker builds to speed up deploy time.
 
 # v0.9.1
-
-## Fixes
-- Fix for fresh install and build script
 
 ## Fixes
 - Fix for fresh install and build script
