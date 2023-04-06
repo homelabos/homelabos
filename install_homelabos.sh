@@ -1,6 +1,8 @@
 #!/bin/bash
 
-VERSION=$(curl https://gitlab.com/NickBusey/HomelabOS/-/raw/dev/VERSION)
+MASTER_VERSION=$(curl https://gitlab.com/NickBusey/HomelabOS/-/raw/master/VERSION)
+VERSION=${VERSION:-$MASTER_VERSION}
+echo "Building version: $VERSION"
 REPO=NickBusey
 
 while getopts r:v: option
