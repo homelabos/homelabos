@@ -1,0 +1,2 @@
+  db_version: {{ authelia.db_version | default("10.3") }}
+  redis_version: {{ authelia.redis_version | default("latest") }}
