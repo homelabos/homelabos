@@ -1,2 +1,35 @@
-  db_version: {{ authelia.db_version | default("10.3") }}
-  redis_version: {{ authelia.redis_version | default("latest") }}
+  redis_version: {{ authelia.redis_version | default("5.0.5-alpine") }}
+  db_version: {{ authelia.db_version | default("latest") }}
+  redirect_url:  {{ authelia.redirect_url | default(vault.authelia.redirect_url, None) | default("https://organizr." + domain) }}
+  # Determines how verbose the logs are
+  log_level: {{ authelia.log_level | default(vault.authelia.log_level, None) | default('debug') }}
+   # Use common name "john doe" or username "jdoe"?
+  use_username: {{ authelia.use_username | default(vault.authelia.use_username, None) | default(True) }}
+   # MUST be a REAL, ACCESSABLE address!
+  default_user_email: {{ authelia.default_user_email | default(vault.authelia.default_user_mail, None) | default() }}
+  max:
+     # Value is in seconds, or duration notation. See: https://docs.authelia.com/configuration/index.html#duration-notation-format
+    remember_me_duration: {{ authelia.max.remember_me_duration | default('1M') }}
+     # max # of retries to authenticate (default 5)
+    retries: {{ authelia.max.retries | default(vault.authelia.max.retries, None) | default(5) }}
+     # max time before the retry count resets (default 2 min)
+    retries_in_time: {{ authelia.max.retries_in_time | default(vault.authelia.max.retries_in_time, None) | default(120) }}
+    # ban if max retry count within the time frame (in seconds) is exceeded
+    retries_ban_time: {{ authelia.max.retries_ban_time | default(vault.authelia.max.retries_ban_time, None) | default(300) }}
+  default:
+    # the number of authentication factors required by default
+    factor_count: {{ authelia.default.factor_count | default(vault.authelia.default.factor_count, None) | default('one_factor') }}
+    # how long it takes for the cookie to expire (default, 1hr)
+    cookie_expiration: {{ authelia.default.cookie_expiration | default(vault.authelia.default.cookie_expiration, None) | default(3600000) }}
+    # inactivity time for the cookie default (5m)
+    cookie_inactivity: {{ authelia.default.cookie_inactivity | default(vault.authelia.default.cookie_inactivity, None) | default(300000) }}
+    # default policy - deny by default
+    policy: {{ authelia.default.policy | default(vault.authelia.default.policy, None) | default('deny') }}
+{% raw %}
+  duo:
+    hostname: "{{ vault.authelia.duo.hostname}}"
+    integration_key: "{{ vault.authelia.duo.integration_key }}"
+    secret_key: "{{ vault.authelia.duo.secret_key }}"
+  # Don't change these unless you know what you're doing
+  migration: "{{ vault.authelia.migration }}"
+{% endraw %}
