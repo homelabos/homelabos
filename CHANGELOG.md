@@ -1,5 +1,7 @@
-# Dev
+# v0.9.2.2
 
+## Fixes
+- Fixed Authelia
 
 # v0.9.2.1
 
