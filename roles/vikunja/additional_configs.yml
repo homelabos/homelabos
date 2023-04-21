@@ -1,0 +1,3 @@
+  db_version: {{ vikunja.db_version | default("latest") }}
+  frontend_version: {{ vikunja.frontend_version | default("latest") }}
+  api_version: {{ vikunja.api_version | default("latest") }}
