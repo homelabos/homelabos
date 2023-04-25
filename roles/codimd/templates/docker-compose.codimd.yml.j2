@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   codiMdApp:
-    image: quay.io/codimd/server:{{ codimd.version }}
+    image: hackmdio/hackmd:{{ codimd.version }}
     restart: unless-stopped
     depends_on:
       - codiMdDatabase
@@ -31,4 +31,6 @@ services:
       - codimd
     environment:
       - CMD_DB_URL=postgres://codimd:{{lookup('password', './settings/passwords/codimd_postgressPass chars=ascii_letters length=32')}}@codiMdDatabase:5432/codimd
+    volumes:
+      - "{{ volumes_root }}/codimd/upload-data:/home/hackmd/app/public/uploads"
 {% include './labels.j2' %}
