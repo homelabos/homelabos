@@ -2,4 +2,5 @@
 full_service_name: Plex
 description: Plex is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.
 category: media-streaming
+version: latest
 port: 32400
