@@ -1,0 +1,6 @@
+---
+full_service_name: Bazarr
+description: Companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
+category: file-sharing-and-synchronization
+version: latest
+port: 6767

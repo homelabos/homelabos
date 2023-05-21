@@ -139,6 +139,9 @@ Miniflux is a minimalist and opinionated feed reader.
 
 ### File Sharing and Synchronization
 
+#### [bazarr](./software/bazarr)
+Companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
+
 #### [duplicati](./software/duplicati)
 Free backup software to store encrypted backups online
 
