@@ -1,0 +1,23 @@
+---
+version: '3'
+
+services:
+  base_domain:
+    image: velo/unofficial_ddns:latest
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    command: ['-n', '{{ domain }}', '-u', '{{ unofficial_ddns.user }}', '-p', '{{ unofficial_ddns.token }}', '-i', '5', '-v']
+  start_domain:
+    image: velo/unofficial_ddns:latest
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    command: ['-n', '*.{{ domain }}', '-u', '{{ unofficial_ddns.user }}', '-p', '{{ unofficial_ddns.token }}', '-i', '5', '-v']
+{% include './labels.j2' %}

@@ -342,6 +342,9 @@ AI-based failure detection for 3D printer remote management and monitoring.
 #### [unificontroller](./software/unificontroller)
 The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 
+#### [unofficial_ddns](./software/unofficial_ddns)
+UnofficialDDNSnix is a service which provides dynamic DNS for name.com
+
 #### [vikunja](./software/vikunja)
 
 

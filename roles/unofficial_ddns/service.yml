@@ -1,0 +1,6 @@
+---
+full_service_name: UnofficialDDNSnix
+description: UnofficialDDNSnix is a service which provides dynamic DNS for name.com
+category: misc-other
+version: latest
+port: 0
