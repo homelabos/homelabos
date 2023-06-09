@@ -19,6 +19,7 @@ services:
       - "{{ storage_dir }}/Video/Tubearchivist/media:/youtube"
     environment:
       - TA_USERNAME=tubearchivist
+      - TA_HOST={{ tubearchivist.subdomain }}.{{ domain }}
       - "TA_PASSWORD={{lookup('password', './settings/passwords/tubearchivist_ta_passphrase chars=ascii_letters')}}"
       - ES_URL=http://tubearchivist-es:9200
       - REDIS_HOST=tubearchivist-redis
@@ -48,6 +49,7 @@ services:
     environment:
       - "ELASTIC_PASSWORD={{lookup('password', './settings/passwords/tubearchivist_elasticsearch_passphrase chars=ascii_letters')}}"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - path.repo=/usr/share/elasticsearch/data/snapshot
       - "xpack.security.enabled=true"
       - "discovery.type=single-node"
     ulimits:

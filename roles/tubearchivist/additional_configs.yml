@@ -1,0 +1,2 @@
+  redis_version: {{ tubearchivist.redis_version | default("latest") }}
+  elasticsearch_version: {{ tubearchivist.elasticsearch_version | default("8.8.1") }}
