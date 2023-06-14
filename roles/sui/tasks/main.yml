@@ -3,6 +3,12 @@
 - name: Setup {{service_item}}
   include: includes/setup.yml
 
+- name: Make sui's config directory
+  file:
+    path: "{{ volumes_root }}/sui/configs"
+    state: directory
+    mode: u+rwx,g+rwx,o+rx
+
 - name: Copy sui config files into place.
   template:
     src: "{{ item }}"
