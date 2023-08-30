@@ -33,11 +33,12 @@
 - name: Configure documentation
   hosts: homelabos
   become: true
-  # gather_facts: "True"
   tags:
     - homelabos
-  roles:
-    - homelabos_docs
+  tasks:
+    - include_role:
+        name: homelabos_docs
+      when: docs.enable == True
 
 # Install and configure HomelabOS services
 - name: Install and configure HomelabOS services

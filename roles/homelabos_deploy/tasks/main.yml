@@ -224,18 +224,6 @@
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 
-- name: Build docs using mkdocs Docker image
-  shell:
-    chdir: /var/homelabos/docs
-    cmd: docker run -v $(pwd):/target nickbusey/homelabos-mkdocs mkdocs build
-
-- name: Start HomelabOS Documentation
-  systemd:
-    name: docs
-    enabled: "yes"
-    daemon-reload: "yes"
-    state: restarted
-
 - name: Ensure disabled services are not running
   systemd:
     name: "{{ service_item }}"
