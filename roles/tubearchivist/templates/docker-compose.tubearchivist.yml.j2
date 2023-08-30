@@ -32,7 +32,7 @@ services:
 {% include './labels.j2' %}
 
   tubearchivist-redis:
-    image: redislabs/rejson:{{ tubearchivist.redis_version }}
+    image: redis/redis-stack-server:{{ tubearchivist.redis_version }}
     restart: unless-stopped
     networks:
       - tubearchivist
