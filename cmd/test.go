@@ -29,7 +29,7 @@ var colorBlue string = "\033[34m"
 var maxTests = 5
 var testsRunning = 0
 var servicesRemaining = 0
-var maxPoints = 7
+var maxPoints = 8
 var totalPoints = 0
 
 var servicesList map[string]services.Service
@@ -102,16 +102,6 @@ func watchdog(verbosity int) {
 func sanityCheck(service services.Service, verbosity int) {
 	serviceOk := true
 
-	// Detect if the service has a doc file
-	if _, err := os.Stat("./roles/" + service.Name + "/docs.md"); errors.Is(err, os.ErrNotExist) {
-		if verbosity > 0 {
-			fmt.Println("No doc file found for " + service.Name)
-		}
-		serviceOk = false
-	} else {
-		service.Status++
-	}
-
 	// Detect if the service has a service.yml file
 	buffer, err := ioutil.ReadFile("./roles/" + service.Name + "/service.yml")
 	if err != nil {
@@ -123,11 +113,39 @@ func sanityCheck(service services.Service, verbosity int) {
 		service.Status++
 	}
 
-	// Detect if the service.yml defines a port
 	serviceYmlContents := string(buffer)
+	// Ignore snowflake services that don't conform to the sanity checks.
+	if strings.Contains(serviceYmlContents, "sanity_ignore: true") {
+		service.Status = maxPoints
+		service.SanityIgnore = true
+		serviceOk = true
+	}
+
+	// Detect if the service has a doc file
+	if _, err := os.Stat("./roles/" + service.Name + "/docs.md"); errors.Is(err, os.ErrNotExist) {
+		if verbosity > 0 && !service.SanityIgnore {
+			fmt.Println("No doc file found for " + service.Name)
+		}
+		serviceOk = false
+	} else {
+		service.Status++
+	}
+
+	// Detect if the service.yml defines a port
 	if !strings.Contains(serviceYmlContents, "port:") {
-		if verbosity > 0 {
+		if verbosity > 0 && !service.SanityIgnore {
 			fmt.Println("Service.yml didn't define a port for " + service.Name)
+		}
+		serviceOk = false
+	} else {
+		service.Status++
+	}
+
+	// Detect if the service.yml defines a version
+	serviceYmlContents = string(buffer)
+	if !strings.Contains(serviceYmlContents, "version:") {
+		if verbosity > 0 && !service.SanityIgnore {
+			fmt.Println("Service.yml didn't define a version for " + service.Name)
 		}
 		serviceOk = false
 	} else {
@@ -137,7 +155,7 @@ func sanityCheck(service services.Service, verbosity int) {
 	// Make sure the service has a task file
 	buffer, err = ioutil.ReadFile("roles/" + service.Name + "/tasks/main.yml")
 	if err != nil {
-		if verbosity > 0 {
+		if verbosity > 0 && !service.SanityIgnore {
 			fmt.Println("No task file found for " + service.Name)
 		}
 		// File doesn't exist
@@ -149,7 +167,7 @@ func sanityCheck(service services.Service, verbosity int) {
 	// Detect if the service is using the new include style
 	fileContents := string(buffer)
 	if !strings.Contains(fileContents, "includes/start.yml") {
-		if verbosity > 0 {
+		if verbosity > 0 && !service.SanityIgnore {
 			fmt.Println("Task file not using imports for " + service.Name)
 		}
 		serviceOk = false
@@ -160,7 +178,7 @@ func sanityCheck(service services.Service, verbosity int) {
 	// Make sure the service has a docker-compose file
 	buffer, err = ioutil.ReadFile("roles/" + service.Name + "/templates/docker-compose." + service.Name + ".yml.j2")
 	if err != nil {
-		if verbosity > 0 {
+		if verbosity > 0 && !service.SanityIgnore {
 			fmt.Println("No compose file found for " + service.Name)
 		}
 		// File doesn't exist
@@ -172,7 +190,7 @@ func sanityCheck(service services.Service, verbosity int) {
 	// Detect if the service is using the new label style
 	fileContents = string(buffer)
 	if strings.Contains(fileContents, "labels:") && !strings.Contains(serviceYmlContents, "port: false") {
-		if verbosity > 0 {
+		if verbosity > 0 && !service.SanityIgnore {
 			fmt.Println("Compose file not using new label format for " + service.Name)
 		}
 		serviceOk = false
@@ -180,21 +198,11 @@ func sanityCheck(service services.Service, verbosity int) {
 		service.Status++
 	}
 
-	// Ignore snowflake services that don't conform to the sanity checks.
-	if strings.Contains(serviceYmlContents, "sanity_ignore: true") {
-		service.Status = maxPoints
-		serviceOk = true
-	}
-
 	// Output service status
 	if serviceOk {
-		if viper.GetInt("verbosity") > 0 {
-			fmt.Println(string(colorGreen), "Service OK!: "+service.Name)
-		} else {
-			fmt.Print(string(colorGreen), ".")
-		}
+		fmt.Print(string(colorGreen), ".")
 		happyServices++
-	} else {
+	} else if !service.SanityIgnore {
 		if viper.GetInt("verbosity") > 0 {
 			fmt.Println(string(colorRed), "Service SAD!: "+service.Name)
 		} else {

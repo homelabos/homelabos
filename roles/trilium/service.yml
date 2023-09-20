@@ -3,3 +3,5 @@ full_service_name: Trilium
 description: Build your personal knowledge base with Trilium Notes
 category: note-taking-and-editors
 port: 8080
+version: latest
+

@@ -3,3 +3,4 @@ full_service_name: Speedtest
 description: A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
 category: monitoring
 port: 80
+version: latest
