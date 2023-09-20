@@ -1,0 +1,6 @@
+---
+full_service_name: Tubearchivist-jf
+description: Import your Tube Archivist media folder into Jellyfin
+category: media-streaming
+version: latest
+port: 8001

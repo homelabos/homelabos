@@ -1,0 +1,2 @@
+  tubearchivist_token: {{ tubearchivist_jf.tubearchivist_token }}
+  jellyfin_token: {{ tubearchivist_jf.jellyfin_token}}

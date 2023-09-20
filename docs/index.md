@@ -244,6 +244,9 @@ Plex is a media server. Just point it at your NAS collections of Movies and TV a
 #### [tubearchivist](./software/tubearchivist)
 Your self hosted YouTube media server
 
+#### [tubearchivist_jf](./software/tubearchivist_jf)
+Import your Tube Archivist media folder into Jellyfin
+
 ### Misc/Other
 
 #### [adguardhome](./software/adguardhome)

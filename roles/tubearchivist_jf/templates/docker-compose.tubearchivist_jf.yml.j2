@@ -1,0 +1,23 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  tubearchivist-jf:
+
+services:
+  tubearchivist-jf:
+    image: bbilly1/tubearchivist-jf
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    environment:
+      - TA_URL=http://{{ tubearchivist.subdomain }}.{{ domain }}
+      - TA_TOKEN={{ tubearchivist_jf.tubearchivist_token }}
+      - JF_URL=http://{{ jellyfin.subdomain }}.{{ domain }}
+      - JF_TOKEN={{ tubearchivist_jf.jellyfin_token }}
+    volumes:
+      - "{{ storage_dir }}/Video/Tubearchivist/media:/youtube"
+{% include './labels.j2' %}

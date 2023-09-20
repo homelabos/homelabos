@@ -19,4 +19,5 @@ services:
       - "{{ volumes_root }}/jellyfin/config:/config"
       - "{{ storage_dir }}:/media"
       - "{{ storage_dir }}/temp:/cache"
+      - "{{ storage_dir }}/Video/Tubearchivist/media:/youtube:ro"
 {% include './labels.j2' %}
