@@ -175,6 +175,9 @@ An open-source alternative to µTorrent
 #### [radarr](./software/radarr)
 Automated movie downloader
 
+#### [restic](./software/restic)
+Backup software
+
 #### [sickchill](./software/sickchill)
 SickChill is an automatic Video Library Manager for TV Shows.
 
@@ -311,9 +314,6 @@ Pi-hole provides network-wide ad blocking via your own Linux hardware.
 
 #### [privatebin](./software/privatebin)
 Threaded chat softwarePrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
-
-#### [restic](./software/restic)
-
 
 #### [rsshub](./software/rsshub)
 RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.

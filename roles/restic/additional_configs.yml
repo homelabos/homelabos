@@ -1,0 +1,1 @@
+  forget_args: {{ restic.forget_args | default("--prune --keep-last 10 --keep-daily 7 --keep-weekly 52 --keep-monthly 120 --keep-yearly 100") }}

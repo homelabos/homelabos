@@ -4,7 +4,7 @@ version: '3'
 services:
   #Backups: https://homelabos.com/docs/setup/backups/
   restic:
-    image: lobaro/restic-backup-docker:{{ restic.version }}
+    image: ghcr.io/lobaro/restic-backup-docker:{{ restic.version }}
     restart: unless-stopped
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}
@@ -14,7 +14,7 @@ services:
       - BACKUP_CRON={{ s3_backup_cron }}
       - HOSTNAME={{ domain }}
       - RESTIC_JOB_ARGS="--exclude=minio --host {{ domain }}"
-      - RESTIC_FORGET_ARGS="--prune --keep-last 10 --keep-daily 7 --keep-weekly 52 --keep-monthly 120 --keep-yearly 100"
+      - RESTIC_FORGET_ARGS="{{ restic.forget_args }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - "{{ volumes_root }}:/data:ro"
