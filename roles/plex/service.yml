@@ -4,3 +4,4 @@ description: Plex is a media server. Just point it at your NAS collections of Mo
 category: media-streaming
 version: latest
 port: 32400
+version: latest

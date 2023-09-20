@@ -3,3 +3,4 @@ full_service_name: Tiddlywiki
 description: A unique non-linear notebook for capturing, organizing and sharing complex information
 category: note-taking-and-editors
 port: 8080
+version: latest

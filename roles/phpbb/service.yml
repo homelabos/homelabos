@@ -3,3 +3,4 @@ full_service_name: phpBB
 description: phpBB is an Internet forum package in the PHP scripting language.
 category: social-networking
 port: 8080
+version: latest

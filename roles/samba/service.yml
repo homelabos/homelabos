@@ -3,3 +3,4 @@ full_service_name: Samba
 description: Export your HomelabOS storage_dirs as file shares to other computers on your local network
 category: file-sharing-and-synchronization
 port: false
+version: latest

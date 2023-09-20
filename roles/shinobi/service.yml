@@ -3,3 +3,4 @@ full_service_name: Shinobi
 description: Free Open Source CCTV platform.
 category: misc-other
 port: 8080
+version: latest

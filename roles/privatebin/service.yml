@@ -3,3 +3,4 @@ full_service_name: PrivateBin
 description: Threaded chat softwarePrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 category: misc-other
 port: 8080
+version: latest
