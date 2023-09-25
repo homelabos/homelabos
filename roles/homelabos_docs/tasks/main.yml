@@ -66,7 +66,7 @@
 - name: Build docs using mkdocs Docker image
   shell:
     chdir: /var/homelabos/docs
-    cmd: docker run -v $(pwd):/target nickbusey/homelabos-mkdocs mkdocs build
+    cmd: docker run --rm -v $(pwd):/target nickbusey/homelabos-mkdocs mkdocs build
 
 - name: Start HomelabOS Documentation
   systemd:
