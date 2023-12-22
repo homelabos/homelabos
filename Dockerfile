@@ -13,7 +13,7 @@ RUN CGO_ENABLED=0 go build -a -installsuffix cgo -o homelabos .
 FROM python:3.11-alpine
 COPY --from=0 /go/src/gitlab.com/nickbusey/homelabos/homelabos /usr/bin/homelabos
 
-ENV ANSIBLE_VERSION 2.12
+ENV ANSIBLE_VERSION 2.13.9
 
 ENV BUILD_PACKAGES \
   bash \
