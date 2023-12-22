@@ -1,0 +1,63 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  {{ service_item }}:
+    image: qmcgaw/gluetun:{{ lookup('vars', service_item).version }}
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/config:/gluetun"
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - VPN_TYPE={{ lookup('vars', service_item).vpn_type }}
+{% if lookup('vars', service_item).vpn_type == "wireguard" %}
+      - WIREGUARD_PRIVATE_KEY={{ lookup('vars', service_item).wireguard_key }}
+      - WIREGUARD_ADDRESSES={{ lookup('vars', service_item).wireguard_address }}
+      - WIREGUARD_ALLOWED_IPS={{ lookup('vars', service_item).wireguard_allowed_ips }}
+{% else %}
+      - OPENVPN_USER={{ lookup('vars', service_item).vpn_user }}
+      - OPENVPN_PASSWORD={{ lookup('vars', service_item).vpn_pass }}
+      - SERVER_COUNTRIES={{ lookup('vars', service_item).openvpn_countries }}
+      - SERVER_CITIES={{ lookup('vars', service_item).openvpn_cities }}
+{% endif %}
+      - VPN_PORT_FORWARDING={{ 'on' if lookup('vars', service_item).enable_vpn_port_forwarding else 'off' }}
+{% if lookup('vars', service_item).enable_vpn_port_forwarding %}
+      - VPN_PORT_FORWARDING_PROVIDER={{ lookup('vars', service_item).vpn_port_forwarding_provider }}
+{% endif %}
+      - VPN_SERVICE_PROVIDER={{ lookup('vars', service_item).vpn_provider }}
+{% if lookup('vars', service_item).vpn_provider == "custom" %}
+      - VPN_ENDPOINT_IP={{ lookup('vars', service_item).vpn_ip }}
+      - VPN_ENDPOINT_PORT={{ lookup('vars', service_item).vpn_port }}
+      - WIREGUARD_PUBLIC_KEY={{ lookup('vars', service_item).wireguard_public_key }}
+{% endif %}
+      - DNS_ADDRESS={{ lookup('vars', service_item).name_server }}
+      - DOT=off
+      - TZ={{ common_timezone }}
+      - UPDATER_PERIOD=24h
+{% if lookup('vars', service_item).enable_shadowsocks %}
+      - SHADOWSOCKS_PASSWORD={{ lookup('vars', service_item).shadowsocks_password }}
+{% endif %}
+      - HTTPPROXY={{ 'on' if lookup('vars', service_item).enable_http else 'off' }}
+{% if lookup('vars', service_item).enable_http %}
+      - HTTPPROXY_USER={{ lookup('vars', service_item).http_user }}
+      - HTTPPROXY_PASSWORD={{ lookup('vars', service_item).http_pass }}
+      - HTTPPROXY_STEALTH={{ 'on' if lookup('vars', service_item).http_stealth else 'off' }}
+{% endif %}
+      - SHADOWSOCKS={{ 'on' if lookup('vars', service_item).enable_shadowsocks else 'off' }}
+    cap_add:
+      - NET_ADMIN
+    ports:
+{% if lookup('vars', service_item).enable_http %}
+      - {{ lookup('vars', service_item).http_port }}:8888/tcp # HTTP proxy
+{% endif %}
+{% if lookup('vars', service_item).enable_shadowsocks %}
+      - {{ lookup('vars', service_item).shadowsocks_port }}:8388/tcp # Shadowsocks
+      - {{ lookup('vars', service_item).shadowsocks_port }}:8388/udp # Shadowsocks
+{% endif %}
