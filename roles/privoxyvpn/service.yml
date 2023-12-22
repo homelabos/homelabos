@@ -1,0 +1,6 @@
+---
+full_service_name: Privoxy VPN
+description: VPN
+category: misc
+version: latest
+port: 8118

@@ -1,0 +1,16 @@
+  vpn_user: {{ privoxyvpn.vpn_user | default("replaceme") }}
+  vpn_pass: {{ privoxyvpn.vpn_pass | default("replaceme") }}
+  lan_network: {{ privoxyvpn.lan_network | default("192.168.1.0/24") }}
+  name_servers: {{ privoxyvpn.name_servers | default("8.8.8.8,9.9.9.9") }}
+  vpn_provider: {{ privoxyvpn.vpn_provider | default("pia") }}
+  vpn_client: {{ privoxyvpn.vpn_client | default("openvpn") }}
+  privoxy_enabled: {{ privoxyvpn.privoxy_enabled | default("false") }}
+  vpn_enabled: {{ privoxyvpn.vpn_enabled | default("false") }}
+  socks_enabled: {{ privoxyvpn.socks_enabled | default("false") }}
+  socks_user: {{ privoxyvpn.socks_user | default("user") }}
+  socks_pass: {{ privoxyvpn.socks_pass | default("pass") }}
+  debug: {{ privoxyvpn.debug | default("false") }}
+  vpn_inports: {{ privoxyvpn.vpn_inports | default("1234") }}
+  vpn_outports: {{ privoxyvpn.vpn_outports | default("5678") }}
+  http_port: {{ privoxyvpn.http_port | default("8118") }}
+  socks_port: {{ privoxyvpn.socks_port | default("9118") }}

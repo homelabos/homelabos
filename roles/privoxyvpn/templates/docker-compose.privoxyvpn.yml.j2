@@ -1,0 +1,46 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  {{ service_item }}:
+    image: binhex/arch-privoxyvpn:{{ lookup('vars', service_item).version }}
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/config:/config"
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - VPN_ENABLED={{ 'yes' if lookup('vars', service_item).vpn_enabled else 'no' }}
+      - VPN_USER={{ lookup('vars', service_item).vpn_user }}
+      - VPN_PASS={{ lookup('vars', service_item).vpn_pass }}
+      - LAN_NETWORK={{ lookup('vars', service_item).lan_network }}
+      - NAME_SERVERS={{ lookup('vars', service_item).name_servers }}
+      - VPN_PROV={{ lookup('vars', service_item).vpn_provider }}
+      - VPN_CLIENT={{ lookup('vars', service_item).vpn_client }}
+      - ENABLE_SOCKS={{ 'yes' if lookup('vars', service_item).socks_enabled else 'no' }}
+      - ENABLE_PRIVOXY={{ 'yes' if lookup('vars', service_item).privoxy_enabled else 'no' }}
+      - VPN_INPUT_PORTS={{ lookup('vars', service_item).vpn_inports }}
+      - VPN_OUTPUT_PORTS={{ lookup('vars', service_item).vpn_outports }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - UMASK=000
+      - DEBUG={{ lookup('vars', service_item).debug }}
+      - SOCKS_USER={{ lookup('vars', service_item).socks_user }}
+      - SOCKS_PASS={{ lookup('vars', service_item).socks_pass }}
+{% if lookup('vars', service_item).vpn_client == "wireguard" %}
+    privileged: true
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+{% else %}
+    cap_add:
+      - NET_ADMIN
+{% endif %}
+    ports:
+      - {{ lookup('vars', service_item).http_port }}:8118
+      - {{ lookup('vars', service_item).socks_port }}:9118

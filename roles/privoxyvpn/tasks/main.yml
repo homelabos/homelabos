@@ -1,0 +1,12 @@
+---
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Make privoxyvpn's config directory
+  file:
+    path: "{{ volumes_root }}/{{ service_item }}/config"
+    state: directory
+    mode: u+rwx,g+rwx,o+rx
+
+- name: Start {{service_item}}
+  include: includes/start.yml
