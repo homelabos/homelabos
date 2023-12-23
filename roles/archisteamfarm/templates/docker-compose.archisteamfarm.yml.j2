@@ -1,0 +1,17 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  archisteamfarm:
+    image: justarchi/archisteamfarm:{{ archisteamfarm.version }}
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    volumes:
+      - "{{ volumes_root }}/archisteamfarm/config:/app/config"
+{% include './labels.j2' %}
