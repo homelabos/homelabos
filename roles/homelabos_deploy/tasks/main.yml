@@ -209,8 +209,7 @@
   become: false
 
 - name: Deploy enabled Services
-  include_role:
-    name: "{{ lookup('vars', service_item).source_service | default(service_item) }}"
+  include_tasks: roles/{{ lookup('vars', service_item).source_service | default(service_item) }}/tasks/main.yml
   when: query
   loop: "{{ services | flatten(1) }}"
   loop_control:
