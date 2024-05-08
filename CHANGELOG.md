@@ -1,4 +1,4 @@
-# Dev
+# v1.0
 
 ## Services Added
 - Added Ollama - Ollama makes it easy to get up and running with large language models locally.
