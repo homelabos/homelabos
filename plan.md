@@ -1,7 +1,5 @@
-# v0.9.3 Cleanup
+# v1.1 Nice to haves
 Re-enable mitogen.
-
-# v1.0 Release Plan
 Automount of volumes
 ZFS Cluster
 Clean up backup/restore flow
