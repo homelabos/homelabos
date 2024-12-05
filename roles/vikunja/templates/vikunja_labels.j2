@@ -3,6 +3,7 @@
       - "traefik.http.routers.{{ vikunja_service_name }}-http.service={{ vikunja_service_name }}"
       - "traefik.http.routers.{{ vikunja_service_name }}.service={{ vikunja_service_name }}"
       - "traefik.http.routers.{{ vikunja_service_name }}-http.rule=Host(`{{ service_domain }}`)"
+      - "traefik.http.routers.{{ vikunja_service_name }}.rule=Host(`{{ service_domain }}`)"
       - "traefik.http.services.{{ vikunja_service_name }}.loadbalancer.server.scheme=http"
       - "traefik.http.routers.{{ vikunja_service_name }}-http.entrypoints=http"
       - "traefik.http.routers.{{ vikunja_service_name }}-http.middlewares={% if https_only == True %}redirect@file, {% else %}{% if auth == True %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}{% endif %}customFrameHomelab@file"
