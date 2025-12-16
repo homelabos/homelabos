@@ -1,0 +1,18 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  esphome:
+    image: esphome/esphome
+    restart: on-failure
+    volumes:
+      - "{{ volumes_root }}/esphome/config:/config"
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - traefik_network
+{% include './labels.j2' %}

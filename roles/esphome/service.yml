@@ -1,0 +1,6 @@
+---
+full_service_name: ESPHome
+description: ESPHome
+category: misc-other
+version: latest
+port: 6052

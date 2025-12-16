@@ -1,0 +1,57 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  # File Processing Automation
+  fileflows:
+    image: revenz/fileflows:{{ fileflows.version | default('latest') }}
+    networks:
+      - traefik_network
+    restart: unless-stopped
+    environment:
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+      - TZ={{ common_timezone }}
+{% if fileflows.oidc_authority is defined %}
+      - OidcAuthority={{ fileflows.oidc_authority }}
+{% endif %}
+{% if fileflows.oidc_client_id is defined %}
+      - OidcClientId={{ fileflows.oidc_client_id }}
+{% endif %}
+{% if fileflows.oidc_client_secret is defined %}
+      - OidcClientSecret={{ fileflows.oidc_client_secret }}
+{% endif %}
+{% if fileflows.oidc_callback_address is defined %}
+      - OidcCallbackAddress={{ fileflows.oidc_callback_address }}
+{% endif %}
+{% if fileflows.oidc_required_group is defined %}
+      - OidcRequiredGroup={{ fileflows.oidc_required_group }}
+{% endif %}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "{{ volumes_root }}/fileflows/data:/data"
+      - "{{ volumes_root }}/fileflows/logs:/logs"
+{% if fileflows.temp_path is defined %}
+      - "{{ fileflows.temp_path }}:/temp"
+{% else %}
+      - "{{ volumes_root }}/fileflows/temp:/temp"
+{% endif %}
+{% if fileflows.browser_start_directory is defined %}
+      - "{{ fileflows.browser_start_directory }}:/media"
+{% endif %}
+{% if fileflows.common_directory is defined %}
+      - "{{ fileflows.common_directory }}:/common"
+{% endif %}
+{% if fileflows.additional_volumes is defined %}
+{% for volume in fileflows.additional_volumes %}
+      - "{{ volume }}"
+{% endfor %}
+{% endif %}
+{% include './labels.j2' %}
+
