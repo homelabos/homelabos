@@ -35,8 +35,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - "{{ volumes_root }}/fileflows/data:/data"
-      - "{{ volumes_root }}/fileflows/logs:/logs"
+      - "{{ volumes_root }}/fileflows/data:/app/Data"
+      - "{{ volumes_root }}/fileflows/logs:/app/Logs"
 {% if fileflows.temp_path is defined %}
       - "{{ fileflows.temp_path }}:/temp"
 {% else %}
