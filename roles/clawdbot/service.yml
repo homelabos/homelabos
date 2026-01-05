@@ -1,0 +1,7 @@
+---
+full_service_name: Clawdbot
+description: Clawdbot is a personal AI assistant you run on your own devices.
+project_url: https://github.com/clawdbot/clawdbot
+category: chat
+version: local
+port: 18789

@@ -21,7 +21,7 @@
   when: ansible_local is defined and ansible_local.tor is defined
 
 - name: Manage the TOR password
-  include: password.yml
+  include_tasks: password.yml
 
 - name: Tor Configuration
   template:

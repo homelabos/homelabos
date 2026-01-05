@@ -1,0 +1,6 @@
+---
+full_service_name: Immich
+description: Immich is a high performance self-hosted photo and video backup solution.
+category: photo-and-video-galleries
+version: release
+port: 2283

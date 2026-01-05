@@ -82,11 +82,6 @@ bastion:
     110: 110
     993: 993
     995: 995
-  # MIGRATION v0.7
-  # Should HomelabOS reset the bastion server IP tables rules?
-  # Enable this if you are upgrading a Tinc bastion host
-  reset_iptables: {{"{{"}} bastion.reset_iptables | default(False) {{"}}"}}
-  # END MIGRATION
 
 {% raw %}
 # Minio access keys

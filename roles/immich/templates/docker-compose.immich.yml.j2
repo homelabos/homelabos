@@ -1,0 +1,87 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  immich:
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:{{ immich.version }}
+    # extends:
+    #   file: hwaccel.transcoding.yml
+    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+    volumes:
+      # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
+      - "{{ storage_dir }}/Pictures/immich:/data"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      DB_PASSWORD: "{{lookup('password', './settings/passwords/immich_db_password chars=ascii_letters')}}"
+      DB_USERNAME: "postgres"
+      DB_DATABASE_NAME: "immich"
+      DB_HOSTNAME: "database"
+      REDIS_HOSTNAME: "redis"
+      IMMICH_MACHINE_LEARNING_URL: "http://immich-machine-learning:3003"
+      TZ: "{{ common_timezone }}"
+    ports:
+      - "2283:2283"
+    depends_on:
+      - redis
+      - database
+    restart: always
+    healthcheck:
+      disable: false
+    networks:
+      - traefik_network
+      - immich
+{% include './labels.j2' %}
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
+    # Example tag: {{ immich.ml_version }}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:{{ immich.ml_version }}
+    # extends: # uncomment this section for hardware acceleration - see https://docs.immich.app/features/ml-hardware-acceleration
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference - use the `-wsl` version for WSL2 where applicable
+    volumes:
+      - "{{ volumes_root }}/immich/model-cache:/cache"
+    environment:
+      TZ: "{{ common_timezone }}"
+    restart: always
+    healthcheck:
+      disable: false
+    networks:
+      - immich
+
+  redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:{{ immich.redis_version }}
+    healthcheck:
+      test: redis-cli ping || exit 1
+    restart: always
+    networks:
+      - immich
+
+  database:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:{{ immich.db_version }}
+    environment:
+      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/immich_db_password chars=ascii_letters')}}"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "immich"
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
+      # DB_STORAGE_TYPE: 'HDD'
+    volumes:
+      # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
+      - "{{ volumes_root }}/immich/postgres:/var/lib/postgresql/data"
+    shm_size: 128mb
+    restart: always
+    networks:
+      - immich

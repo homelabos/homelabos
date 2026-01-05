@@ -1,0 +1,41 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  clawdbot:
+    image: clawdbot:{{ clawdbot.version }}
+    restart: unless-stopped
+    init: true
+    networks:
+      - traefik_network
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+{% if clawdbot.gateway_token is defined and clawdbot.gateway_token %}
+      CLAWDBOT_GATEWAY_TOKEN: "{{ clawdbot.gateway_token }}"
+{% endif %}
+{% if clawdbot.anthropic_api_key is defined and clawdbot.anthropic_api_key %}
+      ANTHROPIC_API_KEY: "{{ clawdbot.anthropic_api_key }}"
+{% endif %}
+    volumes:
+      - "{{ volumes_root }}/clawdbot/config:/home/node/.clawdbot"
+      - "{{ volumes_root }}/clawdbot/workspace:/home/node/clawd"
+    ports:
+      - "{{ clawdbot.port | default('18789') }}:{{ clawdbot.port | default('18789') }}"
+      - "{{ clawdbot.bridge_port | default('18790') }}:18790"
+    command:
+      [
+        "node",
+        "dist/index.js",
+        "gateway-daemon",
+        "--bind",
+        "lan",
+        "--port",
+        "{{ clawdbot.port | default('18789') }}"
+      ]
+{% include './labels.j2' %}

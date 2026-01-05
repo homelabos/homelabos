@@ -1,0 +1,24 @@
+---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Check Clawdbot repository
+  stat:
+    path: "{{ volumes_root }}/clawdbot/repo/.git"
+  register: clawdbot_repo
+
+- name: Clone Clawdbot repository
+  git:
+    repo: "https://github.com/clawdbot/clawdbot.git"
+    dest: "{{ volumes_root }}/clawdbot/repo"
+    update: yes
+  when: not clawdbot_repo.stat.exists
+
+- name: Build Clawdbot image
+  command: docker build -t clawdbot:{{ clawdbot.version }} -f Dockerfile .
+  args:
+    chdir: "{{ volumes_root }}/clawdbot/repo"
+
+- name: Start {{service_item}}
+  include: includes/start.yml

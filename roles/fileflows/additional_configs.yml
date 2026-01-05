@@ -1,0 +1,11 @@
+  temp_path: {{ fileflows.temp_path | default(False) }}
+  browser_start_directory: {{ fileflows.browser_start_directory | default(False) }}
+  common_directory: {{ fileflows.common_directory | default(False) }}
+  additional_volumes: {{ fileflows.additional_volumes | default([]) }}
+  oidc_authority: {{ fileflows.oidc_authority | default(False) }}
+  oidc_client_id: {{ fileflows.oidc_client_id | default(False) }}
+  oidc_client_secret: {{ fileflows.oidc_client_secret | default(False) }}
+  oidc_callback_address: {{ fileflows.oidc_callback_address | default(False) }}
+  oidc_required_group: {{ fileflows.oidc_required_group | default(False) }}
+
+

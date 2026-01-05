@@ -76,6 +76,12 @@ Ghost is a fully open source, adaptable platform for building and running a mode
 
 ### Chat
 
+#### [clawdbot](./software/clawdbot)
+Clawdbot is a personal AI assistant you run on your own devices.
+
+#### [matrix](./software/matrix)
+Matrix server
+
 #### [matterbridge](./software/matterbridge)
 A program that allows users to link multiple chat platforms.
 
@@ -143,6 +149,9 @@ Companion application to Sonarr and Radarr. It can manage and download subtitles
 
 #### [duplicati](./software/duplicati)
 Free backup software to store encrypted backups online
+
+#### [fileflows](./software/fileflows)
+File processing automation and workflow management
 
 #### [jackett](./software/jackett)
 Jackett provides API Support for your favorite torrent trackers.
@@ -271,6 +280,9 @@ DuckDNS is free dynamic DNS hosted on AWS.
 
 #### [erpnext](./software/erpnext)
 Open Source ERP for Everyone.
+
+#### [esphome](./software/esphome)
+ESPHome
 
 #### [ethercalc](./software/ethercalc)
 EtherCalc is a web spreadsheet
@@ -436,6 +448,9 @@ SUI a startpage for your server and / or new tab page
 
 #### [digikam](./software/digikam)
 Professional Photo Management with the Power of Open Source
+
+#### [immich](./software/immich)
+Immich is a high performance self-hosted photo and video backup solution.
 
 #### [ownphotos](./software/ownphotos)
 Self hosted Google Photos clone.
