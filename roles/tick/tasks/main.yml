@@ -5,7 +5,7 @@
 
 - name: Configure telegraf
   template:
-    src: telegraf.conf.j2
+    src: "{{ playbook_dir }}/roles/tick/templates/telegraf.conf.j2"
     dest: "{{ volumes_root }}/tick/telegraf.conf"
 
 - name: Start {{service_item}}

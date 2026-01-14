@@ -12,7 +12,8 @@ It is also available via Tor at [http://{{ immich.subdomain + "." + tor_domain }
 
 ## Storage
 
-- Library data: `{{ storage_dir }}/Pictures/immich`
+- Library data: `{{ volumes_root }}/immich/data`
+- Internal storage: `{{ storageRoot }}/immich/storage`
 - Database: `{{ volumes_root }}/immich/postgres`
 - ML cache: `{{ volumes_root }}/immich/model-cache`
 
