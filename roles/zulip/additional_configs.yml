@@ -1,3 +1,4 @@
-  db_version: {{ zulip.db_version | default("latest") }}
+  db_version: {{ zulip.db_version | default("15") }}
   redis_version: {{ zulip.redis_version | default("latest") }}
   rabbit_version: {{ zulip.rabbit_version | default("3.7.7") }}
+  memcached_version: {{ zulip.memcached_version | default("1.6") }}

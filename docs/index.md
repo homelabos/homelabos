@@ -385,6 +385,9 @@ ZeroTier network controller user interface
 
 ### Money, Budgeting and Management
 
+#### [actual](./software/actual)
+Actual Budget is a local-first personal finance app.
+
 #### [firefly_iii](./software/firefly_iii)
 Firefly III is a money management app.
 
@@ -392,6 +395,9 @@ Firefly III is a money management app.
 
 #### [elkstack](./software/elkstack)
 Elastic Search, Logstash and Kibana
+
+#### [frigate](./software/frigate)
+Frigate is an NVR with realtime object detection for IP cameras.
 
 #### [grafana](./software/grafana)
 Grafana is a Time Series Database graphing application.

@@ -1,6 +1,7 @@
 # Dev
 
-
+## Services Added
+- Added Frigate - Security camera NVR with realtime object detection.
 
 # v1.0
 

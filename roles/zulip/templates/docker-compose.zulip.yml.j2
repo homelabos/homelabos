@@ -9,9 +9,10 @@ networks:
 
 services:
   database:
-    image: zulip/zulip-postgresql:{{ zulip.db_version }}
+    image: "zulip/zulip-postgresql:14"
     networks:
       - zulip
+    restart: unless-stopped
     environment:
       POSTGRES_DB: 'zulip'
       POSTGRES_USER: 'zulip'
@@ -20,35 +21,57 @@ services:
       - '{{ volumes_root }}/zulip/postgresql:/var/lib/postgresql/data:rw'
 
   memcached:
-    image: 'quay.io/sameersbn/memcached:latest'
+    image: "memcached:alpine"
     networks:
       - zulip
-    restart: always
+    restart: unless-stopped
+    command:
+      - "sh"
+      - "-euc"
+      - |
+        echo 'mech_list: plain' > "$$SASL_CONF_PATH"
+        echo "zulip@$$HOSTNAME:$$MEMCACHED_PASSWORD" > "$$MEMCACHED_SASL_PWDB"
+        echo "zulip@localhost:$$MEMCACHED_PASSWORD" >> "$$MEMCACHED_SASL_PWDB"
+        exec memcached -S
+    environment:
+      SASL_CONF_PATH: "/home/memcache/memcached.conf"
+      MEMCACHED_SASL_PWDB: "/home/memcache/memcached-sasl-db"
+      MEMCACHED_PASSWORD: "{{lookup('password', './settings/passwords/zulip_memcached_password chars=ascii_letters')}}"
 
   rabbitmq:
-    image: rabbitmq:{{ zulip.rabbit_version }}
+    image: "rabbitmq:4.1"
     networks:
       - zulip
     hostname: zulip-rabbit
-    restart: always
+    restart: unless-stopped
     environment:
-        RABBITMQ_DEFAULT_USER: 'zulip'
-        RABBITMQ_DEFAULT_PASS: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=ascii_letters')}}"
+      RABBITMQ_DEFAULT_USER: 'zulip'
+      RABBITMQ_DEFAULT_PASS: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=ascii_letters')}}"
     volumes:
       - '{{ volumes_root }}/zulip/rabbitmq:/var/lib/rabbitmq:rw'
 
   redis:
-    image: quay.io/sameersbn/redis:{{ zulip.redis_version }}
+    image: "redis:alpine"
     networks:
       - zulip
+    restart: unless-stopped
+    command:
+      - "sh"
+      - "-euc"
+      - |
+        echo "requirepass '$$REDIS_PASSWORD'" > /etc/redis.conf
+        exec redis-server /etc/redis.conf
+    environment:
+      REDIS_PASSWORD: "{{lookup('password', './settings/passwords/zulip_redis_password chars=ascii_letters')}}"
     volumes:
-      - '{{ volumes_root }}/zulip/redis:/var/lib/redis:rw'
+      - '{{ volumes_root }}/zulip/redis:/data:rw'
 
   zulip:
-    image: zulip/docker-zulip:{{ zulip.version }}
+    image: "zulip/docker-zulip:11.4-0"
     networks:
       - traefik_network
       - zulip
+    restart: unless-stopped
     environment:
       DB_HOST: 'database'
       DB_HOST_PORT: '5432'
@@ -58,9 +81,14 @@ services:
       SETTING_MEMCACHED_LOCATION: 'memcached:11211'
       SETTING_RABBITMQ_HOST: 'rabbitmq'
       SETTING_REDIS_HOST: 'redis'
+      # Trust the reverse proxy network so Zulip doesn't reject forwarded headers.
+      # This matches the default homelabos_traefik network subnet.
+      LOADBALANCER_IPS: '172.18.0.0/16'
       SECRETS_email_password: '123456789'
       SECRETS_rabbitmq_password: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=ascii_letters')}}"
       SECRETS_postgres_password: "{{lookup('password', './settings/passwords/zulip_db_password chars=ascii_letters')}}"
+      SECRETS_memcached_password: "{{lookup('password', './settings/passwords/zulip_memcached_password chars=ascii_letters')}}"
+      SECRETS_redis_password: "{{lookup('password', './settings/passwords/zulip_redis_password chars=ascii_letters')}}"
       SECRETS_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
       SETTING_EXTERNAL_HOST: '{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}'
       SETTING_ZULIP_ADMINISTRATOR: 'admin@example.com'
@@ -77,6 +105,11 @@ services:
       - '{{ volumes_root }}/zulip/zulip:/data:rw'
     ulimits:
       nofile:
-        soft: 40000
-        hard: 50000
+        soft: 1000000
+        hard: 1048576
+    depends_on:
+      - database
+      - memcached
+      - rabbitmq
+      - redis
 {% include './labels.j2' %}
