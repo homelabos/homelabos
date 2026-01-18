@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Make adguard directories
   file:
@@ -32,4 +32,4 @@
     name: homelabos_systemd-resolve
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

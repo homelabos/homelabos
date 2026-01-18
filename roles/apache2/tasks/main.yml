@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Check for existence of httpd.conf
   stat:
@@ -14,4 +14,4 @@
   when: not httpd_conf_file.stat.exists
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

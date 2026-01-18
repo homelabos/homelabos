@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Check Clawdbot repository
   stat:
@@ -21,4 +21,4 @@
     chdir: "{{ volumes_root }}/clawdbot/repo"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

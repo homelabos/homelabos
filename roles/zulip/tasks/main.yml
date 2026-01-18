@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Put in custom zulip vars for the docker compose
   template:
@@ -14,4 +14,4 @@
     zulip_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

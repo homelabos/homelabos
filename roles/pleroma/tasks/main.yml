@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Configure upload directory
   file:
@@ -39,4 +39,4 @@
 #     docker-compose -f {{ volumes_root}}/pleroma/docker-compose.yml down
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

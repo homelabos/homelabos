@@ -13,6 +13,7 @@ services:
     networks:
       - traefik_network
     restart: unless-stopped
+    cpus: '1.0'
     environment:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
@@ -54,4 +55,3 @@ services:
 {% endfor %}
 {% endif %}
 {% include './labels.j2' %}
-

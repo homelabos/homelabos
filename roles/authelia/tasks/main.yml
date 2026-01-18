@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Check if userdb.yml exists.
   stat:
@@ -38,4 +38,4 @@
     domain_parts: "{{ domain.split('.') }}"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

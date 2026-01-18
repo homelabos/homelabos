@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Create necessary folders, with appropriate permissions.
   file:
@@ -23,4 +23,4 @@
     group: "{{ gid_output.stdout }}"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

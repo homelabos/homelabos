@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Create Temporary Repository Directory
   tempfile:
@@ -38,4 +38,4 @@
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

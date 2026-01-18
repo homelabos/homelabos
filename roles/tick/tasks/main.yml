@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Configure telegraf
   template:
@@ -9,4 +9,4 @@
     dest: "{{ volumes_root }}/tick/telegraf.conf"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml
