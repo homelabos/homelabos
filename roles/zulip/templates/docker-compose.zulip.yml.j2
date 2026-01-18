@@ -84,7 +84,7 @@ services:
       # Trust the reverse proxy network so Zulip doesn't reject forwarded headers.
       # This matches the default homelabos_traefik network subnet.
       LOADBALANCER_IPS: '172.18.0.0/16'
-      SECRETS_email_password: '123456789'
+      SECRETS_email_password: '{{ smtp.pass }}'
       SECRETS_rabbitmq_password: "{{lookup('password', './settings/passwords/zulip_rabbitmq_password chars=ascii_letters')}}"
       SECRETS_postgres_password: "{{lookup('password', './settings/passwords/zulip_db_password chars=ascii_letters')}}"
       SECRETS_memcached_password: "{{lookup('password', './settings/passwords/zulip_memcached_password chars=ascii_letters')}}"
@@ -92,9 +92,9 @@ services:
       SECRETS_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
       SETTING_EXTERNAL_HOST: '{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}'
       SETTING_ZULIP_ADMINISTRATOR: 'admin@example.com'
-      SETTING_EMAIL_HOST: ''  # e.g. smtp.example.com
-      SETTING_EMAIL_HOST_USER: 'noreply@example.com'
-      SETTING_EMAIL_PORT: '587'
+      SETTING_EMAIL_HOST: '{{ smtp.host }}'  # e.g. smtp.example.com
+      SETTING_EMAIL_HOST_USER: '{{ smtp.user }}'
+      SETTING_EMAIL_PORT: '{{ smtp.port }}'
       # It seems that the email server needs to use ssl or tls and can't be used without it
       SETTING_EMAIL_USE_SSL: 'False'
       SETTING_EMAIL_USE_TLS: 'True'
