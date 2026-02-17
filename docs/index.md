@@ -76,9 +76,6 @@ Ghost is a fully open source, adaptable platform for building and running a mode
 
 ### Chat
 
-#### [clawdbot](./software/clawdbot)
-Clawdbot is a personal AI assistant you run on your own devices.
-
 #### [matrix](./software/matrix)
 Matrix server
 
@@ -413,6 +410,9 @@ Create agents that monitor and act on your behalf. Your agents are standing by!
 
 #### [netdata](./software/netdata)
 Real-time performance monitoring, done right!
+
+#### [prometheus](./software/prometheus)
+Prometheus metrics and alerting toolkit
 
 #### [speedtest](./software/speedtest)
 A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana

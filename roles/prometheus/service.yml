@@ -1,0 +1,6 @@
+---
+full_service_name: Prometheus
+description: Prometheus metrics and alerting toolkit
+category: monitoring
+version: v3.5.0
+port: 9090

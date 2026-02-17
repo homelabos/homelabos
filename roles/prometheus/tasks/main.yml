@@ -1,0 +1,21 @@
+---
+
+- name: Setup {{service_item}}
+  include: includes/setup.yml
+
+- name: Make prometheus directory.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ volumes_root }}/prometheus"
+    - "{{ volumes_root }}/prometheus/data"
+
+- name: Configure prometheus
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ volumes_root }}/prometheus/prometheus.yml"
+
+- name: Start {{service_item}}
+  include: includes/start.yml

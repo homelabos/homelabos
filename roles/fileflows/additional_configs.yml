@@ -8,4 +8,3 @@
   oidc_callback_address: {{ fileflows.oidc_callback_address | default(False) }}
   oidc_required_group: {{ fileflows.oidc_required_group | default(False) }}
 
-
