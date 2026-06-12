@@ -5,5 +5,3 @@
 
 - name: Start {{service_item}}
   include_tasks: includes/start.yml
-
-
