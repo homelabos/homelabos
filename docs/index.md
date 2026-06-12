@@ -53,6 +53,9 @@ If you are having problems you can:
 
 ### Analytics
 
+#### [clickhouse](./software/clickhouse)
+ClickHouse is an open source columnar OLAP database for real-time analytics.
+
 #### [matomo](./software/matomo)
 Open source analytics
 
@@ -75,6 +78,9 @@ Ghost is a fully open source, adaptable platform for building and running a mode
 ### Calendaring and Contacts Management
 
 ### Chat
+
+#### [clawdbot](./software/clawdbot)
+Clawdbot is a personal AI assistant you run on your own devices.
 
 #### [matrix](./software/matrix)
 Matrix server
@@ -407,6 +413,9 @@ A Cron Monitoring Tool written in Python & Django
 
 #### [huginn](./software/huginn)
 Create agents that monitor and act on your behalf. Your agents are standing by!
+
+#### [langfuse](./software/langfuse)
+Langfuse is an open source LLM engineering platform for observability, evaluations, and prompt management.
 
 #### [netdata](./software/netdata)
 Real-time performance monitoring, done right!

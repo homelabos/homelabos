@@ -1,6 +1,8 @@
 # Dev
 
 ## Services Added
+- Added Langfuse - Open source LLM engineering platform for observability, evaluations, and prompt management.
+- Added ClickHouse - Open source columnar OLAP database for real-time analytics.
 - Added Frigate - Security camera NVR with realtime object detection.
 
 # v1.0

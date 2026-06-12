@@ -1,0 +1,171 @@
+{% if langfuse.https_only %}
+{%      set protocol = 'https' %}
+{% else %}
+{%      set protocol = 'http' %}
+{% endif %}
+
+{% if langfuse.domain %}
+{%      set url = langfuse.domain %}
+{% else %}
+{%      set url = langfuse.subdomain + "." + domain %}
+{% endif %}
+
+{% set db_password = lookup('password', './settings/passwords/langfuse_db_password chars=ascii_letters') %}
+{% set clickhouse_password = lookup('password', './settings/passwords/langfuse_clickhouse_password chars=ascii_letters') %}
+{% set redis_password = lookup('password', './settings/passwords/langfuse_redis_password chars=ascii_letters') %}
+{% set minio_password = lookup('password', './settings/passwords/langfuse_minio_password chars=ascii_letters') %}
+{% set salt = lookup('password', './settings/passwords/langfuse_salt chars=ascii_letters') %}
+{% set encryption_key = lookup('password', './settings/passwords/langfuse_encryption_key length=64 chars=hexdigits') %}
+{% set nextauth_secret = lookup('password', './settings/passwords/langfuse_nextauth_secret chars=ascii_letters') %}
+
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  langfuse:
+
+services:
+  langfuse-worker:
+    image: docker.io/langfuse/langfuse-worker:{{ langfuse.version }}
+    restart: unless-stopped
+    depends_on: &langfuse-depends-on
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    environment: &langfuse-worker-env
+      NEXTAUTH_URL: "{{ protocol }}://{{ url }}"
+      DATABASE_URL: "postgresql://postgres:{{ db_password }}@postgres:5432/postgres"
+      SALT: "{{ salt }}"
+      ENCRYPTION_KEY: "{{ encryption_key }}"
+      TELEMETRY_ENABLED: "{{ langfuse.telemetry_enabled | default(False) }}"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
+      CLICKHOUSE_MIGRATION_URL: "clickhouse://clickhouse:9000"
+      CLICKHOUSE_URL: "http://clickhouse:8123"
+      CLICKHOUSE_USER: "clickhouse"
+      CLICKHOUSE_PASSWORD: "{{ clickhouse_password }}"
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      LANGFUSE_USE_AZURE_BLOB: "false"
+      LANGFUSE_USE_OCI_NATIVE_OBJECT_STORAGE: "false"
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: "langfuse"
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: "auto"
+      LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: "minio"
+      LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: "{{ minio_password }}"
+      LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: "http://minio:9000"
+      LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_EVENT_UPLOAD_PREFIX: "events/"
+      LANGFUSE_S3_MEDIA_UPLOAD_BUCKET: "langfuse"
+      LANGFUSE_S3_MEDIA_UPLOAD_REGION: "auto"
+      LANGFUSE_S3_MEDIA_UPLOAD_ACCESS_KEY_ID: "minio"
+      LANGFUSE_S3_MEDIA_UPLOAD_SECRET_ACCESS_KEY: "{{ minio_password }}"
+      LANGFUSE_S3_MEDIA_UPLOAD_ENDPOINT: "http://minio:9000"
+      LANGFUSE_S3_MEDIA_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_MEDIA_UPLOAD_PREFIX: "media/"
+      LANGFUSE_S3_BATCH_EXPORT_ENABLED: "false"
+      LANGFUSE_S3_BATCH_EXPORT_BUCKET: "langfuse"
+      LANGFUSE_S3_BATCH_EXPORT_PREFIX: "exports/"
+      LANGFUSE_S3_BATCH_EXPORT_REGION: "auto"
+      LANGFUSE_S3_BATCH_EXPORT_ENDPOINT: "http://minio:9000"
+      LANGFUSE_S3_BATCH_EXPORT_EXTERNAL_ENDPOINT: "http://minio:9000"
+      LANGFUSE_S3_BATCH_EXPORT_ACCESS_KEY_ID: "minio"
+      LANGFUSE_S3_BATCH_EXPORT_SECRET_ACCESS_KEY: "{{ minio_password }}"
+      LANGFUSE_S3_BATCH_EXPORT_FORCE_PATH_STYLE: "true"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_AUTH: "{{ redis_password }}"
+      REDIS_TLS_ENABLED: "false"
+    networks:
+      - langfuse
+
+  langfuse-web:
+    image: docker.io/langfuse/langfuse:{{ langfuse.version }}
+    restart: unless-stopped
+    depends_on: *langfuse-depends-on
+    environment:
+      <<: *langfuse-worker-env
+      NEXTAUTH_SECRET: "{{ nextauth_secret }}"
+    networks:
+      - traefik_network
+      - langfuse
+{% include './labels.j2' %}
+
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server
+    restart: unless-stopped
+    user: "101:101"
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: "{{ clickhouse_password }}"
+    volumes:
+      - "{{ volumes_root }}/langfuse/clickhouse/data:/var/lib/clickhouse"
+      - "{{ volumes_root }}/langfuse/clickhouse/logs:/var/log/clickhouse-server"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 1s
+    networks:
+      - langfuse
+
+  minio:
+    image: cgr.dev/chainguard/minio
+    restart: unless-stopped
+    entrypoint: sh
+    command: -c 'mkdir -p /data/langfuse && minio server --address ":9000" --console-address ":9001" /data'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: "{{ minio_password }}"
+    volumes:
+      - "{{ volumes_root }}/langfuse/minio:/data"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 1s
+      timeout: 5s
+      retries: 5
+      start_period: 1s
+    networks:
+      - langfuse
+
+  redis:
+    image: docker.io/redis:7
+    restart: unless-stopped
+    command: >
+      --requirepass {{ redis_password }}
+      --maxmemory-policy noeviction
+    volumes:
+      - "{{ volumes_root }}/langfuse/redis:/data"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "{{ redis_password }}", "ping"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+    networks:
+      - langfuse
+
+  postgres:
+    image: docker.io/postgres:{{ langfuse.postgres_version | default("17") }}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "{{ db_password }}"
+      POSTGRES_DB: postgres
+      TZ: UTC
+      PGTZ: UTC
+    volumes:
+      - "{{ volumes_root }}/langfuse/postgres:/var/lib/postgresql/data"
+    networks:
+      - langfuse

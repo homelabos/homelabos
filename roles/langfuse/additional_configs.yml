@@ -1,0 +1,2 @@
+  postgres_version: {{ langfuse.postgres_version | default("17") }}
+  telemetry_enabled: {{ langfuse.telemetry_enabled | default(False) }}
