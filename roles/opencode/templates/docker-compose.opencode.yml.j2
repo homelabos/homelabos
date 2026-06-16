@@ -1,0 +1,31 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  opencode:
+    image: ghcr.io/anomalyco/opencode:{{ opencode.version }}
+    restart: unless-stopped
+    entrypoint: opencode
+    command:
+      - web
+      - --hostname
+      - "0.0.0.0"
+      - --port
+      - "{{ opencode.port | default('4096') }}"
+    environment:
+      - OPENCODE_SERVER_PASSWORD={{ opencode.server_password | default(default_password) }}
+      - OPENCODE_SERVER_USERNAME={{ opencode.server_username | default('opencode') }}
+      - WORKDIR=/workspace
+    volumes:
+      - "{{ volumes_root }}/opencode/config:/root/.config/opencode"
+      - "{{ volumes_root }}/opencode/data:/root/.local/share/opencode"
+      - "{{ volumes_root }}/opencode/state:/root/.local/state/opencode"
+      - "{{ volumes_root }}:/workspace"
+    networks:
+      - traefik_network
+{% include './labels.j2' %}

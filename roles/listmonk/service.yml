@@ -1,0 +1,7 @@
+---
+full_service_name: Listmonk
+description: Listmonk is a self-hosted newsletter and mailing list manager.
+project_url: https://listmonk.app/
+category: email
+version: latest
+port: 9000

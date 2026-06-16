@@ -1,2 +1,6 @@
-  db_version: {{ erpnext.db_version | default("10.3") }}
-  redis_version: {{ erpnext.redis_version | default("latest") }}
+  erpnext_version: {{ erpnext.erpnext_version | default(erpnext.version) }}
+  mariadb_version: {{ erpnext.mariadb_version | default("11.8") }}
+  redis_version: {{ erpnext.redis_version | default("6.2-alpine") }}
+  admin_password: {{ erpnext.admin_password | default("admin") }}
+  db_root_password: {{ erpnext.db_root_password | default("") }}
+  cache_enabled: true

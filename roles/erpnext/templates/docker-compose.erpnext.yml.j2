@@ -1,3 +1,15 @@
+{% if erpnext.https_only %}
+{%      set protocol = 'https' %}
+{% else %}
+{%      set protocol = 'http' %}
+{% endif %}
+
+{% if erpnext.domain %}
+{%      set url = erpnext.domain %}
+{% else %}
+{%      set url = erpnext.subdomain + "." + domain %}
+{% endif %}
+
 ---
 version: '3'
 
@@ -8,161 +20,208 @@ networks:
   erpnext:
 
 services:
-  redis-cache:
+  mariadb:
+    image: mariadb:{{ erpnext.mariadb_version }}
+    restart: unless-stopped
     networks:
       - erpnext
-    image: redis:{{ erpnext.redis_version }}
-    restart: on-failure
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+    environment:
+      MYSQL_ROOT_PASSWORD: "{% if erpnext.db_root_password %}{{ erpnext.db_root_password }}{% else %}{{ lookup('password', './settings/passwords/erpnext_db_root_password chars=ascii_letters') }}{% endif %}"
     volumes:
-      - "{{ volumes_root }}/erpnext/redis-cache-vol:/data"
+      - "{{ volumes_root }}/erpnext/mariadb:/var/lib/mysql"
+
+  redis-cache:
+    image: redis:{{ erpnext.redis_version }}
+    restart: unless-stopped
+    networks:
+      - erpnext
+    volumes:
+      - "{{ volumes_root }}/erpnext/redis-cache:/data"
 
   redis-queue:
-    networks:
-      - erpnext
     image: redis:{{ erpnext.redis_version }}
-    restart: on-failure
-    volumes:
-      - "{{ volumes_root }}/erpnext/redis-queue-vol:/data"
-
-  redis-socketio:
+    restart: unless-stopped
     networks:
       - erpnext
-    image: redis:{{ erpnext.redis_version }}
-    restart: on-failure
     volumes:
-      - "{{ volumes_root }}/erpnext/redis-socketi-vol:/data"
+      - "{{ volumes_root }}/erpnext/redis-queue:/data"
 
-  mariadb:
+  configurator:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: on-failure
     networks:
       - erpnext
-    image: mariadb:{{ erpnext.db_version }}
-    restart: on-failure
+    entrypoint:
+      - bash
+      - -c
+    command:
+      - >
+        ls -1 apps > sites/apps.txt;
+        bench set-config -g db_host $$DB_HOST;
+        bench set-config -gp db_port $$DB_PORT;
+        bench set-config -g redis_cache "redis://$$REDIS_CACHE";
+        bench set-config -g redis_queue "redis://$$REDIS_QUEUE";
+        bench set-config -g redis_socketio "redis://$$REDIS_QUEUE";
+        bench set-config -gp socketio_port $$SOCKETIO_PORT;
+        bench set-config -g chromium_path /usr/bin/chromium-headless-shell;
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-cache:6379
+      REDIS_QUEUE: redis-queue:6379
+      SOCKETIO_PORT: 9000
     volumes:
-      - "{{ volumes_root }}/erpnext/frappe-mariadb.cnf:/etc/mysql/conf.d/frappe.cnf"
-      - "{{ volumes_root }}/erpnext/mariadb-vol:/var/lib/mysql"
-
-  erpnext-nginx:
-    image: frappe/erpnext-nginx:{{ erpnext.version }}
-    restart: on-failure
-    environment:
-      - FRAPPE_PY=erpnext-python
-      - FRAPPE_PY_PORT=8000
-      - FRAPPE_SOCKETIO=frappe-socketio
-      - SOCKETIO_PORT=9000
-      - LETSENCRYPT_HOST=${SITES}
-      - VIRTUAL_HOST=${SITES}
-      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - sites:/home/frappe/frappe-bench/sites
     depends_on:
-      - erpnext-python
-      - frappe-socketio
-      - frappe-worker-default
-      - frappe-worker-long
-      - frappe-worker-short
-    links:
-      - erpnext-python
-      - frappe-socketio
-      - frappe-worker-default
-      - frappe-worker-long
-      - frappe-worker-short
+      - mariadb
+      - redis-cache
+      - redis-queue
+
+  create-site:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: "no"
+    networks:
+      - erpnext
+    entrypoint:
+      - bash
+      - -c
+    command:
+      - >
+        wait-for-it -t 120 mariadb:3306;
+        wait-for-it -t 120 redis-cache:6379;
+        wait-for-it -t 120 redis-queue:6379;
+        ls -1 apps > sites/apps.txt;
+        export start=`date +%s`;
+        until [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".db_host // empty"` ]] && \
+          [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty"` ]] && \
+          [[ -n `grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty"` ]];
+        do
+          echo "Waiting for sites/common_site_config.json to be created";
+          sleep 5;
+          if (( `date +%s`-start > 120 )); then
+            echo "could not find sites/common_site_config.json with required keys";
+            exit 1
+          fi
+        done;
+        echo "sites/common_site_config.json found";
+        bench new-site --mariadb-user-host-login-scope='%' --admin-password={{ erpnext.admin_password }} --db-root-username=root --db-root-password='{% if erpnext.db_root_password %}{{ erpnext.db_root_password }}{% else %}{{ lookup('password', './settings/passwords/erpnext_db_root_password chars=ascii_letters') }}{% endif %}' --install-app erpnext --set-default frontend;
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-cache:6379
+      REDIS_QUEUE: redis-queue:6379
+      SOCKETIO_PORT: 9000
     volumes:
-      - "{{ volumes_root }}/erpnext/sites:/var/www/html/sites"
-      - "{{ volumes_root }}/erpnext/assets-vol:/assets"
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+
+  backend:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: unless-stopped
+    networks:
+      - erpnext
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      REDIS_CACHE: redis-cache:6379
+      REDIS_QUEUE: redis-queue:6379
+      SOCKETIO_PORT: 9000
+      GUNICORN_THREADS: 4
+      GUNICORN_WORKERS: 2
+      GUNICORN_TIMEOUT: 120
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+
+  frontend:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: unless-stopped
     networks:
       - traefik_network
       - erpnext
+    command:
+      - nginx-entrypoint.sh
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: $$host
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: "off"
+      PROXY_READ_TIMEOUT: 120
+      CLIENT_MAX_BODY_SIZE: 50m
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - backend
+      - websocket
 {% include './labels.j2' %}
 
-  erpnext-python:
-    image: frappe/erpnext-worker:{{ erpnext.version }}
-    restart: on-failure
+  websocket:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: unless-stopped
     networks:
       - erpnext
-    environment:
-      - MARIADB_HOST=${MARIADB_HOST}
-      - REDIS_CACHE=redis-cache:6379
-      - REDIS_QUEUE=redis-queue:6379
-      - REDIS_SOCKETIO=redis-socketio:6379
-      - SOCKETIO_PORT=9000
-      - AUTO_MIGRATE=1
+    command:
+      - node
+      - /home/frappe/frappe-bench/apps/frappe/socketio.js
     volumes:
-      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
-      - "{{ volumes_root }}/erpnext/assets-vol:/home/frappe/frappe-bench/sites/assets"
-
-  frappe-socketio:
-    networks:
-      - erpnext
-    image: frappe/frappe-socketio:{{ erpnext.version }}
-    restart: on-failure
+      - sites:/home/frappe/frappe-bench/sites
     depends_on:
-      - redis-socketio
-    links:
-      - redis-socketio
-    volumes:
-      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+      configurator:
+        condition: service_completed_successfully
 
-
-  frappe-worker-default:
+  queue-short:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: unless-stopped
     networks:
       - erpnext
-    image: frappe/erpnext-worker:{{ erpnext.version }}
-    restart: on-failure
-    command: worker
-    depends_on:
-      - redis-queue
-      - redis-cache
-    links:
-      - redis-queue
-      - redis-cache
+    command: bench worker --queue short,default
     volumes:
-      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
 
-  frappe-worker-short:
-    image: frappe/erpnext-worker:{{ erpnext.version }}
+  queue-long:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: unless-stopped
     networks:
       - erpnext
-    restart: on-failure
-    command: worker
-    environment:
-      - WORKER_TYPE=short
-    depends_on:
-      - redis-queue
-      - redis-cache
-    links:
-      - redis-queue
-      - redis-cache
+    command: bench worker --queue long,default,short
     volumes:
-      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
 
-  frappe-worker-long:
-    image: frappe/erpnext-worker:{{ erpnext.version }}
+  scheduler:
+    image: frappe/erpnext:{{ erpnext.version }}
+    platform: linux/amd64
+    restart: unless-stopped
     networks:
       - erpnext
-    restart: on-failure
-    command: worker
-    environment:
-      - WORKER_TYPE=long
-    depends_on:
-      - redis-queue
-      - redis-cache
-    links:
-      - redis-queue
-      - redis-cache
+    command: bench schedule
     volumes:
-      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+      - sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
 
-  frappe-schedule:
-    image: frappe/erpnext-worker:{{ erpnext.version }}
-    networks:
-      - erpnext
-    restart: on-failure
-    command: schedule
-    depends_on:
-      - redis-queue
-      - redis-cache
-    links:
-      - redis-queue
-      - redis-cache
-    volumes:
-      - "{{ volumes_root }}/erpnext/sites:/home/frappe/frappe-bench/sites"
+volumes:
+  sites:

@@ -1,7 +1,12 @@
 ---
-
 - name: Setup {{service_item}}
   include_tasks: includes/setup.yml
+
+- name: Make postgresql data directory.
+  file:
+    path: "{{ volumes_root }}/postgresql/db"
+    state: directory
+    mode: 0777
 
 - name: Start {{service_item}}
   include_tasks: includes/start.yml

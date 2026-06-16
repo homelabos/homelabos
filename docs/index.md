@@ -88,6 +88,9 @@ Matrix server
 #### [matterbridge](./software/matterbridge)
 A program that allows users to link multiple chat platforms.
 
+#### [ntfy](./software/ntfy)
+Simple pub-sub notification service for push notifications
+
 #### [thelounge](./software/thelounge)
 TheLounge is a web based IRC client that syncs nicely across devices, and stays online when you aren't.
 
@@ -126,6 +129,9 @@ LazyLibrarian is a program to follow authors and grab metadata for all your digi
 
 ### Email
 
+#### [listmonk](./software/listmonk)
+Listmonk is a self-hosted newsletter and mailing list manager.
+
 #### [mailu](./software/mailu)
 Mailu is a simple yet full-featured mail server as a set of Docker images.
 
@@ -149,6 +155,7 @@ Miniflux is a minimalist and opinionated feed reader.
 
 #### [bazarr](./software/bazarr)
 Companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
+
 
 #### [duplicati](./software/duplicati)
 Free backup software to store encrypted backups online
@@ -176,6 +183,7 @@ NZBHydra 2 is a meta search for newznab indexers and torznab trackers.
 
 #### [ombi](./software/ombi)
 Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+
 
 #### [overseerr](./software/overseerr)
 Overseerr is a request management and media discovery tool built to work with your existing Plex ecosystem.
@@ -246,6 +254,7 @@ A social platform to enjoy and share music
 #### [jellyfin](./software/jellyfin)
 Jellyfin is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.
 
+
 #### [massivedecks](./software/massivedecks)
 Massive Decks is a comedy party game based on Cards against Humanity.
 
@@ -281,9 +290,6 @@ The best platform to write and share markdown
 #### [duckdns](./software/duckdns)
 DuckDNS is free dynamic DNS hosted on AWS.
 
-#### [erpnext](./software/erpnext)
-Open Source ERP for Everyone.
-
 #### [esphome](./software/esphome)
 ESPHome
 
@@ -299,11 +305,13 @@ A simple server for sending and receiving messages in real-time per WebSocket. (
 #### [grocy](./software/grocy)
 ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 
+
 #### [grownetics](./software/grownetics)
 Growentics is an open source environmental mapping with plant management and tracking software suite.
 
 #### [hubzilla](./software/hubzilla)
 HubZilla is a powerful platform for creating interconnected websites featuring a decentralized/nomadic identity.
+
 
 #### [invidious](./software/invidious)
 Invidious is an alternative front-end to YouTube
@@ -323,6 +331,7 @@ n8n is a free and open node based Workflow Automation Tool.
 #### [nodered](./software/nodered)
 Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 
+
 #### [octoprint](./software/octoprint)
 The snappy web interface for your 3D printer.
 
@@ -332,11 +341,16 @@ Ollama makes it easy to get up and running with large language models locally.
 #### [pihole](./software/pihole)
 Pi-hole provides network-wide ad blocking via your own Linux hardware.
 
+#### [postgresql](./software/postgresql)
+PostgreSQL is a powerful, open source object-relational database system.
+
 #### [privatebin](./software/privatebin)
 Threaded chat softwarePrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 
+
 #### [rsshub](./software/rsshub)
 RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
+
 
 #### [sabnzbd](./software/sabnzbd)
 Free and easy binary newsreader
@@ -362,6 +376,7 @@ Ubooquity is a free home server for your comics and ebooks library
 #### [unificontroller](./software/unificontroller)
 The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 
+
 #### [unofficial_ddns](./software/unofficial_ddns)
 UnofficialDDNSnix is a service which provides dynamic DNS for name.com
 
@@ -371,6 +386,7 @@ Watchtower is a process for automating Docker container base image updates
 #### [webdavserver](./software/webdavserver)
 WebDAV Server A simple WebDAV service. If you enable WebDAV over SSL you will have a secure file transfer service setup, which is useful for e.g. syncing your notes from Joplin. If you don't need all the extra from NextCloud/OwnCloud, this service could be what you need.
 
+
 #### [webtrees](./software/webtrees)
 WebTrees is Online genealogy software
 
@@ -379,6 +395,7 @@ xfinityusageinfluxdb is a service that runs on the xfinityusageinfluxdb server.
 
 #### [xteve](./software/xteve)
 Xteve is an emulated TV Tuner for IPTV services. It offers guide management and smart filtering of channels from your IPTV provider.
+
 
 #### [zammad](./software/zammad)
 Zammad is a web-based, open source user support/ticketing solution.
@@ -390,6 +407,9 @@ ZeroTier network controller user interface
 
 #### [actual](./software/actual)
 Actual Budget is a local-first personal finance app.
+
+#### [erpnext](./software/erpnext)
+Open source ERP system built on Frappe framework
 
 #### [firefly_iii](./software/firefly_iii)
 Firefly III is a money management app.
@@ -407,6 +427,7 @@ Grafana is a Time Series Database graphing application.
 
 #### [graylog](./software/graylog)
 Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
+
 
 #### [healthchecks](./software/healthchecks)
 A Cron Monitoring Tool written in Python & Django
@@ -476,6 +497,7 @@ PhotoPrism Personal Photo Management powered by Go and Google TensorFlow. Free a
 #### [piwigo](./software/piwigo)
 Piwigo is open source photo management software. Manage, organize and share your photo easily on the web. Designed for organisations, teams and individuals.
 
+
 #### [pixelfed](./software/pixelfed)
 Pixelfed is a free and ethical photo sharing platform, powered by ActivityPub federation.
 
@@ -491,6 +513,7 @@ phpBB is an Internet forum package in the PHP scripting language.
 
 #### [pleroma](./software/pleroma)
 Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
+
 
 ### Software Development
 
@@ -508,6 +531,10 @@ Gitlab the single application for the entire DevOps lifecycle
 
 #### [jenkins](./software/jenkins)
 The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
+
+
+#### [opencode](./software/opencode)
+OpenCode is an open source AI coding agent with a browser-based web UI.
 
 #### [snibox](./software/snibox)
 Self-hosted snippet manager. Developed to collect and organize code snippets.

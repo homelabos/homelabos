@@ -1,6 +1,6 @@
 ---
 full_service_name: ERPNext
-description: Open Source ERP for Everyone.
-category: misc-other
-version: v11
-port: 80
+description: Open source ERP system built on Frappe framework
+category: money-budgeting-and-management
+version: v16.22.0
+port: 8080

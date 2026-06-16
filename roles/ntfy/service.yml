@@ -1,0 +1,6 @@
+---
+full_service_name: ntfy
+description: Simple pub-sub notification service for push notifications
+category: chat
+version: latest
+port: 80
