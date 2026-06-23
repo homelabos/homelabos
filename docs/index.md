@@ -137,6 +137,9 @@ Mailu is a simple yet full-featured mail server as a set of Docker images.
 
 ### Federated Identity/Authentication
 
+#### [authentik](./software/authentik)
+Authentik is an open-source identity provider for modern SSO with OAuth2, OIDC, SAML, and LDAP.
+
 #### [keycloak](./software/keycloak)
 Open Source Identity and Access Management
 
@@ -277,6 +280,9 @@ Import your Tube Archivist media folder into Jellyfin
 
 #### [adguardhome](./software/adguardhome)
 Network-wide software for blocking ads and tracking.
+
+#### [apache2_prolabos](./software/apache2_prolabos)
+
 
 #### [chowdown](./software/chowdown)
 Simple recipes in Markdown format

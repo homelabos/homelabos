@@ -1,0 +1,2 @@
+  db_version: {{ authentik.db_version | default("16-alpine") }}
+  error_reporting_enabled: {{ authentik.error_reporting_enabled | default(False) }}

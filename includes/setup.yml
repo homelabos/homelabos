@@ -15,7 +15,7 @@
 - name: Copy {{ service_item }} docker-compose.yml file into place.
   template:
     src: >-
-      roles/{{ service_item }}/templates/docker-compose.{{
+      roles/{{ lookup('vars',service_item).source_service | default(service_item) }}/templates/docker-compose.{{
       lookup('vars',service_item).source_service | default(service_item) }}.yml.j2
     dest: "{{ volumes_root }}/{{ service_item }}/docker-compose.yml"
   vars:

@@ -220,9 +220,7 @@
     https_only: "{{ lookup('vars', service_item).https_only | default(False) }}"
     auth: "{{ lookup('vars', service_item).auth | default(False) }}"
     custom_domain: "{{ lookup('vars', service_item).domain | default(False) }}"
-    service_domain: >-
-      {% if lookup('vars', service_item).domain | default(False) %}{{ lookup('vars', service_item).domain }}
-      {% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}
+    service_domain: "{% if lookup('vars', service_item).domain | default(False) %}{{ lookup('vars', service_item).domain }}{% else %}{{ lookup('vars', service_item).subdomain }}.{{ domain }}{% endif %}"
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
     tor_ssh_domain: "{{ tor_ssh_domain_file.stdout | default('') }}"
 

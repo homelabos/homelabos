@@ -3,14 +3,19 @@
 - name: Setup {{service_item}}
   include_tasks: includes/setup.yml
 
+- name: Make {{ service_item }} web root directory.
+  file:
+    path: "{{ volumes_root }}/{{ service_item }}/root"
+    state: directory
+
 - name: Check for existence of httpd.conf
   stat:
-    path: "{{ volumes_root }}/apache2/httpd.conf"
+    path: "{{ volumes_root }}/{{ service_item }}/httpd.conf"
   register: httpd_conf_file
 
 - name: Copy default apache config from docker image
   shell:
-    cmd: "docker run --rm httpd:2.4 cat /usr/local/apache2/conf/httpd.conf > {{ volumes_root }}/apache2/httpd.conf"
+    cmd: "docker run --rm httpd:2.4 cat /usr/local/apache2/conf/httpd.conf > {{ volumes_root }}/{{ service_item }}/httpd.conf"
   when: not httpd_conf_file.stat.exists
 
 - name: Start {{service_item}}

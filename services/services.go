@@ -25,6 +25,78 @@ type Service struct {
 	SanityIgnore bool
 }
 
+func loadAdditionalServicesSourceMap() map[string]string {
+	sourceServices := make(map[string]string)
+
+	yfile, err := ioutil.ReadFile("./settings/additional_services_config.yml")
+	if err != nil {
+		return sourceServices
+	}
+
+	data := make(map[interface{}]interface{})
+	if err := yaml.Unmarshal(yfile, &data); err != nil {
+		return sourceServices
+	}
+
+	for serviceName, config := range data {
+		name, ok := serviceName.(string)
+		if !ok || name == "blank_on_purpose" {
+			continue
+		}
+
+		configMap, ok := config.(map[interface{}]interface{})
+		if !ok {
+			continue
+		}
+
+		sourceService, ok := configMap["source_service"].(string)
+		if ok && sourceService != "" {
+			sourceServices[name] = sourceService
+		}
+	}
+
+	return sourceServices
+}
+
+func loadServiceFromRole(roleName string) (Service, error) {
+	yfile, err := ioutil.ReadFile("./roles/" + roleName + "/service.yml")
+	if err != nil {
+		return Service{}, err
+	}
+
+	data := make(map[interface{}]interface{})
+	if err := yaml.Unmarshal(yfile, &data); err != nil {
+		return Service{}, err
+	}
+
+	additionalConfigsFile, err := ioutil.ReadFile("./roles/" + roleName + "/additional_configs.yml")
+	additionalConfigsString := ""
+	if err == nil {
+		additionalConfigsString = string(additionalConfigsFile)
+	}
+
+	version := fmt.Sprintf("%v", data["version"])
+	port := data["port"]
+	if version == "" {
+		version = "latest"
+	}
+	if port == nil || port == false {
+		port = 0
+	}
+
+	category := GetCategory(data["category"].(string))
+	return Service{
+		roleName,
+		data["description"].(string),
+		version,
+		additionalConfigsString,
+		-1,
+		category,
+		port.(int),
+		false,
+	}, nil
+}
+
 func GenerateServicesList(servicesFilter string, includeAdditionalServices bool) map[string]Service {
 	services = make(map[string]Service)
 
@@ -47,65 +119,36 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 		}
 	}
 
+	additionalServiceSources := loadAdditionalServicesSourceMap()
+
 	// Load additional services
 	if includeAdditionalServices {
-		yfile, err := ioutil.ReadFile("./settings/additional_services_config.yml")
-
-		if err == nil {
-			data := make(map[interface{}]interface{})
-			err2 := yaml.Unmarshal(yfile, &data)
-			if err2 != nil {
-				log.Fatal(err2)
-			}
-			for serviceName, _ := range data {
-				if serviceName != "blank_on_purpose" {
-					serviceNames = append(serviceNames, serviceName.(string))
-				}
-			}
+		for serviceName := range additionalServiceSources {
+			serviceNames = append(serviceNames, serviceName)
 		}
 	}
 
 	for _, serviceName := range serviceNames {
 		// Generate list of services
 		// Pull service settings
-		yfile, err := ioutil.ReadFile("./roles/" + serviceName + "/service.yml")
+		service, err := loadServiceFromRole(serviceName)
 
 		if err != nil {
+			if sourceService, ok := additionalServiceSources[serviceName]; ok {
+				sourceServiceData, sourceErr := loadServiceFromRole(sourceService)
+				if sourceErr == nil {
+					sourceServiceData.Name = serviceName
+					services[serviceName] = sourceServiceData
+					continue
+				}
+			}
+
 			// If we don't have a service file, add the service anyway, so it shows up as failing.
 			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0, false}
 			continue
 		}
-		data := make(map[interface{}]interface{})
-		err2 := yaml.Unmarshal(yfile, &data)
-		if err2 != nil {
-			log.Fatal(err2)
-		}
 
-		additionalConfigsFile, err := ioutil.ReadFile("./roles/" + serviceName + "/additional_configs.yml")
-		additionalConfigsString := ""
-		if err == nil {
-			additionalConfigsString = string(additionalConfigsFile)
-		}
-
-		version := fmt.Sprintf("%v", data["version"])
-		port := data["port"]
-		if version == "" {
-			version = "latest"
-		}
-		if port == nil || port == false {
-			port = 0
-		}
-		category := GetCategory(data["category"].(string))
-		services[serviceName] = Service{
-			serviceName,
-			data["description"].(string),
-			version,
-			additionalConfigsString,
-			-1,
-			category,
-			port.(int),
-			false,
-		}
+		services[serviceName] = service
 	}
 
 	return services
