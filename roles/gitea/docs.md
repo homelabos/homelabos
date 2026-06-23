@@ -24,3 +24,7 @@ It is also available via Tor at [http://{{ gitea.subdomain + "." + tor_domain }}
 {{ gitea.gitea_ssh_port }} - defaults to 222, can be adjusted
 - Default is 222
 - Adjust in settings/config.yml
+
+### Runtime User
+Gitea runs as `{{ gitea.user | default("git") }}` with UID `{{ gitea.user_uid | default(1000) }}` and GID `{{ gitea.user_gid | default(1000) }}` by default when HomelabOS deploys as root.
+Override `gitea.user`, `gitea.user_uid`, and `gitea.user_gid` in `settings/config.yml` if your `/data` volume should be owned by a different non-root account.

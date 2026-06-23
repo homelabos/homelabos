@@ -16,8 +16,9 @@ services:
       - traefik_network
       - gitea_net
     environment:
-      - USER_UID={{ uid_output.stdout }}
-      - USER_GID={{ gid_output.stdout }}
+      - USER={{ gitea.user | default("git") }}
+      - USER_UID={{ gitea.user_uid | default(1000 if uid_output.stdout == "0" else uid_output.stdout) }}
+      - USER_GID={{ gitea.user_gid | default(1000 if gid_output.stdout == "0" else gid_output.stdout) }}
 {% if gitea.use_mariadb %}
       - DB_TYPE=mysql
       - DB_HOST=db:3306
