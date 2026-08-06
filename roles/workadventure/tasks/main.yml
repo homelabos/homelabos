@@ -1,0 +1,15 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Clone WorkAdventure repository
+  git:
+    repo: "https://github.com/workadventure/workadventure.git"
+    dest: "{{ volumes_root }}/{{ service_item }}/app"
+    version: "{{ lookup('vars', service_item).version | default('master') }}"
+    clone: yes
+    update: yes
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml
