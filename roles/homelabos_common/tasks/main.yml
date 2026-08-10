@@ -1,4 +1,8 @@
 ---
+- name: Configure host DNS before package installs
+  include_role:
+    name: homelabos_systemd-resolve
+
 - name: Install necessities and nice-to-haves
   apt:
     name:
@@ -26,8 +30,39 @@
       - python3-setuptools
       - python3-passlib
       - python3-openssl
+    update_cache: true
   environment:
     DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == "Debian"
+  tags:
+    - dependencies
+
+- name: Install necessities and nice-to-haves
+  pacman:
+    name:
+      - ca-certificates
+      - cifs-utils
+      - curl
+      - git
+      - htop
+      - iftop
+      - iotop
+      - mosh
+      - nfs-utils
+      - screen
+      - sudo
+      - vim
+      - whois
+      - python
+      - python-pip
+      - python-virtualenv
+      - python-setuptools
+      - python-passlib
+      - python-pyopenssl
+      - zsh
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Archlinux"
   tags:
     - dependencies
 
@@ -35,8 +70,20 @@
   apt:
     name:
       - docker-compose
+    update_cache: true
   environment:
     DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == "Debian"
+  tags:
+    - dependencies
+
+- name: Install Docker and docker-compose
+  pacman:
+    name:
+      - docker-compose
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Archlinux"
   tags:
     - dependencies
 
@@ -45,6 +92,7 @@
     name: python
     link: /usr/bin/python
     path: /usr/bin/python3
+  when: ansible_os_family == "Debian"
 
 # - name: timezone - configure /etc/timezone
 #   copy:
@@ -67,6 +115,21 @@
   locale_gen:
     name: en_US.UTF-8
     state: present
+  when: ansible_os_family == "Debian"
+
+- name: Ensure locale en_US.UTF-8 locale is enabled
+  lineinfile:
+    path: /etc/locale.gen
+    regexp: '^#?en_US\.UTF-8 UTF-8'
+    line: 'en_US.UTF-8 UTF-8'
+  register: arch_locale_gen
+  when: ansible_os_family == "Archlinux"
+
+- name: Generate locale en_US.UTF-8
+  command: locale-gen
+  when:
+    - ansible_os_family == "Archlinux"
+    - arch_locale_gen.changed
 
 - name: adding existing user '{{ homelab_ssh_user }}' to group docker
   user:

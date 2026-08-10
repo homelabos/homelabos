@@ -34,6 +34,9 @@ vault:
   # Home Assitant API Key
   homeassistant_api_key: {{ vault.homeassistant_api_key | default() }}
 
+  nut:
+    homeassistant_password: {{ vault.nut.homeassistant_password | default() }}
+
   # Xfinity Data Usage Settings
   xfinity_user: {{ vault.xfinity_user | default()  }}
   xfinity_password: {{ vault.xfinity_password | default()  }}

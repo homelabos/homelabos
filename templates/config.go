@@ -111,8 +111,8 @@ plex_claim: "{{"{{"}} vault.plex_claim {{"}}"}}"
 mapbox_api_key: "{{"{{"}} vault.mapbox_api_key {{"}}"}}"
 
 # Restic S3 Backup Server Information name: Docs: https://homelabos.com/docs/setup/backups/
-# Single s3_path definition: vault wins, falls back to a top-level config value, then empty.
-s3_path: "{{"{{"}} vault.s3_path | default(s3_path, true) | default('') {{"}}"}}"
+# Restic S3 bucket path: vault wins, else empty.
+s3_path: "{{"{{"}} vault.s3_path | default('') {{"}}"}}"
 s3_access_key: "{{"{{"}} vault.s3_access_key {{"}}"}}"
 s3_secret_key: "{{"{{"}} vault.s3_secret_key {{"}}"}}"
 s3_backup_password: "{{"{{"}} vault.s3_backup_password {{"}}"}}"
