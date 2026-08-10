@@ -1,9 +1,14 @@
 # Dev
 
 ## Services Added
+- Added Paseo - Self-hosted orchestrator for running multiple coding agents with a bundled web UI.
 - Added Langfuse - Open source LLM engineering platform for observability, evaluations, and prompt management.
 - Added ClickHouse - Open source columnar OLAP database for real-time analytics.
+- Added Listmonk - Self-hosted newsletter and mailing list manager.
 - Added Frigate - Security camera NVR with realtime object detection.
+- Added ArchiveBox - Self-hosted web archiving for saving pages, media, and snapshots.
+- Added Prometheus - Open-source systems monitoring and alerting toolkit.
+- Added Backrest - Web UI and orchestrator for restic backup.
 
 # v1.0
 
