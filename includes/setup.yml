@@ -12,6 +12,11 @@
     path: "{{ volumes_root }}/{{ service_item }}"
     state: directory
 
+- name: Check for /dev/dri hardware acceleration device
+  stat:
+    path: /dev/dri
+  register: dri_device
+
 - name: Copy {{ service_item }} docker-compose.yml file into place.
   template:
     src: >-
