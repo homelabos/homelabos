@@ -3,8 +3,8 @@ version: '3'
 
 networks:
   traefik_network:
-    external:
-      name: homelabos_traefik
+    external: true
+    name: homelabos_traefik
 
 services:
   # Home Automation
@@ -20,6 +20,7 @@ services:
     ports:
       - 8123:8123
       - 1883:1883
+      - 21063:21063
       # - 8080:8080
       - 51827:51827
 {% include './labels.j2' %}

@@ -8,7 +8,7 @@
 
 - name: Copy homeassistant docker-compose.yml file into place.
   template:
-    src: docker-compose.homeassistant.yml.j2
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/docker-compose.homeassistant.yml.j2"
     dest: "{{ volumes_root }}/homeassistant/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
@@ -16,9 +16,115 @@
 
 - name: Configure homeassistant systemd service.
   template:
-    src: service.j2
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/service.j2"
     dest: /etc/systemd/system/homeassistant.service
   when: not homeassistant.use_supervisord
+
+- name: Install Home Assistant mDNS packages on Debian
+  apt:
+    name:
+      - avahi-daemon
+      - dbus
+    update_cache: true
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when:
+    - not homeassistant.use_supervisord
+    - ansible_os_family == "Debian"
+
+- name: Install Home Assistant mDNS packages on Archlinux
+  pacman:
+    name:
+      - avahi
+      - dbus
+    state: present
+    update_cache: true
+  when:
+    - not homeassistant.use_supervisord
+    - ansible_os_family == "Archlinux"
+
+- name: Open HomeKit bridge ports in nftables
+  blockinfile:
+    path: /etc/nftables.conf
+    insertbefore: '^\s*pkttype host limit rate 5/second counter reject with icmpx type admin-prohibited'
+    marker: "    # {mark} HOMELABOS HOMEASSISTANT HOMEKIT"
+    block: |
+      udp dport 5353 accept comment "allow mDNS for Home Assistant HomeKit"
+      tcp dport 21063 accept comment "allow Home Assistant HomeKit bridge"
+  register: homeassistant_nftables_rules
+  become: true
+
+- name: Reload nftables after HomeKit rule changes
+  command: nft -f /etc/nftables.conf
+  when: homeassistant_nftables_rules.changed
+  become: true
+
+- name: Ensure systemd-resolved drop-in directory exists for HomeKit mDNS
+  file:
+    path: /etc/systemd/resolved.conf.d
+    state: directory
+  when: not homeassistant.use_supervisord
+  become: true
+
+- name: Disable systemd-resolved MulticastDNS so avahi owns mDNS reflection
+  copy:
+    dest: /etc/systemd/resolved.conf.d/homeassistant-homekit.conf
+    content: |
+      [Resolve]
+      MulticastDNS=no
+  register: homeassistant_resolved_mdns
+  when: not homeassistant.use_supervisord
+  become: true
+
+- name: Restart systemd-resolved after MulticastDNS changes
+  systemd:
+    name: systemd-resolved
+    state: restarted
+  when:
+    - not homeassistant.use_supervisord
+    - homeassistant_resolved_mdns.changed
+  become: true
+
+- name: Enable avahi reflector mode
+  ini_file:
+    path: /etc/avahi/avahi-daemon.conf
+    section: reflector
+    option: enable-reflector
+    value: "yes"
+    no_extra_spaces: true
+  register: homeassistant_avahi_reflector
+  when: not homeassistant.use_supervisord
+  become: true
+
+- name: Restrict avahi to LAN and Home Assistant Docker bridge interfaces
+  ini_file:
+    path: /etc/avahi/avahi-daemon.conf
+    section: server
+    option: allow-interfaces
+    value: "{{ homeassistant.avahi_allow_interfaces }}"
+    no_extra_spaces: true
+  register: homeassistant_avahi_interfaces
+  when:
+    - not homeassistant.use_supervisord
+    - homeassistant.avahi_allow_interfaces | default('') | length > 0
+  become: true
+
+- name: Restart avahi-daemon after reflector changes
+  systemd:
+    name: avahi-daemon
+    state: restarted
+  when:
+    - not homeassistant.use_supervisord
+    - homeassistant_avahi_reflector.changed or homeassistant_avahi_interfaces.changed
+  become: true
+
+- name: Ensure avahi-daemon is enabled and running
+  systemd:
+    name: avahi-daemon
+    enabled: "yes"
+    state: started
+  when: not homeassistant.use_supervisord
+  become: true
 
 - name: Start homeassistant
   systemd:
@@ -43,7 +149,7 @@
 
 - name: Create System Home Assistant Config file
   template:
-    src: system_config.json
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/system_config.json"
     dest: "/etc/hassio.json"
   vars:
     machine_type:
@@ -69,34 +175,33 @@
   when: homeassistant.use_supervisord
 
 - name: Pull Supervisor Docker Image
-  docker_image:
-    name: "homeassistant/{{override[ansible_architecture] | default(\"amd64\")}}-hassio-supervisor"
-    source: pull
+  command: >
+    docker pull homeassistant/{{override[ansible_architecture] | default("amd64")}}-hassio-supervisor
   when: homeassistant.use_supervisord
 
 - name: Install supervisor startup script
   copy:
-    src: hassio-supervisor
+    src: "{{ playbook_dir }}/roles/homeassistant/files/hassio-supervisor"
     dest: /usr/sbin/hassio-supervisor
     mode: 'a+x'
   when: homeassistant.use_supervisord
 
 - name: Install supervisor service file
   template:
-    src: hassio-supervisor.service
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/hassio-supervisor.service"
     dest: /etc/systemd/system/hassio-supervisor.service
   when: homeassistant.use_supervisord
 
 - name: Install Hass.io AppArmor Bin
   template:
-    src: hassio-apparmor
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/hassio-apparmor"
     dest: /usr/sbin/hassio-apparmor
     mode: a+x
   when: homeassistant.use_supervisord
 
 - name: Install Hass.io AppArmor Service
   template:
-    src: hassio-apparmor.service
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/hassio-apparmor.service"
     dest: /etc/systemd/system/hassio-apparmor.service
   when: homeassistant.use_supervisord
 
@@ -109,7 +214,7 @@
 
 - name: Install Hass.io AppArmor Profile
   template:
-    src: apparmor.j2
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/apparmor.j2"
     dest: /var/homelabos/homeassistant/share/hassio/apparmor/hassio-supervisor
   when: homeassistant.use_supervisord
 
@@ -123,7 +228,7 @@
 
 - name: Install CLI
   template:
-    src: cli
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/cli"
     dest: /usr/bin/ha
     mode: a+x
   when: homeassistant.use_supervisord
@@ -136,7 +241,7 @@
 
 - name: Copy HomeAssistant Traefik config file into place.
   template:
-    src: traefik.yaml
+    src: "{{ playbook_dir }}/roles/homeassistant/templates/traefik.yaml"
     dest: "{{ volumes_root }}/traefik/conf.d/homeassistant.yaml"
   vars:
     service_name: "HomeAssistant"
