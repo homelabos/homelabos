@@ -1,4 +1,10 @@
 ---
+- name: Set FORWARD policy to ACCEPT for bastion port forwarding
+  iptables:
+    chain: FORWARD
+    policy: ACCEPT
+  when: "'bastion' in group_names"
+
 - name: Establish DNAT rules
   iptables:
     table: nat

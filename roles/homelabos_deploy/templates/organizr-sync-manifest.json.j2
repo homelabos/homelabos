@@ -6,7 +6,7 @@
   "organizr_domain": {{ ((organizr.domain if organizr.domain else organizr.subdomain + '.' + domain)) | to_json }},
   "state_path": {{ (volumes_root + '/organizr/managed-tabs.json') | to_json }},
   "services": [
-{% for service_item in (services | dict2items | map(attribute='key') | list | sort) %}
+{% for service_item in (services | flatten(1) | unique | sort) %}
 {% set source_service = lookup('vars', service_item).source_service | default(service_item) %}
 {% set service_meta = (lookup('file', playbook_dir ~ '/roles/' ~ source_service ~ '/service.yml') | from_yaml) %}
     {
