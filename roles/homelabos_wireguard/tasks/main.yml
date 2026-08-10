@@ -18,6 +18,14 @@
     cache_valid_time: 86400
   environment:
     DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == "Debian"
+
+- name: Install WireGuard
+  pacman:
+    name: wireguard-tools
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Archlinux"
 
 - name: Create WireGuard configurations directory
   file:
