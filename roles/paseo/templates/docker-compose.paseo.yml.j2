@@ -1,0 +1,21 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  paseo:
+    image: ghcr.io/getpaseo/paseo:{{ paseo.version }}
+    restart: unless-stopped
+    environment:
+      - PASEO_PASSWORD={{ paseo.paseo_password | default(default_password) }}
+      - PASEO_HOSTNAMES={{ service_domain }}
+    volumes:
+      - "{{ volumes_root }}/paseo/paseo-home:/home/paseo"
+      - "{{ volumes_root }}:/workspace"
+    networks:
+      - traefik_network
+{% include './labels.j2' %}

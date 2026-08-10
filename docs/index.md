@@ -70,6 +70,9 @@ HomeKit support for the impatient
 #### [kibitzr](./software/kibitzr)
 Kibitzr acts as a replacement for IFTTT
 
+#### [nut](./software/nut)
+Host-level UPS monitoring and status server for Home Assistant and other NUT clients.
+
 ### Blogging Platforms
 
 #### [ghost](./software/ghost)
@@ -156,6 +159,9 @@ Miniflux is a minimalist and opinionated feed reader.
 
 ### File Sharing and Synchronization
 
+#### [backrest](./software/backrest)
+Web UI and orchestrator for restic backup
+
 #### [bazarr](./software/bazarr)
 Companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
 
@@ -232,6 +238,9 @@ QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten
 #### [seat](./software/seat)
 EVE Online Auth
 
+#### [workadventure](./software/workadventure)
+WorkAdventure is a web-based collaborative virtual office and meeting space.
+
 ### Gateways and terminal sharing
 
 #### [guacamole](./software/guacamole)
@@ -280,9 +289,6 @@ Import your Tube Archivist media folder into Jellyfin
 
 #### [adguardhome](./software/adguardhome)
 Network-wide software for blocking ads and tracking.
-
-#### [apache2_prolabos](./software/apache2_prolabos)
-
 
 #### [chowdown](./software/chowdown)
 Simple recipes in Markdown format
@@ -539,8 +545,14 @@ Gitlab the single application for the entire DevOps lifecycle
 The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
 
 
+#### [langsmith](./software/langsmith)
+LangSmith is a platform for LLM tracing, evaluation, and prompt management.
+
 #### [opencode](./software/opencode)
 OpenCode is an open source AI coding agent with a browser-based web UI.
+
+#### [paseo](./software/paseo)
+Paseo is an open source orchestrator for running multiple coding agents (Claude Code, Codex, Copilot, OpenCode, Pi) from a self-hosted daemon with a bundled web UI.
 
 #### [snibox](./software/snibox)
 Self-hosted snippet manager. Developed to collect and organize code snippets.
