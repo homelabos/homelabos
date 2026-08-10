@@ -1,15 +1,15 @@
----
-version: '3'
-
 networks:
   traefik_network:
-    external:
-      name: homelabos_traefik
+    name: homelabos_traefik
+    external: true
 
 services:
   # Torrent Downloader https://homelabos.com/docs/software/transmission/
   transmission:
-    image: haugene/transmission-openvpn:{{ transmission.version }}
+    image: haugene/transmission-wireguard:{{ transmission.version }}
+    privileged: true
+    sysctls:
+      - "net.ipv6.conf.all.disable_ipv6=0"
     networks:
       - traefik_network
     cap_add:
@@ -24,22 +24,19 @@ services:
       - 8.8.4.4
     volumes:
       - /etc/localtime:/etc/localtime:ro
+      - "{{ volumes_root }}/transmission:/wg-config/"
       - "{{ storage_dir }}/Downloads:/data"
       - "{{ storage_dir }}/Downloads/watch:/data/watch"
       - "{{ storage_dir }}/Video/Movies:/movies"
       - "{{ storage_dir }}/Video/TV:/tv"
     environment:
-      - OPENVPN_PROVIDER={{ openvpn_provider }}
-      - OPENVPN_USERNAME={{ openvpn_username }}
-      - OPENVPN_PASSWORD={{ openvpn_password }}
-      - OPENVPN_CONFIG={{ openvpn_config }}
-      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 300
-      - PGID={{ gid_output.stdout }}
-      - PUID={{ uid_output.stdout }}
+      - CONFIG_FILE=/wg-config/{{ transmission.wg_config | default('wg0.conf') }}  # A config file within your wireguard config mount
+      - PGID=0
+      - PUID=0
       - TZ={{ common_timezone }}
-      #- TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
-      #- TRANSMISSION_RPC_PASSWORD={{ default_password }}
-      #- TRANSMISSION_RPC_USERNAME={{ default_username }}
+      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=true
+      - TRANSMISSION_RPC_PASSWORD={{ default_password }}
+      - TRANSMISSION_RPC_USERNAME={{ default_username }}
       - TRANSMISSION_DOWNLOAD_DIR=/data/complete
       - TRANSMISSION_SPEED_LIMIT_UP=100
       - TRANSMISSION_SPEED_LIMIT_UP_ENABLED=true
