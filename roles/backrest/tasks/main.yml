@@ -1,0 +1,20 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make Backrest data directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: u+rwx,g+rwx,o+rx
+  loop:
+    - "{{ volumes_root }}/backrest/data"
+    - "{{ volumes_root }}/backrest/config"
+    - "{{ volumes_root }}/backrest/cache"
+    - "{{ volumes_root }}/backrest/tmp"
+    - "{{ volumes_root }}/backrest/rclone"
+    - "{{ volumes_root }}/backrest/repos"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

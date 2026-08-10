@@ -1,0 +1,7 @@
+---
+full_service_name: Backrest
+description: Web UI and orchestrator for restic backup
+project_url: https://github.com/garethgeorge/backrest
+category: file-sharing-and-synchronization
+version: latest
+port: 9898
