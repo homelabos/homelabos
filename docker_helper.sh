@@ -2,16 +2,21 @@
 
 VERSION=$(cat VERSION)
 SSH_KEY=${SSH_KEY:-"${HOME}/.ssh/id_rsa"}
+DOCKER_TTY_ARGS=""
+
+if [ -t 0 ] && [ -t 1 ]; then
+    DOCKER_TTY_ARGS="-it"
+fi
 
 if [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" -a -f "$HOME/.homelabos_vault_pass" ]; then
-    docker run --rm -it \
+    docker run --rm ${DOCKER_TTY_ARGS} \
       -v ${SSH_KEY}:/root/.ssh/id_rsa:Z \
       -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub:Z \
       -v $(pwd):/data:Z \
       -v $HOME/.homelabos_vault_pass:/ansible_vault_pass:Z \
       nickbusey/homelabos:${VERSION} "$@"
 elif [ -f "${SSH_KEY}" -a -f "${SSH_KEY}.pub" ]; then
-    docker run --rm -it \
+    docker run --rm ${DOCKER_TTY_ARGS} \
       -v ${SSH_KEY}:/root/.ssh/id_rsa:Z \
       -v ${SSH_KEY}.pub:/root/.ssh/id_rsa.pub:Z \
       -v $(pwd):/data:Z \

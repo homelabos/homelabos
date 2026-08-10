@@ -261,6 +261,31 @@
     query: "{{ lookup('vars', service_item).enable }}"
   ignore_errors: true
 
+- name: Install Organizr sync helper
+  copy:
+    src: organizr_sync.py
+    dest: /usr/local/bin/homelabos-organizr-sync.py
+    mode: "0755"
+
+- name: Render Organizr sync manifest
+  template:
+    src: organizr-sync-manifest.json.j2
+    dest: "{{ volumes_root }}/organizr/managed-tabs.manifest.json"
+    mode: "0644"
+  when:
+    - organizr.enable | default(False)
+    - organizr_sync.enable | default(True)
+
+- name: Reconcile Organizr managed tabs
+  command:
+    argv:
+      - /usr/bin/python3
+      - /usr/local/bin/homelabos-organizr-sync.py
+      - "{{ volumes_root }}/organizr/managed-tabs.manifest.json"
+  when:
+    - organizr.enable | default(False)
+    - organizr_sync.enable | default(True)
+
 - debug:
     msg: "HomelabOS Installed successfully! Access the docs at https://docs.{{ domain }}/ to get started."
 

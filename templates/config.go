@@ -111,6 +111,8 @@ plex_claim: "{{"{{"}} vault.plex_claim {{"}}"}}"
 mapbox_api_key: "{{"{{"}} vault.mapbox_api_key {{"}}"}}"
 
 # Restic S3 Backup Server Information name: Docs: https://homelabos.com/docs/setup/backups/
+# Single s3_path definition: vault wins, falls back to a top-level config value, then empty.
+s3_path: "{{"{{"}} vault.s3_path | default(s3_path, true) | default('') {{"}}"}}"
 s3_access_key: "{{"{{"}} vault.s3_access_key {{"}}"}}"
 s3_secret_key: "{{"{{"}} vault.s3_secret_key {{"}}"}}"
 s3_backup_password: "{{"{{"}} vault.s3_backup_password {{"}}"}}"
@@ -166,6 +168,12 @@ docs:
   subdomain: {{"{{"}} docs.subdomain | default("docs") {{"}}"}}
   version: {{"{{"}}docs.version | default("latest") {{"}}"}}
 
+organizr_sync:
+  enable: {{"{{"}} organizr_sync.enable | default(True) {{"}}"}}
+  icon_default: {{"{{"}} organizr_sync.icon_default | default("auto") {{"}}"}}
+  exclude_services: {{"{{"}} organizr_sync.exclude_services | default([]) {{"}}"}}
+  icon_overrides: {{"{{"}} organizr_sync.icon_overrides | default({}) {{"}}"}}
+
 # Services
 
 {{ range $service := . }}{{ $service.Name }}:
@@ -193,7 +201,6 @@ nas_workgroup: {{"{{"}} nas_workgroup | default() {{"}}"}}
 # Example: 0 4 * * *
 # Backup every day at 4:00 AM
 s3_backup_cron: {{"{{"}} s3_backup_cron | default("0 4 * * *") {{"}}"}}
-s3_path: {{"{{"}} s3_path | default() {{"}}"}}
 
 apple_health_nextcloud_username: {{"{{"}} apple_health_nextcloud_username | default()  {{"}}"}}
 `

@@ -13,7 +13,7 @@ RestartSec=3
 WorkingDirectory={{ volumes_root }}/traefik/
 
 ExecStart=/usr/bin/docker-compose -p homelabos up
-ExecStop=/usr/bin/docker-compose -p homelabos stop && /usr/bin/docker-compose -p homelabos rm -f
+ExecStop=/usr/bin/docker-compose -p homelabos down
 
 [Install]
 WantedBy=multi-user.target
