@@ -37,10 +37,30 @@
     - { src: "upsd.conf.j2", dest: "/etc/nut/upsd.conf", mode: "0640" }
     - { src: "upsd.users.j2", dest: "/etc/nut/upsd.users", mode: "0640" }
     - { src: "upsmon.conf.j2", dest: "/etc/nut/upsmon.conf", mode: "0640" }
-  notify:
-    - Restart nut driver
-    - Restart nut server
-    - Restart nut monitor
+  register: nut_config_rendered
+
+# Handlers are not reachable here (tasks run via include_tasks inside homelabos_deploy),
+# so restart NUT services inline when any config file changed.
+- name: Restart NUT driver on config change
+  systemd:
+    name: "nut-driver@{{ nut.ups_name }}"
+    state: restarted
+  when: nut_config_rendered.changed
+  become: true
+
+- name: Restart NUT server on config change
+  systemd:
+    name: nut-server
+    state: restarted
+  when: nut_config_rendered.changed
+  become: true
+
+- name: Restart NUT monitor on config change
+  systemd:
+    name: nut-monitor
+    state: restarted
+  when: nut_config_rendered.changed
+  become: true
 
 - name: Ensure NUT driver is enabled and running
   systemd:
