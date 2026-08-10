@@ -106,7 +106,7 @@
   register: homeassistant_avahi_interfaces
   when:
     - not homeassistant.use_supervisord
-    - homeassistant.avahi_allow_interfaces | default('') | length > 0
+    - homeassistant.avahi_allow_interfaces | default('', true) | length > 0
   become: true
 
 - name: Restart avahi-daemon after reflector changes
