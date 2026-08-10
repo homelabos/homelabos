@@ -13,11 +13,13 @@ services:
     restart: unless-stopped
     networks:
       - traefik_network
+{% if dri_device.stat.exists %}
+    devices:
+      - /dev/dri:/dev/dri
+{% endif %}
     ports:
       - 8096:8096
     volumes:
       - "{{ volumes_root }}/jellyfin/config:/config"
-      - "{{ storage_dir }}:/media"
-      - "{{ storage_dir }}/temp:/cache"
-      - "{{ storage_dir }}/Video/Tubearchivist/media:/youtube:ro"
+      - "{{ volumes_root }}/jellyfin/cache:/cache"
 {% include './labels.j2' %}
