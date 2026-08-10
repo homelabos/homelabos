@@ -1,0 +1,7 @@
+---
+full_service_name: ArchiveBox
+description: Self-hosted web archiving for saving pages, media, and snapshots.
+project_url: https://github.com/ArchiveBox/ArchiveBox
+category: archiving
+version: stable
+port: 8000

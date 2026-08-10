@@ -1,0 +1,29 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  archivebox:
+    image: archivebox/archivebox:{{ archivebox.version }}
+    command: server --quick-init 0.0.0.0:8000
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    volumes:
+      - "{{ volumes_root }}/archivebox/data:/data"
+    environment:
+      - ALLOWED_HOSTS={{ archivebox.allowed_hosts }}
+      - PUBLIC_INDEX={{ archivebox.public_index }}
+      - PUBLIC_SNAPSHOTS={{ archivebox.public_snapshots }}
+      - PUBLIC_ADD_VIEW={{ archivebox.public_add_view }}
+      - ADMIN_USERNAME={{ default_username }}
+      - ADMIN_PASSWORD={{ default_password }}
+      - MEDIA_MAX_SIZE={{ archivebox.media_max_size }}
+      - TIMEOUT={{ archivebox.timeout }}
+      - PUID={{ uid_output.stdout }}
+      - PGID={{ gid_output.stdout }}
+{% include './labels.j2' %}

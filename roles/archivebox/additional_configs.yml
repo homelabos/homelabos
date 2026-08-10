@@ -1,0 +1,6 @@
+  allowed_hosts: "{{ archivebox.allowed_hosts | default('*') }}"
+  public_index: {{ archivebox.public_index | default(False) }}
+  public_snapshots: {{ archivebox.public_snapshots | default(False) }}
+  public_add_view: {{ archivebox.public_add_view | default(False) }}
+  media_max_size: "{{ archivebox.media_max_size | default('750m') }}"
+  timeout: "{{ archivebox.timeout | default('60') }}"
