@@ -1,3 +1,5 @@
   db_version: {{ immich.db_version | default("14-vectorchord0.4.3-pgvectors0.2.0") }}
   redis_version: {{ immich.redis_version | default("7-alpine") }}
   ml_version: {{ immich.ml_version | default(immich.version | default("release")) }}
+  storage_dir: {{ immich.storage_dir | default(volumes_root + '/immich/data') }}
+  external_storage_dir: {{ immich.external_storage_dir | default(storage_dir) }}

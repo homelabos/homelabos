@@ -16,10 +16,14 @@ services:
     # extends:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
+{% if dri_device.stat.exists %}
+    devices:
+      - /dev/dri:/dev/dri
+{% endif %}
     volumes:
       # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
-      - "{{ volumes_root }}/immich/data:/data"
-      - "{{ storage_dir }}:/storage"
+      - "{{ immich.storage_dir | default(volumes_root + '/immich/data') }}:/data"
+      - "{{ immich.external_storage_dir | default(storage_dir) }}:/storage"
       - "/etc/localtime:/etc/localtime:ro"
     environment:
       DB_PASSWORD: "{{lookup('password', './settings/passwords/immich_db_password chars=ascii_letters')}}"
