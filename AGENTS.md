@@ -75,6 +75,12 @@ roles/<service>/
 - `uid` / `gid`
 - All service-specific config from `config.yml`
 
+## HomelabOS Service Fixes
+- Make durable service configuration fixes in the source templates under `install/roles/**/templates/` or shared template files.
+- Redeploy from the templates after changing service configuration.
+- Do not treat generated top-level service files such as `/var/homelabos/<service>/docker-compose.yml` as the source of truth.
+- Direct generated-file edits are only acceptable as temporary emergency mitigation and must be followed by a matching template change and redeploy.
+
 ## Build, Test, and Development Commands
 
 ### Build and Deploy

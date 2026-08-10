@@ -2,6 +2,7 @@
 
 ## Services Added
 - Added Paseo - Self-hosted orchestrator for running multiple coding agents with a bundled web UI.
+- Added InvoicePlane - Self-hosted quotes, invoices, clients, and payments.
 - Added Langfuse - Open source LLM engineering platform for observability, evaluations, and prompt management.
 - Added ClickHouse - Open source columnar OLAP database for real-time analytics.
 - Added Listmonk - Self-hosted newsletter and mailing list manager.
