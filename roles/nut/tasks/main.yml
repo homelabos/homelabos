@@ -1,0 +1,61 @@
+---
+- name: Install NUT on Debian
+  apt:
+    name:
+      - nut
+    update_cache: true
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == "Debian"
+
+- name: Install NUT on Archlinux
+  pacman:
+    name:
+      - nut
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Archlinux"
+
+- name: Ensure NUT configuration directory exists
+  file:
+    path: /etc/nut
+    state: directory
+    owner: root
+    group: nut
+    mode: "0750"
+
+- name: Render NUT configuration files
+  template:
+    src: "{{ playbook_dir }}/roles/nut/templates/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: nut
+    mode: "{{ item.mode }}"
+  loop:
+    - { src: "nut.conf.j2", dest: "/etc/nut/nut.conf", mode: "0640" }
+    - { src: "ups.conf.j2", dest: "/etc/nut/ups.conf", mode: "0640" }
+    - { src: "upsd.conf.j2", dest: "/etc/nut/upsd.conf", mode: "0640" }
+    - { src: "upsd.users.j2", dest: "/etc/nut/upsd.users", mode: "0640" }
+    - { src: "upsmon.conf.j2", dest: "/etc/nut/upsmon.conf", mode: "0640" }
+  notify:
+    - Restart nut driver
+    - Restart nut server
+    - Restart nut monitor
+
+- name: Ensure NUT driver is enabled and running
+  systemd:
+    name: "nut-driver@{{ nut.ups_name }}"
+    enabled: "yes"
+    state: started
+
+- name: Ensure NUT server is enabled and running
+  systemd:
+    name: nut-server
+    enabled: "yes"
+    state: started
+
+- name: Ensure NUT monitor is enabled and running
+  systemd:
+    name: nut-monitor
+    enabled: "yes"
+    state: started

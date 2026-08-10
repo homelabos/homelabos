@@ -1,0 +1,18 @@
+---
+- name: Restart nut driver
+  systemd:
+    name: "nut-driver@{{ nut.ups_name }}"
+    state: restarted
+  become: true
+
+- name: Restart nut server
+  systemd:
+    name: nut-server
+    state: restarted
+  become: true
+
+- name: Restart nut monitor
+  systemd:
+    name: nut-monitor
+    state: restarted
+  become: true

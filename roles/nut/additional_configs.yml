@@ -1,0 +1,17 @@
+  mode: {{ nut.mode | default("netserver") }}
+  listen_host: {{ nut.listen_host | default(homelab_ip) }}
+  listen_port: {{ nut.listen_port | default("3493") }}
+  ups_name: {{ nut.ups_name | default("cyberpower") }}
+  driver: {{ nut.driver | default("usbhid-ups") }}
+  device_port: {{ nut.device_port | default("auto") }}
+  vendorid: {{ nut.vendorid | default("0764") }}
+  productid: {{ nut.productid | default("0601") }}
+  desc: {{ nut.desc | default("CyberPower UPS") }}
+  poll_interval: {{ nut.poll_interval | default("15") }}
+  max_retry: {{ nut.max_retry | default("3") }}
+  homeassistant_username: {{ nut.homeassistant_username | default("homeassistant") }}
+  homeassistant_password: {{ nut.homeassistant_password | default("CHANGE_ME_NUT_PASSWORD") }}
+  shutdown_monitor_username: {{ nut.shutdown_monitor_username | default("upsmon") }}
+  shutdown_monitor_password: {{ nut.shutdown_monitor_password | default("CHANGE_ME_UPSMON_PASSWORD") }}
+  powerdown_flag: {{ nut.powerdown_flag | default("/etc/killpower") }}
+  shutdown_cmd: {{ nut.shutdown_cmd | default("/sbin/shutdown -h +0") }}

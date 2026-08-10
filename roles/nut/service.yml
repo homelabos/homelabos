@@ -1,0 +1,7 @@
+---
+full_service_name: Network UPS Tools
+description: Host-level UPS monitoring and status server for Home Assistant and other NUT clients.
+category: automation
+version: 2.8.5-2
+port: 3493
+sanity_ignore: true
