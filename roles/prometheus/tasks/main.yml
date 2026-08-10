@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Make prometheus directory.
   file:
@@ -14,8 +14,8 @@
 
 - name: Configure prometheus
   template:
-    src: prometheus.yml.j2
+    src: "{{ playbook_dir }}/roles/prometheus/templates/prometheus.yml.j2"
     dest: "{{ volumes_root }}/prometheus/prometheus.yml"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml
