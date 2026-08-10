@@ -14,23 +14,27 @@ services:
       - traefik_network
     restart: unless-stopped
     cpus: '1.0'
+{% if dri_device.stat.exists %}
+    devices:
+      - /dev/dri:/dev/dri
+{% endif %}
     environment:
       - PUID={{ uid_output.stdout }}
       - PGID={{ gid_output.stdout }}
       - TZ={{ common_timezone }}
-{% if fileflows.oidc_authority is defined %}
+{% if fileflows.oidc_authority %}
       - OidcAuthority={{ fileflows.oidc_authority }}
 {% endif %}
-{% if fileflows.oidc_client_id is defined %}
+{% if fileflows.oidc_client_id %}
       - OidcClientId={{ fileflows.oidc_client_id }}
 {% endif %}
-{% if fileflows.oidc_client_secret is defined %}
+{% if fileflows.oidc_client_secret %}
       - OidcClientSecret={{ fileflows.oidc_client_secret }}
 {% endif %}
-{% if fileflows.oidc_callback_address is defined %}
+{% if fileflows.oidc_callback_address %}
       - OidcCallbackAddress={{ fileflows.oidc_callback_address }}
 {% endif %}
-{% if fileflows.oidc_required_group is defined %}
+{% if fileflows.oidc_required_group %}
       - OidcRequiredGroup={{ fileflows.oidc_required_group }}
 {% endif %}
     volumes:
@@ -38,15 +42,15 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - "{{ volumes_root }}/fileflows/data:/app/Data"
       - "{{ volumes_root }}/fileflows/logs:/app/Logs"
-{% if fileflows.temp_path is defined %}
+{% if fileflows.temp_path %}
       - "{{ fileflows.temp_path }}:/temp"
 {% else %}
       - "{{ volumes_root }}/fileflows/temp:/temp"
 {% endif %}
-{% if fileflows.browser_start_directory is defined %}
-      - "{{ fileflows.browser_start_directory }}:/media"
+{% if fileflows.browser_start_directory %}
+      - "{{ fileflows.browser_start_directory }}:/Video"
 {% endif %}
-{% if fileflows.common_directory is defined %}
+{% if fileflows.common_directory %}
       - "{{ fileflows.common_directory }}:/common"
 {% endif %}
 {% if fileflows.additional_volumes is defined and fileflows.additional_volumes %}
