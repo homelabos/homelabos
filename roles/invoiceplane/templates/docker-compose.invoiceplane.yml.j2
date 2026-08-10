@@ -1,0 +1,51 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  invoiceplane:
+
+services:
+  invoiceplane:
+    image: funktionslust/invoiceplane:{{ invoiceplane.version }}
+    restart: unless-stopped
+    depends_on:
+      - invoiceplane_db
+    networks:
+      - traefik_network
+      - invoiceplane
+    environment:
+      - TZ={{ common_timezone }}
+      - IP_URL=https://{{ service_domain }}
+      - IP_DB_HOSTNAME=invoiceplane_db
+      - IP_DB_DATABASE=invoiceplane
+      - IP_DB_USERNAME=invoiceplane
+      - IP_DB_PASSWORD={{ lookup('password', './settings/passwords/invoiceplane_db_password chars=ascii_letters') }}
+      - IP_DB_PORT=3306
+      - PROXY_NETWORKS=172.16.0.0/12 10.0.0.0/8
+      - INSTALL_EINVOICE_TEMPLATES={{ invoiceplane.install_einvoice_templates }}
+    volumes:
+      - "{{ volumes_root }}/invoiceplane/uploads:/var/www/html/uploads"
+      - "{{ volumes_root }}/invoiceplane/logs:/var/www/html/application/logs"
+      - "{{ volumes_root }}/invoiceplane/htaccess:/var/www/html/.htaccess:ro"
+{% include './labels.j2' %}
+
+  invoiceplane_db:
+    image: mariadb:{{ invoiceplane.db_version }}
+    restart: unless-stopped
+    networks:
+      - invoiceplane
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ lookup('password', './settings/passwords/invoiceplane_db_root_password chars=ascii_letters') }}
+      - MYSQL_DATABASE=invoiceplane
+      - MYSQL_USER=invoiceplane
+      - MYSQL_PASSWORD={{ lookup('password', './settings/passwords/invoiceplane_db_password chars=ascii_letters') }}
+    volumes:
+      - "{{ volumes_root }}/invoiceplane/db:/var/lib/mysql"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

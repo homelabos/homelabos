@@ -426,6 +426,9 @@ Open source ERP system built on Frappe framework
 #### [firefly_iii](./software/firefly_iii)
 Firefly III is a money management app.
 
+#### [invoiceplane](./software/invoiceplane)
+InvoicePlane is a self-hosted application for managing quotes, invoices, clients, and payments.
+
 ### Monitoring
 
 #### [elkstack](./software/elkstack)

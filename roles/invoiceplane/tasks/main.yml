@@ -1,0 +1,12 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Install {{service_item}} Apache access rules
+  template:
+    src: roles/invoiceplane/templates/htaccess.j2
+    dest: "{{ volumes_root }}/{{ service_item }}/htaccess"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

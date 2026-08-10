@@ -1,0 +1,7 @@
+---
+full_service_name: InvoicePlane
+description: InvoicePlane is a self-hosted application for managing quotes, invoices, clients, and payments.
+project_url: https://www.invoiceplane.com/
+category: money-budgeting-and-management
+version: latest
+port: 80
