@@ -1,0 +1,6 @@
+---
+full_service_name: LangSmith
+description: LangSmith is a platform for LLM tracing, evaluation, and prompt management.
+category: software-development
+version: 0.11.4
+port: 1980

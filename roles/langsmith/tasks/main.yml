@@ -1,0 +1,12 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Copy LangSmith ClickHouse users.xml
+  template:
+    src: roles/langsmith/templates/users.xml.j2
+    dest: "{{ volumes_root }}/langsmith/users.xml"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

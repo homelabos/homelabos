@@ -1,0 +1,335 @@
+---
+version: '3'
+
+# This networks section required for the package to be visible to Traefik.
+# DO NOT Remove
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  langsmith:
+
+services:
+  langchain-playground:
+    image: langchain/langsmith-playground:{{ langsmith.version }}
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - LANGCHAIN_ENV=local_docker
+      - LOG_LEVEL={{ langsmith.log_level | default("info") }}
+      - GO_ENDPOINT={{ langsmith.go_endpoint | default("http://langchain-platform-backend:1986") }}
+      - SMITH_BACKEND_ENDPOINT={{ langsmith.smith_backend_endpoint | default("http://langchain-backend:1984") }}
+    networks:
+      - langsmith
+
+  langchain-frontend:
+    image: langchain/langsmith-frontend:{{ langsmith.version }}
+    environment:
+      - VITE_BACKEND_AUTH_TYPE={{ langsmith.auth_type | default("none") }}
+      - VITE_BASIC_AUTH_ENABLED={{ langsmith.basic_auth_enabled | default(false) }}
+      - VITE_OAUTH_CLIENT_ID={{ langsmith.oauth_client_id | default("") }}
+      - VITE_OAUTH_ISSUER_URL={{ langsmith.oauth_issuer_url | default("") }}
+    ports:
+      - "1980:1980"
+    depends_on:
+      - langchain-backend
+      - langchain-playground
+    networks:
+      - traefik_network
+      - langsmith
+{% include './labels.j2' %}
+
+  langchain-ace-backend:
+    image: langchain/langsmith-ace-backend:{{ langsmith.version }}
+    ports:
+      - "1987:1987"
+    environment:
+      - PORT=1987
+    command:
+      - "deno"
+      - "run"
+      - "--unstable-worker-options"
+      - "--allow-env"
+      - "--allow-net=0.0.0.0:1987"
+      - "--node-modules-dir"
+      - "-R"
+      - "src/main.ts"
+      - "-R"
+      - "src/python_worker.ts"
+    networks:
+      - langsmith
+
+  langchain-backend:
+    image: langchain/langsmith-backend:{{ langsmith.version }}
+    environment:
+      - PORT=1984
+      - LANGCHAIN_ENV=local_docker
+      - LANGSMITH_URL={{ langsmith.url | default("http://langchain-frontend:1980") }}
+      - GO_ENDPOINT={{ langsmith.go_endpoint | default("http://langchain-platform-backend:1986") }}
+      - SMITH_BACKEND_ENDPOINT={{ langsmith.smith_backend_endpoint | default("http://langchain-backend:1984") }}
+      - LANGSMITH_LICENSE_KEY={{ langsmith.license_key | default("") }}
+      - LOG_LEVEL={{ langsmith.log_level | default("info") }}
+      - AUTH_TYPE={{ langsmith.auth_type | default("none") }}
+      - OAUTH_CLIENT_ID={{ langsmith.oauth_client_id | default("") }}
+      - OAUTH_CLIENT_SECRET={{ langsmith.oauth_client_secret | default("") }}
+      - OAUTH_ISSUER_URL={{ langsmith.oauth_issuer_url | default("") }}
+      - API_KEY_SALT={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - X_SERVICE_AUTH_JWT_SECRET={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - POSTGRES_DATABASE_URI={{ langsmith.postgres_database_uri | default("postgres:postgres@langchain-db:5432/postgres") }}
+      - REDIS_DATABASE_URI={{ langsmith.redis_database_uri | default("redis://langchain-redis:6379") }}
+      - CLICKHOUSE_HOST={{ langsmith.clickhouse_host | default("langchain-clickhouse") }}
+      - CLICKHOUSE_USER={{ langsmith.clickhouse_user | default("default") }}
+      - CLICKHOUSE_PASSWORD={{ langsmith.clickhouse_password | default("password") }}
+      - CLICKHOUSE_DB={{ langsmith.clickhouse_db | default("default") }}
+      - CLICKHOUSE_PORT={{ langsmith.clickhouse_port | default("8123") }}
+      - CLICKHOUSE_TLS={{ langsmith.clickhouse_tls | default(false) }}
+      - FF_ORG_CREATION_DISABLED={{ langsmith.org_creation_disabled | default(false) }}
+      - FF_TRACE_TIERS_ENABLED={{ langsmith.ttl_enabled | default(true) }}
+      - FF_UPGRADE_TRACE_TIER_ENABLED={{ langsmith.ttl_enabled | default(true) }}
+      - FF_S3_STORAGE_ENABLED={{ langsmith.blob_storage_enabled | default(false) }}
+      - S3_BUCKET_NAME={{ langsmith.blob_storage_bucket_name | default("langsmith-s3-assets") }}
+      - S3_RUN_MANIFEST_BUCKET_NAME={{ langsmith.blob_storage_bucket_name | default("langsmith-s3-assets") }}
+      - S3_API_URL={{ langsmith.blob_storage_api_url | default("https://s3.us-west-2.amazonaws.com") }}
+      - S3_ACCESS_KEY={{ langsmith.blob_storage_access_key | default("") }}
+      - S3_ACCESS_KEY_SECRET={{ langsmith.blob_storage_access_key_secret | default("") }}
+      - FF_CH_SEARCH_ENABLED={{ langsmith.ch_search_enabled | default(true) }}
+      - BASIC_AUTH_ENABLED={{ langsmith.basic_auth_enabled | default(false) }}
+      - BASIC_AUTH_JWT_SECRET={{lookup('password', './settings/passwords/langsmith_basic_auth_jwt_secret chars=ascii_letters')}}
+      - INITIAL_ORG_ADMIN_EMAIL={{ langsmith.initial_org_admin_email | default("") }}
+      - INITIAL_ORG_ADMIN_PASSWORD={{ langsmith.initial_org_admin_password | default("") }}
+      - TRACE_TIER_TTL_DURATION_SEC_MAP={{ langsmith.trace_tier_ttl_duration_sec_map | default("") }}
+    ports:
+      - "1984:1984"
+    depends_on:
+      langchain-db:
+        condition: service_healthy
+      langchain-redis:
+        condition: service_healthy
+      clickhouse-setup:
+        condition: service_completed_successfully
+      postgres-setup:
+        condition: service_completed_successfully
+    restart: always
+    networks:
+      - langsmith
+
+  langchain-platform-backend:
+    image: langchain/langsmith-go-backend:{{ langsmith.version }}
+    environment:
+      - PORT=1986
+      - LANGCHAIN_ENV=local_docker
+      - LANGSMITH_URL={{ langsmith.url | default("http://langchain-frontend:1980") }}
+      - SMITH_BACKEND_ENDPOINT={{ langsmith.smith_backend_endpoint | default("http://langchain-backend:1984") }}
+      - LANGSMITH_LICENSE_KEY={{ langsmith.license_key | default("") }}
+      - LOG_LEVEL={{ langsmith.go_log_level | default("warning") }}
+      - AUTH_TYPE={{ langsmith.auth_type | default("none") }}
+      - OAUTH_CLIENT_ID={{ langsmith.oauth_client_id | default("") }}
+      - OAUTH_CLIENT_SECRET={{ langsmith.oauth_client_secret | default("") }}
+      - OAUTH_ISSUER_URL={{ langsmith.oauth_issuer_url | default("") }}
+      - API_KEY_SALT={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - X_SERVICE_AUTH_JWT_SECRET={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - POSTGRES_DATABASE_URI={{ langsmith.postgres_database_uri | default("postgres:postgres@langchain-db:5432/postgres") }}
+      - REDIS_DATABASE_URI={{ langsmith.redis_database_uri | default("redis://langchain-redis:6379") }}
+      - BASIC_AUTH_ENABLED={{ langsmith.basic_auth_enabled | default(false) }}
+      - BASIC_AUTH_JWT_SECRET={{lookup('password', './settings/passwords/langsmith_basic_auth_jwt_secret chars=ascii_letters')}}
+      - CLICKHOUSE_HOST={{ langsmith.clickhouse_host | default("langchain-clickhouse") }}
+      - CLICKHOUSE_USER={{ langsmith.clickhouse_user | default("default") }}
+      - CLICKHOUSE_PASSWORD={{ langsmith.clickhouse_password | default("password") }}
+      - CLICKHOUSE_DB={{ langsmith.clickhouse_db | default("default") }}
+      - CLICKHOUSE_PORT={{ langsmith.clickhouse_port | default("8123") }}
+      - CLICKHOUSE_TLS={{ langsmith.clickhouse_tls | default(false) }}
+      - FF_ORG_CREATION_DISABLED={{ langsmith.org_creation_disabled | default(false) }}
+      - FF_TRACE_TIERS_ENABLED={{ langsmith.ttl_enabled | default(true) }}
+      - FF_UPGRADE_TRACE_TIER_ENABLED={{ langsmith.ttl_enabled | default(true) }}
+      - FF_S3_STORAGE_ENABLED={{ langsmith.blob_storage_enabled | default(false) }}
+      - S3_BUCKET_NAME={{ langsmith.blob_storage_bucket_name | default("langsmith-s3-assets") }}
+      - S3_RUN_MANIFEST_BUCKET_NAME={{ langsmith.blob_storage_bucket_name | default("langsmith-s3-assets") }}
+      - S3_API_URL={{ langsmith.blob_storage_api_url | default("https://s3.us-west-2.amazonaws.com") }}
+      - S3_ACCESS_KEY={{ langsmith.blob_storage_access_key | default("") }}
+      - S3_ACCESS_KEY_SECRET={{ langsmith.blob_storage_access_key_secret | default("") }}
+      - FF_CH_SEARCH_ENABLED={{ langsmith.ch_search_enabled | default(true) }}
+      - TRACE_TIER_TTL_DURATION_SEC_MAP={{ langsmith.trace_tier_ttl_duration_sec_map | default("") }}
+    ports:
+      - "1986:1986"
+    depends_on:
+      langchain-db:
+        condition: service_healthy
+      langchain-redis:
+        condition: service_healthy
+      clickhouse-setup:
+        condition: service_completed_successfully
+      postgres-setup:
+        condition: service_completed_successfully
+    restart: always
+    networks:
+      - langsmith
+
+  langchain-queue:
+    image: langchain/langsmith-backend:{{ langsmith.version }}
+    environment:
+      - LANGCHAIN_ENV=local_docker
+      - GO_ENDPOINT={{ langsmith.go_endpoint | default("http://langchain-platform-backend:1986") }}
+      - SMITH_BACKEND_ENDPOINT={{ langsmith.smith_backend_endpoint | default("http://langchain-backend:1984") }}
+      - LANGSMITH_LICENSE_KEY={{ langsmith.license_key | default("") }}
+      - LOG_LEVEL={{ langsmith.log_level | default("info") }}
+      - AUTH_TYPE={{ langsmith.auth_type | default("none") }}
+      - OAUTH_CLIENT_ID={{ langsmith.oauth_client_id | default("") }}
+      - OAUTH_ISSUER_URL={{ langsmith.oauth_issuer_url | default("") }}
+      - API_KEY_SALT={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - X_SERVICE_AUTH_JWT_SECRET={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - POSTGRES_DATABASE_URI={{ langsmith.postgres_database_uri | default("postgres:postgres@langchain-db:5432/postgres") }}
+      - REDIS_DATABASE_URI={{ langsmith.redis_database_uri | default("redis://langchain-redis:6379") }}
+      - CLICKHOUSE_HOST={{ langsmith.clickhouse_host | default("langchain-clickhouse") }}
+      - CLICKHOUSE_USER={{ langsmith.clickhouse_user | default("default") }}
+      - CLICKHOUSE_PASSWORD={{ langsmith.clickhouse_password | default("password") }}
+      - CLICKHOUSE_DB={{ langsmith.clickhouse_db | default("default") }}
+      - CLICKHOUSE_PORT={{ langsmith.clickhouse_port | default("8123") }}
+      - CLICKHOUSE_TLS={{ langsmith.clickhouse_tls | default(false) }}
+      - FF_ORG_CREATION_DISABLED={{ langsmith.org_creation_disabled | default(false) }}
+      - FF_TRACE_TIERS_ENABLED={{ langsmith.ttl_enabled | default(true) }}
+      - FF_UPGRADE_TRACE_TIER_ENABLED={{ langsmith.ttl_enabled | default(true) }}
+      - FF_S3_STORAGE_ENABLED={{ langsmith.blob_storage_enabled | default(false) }}
+      - S3_BUCKET_NAME={{ langsmith.blob_storage_bucket_name | default("langsmith-s3-assets") }}
+      - S3_RUN_MANIFEST_BUCKET_NAME={{ langsmith.blob_storage_bucket_name | default("langsmith-s3-assets") }}
+      - S3_API_URL={{ langsmith.blob_storage_api_url | default("https://s3.us-west-2.amazonaws.com") }}
+      - S3_ACCESS_KEY={{ langsmith.blob_storage_access_key | default("") }}
+      - S3_ACCESS_KEY_SECRET={{ langsmith.blob_storage_access_key_secret | default("") }}
+      - FF_CH_SEARCH_ENABLED={{ langsmith.ch_search_enabled | default(true) }}
+      - BASIC_AUTH_ENABLED={{ langsmith.basic_auth_enabled | default(false) }}
+      - BASIC_AUTH_JWT_SECRET={{lookup('password', './settings/passwords/langsmith_basic_auth_jwt_secret chars=ascii_letters')}}
+      - TRACE_TIER_TTL_DURATION_SEC_MAP={{ langsmith.trace_tier_ttl_duration_sec_map | default("") }}
+    command:
+      - "saq"
+      - "app.workers.queues.single_queue_worker.settings"
+      - "--quiet"
+    depends_on:
+      langchain-db:
+        condition: service_healthy
+      langchain-redis:
+        condition: service_healthy
+      clickhouse-setup:
+        condition: service_completed_successfully
+      postgres-setup:
+        condition: service_completed_successfully
+    restart: always
+    networks:
+      - langsmith
+
+  langchain-db:
+    image: postgres:{{ langsmith.postgres_version | default("14.7") }}
+    command:
+      [
+        "postgres",
+        "-c",
+        "log_min_messages=WARNING",
+        "-c",
+        "client_min_messages=WARNING",
+      ]
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - "{{ volumes_root }}/langsmith/postgres:/var/lib/postgresql/data"
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    networks:
+      - langsmith
+
+  langchain-redis:
+    image: redis:{{ langsmith.redis_version | default("7") }}
+    ports:
+      - "63791:6379"
+    volumes:
+      - "{{ volumes_root }}/langsmith/redis:/data"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    networks:
+      - langsmith
+
+  langchain-clickhouse:
+    image: clickhouse/clickhouse-server:{{ langsmith.clickhouse_version | default("25.10") }}
+    user: "101:101"
+    restart: always
+    environment:
+      - CLICKHOUSE_DB={{ langsmith.clickhouse_db | default("default") }}
+      - CLICKHOUSE_USER={{ langsmith.clickhouse_user | default("default") }}
+      - CLICKHOUSE_PASSWORD={{ langsmith.clickhouse_password | default("password") }}
+    volumes:
+      - "{{ volumes_root }}/langsmith/clickhouse:/var/lib/clickhouse"
+      - "{{ volumes_root }}/langsmith/users.xml:/etc/clickhouse-server/users.d/users.xml"
+    ports:
+      - "8124:8123"
+      - "9001:9000"
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    networks:
+      - langsmith
+
+  clickhouse-setup:
+    image: langchain/langsmith-backend:{{ langsmith.version }}
+    depends_on:
+      langchain-clickhouse:
+        condition: service_healthy
+    restart: "on-failure:10"
+    environment:
+      - CLICKHOUSE_HOST={{ langsmith.clickhouse_host | default("langchain-clickhouse") }}
+      - CLICKHOUSE_USER={{ langsmith.clickhouse_user | default("default") }}
+      - CLICKHOUSE_PASSWORD={{ langsmith.clickhouse_password | default("password") }}
+      - CLICKHOUSE_DB={{ langsmith.clickhouse_db | default("default") }}
+      - CLICKHOUSE_PORT={{ langsmith.clickhouse_port | default("8123") }}
+      - CLICKHOUSE_NATIVE_PORT={{ langsmith.clickhouse_native_port | default("9000") }}
+      - CLICKHOUSE_TLS={{ langsmith.clickhouse_tls | default(false) }}
+    command:
+      [
+        "bash",
+        "scripts/wait_for_clickhouse_and_migrate.sh"
+      ]
+    networks:
+      - langsmith
+
+  postgres-setup:
+    image: langchain/langsmith-backend:{{ langsmith.version }}
+    depends_on:
+      langchain-db:
+        condition: service_healthy
+    environment:
+      - LANGCHAIN_ENV=local_docker
+      - LANGSMITH_LICENSE_KEY={{ langsmith.license_key | default("") }}
+      - LOG_LEVEL={{ langsmith.go_log_level | default("warning") }}
+      - AUTH_TYPE={{ langsmith.auth_type | default("none") }}
+      - OAUTH_CLIENT_ID={{ langsmith.oauth_client_id | default("") }}
+      - OAUTH_ISSUER_URL={{ langsmith.oauth_issuer_url | default("") }}
+      - API_KEY_SALT={{lookup('password', './settings/passwords/langsmith_api_key_salt chars=ascii_letters')}}
+      - POSTGRES_DATABASE_URI={{ langsmith.postgres_database_uri | default("postgres:postgres@langchain-db:5432/postgres") }}
+      - REDIS_DATABASE_URI={{ langsmith.redis_database_uri | default("redis://langchain-redis:6379") }}
+      - MAX_ASYNC_JOBS_PER_WORKER={{ langsmith.max_async_jobs_per_worker | default("10") }}
+      - ASYNCPG_POOL_MAX_SIZE={{ langsmith.asyncpg_pool_max_size | default("3") }}
+      - CLICKHOUSE_HOST={{ langsmith.clickhouse_host | default("langchain-clickhouse") }}
+      - CLICKHOUSE_USER={{ langsmith.clickhouse_user | default("default") }}
+      - CLICKHOUSE_PASSWORD={{ langsmith.clickhouse_password | default("password") }}
+      - CLICKHOUSE_DB={{ langsmith.clickhouse_db | default("default") }}
+      - CLICKHOUSE_PORT={{ langsmith.clickhouse_port | default("8123") }}
+      - CLICKHOUSE_NATIVE_PORT={{ langsmith.clickhouse_native_port | default("9000") }}
+      - CLICKHOUSE_TLS={{ langsmith.clickhouse_tls | default(false) }}
+    restart: "on-failure:10"
+    command:
+      [
+        "bash",
+        "-c",
+        "alembic upgrade head",
+      ]
+    networks:
+      - langsmith
