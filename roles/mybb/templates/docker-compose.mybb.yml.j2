@@ -14,13 +14,13 @@ services:
     networks:
       - mybb
     volumes:
-    - /var/homelabos/mybb/app:/var/www/html:rw
+    - "{{ volumes_root }}/mybb/app:/var/www/html:rw"
 
   nginx:
     image: nginx:mainline-alpine
     volumes:
-    - /var/homelabos/mybb/nginx:/etc/nginx/conf.d:ro
-    - /var/homelabos/mybb/app:/var/www/html:ro
+    - "{{ volumes_root }}/mybb/nginx:/etc/nginx/conf.d:ro"
+    - "{{ volumes_root }}/mybb/app:/var/www/html:ro"
     networks:
       - traefik_network
       - mybb
@@ -35,4 +35,4 @@ services:
     networks:
       - mybb
     volumes:
-    - /var/homelabos/mybb/postgres/data:/var/lib/postgresql/data:rw
+    - "{{ volumes_root }}/mybb/postgres/data:/var/lib/postgresql/data:rw"
