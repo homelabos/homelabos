@@ -32,11 +32,11 @@
     group: nut
     mode: "{{ item.mode }}"
   loop:
-    - { src: "nut.conf.j2", dest: "/etc/nut/nut.conf", mode: "0640" }
-    - { src: "ups.conf.j2", dest: "/etc/nut/ups.conf", mode: "0640" }
-    - { src: "upsd.conf.j2", dest: "/etc/nut/upsd.conf", mode: "0640" }
-    - { src: "upsd.users.j2", dest: "/etc/nut/upsd.users", mode: "0640" }
-    - { src: "upsmon.conf.j2", dest: "/etc/nut/upsmon.conf", mode: "0640" }
+    - {src: "nut.conf.j2", dest: "/etc/nut/nut.conf", mode: "0640"}
+    - {src: "ups.conf.j2", dest: "/etc/nut/ups.conf", mode: "0640"}
+    - {src: "upsd.conf.j2", dest: "/etc/nut/upsd.conf", mode: "0640"}
+    - {src: "upsd.users.j2", dest: "/etc/nut/upsd.users", mode: "0640"}
+    - {src: "upsmon.conf.j2", dest: "/etc/nut/upsmon.conf", mode: "0640"}
   register: nut_config_rendered
 
 # Handlers are not reachable here (tasks run via include_tasks inside homelabos_deploy),
