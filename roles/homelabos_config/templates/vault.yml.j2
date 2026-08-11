@@ -86,6 +86,10 @@ vault:
   duckdns:
     token: {{ vault.duckdns.token | default(False) }}
 
+  # GoModel OpenAI/Anthropic API key used to reach upstream AI providers
+  gomodel:
+    openai_api_key: {{ vault.gomodel.openai_api_key | default("your-openai-key") }}
+
   watchtower:
     gotify_token: {{ vault.watchtower.gotify_token | default (False) }}
 

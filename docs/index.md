@@ -290,6 +290,9 @@ Import your Tube Archivist media folder into Jellyfin
 #### [adguardhome](./software/adguardhome)
 Network-wide software for blocking ads and tracking.
 
+#### [apache2_prolabos](./software/apache2_prolabos)
+
+
 #### [chowdown](./software/chowdown)
 Simple recipes in Markdown format
 
@@ -543,6 +546,9 @@ Git hosting platform
 
 #### [gitlab](./software/gitlab)
 Gitlab the single application for the entire DevOps lifecycle
+
+#### [gomodel](./software/gomodel)
+GoModel is a fast, self-hosted AI gateway and LLM proxy with OpenAI-compatible and Anthropic-compatible APIs, a lightweight LiteLLM alternative.
 
 #### [jenkins](./software/jenkins)
 The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
