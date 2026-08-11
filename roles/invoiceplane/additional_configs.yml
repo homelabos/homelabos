@@ -1,0 +1,2 @@
+  db_version: {{ invoiceplane.db_version | default("11.6") }}
+  install_einvoice_templates: {{ invoiceplane.install_einvoice_templates | default("") }}

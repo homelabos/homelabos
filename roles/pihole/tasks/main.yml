@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Pull pihole Docker Image
   command: docker pull pihole/pihole
@@ -12,7 +12,7 @@
     dest: /etc/systemd/system/pihole.service
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml
 
 - name: Stop systemd-resolve
   systemd:

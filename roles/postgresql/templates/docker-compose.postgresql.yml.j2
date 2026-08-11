@@ -1,0 +1,16 @@
+---
+version: '3'
+
+services:
+  postgresql:
+    image: postgres:{{ postgresql.version }}
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "{{ postgresql.user | default('homelabos') }}"
+      POSTGRES_PASSWORD: "{{ lookup('password', './settings/passwords/postgresql_password chars=ascii_letters') }}"
+      POSTGRES_DB: "{{ postgresql.database | default('homelabos') }}"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "{{ volumes_root }}/postgresql/db:/var/lib/postgresql/data"
+    ports:
+      - "127.0.0.1:5432:5432"

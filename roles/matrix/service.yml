@@ -1,0 +1,6 @@
+---
+full_service_name: Synapse
+description: Matrix server
+category: chat
+version: latest
+port: 8008

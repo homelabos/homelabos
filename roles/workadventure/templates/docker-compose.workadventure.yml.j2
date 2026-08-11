@@ -1,0 +1,410 @@
+---
+version: '3.6'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  workadventure:
+
+services:
+  play:
+    image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie
+    command: npm run dev
+    working_dir: /usr/src/app/play
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/app:/usr/src/app"
+    tmpfs: /tmp
+    environment:
+      STARTUP_COMMAND_1: ../wait-proto.sh
+      STARTUP_COMMAND_2: ../npm-install.sh
+      STARTUP_COMMAND_3: npm run typesafe-i18n
+      DEBUG: "socket,space"
+      DEBUG_COLORS: "true"
+      DEBUG_ERROR_MESSAGES: "true"
+      DEBUG_MODE: "false"
+      JITSI_URL: "meet.jit.si"
+      JITSI_PRIVATE_MODE: "false"
+      ENABLE_MAP_EDITOR: "true"
+      HOST: "0.0.0.0"
+      NODE_ENV: development
+      ALLOWED_CORS_ORIGIN: "https://{{ service_domain }}"
+      VITE_URL: "https://{{ service_domain }}"
+      PUSHER_URL: "https://{{ service_domain }}/"
+      FRONT_URL: "https://{{ service_domain }}"
+      UPLOADER_URL: "https://{{ service_domain }}/uploader"
+      ICON_URL: "https://{{ service_domain }}/icon"
+      PUBLIC_MAP_STORAGE_URL: "https://{{ service_domain }}/map-storage"
+      STUN_SERVER: "stun:stun.l.google.com:19302"
+      TURN_SERVER: ""
+      DISABLE_NOTIFICATIONS: "true"
+      SKIP_RENDER_OPTIMIZATIONS: "false"
+      TURN_USER: ""
+      TURN_PASSWORD: ""
+      TURN_STATIC_AUTH_SECRET: ""
+      MAX_PER_GROUP: "100"
+      MAX_USERNAME_LENGTH: "10"
+      OPENID_CLIENT_ID: ""
+      OPENID_CLIENT_SECRET: ""
+      OPENID_CLIENT_ISSUER: ""
+      OPENID_PROFILE_SCREEN_PROVIDER: ""
+      OPENID_SCOPE: ""
+      OPENID_PROMPT: ""
+      OPENID_USERNAME_CLAIM: ""
+      OPENID_LOCALE_CLAIM: ""
+      OPENID_LOGOUT_REDIRECT_URL: ""
+      SECRET_KEY: "{{ lookup('password', './settings/passwords/workadventure_secret_key chars=ascii_letters,digits length=32') }}"
+      ADMIN_API_URL: ""
+      ADMIN_API_TOKEN: "{{ lookup('password', './settings/passwords/workadventure_admin_api_token chars=ascii_letters,digits length=32') }}"
+      MAP_STORAGE_API_TOKEN: "{{ lookup('password', './settings/passwords/workadventure_map_storage_api_token chars=ascii_letters,digits length=32') }}"
+      API_URL: back:50051
+      DISABLE_ANONYMOUS: ""
+      INTERNAL_MAP_STORAGE_URL: "http://map-storage:3000"
+      REDIS_HOST: redis
+      ENABLE_OPENAPI_ENDPOINT: "false"
+      START_ROOM_URL: "/_/global/{{ service_domain }}/maps/starter/map.json"
+      ENABLE_CHAT: "false"
+      ENABLE_CHAT_UPLOAD: "false"
+      ENABLE_CHAT_ONLINE_LIST: "false"
+      ENABLE_CHAT_DISCONNECTED_LIST: "false"
+      CLIENT_DISCONNECTION_RETENTION_MS: "30000"
+      PUSHER_ADMIN_WS_MAX_BACKPRESSURE_BYTES: "1048576"
+      ENABLE_TUTORIAL: "false"
+      DEFAULT_WOKA_NAME: ""
+      DEFAULT_WOKA_TEXTURE: ""
+      SKIP_CAMERA_PAGE: "false"
+      BYPASS_PWA: "false"
+      PROVIDE_DEFAULT_WOKA_NAME: "no"
+      PROVIDE_DEFAULT_WOKA_TEXTURE: "no"
+      SERVER_NAME: "WorkAdventure"
+      SERVER_MOTD: ""
+      SERVER_ICON: ""
+      ENABLE_REPORT_ISSUES_MENU: "false"
+      REPORT_ISSUES_URL: ""
+      LOGROCKET_ID: ""
+      SENTRY_DSN_FRONT: ""
+      SENTRY_DSN_PUSHER: ""
+      SENTRY_ENVIRONMENT: ""
+      SENTRY_RELEASE: ""
+      SENTRY_ORG: ""
+      SENTRY_PROJECT: ""
+      ROOM_API_PORT: "50051"
+      ROOM_API_SECRET_KEY: "{{ lookup('password', './settings/passwords/workadventure_room_api_secret_key chars=ascii_letters,digits length=32') }}"
+      FEATURE_FLAG_BROADCAST_AREAS: "true"
+      KLAXOON_ENABLED: "false"
+      KLAXOON_CLIENT_ID: ""
+      YOUTUBE_ENABLED: "true"
+      GOOGLE_DRIVE_ENABLED: "true"
+      GOOGLE_DOCS_ENABLED: "true"
+      GOOGLE_SHEETS_ENABLED: "true"
+      GOOGLE_SLIDES_ENABLED: "true"
+      ERASER_ENABLED: "true"
+      EXCALIDRAW_ENABLED: "true"
+      EXCALIDRAW_DOMAINS: ""
+      EMBEDDED_DOMAINS_WHITELIST: ""
+      CARDS_ENABLED: "true"
+      TLDRAW_ENABLED: "true"
+      GOOGLE_DRIVE_PICKER_CLIENT_ID: ""
+      GOOGLE_DRIVE_PICKER_APP_ID: ""
+      MINIMUM_DISTANCE: "64"
+      GROUP_RADIUS: "48"
+      MATRIX_API_URI: ""
+      MATRIX_PUBLIC_URI: ""
+      MATRIX_ADMIN_USER: ""
+      MATRIX_ADMIN_PASSWORD: ""
+      MATRIX_DOMAIN: ""
+      EMBEDLY_KEY: ""
+      MAP_EDITOR_ALLOW_ALL_USERS: "true"
+      MAX_DISPLAYED_VIDEOS: ""
+      LIVEKIT_PIXEL_DENSITY: "0.6666666666666666"
+      BACKGROUND_TRANSFORMER_ENGINE: "selfie-segmentation"
+    depends_on:
+      - back
+      - map-storage
+      - messages
+      - redis
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - workadventure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.routers.{{ service_item }}-http.rule=Host(`{{ service_domain }}`) && PathPrefix(`/`)"
+      - "traefik.http.routers.{{ service_item }}-http.priority=1"
+      - "traefik.http.routers.{{ service_item }}-http.entrypoints=http"
+      - "traefik.http.routers.{{ service_item }}-http.middlewares={% if workadventure.https_only %}redirect@file, security-headers@file{% else %}{% if workadventure.auth %}{% if authelia.enable %}authelia@file{% else %}basicAuth@file{% endif %}, {% endif %}customFrameHomelab@file{% endif %}"
+      - "traefik.http.routers.{{ service_item }}-http.service={{ service_item }}"
+      - "traefik.http.routers.{{ service_item }}.rule=Host(`{{ service_domain }}`) && PathPrefix(`/`)"
+      - "traefik.http.routers.{{ service_item }}.priority=1"
+      - "traefik.http.routers.{{ service_item }}.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}.middlewares={% if workadventure.auth %}{% if authelia.enable %}authelia@file, {% else %}basicAuth@file, {% endif %}{% endif %}customFrameHomelab@file"
+      - "traefik.http.routers.{{ service_item }}.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.{{ service_item }}.tls.certresolver=dns"
+{% if workadventure.domain != False %}
+      - "traefik.http.routers.{{ service_item }}.tls.domains[0].main={{ service_domain }}"
+{% else %}
+      - "traefik.http.routers.{{ service_item }}.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.{{ service_item }}.tls.domains[0].sans=*.{{ domain }}"
+{% endif %}
+{% else %}
+      - "traefik.http.routers.{{ service_item }}.tls.certresolver=http"
+{% endif %}
+      - "traefik.http.routers.{{ service_item }}.service={{ service_item }}"
+      - "traefik.http.services.{{ service_item }}.loadbalancer.server.port=3000"
+      - "traefik.http.routers.{{ service_item }}-ws-http.rule=Host(`{{ service_domain }}`) && PathPrefix(`/ws/`)"
+      - "traefik.http.routers.{{ service_item }}-ws-http.priority=2"
+      - "traefik.http.routers.{{ service_item }}-ws-http.entrypoints=http"
+      - "traefik.http.routers.{{ service_item }}-ws-http.service={{ service_item }}-ws"
+      - "traefik.http.routers.{{ service_item }}-ws.rule=Host(`{{ service_domain }}`) && PathPrefix(`/ws/`)"
+      - "traefik.http.routers.{{ service_item }}-ws.priority=2"
+      - "traefik.http.routers.{{ service_item }}-ws.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-ws.tls=true"
+      - "traefik.http.routers.{{ service_item }}-ws.service={{ service_item }}-ws"
+      - "traefik.http.services.{{ service_item }}-ws.loadbalancer.server.port=3001"
+      - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie=true"
+      - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie.name=wa_ws_affinity"
+      - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie.httpOnly=true"
+      - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie.sameSite=lax"
+
+  back:
+    image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie
+    command: npm run dev
+    working_dir: /usr/src/app/back
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/app:/usr/src/app"
+    tmpfs: /tmp
+    environment:
+      PLAY_URL: "https://{{ service_domain }}"
+      MINIMUM_DISTANCE: "64"
+      GROUP_RADIUS: "48"
+      STARTUP_COMMAND_1: ../wait-proto.sh
+      STARTUP_COMMAND_2: ../npm-install.sh
+      SECRET_KEY: "{{ lookup('password', './settings/passwords/workadventure_secret_key chars=ascii_letters,digits length=32') }}"
+      SECRET_JITSI_KEY: ""
+      ENABLE_MAP_EDITOR: "true"
+      ALLOW_ARTILLERY: "false"
+      ADMIN_API_URL: ""
+      ADMIN_API_TOKEN: "{{ lookup('password', './settings/passwords/workadventure_admin_api_token chars=ascii_letters,digits length=32') }}"
+      JITSI_URL: "meet.jit.si"
+      JITSI_ISS: ""
+      BBB_URL: "https://test-install.blindsidenetworks.com/bigbluebutton/"
+      BBB_SECRET: "8cd8ef52e8e101574e400365b55e11a6"
+      MAX_PER_GROUP: "100"
+      REDIS_HOST: redis
+      NODE_ENV: development
+      STORE_VARIABLES_FOR_LOCAL_MAPS: "true"
+      PROMETHEUS_AUTHORIZATION_TOKEN: ""
+      MAP_STORAGE_URL: "map-storage:50053"
+      PUBLIC_MAP_STORAGE_URL: "https://{{ service_domain }}/map-storage"
+      INTERNAL_MAP_STORAGE_URL: "http://map-storage:3000"
+      PLAYER_VARIABLES_MAX_TTL: "-1"
+      ENABLE_CHAT: "false"
+      ENABLE_CHAT_UPLOAD: "false"
+      SENTRY_DSN: ""
+      SENTRY_ENVIRONMENT: ""
+      SENTRY_RELEASE: ""
+    depends_on:
+      - messages
+      - redis
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - workadventure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.middlewares.{{ service_item }}-strip-api.stripprefix.prefixes=/api"
+      - "traefik.http.routers.{{ service_item }}-api-http.rule=Host(`{{ service_domain }}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.{{ service_item }}-api-http.priority=2"
+      - "traefik.http.routers.{{ service_item }}-api-http.entrypoints=http"
+      - "traefik.http.routers.{{ service_item }}-api-http.middlewares={{ service_item }}-strip-api@docker"
+      - "traefik.http.routers.{{ service_item }}-api-http.service={{ service_item }}-api"
+      - "traefik.http.routers.{{ service_item }}-api.rule=Host(`{{ service_domain }}`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.{{ service_item }}-api.priority=2"
+      - "traefik.http.routers.{{ service_item }}-api.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-api.middlewares={{ service_item }}-strip-api@docker"
+      - "traefik.http.routers.{{ service_item }}-api.tls=true"
+      - "traefik.http.routers.{{ service_item }}-api.service={{ service_item }}-api"
+      - "traefik.http.services.{{ service_item }}-api.loadbalancer.server.port=8080"
+      - "traefik.http.routers.{{ service_item }}-room-api.rule=Host(`{{ service_domain }}`) && PathPrefix(`/room-api`)"
+      - "traefik.http.routers.{{ service_item }}-room-api.priority=2"
+      - "traefik.http.routers.{{ service_item }}-room-api.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-room-api.tls=true"
+      - "traefik.http.routers.{{ service_item }}-room-api.service={{ service_item }}-room-api"
+      - "traefik.http.services.{{ service_item }}-room-api.loadbalancer.server.port=50051"
+      - "traefik.http.services.{{ service_item }}-room-api.loadbalancer.server.scheme=h2c"
+
+  map-storage:
+    image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie
+    command: npm run start:dev
+    working_dir: /usr/src/app/map-storage
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/app:/usr/src/app"
+    tmpfs: /tmp
+    environment:
+      STARTUP_COMMAND_1: ../wait-proto.sh
+      STARTUP_COMMAND_2: ../npm-install.sh
+      NODE_ENV: development
+      PROMETHEUS_AUTHORIZATION_TOKEN: ""
+      ENABLE_BASIC_AUTHENTICATION: "false"
+      AUTHENTICATION_USER: ""
+      AUTHENTICATION_PASSWORD: ""
+      ENABLE_BEARER_AUTHENTICATION: "true"
+      AUTHENTICATION_TOKEN: "{{ lookup('password', './settings/passwords/workadventure_map_storage_api_token chars=ascii_letters,digits length=32') }}"
+      API_URL: back:50051
+      SENTRY_DSN: ""
+      SENTRY_ENVIRONMENT: ""
+      SENTRY_RELEASE: ""
+      PATH_PREFIX: "/map-storage"
+      MAP_STORAGE_API_TOKEN: "{{ lookup('password', './settings/passwords/workadventure_map_storage_api_token chars=ascii_letters,digits length=32') }}"
+      PUSHER_URL: "https://{{ service_domain }}/"
+      WHITELISTED_RESOURCE_URLS: ""
+      SECRET_KEY: "{{ lookup('password', './settings/passwords/workadventure_secret_key chars=ascii_letters,digits length=32') }}"
+    depends_on:
+      - back
+      - messages
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - workadventure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.middlewares.{{ service_item }}-strip-map-storage.stripprefix.prefixes=/map-storage"
+      - "traefik.http.routers.{{ service_item }}-map-storage-http.rule=Host(`{{ service_domain }}`) && PathPrefix(`/map-storage`)"
+      - "traefik.http.routers.{{ service_item }}-map-storage-http.priority=2"
+      - "traefik.http.routers.{{ service_item }}-map-storage-http.entrypoints=http"
+      - "traefik.http.routers.{{ service_item }}-map-storage-http.middlewares={{ service_item }}-strip-map-storage@docker"
+      - "traefik.http.routers.{{ service_item }}-map-storage-http.service={{ service_item }}-map-storage"
+      - "traefik.http.routers.{{ service_item }}-map-storage.rule=Host(`{{ service_domain }}`) && PathPrefix(`/map-storage`)"
+      - "traefik.http.routers.{{ service_item }}-map-storage.priority=2"
+      - "traefik.http.routers.{{ service_item }}-map-storage.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-map-storage.middlewares={{ service_item }}-strip-map-storage@docker"
+      - "traefik.http.routers.{{ service_item }}-map-storage.tls=true"
+      - "traefik.http.routers.{{ service_item }}-map-storage.service={{ service_item }}-map-storage"
+      - "traefik.http.services.{{ service_item }}-map-storage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.{{ service_item }}-map-storage-ui.rule=Host(`{{ service_domain }}`) && PathPrefix(`/map-storage/ui/`)"
+      - "traefik.http.routers.{{ service_item }}-map-storage-ui.priority=3"
+      - "traefik.http.routers.{{ service_item }}-map-storage-ui.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-map-storage-ui.middlewares={{ service_item }}-strip-map-storage@docker"
+      - "traefik.http.routers.{{ service_item }}-map-storage-ui.tls=true"
+      - "traefik.http.routers.{{ service_item }}-map-storage-ui.service={{ service_item }}-map-storage-ui"
+      - "traefik.http.services.{{ service_item }}-map-storage-ui.loadbalancer.server.port=8080"
+
+  uploader:
+    image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie
+    command: npm run dev
+    working_dir: /usr/src/app/uploader
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/app:/usr/src/app"
+    tmpfs: /tmp
+    environment:
+      DEBUG: "*"
+      STARTUP_COMMAND_1: ../npm-install.sh
+      UPLOADER_URL: "https://{{ service_domain }}/uploader"
+      AWS_ACCESS_KEY_ID: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      AWS_DEFAULT_REGION: ""
+      AWS_BUCKET: ""
+      AWS_ENDPOINT: ""
+      UPLOADER_AWS_SIGNED_URL_EXPIRATION: ""
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_DB_NUMBER: "1"
+      ENABLE_CHAT_UPLOAD: "false"
+      UPLOAD_MAX_FILESIZE: "10485760"
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - workadventure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.middlewares.{{ service_item }}-strip-uploader.stripprefix.prefixes=/uploader"
+      - "traefik.http.routers.{{ service_item }}-uploader-http.rule=Host(`{{ service_domain }}`) && PathPrefix(`/uploader`)"
+      - "traefik.http.routers.{{ service_item }}-uploader-http.priority=2"
+      - "traefik.http.routers.{{ service_item }}-uploader-http.entrypoints=http"
+      - "traefik.http.routers.{{ service_item }}-uploader-http.middlewares={{ service_item }}-strip-uploader@docker"
+      - "traefik.http.routers.{{ service_item }}-uploader-http.service={{ service_item }}-uploader"
+      - "traefik.http.routers.{{ service_item }}-uploader.rule=Host(`{{ service_domain }}`) && PathPrefix(`/uploader`)"
+      - "traefik.http.routers.{{ service_item }}-uploader.priority=2"
+      - "traefik.http.routers.{{ service_item }}-uploader.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-uploader.middlewares={{ service_item }}-strip-uploader@docker"
+      - "traefik.http.routers.{{ service_item }}-uploader.tls=true"
+      - "traefik.http.routers.{{ service_item }}-uploader.service={{ service_item }}-uploader"
+      - "traefik.http.services.{{ service_item }}-uploader.loadbalancer.server.port=8080"
+
+  maps:
+    image: thecodingmachine/php:8.1-v4-apache-node12
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/app/maps:/var/www/html"
+    environment:
+      DEBUG_MODE: "false"
+      HOST: "0.0.0.0"
+      NODE_ENV: development
+      FRONT_URL: "https://{{ service_domain }}"
+      STARTUP_COMMAND_0: sudo a2enmod headers
+      STARTUP_COMMAND_1: yarn install
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - workadventure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.middlewares.{{ service_item }}-strip-maps.stripprefix.prefixes=/maps"
+      - "traefik.http.routers.{{ service_item }}-maps.rule=Host(`{{ service_domain }}`) && PathPrefix(`/maps`)"
+      - "traefik.http.routers.{{ service_item }}-maps.priority=2"
+      - "traefik.http.routers.{{ service_item }}-maps.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-maps.middlewares={{ service_item }}-strip-maps@docker"
+      - "traefik.http.routers.{{ service_item }}-maps.tls=true"
+      - "traefik.http.routers.{{ service_item }}-maps.service={{ service_item }}-maps"
+      - "traefik.http.services.{{ service_item }}-maps.loadbalancer.server.port=80"
+
+  icon:
+    image: matthiasluedtke/iconserver:v3.21.0
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - workadventure
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.middlewares.{{ service_item }}-strip-icon.stripprefix.prefixes=/icon"
+      - "traefik.http.routers.{{ service_item }}-icon-http.rule=Host(`{{ service_domain }}`) && PathPrefix(`/icon`)"
+      - "traefik.http.routers.{{ service_item }}-icon-http.priority=2"
+      - "traefik.http.routers.{{ service_item }}-icon-http.entrypoints=http"
+      - "traefik.http.routers.{{ service_item }}-icon-http.middlewares={{ service_item }}-strip-icon@docker"
+      - "traefik.http.routers.{{ service_item }}-icon-http.service={{ service_item }}-icon"
+      - "traefik.http.routers.{{ service_item }}-icon.rule=Host(`{{ service_domain }}`) && PathPrefix(`/icon`)"
+      - "traefik.http.routers.{{ service_item }}-icon.priority=2"
+      - "traefik.http.routers.{{ service_item }}-icon.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-icon.middlewares={{ service_item }}-strip-icon@docker"
+      - "traefik.http.routers.{{ service_item }}-icon.tls=true"
+      - "traefik.http.routers.{{ service_item }}-icon.service={{ service_item }}-icon"
+      - "traefik.http.services.{{ service_item }}-icon.loadbalancer.server.port=8080"
+
+  messages:
+    image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie-build
+    environment:
+      STARTUP_COMMAND_1: npm install
+      STARTUP_COMMAND_2: npm run proto:watch
+    volumes:
+      - "{{ volumes_root }}/{{ service_item }}/app/messages:/usr/src/app"
+      - "{{ volumes_root }}/{{ service_item }}/app/back:/usr/src/back"
+      - "{{ volumes_root }}/{{ service_item }}/app/play:/usr/src/play"
+      - "{{ volumes_root }}/{{ service_item }}/app/map-storage:/usr/src/map-storage"
+      - "{{ volumes_root }}/{{ service_item }}/app/libs:/usr/src/libs"
+    restart: unless-stopped
+    networks:
+      - workadventure
+
+  redis:
+    image: redis:6
+    restart: unless-stopped
+    networks:
+      - workadventure

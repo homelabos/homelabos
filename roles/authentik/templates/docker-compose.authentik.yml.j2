@@ -1,0 +1,73 @@
+{% set db_password = lookup('password', './settings/passwords/authentik_db_password chars=ascii_letters') %}
+{% set secret_key = lookup('password', './settings/passwords/authentik_secret_key length=60 chars=ascii_letters,digits') %}
+
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  authentik:
+
+services:
+  authentik_postgresql:
+    image: postgres:{{ authentik.db_version | default('16-alpine') }}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: authentik
+      POSTGRES_PASSWORD: "{{ db_password }}"
+      POSTGRES_USER: authentik
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d authentik -U authentik"]
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      timeout: 5s
+    volumes:
+      - "{{ volumes_root }}/authentik/postgres:/var/lib/postgresql/data"
+    networks:
+      - authentik
+
+  authentik:
+    image: ghcr.io/goauthentik/server:{{ authentik.version }}
+    restart: unless-stopped
+    command: server
+    shm_size: 512mb
+    depends_on:
+      authentik_postgresql:
+        condition: service_healthy
+    environment: &authentik-env
+      AUTHENTIK_POSTGRESQL__HOST: authentik_postgresql
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{ db_password }}"
+      AUTHENTIK_POSTGRESQL__USER: authentik
+      AUTHENTIK_SECRET_KEY: "{{ secret_key }}"
+      AUTHENTIK_COOKIE_DOMAIN: "{{ domain }}"
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "{{ authentik.error_reporting_enabled | default(False) }}"
+    volumes:
+      - "{{ volumes_root }}/authentik/data:/data"
+      - "{{ volumes_root }}/authentik/custom-templates:/templates"
+    networks:
+      - authentik
+      - traefik_network
+{% include './labels.j2' %}
+
+  authentik_worker:
+    image: ghcr.io/goauthentik/server:{{ authentik.version }}
+    restart: unless-stopped
+    command: worker
+    user: root
+    shm_size: 512mb
+    depends_on:
+      authentik_postgresql:
+        condition: service_healthy
+    environment:
+      <<: *authentik-env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "{{ volumes_root }}/authentik/data:/data"
+      - "{{ volumes_root }}/authentik/certs:/certs"
+      - "{{ volumes_root }}/authentik/custom-templates:/templates"
+    networks:
+      - authentik

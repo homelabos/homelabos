@@ -1,0 +1,19 @@
+[Unit]
+Description=HomelabOS {{ service_item }} Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+User={{ homelab_ssh_user }}
+Group={{ homelab_ssh_user }}
+TimeoutStartSec=infinity
+TimeoutStopSec=5min
+Restart=always
+RestartSec=3
+WorkingDirectory={{ volumes_root }}/{{ service_item }}/
+
+ExecStart=/usr/bin/docker-compose -p {{ service_item }} up
+ExecStop=/usr/bin/docker-compose -p {{ service_item }} down
+
+[Install]
+WantedBy=multi-user.target

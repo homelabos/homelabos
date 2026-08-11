@@ -30,7 +30,6 @@ providers:
     watch: true
     exposedByDefault: false
     endpoint: unix:///var/run/docker.sock
-    swarmModeRefreshSeconds: 15s
   file:
     directory: /conf.d
     watch: true

@@ -11,6 +11,8 @@ settings.*
 /.vscode
 .DS_Store
 pkg/
+__pycache__/
+*.pyc
 
 # Generated files
 docs/software/

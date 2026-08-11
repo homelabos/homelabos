@@ -169,11 +169,3 @@ community:
         enable : true
         label : "NickBusey on YouTube"
         link : "https://youtube.com/NickBusey"
-
-    - title : "Twitter"
-      image : "images/twitter.png"
-      content : "Follow HomelabOS on Twitter for announcements and news."
-      button:
-        enable : true
-        label : "HomelabOS on Twitter"
-        link : "https://twitter.com/HomelabOS"

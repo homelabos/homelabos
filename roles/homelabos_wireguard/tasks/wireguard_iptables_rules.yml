@@ -4,6 +4,20 @@
     name: iptables-persistent
   environment:
     DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == "Debian"
+
+- name: Install ipTables
+  pacman:
+    name: iptables
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Archlinux"
+
+- name: Ensure ipTables configuration directory exists
+  file:
+    path: /etc/iptables
+    state: directory
+    mode: "0755"
 
 - name: Set basic IPTables Rules
   iptables:
@@ -52,6 +66,18 @@
 
 - name: Persist iptable routing across reboots
   shell: iptables-save > /etc/iptables/rules.v4
+  when: ansible_os_family == "Debian"
+
+- name: Persist iptable routing across reboots
+  shell: iptables-save > /etc/iptables/iptables.rules
+  when: ansible_os_family == "Archlinux"
+
+- name: Enable ipTables persistence service
+  systemd:
+    name: iptables
+    enabled: "yes"
+    state: started
+  when: ansible_os_family == "Archlinux"
 
 - name: Enable IP Forwarding
   shell: sysctl net.ipv4.ip_forward=1

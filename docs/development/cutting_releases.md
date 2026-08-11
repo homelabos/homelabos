@@ -11,10 +11,10 @@ This is the process to cut a new versioned release.
 ```
 wget https://github.com/docker/buildx/releases/download/v0.10.4/buildx-v0.10.4.linux-amd64
 mkdir -p ~/.docker/cli-plugins/
-mv /var/homelabos/install/buildx-v0.10.4.linux-amd64 ~/.docker/cli-plugins/docker-buildx
+mv ~/buildx-v0.10.4.linux-amd64 ~/.docker/cli-plugins/docker-buildx
 chmod +x ~/.docker/cli-plugins/docker-buildx
 docker buildx create --use
-docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t nickbusey/homelabos:v0.9.2.1 . --push
+docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -t nickbusey/homelabos:v1.0 . --push
 ```
   * Push up changes, merge MR into master
   * From `master` tag the release in GitLab. Add that version's `CHANGELOG` section to the `Message` of the tag.

@@ -1,0 +1,10 @@
+RUN_AS_USER nut
+MONITOR {{ nut.ups_name }}@localhost 1 {{ nut.shutdown_monitor_username }} {{ nut.shutdown_monitor_password }} primary
+MINSUPPLIES 1
+SHUTDOWNCMD "{{ nut.shutdown_cmd }}"
+POWERDOWNFLAG "{{ nut.powerdown_flag }}"
+POLLFREQ 5
+POLLFREQALERT 5
+HOSTSYNC 15
+DEADTIME 15
+FINALDELAY 5

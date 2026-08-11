@@ -53,6 +53,9 @@ If you are having problems you can:
 
 ### Analytics
 
+#### [clickhouse](./software/clickhouse)
+ClickHouse is an open source columnar OLAP database for real-time analytics.
+
 #### [matomo](./software/matomo)
 Open source analytics
 
@@ -67,6 +70,9 @@ HomeKit support for the impatient
 #### [kibitzr](./software/kibitzr)
 Kibitzr acts as a replacement for IFTTT
 
+#### [nut](./software/nut)
+Host-level UPS monitoring and status server for Home Assistant and other NUT clients.
+
 ### Blogging Platforms
 
 #### [ghost](./software/ghost)
@@ -76,8 +82,17 @@ Ghost is a fully open source, adaptable platform for building and running a mode
 
 ### Chat
 
+#### [clawdbot](./software/clawdbot)
+Clawdbot is a personal AI assistant you run on your own devices.
+
+#### [matrix](./software/matrix)
+Matrix server
+
 #### [matterbridge](./software/matterbridge)
 A program that allows users to link multiple chat platforms.
+
+#### [ntfy](./software/ntfy)
+Simple pub-sub notification service for push notifications
 
 #### [thelounge](./software/thelounge)
 TheLounge is a web based IRC client that syncs nicely across devices, and stays online when you aren't.
@@ -117,10 +132,16 @@ LazyLibrarian is a program to follow authors and grab metadata for all your digi
 
 ### Email
 
+#### [listmonk](./software/listmonk)
+Listmonk is a self-hosted newsletter and mailing list manager.
+
 #### [mailu](./software/mailu)
 Mailu is a simple yet full-featured mail server as a set of Docker images.
 
 ### Federated Identity/Authentication
+
+#### [authentik](./software/authentik)
+Authentik is an open-source identity provider for modern SSO with OAuth2, OIDC, SAML, and LDAP.
 
 #### [keycloak](./software/keycloak)
 Open Source Identity and Access Management
@@ -138,11 +159,18 @@ Miniflux is a minimalist and opinionated feed reader.
 
 ### File Sharing and Synchronization
 
+#### [backrest](./software/backrest)
+Web UI and orchestrator for restic backup
+
 #### [bazarr](./software/bazarr)
 Companion application to Sonarr and Radarr. It can manage and download subtitles based on your requirements.
 
+
 #### [duplicati](./software/duplicati)
 Free backup software to store encrypted backups online
+
+#### [fileflows](./software/fileflows)
+File processing automation and workflow management
 
 #### [jackett](./software/jackett)
 Jackett provides API Support for your favorite torrent trackers.
@@ -164,6 +192,7 @@ NZBHydra 2 is a meta search for newznab indexers and torznab trackers.
 
 #### [ombi](./software/ombi)
 Ombi is a self-hosted web application that automatically gives your shared Plex or Emby users the ability to request content by themselves!
+
 
 #### [overseerr](./software/overseerr)
 Overseerr is a request management and media discovery tool built to work with your existing Plex ecosystem.
@@ -209,6 +238,9 @@ QuakeJS is a port of IOQuake3 to JavaScript with the help of Emscripten
 #### [seat](./software/seat)
 EVE Online Auth
 
+#### [workadventure](./software/workadventure)
+WorkAdventure is a web-based collaborative virtual office and meeting space.
+
 ### Gateways and terminal sharing
 
 #### [guacamole](./software/guacamole)
@@ -233,6 +265,7 @@ A social platform to enjoy and share music
 
 #### [jellyfin](./software/jellyfin)
 Jellyfin is a media server. Just point it at your NAS collections of Movies and TV and you're off to the races.
+
 
 #### [massivedecks](./software/massivedecks)
 Massive Decks is a comedy party game based on Cards against Humanity.
@@ -269,8 +302,8 @@ The best platform to write and share markdown
 #### [duckdns](./software/duckdns)
 DuckDNS is free dynamic DNS hosted on AWS.
 
-#### [erpnext](./software/erpnext)
-Open Source ERP for Everyone.
+#### [esphome](./software/esphome)
+ESPHome
 
 #### [ethercalc](./software/ethercalc)
 EtherCalc is a web spreadsheet
@@ -284,11 +317,13 @@ A simple server for sending and receiving messages in real-time per WebSocket. (
 #### [grocy](./software/grocy)
 ERP beyond your fridge - grocy is a web-based self-hosted groceries & household management solution for your home
 
+
 #### [grownetics](./software/grownetics)
 Growentics is an open source environmental mapping with plant management and tracking software suite.
 
 #### [hubzilla](./software/hubzilla)
 HubZilla is a powerful platform for creating interconnected websites featuring a decentralized/nomadic identity.
+
 
 #### [invidious](./software/invidious)
 Invidious is an alternative front-end to YouTube
@@ -308,6 +343,7 @@ n8n is a free and open node based Workflow Automation Tool.
 #### [nodered](./software/nodered)
 Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways.
 
+
 #### [octoprint](./software/octoprint)
 The snappy web interface for your 3D printer.
 
@@ -317,11 +353,16 @@ Ollama makes it easy to get up and running with large language models locally.
 #### [pihole](./software/pihole)
 Pi-hole provides network-wide ad blocking via your own Linux hardware.
 
+#### [postgresql](./software/postgresql)
+PostgreSQL is a powerful, open source object-relational database system.
+
 #### [privatebin](./software/privatebin)
 Threaded chat softwarePrivateBin is a minimalist, open source online pastebin where the server has zero knowledge of pasted data.
 
+
 #### [rsshub](./software/rsshub)
 RSSHub is an open source, easy to use, and extensible RSS feed aggregator, it's capable of generating RSS feeds from pretty much everything.
+
 
 #### [sabnzbd](./software/sabnzbd)
 Free and easy binary newsreader
@@ -347,6 +388,7 @@ Ubooquity is a free home server for your comics and ebooks library
 #### [unificontroller](./software/unificontroller)
 The Unifi-controller Controller software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 
+
 #### [unofficial_ddns](./software/unofficial_ddns)
 UnofficialDDNSnix is a service which provides dynamic DNS for name.com
 
@@ -355,6 +397,7 @@ Watchtower is a process for automating Docker container base image updates
 
 #### [webdavserver](./software/webdavserver)
 WebDAV Server A simple WebDAV service. If you enable WebDAV over SSL you will have a secure file transfer service setup, which is useful for e.g. syncing your notes from Joplin. If you don't need all the extra from NextCloud/OwnCloud, this service could be what you need.
+
 
 #### [webtrees](./software/webtrees)
 WebTrees is Online genealogy software
@@ -365,6 +408,7 @@ xfinityusageinfluxdb is a service that runs on the xfinityusageinfluxdb server.
 #### [xteve](./software/xteve)
 Xteve is an emulated TV Tuner for IPTV services. It offers guide management and smart filtering of channels from your IPTV provider.
 
+
 #### [zammad](./software/zammad)
 Zammad is a web-based, open source user support/ticketing solution.
 
@@ -373,13 +417,25 @@ ZeroTier network controller user interface
 
 ### Money, Budgeting and Management
 
+#### [actual](./software/actual)
+Actual Budget is a local-first personal finance app.
+
+#### [erpnext](./software/erpnext)
+Open source ERP system built on Frappe framework
+
 #### [firefly_iii](./software/firefly_iii)
 Firefly III is a money management app.
+
+#### [invoiceplane](./software/invoiceplane)
+InvoicePlane is a self-hosted application for managing quotes, invoices, clients, and payments.
 
 ### Monitoring
 
 #### [elkstack](./software/elkstack)
 Elastic Search, Logstash and Kibana
+
+#### [frigate](./software/frigate)
+Frigate is an NVR with realtime object detection for IP cameras.
 
 #### [grafana](./software/grafana)
 Grafana is a Time Series Database graphing application.
@@ -387,14 +443,21 @@ Grafana is a Time Series Database graphing application.
 #### [graylog](./software/graylog)
 Graylog is a leading centralized log management solution built to open standards for capturing, storing, and enabling real-time analysis of terabytes of machine logs.
 
+
 #### [healthchecks](./software/healthchecks)
 A Cron Monitoring Tool written in Python & Django
 
 #### [huginn](./software/huginn)
 Create agents that monitor and act on your behalf. Your agents are standing by!
 
+#### [langfuse](./software/langfuse)
+Langfuse is an open source LLM engineering platform for observability, evaluations, and prompt management.
+
 #### [netdata](./software/netdata)
 Real-time performance monitoring, done right!
+
+#### [prometheus](./software/prometheus)
+Prometheus metrics and alerting toolkit
 
 #### [speedtest](./software/speedtest)
 A tool to run periodic speedtests and save them in InfluxDB for graphing in Grafana
@@ -437,6 +500,9 @@ SUI a startpage for your server and / or new tab page
 #### [digikam](./software/digikam)
 Professional Photo Management with the Power of Open Source
 
+#### [immich](./software/immich)
+Immich is a high performance self-hosted photo and video backup solution.
+
 #### [ownphotos](./software/ownphotos)
 Self hosted Google Photos clone.
 
@@ -445,6 +511,7 @@ PhotoPrism Personal Photo Management powered by Go and Google TensorFlow. Free a
 
 #### [piwigo](./software/piwigo)
 Piwigo is open source photo management software. Manage, organize and share your photo easily on the web. Designed for organisations, teams and individuals.
+
 
 #### [pixelfed](./software/pixelfed)
 Pixelfed is a free and ethical photo sharing platform, powered by ActivityPub federation.
@@ -462,6 +529,7 @@ phpBB is an Internet forum package in the PHP scripting language.
 #### [pleroma](./software/pleroma)
 Pleroma is a federated social networking platform, compatible with GNU social and other OStatus implementations. It is free software licensed under the AGPLv3.
 
+
 ### Software Development
 
 #### [codeserver](./software/codeserver)
@@ -478,6 +546,16 @@ Gitlab the single application for the entire DevOps lifecycle
 
 #### [jenkins](./software/jenkins)
 The leading open source automation server, Jenkins provides hundreds of plugins to support building, deploying and automating any project.
+
+
+#### [langsmith](./software/langsmith)
+LangSmith is a platform for LLM tracing, evaluation, and prompt management.
+
+#### [opencode](./software/opencode)
+OpenCode is an open source AI coding agent with a browser-based web UI.
+
+#### [paseo](./software/paseo)
+Paseo is an open source orchestrator for running multiple coding agents (Claude Code, Codex, Copilot, OpenCode, Pi) from a self-hosted daemon with a bundled web UI.
 
 #### [snibox](./software/snibox)
 Self-hosted snippet manager. Developed to collect and organize code snippets.

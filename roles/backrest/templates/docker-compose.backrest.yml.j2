@@ -1,0 +1,32 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  backrest:
+    image: ghcr.io/garethgeorge/backrest:{{ backrest.version }}
+    restart: unless-stopped
+    hostname: backrest
+    networks:
+      - traefik_network
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - BACKREST_PORT=0.0.0.0:9898
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ={{ common_timezone }}
+    volumes:
+      - "{{ volumes_root }}/backrest/data:/data"
+      - "{{ volumes_root }}/backrest/config:/config"
+      - "{{ volumes_root }}/backrest/cache:/cache"
+      - "{{ volumes_root }}/backrest/tmp:/tmp"
+      - "{{ volumes_root }}/backrest/rclone:/root/.config/rclone"
+      - "{{ volumes_root }}/backrest/repos:/repos"
+      - "{{ volumes_root }}:/userdata:ro"
+      - "{{ storage_dir }}:/storage:ro"
+{% include './labels.j2' %}

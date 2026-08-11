@@ -1,17 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
-
-- name: Copy erpnext env file into place.
-  template:
-    src: env.j2
-    dest: "{{ volumes_root }}/erpnext/.env"
-
-- name: Copy erpnext frappe-mariadb.cnf file into place.
-  template:
-    src: frappe-mariadb.cnf
-    dest: "{{ volumes_root }}/erpnext/frappe-mariadb.cnf"
+  include_tasks: includes/setup.yml
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

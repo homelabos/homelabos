@@ -1,6 +1,18 @@
 ---
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
+
+- name: Check for existing Gitea app.ini
+  stat:
+    path: "{{ volumes_root }}/gitea/gitea/conf/app.ini"
+  register: gitea_app_ini
+
+- name: Ensure Gitea app.ini RUN_USER matches container user
+  lineinfile:
+    path: "{{ volumes_root }}/gitea/gitea/conf/app.ini"
+    regexp: '^RUN_USER\s*='
+    line: 'RUN_USER = {{ gitea.user | default("git") }}'
+  when: gitea_app_ini.stat.exists
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

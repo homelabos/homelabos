@@ -1,0 +1,13 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make ArchiveBox data directory
+  file:
+    path: "{{ volumes_root }}/archivebox/data"
+    state: directory
+    mode: u+rwx,g+rwx,o+rx
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

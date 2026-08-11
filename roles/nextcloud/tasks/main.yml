@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Create necessary folders, with appropriate permissions.
   file:
@@ -9,6 +9,7 @@
     state: directory
     owner: "{{ uid_output.stdout }}"
     group: "{{ gid_output.stdout }}"
+    mode: "0777"
   with_items:
     - "apps"
     - "config"
@@ -23,4 +24,31 @@
     group: "{{ gid_output.stdout }}"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml
+
+- name: Install user_oidc app (Authentik OIDC)
+  command: "docker compose -f \"{{ volumes_root }}/nextcloud/docker-compose.yml\" exec -T nextcloud php occ app:install user_oidc"
+  become: yes
+  when: nextcloud.oidc_enabled | default(False)
+  register: oidc_install
+  ignore_errors: yes
+  retries: 30
+  delay: 2
+  until: oidc_install is success
+
+- name: Enable user_oidc app
+  command: "docker compose -f \"{{ volumes_root }}/nextcloud/docker-compose.yml\" exec -T nextcloud php occ app:enable user_oidc"
+  become: yes
+  when: nextcloud.oidc_enabled | default(False)
+
+- name: Register Authentik OIDC provider in user_oidc
+  command: >-
+    docker compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ user_oidc:provider authentik
+    --clientid="{{ nextcloud.oidc_client_id }}"
+    --clientsecret="{{ nextcloud.oidc_client_secret }}"
+    --discoveryuri="{{ nextcloud.oidc_discovery_uri }}"
+    --scope="{{ nextcloud.oidc_scope | default('openid email profile') }}"
+    --mapping-uid="{{ nextcloud.oidc_uid_mapping | default('preferred_username') }}"
+  become: yes
+  when: nextcloud.oidc_enabled | default(False)

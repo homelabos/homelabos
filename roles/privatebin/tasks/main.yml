@@ -1,6 +1,6 @@
 ---
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Make privatebin data directory with correct permissions.
   file:
@@ -18,9 +18,9 @@
 
 - name: Copy privatebin conf.php file into place if it doesn't exist.
   template:
-    src: conf.php.j2
+    src: "{{ playbook_dir }}/roles/privatebin/templates/conf.php.j2"
     dest: "{{ volumes_root }}/privatebin/cfg/conf.php"
     force: false
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

@@ -4,15 +4,27 @@
   become: "True"
 
   tasks:
-    - name: Restart services
+    - name: Restart enabled services
       systemd:
         name: "{{ service_item }}"
         state: restarted
         enabled: true
-      when: " query "
+        daemon_reload: true
+      async: 600
+      poll: 0
+      register: restart_jobs
+      when: lookup('vars', service_item).enable | bool
       loop: "{{ services | flatten(1) }}"
       loop_control:
         loop_var: service_item
-      ignore_errors: "yes"
-      vars:
-        query: "{{ service_item + '.enable'}}"
+
+    - name: Wait for service restarts
+      async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: restart_status
+      until: restart_status.finished
+      retries: 120
+      delay: 2
+      loop: "{{ restart_jobs.results | selectattr('ansible_job_id', 'defined') | list }}"
+      loop_control:
+        label: "{{ item.ansible_job_id }}"

@@ -1,0 +1,3 @@
+  native_port: {{ clickhouse.native_port | default("9000") }}
+  database: {{ clickhouse.database | default("default") }}
+  username: {{ clickhouse.username | default("clickhouse") }}

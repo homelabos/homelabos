@@ -1,0 +1,22 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make additional OpenCode directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ volumes_root }}/opencode/config"
+    - "{{ volumes_root }}/opencode/data"
+    - "{{ volumes_root }}/opencode/state"
+
+- name: Copy opencode.json config into place.
+  template:
+    src: roles/opencode/templates/opencode.json.j2
+    dest: "{{ volumes_root }}/opencode/config/opencode.json"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

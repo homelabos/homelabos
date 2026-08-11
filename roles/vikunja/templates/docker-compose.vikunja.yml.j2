@@ -19,24 +19,9 @@ services:
       - "{{ volumes_root }}/vikunja/db:/var/lib/postgresql/data"
     restart: unless-stopped
 
-{% set vikunja_service_name = "vikunja_frontend" %}
-  vikunja_frontend:
-    image: "vikunja/frontend:{{ vikunja.frontend_version }}"
-    environment:
-      PUID: {{ uid_output.stdout }}
-      PGID: {{ gid_output.stdout }}
-    networks:
-      - traefik_network
-      - vikunja
-    restart: unless-stopped
-{% if enable_tor %}
-      - "traefik.http.routers.{{ vikunja_service_name }}-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`)"
-{% endif %}
-{% include './vikunja_labels.j2' %}
-
 {% set vikunja_service_name = "vikunja_api" %}
   vikunja_api:
-    image: "vikunja/api:{{ vikunja.api_version }}"
+    image: "vikunja/vikunja:{{ vikunja.api_version }}"
     networks:
       - traefik_network
       - vikunja
@@ -55,8 +40,4 @@ services:
       - vikunja_db
     restart: unless-stopped
     labels:
-      - "traefik.http.routers.{{ vikunja_service_name }}.rule=Host(`{{ service_domain }}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)"
-{% if enable_tor %}
-      - "traefik.http.routers.{{ vikunja_service_name }}-tor-http.rule=Host(`{{ lookup('vars', service_item).subdomain }}.{{ tor_domain }}`) && PathPrefix(`/api/v1`, `/dav/`, `/.well-known/`)"
-{% endif %}
 {% include './vikunja_labels.j2' %}

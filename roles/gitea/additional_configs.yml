@@ -1,3 +1,6 @@
   db_version: {{ gitea.db_version | default("latest") }}
   use_mariadb: {{ gitea.use_mariadb | default(False) }}
   gitea_ssh_port: {{ gitea.gitea_ssh_port | default(222) }}
+  user: {{ gitea.user | default("git") }}
+  user_uid: {{ gitea.user_uid | default(1000) }}
+  user_gid: {{ gitea.user_gid | default(1000) }}

@@ -54,6 +54,33 @@ Nextcloud, as an application, is *designed* to silo users' data apart from one-a
 
 After completing these steps, your Users will see a HomelabOS folder under files. More advanced users can probably re-map the default file locations for pictures etc. to be under the HomelabOS folder.
 
+## Authentik SSO (OpenID Connect)
+
+Nextcloud can authenticate against an Authentik IdP via OpenID Connect using the `user_oidc` app, alongside the normal local login (SSO coexists with local login — local accounts stay available).
+
+To enable it:
+
+1. **Configure the Authentik side (manual prerequisite, outside this role).** In the Authentik admin UI create an OIDC **Provider**:
+   - Client Type: Confidential; record the Client ID and Client Secret.
+   - Redirect URI / Origin: `https://<your-nextcloud-domain>/index.php/apps/user_oidc/login`
+   - Add the provider to an **Application** with slug `nextcloud`.
+2. **Enable and configure the role** in `settings/config.yml` under `nextcloud:`:
+   ```yaml
+   nextcloud:
+     oidc_enabled: true
+     oidc_client_id: <Authentik client id>
+     oidc_client_secret: <Authentik client secret>
+     oidc_discovery_uri: https://authentik.averneth.com/.well-known/openid-configuration
+     # optional, defaults shown:
+     # oidc_scope: openid email profile
+     # oidc_uid_mapping: preferred_username
+   ```
+3. Deploy. The role installs/enables `user_oidc` and registers the provider using `occ`.
+
+Notes:
+- `oidc_uid_mapping: preferred_username` links the Authentik user to the existing Nextcloud account whose username matches the Authentik username — so an Authentik user named `nick` merges into the existing `nick` local account via soft auto-provisioning.
+- After setup, the Nextcloud login page shows an SSO button alongside the local form, and you can still log in locally.
+
 ## Access
 
 It is available at [https://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/](https://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/) or [http://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/](http://{% if nextcloud.domain %}{{ nextcloud.domain }}{% else %}{{ nextcloud.subdomain + "." + domain }}{% endif %}/)

@@ -1,0 +1,27 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:{{ frigate.version }}
+    restart: unless-stopped
+    shm_size: "64mb"
+    networks:
+      - traefik_network
+    ports:
+      - "8554:8554"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - "{{ volumes_root }}/frigate/config:/config"
+      - "{{ storage_dir }}/Video/Frigate:/media/frigate"
+    environment:
+      - TZ={{ common_timezone }}
+      - FRIGATE_RTSP_PASSWORD={{ default_password }}
+{% include './labels.j2' %}

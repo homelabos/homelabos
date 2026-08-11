@@ -1,0 +1,12 @@
+---
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make uploads directory.
+  file:
+    path: "{{ volumes_root }}/listmonk/uploads"
+    state: directory
+    mode: 0777
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

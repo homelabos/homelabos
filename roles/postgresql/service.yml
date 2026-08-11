@@ -1,0 +1,7 @@
+---
+full_service_name: PostgreSQL
+description: PostgreSQL is a powerful, open source object-relational database system.
+project_url: https://www.postgresql.org/
+category: misc-other
+version: "16"
+port: 5432

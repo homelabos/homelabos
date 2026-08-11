@@ -1,0 +1,18 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make additional Authentik directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ volumes_root }}/authentik/data"
+    - "{{ volumes_root }}/authentik/custom-templates"
+    - "{{ volumes_root }}/authentik/certs"
+    - "{{ volumes_root }}/authentik/postgres"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

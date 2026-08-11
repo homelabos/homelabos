@@ -9,14 +9,29 @@
     src: homelabos.conf
     dest: "/etc/systemd/resolved.conf.d/homelabos.conf"
 
-- name: Rename standard Resolv.conf file
+- name: Check whether resolv.conf backup exists
+  stat:
+    path: /etc/resolv.conf.bkup
+  register: resolv_conf_backup
+
+- name: Check current resolv.conf path
+  stat:
+    path: /etc/resolv.conf
+    follow: false
+  register: resolv_conf_path
+
+- name: Rename standard resolv.conf file
   command: mv /etc/resolv.conf /etc/resolv.conf.bkup
+  when:
+    - not resolv_conf_backup.stat.exists
+    - not resolv_conf_path.stat.islnk | default(false)
 
 - name: link the systemd resolve file into /etc
   file:
     src: /run/systemd/resolve/resolv.conf
     dest: /etc/resolv.conf
     state: link
+    force: true
 
 - name: Reload & Restart systemd-resolved
   systemd:

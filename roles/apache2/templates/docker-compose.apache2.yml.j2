@@ -7,12 +7,12 @@ networks:
       name: homelabos_traefik
 
 services:
-  apache2:
-    image: httpd:{{ apache2.version }}
+  {{ service_item }}:
+    image: httpd:{{ lookup('vars', service_item)['version'] | default(lookup('vars', lookup('vars', service_item)['source_service'] | default(service_item))['version']) }}
     restart: unless-stopped
     networks:
       - traefik_network
     volumes:
-      - "{{ volumes_root }}/apache2/root/:/usr/local/apache2/htdocs/"
-      - "{{ volumes_root }}/apache2/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - "{{ volumes_root }}/{{ service_item }}/root/:/usr/local/apache2/htdocs/"
+      - "{{ volumes_root }}/{{ service_item }}/httpd.conf:/usr/local/apache2/conf/httpd.conf"
 {% include './labels.j2' %}

@@ -11,7 +11,7 @@ services:
 
   init-guacamole-db:
     image: guacamole/guacamole:{{ guacamole.version }}
-    command: ["/bin/sh", "-c", "test -e /init/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgres > /init/initdb.sql" ]
+    command: ["/bin/sh", "-c", "test -e /init/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgresql > /init/initdb.sql" ]
     volumes:
       - "{{ volumes_root }}/guacamole/dbinit:/init"
 
@@ -43,10 +43,10 @@ services:
     restart: unless-stopped
     environment:
       GUACD_HOSTNAME: guacd
-      POSTGRES_HOSTNAME: guacpostgres
-      POSTGRES_DATABASE: guacpostgress
-      POSTGRES_USER: guacpostgress
-      POSTGRES_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=ascii_letters')}}"
+      POSTGRESQL_HOSTNAME: guacpostgres
+      POSTGRESQL_DATABASE: guacpostgress
+      POSTGRESQL_USERNAME: guacpostgress
+      POSTGRESQL_PASSWORD: "{{lookup('password', './settings/passwords/postgres_password chars=ascii_letters')}}"
     depends_on:
       - guacpostgres
       - guacd

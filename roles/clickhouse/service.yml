@@ -1,0 +1,7 @@
+---
+full_service_name: ClickHouse
+description: ClickHouse is an open source columnar OLAP database for real-time analytics.
+project_url: https://clickhouse.com/
+category: analytics
+version: "24"
+port: 8123

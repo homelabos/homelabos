@@ -1,0 +1,7 @@
+---
+full_service_name: WorkAdventure
+description: WorkAdventure is a web-based collaborative virtual office and meeting space.
+category: games
+version: master
+port: 3000
+sanity_ignore: true

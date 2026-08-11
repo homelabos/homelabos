@@ -6,6 +6,8 @@
 
 [https://github.com/zulip/docker-zulip](https://github.com/zulip/docker-zulip)
 
+To get started, follow Step 3 in the Zulip install docs to create an organization and log in: [https://zulip.readthedocs.io/en/latest/production/install.html#step-3-create-a-zulip-organization-and-log-in](https://zulip.readthedocs.io/en/latest/production/install.html#step-3-create-a-zulip-organization-and-log-in)
+
 ## Access
 
 It is available at [https://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/](https://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/) or [http://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/](http://{% if zulip.domain %}{{ zulip.domain }}{% else %}{{ zulip.subdomain + "." + domain }}{% endif %}/)

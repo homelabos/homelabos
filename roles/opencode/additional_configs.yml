@@ -1,0 +1,2 @@
+  server_password: {{ opencode.server_password | default(default_password) }}
+  server_username: {{ opencode.server_username | default("opencode") }}

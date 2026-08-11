@@ -1,0 +1,7 @@
+---
+full_service_name: Authentik
+description: Authentik is an open-source identity provider for modern SSO with OAuth2, OIDC, SAML, and LDAP.
+project_url: https://goauthentik.io/
+category: federated-identity-authentication
+version: "2026.5.3"
+port: 9000

@@ -1,9 +1,9 @@
 ---
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml
 
 - name: Capture initial password
   shell: >

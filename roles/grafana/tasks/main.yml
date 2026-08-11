@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Make grafana directory.
   file:
@@ -16,16 +16,16 @@
 
 - name: Configure grafana influx datasource
   template:
-    src: grafana.datasource.influxdb.yaml
+    src: "{{ playbook_dir }}/roles/grafana/templates/grafana.datasource.influxdb.yaml"
     dest: "{{ volumes_root }}/grafana/datasources/"
 
 - name: Configure grafana influx dashboard
   template:
-    src: "{{item}}"
+    src: "{{ playbook_dir }}/roles/grafana/templates/{{item}}"
     dest: "{{ volumes_root }}/grafana/dashboards/"
   loop:
     - grafana.dashboards.yaml
     - grafana.dash.homelab.json
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

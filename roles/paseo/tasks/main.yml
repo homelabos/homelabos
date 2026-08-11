@@ -1,0 +1,14 @@
+---
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make additional Paseo directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ volumes_root }}/paseo/paseo-home"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

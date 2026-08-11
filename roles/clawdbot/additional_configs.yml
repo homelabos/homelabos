@@ -1,0 +1,2 @@
+  gateway_token: {{ clawdbot.gateway_token | default("") }}
+  anthropic_api_key: {{ clawdbot.anthropic_api_key | default("") }}

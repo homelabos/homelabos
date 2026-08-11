@@ -1,3 +1,9 @@
-  db_version: {{ nextcloud.db_version | default("alpine") }}
+  db_version: {{ nextcloud.db_version | default("17-alpine") }}
   use_mariadb: {{ nextcloud.use_mariadb | default(False) }}
   redis_version: {{ nextcloud.redis_version | default("5.0-alpine") }}
+  oidc_enabled: {{ nextcloud.oidc_enabled | default(False) }}
+  oidc_client_id: {{ nextcloud.oidc_client_id | default(False) }}
+  oidc_client_secret: {{ nextcloud.oidc_client_secret | default(False) }}
+  oidc_discovery_uri: {{ nextcloud.oidc_discovery_uri | default(False) }}
+  oidc_scope: {{ nextcloud.oidc_scope | default("openid email profile") }}
+  oidc_uid_mapping: {{ nextcloud.oidc_uid_mapping | default("preferred_username") }}

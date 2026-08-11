@@ -1,0 +1,7 @@
+---
+full_service_name: Paseo
+description: Paseo is an open source orchestrator for running multiple coding agents (Claude Code, Codex, Copilot, OpenCode, Pi) from a self-hosted daemon with a bundled web UI.
+project_url: https://paseo.sh/
+category: software-development
+version: latest
+port: 6767

@@ -1,0 +1,6 @@
+---
+full_service_name: Actual Budget
+description: Actual Budget is a local-first personal finance app.
+category: money-budgeting-and-management
+version: latest
+port: 5006

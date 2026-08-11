@@ -1,11 +1,11 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Put in custom zulip vars for the docker compose
   template:
-    src: docker-compose.yml.j2
+    src: roles/zulip/templates/docker-compose.zulip.yml.j2
     dest: "{{ volumes_root }}/zulip/docker-compose.yml"
   vars:
     tor_domain: "{{ tor_http_domain_file.stdout | default('') }}"
@@ -14,4 +14,4 @@
     zulip_secret_key: "{{lookup('password', './settings/passwords/zulip_secret_key chars=ascii_letters')}}"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml

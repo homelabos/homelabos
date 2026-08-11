@@ -1,0 +1,1 @@
+  cache_enabled: {{ ntfy.cache_enabled | default(true) }}

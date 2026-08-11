@@ -1,1 +1,2 @@
   use_supervisord: {{ homeassistant.use_supervisord | default(False)}}
+  avahi_allow_interfaces: {{ homeassistant.avahi_allow_interfaces | default("") }}

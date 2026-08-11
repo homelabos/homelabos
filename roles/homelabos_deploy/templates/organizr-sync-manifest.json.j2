@@ -1,0 +1,22 @@
+{
+  "default_icon": {{ (organizr_sync.icon_default | default('auto')) | to_json }},
+  "exclude_services": {{ (organizr_sync.exclude_services | default([])) | to_json }},
+  "organizr_api_base_url": "https://127.0.0.1",
+  "organizr_config_path": {{ (volumes_root + '/organizr/www/organizr/api/config/config.php') | to_json }},
+  "organizr_domain": {{ ((organizr.domain if organizr.domain else organizr.subdomain + '.' + domain)) | to_json }},
+  "state_path": {{ (volumes_root + '/organizr/managed-tabs.json') | to_json }},
+  "services": [
+{% for service_item in (services | flatten(1) | unique | sort) %}
+{% set source_service = lookup('vars', service_item).source_service | default(service_item) %}
+{% set service_meta = (lookup('file', playbook_dir ~ '/roles/' ~ source_service ~ '/service.yml') | from_yaml) %}
+    {
+      "compose_path": {{ (volumes_root + '/' + service_item + '/docker-compose.yml') | to_json }},
+      "enabled": {{ (lookup('vars', service_item).enable | default(False) | bool) | to_json }},
+      "full_name": {{ (service_meta.full_service_name | default(service_item)) | to_json }},
+      "icon": {{ ((organizr_sync.icon_overrides | default({})).get(service_item)) | to_json }},
+      "name": {{ service_item | to_json }},
+      "service_domain": {{ ((lookup('vars', service_item).domain if (lookup('vars', service_item).domain | default(False)) else lookup('vars', service_item).subdomain + '.' + domain)) | to_json }}
+    }{% if not loop.last %},{% endif %}
+{% endfor %}
+  ]
+}

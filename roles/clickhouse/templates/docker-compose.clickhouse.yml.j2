@@ -1,0 +1,36 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server:{{ clickhouse.version }}
+    restart: unless-stopped
+    user: "101:101"
+    networks:
+      - traefik_network
+    environment:
+      CLICKHOUSE_DB: "{{ clickhouse.database | default('default') }}"
+      CLICKHOUSE_USER: "{{ clickhouse.username | default('clickhouse') }}"
+      CLICKHOUSE_PASSWORD: "{{ lookup('password', './settings/passwords/clickhouse_password chars=ascii_letters') }}"
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    volumes:
+      - "{{ volumes_root }}/clickhouse/data:/var/lib/clickhouse"
+      - "{{ volumes_root }}/clickhouse/logs:/var/log/clickhouse-server"
+    ports:
+      - "{{ clickhouse.native_port | default('9000') }}:9000"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 1s
+{% include './labels.j2' %}

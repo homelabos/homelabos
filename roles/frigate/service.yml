@@ -1,0 +1,7 @@
+---
+full_service_name: Frigate
+description: Frigate is an NVR with realtime object detection for IP cameras.
+project_url: https://frigate.video/
+category: monitoring
+version: stable
+port: 5000

@@ -1,7 +1,7 @@
 ---
 
 - name: Setup {{service_item}}
-  include: includes/setup.yml
+  include_tasks: includes/setup.yml
 
 - name: Copy pixelfed .env file into place.
   template:
@@ -9,4 +9,4 @@
     dest: "{{ volumes_root }}/pixelfed/pixelfed.env"
 
 - name: Start {{service_item}}
-  include: includes/start.yml
+  include_tasks: includes/start.yml
