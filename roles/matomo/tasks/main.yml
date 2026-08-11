@@ -133,3 +133,17 @@
     path: "{{ volumes_root }}/matomo/.configured"
     state: touch
   when: not matomo_configured.stat.exists
+
+# Matomo's direct TCP peer is the Traefik container, so without proxy-header
+# config it records that internal Docker IP as the visitor IP for every visit.
+# Traefik already forwards the real client IP in X-Forwarded-For; tell Matomo to
+# read it from there. Runs unconditionally so it also fixes pre-existing
+# installs, not just fresh ones. No restart needed: Matomo re-reads its config
+# from disk on each request.
+- name: Configure Matomo to trust X-Forwarded-For from Traefik
+  ini_file:
+    path: "{{ volumes_root }}/matomo/config/config.ini.php"
+    section: General
+    option: "proxy_client_headers[]"
+    value: "HTTP_X_FORWARDED_FOR"
+    no_extra_spaces: true
