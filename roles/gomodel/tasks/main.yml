@@ -1,0 +1,15 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make {{service_item}} data directory.
+  file:
+    path: "{{ volumes_root }}/gomodel/data"
+    state: directory
+    owner: 65532
+    group: 65532
+    mode: 0775
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

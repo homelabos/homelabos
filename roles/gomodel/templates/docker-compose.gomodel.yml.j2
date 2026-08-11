@@ -1,0 +1,20 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  gomodel:
+    image: enterpilot/gomodel:{{ gomodel.version }}
+    restart: unless-stopped
+    environment:
+      - LOG_FORMAT={{ gomodel.log_format | default("text") }}
+      - OPENAI_API_KEY={{ vault.gomodel.openai_api_key | default("your-openai-key") }}
+    volumes:
+      - "{{ volumes_root }}/gomodel/data:/app/data"
+    networks:
+      - traefik_network
+{% include './labels.j2' %}

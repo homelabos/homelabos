@@ -1,0 +1,7 @@
+---
+full_service_name: GoModel
+description: GoModel is a fast, self-hosted AI gateway and LLM proxy with OpenAI-compatible and Anthropic-compatible APIs, a lightweight LiteLLM alternative.
+project_url: https://github.com/ENTERPILOT/GoModel
+category: software-development
+version: latest
+port: 8080

@@ -1,0 +1,1 @@
+  log_format: {{ gomodel.log_format | default("text") }}
