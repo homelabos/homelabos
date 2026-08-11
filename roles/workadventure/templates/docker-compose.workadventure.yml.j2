@@ -167,6 +167,13 @@ services:
       - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie.name=wa_ws_affinity"
       - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie.httpOnly=true"
       - "traefik.http.services.{{ service_item }}-ws.loadbalancer.sticky.cookie.sameSite=lax"
+      - "traefik.http.routers.{{ service_item }}-room-api.rule=Host(`{{ service_domain }}`) && PathPrefix(`/room-api`)"
+      - "traefik.http.routers.{{ service_item }}-room-api.priority=2"
+      - "traefik.http.routers.{{ service_item }}-room-api.entrypoints=https"
+      - "traefik.http.routers.{{ service_item }}-room-api.tls=true"
+      - "traefik.http.routers.{{ service_item }}-room-api.service={{ service_item }}-room-api"
+      - "traefik.http.services.{{ service_item }}-room-api.loadbalancer.server.port=50051"
+      - "traefik.http.services.{{ service_item }}-room-api.loadbalancer.server.scheme=h2c"
 
   back:
     image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie
@@ -228,13 +235,6 @@ services:
       - "traefik.http.routers.{{ service_item }}-api.tls=true"
       - "traefik.http.routers.{{ service_item }}-api.service={{ service_item }}-api"
       - "traefik.http.services.{{ service_item }}-api.loadbalancer.server.port=8080"
-      - "traefik.http.routers.{{ service_item }}-room-api.rule=Host(`{{ service_domain }}`) && PathPrefix(`/room-api`)"
-      - "traefik.http.routers.{{ service_item }}-room-api.priority=2"
-      - "traefik.http.routers.{{ service_item }}-room-api.entrypoints=https"
-      - "traefik.http.routers.{{ service_item }}-room-api.tls=true"
-      - "traefik.http.routers.{{ service_item }}-room-api.service={{ service_item }}-room-api"
-      - "traefik.http.services.{{ service_item }}-room-api.loadbalancer.server.port=50051"
-      - "traefik.http.services.{{ service_item }}-room-api.loadbalancer.server.scheme=h2c"
 
   map-storage:
     image: ghcr.io/thecodingmachine/nodejs:v2-24-trixie
