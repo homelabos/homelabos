@@ -66,6 +66,21 @@ roles/<service>/
   include: includes/start.yml
 ```
 
+**Traefik labels (`labels.j2`) are required in every docker-compose template.**
+
+Every service template must end with the label include so Traefik can route to it:
+
+```yaml
+    networks:
+      - traefik_network
+{% include './labels.j2' %}
+```
+
+- The shared source of `labels.j2` is **`roles/homelabos_deploy/templates/labels.j2`**. It renders the per-service Traefik labels (loadbalancer port from `service.yml`, routing for the service domain, HTTPS/TLS via certresolver, and optional auth/Tor/sslip routes).
+- It uses `service_item` plus the `port` from `service.yml`, so it works for every service without a per-service copy.
+- Do **not** create or maintain a per-role `templates/labels.j2` for new services (only legacy roles like `immich`/`fileflows`/`invoiceplane`/`listmonk`/`paseo` carry their own copies; leave those alone). Changes to the standard labels belong in the shared `roles/homelabos_deploy/templates/labels.j2`.
+- For services not exposed through Traefik (e.g. pure utilities), the sanity test requires either this include or `port: false` in `service.yml` — set `port: false` and omit the `traefik_network`/`labels.j2` block in that case.
+
 ### Available Variables in Service Templates
 
 - `service_item`, `service_domain`, `domain`, `volumes_root`, `storage_dir`
