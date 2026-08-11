@@ -12,11 +12,20 @@ services:
   app:
     image: matomo:{{ matomo.version }}
     restart: unless-stopped
+    # Bind a localhost-only port so the role can automate the installation
+    # wizard from the host. Bound to loopback only; not exposed to the network.
+    ports:
+      - "127.0.0.1:{{ matomo.internal_port | default('8091') }}:80"
     networks:
       - traefik_network
       - matomo
     volumes:
       - "{{ volumes_root }}/matomo/data:/data"
+      # Persist Matomo's config dir on the host. Without this, config.ini.php
+      # (which records a completed install + trusted hosts) lives in the
+      # image's ephemeral anonymous volume and is lost on every container
+      # recreate, forcing the setup wizard to re-run.
+      - "{{ volumes_root }}/matomo/config:/var/www/html/config"
     environment:
       - MATOMO_DATABASE_HOST=matomo_db
       - MATOMO_DATABASE_USERNAME=matomo

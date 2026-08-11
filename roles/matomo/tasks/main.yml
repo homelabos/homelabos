@@ -5,3 +5,131 @@
 
 - name: Start {{service_item}}
   include_tasks: includes/start.yml
+
+# --- Automate the first-run installation wizard ---
+# Matomo's free edition has no headless installer, so we replay the web
+# setup wizard over HTTP. The database connection is pre-populated via the
+# MATOMO_DATABASE_* env vars in the compose file; here we complete the three
+# remaining data-carrying steps (super user + first website) and finish.
+# The wizard is only shown while config.ini.php carries installation_in_progress
+# (set by databaseSetup, cleared by the finished step), so these requests are
+# valid only on first run. We guard with a marker file for idempotency.
+- name: Check for completed Matomo installation marker
+  stat:
+    path: "{{ volumes_root }}/matomo/.configured"
+  register: matomo_configured
+
+- name: Set local Matomo base URL
+  set_fact:
+    matomo_base_url: "http://127.0.0.1:{{ matomo.internal_port | default('8091') }}"
+    # Send the public service domain as the Host header so the Matomo wizard
+    # configures trusted_hosts[] for the real address (otherwise it only
+    # trusts 127.0.0.1:PORT and blocks access via the public URL).
+    matomo_wizard_headers:
+      Host: "{{ service_domain }}"
+
+# The wizard redirects (302) to the next step after each successful POST. The
+# uri module does not always follow these, so we drive each step explicitly and
+# accept either the 200 (rendered page) or 302 (redirect) status.
+- name: Wait for Matomo to become reachable
+  uri:
+    url: "{{ matomo_base_url }}/index.php?module=Installation&action=welcome"
+    method: GET
+    headers: "{{ matomo_wizard_headers }}"
+    status_code: [200, 302]
+  register: matomo_ready
+  retries: 60
+  delay: 5
+  until: matomo_ready.status == 200 or matomo_ready.status == 302
+  when: not matomo_configured.stat.exists
+
+- name: Automate Matomo database setup step
+  uri:
+    url: "{{ matomo_base_url }}/index.php?module=Installation&action=databaseSetup"
+    method: POST
+    # Do not follow the success redirect (302 -> tablesCreation); the explicit
+    # steps below advance the wizard. A 302 means the DB connected and the
+    # config file was written.
+    follow_redirects: no
+    headers: "{{ matomo_wizard_headers }}"
+    body_format: form-urlencoded
+    body:
+      host: matomo_db
+      username: matomo
+      password: "{{ lookup('password', './settings/passwords/matomo_db_password chars=ascii_letters') }}"
+      dbname: matomo
+      tables_prefix: ""
+      adapter: 'PDO\MYSQL'
+      schema: Mariadb
+      type: InnoDB
+      # Running behind an SSL-terminating proxy (traefik), Matomo only sees
+      # plain HTTP, so pass https as the client protocol to make the wizard
+      # write assume_secure_protocol=1 into config.ini.php.
+      clientProtocol: https
+      submit: Next
+    status_code: [200, 302]
+  register: matomo_db_setup
+  # On a fresh install the MariaDB container is still initializing when we get
+  # here, so the first databaseSetup attempts return 200 (form re-render with a
+  # connection error) and only redirect with a 302 once the DB is ready.
+  retries: 60
+  delay: 5
+  until: matomo_db_setup.status == 302
+  when: not matomo_configured.stat.exists
+
+- name: Automate Matomo database table creation step
+  uri:
+    url: "{{ matomo_base_url }}/index.php?module=Installation&action=tablesCreation"
+    method: GET
+    headers: "{{ matomo_wizard_headers }}"
+    status_code: [200, 302]
+  when: not matomo_configured.stat.exists
+
+- name: Automate Matomo super user setup step
+  uri:
+    url: "{{ matomo_base_url }}/index.php?module=Installation&action=setupSuperUser"
+    method: POST
+    headers: "{{ matomo_wizard_headers }}"
+    body_format: form-urlencoded
+    body:
+      login: "{{ matomo.admin_user | default('admin') }}"
+      password: "{{ matomo.admin_password | default('', true) or lookup('password', './settings/passwords/matomo_admin_password chars=ascii_letters,digits length=24') }}"
+      password_bis: "{{ matomo.admin_password | default('', true) or lookup('password', './settings/passwords/matomo_admin_password chars=ascii_letters,digits length=24') }}"
+      email: "{{ matomo.admin_email | default('admin@example.com') }}"
+      subscribe_newsletter_piwikorg: 0
+      subscribe_newsletter_professionalservices: 0
+      submit: Next
+    status_code: [200, 302]
+  when: not matomo_configured.stat.exists
+
+- name: Automate Matomo first website setup step
+  uri:
+    url: "{{ matomo_base_url }}/index.php?module=Installation&action=firstWebsiteSetup"
+    method: POST
+    headers: "{{ matomo_wizard_headers }}"
+    body_format: form-urlencoded
+    body:
+      siteName: "{{ matomo.site_name | default('Home') }}"
+      url: "{{ matomo.site_url | default('https://' + matomo.subdomain + '.' + domain) }}"
+      timezone: UTC
+      ecommerce: 0
+      submit: Next
+    status_code: [200, 302]
+  when: not matomo_configured.stat.exists
+
+- name: Finish Matomo installation
+  uri:
+    url: "{{ matomo_base_url }}/index.php?module=Installation&action=finished"
+    method: POST
+    headers: "{{ matomo_wizard_headers }}"
+    body_format: form-urlencoded
+    body:
+      submit: "Next"
+    status_code: [200, 302]
+  when: not matomo_configured.stat.exists
+
+- name: Mark Matomo installation as configured
+  file:
+    path: "{{ volumes_root }}/matomo/.configured"
+    state: touch
+  when: not matomo_configured.stat.exists

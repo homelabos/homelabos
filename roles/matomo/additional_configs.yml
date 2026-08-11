@@ -1,1 +1,6 @@
   db_version: {{ matomo.db_version | default ("latest") }}
+  admin_user: {{ matomo.admin_user | default ("admin") }}
+  admin_email: {{ matomo.admin_email | default ("admin@example.com") }}
+  site_name: {{ matomo.site_name | default ("My Site") }}
+  site_url: {{ matomo.site_url | default ("https://" + matomo.subdomain + "." + domain) }}
+  internal_port: {{ matomo.internal_port | default ("8091") }}
