@@ -26,6 +26,61 @@
 - name: Start {{service_item}}
   include_tasks: includes/start.yml
 
+- name: Create nextcloud turnserver.conf file
+  template:
+    src: "{{ playbook_dir }}/roles/nextcloud/templates/turnserver.conf.j2"
+    dest: "{{ volumes_root }}/nextcloud/turnserver.conf"
+    owner: "{{ uid_output.stdout }}"
+    group: "{{ gid_output.stdout }}"
+    mode: "0644"
+  when: nextcloud.talk_enabled | default(False)
+
+- name: Install Talk (spreed) app
+  command: "docker-compose -f \"{{ volumes_root }}/nextcloud/docker-compose.yml\" exec -T nextcloud php occ app:install spreed"
+  become: yes
+  when: nextcloud.talk_enabled | default(False)
+  register: spreed_install
+  ignore_errors: yes
+  retries: 30
+  delay: 2
+  until: spreed_install is success
+
+- name: Enable Talk (spreed) app
+  command: "docker-compose -f \"{{ volumes_root }}/nextcloud/docker-compose.yml\" exec -T nextcloud php occ app:enable spreed"
+  become: yes
+  when: nextcloud.talk_enabled | default(False)
+
+- name: Delete existing Talk STUN server (idempotent)
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ talk:stun:delete {{ service_domain }}:{{ nextcloud.talk_turn_port }}
+  become: yes
+  when: nextcloud.talk_enabled | default(False)
+  ignore_errors: yes
+
+- name: Add Talk STUN server
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ talk:stun:add {{ service_domain }}:{{ nextcloud.talk_turn_port }}
+  become: yes
+  when: nextcloud.talk_enabled | default(False)
+
+- name: Delete existing Talk TURN server (idempotent)
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ talk:turn:delete {{ nextcloud.talk_turn_schemes }} {{ service_domain }}:{{ nextcloud.talk_turn_port }} {{ nextcloud.talk_turn_protocols }}
+  become: yes
+  when: nextcloud.talk_enabled | default(False)
+  ignore_errors: yes
+
+- name: Add Talk TURN server
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ talk:turn:add {{ nextcloud.talk_turn_schemes }} {{ service_domain }}:{{ nextcloud.talk_turn_port }} {{ nextcloud.talk_turn_protocols }}
+    --secret="{{ lookup('password', './settings/passwords/nextcloud_turn_secret chars=ascii_letters') }}"
+  become: yes
+  when: nextcloud.talk_enabled | default(False)
+
 - name: Install user_oidc app (Authentik OIDC)
   command: "docker compose -f \"{{ volumes_root }}/nextcloud/docker-compose.yml\" exec -T nextcloud php occ app:install user_oidc"
   become: yes
@@ -50,5 +105,6 @@
     --discoveryuri="{{ nextcloud.oidc_discovery_uri }}"
     --scope="{{ nextcloud.oidc_scope | default('openid email profile') }}"
     --mapping-uid="{{ nextcloud.oidc_uid_mapping | default('preferred_username') }}"
+    --unique-uid=0
   become: yes
   when: nextcloud.oidc_enabled | default(False)

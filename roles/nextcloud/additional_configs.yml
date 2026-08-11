@@ -7,3 +7,11 @@
   oidc_discovery_uri: {{ nextcloud.oidc_discovery_uri | default(False) }}
   oidc_scope: {{ nextcloud.oidc_scope | default("openid email profile") }}
   oidc_uid_mapping: {{ nextcloud.oidc_uid_mapping | default("preferred_username") }}
+  talk_enabled: {{ nextcloud.talk_enabled | default(False) }}
+  talk_turn_version: {{ nextcloud.talk_turn_version | default("4.6.2-r1") }}
+  talk_turn_port: {{ nextcloud.talk_turn_port | default(3478) }}
+  talk_turn_schemes: {{ nextcloud.talk_turn_schemes | default("turn") }}
+  talk_turn_protocols: {{ nextcloud.talk_turn_protocols | default("udp,tcp") }}
+  talk_turn_relay_min: {{ nextcloud.talk_turn_relay_min | default(49160) }}
+  talk_turn_relay_max: {{ nextcloud.talk_turn_relay_max | default(49200) }}
+  talk_turn_external_ip: {{ nextcloud.talk_turn_external_ip | default(False) }}

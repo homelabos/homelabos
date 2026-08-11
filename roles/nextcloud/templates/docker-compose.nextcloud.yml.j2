@@ -47,6 +47,21 @@ services:
       - nextcloud
     restart: unless-stopped
 
+{% if nextcloud.talk_enabled | default(False) %}
+  nextcloud-turn:
+    image: coturn/coturn:{{ nextcloud.talk_turn_version }}
+    container_name: nextcloud_coturn
+    restart: unless-stopped
+    networks:
+      - nextcloud
+    volumes:
+      - "{{ volumes_root }}/nextcloud/turnserver.conf:/etc/coturn/turnserver.conf:ro"
+    ports:
+      - "{{ nextcloud.talk_turn_port }}:{{ nextcloud.talk_turn_port }}/udp"
+      - "{{ nextcloud.talk_turn_port }}:{{ nextcloud.talk_turn_port }}/tcp"
+      - "{{ nextcloud.talk_turn_relay_min }}-{{ nextcloud.talk_turn_relay_max }}:{{ nextcloud.talk_turn_relay_min }}-{{ nextcloud.talk_turn_relay_max }}/udp"
+{% endif %}
+
   nextcloud:
     image: nextcloud:{{ nextcloud.version }}
     restart: unless-stopped
