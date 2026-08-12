@@ -47,6 +47,33 @@ services:
         full_refresh: false
         https_only: false
         registration_enabled: false
+        invidious_companion:
+        - private_url: "http://companion:8282/companion"
+        invidious_companion_key: "{{ lookup('password', './settings/passwords/invidious_companion_key chars=ascii_letters length=16') }}"
         domain:
       # external_port:
 {% include './labels.j2' %}
+
+  companion:
+    image: "quay.io/invidious/invidious-companion:{{ invidious.companion_version | default('latest') }}"
+    restart: unless-stopped
+    networks:
+      - invidious
+    depends_on:
+      - invidious_db
+    environment:
+      SERVER_SECRET_KEY: "{{ lookup('password', './settings/passwords/invidious_companion_key chars=ascii_letters length=16') }}"
+    logging:
+      options:
+        max-size: "1G"
+        max-file: "4"
+    cap_drop:
+      - ALL
+    read_only: true
+    volumes:
+      - companioncache:/var/tmp/youtubei.js:rw
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  companioncache:
