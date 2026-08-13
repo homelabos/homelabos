@@ -22,4 +22,9 @@ services:
     volumes:
       - "{{ volumes_root }}/jellyfin/config:/config"
       - "{{ volumes_root }}/jellyfin/cache:/cache"
+{% if jellyfin.additional_volumes is defined and jellyfin.additional_volumes %}
+{% for volume in jellyfin.additional_volumes %}
+      - "{{ volume }}"
+{% endfor %}
+{% endif %}
 {% include './labels.j2' %}
