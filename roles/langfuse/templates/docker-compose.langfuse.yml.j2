@@ -45,7 +45,7 @@ services:
       DATABASE_URL: "postgresql://postgres:{{ db_password }}@postgres:5432/postgres"
       SALT: "{{ salt }}"
       ENCRYPTION_KEY: "{{ encryption_key }}"
-      TELEMETRY_ENABLED: "{{ langfuse.telemetry_enabled | default(False) }}"
+      TELEMETRY_ENABLED: "{{ (langfuse.telemetry_enabled | default(False)) | lower }}"
       LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
       CLICKHOUSE_MIGRATION_URL: "clickhouse://clickhouse:9000"
       CLICKHOUSE_URL: "http://clickhouse:8123"
