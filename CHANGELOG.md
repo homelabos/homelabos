@@ -4,11 +4,22 @@
 - Nextcloud Talk - added an optional High-performance backend (spreed signaling server) under `talk_signaling_enabled`, which clears the "Calls without High-performance backend" warning that TURN alone cannot. Exposed at `signaling.<domain>`.
 - Connected Prometheus to Grafana - Grafana now provisions a Prometheus datasource pointing at `http://prometheus:9090` when the Prometheus service is enabled.
 - Prometheus now scrapes host machine stats (CPU, memory, disk, network) via a bundled Node Exporter container under the `node` job.
+- Nextcloud Talk - optional server-side call recording via a bundled `nextcloud/aio-talk-recording` sidecar under `talk_recording_enabled`, exposed at `recording.<domain>` with optional participant consent (`talk_recording_consent`). Requires the signaling backend above.
+- Matomo - when enabled, Traefik now loads the MatomoTracking plugin and does server-side (ad-blocker-proof) tracking of every enabled service's domain into a single Matomo site (`matomo.site_id`).
+- Traefik - the built-in API dashboard is now disabled (`dashboard: false`, `insecure: false`).
+- InvoicePlane - the first-run setup wizard is now automated; fresh installs come up with a ready admin account configured from `invoiceplane.admin_email` / `admin_name` / `admin_password` (defaulting to the HomelabOS admin email, default username, and a generated password).
+- Paseo - data directories are pre-created and home ownership normalized to uid 1000 (prevents root-owned OMP config breaking the daemon); host binaries/folders can be bind-mounted via `paseo.additional_volumes`; optional `paseo.brave_api_key`.
+- Restic - nightly backups are now CPU-capped so they don't peg the host; tunable via `restic.cpus` (default `1.0`).
+- Service framework - roles can declare `default_enabled` in their `service.yml`; HomelabOS Dash uses it and is enabled by default on new installs.
+- Grafana - dropped the unused `grafana-mobile-app` plugin from the bundled install list.
+- Ansible - deploys now run with `host_key_checking=False` in `ansible.cfg`.
 
 ## Services Added
 - Added Outline - Fast, collaborative knowledge base and wiki with a beautiful editor and OIDC single sign-on.
 - Added Open GSD - Open source autonomous coding agent harness with a browser-based web interface (project dashboard, live session monitoring, preferences, and built-in terminal).
 - Added Hermes - Self-hosted, self-improving AI agent with a web UI that persists memory, runs scheduled jobs, and works with any LLM provider.
+- Added HomelabOS Dash - Control-plane dashboard to browse and edit HomelabOS settings, compare them against the deployed state, and trigger redeploys from a web UI.
+- Added Odoo - Open-source ERP and business application suite (CRM, sales, inventory, accounting, project management, and more), running via Docker with automatic initial database setup.
 - Added GoModel - Fast, self-hosted AI gateway and LLM proxy with OpenAI-compatible and Anthropic-compatible APIs.
 - Added Paseo - Self-hosted orchestrator for running multiple coding agents with a bundled web UI.
 - Added InvoicePlane - Self-hosted quotes, invoices, clients, and payments.
