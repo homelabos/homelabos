@@ -1,0 +1,8 @@
+  db_version: {{ odoo.db_version | default("15") }}
+  internal_port: {{ odoo.internal_port | default("8069") }}
+  db_name: {{ odoo.db_name | default("odoo") }}
+  admin_login: {{ odoo.admin_login | default("admin") }}
+  admin_email: {{ odoo.admin_email | default("admin@example.com") }}
+  lang: {{ odoo.lang | default("en_US") }}
+  country_code: {{ odoo.country_code | default("US") }}
+  phone: {{ odoo.phone | default("") }}

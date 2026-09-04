@@ -1,0 +1,89 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make {{service_item}} data directory.
+  file:
+    path: "{{ volumes_root }}/odoo/odoo-data"
+    state: directory
+    owner: 101
+    group: 101
+    mode: 0775
+
+- name: Make {{service_item}} database directory.
+  file:
+    path: "{{ volumes_root }}/odoo/db-data"
+    state: directory
+    mode: 0775
+
+- name: Copy {{service_item}} configuration.
+  template:
+    src: roles/{{service_item}}/templates/odoo.conf.j2
+    dest: "{{ volumes_root }}/odoo/config/odoo.conf"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml
+
+# --- Automate the first-run database creation ---
+# The database connection is configured via the environment variables and
+# odoo.conf rendered above. Odoo has no headless installer, so we create the
+# initial database through its web database manager endpoint. This is only
+# valid while no database exists yet, so we guard with a marker file for
+# idempotency.
+- name: Check for completed Odoo installation marker
+  stat:
+    path: "{{ volumes_root }}/odoo/.configured"
+  register: odoo_configured
+
+- name: Set local Odoo base URL
+  set_fact:
+    odoo_base_url: "http://127.0.0.1:{{ odoo.internal_port | default('8069') }}"
+    # Send the public service domain as the Host header so Odoo serves the
+    # request for the real address.
+    odoo_wizard_headers:
+      Host: "{{ service_domain }}"
+
+# Until a database exists, Odoo serves the database selector page at /web/database/selector.
+- name: Wait for Odoo to become reachable
+  uri:
+    url: "{{ odoo_base_url }}/web/database/selector"
+    method: GET
+    headers: "{{ odoo_wizard_headers }}"
+    status_code: [200, 302, 303]
+  register: odoo_ready
+  retries: 60
+  delay: 5
+  until: odoo_ready.status in [200, 302, 303]
+  when: not odoo_configured.stat.exists
+
+# Create the initial database (base install). On success the controller
+# redirects (302/303) to /web; on failure it re-renders the create page at 200
+# with an error, so gate on the redirect and ignore the 200 error re-render.
+- name: Automate Odoo database creation
+  uri:
+    url: "{{ odoo_base_url }}/web/database/create"
+    method: POST
+    follow_redirects: no
+    headers: "{{ odoo_wizard_headers }}"
+    body_format: form-urlencoded
+    body:
+      master_pwd: "{{ lookup('password', './settings/passwords/odoo_admin_password') }}"
+      name: "{{ odoo.db_name | default('odoo') }}"
+      login: "{{ odoo.admin_login | default('admin') }}"
+      password: "{{ odoo.admin_password | default('', true) or lookup('password', './settings/passwords/odoo_admin_password chars=ascii_letters,digits length=24') }}"
+      lang: "{{ odoo.lang | default('en_US') }}"
+      country_code: "{{ odoo.country_code | default('US') }}"
+      phone: "{{ odoo.phone | default('') }}"
+    status_code: [200, 302, 303]
+  register: odoo_db_create
+  retries: 30
+  delay: 5
+  until: odoo_db_create.status in [302, 303]
+  when: not odoo_configured.stat.exists
+
+- name: Mark Odoo installation as configured
+  file:
+    path: "{{ volumes_root }}/odoo/.configured"
+    state: touch
+  when: not odoo_configured.stat.exists

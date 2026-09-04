@@ -177,7 +177,7 @@ organizr_sync:
 # Services
 
 {{ range $service := . }}{{ $service.Name }}:
-  enable: {{"{{"}} {{ $service.Name }}.enable | default(enable_{{ $service.Name }}, None) | default(False) {{"}}"}}
+  enable: {{"{{"}} {{ $service.Name }}.enable | default(enable_{{ $service.Name }}, None) | default({{ if $service.DefaultEnabled }}True{{ else }}False{{ end }}) {{"}}"}}
   https_only: {{"{{"}} {{ $service.Name }}.https_only | default(False) {{"}}"}}
   auth: {{"{{"}} {{ $service.Name }}.auth | default(False) {{"}}"}}
   domain: {{"{{"}} {{ $service.Name }}.domain | default(False) {{"}}"}}

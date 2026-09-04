@@ -1,0 +1,112 @@
+---
+- name: Validate Gitea provisioning inputs
+  ansible.builtin.assert:
+    that:
+      - domain is defined
+      - authentik_gitea_oidc_client_secret is defined
+      - authentik_gitea_oidc_client_secret | length > 0
+      - prolabos_staging_dir is defined
+    fail_msg: "ProLabOS Gitea provisioning requires domain, authentik_gitea_oidc_client_secret, and prolabos_staging_dir."
+
+- name: Set Gitea provisioning facts
+  ansible.builtin.set_fact:
+    prolabos_gitea_url: "{{ prolabos_gitea_integration.gitea.base_url | default('https://git.' ~ domain) }}"
+    prolabos_gitea_token: "{{ prolabos_gitea_api_token | default('') }}"
+    prolabos_gitea_auth_name: "{{ prolabos_gitea_integration.gitea.auth_source_name | default('Authentik') }}"
+    prolabos_gitea_client_id: "{{ prolabos_gitea_integration.authentik.client_id | default('prolabos-gitea') }}"
+    prolabos_gitea_discovery_url: "{{ prolabos_gitea_integration.gitea.auto_discover_url | default('https://authentik.' ~ domain ~ '/application/o/gitea/.well-known/openid-configuration') }}"
+    prolabos_gitea_admin_user: "{{ prolabos_gitea_integration.gitea.admin_user | default('gitea_admin') }}"
+    prolabos_gitea_container_pattern: "{{ prolabos_gitea_integration.gitea.container_pattern | default('gitea') }}"
+
+- name: Discover Gitea container
+  ansible.builtin.shell: |
+    set -euo pipefail
+    docker ps --format '{{ "{{" }}.Names{{ "}}" }}' | grep -E '{{ prolabos_gitea_container_pattern }}' | head -n 1
+  args:
+    executable: /bin/bash
+  register: prolabos_gitea_container
+  changed_when: false
+
+- name: Create ProLabOS Gitea API token when missing
+  ansible.builtin.shell: |
+    set -euo pipefail
+    docker exec {{ prolabos_gitea_container.stdout }} \
+      gitea admin user generate-access-token \
+        --username '{{ prolabos_gitea_admin_user }}' \
+        --token-name prolabos-gitea-provisioning \
+        --scopes all \
+        --raw
+  args:
+    executable: /bin/bash
+  register: prolabos_gitea_created_token
+  no_log: true
+  when: prolabos_gitea_token | length == 0
+
+- name: Persist generated Gitea API token in staged ProLabOS vault
+  ansible.builtin.lineinfile:
+    path: "{{ prolabos_staging_dir }}/settings/vault.yml"
+    regexp: '^prolabos_gitea_api_token:'
+    line: 'prolabos_gitea_api_token: "{{ prolabos_gitea_created_token.stdout | trim }}"'
+    create: true
+    mode: "0600"
+  no_log: true
+  when: prolabos_gitea_token | length == 0
+
+- name: Use generated Gitea API token
+  ansible.builtin.set_fact:
+    prolabos_gitea_token: "{{ prolabos_gitea_created_token.stdout | trim }}"
+  no_log: true
+  when: prolabos_gitea_token | length == 0
+
+- name: Read Gitea authentication sources
+  ansible.builtin.uri:
+    url: "{{ prolabos_gitea_url }}/api/v1/admin/auths"
+    method: GET
+    headers:
+      Authorization: "token {{ prolabos_gitea_token }}"
+    return_content: true
+    status_code: 200
+  register: prolabos_gitea_auth_sources
+
+- name: Find existing Authentik authentication source
+  ansible.builtin.set_fact:
+    prolabos_gitea_existing_auth_source: "{{ (prolabos_gitea_auth_sources.json | default([]) | selectattr('name', 'equalto', prolabos_gitea_auth_name) | list | first) | default({}) }}"
+
+- name: Build Gitea OAuth authentication source payload
+  ansible.builtin.set_fact:
+    prolabos_gitea_auth_payload:
+      name: "{{ prolabos_gitea_auth_name }}"
+      type: oauth2
+      auth_type: oauth2
+      oauth2_provider: openidConnect
+      client_id: "{{ prolabos_gitea_client_id }}"
+      client_secret: "{{ authentik_gitea_oidc_client_secret }}"
+      open_id_connect_auto_discovery_url: "{{ prolabos_gitea_discovery_url }}"
+      is_active: true
+      is_sync_enabled: true
+
+- name: Create Gitea Authentik authentication source
+  ansible.builtin.uri:
+    url: "{{ prolabos_gitea_url }}/api/v1/admin/auths"
+    method: POST
+    headers:
+      Authorization: "token {{ prolabos_gitea_token }}"
+    body_format: json
+    body: "{{ prolabos_gitea_auth_payload }}"
+    status_code:
+      - 200
+      - 201
+  when: prolabos_gitea_existing_auth_source.id is not defined
+
+- name: Update Gitea Authentik authentication source
+  ansible.builtin.uri:
+    url: "{{ prolabos_gitea_url }}/api/v1/admin/auths/{{ prolabos_gitea_existing_auth_source.id }}"
+    method: PATCH
+    headers:
+      Authorization: "token {{ prolabos_gitea_token }}"
+    body_format: json
+    body: "{{ prolabos_gitea_auth_payload }}"
+    status_code:
+      - 200
+      - 204
+  when: prolabos_gitea_existing_auth_source.id is defined

@@ -13,9 +13,17 @@ services:
     environment:
       - PASEO_PASSWORD={{ paseo.paseo_password | default(default_password) }}
       - PASEO_HOSTNAMES={{ service_domain }}
+{% if paseo.brave_api_key is defined and paseo.brave_api_key %}
+      - BRAVE_API_KEY={{ paseo.brave_api_key }}
+{% endif %}
     volumes:
       - "{{ volumes_root }}/paseo/paseo-home:/home/paseo"
       - "{{ volumes_root }}:/workspace"
+{% if paseo.additional_volumes is defined and paseo.additional_volumes %}
+{% for volume in paseo.additional_volumes %}
+      - "{{ volume }}"
+{% endfor %}
+{% endif %}
     networks:
       - traefik_network
 {% include './labels.j2' %}

@@ -3,6 +3,14 @@
 global:
   checkNewVersion: true
   sendAnonymousUsage: {{ traefik.send_anonymous_usage }}
+{% if matomo.enable | default(False) %}
+# MatomoTracking plugin: server-side tracking of requests into Matomo.
+experimental:
+  plugins:
+    matomoTracking:
+      moduleName: "github.com/DIE-Bonn/MatomoTracking"
+      version: "v1.1.0"
+{% endif %}
 
 log:
   level: INFO
@@ -28,6 +36,10 @@ entryPoints:
   https:
     address: :443
     http:
+{% if matomo.enable | default(False) %}
+      middlewares:
+        - matomo-tracking@file
+{% endif %}
       tls:
         options: default
         certResolver: '{% if traefik.dns_challenge_provider %}dns{% else %}http{% endif %}'
@@ -133,8 +145,8 @@ providers:
     watch: true
 
 api:
-  dashboard: true
-  insecure: true
+  dashboard: false
+  insecure: false
 
 certificatesResolvers:
   dns:

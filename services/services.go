@@ -19,10 +19,11 @@ type Service struct {
 	Version           string
 	AdditionalConfigs string
 	// Either -1 for pending or a number indicating what step it last succeeded
-	Status       int
-	Category     Category
-	Port         int
-	SanityIgnore bool
+	Status         int
+	Category       Category
+	Port           int
+	DefaultEnabled bool
+	SanityIgnore   bool
 }
 
 func loadAdditionalServicesSourceMap() map[string]string {
@@ -85,6 +86,14 @@ func loadServiceFromRole(roleName string) (Service, error) {
 	}
 
 	category := GetCategory(data["category"].(string))
+
+	defaultEnabled := false
+	if value, ok := data["default_enabled"]; ok {
+		if b, ok := value.(bool); ok {
+			defaultEnabled = b
+		}
+	}
+
 	return Service{
 		roleName,
 		data["description"].(string),
@@ -93,6 +102,7 @@ func loadServiceFromRole(roleName string) (Service, error) {
 		-1,
 		category,
 		port.(int),
+		defaultEnabled,
 		false,
 	}, nil
 }
@@ -144,7 +154,7 @@ func GenerateServicesList(servicesFilter string, includeAdditionalServices bool)
 			}
 
 			// If we don't have a service file, add the service anyway, so it shows up as failing.
-			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0, false}
+			services[serviceName] = Service{serviceName, "", "latest", "", -1, GetCategory("misc-other"), 0, false, false}
 			continue
 		}
 

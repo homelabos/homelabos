@@ -12,6 +12,9 @@ information via Telegraf.
 Grafana comes configured with a Dashboard and Datasource connected for you out of the box. This default
 dash and datasource will only with if you have the [TICK](software/tick) stack enabled.
 
+When the [Prometheus](software/prometheus) service is enabled, Grafana also provisions a Prometheus
+datasource at `http://prometheus:9090`, so you can visualize Prometheus metrics directly in Grafana.
+
 You can login with the default user and pass you setup for HomelabOS.
 
 To reset the admin password run `docker exec -it grafana_grafana_1 grafana-cli admin reset-admin-password 12345`.

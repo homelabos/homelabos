@@ -10,6 +10,7 @@ networks:
 services:
  # Web Analytics
   app:
+    container_name: matomo
     image: matomo:{{ matomo.version }}
     restart: unless-stopped
     # Bind a localhost-only port so the role can automate the installation

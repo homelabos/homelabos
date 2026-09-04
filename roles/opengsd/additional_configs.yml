@@ -1,0 +1,4 @@
+  anthropic_api_key: {{ opengsd.anthropic_api_key | default("") }}
+  openai_api_key: {{ opengsd.openai_api_key | default("") }}
+  openrouter_api_key: {{ opengsd.openrouter_api_key | default("") }}
+  gemini_api_key: {{ opengsd.gemini_api_key | default("") }}

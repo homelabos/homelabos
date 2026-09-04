@@ -85,6 +85,9 @@ Ghost is a fully open source, adaptable platform for building and running a mode
 #### [clawdbot](./software/clawdbot)
 Clawdbot is a personal AI assistant you run on your own devices.
 
+#### [hermes](./software/hermes)
+Hermes is a self-hosted, self-improving AI agent with a web UI that persists memory, runs scheduled jobs, and works with any LLM provider.
+
 #### [matrix](./software/matrix)
 Matrix server
 
@@ -429,6 +432,9 @@ Firefly III is a money management app.
 #### [invoiceplane](./software/invoiceplane)
 InvoicePlane is a self-hosted application for managing quotes, invoices, clients, and payments.
 
+#### [odoo](./software/odoo)
+Odoo is an open-source ERP and business application suite (CRM, sales, inventory, accounting, project management, and more) that runs via Docker.
+
 ### Monitoring
 
 #### [elkstack](./software/elkstack)
@@ -485,6 +491,9 @@ Vaultwarden is an open source password manager
 
 #### [heimdall](./software/heimdall)
 Heimdall Application Dashboard is a dashboard for all your web applications.
+
+#### [hlos_dash](./software/hlos_dash)
+HomelabOS Dash is a control-plane dashboard to browse and edit HomelabOS settings, compare them against the deployed state, and trigger redeploys from a web UI.
 
 #### [homedash](./software/homedash)
 Homedash is a simple dashboard that allows to monitor and interact with many different services.
@@ -556,6 +565,9 @@ LangSmith is a platform for LLM tracing, evaluation, and prompt management.
 
 #### [opencode](./software/opencode)
 OpenCode is an open source AI coding agent with a browser-based web UI.
+
+#### [opengsd](./software/opengsd)
+Open GSD (GSD Pi) is an open source autonomous coding agent with a browser-based web interface for project management, live session monitoring, preferences, and a built-in terminal.
 
 #### [paseo](./software/paseo)
 Paseo is an open source orchestrator for running multiple coding agents (Claude Code, Codex, Copilot, OpenCode, Pi) from a self-hosted daemon with a bundled web UI.

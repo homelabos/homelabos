@@ -10,3 +10,101 @@
 
 - name: Start {{service_item}}
   include_tasks: includes/start.yml
+
+# --- Automate the first-run setup wizard ---
+# InvoicePlane has no headless installer; its wizard is session-gated and
+# CSRF-protected, so we replay it over HTTP with a small Python driver that
+# keeps the session cookie and CSRF token. The application image pre-populates
+# ipconfig.php (the database credentials + URL) from its IP_DB_* / IP_URL
+# environment variables at startup, so the wizard only needs to create the
+# schema and the admin user.
+#
+# The Setup controller gates every page on the SETUP_COMPLETED flag in
+# ipconfig.php, which the image regenerates from ipconfig.php.example on every
+# container start (so a completed install reverts to false after a recreate).
+# We therefore gate on the actual database state (authoritative and idempotent),
+# not a marker file: a DB without the ip_users table gets the full wizard; one
+# that already has it gets SETUP_COMPLETED=true re-asserted so the app never
+# lands back on the /welcome landing page.
+- name: Collect {{service_item}} provisioning facts
+  set_fact:
+    ip_db_user: invoiceplane
+    ip_db_pass: "{{ lookup('password', './settings/passwords/invoiceplane_db_password chars=ascii_letters') }}"
+    ip_admin_email: "{{ invoiceplane.admin_email | default(admin_email) }}"
+    ip_admin_name: "{{ invoiceplane.admin_name | default(default_username) }}"
+    ip_admin_pass: "{{ invoiceplane.admin_password | default(lookup('password', './settings/passwords/invoiceplane_admin_password chars=ascii_letters,digits length=24')) }}"
+    ip_port: "{{ invoiceplane.internal_port | default('8087') }}"
+
+- name: Wait for {{service_item}} database to be ready
+  command: >-
+    docker-compose -p {{ service_item }} exec -T invoiceplane_db
+    mariadb -u{{ ip_db_user }} -p{{ ip_db_pass }} -N -e "SELECT 1;"
+  args:
+    chdir: "{{ volumes_root }}/{{ service_item }}"
+  register: invoiceplane_db_ready
+  retries: 30
+  delay: 5
+  until: invoiceplane_db_ready.rc == 0
+  changed_when: false
+
+- name: Check whether {{service_item}} database already has the ip_users table
+  command: >-
+    docker-compose -p {{ service_item }} exec -T invoiceplane_db
+    mariadb -u{{ ip_db_user }} -p{{ ip_db_pass }} -N -e "SELECT COUNT(*) FROM
+    information_schema.tables WHERE table_schema='invoiceplane' AND table_name='ip_users';"
+  args:
+    chdir: "{{ volumes_root }}/{{ service_item }}"
+  register: invoiceplane_db_users
+  changed_when: false
+
+- name: Determine whether {{service_item}} needs setup
+  set_fact:
+    # No ip_users table -> brand new database -> run the full setup wizard.
+    ip_needs_wizard: "{{ invoiceplane_db_users.stdout | trim == '0' }}"
+    # ip_users table exists -> schema + user already created -> just finalize
+    # the install (SETUP_COMPLETED=true) without re-running the wizard.
+    ip_needs_finalize: "{{ invoiceplane_db_users.stdout | trim == '1' }}"
+
+- name: Wait for {{service_item}} setup wizard to become reachable
+  uri:
+    url: "http://127.0.0.1:{{ ip_port }}/index.php/setup/language"
+    status_code: [200, 302, 303]
+  register: invoiceplane_wizard_ready
+  retries: 30
+  delay: 5
+  until: invoiceplane_wizard_ready.status in [200, 302, 303]
+  when: ip_needs_wizard
+
+- name: Automate {{service_item}} first-run setup wizard
+  script:
+    src: roles/invoiceplane/files/provision_invoiceplane.py
+    args: "http://127.0.0.1:{{ ip_port }} {{ ip_admin_email }} {{ ip_admin_name }} {{ ip_admin_pass }}"
+  when: ip_needs_wizard
+
+- name: Verify {{service_item}} admin user exists
+  command: >-
+    docker-compose -p {{ service_item }} exec -T invoiceplane_db
+    mariadb -u{{ ip_db_user }} -p{{ ip_db_pass }} -N invoiceplane -e "SELECT COUNT(*) FROM ip_users;"
+  args:
+    chdir: "{{ volumes_root }}/{{ service_item }}"
+  register: invoiceplane_users_after
+  changed_when: false
+  when: ip_needs_wizard
+
+# The wizard's complete step sets SETUP_COMPLETED=true itself; this re-asserts
+# it on every deploy so a container recreate (which regenerates ipconfig.php
+# from the example) can never leave the app stranded on the /welcome landing.
+- name: Ensure {{service_item}} installation is marked complete
+  command: >-
+    docker-compose -p {{ service_item }} exec -T invoiceplane
+    sed -i "s/^SETUP_COMPLETED=.*/SETUP_COMPLETED=true/" /var/www/html/ipconfig.php
+  args:
+    chdir: "{{ volumes_root }}/{{ service_item }}"
+  changed_when: false
+  when: ip_needs_wizard or ip_needs_finalize
+
+- name: Record {{service_item}} installation as configured
+  file:
+    path: "{{ volumes_root }}/{{ service_item }}/.configured"
+    state: touch
+  when: (ip_needs_finalize) or (ip_needs_wizard and (invoiceplane_users_after.stdout | trim | int) > 0)

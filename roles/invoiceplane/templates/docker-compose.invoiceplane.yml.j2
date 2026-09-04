@@ -16,6 +16,10 @@ services:
     networks:
       - traefik_network
       - invoiceplane
+    # Bind a localhost-only port so the role can automate the setup wizard
+    # from the host. Bound to loopback only; not exposed to the network.
+    ports:
+      - "127.0.0.1:{{ invoiceplane.internal_port | default('8087') }}:80"
     environment:
       - TZ={{ common_timezone }}
       - IP_URL=https://{{ service_domain }}

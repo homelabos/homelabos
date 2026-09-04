@@ -1,0 +1,62 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  hermes-agent:
+    image: nousresearch/hermes-agent:{{ hermes.version }}
+    hostname: hermes-agent
+    restart: unless-stopped
+    command: gateway run
+    networks:
+      - traefik_network
+    environment:
+      - HERMES_HOME=/home/hermes/.hermes
+      - HERMES_UID=1000
+      - HERMES_GID=1000
+      - API_SERVER_ENABLED=true
+      - API_SERVER_HOST=0.0.0.0
+      - API_SERVER_KEY={{ hermes.api_server_key | default(hermes.webui_password | default(default_password)) }}
+      - BRAVE_SEARCH_API_KEY={{ hermes.brave_search_api_key | default("") }}
+      - TZ={{ common_timezone }}
+    volumes:
+      - "{{ volumes_root }}/hermes/hermes-home:/home/hermes/.hermes"
+      - hermes_agent_src:/opt/hermes
+
+  hermes-webui:
+    image: ghcr.io/nesquena/hermes-webui:{{ hermes.version }}
+    hostname: hermes-webui
+    restart: unless-stopped
+    depends_on:
+      - hermes-agent
+    networks:
+      - traefik_network
+    environment:
+      - HERMES_WEBUI_HOST=0.0.0.0
+      - HERMES_WEBUI_PORT=8787
+      - HERMES_WEBUI_STATE_DIR=/home/hermeswebui/.hermes/webui
+      - HERMES_API_URL=http://hermes-agent:8642
+      - HERMES_WEBUI_GATEWAY_API_KEY={{ hermes.api_server_key | default(hermes.webui_password | default(default_password)) }}
+      - BRAVE_SEARCH_API_KEY={{ hermes.brave_search_api_key | default("") }}
+      - HERMES_WEBUI_PASSWORD={{ hermes.webui_password | default(default_password) }}
+      - WANTED_UID=1000
+      - WANTED_GID=1000
+      - HERMES_WEBUI_SECURE=1
+      - HERMES_WEBUI_TRUST_FORWARDED_HOST=1
+      - HERMES_WEBUI_TRUST_FORWARDED_FOR=1
+      - HERMES_WEBUI_TRUST_FORWARDED_PROTO=1
+      - HERMES_WEBUI_ALLOWED_ORIGINS=https://{{ service_domain }}
+      - TZ={{ common_timezone }}
+    volumes:
+      - "{{ volumes_root }}/hermes/hermes-home:/home/hermeswebui/.hermes"
+      - hermes_agent_src:/home/hermeswebui/.hermes/hermes-agent:ro
+      - "{{ volumes_root }}/hermes/workspace:/workspace"
+      - "{{ storage_dir }}:/storage:ro"
+{% include './labels.j2' %}
+
+volumes:
+  hermes_agent_src:

@@ -1,0 +1,43 @@
+version: 1
+metadata:
+  name: ProLabOS Grafana OIDC
+entries:
+  - model: authentik_providers_oauth2.scopemapping
+    identifiers:
+      name: "ProLabOS Grafana role"
+    attrs:
+      name: "ProLabOS Grafana role"
+      scope_name: "grafana"
+      description: "Emit a grafana_role claim from Authentik superuser group membership"
+      expression: |
+        groups = request.user.groups.all()
+        if any(group.is_superuser for group in groups):
+            return {"grafana_role": "Admin"}
+        return {"grafana_role": "Viewer"}
+  - model: authentik_providers_oauth2.oauth2provider
+    identifiers:
+      name: "{{ prolabos_grafana_integration.authentik.provider_name | default('Grafana') }}"
+    attrs:
+      name: "{{ prolabos_grafana_integration.authentik.provider_name | default('Grafana') }}"
+      client_id: "{{ prolabos_grafana_client_id }}"
+      client_secret: "{{ authentik_grafana_oidc_client_secret }}"
+      authorization_flow: !Find [authentik_flows.flow, [slug, "{{ prolabos_grafana_authorization_flow }}"]]
+      invalidation_flow: !Find [authentik_flows.flow, [slug, "default-provider-invalidation-flow"]]
+      grant_types:
+        - authorization_code
+        - refresh_token
+      redirect_uris:
+        - matching_mode: strict
+          url: "{{ prolabos_grafana_redirect_uri }}"
+      property_mappings:
+{% for scope in prolabos_grafana_scopes %}
+        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, "{{ scope }}"]]
+{% endfor %}
+        - !Find [authentik_providers_oauth2.scopemapping, [name, "ProLabOS Grafana role"]]
+  - model: authentik_core.application
+    identifiers:
+      slug: "{{ prolabos_grafana_slug }}"
+    attrs:
+      name: "{{ prolabos_grafana_integration.authentik.application_name | default('Grafana') }}"
+      slug: "{{ prolabos_grafana_slug }}"
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, "{{ prolabos_grafana_integration.authentik.provider_name | default('Grafana') }}"]]

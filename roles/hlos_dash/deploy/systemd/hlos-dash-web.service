@@ -1,0 +1,17 @@
+[Unit]
+Description=HomelabOS Dash frontend container
+Requires=docker.service hlos-dash-server.service
+After=docker.service hlos-dash-server.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/root/Code/prolabos/hlos_dash/deploy
+EnvironmentFile=/etc/hlos-dash.env
+ExecStart=/usr/bin/docker-compose -f /root/Code/prolabos/hlos_dash/deploy/docker-compose.yml up -d --build hlos_dash_web
+ExecStop=/usr/bin/docker-compose -f /root/Code/prolabos/hlos_dash/deploy/docker-compose.yml stop hlos_dash_web
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

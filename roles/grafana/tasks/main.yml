@@ -19,6 +19,11 @@
     src: "{{ playbook_dir }}/roles/grafana/templates/grafana.datasource.influxdb.yaml"
     dest: "{{ volumes_root }}/grafana/datasources/"
 
+- name: Configure grafana prometheus datasource
+  template:
+    src: "{{ playbook_dir }}/roles/grafana/templates/grafana.datasource.prometheus.yaml"
+    dest: "{{ volumes_root }}/grafana/datasources/"
+
 - name: Configure grafana influx dashboard
   template:
     src: "{{ playbook_dir }}/roles/grafana/templates/{{item}}"

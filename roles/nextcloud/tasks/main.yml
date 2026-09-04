@@ -81,6 +81,41 @@
   become: yes
   when: nextcloud.talk_enabled | default(False)
 
+- name: Delete existing Talk signaling server (High-performance backend, idempotent)
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ talk:signaling:delete https://{{ nextcloud.talk_signaling_subdomain | default('signaling') }}.{{ domain }}
+  become: yes
+  when: nextcloud.talk_enabled | default(False) and nextcloud.talk_signaling_enabled | default(False)
+  ignore_errors: yes
+
+- name: Add Talk signaling server (High-performance backend)
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ talk:signaling:add {% if nextcloud.talk_signaling_verify | default(True) %}--verify{% endif %}
+    https://{{ nextcloud.talk_signaling_subdomain | default('signaling') }}.{{ domain }}
+    "{{ lookup('password', './settings/passwords/nextcloud_signaling_secret chars=ascii_letters') }}"
+  become: yes
+  when: nextcloud.talk_enabled | default(False) and nextcloud.talk_signaling_enabled | default(False)
+  register: signaling_add
+  retries: 30
+  delay: 2
+  until: signaling_add is success
+
+- name: Register Talk recording server (recording_servers)
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ config:app:set spreed recording_servers --value='{"servers":[{"server":"https://{{ nextcloud.talk_recording_subdomain | default('recording') }}.{{ domain }}","verify":true}],"secret":"{{ lookup('password', './settings/passwords/nextcloud_recording_secret chars=ascii_letters') }}"}'
+  become: yes
+  when: nextcloud.talk_enabled | default(False) and nextcloud.talk_recording_enabled | default(False)
+
+- name: Set Talk recording consent requirement
+  command: >-
+    docker-compose -f "{{ volumes_root }}/nextcloud/docker-compose.yml" exec -T nextcloud
+    php occ config:app:set spreed recording_consent --value="{{ '1' if nextcloud.talk_recording_consent | default(False) else '0' }}"
+  become: yes
+  when: nextcloud.talk_enabled | default(False) and nextcloud.talk_recording_enabled | default(False)
+
 - name: Install user_oidc app (Authentik OIDC)
   command: "docker compose -f \"{{ volumes_root }}/nextcloud/docker-compose.yml\" exec -T nextcloud php occ app:install user_oidc"
   become: yes

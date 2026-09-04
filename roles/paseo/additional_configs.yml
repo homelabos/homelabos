@@ -1,1 +1,2 @@
   paseo_password: {{ paseo.paseo_password | default(default_password) }}
+  additional_volumes: {{ paseo.additional_volumes | default([]) }}

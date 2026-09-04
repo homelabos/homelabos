@@ -1,0 +1,7 @@
+---
+full_service_name: Open GSD
+description: Open GSD (GSD Pi) is an open source autonomous coding agent with a browser-based web interface for project management, live session monitoring, preferences, and a built-in terminal.
+project_url: https://opengsd.net/
+category: software-development
+version: latest
+port: 3000

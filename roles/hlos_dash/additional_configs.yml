@@ -1,0 +1,1 @@
+  install_dir: {{ hlos_dash.install_dir | default(volumes_root ~ "/install") }}

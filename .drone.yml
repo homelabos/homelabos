@@ -60,3 +60,135 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build hlos-dash-server dev
+
+trigger:
+  branch:
+    - dev
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: homelabos/hlos-dash-server
+      context: roles/hlos_dash
+      dockerfile: roles/hlos_dash/deploy/server.Dockerfile
+      tag: "dev"
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build hlos-dash-web dev
+
+trigger:
+  branch:
+    - dev
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: homelabos/hlos-dash-web
+      context: roles/hlos_dash
+      dockerfile: roles/hlos_dash/deploy/web.Dockerfile
+      tag: "dev"
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build hlos-dash-server latest
+
+trigger:
+  branch:
+    - master
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: homelabos/hlos-dash-server
+      context: roles/hlos_dash
+      dockerfile: roles/hlos_dash/deploy/server.Dockerfile
+      tag: "latest"
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build hlos-dash-web latest
+
+trigger:
+  branch:
+    - master
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: homelabos/hlos-dash-web
+      context: roles/hlos_dash
+      dockerfile: roles/hlos_dash/deploy/web.Dockerfile
+      tag: "latest"
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build hlos-dash-server tags
+
+trigger:
+  ref:
+    - refs/tags/*
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: homelabos/hlos-dash-server
+      context: roles/hlos_dash
+      dockerfile: roles/hlos_dash/deploy/server.Dockerfile
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+---
+
+kind: pipeline
+name: Docker build hlos-dash-web tags
+
+trigger:
+  ref:
+    - refs/tags/*
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: homelabos/hlos-dash-web
+      context: roles/hlos_dash
+      dockerfile: roles/hlos_dash/deploy/web.Dockerfile
+      auto_tag: true
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password

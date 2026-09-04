@@ -1,0 +1,187 @@
+---
+- name: Validate Authentik provisioning inputs
+  ansible.builtin.assert:
+    that:
+      - domain is defined
+      - authentik_gitea_oidc_client_secret is defined
+      - authentik_gitea_oidc_client_secret | length > 0
+      - prolabos_authentik_api_token is defined
+      - prolabos_authentik_api_token | length > 0
+    fail_msg: "ProLabOS Authentik provisioning requires domain, authentik_gitea_oidc_client_secret, and prolabos_authentik_api_token."
+
+- name: Set Authentik provisioning facts
+  ansible.builtin.set_fact:
+    prolabos_authentik_url: "{{ prolabos_gitea_integration.authentik.base_url | default('https://authentik.' ~ domain) }}"
+    prolabos_authentik_token: "{{ prolabos_authentik_api_token }}"
+    prolabos_gitea_slug: "{{ prolabos_gitea_integration.authentik.application_slug | default('gitea') }}"
+    prolabos_gitea_client_id: "{{ prolabos_gitea_integration.authentik.client_id | default('prolabos-gitea') }}"
+    prolabos_authentik_container_pattern: "{{ prolabos_gitea_integration.authentik.container_pattern | default('authentik.*server|authentik-server|authentik') }}"
+
+- name: Discover Authentik container
+  ansible.builtin.shell: |
+    set -euo pipefail
+    docker ps --format '{{ "{{" }}.Names{{ "}}" }}' | grep -E '{{ prolabos_authentik_container_pattern }}' | head -n 1
+  args:
+    executable: /bin/bash
+  register: prolabos_authentik_container
+  changed_when: false
+
+- name: Register ProLabOS Authentik API token
+  ansible.builtin.shell: |
+    set -euo pipefail
+    docker exec \
+      -e PROLABOS_AUTHENTIK_API_TOKEN='{{ prolabos_authentik_token }}' \
+      {{ prolabos_authentik_container.stdout }} \
+      python /manage.py shell -c "
+    import os
+    from authentik.core.models import Token, User
+
+    # Assigned by a dedicated superuser group on current Authentik; the old
+    # User.is_superuser field no longer exists.
+    user = None
+    for u in User.objects.filter(is_active=True).exclude(username='AnonymousUser'):
+        if u.groups.filter(is_superuser=True).exists():
+            user = u
+            break
+    if user is None:
+        raise SystemExit('no active Authentik superuser found')
+
+    desired_key = os.environ['PROLABOS_AUTHENTIK_API_TOKEN']
+    token, created = Token.objects.get_or_create(
+        identifier='prolabos-gitea-provisioning',
+        defaults={
+            'user': user,
+            'intent': 'api',
+            'expiring': False,
+            'key': desired_key,
+        },
+    )
+    if created:
+        print('created')
+    elif token.user_id != user.id or token.intent != 'api' or token.key != desired_key or token.expiring:
+        token.user = user
+        token.intent = 'api'
+        token.expiring = False
+        token.key = desired_key
+        token.save()
+        print('updated')
+    else:
+        print('unchanged')
+    "
+  args:
+    executable: /bin/bash
+  register: prolabos_authentik_token_registration
+  no_log: true
+  changed_when: "'created' in prolabos_authentik_token_registration.stdout or 'updated' in prolabos_authentik_token_registration.stdout"
+
+- name: Render Gitea Authentik blueprint
+  ansible.builtin.template:
+    src: gitea-oidc-blueprint.yml.j2
+    dest: /tmp/prolabos-gitea-oidc-blueprint.yml
+    mode: "0600"
+
+- name: Import Gitea Authentik blueprint
+  ansible.builtin.uri:
+    url: "{{ prolabos_authentik_url }}/api/v3/managed/blueprints/import/"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ prolabos_authentik_token }}"
+    body_format: form-multipart
+    body:
+      file:
+        filename: /tmp/prolabos-gitea-oidc-blueprint.yml
+        mime_type: application/yaml
+    status_code:
+      - 200
+      - 201
+      - 204
+  register: prolabos_authentik_blueprint_import
+  changed_when: prolabos_authentik_blueprint_import.status in [200, 201, 204]
+
+- name: Remove rendered Gitea Authentik blueprint
+  ansible.builtin.file:
+    path: /tmp/prolabos-gitea-oidc-blueprint.yml
+    state: absent
+
+- name: Validate Grafana provisioning inputs
+  ansible.builtin.assert:
+    that:
+      - domain is defined
+      - prolabos_authentik_url is defined
+      - prolabos_authentik_token | length > 0
+    fail_msg: "ProLabOS Grafana provisioning requires domain and a working Authentik API token."
+  when: prolabos_grafana_integration.enable | default(false) | bool
+
+- name: Set Grafana provisioning facts
+  ansible.builtin.set_fact:
+    prolabos_grafana_slug: "{{ prolabos_grafana_integration.authentik.application_slug | default('grafana') }}"
+    prolabos_grafana_client_id: "{{ prolabos_grafana_integration.authentik.client_id | default('prolabos-grafana') }}"
+    prolabos_grafana_authorization_flow: "{{ prolabos_grafana_integration.authentik.authorization_flow | default('default-provider-authorization-implicit-consent') }}"
+    prolabos_grafana_scopes: "{{ prolabos_grafana_integration.authentik.scopes | default(['openid', 'email', 'profile']) }}"
+    prolabos_grafana_redirect_uri: "{{ prolabos_grafana_integration.grafana.redirect_uri | default('https://grafana.' ~ domain ~ '/login/generic_oauth') }}"
+  when: prolabos_grafana_integration.enable | default(false) | bool
+
+- name: Generate Grafana Authentik client secret when missing
+  ansible.builtin.shell: |
+    set -euo pipefail
+    tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c 64
+  args:
+    executable: /bin/bash
+  register: prolabos_grafana_generated_secret
+  no_log: true
+  changed_when: false
+  when:
+    - prolabos_grafana_integration.enable | default(false) | bool
+    - (authentik_grafana_oidc_client_secret | default('') | length) == 0
+
+- name: Persist generated Grafana client secret in staged ProLabOS vault
+  ansible.builtin.lineinfile:
+    path: "{{ prolabos_staging_dir }}/settings/vault.yml"
+    regexp: '^authentik_grafana_oidc_client_secret:'
+    line: 'authentik_grafana_oidc_client_secret: "{{ prolabos_grafana_generated_secret.stdout | trim }}"'
+    create: true
+    mode: "0600"
+  no_log: true
+  when:
+    - prolabos_grafana_integration.enable | default(false) | bool
+    - (authentik_grafana_oidc_client_secret | default('') | length) == 0
+
+- name: Use generated Grafana client secret
+  ansible.builtin.set_fact:
+    authentik_grafana_oidc_client_secret: "{{ prolabos_grafana_generated_secret.stdout | trim }}"
+  no_log: true
+  when:
+    - prolabos_grafana_integration.enable | default(false) | bool
+    - (authentik_grafana_oidc_client_secret | default('') | length) == 0
+
+- name: Render Grafana Authentik blueprint
+  ansible.builtin.template:
+    src: grafana-oidc-blueprint.yml.j2
+    dest: /tmp/prolabos-grafana-oidc-blueprint.yml
+    mode: "0600"
+  when: prolabos_grafana_integration.enable | default(false) | bool
+
+- name: Import Grafana Authentik blueprint
+  ansible.builtin.uri:
+    url: "{{ prolabos_authentik_url }}/api/v3/managed/blueprints/import/"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ prolabos_authentik_token }}"
+    body_format: form-multipart
+    body:
+      file:
+        filename: /tmp/prolabos-grafana-oidc-blueprint.yml
+        mime_type: application/yaml
+    status_code:
+      - 200
+      - 201
+      - 204
+  register: prolabos_grafana_blueprint_import
+  changed_when: prolabos_grafana_blueprint_import.status in [200, 201, 204]
+  when: prolabos_grafana_integration.enable | default(false) | bool
+
+- name: Remove rendered Grafana Authentik blueprint
+  ansible.builtin.file:
+    path: /tmp/prolabos-grafana-oidc-blueprint.yml
+    state: absent
+  when: prolabos_grafana_integration.enable | default(false) | bool

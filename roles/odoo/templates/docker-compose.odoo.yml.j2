@@ -1,0 +1,50 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  odoo:
+
+services:
+  odoo:
+    image: odoo:{{ odoo.version }}
+    restart: unless-stopped
+    depends_on:
+      odoo-db:
+        condition: service_healthy
+    # Bind a localhost-only port so the role can create the initial database
+    # from the host. Loopback only; not exposed to the network (Traefik routes
+    # the public URL).
+    ports:
+      - "127.0.0.1:{{ odoo.internal_port | default('8069') }}:8069"
+    environment:
+      - HOST=odoo-db
+      - PORT=5432
+      - USER=odoo
+      - PASSWORD={{lookup('password', './settings/passwords/odoo_db_password chars=ascii_letters')}}
+    volumes:
+      - "{{ volumes_root }}/odoo/odoo-data:/var/lib/odoo"
+      - "{{ volumes_root }}/odoo/config/odoo.conf:/etc/odoo/odoo.conf"
+    networks:
+      - traefik_network
+      - odoo
+{% include './labels.j2' %}
+
+  odoo-db:
+    image: postgres:{{ odoo.db_version | default("15") }}
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/odoo_db_password chars=ascii_letters')}}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - "{{ volumes_root }}/odoo/db-data:/var/lib/postgresql/data"
+    networks:
+      - odoo

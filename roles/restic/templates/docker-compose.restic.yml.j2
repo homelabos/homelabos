@@ -6,6 +6,9 @@ services:
   restic:
     image: ghcr.io/lobaro/restic-backup-docker:{{ restic.version }}
     restart: unless-stopped
+    # Cap CPU to a fraction of the host's cores so nightly backups don't peg the box.
+    # Default 25% of a 4-core host (1 CPU); tune restic.cpus in config.yml per host.
+    cpus: "{{ restic.cpus | default(1.0) }}"
     environment:
       - RESTIC_REPOSITORY={{ s3_path }}
       - AWS_ACCESS_KEY_ID={{ s3_access_key }}

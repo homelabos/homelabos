@@ -1,0 +1,22 @@
+[Unit]
+Description=HomelabOS Dash API
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/Code/prolabos/hlos_dash/server
+EnvironmentFile=/etc/hlos-dash.env
+Environment=HOME=/root
+Environment=HLOS_DASH_HOST=0.0.0.0
+Environment=HLOS_DASH_PORT=8081
+Environment=HOMELABOS_INSTALL_DIR=/mnt/averneth_main_data/homelabos/install
+Environment=PROLABOS_REPO_DIR=/root/Code/prolabos/hlos_dash
+ExecStart=/usr/bin/go run . serve
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

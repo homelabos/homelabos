@@ -82,4 +82,35 @@ This will make your service accessible under https://{service_name}.{{ domain }}
 ### customFrameHomelab-tor
 * ALLOW-FROM http://{{ organizr.subdomain + "." + tor_domain }}
 
+## Server-side Matomo tracking
+
+When the `matomo` service is enabled, HomelabOS registers the open source
+[MatomoTracking](https://plugins.traefik.io/plugins/677d094a86fc372d4dc11fa3/matomo-tracking)
+middleware plugin (from [github.com/DIE-Bonn/MatomoTracking](https://github.com/DIE-Bonn/MatomoTracking))
+inside Traefik. It inspects every HTTPS request arriving through the `https`
+entrypoint and, for any tracked domain, posts a server-side tracking request to
+Matomo on the backend. Because tracking happens server-side it is not
+blockable by browser extensions or ad-blockers, unlike Matomo's usual
+JavaScript tracking.
+
+Behaviour:
+
+* Every enabled service's domain (`<service>.{{ domain }}` or a service custom
+  `domain`) is tracked into a single Matomo site (`matomo.site_id`, default
+  `1` — the first website created by the automated install wizard).
+* The tracker maps the exact request host to a domain entry, so only the domains
+  listed are forwarded. The Matomo service's own domain is deliberately not
+  tracked, so admin clicks inside Matomo are not recorded.
+* Tracking requests are sent directly to the Matomo container
+  (`http://matomo/matomo.php`) over the `homelabos_traefik` Docker network,
+  bypassing Traefik itself. This avoids the middleware re-processing its own
+  tracking traffic and keeps tracking working even if Matomo is placed behind
+  HTTP basic-auth or Authelia.
+* Static assets (images, CSS, JS, fonts, video, PDFs, archives) and
+  `/favicon.*` are excluded so assets are not recorded as pageviews.
+
+To disable server-side tracking, disable the `matomo` service.
+
+Note: the plugin logs diagnostic output to the Traefik container's stdout on
+every request; this is normal and harmless.
 {% endraw %}

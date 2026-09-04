@@ -126,10 +126,105 @@ Notes:
 - A `static-auth-secret` is generated once and shared between coturn and Talk, so the credentials
   stay stable across redeploys.
 
+### High-performance backend (Signaling server)
+
+!!! Warning "TURN alone does not make Talk 'setup complete'"
+    Talk still shows the red banner *"Calls without High-performance backend can cause
+    connectivity issues and high load on devices"* until a high-performance backend
+    (a **signaling server**) is configured. The coturn **TURN** server only relays
+    media (WebRTC) — it is not the high-performance backend, so enabling TURN never
+    clears that warning. To remove it you must also enable the signaling server below.
+
+To enable it (a `strukturag/nextcloud-spreed-signaling` container, run standalone with
+an internal NATS and reusing the existing coturn for TURN REST credentials):
+
+1. **Set the flag** in `settings/config.yml` under `nextcloud:` alongside
+   `talk_enabled: true`:
+   ```yaml
+   nextcloud:
+     talk_enabled: true
+     talk_signaling_enabled: true
+     # optional, defaults shown:
+     # talk_signaling_subdomain: signaling   # served at signaling.<domain>
+     # talk_signaling_version: 79d6093
+     # talk_signaling_port: 8080
+     # talk_signaling_verify: true           # occ talk:signaling:add --verify
+   ```
+   The signaling server is exposed at `signaling.<domain>` (covered by the existing
+   `*.` wildcard DNS / TLS cert, so no extra manual DNS step).
+
+2. **Deploy.** Run `make config` then `make update_one nextcloud` (or a full
+   `make deploy`). The role renders the signaling container with shared secrets
+   (`nextcloud_signaling_secret`, `…_internal_secret`, `…_hashkey`, `…_blockkey`),
+   and registers it with Talk via `occ talk:signaling:add --verify
+   https://signaling.<domain> <signaling_secret>`.
+
+3. **Verify.** In Talk admin settings the "High-performance backend" section now shows
+   as configured and the warning is gone. From the host:
+   `curl https://signaling.<domain>/api/v1/welcome` should return
+   `{"nextcloud-spreed-signaling":"Welcome", ...}`.
+
+Notes:
+- This deployment omits the Janus WebRTC media gateway (MCU). Signaling is routed
+  through the high-performance backend (removing the warning and enabling features
+  like typing indicators), while audio/video media still uses peer-to-peer WebRTC
+  relayed through coturn — appropriate for a small homelab. Adding a Janus MCU for
+  server-side media routing is not part of this role.
+- The signaling server and coturn share the same `static-auth-secret`
+  (`nextcloud_turn_secret`), so the TURN REST credentials it hands out are accepted
+  by the coturn sidecar.
+- The signaling router is intentionally exposed **without** auth/authelia middleware;
+  the signaling protocol authenticates via the shared secret, and putting SSO in front
+  of the WebSocket endpoint would break Talk clients.
+
 Verify after deploying:
-- `docker compose -f {{ volumes_root }}/nextcloud/docker-compose.yml ps` shows `nextcloud-coturn` `Up`.
+- `docker compose -f {{ volumes_root }}/nextcloud/docker-compose.yml ps` shows
+  `nextcloud-coturn` and `nextcloud_signaling` `Up`.
 - `….exec -T nextcloud php occ talk:stun:list` and `….php occ talk:turn:list` list
   `<your-domain>:<port>` with the expected scheme/protocol.
+- `….exec -T nextcloud php occ talk:signaling:list` lists
+  `https://signaling.<domain>`.
+
+### Call recording (Talk Recording server)
+
+Server-side call recording records the active speaker during calls to a video file
+(`Talk/Recordings`, `.webm`). It uses a `nextcloud/aio-talk-recording` sidecar
+(ffmpeg + headless Firefox) that connects to the signaling server via its internal
+secret. It requires the High-performance backend above.
+
+To enable it:
+
+```yaml
+nextcloud:
+  talk_enabled: true
+  talk_signaling_enabled: true
+  talk_recording_enabled: true
+  # optional, defaults shown:
+  # talk_recording_version: 20260817_082005   # nextcloud/aio-talk-recording image tag
+  # talk_recording_subdomain: recording       # served at recording.<domain>
+  # talk_recording_consent: false             # require participant consent before recording
+```
+
+Deploy with `make config` then `make update_one nextcloud`. The role:
+- starts the recording sidecar and exposes it at `recording.<domain>` (covered by the
+  existing `*.` wildcard DNS / TLS cert),
+- registers `recording_servers` in the `spreed` app config
+  (`{"servers":[{"server":"https://recording.<domain>","verify":true}],"secret":…}`, secret
+  generated at `nextcloud_recording_secret`), which activates Talk's `call_recording`,
+- sets `recording_consent` (`1` when `talk_recording_consent` is `true`, else `0`).
+
+Verify after deploying:
+- `docker compose -f {{ volumes_root }}/nextcloud/docker-compose.yml ps` shows
+  `nextcloud_recording` `Up` (healthy).
+- `curl https://recording.<domain>/api/v1/welcome` returns `{"version":…}`.
+- `….exec -T nextcloud php occ config:app:get spreed recording_servers` returns the
+  servers URL + secret.
+
+!!! Note "Live transcription"
+    Real-time live captions in calls are provided by the separate `live_transcription`
+    ExApp, which additionally requires an AppAPI Deploy Daemon and substantial CPU/RAM
+    (~16 GB recommended). It is deliberately not deployed by this role or on the default
+    host; only post-call recording (above) is enabled here.
 
 ## Access
 

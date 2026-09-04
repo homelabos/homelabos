@@ -15,3 +15,12 @@
   talk_turn_relay_min: {{ nextcloud.talk_turn_relay_min | default(49160) }}
   talk_turn_relay_max: {{ nextcloud.talk_turn_relay_max | default(49200) }}
   talk_turn_external_ip: {{ nextcloud.talk_turn_external_ip | default(False) }}
+  talk_signaling_enabled: {{ nextcloud.talk_signaling_enabled | default(False) }}
+  talk_signaling_subdomain: {{ nextcloud.talk_signaling_subdomain | default("signaling") }}
+  talk_signaling_version: {{ nextcloud.talk_signaling_version | default("79d6093") }}
+  talk_signaling_port: {{ nextcloud.talk_signaling_port | default(8080) }}
+  talk_signaling_verify: {{ nextcloud.talk_signaling_verify | default(True) }}
+  talk_recording_enabled: {{ nextcloud.talk_recording_enabled | default(False) }}
+  talk_recording_version: {{ nextcloud.talk_recording_version | default("20260817_082005") }}
+  talk_recording_subdomain: {{ nextcloud.talk_recording_subdomain | default("recording") }}
+  talk_recording_consent: {{ nextcloud.talk_recording_consent | default(False) }}

@@ -1,0 +1,26 @@
+version: 1
+metadata:
+  name: ProLabOS Gitea OIDC
+entries:
+  - model: authentik_providers_oauth2.oauth2provider
+    identifiers:
+      name: "{{ prolabos_gitea_integration.authentik.provider_name | default('Gitea') }}"
+    attrs:
+      name: "{{ prolabos_gitea_integration.authentik.provider_name | default('Gitea') }}"
+      client_id: "{{ prolabos_gitea_client_id }}"
+      client_secret: "{{ authentik_gitea_oidc_client_secret }}"
+      authorization_flow: !Find [authentik_flows.flow, [slug, "{{ prolabos_gitea_integration.authentik.authorization_flow | default('default-provider-authorization-implicit-consent') }}"]]
+      redirect_uris:
+        - matching_mode: strict
+          url: "{{ prolabos_gitea_integration.gitea.redirect_uri | default('https://git.' ~ domain ~ '/user/oauth2/authentik/callback') }}"
+      property_mappings:
+{% for scope in prolabos_gitea_integration.authentik.scopes | default(['openid', 'email', 'profile']) %}
+        - !Find [authentik_providers_oauth2.scopemapping, [scope_name, "{{ scope }}"]]
+{% endfor %}
+  - model: authentik_core.application
+    identifiers:
+      slug: "{{ prolabos_gitea_slug }}"
+    attrs:
+      name: "{{ prolabos_gitea_integration.authentik.application_name | default('Gitea') }}"
+      slug: "{{ prolabos_gitea_slug }}"
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, "{{ prolabos_gitea_integration.authentik.provider_name | default('Gitea') }}"]]

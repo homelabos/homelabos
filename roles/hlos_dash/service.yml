@@ -1,0 +1,8 @@
+---
+full_service_name: HomelabOS Dash
+description: HomelabOS Dash is a control-plane dashboard to browse and edit HomelabOS settings, compare them against the deployed state, and trigger redeploys from a web UI.
+project_url: https://gitlab.com/NickBusey/HomelabOS
+category: personal-dashboards
+version: latest
+port: 80
+default_enabled: true

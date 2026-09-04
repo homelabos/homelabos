@@ -2,13 +2,39 @@
 - name: Setup {{service_item}}
   include_tasks: includes/setup.yml
 
-- name: Make additional Paseo directories.
+- name: Make Paseo home directory.
   file:
-    path: "{{ item }}"
+    path: "{{ volumes_root }}/paseo/paseo-home"
     state: directory
-    mode: 0777
+    owner: "1000"
+    group: "1000"
+    mode: u+rwx,g-rwx,o-rwx
+
+- name: Make OMP (Pi) data directories under the Paseo home.
+  file:
+    path: "{{ volumes_root }}/paseo/paseo-home/.omp/{{ item }}"
+    state: directory
+    owner: "1000"
+    group: "1000"
+    mode: u+rwx,g-rwx,o-rwx
   loop:
-    - "{{ volumes_root }}/paseo/paseo-home"
+    - "."
+    - "agent"
+    - "run"
+    - "logs"
+
+- name: Normalize Paseo home ownership (OMP config written by root would break the daemon).
+  # OMP settings/config files (config.yml, history.db, terminal-sessions/, a legacy
+  # root-owned ~/.omp/.omp tree) can end up owned by root if `omp` is ever invoked as
+  # root. The daemon and its OMP RPC processes run as uid 1000, so a root-owned 0600
+  # config.yml is unreadable and kills the provider snapshot manager (EACCES).
+  # Recurse without a mode so file modes are left untouched.
+  file:
+    path: "{{ volumes_root }}/paseo/paseo-home"
+    state: directory
+    owner: "1000"
+    group: "1000"
+    recurse: true
 
 - name: Start {{service_item}}
   include_tasks: includes/start.yml

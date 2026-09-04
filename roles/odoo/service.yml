@@ -1,0 +1,7 @@
+---
+full_service_name: Odoo
+description: Odoo is an open-source ERP and business application suite (CRM, sales, inventory, accounting, project management, and more) that runs via Docker.
+project_url: https://www.odoo.com/
+category: money-budgeting-and-management
+version: 17
+port: 8069

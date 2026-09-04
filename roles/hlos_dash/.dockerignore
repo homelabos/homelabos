@@ -1,0 +1,5 @@
+.git
+settings/
+web/node_modules
+web/dist
+ui/node_modules

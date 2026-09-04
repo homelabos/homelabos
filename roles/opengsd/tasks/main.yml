@@ -1,0 +1,15 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Make additional Open GSD directories.
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0777
+  loop:
+    - "{{ volumes_root }}/opengsd/state"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

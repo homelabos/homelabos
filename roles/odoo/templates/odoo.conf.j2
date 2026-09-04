@@ -1,0 +1,7 @@
+[options]
+addons_path = /mnt/extra-addons
+admin_passwd = {{ lookup('password', './settings/passwords/odoo_admin_password') }}
+db_host = odoo-db
+db_port = 5432
+db_user = odoo
+db_password = {{lookup('password', './settings/passwords/odoo_db_password chars=ascii_letters')}}

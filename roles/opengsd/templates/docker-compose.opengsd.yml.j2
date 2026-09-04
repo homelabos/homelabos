@@ -1,0 +1,29 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+
+services:
+  opengsd:
+    image: ghcr.io/open-gsd/gsd-pi:{{ opengsd.version }}
+    entrypoint: /bin/sh
+    restart: unless-stopped
+    command:
+      - -c
+      - "gsd --web --host 0.0.0.0 --port {{ opengsd.port | default('3000') }} --no-auth && sleep infinity"
+    environment:
+      - GSD_WEB_ALLOW_UNAUTHENTICATED_LAN=1
+      - GSD_WEB_PROJECT_CWD=/workspace
+      - ANTHROPIC_API_KEY={{ opengsd.anthropic_api_key | default("") }}
+      - OPENAI_API_KEY={{ opengsd.openai_api_key | default("") }}
+      - OPENROUTER_API_KEY={{ opengsd.openrouter_api_key | default("") }}
+      - GEMINI_API_KEY={{ opengsd.gemini_api_key | default("") }}
+    volumes:
+      - "{{ volumes_root }}/opengsd/state:/root/.gsd"
+      - "{{ volumes_root }}:/workspace"
+    networks:
+      - traefik_network
+{% include './labels.j2' %}

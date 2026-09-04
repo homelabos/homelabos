@@ -52,6 +52,12 @@ services:
     image: coturn/coturn:{{ nextcloud.talk_turn_version }}
     container_name: nextcloud_coturn
     restart: unless-stopped
+    # external-ip is driven ONLY here on the command line. The image default
+    # --external-ip=$(detect-external-ip) is unreliable (can advertise a wrong
+    # egress IP and breaks clients), and rendering it in turnserver.conf as
+    # well would make coturn reject the duplicate. When talk_turn_external_ip
+    # is unset, fall back to the image's auto-detect.
+    command: "{% if nextcloud.talk_turn_external_ip %}--log-file=stdout -c /etc/coturn/turnserver.conf --external-ip={{ nextcloud.talk_turn_external_ip }}{% else %}--log-file=stdout -c /etc/coturn/turnserver.conf --external-ip=$(detect-external-ip){% endif %}"
     networks:
       - nextcloud
     volumes:
@@ -60,6 +66,91 @@ services:
       - "{{ nextcloud.talk_turn_port }}:{{ nextcloud.talk_turn_port }}/udp"
       - "{{ nextcloud.talk_turn_port }}:{{ nextcloud.talk_turn_port }}/tcp"
       - "{{ nextcloud.talk_turn_relay_min }}-{{ nextcloud.talk_turn_relay_max }}:{{ nextcloud.talk_turn_relay_min }}-{{ nextcloud.talk_turn_relay_max }}/udp"
+{% endif %}
+
+{% if nextcloud.talk_signaling_enabled | default(False) %}
+  # Nextcloud Talk High-performance backend (signaling server).
+  # Runs the spreed signaling server standalone (internal NATS via nats://loopback,
+  # no Janus MCU) and reuses the coturn sidecar (nextcloud-turn) for TURN via the
+  # TURN REST API, so it shares the same static-auth-secret. This is what clears
+  # Talk's "Calls without High-performance backend can cause connectivity issues
+  # and high load on devices" warning -- TURN alone does not.
+  nextcloud-signaling:
+    image: strukturag/nextcloud-spreed-signaling:{{ nextcloud.talk_signaling_version | default('79d6093') }}
+    container_name: nextcloud_signaling
+    restart: unless-stopped
+    networks:
+      - nextcloud
+      - traefik_network
+    environment:
+      - HTTP_LISTEN=0.0.0.0:{{ nextcloud.talk_signaling_port | default(8080) }}
+      - HASH_KEY={{ lookup('password', './settings/passwords/nextcloud_signaling_hashkey length=64 chars=ascii_letters,digits') }}
+      - BLOCK_KEY={{ lookup('password', './settings/passwords/nextcloud_signaling_blockkey length=32 chars=ascii_letters,digits') }}
+      - INTERNAL_SHARED_SECRET_KEY={{ lookup('password', './settings/passwords/nextcloud_signaling_internal_secret chars=ascii_letters') }}
+      - BACKENDS=nextcloud
+      - BACKEND_NEXTCLOUD_URLS=https://{{ service_domain }}
+      - BACKEND_NEXTCLOUD_SHARED_SECRET={{ lookup('password', './settings/passwords/nextcloud_signaling_secret chars=ascii_letters') }}
+      - NATS_URL=nats://loopback
+      - TURN_SECRET={{ lookup('password', './settings/passwords/nextcloud_turn_secret chars=ascii_letters') }}
+      - TURN_SERVERS=turn:{{ service_domain }}:{{ nextcloud.talk_turn_port | default(3478) }}?transport=udp,turn:{{ service_domain }}:{{ nextcloud.talk_turn_port | default(3478) }}?transport=tcp
+      # A TURN API key is mandatory whenever TURN servers are set (spreed signaling
+      # refuses to start its backend otherwise); used for the TURN REST credential
+      # endpoint. No Janus MCU is deployed, so nothing else needs to know it.
+      - TURN_API_KEY={{ lookup('password', './settings/passwords/nextcloud_signaling_turn_api_key chars=ascii_letters') }}
+      - TRUSTED_PROXIES=172.0.0.0/8
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.nextcloud-signaling.loadbalancer.server.scheme=http"
+      - "traefik.http.services.nextcloud-signaling.loadbalancer.server.port={{ nextcloud.talk_signaling_port | default(8080) }}"
+      - "traefik.http.routers.nextcloud-signaling.service=nextcloud-signaling"
+      - "traefik.http.routers.nextcloud-signaling.rule=Host(`{{ nextcloud.talk_signaling_subdomain | default('signaling') }}.{{ domain }}`)"
+      - "traefik.http.routers.nextcloud-signaling.entrypoints=https"
+      - "traefik.http.routers.nextcloud-signaling.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.nextcloud-signaling.tls.certresolver=dns"
+      - "traefik.http.routers.nextcloud-signaling.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nextcloud-signaling.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.nextcloud-signaling.tls.certresolver=http"
+{% endif %}
+{% endif %}
+
+{% if nextcloud.talk_enabled | default(False) and nextcloud.talk_recording_enabled | default(False) %}
+  # Talk Recording server (call recording). A separate ffmpeg+Firefox backend that
+  # connects to the spreed signaling server (HPB) using its internal secret and
+  # records the active speaker during calls. The Nextcloud server reaches its
+  # control API over the recording subdomain (Traefik route); the RECORDING_SECRET
+  # here must match the one registered in the spreed "recording_servers" appconfig.
+  nextcloud-recording:
+    image: nextcloud/aio-talk-recording:{{ nextcloud.talk_recording_version | default("20260817_082005") }}
+    container_name: nextcloud_recording
+    restart: unless-stopped
+    networks:
+      - nextcloud
+      - traefik_network
+    environment:
+      - NC_DOMAIN={{ service_domain }}
+      - HPB_DOMAIN={{ nextcloud.talk_signaling_subdomain | default('signaling') }}.{{ domain }}
+      - RECORDING_SECRET={{ lookup('password', './settings/passwords/nextcloud_recording_secret chars=ascii_letters') }}
+      - INTERNAL_SECRET={{ lookup('password', './settings/passwords/nextcloud_signaling_internal_secret chars=ascii_letters') }}
+      - TZ={{ common_timezone }}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=homelabos_traefik"
+      - "traefik.http.services.nextcloud-recording.loadbalancer.server.scheme=http"
+      - "traefik.http.services.nextcloud-recording.loadbalancer.server.port=1234"
+      - "traefik.http.routers.nextcloud-recording.service=nextcloud-recording"
+      - "traefik.http.routers.nextcloud-recording.rule=Host(`{{ nextcloud.talk_recording_subdomain | default('recording') }}.{{ domain }}`)"
+      - "traefik.http.routers.nextcloud-recording.entrypoints=https"
+      - "traefik.http.routers.nextcloud-recording.tls=true"
+{% if traefik.dns_challenge_provider %}
+      - "traefik.http.routers.nextcloud-recording.tls.certresolver=dns"
+      - "traefik.http.routers.nextcloud-recording.tls.domains[0].main={{ domain }}"
+      - "traefik.http.routers.nextcloud-recording.tls.domains[0].sans=*.{{ domain }}"
+{% else %}
+      - "traefik.http.routers.nextcloud-recording.tls.certresolver=http"
+{% endif %}
 {% endif %}
 
   nextcloud:

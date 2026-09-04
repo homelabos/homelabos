@@ -22,6 +22,8 @@ You can customise the install via these settings (all optional):
 - `matomo.admin_email` (default `admin@example.com`)
 - `matomo.site_name` (default `My Site`)
 - `matomo.site_url` (defaults to your service URL)
+- `matomo.site_id` (default `1`) — the Matomo site that Traefik's server-side
+  tracking (see `docs/setup/traefik.md`) forwards request data into
 
 ## Access
 

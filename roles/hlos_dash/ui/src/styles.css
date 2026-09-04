@@ -1,0 +1,163 @@
+.prolabos-card {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.6)),
+    radial-gradient(circle at top left, rgb(var(--prolabos-accent-rgb, 56 189 248) / 0.12), transparent 40%);
+  border-radius: 1.25rem;
+  box-shadow: 0 24px 80px rgba(2, 6, 23, 0.28);
+}
+
+.prolabos-input {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.82);
+  color: #f8fafc;
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.prolabos-input:focus {
+  border-color: rgb(var(--prolabos-accent-rgb, 56 189 248) / 0.7);
+  box-shadow: 0 0 0 4px rgb(var(--prolabos-accent-rgb, 56 189 248) / 0.12);
+}
+
+.prolabos-section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.prolabos-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  color: rgb(var(--prolabos-accent-strong-rgb, 186 230 253) / 0.78);
+}
+
+.prolabos-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  font-weight: 700;
+  transition: transform 140ms ease, opacity 140ms ease, background 140ms ease;
+  cursor: pointer;
+}
+
+.prolabos-button:hover {
+  transform: translateY(-1px);
+}
+
+.prolabos-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.prolabos-button-primary {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--prolabos-button-primary-start-rgb, var(--prolabos-accent-rgb, 56 189 248))),
+    rgb(var(--prolabos-button-primary-end-rgb, var(--prolabos-accent-strong-rgb, 186 230 253)))
+  );
+  color: var(--prolabos-button-primary-foreground, #020617);
+}
+
+.prolabos-button-secondary {
+  background: rgba(148, 163, 184, 0.16);
+  color: #e2e8f0;
+}
+
+.prolabos-button-ghost {
+  background: transparent;
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.prolabos-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.prolabos-pill-neutral {
+  background: rgba(148, 163, 184, 0.16);
+  color: #e2e8f0;
+}
+
+.prolabos-pill-success {
+  background: rgba(34, 197, 94, 0.16);
+  color: #bbf7d0;
+}
+
+.prolabos-pill-warning {
+  background: rgba(249, 115, 22, 0.16);
+  color: #fed7aa;
+}
+
+.prolabos-auth-shell {
+  display: grid;
+  min-height: calc(100vh - 4.5rem);
+  place-items: center;
+  padding: 2rem 1rem;
+}
+
+.prolabos-auth-card {
+  width: min(100%, 28rem);
+  padding: 1.75rem;
+}
+
+.prolabos-auth-subtitle {
+  margin-top: 0.5rem;
+  color: #94a3b8;
+}
+
+.prolabos-auth-body {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.prolabos-auth-footer {
+  margin-top: 1.25rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.prolabos-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.prolabos-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.prolabos-field-error {
+  color: #fca5a5;
+  font-size: 0.82rem;
+}
+
+.prolabos-form-error {
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
+  border-radius: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.prolabos-link {
+  color: rgb(var(--prolabos-accent-strong-rgb, 186 230 253));
+  text-decoration: none;
+}
+
+.prolabos-link:hover {
+  text-decoration: underline;
+}

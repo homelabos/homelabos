@@ -1,0 +1,12 @@
+---
+- name: Run ProLabOS post-deploy provisioning
+  hosts: all
+  gather_facts: false
+  vars:
+    prolabos_gitea_integration: "{{ integrations.gitea | default({}) }}"
+    prolabos_grafana_integration: "{{ integrations.grafana | default({}) }}"
+  roles:
+    - role: prolabos_authentik
+      when: (prolabos_gitea_integration.enable | default(true) | bool) or (prolabos_grafana_integration.enable | default(false) | bool)
+    - role: prolabos_gitea
+      when: prolabos_gitea_integration.enable | default(true) | bool

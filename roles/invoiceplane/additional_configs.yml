@@ -1,2 +1,6 @@
-  db_version: {{ invoiceplane.db_version | default("11.6") }}
-  install_einvoice_templates: {{ invoiceplane.install_einvoice_templates | default("") }}
+  db_version: {{ invoiceplane.db_version | default ("11.6") }}
+  install_einvoice_templates: {{ invoiceplane.install_einvoice_templates | default ("") }}
+  internal_port: {{ invoiceplane.internal_port | default ("8087") }}
+  admin_email: {{ invoiceplane.admin_email | default ("") }}
+  admin_name: {{ invoiceplane.admin_name | default ("") }}
+  admin_password: {{ invoiceplane.admin_password | default ("") }}

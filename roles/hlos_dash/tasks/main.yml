@@ -1,0 +1,6 @@
+---
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

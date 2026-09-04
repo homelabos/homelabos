@@ -3,4 +3,5 @@
   admin_email: {{ matomo.admin_email | default ("admin@example.com") }}
   site_name: {{ matomo.site_name | default ("My Site") }}
   site_url: {{ matomo.site_url | default ("https://" + matomo.subdomain + "." + domain) }}
+  site_id: {{ matomo.site_id | default (1) }}
   internal_port: {{ matomo.internal_port | default ("8091") }}

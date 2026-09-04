@@ -1,7 +1,14 @@
 # Dev
 
+## Changes
+- Nextcloud Talk - added an optional High-performance backend (spreed signaling server) under `talk_signaling_enabled`, which clears the "Calls without High-performance backend" warning that TURN alone cannot. Exposed at `signaling.<domain>`.
+- Connected Prometheus to Grafana - Grafana now provisions a Prometheus datasource pointing at `http://prometheus:9090` when the Prometheus service is enabled.
+- Prometheus now scrapes host machine stats (CPU, memory, disk, network) via a bundled Node Exporter container under the `node` job.
+
 ## Services Added
 - Added Outline - Fast, collaborative knowledge base and wiki with a beautiful editor and OIDC single sign-on.
+- Added Open GSD - Open source autonomous coding agent harness with a browser-based web interface (project dashboard, live session monitoring, preferences, and built-in terminal).
+- Added Hermes - Self-hosted, self-improving AI agent with a web UI that persists memory, runs scheduled jobs, and works with any LLM provider.
 - Added GoModel - Fast, self-hosted AI gateway and LLM proxy with OpenAI-compatible and Anthropic-compatible APIs.
 - Added Paseo - Self-hosted orchestrator for running multiple coding agents with a bundled web UI.
 - Added InvoicePlane - Self-hosted quotes, invoices, clients, and payments.

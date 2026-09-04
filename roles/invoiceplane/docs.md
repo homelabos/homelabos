@@ -4,16 +4,19 @@
 
 ## Configuration
 
-InvoicePlane opens its setup wizard on first launch. Complete the wizard using the preconfigured database values:
+The first-run setup wizard is automated by the role: the application image
+pre-populates `ipconfig.php` (database credentials + URL) from its `IP_DB_*` /
+`IP_URL` environment variables at startup, and the role creates the schema and
+admin user automatically. No manual setup is required.
 
-```
-Database host: invoiceplane_db
-Database name: invoiceplane
-Database user: invoiceplane
-Database password: See settings/passwords/invoiceplane_db_password
-```
+This automation gates on the database state (idempotent): a database without
+the `ip_users` table runs the full setup wizard; one that already has it gets
+`SETUP_COMPLETED=true` re-asserted so the app never lands on the `/welcome`
+landing page after a container recreate. The admin user is created with the
+given email and name (defaulting to `admin_email` / `default_username`), with a
+password generated into `settings/passwords/invoiceplane_admin_password`.
 
-After the setup wizard is completed, the container automatically disables the setup wizard on the next restart.
+To re-run setup from scratch, wipe the database volume and re-deploy.
 
 To install e-invoice templates on startup, set `invoiceplane.install_einvoice_templates` to a comma-separated list such as `zugferd-extended,facturx`.
 

@@ -18,3 +18,16 @@ services:
     ports:
       - "9090:9090"
 {% include './labels.j2' %}
+  node-exporter:
+    image: prom/node-exporter:{{ prometheus.node_exporter_version | default('v1.9.1') }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+    volumes:
+      - '/proc:/host/proc:ro'
+      - '/sys:/host/sys:ro'
+      - '/:/rootfs:ro,rslave'
