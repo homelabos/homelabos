@@ -1,0 +1,7 @@
+---
+full_service_name: Outline
+description: Outline is a fast, collaborative knowledge base and wiki for your team, with a beautiful editor and OIDC single sign-on.
+project_url: https://www.getoutline.com/
+category: wikis
+version: 1.9.2
+port: 3000

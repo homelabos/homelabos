@@ -1,0 +1,15 @@
+---
+
+- name: Setup {{service_item}}
+  include_tasks: includes/setup.yml
+
+- name: Create Outline data folder, with appropriate permissions.
+  file:
+    path: "{{ volumes_root }}/outline/data"
+    state: directory
+    owner: "{{ uid_output.stdout }}"
+    group: "{{ gid_output.stdout }}"
+    mode: "0770"
+
+- name: Start {{service_item}}
+  include_tasks: includes/start.yml

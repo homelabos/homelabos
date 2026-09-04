@@ -1,0 +1,77 @@
+---
+version: '3'
+
+networks:
+  traefik_network:
+    external:
+      name: homelabos_traefik
+  outline:
+
+services:
+  outline-db:
+    image: postgres:{{ outline.db_version }}
+    restart: unless-stopped
+    networks:
+      - outline
+    volumes:
+      - "{{ volumes_root }}/outline/postgres:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_PASSWORD={{lookup('password', './settings/passwords/outline_db_password chars=ascii_letters')}}
+      - POSTGRES_DB=outline
+      - POSTGRES_USER=outline
+
+  outline-redis:
+    image: redis:{{ outline.redis_version }}
+    restart: unless-stopped
+    networks:
+      - outline
+
+  outline:
+    image: outlinewiki/outline:{{ outline.version }}
+    restart: unless-stopped
+    networks:
+      - traefik_network
+      - outline
+    user: {{ uid_output.stdout }}:{{ gid_output.stdout }}
+    volumes:
+      - "{{ volumes_root }}/outline/data:/var/lib/outline/data"
+    environment:
+      - NODE_ENV=production
+      - URL=https://{{ service_domain }}
+      - PORT=3000
+      - SECRET_KEY={{lookup('password', './settings/passwords/outline_secret_key chars=hexdigits length=64') | lower}}
+      - UTILS_SECRET={{lookup('password', './settings/passwords/outline_utils_secret chars=hexdigits length=64') | lower}}
+      - DATABASE_URL=postgres://outline:{{lookup('password', './settings/passwords/outline_db_password chars=ascii_letters')}}@outline-db:5432/outline
+      - PGSSLMODE=disable
+      - REDIS_URL=redis://outline-redis:6379
+      - FILE_STORAGE=local
+      - FILE_STORAGE_LOCAL_ROOT_DIR=/var/lib/outline/data
+      - FILE_STORAGE_UPLOAD_MAX_SIZE={{ outline.upload_max_size }}
+      - FORCE_HTTPS={{ outline.force_https | lower }}
+      - DEFAULT_LANGUAGE={{ outline.default_language }}
+      - TZ={{ common_timezone }}
+{% if outline.oidc_enabled %}
+      - OIDC_CLIENT_ID={{ outline.oidc_client_id }}
+      - OIDC_CLIENT_SECRET={{ outline.oidc_client_secret }}
+      - OIDC_AUTH_URI={{ outline.oidc_auth_uri }}
+      - OIDC_TOKEN_URI={{ outline.oidc_token_uri }}
+      - OIDC_USERINFO_URI={{ outline.oidc_userinfo_uri }}
+{% if outline.oidc_logout_uri %}
+      - OIDC_LOGOUT_URI={{ outline.oidc_logout_uri }}
+{% endif %}
+      - OIDC_DISPLAY_NAME={{ outline.oidc_display_name }}
+      - OIDC_USERNAME_CLAIM={{ outline.oidc_username_claim }}
+      - OIDC_SCOPES={{ outline.oidc_scopes }}
+{% endif %}
+{% if outline.smtp_enabled %}
+      - SMTP_HOST={{vault.smtp.host}}
+      - SMTP_PORT={{vault.smtp.port}}
+      - SMTP_USERNAME={{vault.smtp.user}}
+      - SMTP_PASSWORD={{vault.smtp.pass}}
+      - SMTP_FROM_EMAIL={{vault.smtp.from_email}}
+      - SMTP_SECURE={% if vault.smtp.port == 465 %}true{% else %}false{% endif %}
+{% endif %}
+    depends_on:
+      - outline-db
+      - outline-redis
+{% include './labels.j2' %}

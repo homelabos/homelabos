@@ -290,9 +290,6 @@ Import your Tube Archivist media folder into Jellyfin
 #### [adguardhome](./software/adguardhome)
 Network-wide software for blocking ads and tracking.
 
-#### [apache2_prolabos](./software/apache2_prolabos)
-
-
 #### [chowdown](./software/chowdown)
 Simple recipes in Markdown format
 
@@ -588,5 +585,8 @@ Web server
 
 #### [bookstack](./software/bookstack)
 Simple & Free Wiki Software
+
+#### [outline](./software/outline)
+Outline is a fast, collaborative knowledge base and wiki for your team, with a beautiful editor and OIDC single sign-on.
 
 

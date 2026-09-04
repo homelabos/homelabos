@@ -1,6 +1,7 @@
 # Dev
 
 ## Services Added
+- Added Outline - Fast, collaborative knowledge base and wiki with a beautiful editor and OIDC single sign-on.
 - Added GoModel - Fast, self-hosted AI gateway and LLM proxy with OpenAI-compatible and Anthropic-compatible APIs.
 - Added Paseo - Self-hosted orchestrator for running multiple coding agents with a bundled web UI.
 - Added InvoicePlane - Self-hosted quotes, invoices, clients, and payments.

@@ -1,0 +1,16 @@
+  db_version: {{ outline.db_version | default("16-alpine") }}
+  redis_version: {{ outline.redis_version | default("7-alpine") }}
+  force_https: {{ outline.force_https | default(True) }}
+  upload_max_size: {{ outline.upload_max_size | default(262144000) }}
+  default_language: {{ outline.default_language | default("en_US") }}
+  oidc_enabled: {{ outline.oidc_enabled | default(False) }}
+  oidc_client_id: {{ outline.oidc_client_id | default(False) }}
+  oidc_client_secret: {{ outline.oidc_client_secret | default(False) }}
+  oidc_auth_uri: {{ outline.oidc_auth_uri | default(False) }}
+  oidc_token_uri: {{ outline.oidc_token_uri | default(False) }}
+  oidc_userinfo_uri: {{ outline.oidc_userinfo_uri | default(False) }}
+  oidc_logout_uri: {{ outline.oidc_logout_uri | default(False) }}
+  oidc_display_name: {{ outline.oidc_display_name | default("OpenID Connect") }}
+  oidc_username_claim: {{ outline.oidc_username_claim | default("preferred_username") }}
+  oidc_scopes: {{ outline.oidc_scopes | default("openid profile email") }}
+  smtp_enabled: {{ outline.smtp_enabled | default(False) }}
